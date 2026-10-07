@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.0-beta.13">
+<meta name="app-version" content="1.1.0-beta.14">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -4633,7 +4633,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.0-beta.13';
+  const APP_VERSION='1.1.0-beta.14';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5591,7 +5591,7 @@ const hashStr=s=>{ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeA
 async function pushState(){
   if(!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) return {ok:false, why:/iP(hone|ad)/.test(navigator.userAgent) && !matchMedia('(display-mode: standalone)').matches ? 'ios' : 'nosupport'};
   const reg=await navigator.serviceWorker.getRegistration(); if(!reg) return {ok:false, why:'nosw'};
-  const sub=await reg.pushManager.getSubscription();
+  const sub=await withTO(reg.pushManager.getSubscription(), 2500, null);
   return {ok:true, reg, sub, perm:Notification.permission};
 }
 async function pushEnable(){
@@ -5606,16 +5606,22 @@ async function pushSave(sub){
 }
 /* cada vez que se abre la app, renueva la suscripción si ya estaba activada */
 setTimeout(async()=>{ try{ const st=await pushState(); if(st.ok && st.sub && st.perm==='granted' && S.db) await pushSave(st.sub); }catch{} }, 8000);
+const withTO=(p,ms,fb)=>Promise.race([Promise.resolve(p).catch(()=>fb), new Promise(r=>setTimeout(()=>r(fb),ms))]);
 async function renderAvisos(pb){
-  const cfg={...AV_DEF, ...(UI.avCfg||{})}; cfg.canales={...AV_DEF.canales, ...(cfg.canales||{})};
-  try{ if(!UI.avCfg){ const d=await S.db.doc('avisos/config').get(); if(d.exists){ UI.avCfg=d.data(); return renderAvisos(pb); } UI.avCfg={}; } }catch{}
+  try{ await renderAvisos2(pb); }
+  catch(e){ pb.innerHTML=''; pb.append(h2(`<div class="mgrp"><div class="card2"><h3>${ic('alert')}No se pudo abrir</h3><p class="muted2">${esc(e?.message||e)}</p></div></div>`)); console.error('Avisos', e); }
+}
+async function renderAvisos2(pb){
+  if(!UI.avCfg && S.db){ pb.innerHTML=''; pb.append(h2('<div class="mgrp"><div class="skel" style="height:160px;border-radius:14px"></div></div>'));
+    const d=await withTO(S.db.doc('avisos/config').get(), 4000, null); UI.avCfg = d && d.exists ? (d.data()||{}) : {}; if(UI.sec!=='mas'||UI.mas!=='avisos') return; }
+  const cfg={...AV_DEF, ...(UI.avCfg||{})}; cfg.canales={...AV_DEF.canales, ...(cfg.canales||{})}; if(!Array.isArray(cfg.antelacion)) cfg.antelacion=AV_DEF.antelacion;
   pb.innerHTML=''; const wrap=h2('<div class="mgrp" style="padding-bottom:28px"></div>'); pb.append(wrap);
   const save=async()=>{ UI.avCfg=cfg; try{ await S.db.doc('avisos/config').set({hora:cfg.hora, diaSemanal:cfg.diaSemanal, antelacion:cfg.antelacion, canales:cfg.canales, actualizado:new Date().toISOString()}); toast('Avisos guardados'); }catch{ toast('No se pudo guardar','err'); } };
   /* este dispositivo */
-  const st=await pushState().catch(()=>({ok:false,why:'nosupport'}));
+  const st=await withTO(pushState(), 3000, {ok:false,why:'timeout'});
   const dev=h2(`<div class="card2"><h3>${ic('alert')}Notificaciones en este dispositivo</h3><p class="muted2" id="pushTxt"></p><div class="row3" style="justify-content:flex-start;flex-wrap:wrap"></div></div>`);
   const txt=dev.querySelector('#pushTxt'), row=dev.querySelector('.row3');
-  if(!st.ok){ txt.innerHTML = st.why==='ios' ? 'En iPhone, las notificaciones solo funcionan con la app <b>añadida a la pantalla de inicio</b>: en Safari pulsa Compartir ▸ «Añadir a pantalla de inicio», ábrela desde el icono y vuelve aquí.' : 'Este navegador no admite notificaciones push.'; }
+  if(!st.ok){ txt.innerHTML = st.why==='timeout' ? 'No se pudo comprobar el estado de las notificaciones. Cierra la app del todo y vuelve a abrirla.' : st.why==='nosw' ? 'La app aún se está instalando en este dispositivo. Ciérrala, vuelve a abrirla y entra otra vez aquí.' : st.why==='ios' ? 'En iPhone, las notificaciones solo funcionan con la app <b>añadida a la pantalla de inicio</b>: en Safari pulsa Compartir ▸ «Añadir a pantalla de inicio», ábrela desde el icono y vuelve aquí.' : 'Este navegador no admite notificaciones push.'; }
   else if(st.sub && st.perm==='granted'){ txt.textContent='✅ Activadas. Te llegarán aunque la app esté cerrada.';
     const t=h2(`<button class="btn2 ghost" type="button">${ic('check')}Probar aquí</button>`); t.onclick=async()=>{ await st.reg.showNotification('🔧 Taller 7L', {body:'Así se verán los avisos en este dispositivo.', icon:'../icons/icon-192.png', badge:'../icons/icon-192.png', tag:'prueba'}); }; row.append(t);
     const off=h2(`<button class="btn2 ghost" type="button">${ic('x')}Desactivar</button>`); off.onclick=async()=>{ try{ await S.db.collection('avisos').doc('push_'+hashStr(st.sub.endpoint)).delete(); await st.sub.unsubscribe(); toast('Notificaciones desactivadas en este dispositivo'); }catch{} renderAvisos(pb); }; row.append(off); }
