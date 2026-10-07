@@ -1,5 +1,8 @@
 # Novedades
 
+## v1.0.2 · 2026-10-07
+- Resumen de mantenimiento y documentos para el aviso semanal automático (sin VIN ni matrícula).
+
 ## v1.0.1 · 2026-10-07
 - Arreglado en móvil: menús y paneles que aparecían abiertos y superpuestos al arrancar.
 - Ajuste de márgenes para que la app ocupe bien la pantalla.

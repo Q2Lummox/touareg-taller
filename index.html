@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="1.0.1">
+<meta name="app-version" content="1.0.2">
 <title>Taller 7L</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -3895,10 +3895,11 @@ async function loginGate(FB){
   }
   const u=FB.user(); const mu=$('#mUser'); if(mu&&u) mu.textContent=u.email||u.displayName||'Cuenta de Google';
   setTimeout(startupReminder, 3500);
+  setTimeout(publishAvisos, 6000);
 }
 
 function pwaInit(){
-  const APP_VERSION='1.0.1';
+  const APP_VERSION='1.0.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -3983,6 +3984,21 @@ function startupReminder(){
   openGlobal('remind');
 }
 pwaInit();
+/* ---------- resumen público para el aviso semanal (sin VIN ni matrícula) ---------- */
+let avisosLast='', avisosT=null;
+function publishAvisos(){
+  clearTimeout(avisosT);
+  avisosT=setTimeout(()=>{
+    if(!S.db || !S.cfg) return;
+    const mant=[]; for(const it of S.mant){ const s=itemStatus(it); if(s.nextKm==null && !s.nextDate) continue;
+      mant.push({nombre:it.nombre||it.id, proximoKm:s.nextKm??null, proximaFecha:s.nextDate||null, ultimaFecha:s.last?.fecha||null, ultimoKm:s.last?.km??null}); }
+    const docs=S.docs.filter(d=>d.caduca).map(d=>({tipo:d.tipo||'Documento', nombre:d.nombre||'', caduca:d.caduca}));
+    const data={kmActual:S.cfg.kmActual??null, mantenimiento:mant, documentos:docs};
+    const j=JSON.stringify(data); if(j===avisosLast) return; avisosLast=j;
+    S.db.collection('avisos').doc('resumen').set({...data, actualizado:new Date().toISOString()});
+  }, 4000);
+}
+setInterval(publishAvisos, 60000);
 
 </script>
 </body>

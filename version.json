@@ -1,11 +1,17 @@
 {
- "version": "1.0.1",
+ "version": "1.0.2",
  "fecha": "2026-10-07",
  "notas": [
-  "Arreglado en móvil: menús y paneles que aparecían abiertos y superpuestos al arrancar.",
-  "Ajuste de márgenes para que la app ocupe bien la pantalla."
+  "Resumen de mantenimiento y documentos para el aviso semanal automático (sin VIN ni matrícula)."
  ],
  "historial": [
+  {
+   "version": "1.0.2",
+   "fecha": "2026-10-07",
+   "notas": [
+    "Resumen de mantenimiento y documentos para el aviso semanal automático (sin VIN ni matrícula)."
+   ]
+  },
   {
    "version": "1.0.1",
    "fecha": "2026-10-07",
