@@ -1,5 +1,10 @@
 # Novedades
 
+## v1.1.3 · 2026-10-08
+- Más aire bajo el logotipo de la barra superior.
+- La franja inferior del iPhone toma el color de la barra de abajo.
+- Pantalla de carga con la firma del autor y la versión.
+
 ## v1.1.2 · 2026-10-08
 - Barras superior e inferior más finas, pegadas a los bordes y con relieve; el contenido ya no queda tapado bajo la barra de arriba.
 - Paneles con borde iluminado en naranja, brillo superior y un destello que recorre el filo de vez en cuando.
