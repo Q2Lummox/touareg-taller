@@ -1,5 +1,9 @@
 # Novedades
 
+## v1.1.6 · 2026-10-08
+- Sonido de arranque más corto (4 s y 1 s de fundido).
+- Aguja del cuentarrevoluciones con inercia real: cae al dar el contacto, sube al arrancar pasándose un poco y se queda al ralentí con un vaivén muy ligero.
+
 ## v1.1.5 · 2026-10-08
 - Sonido de arranque del motor del Touareg al llegar el cuentarrevoluciones al máximo (si el iPhone lo pide, toca la pantalla para «girar la llave»).
 - La pantalla de carga se desvanece más despacio hacia la app.
