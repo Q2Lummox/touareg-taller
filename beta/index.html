@@ -12,7 +12,7 @@
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.0-beta.9">
+<meta name="app-version" content="1.1.0-beta.10">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -4445,7 +4445,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.0-beta.9';
+  const APP_VERSION='1.1.0-beta.10';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -4992,7 +4992,7 @@ function renderAjustes(pb){
   const sw=(on,fn)=>{ const s=h2(`<button type="button" class="sw${on?' on':''}" role="switch" aria-checked="${on}"></button>`); s.onclick=()=>{ fn(); renderMas(); }; return s; };
   row('volume','Sonidos de la interfaz','Clics al tocar y al recorrer listas, carraca al registrar',sw(UI.prefs.sound,()=>{ UI.prefs.sound=!UI.prefs.sound; savePrefsUI(); uiSfx('save'); }));
   row('car','Sonidos de puertas y capó','En el visor 3D',sw($('#rSnd').checked,()=>$('#rSnd').click()));
-  row('vibrate','Vibración','Al tocar botones, guardar y recorrer listas',sw(UI.prefs.haptics,()=>{ UI.prefs.haptics=!UI.prefs.haptics; savePrefsUI(); }));
+  row('vibrate','Vibración', navigator.vibrate ? 'Al tocar botones, guardar y recorrer listas' : 'No disponible en iPhone: Apple no deja vibrar a las webs',sw(UI.prefs.haptics,()=>{ UI.prefs.haptics=!UI.prefs.haptics; savePrefsUI(); }));
   row('maximize','Botones grandes','Más fáciles de pulsar con guantes',sw($('#rBig').checked,()=>$('#rBig').click()));
   const gb=h2(`<button type="button" class="btn2 ghost">${ic('sliders')}Abrir</button>`); gb.onclick=()=>{ go('coche'); setTimeout(()=>{ const b=document.querySelector('#t2r .mbtn'); b?.click(); },120); };
   row('sliders','Gráficos del visor 3D','Luces, efectos, escenario y calidad',gb);
