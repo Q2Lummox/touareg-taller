@@ -1,5 +1,14 @@
 # Novedades
 
+## v1.1.0 · 2026-10-08
+- Nuevo diseño completo: Inicio, Coche 3D, Mantenimiento, Papeles y Más, con buscador, asistente inicial, tema claro, sonidos y animaciones.
+- Carga mucho más rápida: modelo 3D comprimido y datos disponibles antes de que termine de cargar el coche.
+- Escenario «Taller clásico» con texturas reales e iluminación mejorada.
+- Lista de la compra (por comprar, comprado, montado) que cuenta en Gastos, con opción de montaje propio o en taller con mano de obra.
+- Listas editables de elementos de mantenimiento y piezas; todos los desplegables ordenados alfabéticamente y con sonido al deslizar.
+- Visor 3D solo de consulta.
+- Avisos por notificación push, correo y Telegram, configurables desde Más ▸ Avisos.
+
 ## v1.0.3 · 2026-10-07
 - Descripción de los códigos PR PB6, PH3, PM1, PTC, PXE, RHR y WLB.
 - Nota actualizada sobre el código 8OD (probablemente 8QD, sin confirmar).

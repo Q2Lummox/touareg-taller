@@ -4,7 +4,7 @@
 import webpush from 'web-push';
 import nodemailer from 'nodemailer';
 
-const APP = 'https://q2lummox.github.io/touareg-taller/beta/';
+const APP = 'https://q2lummox.github.io/touareg-taller/';
 const VAPID_PUBLIC = 'BCv5LnZwcZ5M50flqtBHcK5341-QVIl9NJ2Ye0SNW6Bf6U06G5gLHj8eYYixjFxVQagFIcEP4To-0-2p79hH5Ik';
 const E = process.env, PRUEBA = String(E.PRUEBA || '') === 'true';
 const URL_AVISOS = 'https://firestore.googleapis.com/v1/projects/touareg-taller/databases/%28default%29/documents/avisos?pageSize=200';
