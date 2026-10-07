@@ -12,7 +12,7 @@
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.0-beta.2">
+<meta name="app-version" content="1.1.0-beta.3">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1072,6 +1072,11 @@ body.ui2 :is(.bt button,.hist button){font-family:var(--f-body);text-transform:n
 .lbxbar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:calc(var(--sa-t) + 10px) 12px 10px 16px;background:linear-gradient(#000c,transparent);color:#fff;font-size:14px}
 .lbxbar button{width:40px;height:40px;border-radius:50%;border:0;background:#fff2;color:#fff;display:grid;place-items:center;cursor:pointer}
 .lbxbar svg{width:20px;height:20px}
+
+/* sin desenfoque de fondo sobre el lienzo 3D: en iPhone provoca parpadeos al mover la cámara */
+body.ui2 .stage :is(.seg,.vbtn,.tpop,.vmenu){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+body.ui2 .stage :is(.seg,.vbtn){background:linear-gradient(180deg,#1d2126,#121518)!important}
+body.ui2.light .stage :is(.seg,.vbtn){background:linear-gradient(180deg,#ffffff,#eef1f4)!important}
 </style>
 
 </head>
@@ -1789,6 +1794,7 @@ function renderFrame(){
   renderer.render(scene,camera);
 }
 function applyQuality(){
+  _rsz="";
   const dpr = devicePixelRatio||1;
   renderer.setPixelRatio(R.quality==='baja' ? 1 : R.quality==='media' ? Math.min(dpr,1.5) : Math.min(dpr,2));
   const ms = R.quality==='baja' ? 1024 : R.quality==='media' ? 2048 : (COARSE ? 2048 : 4096);
@@ -2455,8 +2461,10 @@ applyTheme();
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',applyTheme);
 new MutationObserver(applyTheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 
+var _rsz="";
 function resize(){
   const w=stage.clientWidth,h=stage.clientHeight; if(!w||!h) return;
+  const k=w+"x"+h+"@"+renderer.getPixelRatio()+(composer?1:0); if(k===_rsz){ dirty=true; return; } _rsz=k;
   renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
   if(composer){ composer.setPixelRatio(renderer.getPixelRatio()); composer.setSize(w,h); }
   dirty=true;
@@ -4339,7 +4347,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.0-beta.2';
+  const APP_VERSION='1.1.0-beta.3';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
