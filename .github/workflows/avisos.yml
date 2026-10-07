@@ -1,0 +1,33 @@
+name: Avisos del taller
+
+on:
+  schedule:
+    - cron: '7 * * * *'   # cada hora; el script solo envía a la hora elegida en la app (hora de Madrid)
+  workflow_dispatch:
+    inputs:
+      prueba:
+        description: 'Enviar ahora un aviso de prueba por todos los canales'
+        type: boolean
+        default: true
+
+jobs:
+  avisos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Instalar dependencias
+        run: npm install --no-save --no-audit --no-fund web-push@3 nodemailer@6
+      - name: Enviar avisos
+        run: node tools/avisos.mjs
+        env:
+          PRUEBA: ${{ inputs.prueba }}
+          VAPID_PRIVATE: ${{ secrets.VAPID_PRIVATE }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
