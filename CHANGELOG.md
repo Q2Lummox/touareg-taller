@@ -1,5 +1,9 @@
 # Novedades
 
+## v1.0.3 · 2026-10-07
+- Descripción de los códigos PR PB6, PH3, PM1, PTC, PXE, RHR y WLB.
+- Nota actualizada sobre el código 8OD (probablemente 8QD, sin confirmar).
+
 ## v1.0.2 · 2026-10-07
 - Resumen de mantenimiento y documentos para el aviso semanal automático (sin VIN ni matrícula).
 

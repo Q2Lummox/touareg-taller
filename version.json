@@ -1,10 +1,19 @@
 {
- "version": "1.0.2",
+ "version": "1.0.3",
  "fecha": "2026-10-07",
  "notas": [
-  "Resumen de mantenimiento y documentos para el aviso semanal automático (sin VIN ni matrícula)."
+  "Descripción de los códigos PR PB6, PH3, PM1, PTC, PXE, RHR y WLB.",
+  "Nota actualizada sobre el código 8OD (probablemente 8QD, sin confirmar)."
  ],
  "historial": [
+  {
+   "version": "1.0.3",
+   "fecha": "2026-10-07",
+   "notas": [
+    "Descripción de los códigos PR PB6, PH3, PM1, PTC, PXE, RHR y WLB.",
+    "Nota actualizada sobre el código 8OD (probablemente 8QD, sin confirmar)."
+   ]
+  },
   {
    "version": "1.0.2",
    "fecha": "2026-10-07",
