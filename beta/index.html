@@ -12,7 +12,11 @@
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.0-beta.1">
+<meta name="app-version" content="1.1.0-beta.2">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
+<link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js">
 <title>Taller 7L · Beta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1059,6 +1063,15 @@ body.ui2 :is(.mrow,.hist .h){border-radius:10px}
 body.ui2 :is(.bt button,.hist button){font-family:var(--f-body);text-transform:none;letter-spacing:0;font-size:12.5px;border-radius:7px;padding:6px 11px}
 
 .top2{flex-wrap:nowrap!important;row-gap:0}
+
+.perf{margin-top:18px;padding-top:12px;border-top:1px solid var(--hud-line)}
+.perf dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:6px 0 12px;font-size:13.5px}
+.perf dt{color:var(--hud-mut)} .perf dd{margin:0;color:var(--hud-ink);font-weight:600}
+.lbx{position:fixed;inset:0;z-index:9700;background:#000e;display:grid;place-items:center;animation:fadeIn .2s;touch-action:pinch-zoom}
+.lbx img{max-width:100vw;max-height:100dvh;object-fit:contain}
+.lbxbar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:calc(var(--sa-t) + 10px) 12px 10px 16px;background:linear-gradient(#000c,transparent);color:#fff;font-size:14px}
+.lbxbar button{width:40px;height:40px;border-radius:50%;border:0;background:#fff2;color:#fff;display:grid;place-items:center;cursor:pointer}
+.lbxbar svg{width:20px;height:20px}
 </style>
 
 </head>
@@ -2556,22 +2569,22 @@ function makeGlb(jsonText, bin){
   dv.setUint32(o,bin.length+binPad,true); dv.setUint32(o+4,0x004E4942,true); u8.set(bin,o+8);
   return buf;
 }
-(async()=>{
+const startModel=async()=>{ if(startModel.on) return; startModel.on=true; window.__t?.('modelStart');
   const L=$('#loader');
   try{
     const [jsonText, geo] = await Promise.all([
-      fetchText('../touareg.json', ()=>{}),
-      fetchText('../touareg-geo.txt', f=>{ setLoad(`Cargando modelo… ${Math.round(f*100)} %`, f*.9); })
+      fetchText('touareg.json', ()=>{}),
+      fetchText('touareg-geo.txt', f=>{ setLoad(`Cargando modelo… ${Math.round(f*100)} %`, f*.9); })
     ]);
     setLoad('Montando el coche en el elevador…', .95);
     const glb = makeGlb(jsonText, b64ToBytes(geo.trim()));
-    const base = new URL('../', location.href).href;
+    const base = new URL('./', location.href).href;
     new GLTFLoader().parse(glb, base, onModel, err=>{ console.error(err); setLoad('No se pudo montar el modelo 3D ('+(err?.message||err)+').'); });
   }catch(err){
     console.error(err);
     setLoad('No se pudo cargar el modelo 3D ('+(err?.message||err)+').');
   }
-})();
+};
 
 /* ---------- cámara ---------- */
 const home = {center:new THREE.Vector3(0,.8,0), size:5};
@@ -4326,7 +4339,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.0-beta.1';
+  const APP_VERSION='1.1.0-beta.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -4506,6 +4519,7 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const nf=new Intl.NumberFormat('es-ES');
 const eur=v=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v||0);
 
+const PERF={m:{}, fr:[], autoQ:null};
 const UI={sec:'inicio', sub:{mant:'plan', papeles:'docs'}, mas:null, papFilter:'todo', sig:{}, carIntro:false, modelReady:false,
   prefs:{sound:false, haptics:true, theme:'dark'}};
 try{ Object.assign(UI.prefs, JSON.parse(localStorage.getItem('taller7l-ui')||'{}')); }catch{}
@@ -4630,7 +4644,7 @@ function go(sec, sub, opts={}){
   document.querySelectorAll('#nav2 button').forEach(b=>b.setAttribute('aria-current', b.dataset.sec===sec?'page':'false'));
   document.querySelectorAll('.page').forEach(p=>p.classList.toggle('on', p.dataset.sec===sec));
   closeMenus();
-  if(sec==='coche'){ if(ovl.classList.contains('docked')) undock(); requestAnimationFrame(()=>{ resize(); dirty=true; carIntro(); }); }
+  if(sec==='coche'){ startModel(); if(ovl.classList.contains('docked')) undock(); requestAnimationFrame(()=>{ resize(); dirty=true; carIntro(); }); }
   else if(prev!==sec && ovl.classList.contains('docked')) undock();
   else if(sec!=='coche' && !ovl.hidden && !ovl.classList.contains('docked')){ _closePop(); }
   setTop();
@@ -4860,7 +4874,7 @@ $('#srch').onclick=e=>{ if(e.target.id==='srch') closeSearch(); };
 addEventListener('keydown',e=>{ if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); openSearch(); } else if(e.key==='Escape' && !$('#srch').hidden){ closeSearch(); } });
 const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 function hl(text,q){ const t=String(text||''); if(!q) return esc(t); const i=norm(t).indexOf(q); return i<0?esc(t):esc(t.slice(0,i))+'<mark>'+esc(t.slice(i,i+q.length))+'</mark>'+esc(t.slice(i+q.length)); }
-$('#srQ').oninput=e=>runSearch(e.target.value);
+{ let st=null; $('#srQ').oninput=e=>{ clearTimeout(st); const v=e.target.value; st=setTimeout(()=>runSearch(v),110); }; }
 $('#srQ').onkeydown=e=>{ if(e.key==='Enter'){ $('#srRes .r2')?.click(); } };
 function runSearch(raw){
   const q=norm(raw.trim()), out=$('#srRes'); out.innerHTML='';
@@ -4959,16 +4973,17 @@ const SP_TIPS=['Todo está en 5 secciones: Inicio, Coche 3D, Mantenimiento, Pape
 let spTipI=0; const spTip=$('#spTip'); spTip.textContent=SP_TIPS[0];
 const spTipT=setInterval(()=>{ spTip.style.opacity=0; setTimeout(()=>{ spTipI=(spTipI+1)%SP_TIPS.length; spTip.textContent=SP_TIPS[spTipI]; spTip.style.opacity=1; },300); },3200);
 const spT0=performance.now(); let spDone=false, spF=0;
-{ const bi=$('#lbarI'); if(bi) new MutationObserver(()=>{ const f=(parseFloat(bi.style.width)||0)/100; spF=f; stSet(f); if(!spDone) spSet(.15+f*.85); const np=$('#navProg'); np.style.setProperty('--p',Math.round(f*100)+'%'); }).observe(bi,{attributes:true,attributeFilter:['style']}); }
+{ const bi=$('#lbarI'); if(bi) new MutationObserver(()=>{ const f=(parseFloat(bi.style.width)||0)/100; spF=f; stSet(f);  const np=$('#navProg'); np.style.setProperty('--p',Math.round(f*100)+'%'); }).observe(bi,{attributes:true,attributeFilter:['style']}); }
 { const lt=$('#ltxt'); if(lt) new MutationObserver(()=>{ if(!spDone) $('#spTxt').textContent=lt.textContent; }).observe(lt,{childList:true,characterData:true,subtree:true}); }
-spSet(.08); $('#spTxt').textContent='Arrancando…';
-function hideSplash(){ if(spDone) return; spDone=true; spSet(1); clearInterval(spTipT); setTimeout(()=>{ $('#splash').classList.add('out'); setTimeout(()=>$('#splash').remove(),600); },250); }
+spSet(.12); $('#spTxt').textContent='Arrancando…';
+function hideSplash(){ if(spDone) return; spDone=true; PERF.m.ui=performance.now(); spSet(1); clearInterval(spTipT); setTimeout(()=>{ $('#splash').classList.add('out'); setTimeout(()=>$('#splash').remove(),600); },250); }
 { const chk=setInterval(()=>{
     const el2=performance.now()-spT0, gate=!$('#gate').hidden;
-    if(gate || (S.cfg && el2>1600) || UI.modelReady || el2>9000){ clearInterval(chk); hideSplash(); }
-    else if(!S.cfg && el2>700) $('#spTxt').textContent = spF>0 ? $('#ltxt')?.textContent||'Cargando…' : 'Cargando tus datos…';
+    if(S.cfg && !PERF.m.data){ PERF.m.data=performance.now(); scheduleModel(); }
+    if(gate || (S.cfg && el2>1400) || UI.modelReady || el2>9000){ clearInterval(chk); hideSplash(); }
+    else { spSet(S.cfg?.9: window.FB?.user?.() ? .55 : .3); $('#spTxt').textContent = window.FB?.user?.() ? 'Cargando tus datos…' : 'Conectando…'; }
   },150); }
-new MutationObserver((m,o)=>{ if(!document.getElementById('loader')){ o.disconnect(); UI.modelReady=true; $('#navProg').classList.add('done'); if(UI.sec==='coche') carIntro(); } }).observe($('#stage'),{childList:true});
+new MutationObserver((m,o)=>{ if(!document.getElementById('loader')){ o.disconnect(); UI.modelReady=true; PERF.m.model=performance.now(); $('#navProg').classList.add('done'); if(UI.sec==='coche') carIntro(); } }).observe($('#stage'),{childList:true});
 
 /* ---------- hoja inferior arrastrable (móvil) ---------- */
 { const app=$('.app'), tabs=$('.tabs'); let drag=null;
@@ -4996,6 +5011,59 @@ setInterval(()=>{
   if(UI.sec==='papeles' && UI.sub.papeles==='fotos'){ const sg=JSON.stringify([S.int.length,S.docs.length,Object.keys(S.fichas).length]); if(UI.sig.fotos!==sg){ UI.sig.fotos=sg; renderPapeles('fotos'); } }
   if(!UI.wzChecked && S.cfg && S.db && performance.now()-spT0>5000){ UI.wzChecked=true; if(!S.cfg.asistente && !S.int.length && !S.docs.length) openWizard(0); }
 },1000);
+
+/* ---------- rendimiento ---------- */
+function scheduleModel(){ if(scheduleModel.on) return; scheduleModel.on=true; const go2=()=>startModel(); if('requestIdleCallback' in window) requestIdleCallback(go2,{timeout:2500}); else setTimeout(go2,1200); }
+setTimeout(()=>startModel(), 7000);
+/* el visor no dibuja mientras estás en otra sección */
+{ const _rf=renderFrame; renderFrame=function(){ if(UI.sec!=='coche' && !document.querySelector('.stage.fs')) return; const t=performance.now(); PERF.fr.push(t); if(PERF.fr.length>90) PERF.fr.shift(); _rf(); }; }
+/* calidad automática la primera vez, según el dispositivo */
+{ let saved={}; try{ saved=JSON.parse(localStorage.getItem('touareg-pro-render')||'{}'); }catch{}
+  if(!saved.quality){ const cores=navigator.hardwareConcurrency||8, mem=navigator.deviceMemory||8, coarse=matchMedia('(pointer: coarse)').matches;
+    const q = coarse && (cores<=4 || mem<=3) ? 'baja' : coarse ? 'media' : (cores<=4 || mem<=4) ? 'media' : 'alta';
+    if(R.quality!==q){ R.quality=q; try{ applyQuality(); }catch{} } savePrefs(); PERF.autoQ=q; } }
+function fpsNow(){ const f=PERF.fr; let best=0; for(let i=f.length-1;i>10;i--){ const span=f[i]-f[i-10]; if(span>0 && span<1000){ best=Math.max(best, 10000/span); } } return best?Math.round(best):null; }
+async function perfReport(){
+  const sec=k=>PERF.m[k]?(PERF.m[k]/1000).toFixed(1)+' s':'—';
+  let st=''; try{ const e=await navigator.storage?.estimate?.(); if(e) st=`${(e.usage/1e6).toFixed(1)} MB de ${(e.quota/1e9).toFixed(1)} GB`; }catch{}
+  const c=navigator.connection;
+  return [
+    ['Interfaz lista', sec('ui')], ['Datos cargados', sec('data')], ['Modelo 3D listo', PERF.m.model?sec('model'):(startModel.on?'cargando…':'aún no cargado')],
+    ['Fotogramas al mover el 3D', fpsNow()?fpsNow()+' fps':'mueve el coche en Coche 3D y vuelve'], ['Calidad del render', ({alta:'Alta',media:'Media',baja:'Baja'})[R.quality]+(PERF.autoQ?' (elegida automáticamente)':'')],
+    ['Resolución 3D', (renderer.getPixelRatio?.()||1).toFixed(2)+'× (pantalla '+(devicePixelRatio||1)+'×)'],
+    ['Procesador', (navigator.hardwareConcurrency||'?')+' núcleos'+(navigator.deviceMemory?' · '+navigator.deviceMemory+' GB RAM':'')],
+    ['Conexión', navigator.onLine?(c?.effectiveType?c.effectiveType.toUpperCase():'en línea'):'sin conexión'], ['Espacio usado', st||'—'],
+  ];
+}
+{ const _ab2=EXTRA_POP.about; EXTRA_POP.about=function(){ _ab2(); const box=$('#ovlBody .about'); if(!box) return;
+    const sec=h2(`<div class="perf"><h4>Rendimiento de este dispositivo</h4><dl></dl><button type="button" class="btn2 ghost">${ic('list')}Copiar informe</button></div>`);
+    box.append(sec); perfReport().then(rows=>{ const dl=sec.querySelector('dl'); for(const [k,v] of rows) dl.append(el('dt',null,k), el('dd',null,v));
+      sec.querySelector('button').onclick=()=>{ try{ navigator.clipboard.writeText(rows.map(r=>r.join(': ')).join('\n')); toast('Informe copiado'); }catch{} }; }); }; }
+
+/* ---------- fotos: miniaturas, carga al hacer scroll y visor ---------- */
+const thumbIO='IntersectionObserver' in window ? new IntersectionObserver(es=>{ for(const e of es) if(e.isIntersecting){ thumbIO.unobserve(e.target); loadThumb(e.target); } },{rootMargin:'300px'}) : null;
+function loadThumb(x){ const a=x._att, img=x.querySelector('img'); (window.FB?.blobThumb||window.FB?.blobURL)?.(a.id).then(u=>{ if(img) img.src=u; x.classList.remove('ld'); }).catch(()=>{ x.classList.remove('ld'); x.classList.add('miss'); x.title='Archivo no disponible'; }); }
+function openViewer(a){
+  const isImg=(a.tipo||'').startsWith('image/');
+  if(!isImg){ const w=window.open('','_blank'); window.FB.blobURL(a.id).then(u=>{ if(w) w.location.href=u; else location.href=u; }).catch(()=>{ w?.close(); toast('Archivo no disponible','err'); }); return; }
+  const v=h2(`<div class="lbx" role="dialog" aria-label="Foto"><img alt=""><div class="lbxbar"><span></span><button type="button" aria-label="Cerrar">${ic('x')}</button></div></div>`);
+  v.querySelector('span').textContent=a.nombre||''; const img=v.querySelector('img');
+  const close=()=>v.remove(); v.querySelector('button').onclick=close; v.onclick=e=>{ if(e.target===v) close(); };
+  document.body.append(v); window.FB.blobThumb?.(a.id).then(u=>{ if(!img.src) img.src=u; }).catch(()=>{});
+  window.FB.blobURL(a.id).then(u=>img.src=u).catch(()=>{ toast('Archivo no disponible','err'); close(); });
+}
+attachThumbs=function(list){
+  const w=el('div','atts');
+  for(const a of (list||[])){
+    const x=el('a','att'); x.href='#'; x.title=a.nombre||''; x._att=a;
+    const isImg=(a.tipo||'').startsWith('image/');
+    if(isImg){ const im=new Image(); im.alt=a.nombre||'Foto'; im.decoding='async'; x.append(im); x.classList.add('ld'); } else x.append(el('span','pdf','PDF'));
+    x.onclick=e=>{ e.preventDefault(); openViewer(a); };
+    if(isImg){ if(thumbIO) thumbIO.observe(x); else loadThumb(x); }
+    w.append(x);
+  }
+  return w;
+};
 
 /* ---------- arranque: los datos se cargan sin esperar al modelo 3D ---------- */
 connectDb();
