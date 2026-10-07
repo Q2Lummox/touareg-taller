@@ -12,7 +12,7 @@
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.0-beta.6">
+<meta name="app-version" content="1.1.0-beta.7">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -4388,7 +4388,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.0-beta.6';
+  const APP_VERSION='1.1.0-beta.7';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5192,6 +5192,41 @@ function listManager(sel, kind){
   }; }
 
 
+/* ---------- todos los desplegables en orden alfabético ---------- */
+const COLL=new Intl.Collator('es',{sensitivity:'base',numeric:true});
+const isHeadOpt=(o,i)=>i===0 && (o.value==='' || /^\s*[—–-]|^(sin|ninguno|ninguna|general|elegir|todos|todas|añadir)\b/i.test(o.textContent.trim()));
+function sortSelect(sel){
+  if(!sel || sel.dataset.nosort!=null) return;
+  const val=sel.value, groups=sel.querySelector('optgroup') ? [...sel.querySelectorAll('optgroup')] : [sel];
+  let moved=false;
+  for(const g of groups){
+    const opts=[...g.children].filter(o=>o.tagName==='OPTION'), rest=opts.filter((o,i)=>!isHeadOpt(o,i));
+    const sorted=[...rest].sort((a,b)=>COLL.compare(a.textContent.trim(),b.textContent.trim()));
+    if(sorted.some((o,i)=>o!==rest[i])){ for(const o of sorted) g.append(o); moved=true; }
+  }
+  if(moved) sel.value=val;
+}
+function sortVMenu(){
+  const vm=$('#vmenu'); if(!vm) return; let run=[];
+  const flush=()=>{ if(run.length>1){ const after=run[run.length-1].nextSibling, sorted=[...run].sort((a,b)=>COLL.compare(a.textContent.trim(),b.textContent.trim())); if(sorted.some((o,i)=>o!==run[i])) for(const o of sorted) vm.insertBefore(o, after); } run=[]; };
+  for(const c of [...vm.children]){ if(c.tagName==='BUTTON' && c.id!=='vSave') run.push(c); else flush(); }
+  flush();
+}
+LAYERS.sort((a,b)=>COLL.compare(a.name,b.name));
+try{ buildLayers(); buildList(); }catch{}
+sortVMenu();
+document.querySelectorAll('select').forEach(sortSelect);
+new MutationObserver(muts=>{
+  const set=new Set();
+  for(const m of muts){
+    const t=m.target;
+    if(t.tagName==='SELECT') set.add(t); else if(t.tagName==='OPTGROUP') set.add(t.parentElement);
+    for(const n of m.addedNodes){ if(n.nodeType!==1) continue; if(n.tagName==='SELECT') set.add(n); else if(n.querySelectorAll) n.querySelectorAll('select').forEach(x=>set.add(x)); }
+  }
+  set.forEach(sortSelect);
+}).observe(document.body,{childList:true,subtree:true});
+
+/* ---------- arranque: los datos se cargan sin esperar al modelo 3D ---------- */
 connectDb();
 { const h=(location.hash||'').slice(1); go(SECS[h]?h:'inicio'); }
 
