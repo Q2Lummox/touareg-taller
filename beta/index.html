@@ -12,7 +12,7 @@
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.0-beta.5">
+<meta name="app-version" content="1.1.0-beta.6">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1107,6 +1107,17 @@ body.ui2.light .hero .hcar{filter:drop-shadow(0 10px 10px #0004) brightness(1.08
 .hero .kmwarn{justify-content:center;text-align:center;margin-top:0}
 body.ui2.light .hero{background:#fff!important}
 body.ui2.light .hchips span{background:#f5f7f9}
+
+/* gestor de listas en el formulario de intervención */
+.lmng{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px;margin-top:6px}
+.lmng input{min-width:0;background:#0d0f12;border:1px dashed var(--card-line);border-radius:8px;color:var(--txt);padding:8px 10px;font:500 15px var(--f-body);text-transform:none;letter-spacing:0}
+.lmng input:focus{outline:0;border-style:solid;border-color:var(--accent)}
+.lmng button{display:inline-flex;align-items:center;gap:4px;border-radius:8px;padding:0 11px;font:600 13px var(--f-body);text-transform:none;letter-spacing:0;cursor:pointer;white-space:nowrap}
+.lmng button svg{width:14px;height:14px}
+.lmng .lmadd{background:#f39a1e22;border:1px solid #f39a1e66;color:var(--accent)}
+.lmng .lmdel{background:#ef5a3c18;border:1px solid #ef5a3c55;color:var(--due)}
+.lmng button:disabled{opacity:.35;cursor:default}
+body.ui2.light .lmng input{background:#f5f7f9}
 </style>
 
 </head>
@@ -4377,7 +4388,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.0-beta.5';
+  const APP_VERSION='1.1.0-beta.6';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5055,6 +5066,7 @@ setInterval(()=>{
   if(UI.sec==='inicio') renderInicio(false);
   if(UI.sec==='coche') setTop();
   if(UI.sec==='papeles' && UI.sub.papeles==='fotos'){ const sg=JSON.stringify([S.int.length,S.docs.length,Object.keys(S.fichas).length]); if(UI.sig.fotos!==sg){ UI.sig.fotos=sg; renderPapeles('fotos'); } }
+  listsInit(); listsMigrate();
   if(!UI.wzChecked && S.cfg && S.db && performance.now()-spT0>5000){ UI.wzChecked=true; if(!S.cfg.asistente && !S.int.length && !S.docs.length) openWizard(0); }
 },1000);
 
@@ -5111,7 +5123,75 @@ attachThumbs=function(list){
   return w;
 };
 
-/* ---------- arranque: los datos se cargan sin esperar al modelo 3D ---------- */
+/* ---------- listas propias: elementos de mantenimiento y piezas ---------- */
+S.piezasL=[];
+partName=function(pid){ if(typeof pid==='string' && pid.startsWith('c:')) return S.piezasL.find(x=>x._id===pid.slice(2))?.nombre||''; return parts[pid]?.name||''; };
+function listsInit(){
+  if(UI.plSub || !S.db) return; UI.plSub=true;
+  S.db.collection('piezasLista').onSnapshot(snap=>{ S.piezasL=snap.docs.map(d=>({...d.data(), _id:d.id})); UI.plLoaded=true; }, ()=>{});
+}
+/* una sola vez: deja el plan con lo básico y crea la lista inicial de piezas */
+async function listsMigrate(){
+  if(UI.migDone || !S.db || !S.cfg || !S.mant.length || !UI.plLoaded) return; UI.migDone=true;
+  if(S.cfg.listas1) return;
+  const KEEP=new Set(['aceite-motor','filtro-aceite','filtro-aire','filtro-gasoil','filtro-habitaculo','aceite-cambio','pastillas-del','pastillas-tras','liquido-frenos','refrigerante','bateria']);
+  try{
+    for(const it of S.mant){ if(KEEP.has(it.id)) continue; if(S.int.some(x=>x.mant===it.id)) continue; await S.db.collection('mantenimiento').doc(it.id).delete(); }
+    if(!S.mant.some(x=>/l[ií]quido limpiaparabrisas/i.test(x.nombre||''))) await S.db.collection('mantenimiento').doc('liquido-limpiaparabrisas').set({nombre:'Líquido limpiaparabrisas', grupo:'Carrocería', intervaloKm:null, intervaloMeses:null, orden:95, pieza:null});
+    if(!S.piezasL.length) for(const n of ['Bomba de agua','Intercooler','Centralita de confort','Centralita de red de a bordo','Alternador']) await S.db.collection('piezasLista').add({nombre:n, creado:new Date().toISOString()});
+    await S.db.doc('config/coche').set({...(S.cfg||{}), listas1:true});
+  }catch(e){ console.warn('listas', e); UI.migDone=false; }
+}
+function listManager(sel, kind){
+  const box=h2(`<div class="lmng"><input type="text" placeholder="${kind==='mant'?'Nuevo elemento…':'Nueva pieza…'}" aria-label="Nuevo"><button type="button" class="lmadd">${ic('plus')}Añadir</button><button type="button" class="lmdel" title="Borrar de la lista el elemento seleccionado">${ic('x')}Borrar</button></div>`);
+  const inp=box.querySelector('input'), add=box.querySelector('.lmadd'), del=box.querySelector('.lmdel');
+  const sync=()=>{ del.disabled=!sel.value || (kind==='pieza' && !sel.value.startsWith('c:')); };
+  sel.addEventListener('change', sync); sync();
+  const doAdd=async()=>{
+    const n=inp.value.trim(); if(!n) { inp.focus(); return; }
+    const list = kind==='mant' ? S.mant.map(x=>x.nombre) : S.piezasL.map(x=>x.nombre);
+    if(list.some(x=>norm(x)===norm(n))){ toast('Ya está en la lista','err'); return; }
+    add.disabled=true;
+    try{
+      let r;
+      if(kind==='mant'){ r=await S.db.collection('mantenimiento').add({nombre:n, grupo:'Añadidos', intervaloKm:null, intervaloMeses:null, orden:500+S.mant.length, pieza:null}); sel.append(new Option(n, r.id)); sel.value=r.id; if(S.draft) S.draft.mant=r.id; }
+      else { r=await S.db.collection('piezasLista').add({nombre:n, creado:new Date().toISOString()}); sel.append(new Option(n, 'c:'+r.id)); sel.value='c:'+r.id; if(S.draft) S.draft.pieza='c:'+r.id; }
+      inp.value=''; sync(); toast(`«${n}» añadido a la lista`);
+    }catch{ toast('No se pudo añadir','err'); }
+    add.disabled=false;
+  };
+  add.onclick=doAdd; inp.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); doAdd(); } };
+  del.onclick=async()=>{
+    const v=sel.value; if(!v) return;
+    const name=sel.selectedOptions[0]?.textContent||'';
+    const used = kind==='mant' ? S.int.filter(x=>x.mant===v).length : S.int.filter(x=>x.pieza===v).length;
+    if(!confirm(`¿Borrar «${name}» de la lista?`+(used?`\n\nTiene ${used} intervención(es) registradas: se conservan en el historial.`:''))) return;
+    try{
+      if(kind==='mant') await S.db.collection('mantenimiento').doc(v).delete(); else await S.db.collection('piezasLista').doc(v.slice(2)).delete();
+      sel.selectedOptions[0]?.remove(); sel.value=''; if(S.draft){ if(kind==='mant') S.draft.mant=''; else S.draft.pieza=''; } sync(); toast(`«${name}» borrado de la lista`);
+    }catch{ toast('No se pudo borrar','err'); }
+  };
+  return box;
+}
+{ const _rif=renderIntForm; renderIntForm=function(){
+    _rif();
+    const iM=$('#iMant'), iP=$('#iPieza'), dr=S.draft||{};
+    if(iP){
+      iP.innerHTML=''; iP.append(new Option('— General —',''));
+      for(const q of [...S.piezasL].sort((a,b)=>(a.nombre||'').localeCompare(b.nombre||'','es'))) iP.append(new Option(q.nombre,'c:'+q._id));
+      if(dr.pieza && !String(dr.pieza).startsWith('c:') && parts[dr.pieza]) iP.append(new Option(parts[dr.pieza].name+' (modelo 3D)', dr.pieza));
+      iP.value=dr.pieza||''; iP.onchange=()=>{ if(S.draft) S.draft.pieza=iP.value; };
+      iP.closest('label').classList.add('w3'); iP.closest('label').firstChild.textContent='Pieza (no de mantenimiento)';
+      iP.closest('label').append(listManager(iP,'pieza'));
+    }
+    if(iM){
+      const lab=iM.closest('label'); lab.classList.remove('w2'); lab.classList.add('w3'); lab.firstChild.textContent='Elemento de mantenimiento';
+      lab.append(listManager(iM,'mant'));
+      const prev=iM.onchange; iM.onchange=e=>{ prev?.(e); if(S.draft) S.draft.mant=iM.value; };
+    }
+  }; }
+
+
 connectDb();
 { const h=(location.hash||'').slice(1); go(SECS[h]?h:'inicio'); }
 
