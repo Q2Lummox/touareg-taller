@@ -7,12 +7,12 @@
 <meta name="description" content="Taller digital del VW Touareg 7L">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Taller 7L β">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.6-beta">
+<meta name="app-version" content="1.1.7-beta">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1307,7 +1307,7 @@ html:has(body.ui2.light){background:#eef1f4}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.1.6-beta</span>
+  <span class="spver">v1.1.7-beta</span>
 </div>
 
 <header class="top2" id="top2">
@@ -4716,7 +4716,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.6-beta';
+  const APP_VERSION='1.1.7-beta';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5874,7 +5874,7 @@ function measureScreen(){
   document.body.append(pr); const cs=getComputedStyle(pr); const t=parseFloat(cs.paddingTop)||0, b=parseFloat(cs.paddingBottom)||0; pr.remove();
   const ios=/iP(hone|od|ad)/.test(navigator.userAgent), st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true, portrait=innerHeight>innerWidth;
   const sh=portrait?Math.max(screen.width,screen.height):Math.min(screen.width,screen.height);
-  let gap=(ios&&st)?Math.round(sh-innerHeight):0; if(gap<0||gap>140) gap=0;
+  let gap=(ios&&st&&t>0)?Math.round(sh-innerHeight):0;   /* solo con la barra de estado translúcida */ if(gap<0||gap>140) gap=0;
   Object.assign(SCR,{t,b,gap,ih:innerHeight,iw:innerWidth,sh,st,ios});
   const R=document.documentElement.style;
   R.setProperty('--gapb',gap+'px');

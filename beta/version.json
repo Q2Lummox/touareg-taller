@@ -1,17 +1,15 @@
 {
- "version": "1.1.6-beta",
+ "version": "1.1.7-beta",
  "fecha": "2026-10-08",
  "notas": [
-  "Sonido de arranque más corto (4 s y 1 s de fundido).",
-  "Aguja del cuentarrevoluciones con inercia real: cae al dar el contacto, sube al arrancar pasándose un poco y se queda al ralentí con un vaivén muy ligero."
+  "Prueba: barra de estado opaca para que la app ocupe hasta el borde inferior del iPhone."
  ],
  "historial": [
   {
-   "version": "1.1.6-beta",
+   "version": "1.1.7-beta",
    "fecha": "2026-10-08",
    "notas": [
-    "Sonido de arranque más corto (4 s y 1 s de fundido).",
-    "Aguja del cuentarrevoluciones con inercia real: cae al dar el contacto, sube al arrancar pasándose un poco y se queda al ralentí con un vaivén muy ligero."
+    "Prueba: barra de estado opaca para que la app ocupe hasta el borde inferior del iPhone."
    ]
   }
  ]

@@ -1,5 +1,8 @@
 # Novedades
 
+## v1.1.7 · 2026-10-08
+- Ajuste interno de la detección de la franja inferior del iPhone.
+
 ## v1.1.6 · 2026-10-08
 - Sonido de arranque más corto (4 s y 1 s de fundido).
 - Aguja del cuentarrevoluciones con inercia real: cae al dar el contacto, sube al arrancar pasándose un poco y se queda al ralentí con un vaivén muy ligero.
