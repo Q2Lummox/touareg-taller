@@ -12,7 +12,7 @@
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.0-beta.4">
+<meta name="app-version" content="1.1.0-beta.5">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1082,6 +1082,31 @@ body.ui2.light .stage :is(.seg,.vbtn){background:linear-gradient(180deg,#ffffff,
 .kmrow{flex-direction:column;align-items:flex-start;gap:8px;margin-top:14px;max-width:42%}
 @media (max-width:520px){ .hero{min-height:236px} .hero .hcar{width:66%;bottom:8px} .kmrow{max-width:38%} .kmbig{font-size:30px} }
 body.ui2.light .hero .hcar{filter:drop-shadow(0 10px 10px #0004) brightness(1.08)}
+
+/* héroe sin imagen: mismo estilo que las demás tarjetas, contenido centrado */
+.hero{background:linear-gradient(180deg,#181c21,#13161a)!important;min-height:0!important;display:flex;flex-direction:column;align-items:center;text-align:center;padding:18px 16px 18px!important;gap:10px;position:relative}
+.hero::before{content:"";position:absolute;left:24%;right:24%;top:0;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.8}
+.hero .hcar{display:none}
+.hlab{display:flex;align-items:center;gap:6px;font:600 12px var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--txt-2)}
+.hlab svg{width:16px;height:16px;color:var(--accent)}
+.htitle{margin:0!important;font:700 32px/1 var(--f-display)!important;letter-spacing:.06em;text-transform:uppercase;color:var(--txt)!important}
+.htitle b{color:var(--accent)}
+.hchips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.hchips span{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;background:#ffffff08;border:1px solid var(--card-line);font:500 12.5px var(--f-body);color:var(--txt-2)}
+.hchips svg{width:13px;height:13px;color:var(--accent)}
+.pdot{width:11px;height:11px;border-radius:50%;border:1px solid #8d97a2;box-shadow:inset 0 0 3px #fff3;display:inline-block}
+.hero .plate{margin-top:2px}
+.hsep{display:flex;align-items:center;gap:10px;width:70%;color:var(--accent);margin:2px 0}
+.hsep i{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--card-line),transparent)}
+.hsep svg{width:18px;height:18px}
+.hero .kmbig{font:700 40px/1 var(--f-display)!important;color:var(--txt);letter-spacing:.02em}
+.hero .kmbig small{font-size:16px;color:var(--accent);margin-left:5px;text-transform:uppercase;letter-spacing:.08em}
+.hkml{font:500 11.5px var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--txt-3);margin-top:-4px}
+.hero .kmedit{margin-top:4px;background:#f39a1e1a;border-color:#f39a1e55;color:var(--accent);border-radius:20px;padding:7px 14px}
+.hero .kmedit:hover{background:#f39a1e2e}
+.hero .kmwarn{justify-content:center;text-align:center;margin-top:0}
+body.ui2.light .hero{background:#fff!important}
+body.ui2.light .hchips span{background:#f5f7f9}
 </style>
 
 </head>
@@ -4352,7 +4377,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.0-beta.4';
+  const APP_VERSION='1.1.0-beta.5';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -4713,7 +4738,20 @@ function animNum(elx, to, fmt=v=>nf.format(Math.round(v)), key){
   if(prev===to || matchMedia('(prefers-reduced-motion: reduce)').matches){ elx.textContent=fmt(to); return; }
   const from=prev||0, t0=performance.now(), d=700; elx.textContent=fmt(from); const step=t=>{ const k=Math.min(1,(t-t0)/d), e=1-Math.pow(1-k,3); elx.textContent=fmt(from+(to-from)*e); if(k<1) requestAnimationFrame(step); }; requestAnimationFrame(step);
 }
-const CAR_SVG=`<img class="hcar" src="car-side.webp" alt="" decoding="async">`;
+function heroCard(cls, anim){
+  const c=S.cfg||{}, km=c.kmActual, pint=(c.pintura||'C9Z Black Magic Pearl'), code=pint.split(' ')[0], name=pint.split(' ').slice(1).join(' ');
+  const el2=h2(`<div class="card2 hero ${cls}">
+    <div class="hlab">${ic('car')}<span>Mi coche</span></div>
+    <h2 class="htitle"><span>Touareg</span> <b>7L</b></h2>
+    <div class="hchips"><span>${ic('gauge')}2.5 R5 TDI · 174 CV</span><span>${ic('zap')}Motor ${esc(c.motor||'BAC')}</span><span>${ic('calendar')}${esc(c.anoModelo||'2004')}</span><span><i class="pdot" style="background:${esc(c.pinturaHex||'#14151c')}"></i>${esc(code)} ${esc(name)}</span></div>
+    <div class="plate"><i>E</i><span>9905 CMY</span></div>
+    <div class="hsep"><i></i>${ic('gauge')}<i></i></div>
+    <div class="kmbig"><span id="${anim?'kmN':''}">${km?nf.format(km):'—'}</span><small>km</small></div>
+    <div class="hkml">Cuentakilómetros</div>
+    <button type="button" class="kmedit">${ic('edit')}Actualizar kilómetros</button></div>`);
+  el2.querySelector('.kmedit').onclick=quickKm;
+  return el2;
+}
 
 /* ---------- INICIO ---------- */
 function sigOf(){ return JSON.stringify([Object.keys(parts).length, !!S.cfg, S.cfg?.kmActual, S.int.length, S.mant.length, S.docs.length, Object.keys(S.fichas).length, S.ave.length, todayISO(), S.int.reduce((a,x)=>a+(x.adjuntos?.length||0),0)]); }
@@ -4724,11 +4762,9 @@ function renderInicio(force){
   const c=counts(), km=S.cfg.kmActual;
   const g=h2('<div class="grid2"></div>'); box.append(g);
   /* héroe */
-  const hero=h2(`<div class="card2 hero c8">${CAR_SVG}<h2>Touareg 7L</h2><p class="hsub">2.5 R5 TDI · ${esc(S.cfg.motor||'BAC')} · ${esc(S.cfg.anoModelo||'2004')} · ${esc((S.cfg.pintura||'').split(' ').slice(1).join(' ')||'Black Magic Pearl')}</p>
-    <div class="plate"><i>E</i><span>9905 CMY</span></div>
-    <div class="kmrow"><div class="kmbig"><span id="kmN">0</span><small>km</small></div><button type="button" class="kmedit">${ic('edit')}Actualizar</button></div></div>`);
+  const hero=heroCard('c8', true);
   if(!km) hero.append(h2(`<div class="kmwarn">${ic('alert')}Pon los kilómetros actuales para que los avisos por kilometraje funcionen.</div>`));
-  hero.querySelector('.kmedit').onclick=quickKm; g.append(hero);
+  g.append(hero);
   animNum(hero.querySelector('#kmN'), Number(km)||0, undefined, 'km');
   /* fichas documentadas */
   const all=Object.keys(parts).filter(id=>!parts[id].scan), done=all.filter(id=>S.fichas[id]?.ref).length, pct=all.length?Math.round(done/all.length*100):0;
@@ -4826,8 +4862,8 @@ function renderPapeles(sub){
   if(sub==='ficha'){
     wrap.classList.add('pg-ficha');
     const g=h2('<div class="grid2"></div>'); wrap.append(g);
-    const hero=h2(`<div class="card2 hero c6">${CAR_SVG}<h2>Touareg 7L</h2><p class="hsub">Fabricado el ${esc(S.cfg?.fabricacion||'27/09/2003')} · Año modelo ${esc(S.cfg?.anoModelo||'2004')}</p><div class="plate"><i>E</i><span>9905 CMY</span></div><div class="kmrow"><div class="kmbig">${S.cfg?.kmActual?nf.format(S.cfg.kmActual):'—'}<small>km</small></div><button type="button" class="kmedit">${ic('edit')}Actualizar</button></div></div>`);
-    hero.querySelector('.kmedit').onclick=quickKm; g.append(hero);
+    const hero=heroCard('c6', false);
+    g.append(hero);
     const card=h2(`<div class="card2 c6"><h3>${ic('tag')}Datos de fábrica</h3></div>`); card.append($('#secCoche')); g.append(card);
     const pw=$('#cfgPrWrap'); if(pw) pw.open=true;
     return;
