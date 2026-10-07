@@ -3,9 +3,9 @@
      así funciona sin conexión desde la primera vez.
    - La app y el modelo: primero la red (para ver siempre lo último; si no cambió, es una respuesta 304 mínima).
    - Librerías de CDN (direcciones con versión fija): primero la caché. */
-const CACHE = 'taller-beta-1.1.0-beta.12', LIBS = 'taller-libs';
+const CACHE = 'taller-beta-1.1.0-beta.13', LIBS = 'taller-libs';
 const T = 'https://cdn.jsdelivr.net/npm/three@0.160.0/', FBJ = 'https://www.gstatic.com/firebasejs/10.12.2/';
-const CORE = ['./', './index.html', './fb.js', './firebase-config.js', './touareg.json', './touareg-geo.txt', '../seed.json', '../manifest.webmanifest',
+const CORE = ['./', './index.html', './fb.js', './firebase-config.js', './touareg.json', './touareg-geo.txt', '../seed.json', './manifest.webmanifest',
   '../icons/icon-192.png', '../icons/apple-touch-icon.png', ...Array.from({length: 15}, (_, i) => `./tex_${i}.webp`),
   ...['brick','floor','plate'].flatMap(n => ['diff','nor','rough'].map(k => `./garage/${n}_${k}.webp`))];
 const CDN = [T + 'build/three.module.js',
@@ -42,5 +42,20 @@ self.addEventListener('fetch', e => {
     const c = await caches.open(CACHE);
     try { const r = await fetch(req, {cache: 'no-cache'}); if (r.ok) c.put(req, r.clone()); return r; }
     catch { return (await c.match(req, {ignoreSearch: true})) || (req.mode === 'navigate' ? (await c.match('./index.html')) || (await c.match('./')) : Response.error()); }
+  })());
+});
+
+/* notificaciones push enviadas por la tarea diaria de GitHub */
+self.addEventListener('push', e => {
+  let d = {}; try { d = e.data ? e.data.json() : {}; } catch { d = {title: 'Taller 7L', body: e.data?.text() || ''}; }
+  e.waitUntil(self.registration.showNotification(d.title || '🔧 Taller 7L', {body: d.body || '', tag: d.tag || 'taller', icon: '../icons/icon-192.png', badge: '../icons/icon-192.png', data: {url: d.url || './'}}));
+});
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  const url = e.notification.data?.url || './';
+  e.waitUntil((async () => {
+    const all = await clients.matchAll({type: 'window', includeUncontrolled: true});
+    for (const c of all) if (c.url.includes('/beta/')) { await c.focus(); c.navigate?.(url); return; }
+    await clients.openWindow(url);
   })());
 });

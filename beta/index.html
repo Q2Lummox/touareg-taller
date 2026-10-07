@@ -8,11 +8,11 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Taller 7L">
-<link rel="manifest" href="../manifest.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Taller 7L β">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.0-beta.12">
+<meta name="app-version" content="1.1.0-beta.13">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1181,6 +1181,18 @@ select.nsel{position:absolute!important;opacity:0!important;pointer-events:none!
 .csw.m .csi{padding:13px 16px;font-size:16.5px}
 body.ui2.light .csel{background:#fff}
 body.ui2.light .csel.big,body.ui2.light .css input{background:#f5f7f9}
+
+/* avisos */
+.avm{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,64px);gap:8px 6px;align-items:center}
+.avm>b{font:600 12px var(--f-body);color:var(--txt-2);text-align:center}
+.avm>span{font-size:14px;color:var(--txt)}
+.avck{justify-self:center;width:34px;height:34px;border-radius:9px;border:2px solid #4a525c;background:none;color:transparent;display:grid;place-items:center;cursor:pointer;padding:0}
+.avck svg{width:18px;height:18px}
+.avck.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.avant{display:flex;flex-wrap:wrap;gap:6px}
+.avant button{border:1px solid var(--card-line);background:var(--card-2);color:var(--txt-2);border-radius:18px;padding:6px 12px;font:600 13px var(--f-body);cursor:pointer}
+.avant button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+a.btn2{text-decoration:none}
 </style>
 
 </head>
@@ -4621,7 +4633,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.0-beta.12';
+  const APP_VERSION='1.1.0-beta.13';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -4715,7 +4727,8 @@ function publishAvisos(){
     const mant=[]; for(const it of S.mant){ const s=itemStatus(it); if(s.nextKm==null && !s.nextDate) continue;
       mant.push({nombre:it.nombre||it.id, proximoKm:s.nextKm??null, proximaFecha:s.nextDate||null, ultimaFecha:s.last?.fecha||null, ultimoKm:s.last?.km??null}); }
     const docs=S.docs.filter(d=>d.caduca).map(d=>({tipo:d.tipo||'Documento', nombre:d.nombre||'', caduca:d.caduca}));
-    const data={kmActual:S.cfg.kmActual??null, mantenimiento:mant, documentos:docs};
+    const comp=(S.compras||[]).filter(c=>c.estado==='comprado').map(c=>({nombre:c.nombre, fechaCompra:c.fechaCompra||null}));
+    const data={kmActual:S.cfg.kmActual??null, mantenimiento:mant, documentos:docs, compras:comp, porComprar:(S.compras||[]).filter(c=>c.estado==='pendiente').length};
     const j=JSON.stringify(data); if(j===avisosLast) return; avisosLast=j;
     S.db.collection('avisos').doc('resumen').set({...data, actualizado:new Date().toISOString()});
   }, 4000);
@@ -4861,7 +4874,7 @@ const SECS={
   papeles:{t:'Papeles', icon:'file', subs:[['docs','Documentos','shield'],['fotos','Facturas y fotos','image'],['ficha','Ficha del coche','tag']]},
   mas:{t:'Más', icon:'grid'},
 };
-const MAS_T={ave:'Averías y códigos', fus:'Fusibles y relés', pines:'Notas en el modelo', pend:'Fichas pendientes', backup:'Copia de seguridad', keys:'Atajos de teclado', about:'Acerca de y actualizaciones', ajustes:'Ajustes'};
+const MAS_T={avisos:'Avisos y notificaciones', ave:'Averías y códigos', fus:'Fusibles y relés', pines:'Notas en el modelo', pend:'Fichas pendientes', backup:'Copia de seguridad', keys:'Atajos de teclado', about:'Acerca de y actualizaciones', ajustes:'Ajustes'};
 document.querySelectorAll('#nav2 button').forEach(b=>{ b.querySelector('i').innerHTML=ic(SECS[b.dataset.sec].icon); b.onclick=()=>{ uiSfx('tap'); go(b.dataset.sec); }; });
 $('#t2Search').innerHTML=ic('search'); $('#t2Back').innerHTML=ic('chevL'); $('#srIco').innerHTML=ic('search');
 for(const [sec,box] of [['mant','#stMant'],['papeles','#stPap']]){
@@ -4909,7 +4922,7 @@ focusPart=function(...a){ if(UI.sec!=='coche') go('coche'); return _focusPart.ap
 startupReminder=function(){};   // el resumen del Inicio sustituye al aviso emergente
 
 function restoreSub(){
-  if(UI.sec==='mas'){ if(UI.mas && UI.mas!=='ajustes'){ UI.mas=null; } renderMas(); setTop(); return; }
+  if(UI.sec==='mas'){ if(UI.mas && UI.mas!=='ajustes' && UI.mas!=='avisos'){ UI.mas=null; } renderMas(); setTop(); return; }
   if(UI.sec==='mant'||UI.sec==='papeles') openSub(UI.sec, UI.sub[UI.sec]);
 }
 function markSub(sec){ const box=sec==='mant'?'#stMant':'#stPap'; document.querySelectorAll(box+' button').forEach(b=>b.setAttribute('aria-selected', b.dataset.sub===UI.sub[sec])); }
@@ -5136,12 +5149,13 @@ function renderPapeles(sub){
 /* ---------- MÁS ---------- */
 function renderMas(){
   const pb=$('#pbMas'); if(pb.contains(ovl)){ ovl.classList.remove('docked'); ovlHome.append(ovl); } pb.innerHTML='';
+  if(UI.mas==='avisos'){ renderAvisos(pb); return; }
   if(UI.mas && UI.mas!=='ajustes'){ pb.append(h2('<div class="masdock"></div>')); return; }
   if(UI.mas==='ajustes'){ renderAjustes(pb); return; }
   const G=[
     ['Diagnóstico',[['ave','alert','Averías y códigos','Síntomas y códigos OBD/VCDS'],['fus','zap','Fusibles y relés','Mapa editable de las cajas'],['pines','pin','Notas en el modelo','Avisos clavados en las piezas'],['pend','list','Fichas pendientes','Qué piezas faltan por documentar']]],
     ['Datos',[['backup','download','Copia de seguridad','Exportar o restaurar tus datos'],['pdf','file','Historial en PDF','Para imprimir o enviar'],['glb','cube','Importar pieza escaneada','GLB o glTF al modelo 3D'],['wiz','sparkle','Asistente inicial','Km, últimos cambios y papeles en 4 pasos']]],
-    ['Aplicación',[['ajustes','sliders','Ajustes','Tema, sonidos, vibración y gráficos'],['keys','keyboard','Atajos de teclado','Teclas rápidas del visor'],['about','info','Acerca de y actualizaciones','Versión, novedades y créditos'],['logout','logout','Cerrar sesión',window.FB?.user?.()?.email||'Cuenta de Google']]],
+    ['Aplicación',[['avisos','alert','Avisos y notificaciones','Push, correo y Telegram'],['ajustes','sliders','Ajustes','Tema, sonidos, vibración y gráficos'],['keys','keyboard','Atajos de teclado','Teclas rápidas del visor'],['about','info','Acerca de y actualizaciones','Versión, novedades y créditos'],['logout','logout','Cerrar sesión',window.FB?.user?.()?.email||'Cuenta de Google']]],
   ];
   for(const [gt,items] of G){
     const sec=h2(`<div class="mgrp"><h4>${gt}</h4><div class="mtiles"></div></div>`), t=sec.querySelector('.mtiles');
@@ -5155,7 +5169,7 @@ function masOpen(k){
   if(k==='glb'){ go('coche'); return $('#mGlb').click(); }
   if(k==='wiz') return openWizard(0);
   if(k==='logout') return $('#mLogout').click();
-  if(k==='ajustes'){ UI.mas='ajustes'; renderMas(); setTop(); return; }
+  if(k==='ajustes'||k==='avisos'){ UI.mas=k; renderMas(); setTop(); return; }
   if(k==='ave') S.aveDraftParts=null;
   openGlobal(k);
 }
@@ -5566,6 +5580,71 @@ function renderGastos2(){
   for(const x of mov.slice(0,40)) ll.append(h2(`<div class="r2" style="--c:${x.k==='compra'?'var(--soon)':'var(--ok)'};cursor:default"><span class="ic">${ic(x.k==='compra'?'cart':'wrench')}</span><span class="tx"><b>${esc(x.t)}</b><small>${fmtDate(x.fecha)} · ${esc(x.s)}</small></span><span class="rt">${eur(x.eur)}</span></div>`));
   wrap.append(lc);
   const ex=h2(`<div class="row3" style="justify-content:flex-start"><button class="btn2 ghost" type="button">${ic('file')}Exportar historial en PDF</button></div>`); ex.querySelector('button').onclick=()=>$('#mPdf').click(); wrap.append(ex);
+}
+
+/* ---------- AVISOS: push en este dispositivo, correo y Telegram (los envía GitHub cada día) ---------- */
+const VAPID_PUBLIC='BCv5LnZwcZ5M50flqtBHcK5341-QVIl9NJ2Ye0SNW6Bf6U06G5gLHj8eYYixjFxVQagFIcEP4To-0-2p79hH5Ik';
+const REPO='https://github.com/Q2Lummox/touareg-taller';
+const AV_DEF={hora:9, diaSemanal:1, antelacion:[30,15,7,1,0], canales:{mant:['push','email','telegram'], docs:['push','email','telegram'], compras:['push'], semanal:['email','telegram']}};
+const b64u=s=>{ const p='='.repeat((4-s.length%4)%4), b=atob((s+p).replace(/-/g,'+').replace(/_/g,'/')); return Uint8Array.from(b,c=>c.charCodeAt(0)); };
+const hashStr=s=>{ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return (h>>>0).toString(36); };
+async function pushState(){
+  if(!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) return {ok:false, why:/iP(hone|ad)/.test(navigator.userAgent) && !matchMedia('(display-mode: standalone)').matches ? 'ios' : 'nosupport'};
+  const reg=await navigator.serviceWorker.getRegistration(); if(!reg) return {ok:false, why:'nosw'};
+  const sub=await reg.pushManager.getSubscription();
+  return {ok:true, reg, sub, perm:Notification.permission};
+}
+async function pushEnable(){
+  const st=await pushState(); if(!st.ok) return st;
+  const perm=await Notification.requestPermission(); if(perm!=='granted') return {ok:false, why:'denied'};
+  const sub=st.sub || await st.reg.pushManager.subscribe({userVisibleOnly:true, applicationServerKey:b64u(VAPID_PUBLIC)});
+  await pushSave(sub); return {ok:true};
+}
+async function pushSave(sub){
+  const j=JSON.stringify(sub), ua=navigator.userAgent, dev=/iPhone/.test(ua)?'iPhone':/iPad/.test(ua)?'iPad':/Android/.test(ua)?'Android':/Mac/.test(ua)?'Mac':/Windows/.test(ua)?'Windows':'Otro';
+  await S.db.collection('avisos').doc('push_'+hashStr(sub.endpoint)).set({sub:j, dispositivo:dev, fecha:new Date().toISOString()});
+}
+/* cada vez que se abre la app, renueva la suscripción si ya estaba activada */
+setTimeout(async()=>{ try{ const st=await pushState(); if(st.ok && st.sub && st.perm==='granted' && S.db) await pushSave(st.sub); }catch{} }, 8000);
+async function renderAvisos(pb){
+  const cfg={...AV_DEF, ...(UI.avCfg||{})}; cfg.canales={...AV_DEF.canales, ...(cfg.canales||{})};
+  try{ if(!UI.avCfg){ const d=await S.db.doc('avisos/config').get(); if(d.exists){ UI.avCfg=d.data(); return renderAvisos(pb); } UI.avCfg={}; } }catch{}
+  pb.innerHTML=''; const wrap=h2('<div class="mgrp" style="padding-bottom:28px"></div>'); pb.append(wrap);
+  const save=async()=>{ UI.avCfg=cfg; try{ await S.db.doc('avisos/config').set({hora:cfg.hora, diaSemanal:cfg.diaSemanal, antelacion:cfg.antelacion, canales:cfg.canales, actualizado:new Date().toISOString()}); toast('Avisos guardados'); }catch{ toast('No se pudo guardar','err'); } };
+  /* este dispositivo */
+  const st=await pushState().catch(()=>({ok:false,why:'nosupport'}));
+  const dev=h2(`<div class="card2"><h3>${ic('alert')}Notificaciones en este dispositivo</h3><p class="muted2" id="pushTxt"></p><div class="row3" style="justify-content:flex-start;flex-wrap:wrap"></div></div>`);
+  const txt=dev.querySelector('#pushTxt'), row=dev.querySelector('.row3');
+  if(!st.ok){ txt.innerHTML = st.why==='ios' ? 'En iPhone, las notificaciones solo funcionan con la app <b>añadida a la pantalla de inicio</b>: en Safari pulsa Compartir ▸ «Añadir a pantalla de inicio», ábrela desde el icono y vuelve aquí.' : 'Este navegador no admite notificaciones push.'; }
+  else if(st.sub && st.perm==='granted'){ txt.textContent='✅ Activadas. Te llegarán aunque la app esté cerrada.';
+    const t=h2(`<button class="btn2 ghost" type="button">${ic('check')}Probar aquí</button>`); t.onclick=async()=>{ await st.reg.showNotification('🔧 Taller 7L', {body:'Así se verán los avisos en este dispositivo.', icon:'../icons/icon-192.png', badge:'../icons/icon-192.png', tag:'prueba'}); }; row.append(t);
+    const off=h2(`<button class="btn2 ghost" type="button">${ic('x')}Desactivar</button>`); off.onclick=async()=>{ try{ await S.db.collection('avisos').doc('push_'+hashStr(st.sub.endpoint)).delete(); await st.sub.unsubscribe(); toast('Notificaciones desactivadas en este dispositivo'); }catch{} renderAvisos(pb); }; row.append(off); }
+  else { txt.textContent = st.perm==='denied' ? 'Las tienes bloqueadas. Actívalas en los ajustes del navegador o del móvil para esta app.' : 'Aún no están activadas en este dispositivo.';
+    if(st.perm!=='denied'){ const on=h2(`<button class="btn2" type="button">${ic('alert')}Activar notificaciones</button>`); on.onclick=async()=>{ on.disabled=true; const r=await pushEnable().catch(e=>({ok:false,why:String(e?.message||e)})); if(r.ok) toast('Notificaciones activadas'); else toast(r.why==='denied'?'Permiso denegado':'No se pudieron activar ('+r.why+')','err'); renderAvisos(pb); }; row.append(on); } }
+  wrap.append(dev);
+  /* qué y por dónde */
+  const CH=[['push','Push'],['email','Correo'],['telegram','Telegram']], TY=[['mant','Mantenimiento vencido o próximo'],['docs','ITV, seguro e impuesto'],['compras','Piezas compradas sin montar'],['semanal','Resumen semanal']];
+  const mx=h2(`<div class="card2" style="margin-top:14px"><h3>${ic('list')}Qué te aviso y por dónde</h3><div class="avm"><span></span>${CH.map(c=>`<b>${c[1]}</b>`).join('')}</div></div>`), grid=mx.querySelector('.avm');
+  for(const [t,l] of TY){ grid.append(el('span',null,l)); for(const [c] of CH){ const on=(cfg.canales[t]||[]).includes(c); const b=h2(`<button type="button" class="avck${on?' on':''}" aria-pressed="${on}">${ic('check')}</button>`);
+      b.onclick=()=>{ const a=new Set(cfg.canales[t]||[]); a.has(c)?a.delete(c):a.add(c); cfg.canales[t]=[...a]; uiSfx('tap'); save(); renderAvisos(pb); }; grid.append(b); } }
+  wrap.append(mx);
+  /* cuándo */
+  const wh=h2(`<div class="card2" style="margin-top:14px"><h3>${ic('clock')}Cuándo</h3>
+    <label class="wzlab">Hora del aviso diario</label><select class="inp2" id="avH">${Array.from({length:17},(_,i)=>i+6).map(h=>`<option value="${h}"${h==cfg.hora?' selected':''}>${String(h).padStart(2,'0')}:00</option>`).join('')}</select>
+    <label class="wzlab">Día del resumen semanal</label><select class="inp2" id="avD" data-nosort>${['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'].map((d,i)=>`<option value="${i}"${i==cfg.diaSemanal?' selected':''}>${d}</option>`).join('')}</select>
+    <label class="wzlab">Avisar cuando falten</label><div class="avant"></div>
+    <p class="muted2" style="margin-top:10px">Si algo ya ha vencido, te lo recuerda una vez por semana hasta que lo registres. Los avisos por kilómetros van en el resumen semanal.</p></div>`);
+  wh.querySelector('#avH').addEventListener('change',e=>{ cfg.hora=Number(e.target.value); save(); });
+  wh.querySelector('#avD').addEventListener('change',e=>{ cfg.diaSemanal=Number(e.target.value); save(); });
+  const ant=wh.querySelector('.avant');
+  for(const d of [60,30,15,7,3,1,0]){ const on=cfg.antelacion.includes(d); const b=h2(`<button type="button" class="${on?'on':''}">${d===0?'El mismo día':d===1?'1 día':d+' días'}</button>`); b.onclick=()=>{ const a=new Set(cfg.antelacion); a.has(d)?a.delete(d):a.add(d); cfg.antelacion=[...a].sort((x,y)=>y-x); save(); renderAvisos(pb); }; ant.append(b); }
+  wrap.append(wh);
+  /* correo y Telegram */
+  const ce=h2(`<div class="card2" style="margin-top:14px"><h3>${ic('file')}Correo y Telegram</h3>
+    <p class="muted2">Los manda cada día una tarea automática de GitHub. Las claves se guardan como <b>secretos</b> en tu repositorio: nadie más las ve, tampoco esta app.</p>
+    <div class="row3" style="justify-content:flex-start;flex-wrap:wrap"><a class="btn2 ghost" href="${REPO}/settings/secrets/actions" target="_blank" rel="noopener">${ic('sliders')}Secretos del repositorio</a><a class="btn2" href="${REPO}/actions/workflows/avisos.yml" target="_blank" rel="noopener">${ic('alert')}Enviar aviso de prueba</a></div>
+    <p class="muted2" style="margin-top:8px">«Enviar aviso de prueba» abre GitHub: pulsa <b>Run workflow</b> ▸ <b>Run workflow</b> y en un minuto te llega por todos los canales activados.</p></div>`);
+  wrap.append(ce);
 }
 
 /* ---------- todos los desplegables en orden alfabético ---------- */
