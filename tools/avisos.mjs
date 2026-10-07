@@ -99,12 +99,21 @@ if (out.email.length) {
 if (out.telegram.length) {
   if (!E.TELEGRAM_TOKEN) console.log('Telegram: falta TELEGRAM_TOKEN');
   else {
-    let chat = E.TELEGRAM_CHAT_ID;
-    if (!chat) { const u = await (await fetch(`https://api.telegram.org/bot${E.TELEGRAM_TOKEN}/getUpdates`)).json(); chat = u.result?.map(x => x.message?.chat?.id).filter(Boolean).pop(); if (chat) console.log('Telegram: chat detectado', chat); }
-    if (!chat) console.log('Telegram: escribe /start a tu bot para que sepa a quién mandar los avisos');
+    const TK = E.TELEGRAM_TOKEN.trim();
+    let chat = (E.TELEGRAM_CHAT_ID || '').trim();
+    const me = await (await fetch(`https://api.telegram.org/bot${TK}/getMe`)).json().catch(e => ({ ok: false, description: e.message }));
+    if (!me.ok) console.log('Telegram: el TOKEN no es válido →', me.description, '(revisa el secreto TELEGRAM_TOKEN: debe ser 123456789:ABC… sin espacios)');
+    else console.log('Telegram: bot correcto @' + me.result.username);
+    if (me.ok && !chat) {
+      const u = await (await fetch(`https://api.telegram.org/bot${TK}/getUpdates`)).json().catch(e => ({ ok: false, description: e.message }));
+      if (!u.ok) console.log('Telegram: getUpdates falló →', u.description);
+      chat = (u.result || []).map(x => (x.message || x.edited_message || x.my_chat_member || x.channel_post)?.chat?.id).filter(Boolean).pop();
+      console.log(chat ? 'Telegram: chat detectado ' + chat + ' (guárdalo como secreto TELEGRAM_CHAT_ID para que no dependa de esto)' : `Telegram: el bot no tiene mensajes recientes (${(u.result || []).length}). Abre @${me.result.username} en Telegram, pulsa Iniciar o escribe /start y vuelve a lanzar la prueba`);
+    }
+    if (!me.ok || !chat) {}
     else for (const m of out.telegram) {
       const text = `🔧 <b>Taller 7L · ${m.titulo}</b>\n\n${m.lineas.join('\n')}\n\n<a href="${m.url}">Abrir la app</a>`;
-      const rr = await fetch(`https://api.telegram.org/bot${E.TELEGRAM_TOKEN}/sendMessage`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ chat_id: chat, text, parse_mode: 'HTML', disable_web_page_preview: true }) });
+      const rr = await fetch(`https://api.telegram.org/bot${TK}/sendMessage`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ chat_id: chat, text, parse_mode: 'HTML', disable_web_page_preview: true }) });
       console.log('Telegram', rr.ok ? 'enviado' : 'falló ' + (await rr.text()));
     }
   }
