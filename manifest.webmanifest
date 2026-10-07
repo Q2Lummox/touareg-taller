@@ -1,0 +1,17 @@
+{
+  "name": "Touareg 7L · Taller",
+  "short_name": "Taller 7L",
+  "description": "Taller digital del VW Touareg 7L: modelo 3D, fichas de piezas, mantenimiento e historial.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b0d10",
+  "theme_color": "#0b0d10",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
