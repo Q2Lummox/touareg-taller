@@ -12,7 +12,7 @@
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.0-beta.11">
+<meta name="app-version" content="1.1.0-beta.12">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1702,7 +1702,7 @@ function gradientTex(inner, outer){
   g.fillStyle=gr; g.fillRect(0,0,512,512); const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return t;
 }
 const SCENES = {
-  clasico:  {name:'Taller clásico', hint:'ladrillo, hormigón y chapa', hemi:.34, exposure:.9, bg:'#17110e', fog:null, maxDist:7.2},
+  clasico:  {name:'Taller clásico', hint:'ladrillo, hormigón y chapa', hemi:.16, exposure:1.0, bg:'#120d0a', fog:[6.5,19,'#140e0b'], maxDist:7.2},
   taller:   {name:'Taller mecánico', hint:'interior con luces de techo', hemi:.32, exposure:.82, bg:'#1a1c1f', fog:null, maxDist:7.2},
   claro:    {name:'Estudio claro', hint:'fondo blanco de fotografía', inner:'#f6f7f8', outer:'#c9cdd2', floor:'#d4d7db', rough:.7, hemi:.5, exposure:.72, fog:[12,30,'#c9cdd2'], maxDist:18},
   studio:   {name:'Estudio oscuro', hint:'fondo negro de exposición', inner:'#2b2e38', outer:'#07080b', floor:'#0e0f13', rough:.32, hemi:.22, exposure:1.0, fog:[9,26,'#07080b'], maxDist:18},
@@ -1780,10 +1780,49 @@ function buildClasico(){
   const tx=(n,rx,ry,srgb)=>{ const t=TL.load('garage/'+n+'.webp', ()=>{ dirty=true; }); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(rx,ry); t.anisotropy=maxAni; if(srgb) t.colorSpace=THREE.SRGBColorSpace; return t; };
   const pbr=(n,rx,ry,o={})=>stdMat({map:tx(n+'_diff',rx,ry,true), normalMap:tx(n+'_nor',rx,ry), roughnessMap:tx(n+'_rough',rx,ry), roughness:1, metalness:0, ...o});
 
+  /* ---------- luz horneada: charcos de luz bajo los tubos y sombras de contacto ---------- */
+  const TUBES=[]; for(const x of [-2.4,0,2.4]) for(const z of [-3.6,0,3.6]) TUBES.push([x,z]);
+  const PROPS=[[-6.0,-7.85,-2.8,-7.25],[2.8,-7.85,6.0,-7.25],[6.8,-3.3,7.35,.3],[-1.95,-7.9,-.45,-7.2],[-7.4,-4.55,-6.6,-1.85],[5.75,3.15,6.65,4.05],[4.95,3.65,5.85,4.55],[6.55,6.85,7.25,7.55],[5.9,6.95,6.6,7.65],[6.5,-7.0,7.15,-6.45],[-7.4,2.1,-6.4,2.7]];
+  const softRect=(c,x0,y0,x1,y1,spread,a)=>{ for(let i=0;i<14;i++){ const e=spread*i/13; c.fillStyle=`rgba(0,0,0,${a/14})`; c.fillRect(x0-e,y0-e,(x1-x0)+2*e,(y1-y0)+2*e); } };
+  const lmTex=(w,h,draw)=>{ const t=canvasTex(w,h,draw); t.colorSpace=THREE.SRGBColorSpace; return t; };
+  const floorAO=lmTex(1024,1024,(c,w,h)=>{
+    c.fillStyle='#fff'; c.fillRect(0,0,w,h);
+    const px=x=>(x+W/2)/W*w, pz=z=>(z+Dp/2)/Dp*h, m=w/W;
+    for(const [ax,bx,ay,by,dir] of [[0,0,w,0,'t'],[0,h,w,h,'b'],[0,0,0,h,'l'],[w,0,w,h,'r']]){
+      const gr = dir==='t'?c.createLinearGradient(0,0,0,1.6*m): dir==='b'?c.createLinearGradient(0,h,0,h-1.6*m): dir==='l'?c.createLinearGradient(0,0,1.6*m,0):c.createLinearGradient(w,0,w-1.6*m,0);
+      gr.addColorStop(0,'rgba(0,0,0,.55)'); gr.addColorStop(1,'rgba(0,0,0,0)'); c.fillStyle=gr; c.fillRect(0,0,w,h); }
+    for(const [x0,z0,x1,z1] of PROPS) softRect(c,px(x0),pz(z0),px(x1),pz(z1),.45*m,.75);
+  });
+  const floorLM=lmTex(1024,1024,(c,w,h)=>{
+    c.fillStyle='rgb(38,32,28)'; c.fillRect(0,0,w,h);
+    const px=x=>(x+W/2)/W*w, pz=z=>(z+Dp/2)/Dp*h, m=w/W;
+    c.globalCompositeOperation='lighter';
+    for(const [x,z] of TUBES){ c.save(); c.translate(px(x),pz(z)); c.scale(1,1.45); const r=3.1*m, gr=c.createRadialGradient(0,0,0,0,0,r);
+      gr.addColorStop(0,'rgba(255,226,186,.42)'); gr.addColorStop(.45,'rgba(240,200,160,.18)'); gr.addColorStop(1,'rgba(240,200,160,0)'); c.fillStyle=gr; c.fillRect(-r,-r,2*r,2*r); c.restore(); }
+    c.globalCompositeOperation='source-over';
+  });
+  const wallMaps=(len,which)=>{ // which: lista de [u(m), tipo] para charcos y muebles contra esa pared
+    const ao=lmTex(1024,320,(c,w,h)=>{ c.fillStyle='#fff'; c.fillRect(0,0,w,h); const m=w/len;
+      let gr=c.createLinearGradient(0,h,0,h-.9/Hh*h); gr.addColorStop(0,'rgba(0,0,0,.6)'); gr.addColorStop(1,'rgba(0,0,0,0)'); c.fillStyle=gr; c.fillRect(0,0,w,h);
+      gr=c.createLinearGradient(0,0,0,.7/Hh*h); gr.addColorStop(0,'rgba(0,0,0,.55)'); gr.addColorStop(1,'rgba(0,0,0,0)'); c.fillStyle=gr; c.fillRect(0,0,w,h);
+      for(const e of [0,w]){ gr=c.createLinearGradient(e,0,e?w-1.3*m:1.3*m,0); gr.addColorStop(0,'rgba(0,0,0,.55)'); gr.addColorStop(1,'rgba(0,0,0,0)'); c.fillStyle=gr; c.fillRect(0,0,w,h); }
+      for(const [u0,u1,ht] of which.props) softRect(c,u0*m,h-ht/Hh*h,u1*m,h,.35*m,.6); });
+    const lm=lmTex(1024,320,(c,w,h)=>{ c.fillStyle='rgb(34,29,26)'; c.fillRect(0,0,w,h); const m=w/len; c.globalCompositeOperation='lighter';
+      for(const u of which.lights){ c.save(); c.translate(u*m,h*.18); c.scale(1,1.7); const r=2.2*m, gr=c.createRadialGradient(0,0,0,0,0,r); gr.addColorStop(0,'rgba(255,224,182,.5)'); gr.addColorStop(.5,'rgba(240,196,150,.18)'); gr.addColorStop(1,'rgba(240,196,150,0)'); c.fillStyle=gr; c.fillRect(-r,-r,2*r,2*r); c.restore(); }
+      c.globalCompositeOperation='source-over'; });
+    return {ao,lm}; };
+  const WALLS={
+    back:wallMaps(W,{lights:[-2.4,0,2.4].map(x=>x+W/2), props:[[-6.0+W/2,-2.8+W/2,2.6],[2.8+W/2,6.0+W/2,2.6],[-1.95+W/2,-.45+W/2,1.7],[6.5+W/2,7.15+W/2,1.45]]}),
+    front:wallMaps(W,{lights:[2.4,0,-2.4].map(x=>W/2-x), props:[[W/2-7.25,W/2-5.9,1]]}),
+    left:wallMaps(Dp,{lights:[3.6,0,-3.6].map(z=>Dp/2-z), props:[[Dp/2+1.85,Dp/2+4.55,1.4],[Dp/2-2.7,Dp/2-2.1,.8]]}),
+    right:wallMaps(Dp,{lights:[-3.6,0,3.6].map(z=>z+Dp/2), props:[[-3.3+Dp/2,.3+Dp/2,2.6],[3.15+Dp/2,4.55+Dp/2,1.2],[-7+Dp/2,-6.45+Dp/2,1.45]]}),
+  };
+  const LMI=2.2;
+
   /* suelo de hormigón */
-  const fl=new THREE.Mesh(new THREE.PlaneGeometry(W,Dp), pbr('floor',W/3.2,Dp/3.2,{color:0xb9b2a6})); fl.rotation.x=-Math.PI/2; fl.receiveShadow=true; g.add(fl);
+  const fl=new THREE.Mesh(new THREE.PlaneGeometry(W,Dp), pbr('floor',W/3.2,Dp/3.2,{color:0xb9b2a6, aoMap:floorAO, aoMapIntensity:1, lightMap:floorLM, lightMapIntensity:LMI, envMapIntensity:.45})); fl.rotation.x=-Math.PI/2; fl.receiveShadow=true; g.add(fl);
   /* pasillo de chapa bajo el coche */
-  const plateM=pbr('plate',1.6,3.8,{metalness:.55, color:0x9a9a96}); plateM.normalScale=new THREE.Vector2(1.4,1.4);
+  const plateM=pbr('plate',1.6,3.8,{metalness:.55, color:0x9a9a96, lightMap:floorLM, lightMapIntensity:LMI*.6}); plateM.normalScale=new THREE.Vector2(1.4,1.4);
   const runway=new THREE.Mesh(new THREE.PlaneGeometry(3.2,7.6), plateM); runway.rotation.x=-Math.PI/2; runway.position.y=.004; runway.receiveShadow=true; g.add(runway);
   const edgeM=stdMat({color:0x2a2b2c,roughness:.5,metalness:.7});
   for(const x of [-1.62,1.62]){ const e=new THREE.Mesh(new THREE.BoxGeometry(.05,.02,7.6),edgeM); e.position.set(x,.01,0); g.add(e); }
@@ -1798,9 +1837,9 @@ function buildClasico(){
   for(const [x,z,s] of [[-2.5,1.2,1.3],[2.4,-2.6,1],[-3.6,-3.2,1.6],[3.1,3.4,.9]]){ const st=new THREE.Mesh(new THREE.PlaneGeometry(s,s),stainM); st.rotation.x=-Math.PI/2; st.rotation.z=Math.random()*6; st.position.set(x,.007,z); g.add(st); }
 
   /* paredes de ladrillo con zócalo de hormigón */
-  const wall=(w,x,z,ry)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,Hh), pbr('brick',w/2.6,Hh/2.6,{color:0xd8cfc8})); m.position.set(x,Hh/2,z); m.rotation.y=ry; m.receiveShadow=true; g.add(m);
+  const wall=(w,x,z,ry,mp)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,Hh), pbr('brick',w/2.6,Hh/2.6,{color:0xd8cfc8, aoMap:mp.ao, lightMap:mp.lm, lightMapIntensity:LMI, envMapIntensity:.35})); m.position.set(x,Hh/2,z); m.rotation.y=ry; m.receiveShadow=true; g.add(m);
     const sk=new THREE.Mesh(new THREE.PlaneGeometry(w,.35), pbr('floor',w/2,.2,{color:0x8d8a84})); sk.position.set(x,.175,z); sk.rotation.y=ry; sk.translateZ(.02); g.add(sk); };
-  wall(W,0,-Dp/2,0); wall(W,0,Dp/2,Math.PI); wall(Dp,-W/2,0,Math.PI/2); wall(Dp,W/2,0,-Math.PI/2);
+  wall(W,0,-Dp/2,0,WALLS.back); wall(W,0,Dp/2,Math.PI,WALLS.front); wall(Dp,-W/2,0,Math.PI/2,WALLS.left); wall(Dp,W/2,0,-Math.PI/2,WALLS.right);
   /* techo con vigas */
   const ceil=new THREE.Mesh(new THREE.PlaneGeometry(W,Dp),stdMat({color:0x1d1f22,roughness:.95})); ceil.rotation.x=Math.PI/2; ceil.position.y=Hh; g.add(ceil);
   const beamM=stdMat({color:0x3a3f45,roughness:.6,metalness:.6});
@@ -1814,11 +1853,14 @@ function buildClasico(){
     for(const dz of [-.6,.6]){ const w2=new THREE.Mesh(new THREE.CylinderGeometry(.004,.004,.6,4),beamM); w2.position.set(x,Hh-.3,z+dz); g.add(w2); }
   }
 
+  /* luces cálidas reales bajo cada fila de tubos (iluminan también el coche) */
+  const warm=[]; for(const z of [-3.6,0,3.6]){ const L=new THREE.PointLight(0xffd9a8, 14, 0, 2); L.position.set(0,Hh-.8,z); g.add(L); warm.push(L); }
+  g.userData.warm=warm;
   /* materiales de atrezo */
   const blueM=stdMat({color:0x274f8f,roughness:.55,metalness:.45}), woodM=stdMat({color:0x8a6a45,roughness:.85});
   const tireM=stdMat({color:0x121212,roughness:.92}), rimM=stdMat({color:0xc9ced4,roughness:.25,metalness:.95});
   const cardM=[0xa47b4c,0x9a7247,0xb08a5a].map(c=>stdMat({color:c,roughness:.95}));
-  const box=(w,h,d,m,x,y,z,ry=0,cast=false)=>{ const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m); o.position.set(x,y,z); o.rotation.y=ry; o.castShadow=cast; o.receiveShadow=true; g.add(o); return o; };
+  const box=(w,h,d,m,x,y,z,ry=0,cast=true)=>{ const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m); o.position.set(x,y,z); o.rotation.y=ry; o.castShadow=cast; o.receiveShadow=true; g.add(o); return o; };
   const cyl=(rt,rb,h,m,x,y,z,seg=20)=>{ const o=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,seg),m); o.position.set(x,y,z); o.receiveShadow=true; g.add(o); return o; };
   const tire=(x,y,z,rx,ry)=>{ const t=new THREE.Mesh(new THREE.TorusGeometry(.31,.11,12,28),tireM); t.position.set(x,y,z); t.rotation.set(rx,ry,0); g.add(t); };
   const rim=(x,y,z,ry)=>{ const r=new THREE.Mesh(new THREE.CylinderGeometry(.24,.24,.2,24),rimM); r.position.set(x,y,z); r.rotation.set(0,ry,Math.PI/2); g.add(r);
@@ -1958,7 +2000,7 @@ function placeSun(){
   sun.position.set(c.x+d*Math.cos(e)*Math.sin(a), c.y+d*Math.sin(e), c.z+d*Math.cos(e)*Math.cos(a));
   sun.target.position.copy(c);
   const nf = R.night ? (NIGHT[R.scene]||NIGHT.studio).sun : 1;
-  sun.intensity = R.int * nf; sun.color.set(R.night ? (R.scene==='taller' ? 0xf2f5ff : 0xa9bcff) : 0xfff3e2);
+  sun.intensity = R.int * nf * (R.scene==='clasico' ? .5 : 1); sun.color.set(R.night ? (R.scene==='taller' ? 0xf2f5ff : 0xa9bcff) : 0xfff3e2);
   sunHandle.position.copy(c).add(sun.position.clone().sub(c).setLength(home.size*.62));
   dirty = true;
 }
@@ -4579,7 +4621,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.0-beta.11';
+  const APP_VERSION='1.1.0-beta.12';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
