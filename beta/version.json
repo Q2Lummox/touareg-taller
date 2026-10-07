@@ -1,15 +1,15 @@
 {
- "version": "1.1.0-beta.14",
+ "version": "1.1.1-beta",
  "fecha": "2026-10-08",
  "notas": [
-  "Nuevo diseño: 5 secciones, Inicio, buscador, asistente inicial, tema claro, sonidos y animaciones."
+  "Visor 3D ▸ Piezas: al elegir una sección ya no se abre solo el desplegable de piezas; lo abres tú cuando quieras."
  ],
  "historial": [
   {
-   "version": "1.1.0-beta.14",
+   "version": "1.1.1-beta",
    "fecha": "2026-10-08",
    "notas": [
-    "Nuevo diseño: 5 secciones, Inicio, buscador, asistente inicial, tema claro, sonidos y animaciones."
+    "Visor 3D ▸ Piezas: al elegir una sección ya no se abre solo el desplegable de piezas; lo abres tú cuando quieras."
    ]
   }
  ]

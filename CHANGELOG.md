@@ -1,5 +1,8 @@
 # Novedades
 
+## v1.1.1 · 2026-10-08
+- Visor 3D ▸ Piezas: al elegir una sección ya no se abre solo el desplegable de piezas; lo abres tú cuando quieras.
+
 ## v1.1.0 · 2026-10-08
 - Nuevo diseño completo: Inicio, Coche 3D, Mantenimiento, Papeles y Más, con buscador, asistente inicial, tema claro, sonidos y animaciones.
 - Carga mucho más rápida: modelo 3D comprimido y datos disponibles antes de que termine de cargar el coche.
