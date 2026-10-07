@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.4-beta">
+<meta name="app-version" content="1.1.5-beta">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1266,6 +1266,13 @@ html:has(body.ui2.light){background:#eef1f4}
 .spauth b::before,.spauth b::after{content:"";display:inline-block;width:18px;height:1px;margin:0 10px;vertical-align:middle;background:linear-gradient(90deg,transparent,var(--accent))}
 .spauth b::after{background:linear-gradient(90deg,var(--accent),transparent)}
 .spver{position:absolute;z-index:1;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(var(--sa-b) + 8px);font:600 11px var(--f-mono);letter-spacing:.08em;color:#5b636d;padding:3px 7px;border:1px solid #2a3038;border-radius:4px;background:#0b0d10aa}
+/* v1.1.5: arranque del motor y salida más lenta de la pantalla de carga */
+.splash{transition:opacity 1.6s cubic-bezier(.4,0,.2,1),visibility 1.6s!important}
+.splash.out .spbox{transform:scale(1.04);filter:blur(1px);transition:transform 1.6s cubic-bezier(.4,0,.2,1),filter 1.6s}
+.spkey{position:absolute;z-index:2;left:50%;bottom:calc(var(--sa-b) + 108px);transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:12px 22px;border-radius:30px;border:1px solid #f39a1e88;background:linear-gradient(180deg,#2a2218,#17130e);color:var(--accent);font:700 15px var(--f-display);letter-spacing:.12em;text-transform:uppercase;box-shadow:0 0 24px #f39a1e44,0 8px 20px #000a;animation:keyP 1.4s ease-in-out infinite;cursor:pointer}
+.spkey{white-space:nowrap}
+.spkey svg{flex:none;width:24px!important;height:24px!important;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@keyframes keyP{50%{box-shadow:0 0 40px #f39a1e88,0 8px 20px #000a}}
 </style>
 
 </head>
@@ -1299,7 +1306,7 @@ html:has(body.ui2.light){background:#eef1f4}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.1.4-beta</span>
+  <span class="spver">v1.1.5-beta</span>
 </div>
 
 <header class="top2" id="top2">
@@ -4708,7 +4715,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.4-beta';
+  const APP_VERSION='1.1.5-beta';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -4837,6 +4844,7 @@ async function patchPrinfo(){
    (va dentro del módulo principal: reutiliza S, parts, openPanel, etc.)
    ===================================================================== */
 const IC={
+ key:'<circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 8.7-8.7M16.5 6.5l2.5 2.5M14 9l2 2"/>',
  home:'<path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
  car:'<path d="M3 15.5v-4L5.5 7h11l3.5 4.5h1v4"/><path d="M3 11.5h18"/><circle cx="7.5" cy="16.5" r="2"/><circle cx="16.5" cy="16.5" r="2"/>',
  wrench:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5l-6 6a1.5 1.5 0 0 0 2.1 2.1l6-6a4 4 0 0 0 5-5.4l-2.5 2.5-2.1-.6-.6-2.1z"/>',
@@ -5376,7 +5384,23 @@ const spT0=performance.now(); let spDone=false, spF=0;
 { const bi=$('#lbarI'); if(bi) new MutationObserver(()=>{ const f=(parseFloat(bi.style.width)||0)/100; spF=f; stSet(f);  const np=$('#navProg'); np.style.setProperty('--p',Math.round(f*100)+'%'); }).observe(bi,{attributes:true,attributeFilter:['style']}); }
 { const lt=$('#ltxt'); if(lt) new MutationObserver(()=>{ if(!spDone) $('#spTxt').textContent=lt.textContent; }).observe(lt,{childList:true,characterData:true,subtree:true}); }
 spSet(.12); $('#spTxt').textContent='Arrancando…';
-function hideSplash(){ if(spDone) return; spDone=true; PERF.m.ui=performance.now(); spSet(1); clearInterval(spTipT); setTimeout(()=>{ $('#splash').classList.add('out'); setTimeout(()=>$('#splash').remove(),600); },250); }
+/* arranque del motor: suena al llegar el cuentarrevoluciones al máximo (5 s de arranque y 1 s de fundido, ya recortado en el archivo) */
+const ENG=new Audio('sfx/arranque.mp3'); ENG.preload='auto'; ENG.volume=1;
+let engUnlocked=false;
+$('#splash').addEventListener('pointerdown',()=>{ if(engUnlocked||spDone) return; engUnlocked=true; ENG.muted=true; ENG.play().then(()=>{ ENG.pause(); ENG.currentTime=0; ENG.muted=false; }).catch(()=>{ ENG.muted=false; }); },{once:true});
+function splashOut(wait){ setTimeout(()=>{ $('#splash')?.classList.add('out'); setTimeout(()=>$('#splash')?.remove(),1700); }, wait); }
+function engineStart(){ ENG.currentTime=0; return ENG.play().then(()=>{ /* la aguja sube con el arranque y baja al ralentí */
+    $('#spTxt').textContent='Motor en marcha'; setTimeout(()=>spSet(.42),250); setTimeout(()=>spSet(.14),1100); return true; }); }
+function hideSplash(){ if(spDone) return; spDone=true; PERF.m.ui=performance.now(); spSet(1); clearInterval(spTipT);
+  if(!UI.prefs.sound || $('#gate') && !$('#gate').hidden){ splashOut(350); return; }
+  setTimeout(()=>engineStart().then(()=>splashOut(2600)).catch(()=>{
+    /* el navegador no deja sonar sin tocar la pantalla: se pide girar la llave */
+    const sp=$('#splash'); if(!sp) return; const k=h2(`<button type="button" class="spkey">${ic('key')}<span>Toca para arrancar</span></button>`); sp.append(k); sp.classList.add('waitkey'); $('#spTxt').textContent='Listo para arrancar';
+    let gone=false; const go2=()=>{ if(gone) return; gone=true; k.remove(); engineStart().then(()=>splashOut(2600)).catch(()=>splashOut(200)); };
+    sp.addEventListener('pointerup',go2,{once:true});
+    setTimeout(()=>{ if(!gone){ gone=true; k.remove(); splashOut(100); } },7000);
+  }), 450);
+}
 { const chk=setInterval(()=>{
     const el2=performance.now()-spT0, gate=!$('#gate').hidden;
     if(S.cfg && !PERF.m.data){ PERF.m.data=performance.now(); scheduleModel(); }

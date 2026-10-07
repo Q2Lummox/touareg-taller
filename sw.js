@@ -3,10 +3,10 @@
      así funciona sin conexión desde la primera vez.
    - La app y el modelo: primero la red (para ver siempre lo último; si no cambió, es una respuesta 304 mínima).
    - Librerías de CDN (direcciones con versión fija): primero la caché. */
-const CACHE = 'taller-v-1.1.4', LIBS = 'taller-libs';
+const CACHE = 'taller-v-1.1.5', LIBS = 'taller-libs';
 const T = 'https://cdn.jsdelivr.net/npm/three@0.160.0/', FBJ = 'https://www.gstatic.com/firebasejs/10.12.2/';
 const CORE = ['./', './index.html', './fb.js', './firebase-config.js', './touareg.json', './touareg-geo.txt', './seed.json', './manifest.webmanifest',
-  './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png', ...Array.from({length: 15}, (_, i) => `./tex_${i}.webp`),
+  './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png', './sfx/arranque.mp3', ...Array.from({length: 15}, (_, i) => `./tex_${i}.webp`),
   ...['brick','floor','plate'].flatMap(n => ['diff','nor','rough'].map(k => `./garage/${n}_${k}.webp`))];
 const CDN = [T + 'build/three.module.js',
   ...['controls/OrbitControls.js', 'loaders/GLTFLoader.js', 'environments/RoomEnvironment.js', 'postprocessing/EffectComposer.js', 'postprocessing/RenderPass.js',

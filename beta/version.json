@@ -1,15 +1,17 @@
 {
- "version": "1.1.4-beta",
+ "version": "1.1.5-beta",
  "fecha": "2026-10-08",
  "notas": [
-  "La franja inferior del iPhone toma el color de la barra de abajo (color de fondo de la app ajustado)."
+  "Sonido de arranque del motor del Touareg al llegar el cuentarrevoluciones al máximo (si el iPhone lo pide, toca la pantalla para «girar la llave»).",
+  "La pantalla de carga se desvanece más despacio hacia la app."
  ],
  "historial": [
   {
-   "version": "1.1.4-beta",
+   "version": "1.1.5-beta",
    "fecha": "2026-10-08",
    "notas": [
-    "La franja inferior del iPhone toma el color de la barra de abajo (color de fondo de la app ajustado)."
+    "Sonido de arranque del motor del Touareg al llegar el cuentarrevoluciones al máximo (si el iPhone lo pide, toca la pantalla para «girar la llave»).",
+    "La pantalla de carga se desvanece más despacio hacia la app."
    ]
   }
  ]

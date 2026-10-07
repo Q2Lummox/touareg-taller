@@ -1,5 +1,9 @@
 # Novedades
 
+## v1.1.5 · 2026-10-08
+- Sonido de arranque del motor del Touareg al llegar el cuentarrevoluciones al máximo (si el iPhone lo pide, toca la pantalla para «girar la llave»).
+- La pantalla de carga se desvanece más despacio hacia la app.
+
 ## v1.1.4 · 2026-10-08
 - La franja inferior del iPhone toma el color de la barra de abajo (color de fondo de la app ajustado).
 
