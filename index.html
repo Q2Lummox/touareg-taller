@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.1">
+<meta name="app-version" content="1.1.2">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1193,6 +1193,69 @@ body.ui2.light .csel.big,body.ui2.light .css input{background:#f5f7f9}
 .avant button{border:1px solid var(--card-line);background:var(--card-2);color:var(--txt-2);border-radius:18px;padding:6px 12px;font:600 13px var(--f-body);cursor:pointer}
 .avant button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 a.btn2{text-decoration:none}
+
+/* ===== v1.1.2: barras más finas y con relieve, paneles con borde iluminado ===== */
+body.ui2 :is(.top2,.nav2,.pages){box-sizing:border-box}
+@media (max-width:860px){ :root{ --t2h:48px; --navh:54px; } }
+/* barra superior */
+.top2{background:
+   linear-gradient(90deg,transparent 8%,#f39a1e70 50%,transparent 92%) bottom/100% 1px no-repeat,
+   linear-gradient(180deg,#22272e 0%,#171a1f 100%)!important;
+  border-bottom:1px solid #000;box-shadow:0 1px 0 #ffffff08,0 10px 26px #000d,0 2px 6px #0009!important}
+@media (max-width:860px){
+  .top2{padding-left:14px!important;padding-right:10px!important}
+  .t2t b{font-size:17px}
+  .t2t small{font-size:11.5px}
+  .t2b{width:36px;height:36px;border-radius:10px}
+  #t2r .mb .mbtn{height:36px}
+  .t2back{width:34px;height:34px}
+}
+/* barra inferior: fina, pegada abajo y despegada del contenido */
+@media (max-width:860px){
+  .nav2{height:calc(var(--navh) + var(--sa-b))!important;padding:0 6px var(--sa-b)!important;border-radius:20px 20px 0 0;border:1px solid #000;border-bottom:0;
+    background:
+     linear-gradient(90deg,transparent 10%,#f39a1e80 50%,transparent 90%) top/100% 1px no-repeat,
+     linear-gradient(180deg,#252a31 0%,#181b20 55%,#121418 100%)!important;
+    box-shadow:0 -1px 0 #ffffff12 inset,0 -12px 30px #000d,0 -2px 8px #0009,0 var(--gapb,0px) 0 0 #121418!important}
+  .nav2 button{padding:5px 2px 3px;gap:2px;font-size:10.5px}
+  .nav2 button i{height:28px}
+  .pages{bottom:calc(var(--navh) + var(--sa-b) - 14px)!important}
+  .pages .pin2{padding-bottom:42px}
+  .pages .pbody{padding-bottom:14px}
+}
+.nav2 button[aria-current="page"] span{color:var(--accent)}
+
+/* paneles: borde con degradado, brillo superior y destello que recorre el filo */
+body.ui2 .card2{position:relative;border:1px solid transparent!important;
+  background:
+   radial-gradient(130% 70px at 50% 0,#f39a1e17,transparent 75%) padding-box,
+   linear-gradient(180deg,#1b1f25,#121519) padding-box,
+   linear-gradient(180deg,#f39a1e70 0%,#343b45 18%,#1d2128 60%,#0b0d10 100%) border-box!important;
+  box-shadow:0 1px 0 #ffffff0d inset,0 12px 28px #0009,0 2px 5px #0007!important}
+body.ui2 .card2::before{content:"";position:absolute;left:16%;right:16%;top:-1px;height:2px;border-radius:2px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);box-shadow:0 0 12px #f39a1e99;opacity:.9}
+body.ui2 .card2::after{content:"";position:absolute;left:16%;right:16%;top:-1px;height:2px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,#fff6e0,transparent) no-repeat;background-size:28% 100%;background-position:-60% 0;animation:glint 9s ease-in-out infinite}
+body.ui2 .card2:nth-child(2n)::after{animation-delay:2.2s}
+body.ui2 .card2:nth-child(3n)::after{animation-delay:4.6s}
+@keyframes glint{0%{background-position:-60% 0}16%,100%{background-position:160% 0}}
+body.ui2 .hero.card2{background:
+   radial-gradient(140% 90px at 50% 0,#f39a1e22,transparent 75%) padding-box,
+   radial-gradient(70% 60% at 50% 100%,#f39a1e0d,transparent 80%) padding-box,
+   linear-gradient(180deg,#1c2026,#121519) padding-box,
+   linear-gradient(180deg,#f39a1e99 0%,#3a414b 20%,#1d2128 60%,#0b0d10 100%) border-box!important}
+body.ui2 .hero.card2::before{left:12%;right:12%;height:3px}
+body.ui2 .stc{box-shadow:0 1px 0 #ffffff0d inset,0 10px 24px #0008,0 2px 5px #0007}
+body.ui2.light .card2{background:
+   radial-gradient(130% 70px at 50% 0,#f39a1e1f,transparent 75%) padding-box,
+   linear-gradient(180deg,#fff,#fafbfc) padding-box,
+   linear-gradient(180deg,#f39a1e99 0%,#dde2e8 22%) border-box!important;box-shadow:0 6px 18px #0000001a!important}
+body.ui2.light .top2{background:linear-gradient(90deg,transparent 8%,#f39a1e90 50%,transparent 92%) bottom/100% 1px no-repeat,linear-gradient(180deg,#fff,#f1f3f6)!important}
+@media (max-width:860px){ body.ui2.light .nav2{background:linear-gradient(90deg,transparent 10%,#f39a1e90 50%,transparent 90%) top/100% 1px no-repeat,linear-gradient(180deg,#fff,#eef1f4)!important;box-shadow:0 -8px 24px #0000001f,0 var(--gapb,0px) 0 0 #eef1f4!important;border-color:#cfd5dc} }
+@media (prefers-reduced-motion:reduce){ body.ui2 .card2::after{animation:none;display:none} }
+/* filas de mantenimiento e historial: mismo filo iluminado, sin perder la franja de color del estado */
+body.ui2 :is(.mrow,.hist .h){position:relative;background:radial-gradient(130% 60px at 50% 0,#f39a1e12,transparent 75%),linear-gradient(180deg,#1d2127,#15181c)!important;border-color:#2c323a;border-top-color:#f39a1e50;border-radius:10px;box-shadow:0 1px 0 #ffffff0a inset,0 8px 20px #0008,0 2px 4px #0006}
+body.ui2 :is(.mrow,.hist .h)::before{content:"";position:absolute;left:18%;right:18%;top:-1px;height:2px;border-radius:2px;pointer-events:none;background:linear-gradient(90deg,transparent,var(--accent),transparent);box-shadow:0 0 10px #f39a1e80;opacity:.75}
 </style>
 
 </head>
@@ -4632,7 +4695,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.1';
+  const APP_VERSION='1.1.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5185,6 +5248,7 @@ function renderAjustes(pb){
   row('maximize','Botones grandes','Más fáciles de pulsar con guantes',sw($('#rBig').checked,()=>$('#rBig').click()));
   const gb=h2(`<button type="button" class="btn2 ghost">${ic('sliders')}Abrir</button>`); gb.onclick=()=>{ go('coche'); setTimeout(()=>{ const b=document.querySelector('#t2r .mbtn'); b?.click(); },120); };
   row('sliders','Gráficos del visor 3D','Luces, efectos, escenario y calidad',gb);
+  { const d=h2(`<p class="muted2" style="margin:14px 2px 0;font-size:11px;opacity:.6"></p>`); d.textContent=`Pantalla ${SCR.iw}×${SCR.ih} (alto real ${SCR.sh}) · zonas seguras ${SCR.t}/${SCR.b} · franja ${SCR.gap} · ${SCR.st?'instalada':'navegador'}`; (typeof g!=='undefined'&&g?.append)?g.append(d):null; }
 }
 { const _ab=EXTRA_POP.about; EXTRA_POP.about=function(){ _ab(); $('#ovlBody .about')?.append(h2(`<p class="credit2">Modelo 3D: «Volkswagen Touareg MK1 2002-2010» de Merc_TV · <a href="https://creativecommons.org/licenses/by/4.0/deed.es" target="_blank" rel="noopener">CC BY 4.0</a> · modificado (frontal 2003, variantes retiradas, ruedas recolocadas, pintura).</p>`)); }; }
 
@@ -5738,6 +5802,23 @@ function openCsel(sel){
 addEventListener('resize',()=>{ if(CS && !CS.wrap.classList.contains('m')) closeCsel(); });
 document.querySelectorAll('select').forEach(enhanceSelect);
 new MutationObserver(muts=>{ for(const m of muts) for(const n of m.addedNodes){ if(n.nodeType!==1) continue; if(n.tagName==='SELECT') enhanceSelect(n); else if(n.querySelectorAll) n.querySelectorAll('select').forEach(enhanceSelect); } }).observe(document.body,{childList:true,subtree:true});
+
+/* ---------- pantalla: zonas seguras del iPhone ----------
+   En algunas versiones de iOS la app instalada recibe una ventana más baja que la pantalla y deja una franja
+   negra abajo. Si pasa, la barra inferior se estira hasta el borde y no se suma dos veces el margen inferior. */
+const SCR={};
+function measureScreen(){
+  const pr=document.createElement('div'); pr.style.cssText='position:fixed;left:0;top:0;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)';
+  document.body.append(pr); const cs=getComputedStyle(pr); const t=parseFloat(cs.paddingTop)||0, b=parseFloat(cs.paddingBottom)||0; pr.remove();
+  const ios=/iP(hone|od|ad)/.test(navigator.userAgent), st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true, portrait=innerHeight>innerWidth;
+  const sh=portrait?Math.max(screen.width,screen.height):Math.min(screen.width,screen.height);
+  let gap=(ios&&st)?Math.round(sh-innerHeight):0; if(gap<0||gap>140) gap=0;
+  Object.assign(SCR,{t,b,gap,ih:innerHeight,iw:innerWidth,sh,st,ios});
+  const R=document.documentElement.style;
+  R.setProperty('--gapb',gap+'px');
+  R.setProperty('--sa-b',Math.max(0,b-gap)+'px');
+}
+measureScreen(); addEventListener('resize',()=>{ clearTimeout(measureScreen.t); measureScreen.t=setTimeout(measureScreen,120); }); addEventListener('orientationchange',()=>setTimeout(measureScreen,300));
 
 /* ---------- arranque: los datos se cargan sin esperar al modelo 3D ---------- */
 /* la primera vez que se abre esta versión, se estrena el «Taller clásico» */

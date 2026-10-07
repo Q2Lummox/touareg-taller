@@ -3,7 +3,7 @@
      así funciona sin conexión desde la primera vez.
    - La app y el modelo: primero la red (para ver siempre lo último; si no cambió, es una respuesta 304 mínima).
    - Librerías de CDN (direcciones con versión fija): primero la caché. */
-const CACHE = 'taller-v-1.1.1', LIBS = 'taller-libs';
+const CACHE = 'taller-v-1.1.2', LIBS = 'taller-libs';
 const T = 'https://cdn.jsdelivr.net/npm/three@0.160.0/', FBJ = 'https://www.gstatic.com/firebasejs/10.12.2/';
 const CORE = ['./', './index.html', './fb.js', './firebase-config.js', './touareg.json', './touareg-geo.txt', './seed.json', './manifest.webmanifest',
   './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png', ...Array.from({length: 15}, (_, i) => `./tex_${i}.webp`),

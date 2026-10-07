@@ -1,5 +1,10 @@
 # Novedades
 
+## v1.1.2 · 2026-10-08
+- Barras superior e inferior más finas, pegadas a los bordes y con relieve; el contenido ya no queda tapado bajo la barra de arriba.
+- Paneles con borde iluminado en naranja, brillo superior y un destello que recorre el filo de vez en cuando.
+- Corregida la franja negra bajo la barra inferior en algunos iPhone.
+
 ## v1.1.1 · 2026-10-08
 - Visor 3D ▸ Piezas: al elegir una sección ya no se abre solo el desplegable de piezas; lo abres tú cuando quieras.
 
