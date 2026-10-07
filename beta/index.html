@@ -12,7 +12,7 @@
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.0-beta.3">
+<meta name="app-version" content="1.1.0-beta.4">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1050,8 +1050,6 @@ body.ui2 :is(.hero,.card2,.wzbox,.shbox) h2::before,body.ui2 :is(.hero,.card2,.w
 .t2l{flex:1 1 auto;min-width:0}
 .t2t{flex:0 1 auto;min-width:0}
 .t2r{flex:none}
-.hero .hcar{width:min(270px,50%);bottom:-4px;right:-8px;opacity:.85}
-@media (max-width:520px){ .hero .hcar{width:46%;opacity:.55} }
 .mt.aj.wide{grid-template-columns:auto minmax(0,1fr)}
 .mt.aj.wide>.seg3{grid-column:2;justify-self:start}
 .wzg{margin:14px 0 2px;font:600 11px var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
@@ -1077,6 +1075,13 @@ body.ui2 :is(.bt button,.hist button){font-family:var(--f-body);text-transform:n
 body.ui2 .stage :is(.seg,.vbtn,.tpop,.vmenu){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 body.ui2 .stage :is(.seg,.vbtn){background:linear-gradient(180deg,#1d2126,#121518)!important}
 body.ui2.light .stage :is(.seg,.vbtn){background:linear-gradient(180deg,#ffffff,#eef1f4)!important}
+
+/* héroe: silueta real del coche y km con el botón debajo */
+.hero{min-height:200px}
+.hero .hcar{position:absolute;right:-6px;bottom:6px;width:min(400px,60%);height:auto;opacity:1;filter:drop-shadow(0 14px 14px #000b)}
+.kmrow{flex-direction:column;align-items:flex-start;gap:8px;margin-top:14px;max-width:42%}
+@media (max-width:520px){ .hero{min-height:236px} .hero .hcar{width:66%;bottom:8px} .kmrow{max-width:38%} .kmbig{font-size:30px} }
+body.ui2.light .hero .hcar{filter:drop-shadow(0 10px 10px #0004) brightness(1.08)}
 </style>
 
 </head>
@@ -4347,7 +4352,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.0-beta.3';
+  const APP_VERSION='1.1.0-beta.4';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -4528,7 +4533,7 @@ const nf=new Intl.NumberFormat('es-ES');
 const eur=v=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v||0);
 
 const PERF={m:{}, fr:[], autoQ:null};
-const UI={sec:'inicio', sub:{mant:'plan', papeles:'docs'}, mas:null, papFilter:'todo', sig:{}, carIntro:false, modelReady:false,
+const UI={nums:{}, introDone:false, sec:'inicio', sub:{mant:'plan', papeles:'docs'}, mas:null, papFilter:'todo', sig:{}, carIntro:false, modelReady:false,
   prefs:{sound:false, haptics:true, theme:'dark'}};
 try{ Object.assign(UI.prefs, JSON.parse(localStorage.getItem('taller7l-ui')||'{}')); }catch{}
 const savePrefsUI=()=>{ try{ localStorage.setItem('taller7l-ui', JSON.stringify(UI.prefs)); }catch{} };
@@ -4702,17 +4707,13 @@ function updateBadges(){
   m.hidden=!(c.due||c.soon); m.textContent=c.due||c.soon; m.className='nbadge'+(c.due?'':' soon');
   d.hidden=!(c.ddue||c.dsoon); d.textContent=c.ddue||c.dsoon; d.className='nbadge'+(c.ddue?'':' soon');
 }
-function animNum(elx, to, fmt=v=>nf.format(Math.round(v))){
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ elx.textContent=fmt(to); return; }
-  const t0=performance.now(), d=700; const step=t=>{ const k=Math.min(1,(t-t0)/d), e=1-Math.pow(1-k,3); elx.textContent=fmt(to*e); if(k<1) requestAnimationFrame(step); }; requestAnimationFrame(step);
+/* las cifras solo se animan la primera vez (o cuando cambian, desde el valor anterior) */
+function animNum(elx, to, fmt=v=>nf.format(Math.round(v)), key){
+  const prev = key ? UI.nums[key] : undefined; if(key) UI.nums[key]=to;
+  if(prev===to || matchMedia('(prefers-reduced-motion: reduce)').matches){ elx.textContent=fmt(to); return; }
+  const from=prev||0, t0=performance.now(), d=700; elx.textContent=fmt(from); const step=t=>{ const k=Math.min(1,(t-t0)/d), e=1-Math.pow(1-k,3); elx.textContent=fmt(from+(to-from)*e); if(k<1) requestAnimationFrame(step); }; requestAnimationFrame(step);
 }
-const CAR_SVG=`<svg class="hcar" viewBox="0 0 340 150" aria-hidden="true">
-  <path class="paint" d="M12 108 L12 84 Q12 76 20 74 L70 66 L104 30 Q110 24 120 24 L262 24 Q274 24 280 32 L304 66 L322 72 Q330 75 330 84 L330 108 Q330 116 322 116 L20 116 Q12 116 12 108 Z" stroke-width="2"/>
-  <path class="glass" d="M84 66 L110 34 Q114 30 120 30 L180 30 L180 66 Z"/><path class="glass" d="M188 30 L258 30 Q266 30 270 36 L292 66 L188 66 Z"/>
-  <path d="M184 26 L184 114" stroke="#0b0c0e" stroke-width="3"/><path d="M20 88 L326 88" stroke="#ffffff12" stroke-width="2"/><path d="M120 22 L262 22" stroke="#5b636d" stroke-width="3" stroke-linecap="round"/>
-  <rect class="light" x="318" y="78" width="10" height="7" rx="2"/><rect x="13" y="78" width="9" height="7" rx="2" fill="#c0321e"/>
-  <circle class="wheel" cx="76" cy="116" r="26" stroke-width="3"/><circle class="rim" cx="76" cy="116" r="13"/>
-  <circle class="wheel" cx="268" cy="116" r="26" stroke-width="3"/><circle class="rim" cx="268" cy="116" r="13"/></svg>`;
+const CAR_SVG=`<img class="hcar" src="car-side.webp" alt="" decoding="async">`;
 
 /* ---------- INICIO ---------- */
 function sigOf(){ return JSON.stringify([Object.keys(parts).length, !!S.cfg, S.cfg?.kmActual, S.int.length, S.mant.length, S.docs.length, Object.keys(S.fichas).length, S.ave.length, todayISO(), S.int.reduce((a,x)=>a+(x.adjuntos?.length||0),0)]); }
@@ -4728,16 +4729,16 @@ function renderInicio(force){
     <div class="kmrow"><div class="kmbig"><span id="kmN">0</span><small>km</small></div><button type="button" class="kmedit">${ic('edit')}Actualizar</button></div></div>`);
   if(!km) hero.append(h2(`<div class="kmwarn">${ic('alert')}Pon los kilómetros actuales para que los avisos por kilometraje funcionen.</div>`));
   hero.querySelector('.kmedit').onclick=quickKm; g.append(hero);
-  animNum(hero.querySelector('#kmN'), Number(km)||0);
+  animNum(hero.querySelector('#kmN'), Number(km)||0, undefined, 'km');
   /* fichas documentadas */
   const all=Object.keys(parts).filter(id=>!parts[id].scan), done=all.filter(id=>S.fichas[id]?.ref).length, pct=all.length?Math.round(done/all.length*100):0;
   const fc=h2(`<div class="card2 c4"><h3>${ic('cube')}Fichas de piezas</h3><div class="prog2"><div class="ring" style="--p:0" data-v="${pct} %"></div><div><div class="big2">${done}<small class="muted2"> / ${all.length||'—'}</small></div><div class="muted2">piezas con referencia guardada</div></div></div><div class="row3" style="justify-content:flex-start"><button class="btn2 ghost" type="button">${ic('list')}Ver pendientes</button></div></div>`);
   fc.querySelector('button').onclick=()=>openGlobal('pend'); g.append(fc);
-  requestAnimationFrame(()=>requestAnimationFrame(()=>fc.querySelector('.ring').style.setProperty('--p',pct)));
+  { const rg=fc.querySelector('.ring'); if(UI.introDone) rg.style.setProperty('--p',pct); else requestAnimationFrame(()=>requestAnimationFrame(()=>rg.style.setProperty('--p',pct))); }
   /* chips */
   const ch=h2(`<div class="stchips"></div>`);
   for(const [n,l,col,fn] of [[c.due,'Vencidos','var(--due)',()=>go('mant','plan')],[c.soon,'Próximos','var(--soon)',()=>go('mant','plan')],[c.ok,'Al día','var(--ok)',()=>go('mant','plan')],[c.ddue+c.dsoon,'Papeles por caducar','var(--info)',()=>go('papeles','docs')]]){
-    const b=h2(`<button type="button" class="stc" style="--c:${col}"><b>0</b><span>${l}</span></button>`); b.onclick=fn; ch.append(b); animNum(b.querySelector('b'), n); }
+    const b=h2(`<button type="button" class="stc" style="--c:${col}"><b>0</b><span>${l}</span></button>`); b.onclick=fn; ch.append(b); animNum(b.querySelector('b'), n, undefined, 'chip'+l); }
   g.append(ch);
   /* acciones rápidas */
   const qa=h2('<div class="qa"></div>');
@@ -4752,7 +4753,7 @@ function renderInicio(force){
   for(const {it,s} of ml.slice(0,5)){
     const r=h2(`<button type="button" class="r2" style="--c:${stColor(s.st)}"><span class="ic">${ic('wrench')}</span><span class="tx"><b>${esc(it.nombre)}</b><small>${esc(mantLine(it,s))}</small><div class="bar2"><i></i></div></span><span class="rt">${ST_LABEL[s.st]}</span></button>`);
     r.onclick=()=>go('mant','plan'); l.append(r);
-    requestAnimationFrame(()=>requestAnimationFrame(()=>r.querySelector('.bar2 i').style.setProperty('--w',Math.round(mantPct(it,s)*100)+'%')));
+    { const bi=r.querySelector('.bar2 i'), w=Math.round(mantPct(it,s)*100)+'%'; if(UI.introDone){ bi.style.transition='none'; bi.style.setProperty('--w',w); } else requestAnimationFrame(()=>requestAnimationFrame(()=>bi.style.setProperty('--w',w))); }
   }
   g.append(mc);
   /* documentos */
@@ -4776,7 +4777,8 @@ function renderInicio(force){
   /* gastos del año */
   const yr=String(new Date().getFullYear()), yi=S.int.filter(x=>(x.fecha||'').startsWith(yr)), tot=yi.reduce((a,x)=>a+(Number(x.coste)||0),0), totAll=S.int.reduce((a,x)=>a+(Number(x.coste)||0),0);
   const gc=h2(`<div class="card2 c6"><h3>${ic('euro')}Gastos ${yr}<button class="more" type="button">Detalle${ic('chevR')}</button></h3><div class="big2" id="gTot">0 €</div><div class="muted2">${yi.length} intervención(es) este año · ${eur(totAll)} en total</div></div>`);
-  gc.querySelector('.more').onclick=()=>go('mant','gastos'); g.append(gc); animNum(gc.querySelector('#gTot'), tot, eur);
+  setTimeout(()=>{ UI.introDone=true; },900);
+  gc.querySelector('.more').onclick=()=>go('mant','gastos'); g.append(gc); animNum(gc.querySelector('#gTot'), tot, eur, 'gtot');
 }
 
 /* ---------- km rápido ---------- */
