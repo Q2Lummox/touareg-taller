@@ -1,5 +1,5 @@
 /* Service worker: la app funciona sin conexión y se actualiza cuando el usuario lo pide. */
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 const CACHE = 'taller-' + VERSION;
 const CDN = 'taller-cdn';
 const CORE = [

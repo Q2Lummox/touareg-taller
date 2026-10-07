@@ -1,15 +1,19 @@
 {
- "version": "1.0.0",
+ "version": "1.0.1",
  "fecha": "2026-10-07",
  "notas": [
-  "Primera versión instalable (PWA) para móvil y ordenador.",
-  "Funciona sin conexión: modelo 3D y datos guardados en el dispositivo.",
-  "Base de datos compartida entre dispositivos con Firebase (inicio de sesión con Google).",
-  "Fotos y facturas sincronizadas (comprimidas) sin necesidad de tarjeta.",
-  "Botón «Buscar actualizaciones» y aviso automático de nuevas versiones.",
-  "Recordatorio al abrir de mantenimientos y documentos vencidos o próximos."
+  "Arreglado en móvil: menús y paneles que aparecían abiertos y superpuestos al arrancar.",
+  "Ajuste de márgenes para que la app ocupe bien la pantalla."
  ],
  "historial": [
+  {
+   "version": "1.0.1",
+   "fecha": "2026-10-07",
+   "notas": [
+    "Arreglado en móvil: menús y paneles que aparecían abiertos y superpuestos al arrancar.",
+    "Ajuste de márgenes para que la app ocupe bien la pantalla."
+   ]
+  },
   {
    "version": "1.0.0",
    "fecha": "2026-10-07",
