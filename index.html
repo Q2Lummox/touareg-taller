@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b0d10">
+<meta name="theme-color" content="#121418">
 <meta name="description" content="Taller digital del VW Touareg 7L">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.3">
+<meta name="app-version" content="1.1.4">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1299,7 +1299,7 @@ html:has(body.ui2.light){background:#eef1f4}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.1.3</span>
+  <span class="spver">v1.1.4</span>
 </div>
 
 <header class="top2" id="top2">
@@ -4707,7 +4707,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.3';
+  const APP_VERSION='1.1.4';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -4934,7 +4934,7 @@ function uiSfx(kind){
 function applyTheme(){
   const t=UI.prefs.theme, light = t==='light' || (t==='auto' && matchMedia('(prefers-color-scheme: light)').matches);
   document.body.classList.toggle('light', light);
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', light?'#f3f5f8':'#0b0d10');
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', light?'#eef1f4':'#121418');
 }
 matchMedia('(prefers-color-scheme: light)').addEventListener?.('change', applyTheme);
 

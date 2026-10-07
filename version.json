@@ -1,12 +1,17 @@
 {
- "version": "1.1.3",
+ "version": "1.1.4",
  "fecha": "2026-10-08",
  "notas": [
-  "Más aire bajo el logotipo de la barra superior.",
-  "La franja inferior del iPhone toma el color de la barra de abajo.",
-  "Pantalla de carga con la firma del autor y la versión."
+  "La franja inferior del iPhone toma el color de la barra de abajo (color de fondo de la app ajustado)."
  ],
  "historial": [
+  {
+   "version": "1.1.4",
+   "fecha": "2026-10-08",
+   "notas": [
+    "La franja inferior del iPhone toma el color de la barra de abajo (color de fondo de la app ajustado)."
+   ]
+  },
   {
    "version": "1.1.3",
    "fecha": "2026-10-08",

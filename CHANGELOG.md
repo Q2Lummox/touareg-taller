@@ -1,5 +1,8 @@
 # Novedades
 
+## v1.1.4 · 2026-10-08
+- La franja inferior del iPhone toma el color de la barra de abajo (color de fondo de la app ajustado).
+
 ## v1.1.3 · 2026-10-08
 - Más aire bajo el logotipo de la barra superior.
 - La franja inferior del iPhone toma el color de la barra de abajo.
