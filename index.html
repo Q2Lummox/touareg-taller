@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="1.4.1">
+<meta name="app-version" content="1.4.2">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1563,6 +1563,10 @@ body.ui2 .doclist .mrow .c{white-space:nowrap}
 @media (prefers-reduced-motion:reduce){ .splash.going .spimg{transform:translateX(-50%)} .hl,.fl{transition:none} }
 .spstart.used{opacity:0;pointer-events:none;transform:scale(.85);transition:opacity .35s,transform .35s}
 .splash.going .spflash{background:radial-gradient(circle at 50% 60%,#fff6e6 0,#ffd9a0cc 35%,#ff9a3c00 80%)}
+/* v1.4.2: foto entera (todo el coche y los faros a la vista) y START · STOP más juntos */
+.spimg{width:100%!important;bottom:0!important}
+.spveil{background:linear-gradient(180deg,#030405 0%,#030405f2 26%,#030405a6 44%,#0304057a 62%,#030405b3 86%,#030405 100%),linear-gradient(90deg,#03040599 0%,transparent 9%,transparent 91%,#03040599 100%)!important}
+.spstart small{letter-spacing:.06em!important;font-size:9px!important;word-spacing:-2px}
 </style>
 
 </head>
@@ -1605,7 +1609,7 @@ body.ui2 .doclist .mrow .c{white-space:nowrap}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.4.1</span>
+  <span class="spver">v1.4.2</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5019,7 +5023,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.4.1';
+  const APP_VERSION='1.4.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5815,7 +5819,7 @@ function hideSplash(){ if(spDone) return; spDone=true; PERF.m.ui=performance.now
   if(gate || UI.prefs.intro==='simple'){ splashOut(350); return; }
   /* listo: botón de arranque (en iPhone el sonido solo puede empezar con un toque) */
   const sp=$('#splash'); if(!sp) return; sp.classList.add('ready'); $('#spTxt').textContent='Listo';
-  const b=h2(`<button type="button" class="spstart" id="spStart"><span class="string"></span><b>ENGINE</b><small>START · STOP</small></button>`);
+  const b=h2(`<button type="button" class="spstart" id="spStart"><span class="string"></span><b>ENGINE</b><small>START·STOP</small></button>`);
   sp.querySelector('.spbox').append(b);
   b.addEventListener('click',e=>{ e.stopPropagation(); uiSfx?.('tap'); ignition(); });
   setTimeout(()=>{ if(!SEQ && document.getElementById('splash')) splashOut(0); }, 9000);

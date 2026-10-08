@@ -1,10 +1,17 @@
 {
- "version": "1.4.1",
+ "version": "1.4.2",
  "fecha": "2026-10-08",
  "notas": [
-  "Sonido del arranque sin silbidos: motor de arranque grave y mecánico, sin pitido de la bomba, y ralentí más ronco."
+  "Pantalla de arranque: la foto se ve entera, con todo el coche y los faros a la vista; «START·STOP» más compacto en el botón."
  ],
  "historial": [
+  {
+   "version": "1.4.2",
+   "fecha": "2026-10-08",
+   "notas": [
+    "Pantalla de arranque: la foto se ve entera, con todo el coche y los faros a la vista; «START·STOP» más compacto en el botón."
+   ]
+  },
   {
    "version": "1.4.1",
    "fecha": "2026-10-08",

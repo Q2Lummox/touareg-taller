@@ -1,5 +1,8 @@
 # Novedades
 
+## v1.4.2 · 2026-10-08
+- Pantalla de arranque: la foto se ve entera, con todo el coche y los faros a la vista; «START·STOP» más compacto en el botón.
+
 ## v1.4.1 · 2026-10-08
 - Sonido del arranque sin silbidos: motor de arranque grave y mecánico, sin pitido de la bomba, y ralentí más ronco.
 
