@@ -1,5 +1,9 @@
 # Novedades
 
+## v1.2.2 · 2026-10-08
+- Arreglado: «Activar notificaciones» fallaba justo después de reinstalar la app (ahora espera a que termine de instalarse).
+- La app se instala más rápido: las librerías se guardan después, sin bloquear.
+
 ## v1.2.1 · 2026-10-08
 - Más ▸ Avisos: lista de dispositivos que reciben notificaciones push, con «Quitar» y «Dejar solo este dispositivo» para evitar avisos repetidos.
 

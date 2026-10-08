@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.2.1-beta">
+<meta name="app-version" content="1.2.2-beta">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1405,7 +1405,7 @@ input[type=file].fhid{position:absolute!important;width:1px!important;height:1px
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.2.1-beta</span>
+  <span class="spver">v1.2.2-beta</span>
 </div>
 
 <header class="top2" id="top2">
@@ -4821,7 +4821,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.2.1-beta';
+  const APP_VERSION='1.2.2-beta';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5832,7 +5832,10 @@ async function pushState(){
 async function pushEnable(){
   const st=await pushState(); if(!st.ok) return st;
   const perm=await Notification.requestPermission(); if(perm!=='granted') return {ok:false, why:'denied'};
-  const sub=st.sub || await st.reg.pushManager.subscribe({userVisibleOnly:true, applicationServerKey:b64u(VAPID_PUBLIC)});
+  /* recién instalada, el service worker puede estar aún terminando de instalarse: se espera a que esté activo */
+  let reg=st.reg;
+  if(!reg.active){ toast('Terminando de instalar la app… un momento'); reg=await withTO(navigator.serviceWorker.ready, 30000, null); if(!reg?.active) return {ok:false, why:'La app aún se está instalando. Espera unos segundos y vuelve a pulsar.'}; }
+  const sub=st.sub || await reg.pushManager.subscribe({userVisibleOnly:true, applicationServerKey:b64u(VAPID_PUBLIC)});
   await pushSave(sub); return {ok:true};
 }
 async function pushSave(sub){
@@ -5861,7 +5864,7 @@ async function renderAvisos2(pb){
     const t=h2(`<button class="btn2 ghost" type="button">${ic('check')}Probar aquí</button>`); t.onclick=async()=>{ await st.reg.showNotification('🔧 Taller 7L', {body:'Así se verán los avisos en este dispositivo.', icon:'../icons/icon-192.png', badge:'../icons/icon-192.png', tag:'prueba'}); }; row.append(t);
     const off=h2(`<button class="btn2 ghost" type="button">${ic('x')}Desactivar</button>`); off.onclick=async()=>{ try{ await S.db.collection('avisos').doc('push_'+hashStr(st.sub.endpoint)).delete(); await st.sub.unsubscribe(); toast('Notificaciones desactivadas en este dispositivo'); }catch{} renderAvisos(pb); }; row.append(off); }
   else { txt.textContent = st.perm==='denied' ? 'Las tienes bloqueadas. Actívalas en los ajustes del navegador o del móvil para esta app.' : 'Aún no están activadas en este dispositivo.';
-    if(st.perm!=='denied'){ const on=h2(`<button class="btn2" type="button">${ic('alert')}Activar notificaciones</button>`); on.onclick=async()=>{ on.disabled=true; const r=await pushEnable().catch(e=>({ok:false,why:String(e?.message||e)})); if(r.ok) toast('Notificaciones activadas'); else toast(r.why==='denied'?'Permiso denegado':'No se pudieron activar ('+r.why+')','err'); renderAvisos(pb); }; row.append(on); } }
+    if(st.perm!=='denied'){ const on=h2(`<button class="btn2" type="button">${ic('alert')}Activar notificaciones</button>`); on.onclick=async()=>{ on.disabled=true; const r=await pushEnable().catch(e=>({ok:false,why:String(e?.message||e)})); if(r.ok) toast('Notificaciones activadas'); else toast(r.why==='denied'?'Permiso denegado':/instalando/.test(r.why)?r.why:'No se pudieron activar ('+r.why+')','err'); renderAvisos(pb); }; row.append(on); } }
   wrap.append(dev);
   /* todos los dispositivos que reciben push: para quitar los repetidos */
   { const box=h2(`<div class="card2" style="margin-top:14px"><h3>${ic('list')}Dispositivos que reciben notificaciones</h3><div class="l2"><div class="skel" style="height:44px"></div></div></div>`), l=box.querySelector('.l2'); wrap.append(box);

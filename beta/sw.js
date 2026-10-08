@@ -3,7 +3,7 @@
      así funciona sin conexión desde la primera vez.
    - La app y el modelo: primero la red (para ver siempre lo último; si no cambió, es una respuesta 304 mínima).
    - Librerías de CDN (direcciones con versión fija): primero la caché. */
-const CACHE = 'taller-beta-1.2.1-beta', LIBS = 'taller-libs';
+const CACHE = 'taller-beta-1.2.2-beta', LIBS = 'taller-libs';
 const T = 'https://cdn.jsdelivr.net/npm/three@0.160.0/', FBJ = 'https://www.gstatic.com/firebasejs/10.12.2/';
 const CORE = ['./', './index.html', './fb.js', './firebase-config.js', './touareg.json', './touareg-geo.txt', '../seed.json', './manifest.webmanifest',
   '../icons/icon-192.png', '../icons/apple-touch-icon.png', './sfx/arranque.mp3', ...Array.from({length: 15}, (_, i) => `./tex_${i}.webp`),
@@ -18,12 +18,12 @@ const CDN_HOSTS = ['cdn.jsdelivr.net', 'www.gstatic.com', 'fonts.googleapis.com'
 self.addEventListener('install', e => e.waitUntil((async () => {
   const c = await caches.open(CACHE), l = await caches.open(LIBS);
   await Promise.allSettled(CORE.map(u => c.add(new Request(u, {cache: 'reload'}))));
-  await Promise.allSettled(CDN.map(async u => { if (!(await l.match(u))) await l.add(u); }));
-  self.skipWaiting();
+  self.skipWaiting();   /* las librerías se guardan después, sin retrasar la instalación */
 })()));
 self.addEventListener('activate', e => e.waitUntil((async () => {
   for (const k of await caches.keys()) if (k.startsWith('taller-beta-') && k !== CACHE) await caches.delete(k);
   await self.clients.claim();
+  caches.open(LIBS).then(l => Promise.allSettled(CDN.map(async u => { if (!(await l.match(u))) await l.add(u); })));
 })()));
 self.addEventListener('message', e => { if (e.data === 'SKIP_WAITING') self.skipWaiting(); });
 self.addEventListener('fetch', e => {
