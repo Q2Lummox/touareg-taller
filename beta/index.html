@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.0.0-beta.6">
+<meta name="app-version" content="2.0.0-beta.7">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1949,6 +1949,16 @@ body.wireon .ovl:not(.docked){opacity:.15;pointer-events:none}
 .wdet summary em{font-style:normal;color:var(--txt-2);margin-left:4px}
 .wdet .wrows{margin-top:6px}
 @media (max-width:860px){ .wlab span{display:none} .wlab{padding:3px 6px} .wirecard{max-height:38%} }
+/* ---------- fichas por referencia ---------- */
+.fitop{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 12px}
+.fitop .pref{margin:0;font-size:14px;padding:4px 10px}
+.fitag{display:inline-flex;align-items:center;padding:3px 9px;border-radius:999px;background:var(--card-2);border:1px solid var(--card-line);color:var(--txt-2);font-size:12px;font-weight:600}
+.fich .card2{margin-bottom:12px}
+.fich .fied{margin-top:8px}
+.fimore,.fiback{width:100%;margin-top:8px;justify-content:center}
+.fiback{margin:0 0 10px}
+.r2.dim{opacity:.55;cursor:default}
+.stchips.s3{grid-template-columns:repeat(3,minmax(0,1fr))!important}
 </style>
 
 </head>
@@ -1991,7 +2001,7 @@ body.wireon .ovl:not(.docked){opacity:.15;pointer-events:none}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.0.0-beta.6</span>
+  <span class="spver">v2.0.0-beta.7</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5406,7 +5416,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.0.0-beta.6';
+  const APP_VERSION='2.0.0-beta.7';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -7241,7 +7251,7 @@ function v2MasHome(pb){
   if(pb.contains(ovl)){ ovl.classList.remove('docked'); ovlHome.append(ovl); } pb.innerHTML='';
   const touch=matchMedia('(hover: none)').matches;
   const G=[
-    ['Consulta',[['catalogo','layers','Catálogo de piezas','Láminas, referencias y pares oficiales'],['ficha','gauge','Ficha técnica del BAC','Aceites, capacidades, pares y presiones'],['stats','chart','Estadísticas','Coste por año, por km y por categoría'],['listas','list','Listas de comprobación','Antes de la ITV, viaje largo, invierno…'],['talleres','wrench','Talleres y proveedores','Teléfonos, valoración y trabajos hechos'],['procs','book','Guías de reparación','Pasos, herramientas y pares']]],
+    ['Consulta',[['fichas','tag','Fichas','Cada referencia con todo lo que se sabe de ella'],['catalogo','layers','Catálogo de piezas','Láminas, referencias y pares oficiales'],['ficha','gauge','Ficha técnica del BAC','Aceites, capacidades, pares y presiones'],['stats','chart','Estadísticas','Coste por año, por km y por categoría'],['listas','list','Listas de comprobación','Antes de la ITV, viaje largo, invierno…'],['talleres','wrench','Talleres y proveedores','Teléfonos, valoración y trabajos hechos'],['procs','book','Guías de reparación','Pasos, herramientas y pares']]],
     ['Datos',[['backup','cloud','Copia de seguridad','Semanal automática, exportar y restaurar'],['importar','upload','Importar datos','Lotes de erWin y del catálogo, con deshacer'],['dossier','file','Dossier de venta','PDF con historial, ITV y fotos'],['compartir','link','Enlace para el taller','Solo lectura y con caducidad'],['pdf','receipt','Historial en PDF','Resumen corto para imprimir'],['wiz','sparkle','Asistente inicial','Km, últimos cambios y papeles']]],
     ['Taller',[['pines','pin','Notas en el modelo','Avisos clavados en las piezas'],['pend','list','Fichas pendientes','Qué piezas faltan por documentar']]],
     ['Aplicación',[['avisos','alert','Avisos y notificaciones','Push, correo y Telegram'],['ajustes','sliders','Ajustes','Tema, sonidos, gráficos y avanzado'],...(touch?[]:[['keys','keyboard','Atajos de teclado','Teclas rápidas del visor']]),['about','info','Acerca de y actualizaciones','Versión, novedades y créditos'],['logout','logout','Cerrar sesión',(window.FB?.user?.()?.email||'Cuenta de Google')]]],
@@ -8430,7 +8440,7 @@ function laminaSheet(l){
   if(l.notas) body.append(h2(`<p class="muted2">${esc(l.notas)}</p>`));
   const t=h2('<div class="tscroll"><table class="yt pzt"><thead><tr><th>Pos.</th><th>Pieza</th><th>Cant.</th><th></th></tr></thead><tbody></tbody></table></div>'), tb=t.querySelector('tbody');
   for(const p of (l.piezas||[])){ const r=h2(`<tr><td>${esc(p.pos)}</td><td><b>${esc(p.nombre)}</b><button type="button" class="pref">${esc(p.ref||'sin referencia')}</button>${p.nota||p.pr?`<small>${esc([p.nota, p.pr?'PR: '+p.pr:''].filter(Boolean).join(' · '))}</small>`:''}${p.sustituye?`<small>Sustituye a ${esc(p.sustituye)}</small>`:''}</td><td>${p.cant??''}</td><td><button type="button" class="padd" aria-label="Añadir a la compra">${ic('cart')}</button></td></tr>`);
-    r.querySelector('.pref').onclick=()=>{ if(p.ref) navigator.clipboard?.writeText(p.ref).then(()=>toast('Referencia copiada: '+p.ref)); };
+    r.querySelector('.pref').onclick=()=>{ if(p.ref) fichaSheet(p.ref); };
     r.querySelector('.padd').onclick=async()=>{ await S.db.collection('compras').add({nombre:p.nombre||p.ref, ref:p.ref||'', cantidad:Math.max(1,Number(p.cant)||1), estado:'pendiente', notas:`Lámina ${l.lamina}${p.pos?' · pos. '+p.pos:''}`, creado:new Date().toISOString()}); toast(`«${p.nombre}» añadido a la compra`); };
     tb.append(r); }
   body.append(t);
@@ -8467,11 +8477,7 @@ function renderCatalogo(w){
 }
 MAS2.catalogo=['Catálogo de piezas', renderCatalogo];
 for(const k of ['importar','catalogo']) MAS_T[k]=MAS2[k][0];
-/* el buscador general también encuentra referencias del catálogo */
-{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()), rk=refKey(raw); if(q.length<3) return;
-    const hits=catAll().filter(p=>(rk.length>=4 && p.rk.includes(rk)) || p.nn.includes(q)).slice(0,6); if(!hits.length) return;
-    const out=$('#srRes'); out.querySelector(':scope > .empty2')?.remove(); out.append(h2('<h5>Catálogo de piezas</h5>'));
-    for(const p of hits){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic('layers')}</span><span class="tx"><b>${hl(p.nombre||p.ref,q)}</b><small>${esc(p.ref)} · lámina ${esc(p.l.lamina)}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); go('mas'); masOpen('catalogo'); setTimeout(()=>laminaSheet(p.l),200); }; out.append(r); } }; }
+/* el buscador general de referencias está en v2h.js (Fichas) */
 
 /* ====================== v2.0: ORDENAR Y RENOMBRAR (mantener pulsado) ====================== */
 const ORD={edit:null, lp:null, drag:null, swallow:0, origMasT:{...MAS_T}};
@@ -8794,6 +8800,172 @@ function wirePicker(){
   if(tools){ const s=h2(`<div class="seg"><button id="tWire" type="button" title="Ver el recorrido de un circuito eléctrico">${ic('zap','ti')}Cableado</button></div>`); s.querySelector('button').onclick=()=>{ uiSfx('tap'); if(WIRE.on){ wireClear(); return; } wirePicker(); }; tools.append(s); } }
 { const _go=go; go=function(sec, sub, ...r){ const res=_go(sec, sub, ...r); if(WIRE.on && (UI.sec!=='coche' || UI.sub.coche!=='3d')) wireClear(); return res; }; }
 window.__wire={wl:()=>{ wireLabels(); return WIRE.labels.map(l=>l.el.hidden+':'+document.body.contains(l.el)); }, proj:()=>WIRE.labels.map(l=>{ const w=(l.host?l.host.localToWorld(l.local.clone()):l.v.clone()); const p=w.clone().project(camera); return [w.toArray().map(v=>+v.toFixed(2)), p.toArray().map(v=>+v.toFixed(2))]; }), cam:()=>({p:camera.position.toArray(), t:controls.target.toArray(), fov:camera.fov, asp:camera.aspect}), carFrame, anchorWorld, partBox, wireShow, wireClear, WIRE, pid};
+/* ====================== v2.1: FICHAS POR REFERENCIA ======================
+   Una ficha por cada referencia que aparece en cualquier sitio de la app (láminas importadas,
+   compras, intervenciones, fichas del modelo 3D). Se construyen solas; lo único que se guarda
+   es lo que añade Sergio (colección refs, id = referencia sin espacios). */
+C2.push('refs'); S.v2.refs=[];
+COLN.refs='Fichas por referencia'; COLN.piezas='Fichas del modelo 3D';
+const FGRP={...GRP, N:'Tornillería normalizada', G:'Aceites y líquidos VW', X:'Otras referencias'};
+const FTIPOS=[
+  ['conect','Conectores y carcasas',/\b(caja (de )?contactos?|carcasa conector|caja lenguetas|caja casquillo|conector|enchufe|contacto plano|portacontactos)\b/],
+  ['cables','Cables y mazos',/\b(juego (de )?cables|mazo|cable)\b/],
+  ['fusibles','Relés y fusibles',/\b(rele|portarreles|fusible|portafusibles)\b/],
+  ['centralitas','Centralitas',/\b(unidad (de )?control|centralita)\b/],
+  ['bombillas','Bombillas y luces',/\b(bombilla|lampara|faro|piloto|luz|intermitente)\b/],
+  ['sensores','Sensores y sondas',/\b(sensor|sonda|transmisor|captador)\b/],
+  ['mandos','Interruptores y mandos',/\b(conmutador|interruptor|pulsador|mando)\b/],
+  ['juntas','Juntas y retenes',/\b(junta|reten|anillo|toroidal)\b/],
+  ['fijacion','Tornillería y fijaciones',/\b(tornillo|tuerca|arandela|esparrago|remache|grapa|clip|brida|banda reten|abrazadera|pasador|sujetacables|sujecion|tornillo)\b/],
+  ['pasacables','Pasacables, tapones y canales',/\b(boquilla|caperuza|capuchon|tapon|pasacables|canal (de )?cables|perfil protector|manguito protector)\b/],
+  ['filtros','Filtros',/\bfiltro\b/],
+  ['liquidos','Aceites y líquidos',/\b(aceite|liquido|anticongelante|grasa|refrigerante)\b/],
+  ['motores','Motores, bombas y actuadores',/\b(motor|bomba|servomotor|actuador|electrovalvula)\b/],
+  ['soportes','Soportes',/\b(soporte|chapa de sujecion|placa)\b/],
+];
+const FTIPO_N=Object.fromEntries([...FTIPOS.map(t=>[t[0],t[1]]),['otros','Otras piezas']]);
+/* tildes que faltan en los textos de ETKA (solo para mostrar) */
+const TILDE={electrico:'eléctrico',electrica:'eléctrica',electricos:'eléctricos',electronico:'electrónico',electronica:'electrónica',acompanante:'acompañante',deposito:'depósito',bateria:'batería',baterias:'baterías',lampara:'lámpara',lengueta:'lengüeta',lenguetas:'lengüetas',marron:'marrón',habitaculo:'habitáculo',vehiculo:'vehículo',vehiculos:'vehículos',neumaticos:'neumáticos',neumatico:'neumático',telefono:'teléfono',microfono:'micrófono',boton:'botón',camara:'cámara',automatico:'automático',automatica:'automática',acustico:'acústico',valvula:'válvula',electrovalvula:'electroválvula',rele:'relé',reles:'relés',capuchon:'capuchón',tapon:'tapón',sujecion:'sujeción',reten:'retén',esparrago:'espárrago',angulo:'ángulo',termico:'térmico',hidraulico:'hidráulico',plastico:'plástico',metalico:'metálico',maximo:'máximo',minimo:'mínimo',numero:'número',vehicul:'vehícul',trasero:'trasero',ultrasonido:'ultrasonido',modulo:'módulo',brujula:'brújula',deteccion:'detección',lampar:'lámpar',cinturon:'cinturón',limpialuneta:'limpialuneta',antena:'antena',parabrisas:'parabrisas',dinamica:'dinámica',dinamico:'dinámico',magnetico:'magnético',optico:'óptico',pedal:'pedal',inalambrico:'inalámbrico',dvd:'DVD',esp:'ESP',abs:'ABS',can:'CAN',tv:'TV'};
+function tildes(s){ return String(s||'').replace(/\b([a-zñ]+)\b/gi, w=>{ const l=w.toLowerCase(); let r=TILDE[l]; if(!r && l.length>4 && l.endsWith('ion')) r=l.slice(0,-3)+'ión'; if(!r) return w; return w[0]===w[0].toUpperCase() && w[0]!==w[0].toLowerCase() ? r[0].toUpperCase()+r.slice(1) : r; }); }
+const cap1=s=>{ s=String(s||'').trim(); return s?s[0].toUpperCase()+s.slice(1):s; };
+function fmtRef(r){ const s=String(r||'').trim().toUpperCase().replace(/\s+/g,' '); if(/\s/.test(s)) return s; const m=s.match(/^([0-9A-Z]{3})(\d{3})(\d{3})([A-Z]{0,3})$/); return m?[m[1],m[2],m[3],m[4]].filter(Boolean).join(' '):s; }
+function refGroup(k, fb){ if(/^N\d/.test(k) || /^WHT/.test(k)) return 'N'; if(/^G\d/.test(k)) return 'G'; if(/^[0-9A-Z]{3}\d{6}/.test(k)) return k[3]; const g=String(fb??'').charAt(0); return GRP[g]?g:'X'; }
+function refTipo(name){ const n=norm(name); for(const [k,,re] of FTIPOS) if(re.test(n)) return k; return 'otros'; }
+/* nombre legible de una pieza de lámina: «caja contacto plano con» + «bloqueo contacto adicional» */
+function pzName(p){ let n=String(p.nombre||'').trim(); const seg=String(p.nota||'').split(' · ')[0].trim();
+  if(seg && /\b(con|de|para|p\.|del|y)$/.test(n)) n+=' '+seg.split(/\s+/).slice(0, /\bde$/.test(n)?1:3).join(' ');
+  return cap1(tildes(n)); }
+/* el índice: todas las referencias que conoce la app */
+function refIndex(){
+  memoChk(); if(V2.memo.refs) return V2.memo.refs;
+  const M=new Map();
+  const get=(ref,nombre,src)=>{ const k=refKey(ref); if(k.length<5 || !/\d/.test(k)) return null; let f=M.get(k);
+    if(!f){ f={k, ref:fmtRef(ref), nombres:[], lam:[], com:[], int:[], m3d:[], sust:new Set(), user:null}; M.set(k,f); }
+    if(nombre) f.nombres.push([src,nombre]); return f; };
+  for(const l of S.v2.catalogo) for(const p of (l.piezas||[])){ const f=get(p.ref, pzName(p), 'lam'); if(f){ f.lam.push({l,p}); if(p.sustituye) f.sust.add(fmtRef(p.sustituye)); } }
+  for(const c of (S.compras||[])) if(c.ref) get(c.ref, cap1(c.nombre), 'com')?.com.push(c);
+  for(const x of (S.int||[])) if(x.ref) get(x.ref, cap1(x.descripcion), 'int')?.int.push(x);
+  for(const [id,fi] of Object.entries(S.fichas||{})) for(const r of String(fi?.ref||'').split(/[,;/]|\s{2,}/)) if(refKey(r).length>=7) get(r, parts[id]?.name, 'm3d')?.m3d.push(id);
+  for(const u of S.v2.refs){ const f=get(u.ref||u._id, u.nombre, 'user'); if(f) f.user=u; }
+  const pri={user:0, com:1, lam:2, m3d:3, int:4};
+  for(const f of M.values()){
+    const best=[...f.nombres].sort((a,b)=>pri[a[0]]-pri[b[0]])[0];
+    f.nombre=f.user?.nombre || best?.[1] || f.ref;
+    f.grp=refGroup(f.k, f.lam[0]?.l.grupo);
+    f.tipo=refTipo(f.lam.length ? f.lam.map(x=>x.p.nombre).join(' ') : f.nombre);
+    if(f.grp==='N' && f.tipo==='otros') f.tipo='fijacion';
+    f.uso=[...new Set(f.lam.map(x=>tildes(String(x.p.nota||'').split(' · ')[0])).filter(Boolean))];
+    f.stock=num(f.user?.stock)||0;
+    f.hay=norm([f.nombre, ...f.nombres.map(n=>n[1]), ...f.uso, f.user?.notas, f.user?.proveedor, f.user?.ubicacion].join(' '));
+  }
+  return V2.memo.refs=M;
+}
+function refFind(raw){ const q=norm(String(raw||'').trim()), rk=refKey(raw), words=q.split(/\s+/).filter(Boolean); if(q.length<2) return [];
+  const out=[]; for(const f of refIndex().values()){ let sc=0;
+    if(rk.length>=3 && f.k.includes(rk)) sc=f.k.startsWith(rk)?3:2;
+    else if(words.length && words.every(w=>f.hay.includes(w))) sc=1;
+    if(sc) out.push([sc,f]); }
+  return out.sort((a,b)=>b[0]-a[0] || COLL.compare(a[1].nombre,b[1].nombre)).map(x=>x[1]); }
+function refRow(f){ const s=[f.ref, f.uso[0]].filter(Boolean).join(' · ');
+  return row2({c:f.stock?'var(--ok)':f.com.length?'var(--info)':'var(--accent)', i:f.stock?'home':f.com.length?'cart':'tag', t:f.nombre, s, r:f.stock?`${f.stock} en casa`:null, fn:()=>fichaSheet(f.k)}); }
+
+/* ---------- la ficha ---------- */
+function fichaSheet(k){
+  const f=refIndex().get(refKey(k));
+  if(!f){ toast('Esa referencia no tiene ficha todavía'); return; }
+  const body=h2('<div class="fich"></div>'), u=f.user||{};
+  const top=h2(`<div class="fitop"><button type="button" class="pref" title="Copiar">${esc(f.ref)}</button><span class="fitag">${esc(FGRP[f.grp]?(GRP[f.grp]?f.grp+' · ':'')+FGRP[f.grp]:'')}</span><span class="fitag">${esc(FTIPO_N[f.tipo])}</span></div>`);
+  top.querySelector('.pref').onclick=()=>navigator.clipboard?.writeText(f.ref).then(()=>toast('Referencia copiada: '+f.ref));
+  body.append(top);
+  /* lo tuyo */
+  const mine=card2('Tus datos','home');
+  const kvm=kv([['En casa', f.stock?`${f.stock} ud.${u.ubicacion?' · '+esc(u.ubicacion):''}`:null],['Precio de referencia', u.precio!=null?eurc(u.precio):null],['Proveedor', u.proveedor?esc(u.proveedor):null],['Notas', u.notas?esc(u.notas).replace(/\n/g,'<br>'):null]]);
+  if(kvm.children.length) mine.querySelector('.l2').append(kvm);
+  if(u.fotos?.length) mine.querySelector('.l2').append(attachThumbs(u.fotos));
+  if(!kvm.children.length && !u.fotos?.length) mine.querySelector('.l2').append(h2('<p class="muted2" style="margin:2px 0 4px">Apunta si la tienes en casa, el precio que has visto, dónde la compras y fotos de la pieza.</p>'));
+  const eb=h2(`<button type="button" class="btn2 ghost fied">${ic('edit')}${f.user?'Editar tus datos':'Añadir tus datos'}</button>`); eb.onclick=()=>refForm(f); mine.querySelector('.l2').append(eb);
+  body.append(mine);
+  /* catálogo */
+  if(f.lam.length){ const c=card2('En el catálogo','layers', f.lam.length);
+    for(const {l,p} of f.lam){ const extra=[p.cant!=null?`×${nf2(p.cant)}`:'', p.pr?'PR '+p.pr:''].filter(Boolean).join(' · ');
+      c.querySelector('.l2').append(row2({c:'var(--accent)', i:'layers', thumb:l.img?.id, t:`Lámina ${l.lamina}${p.pos?' · pos. '+p.pos:''}`, s:[tildes(l.titulo), tildes(p.nota), extra].filter(Boolean).join(' · '), fn:()=>laminaSheet(l)})); }
+    body.append(c); }
+  /* variantes de la misma pieza (misma base, otro índice) y sustituciones */
+  const base=f.k.match(/^([0-9A-Z]{3}\d{6})/)?.[1];
+  const vars=base?[...refIndex().values()].filter(x=>x!==f && x.k.startsWith(base)):[];
+  if(vars.length || f.sust.size){ const c=card2('Variantes y sustituciones','copy', vars.length+f.sust.size||'');
+    for(const s of f.sust){ const o=refIndex().get(refKey(s)); c.querySelector('.l2').append(row2({c:'var(--soon)', i:'history', t:'Sustituye a '+s, s:o?o.nombre:'Referencia anterior', fn:o?()=>fichaSheet(o.k):null})); }
+    for(const v of vars.sort((a,b)=>COLL.compare(a.k,b.k))) c.querySelector('.l2').append(row2({c:'var(--txt-3)', i:'tag', t:v.ref, s:[v.nombre, v.uso[0]].filter(Boolean).join(' · '), fn:()=>fichaSheet(v.k)}));
+    c.querySelector('.l2').append(h2('<p class="muted2" style="margin:6px 2px 2px">Misma pieza base con otra letra final: suele cambiar el color, el número de pines o la versión. Pide la que pone la lámina de tu coche.</p>'));
+    body.append(c); }
+  /* compras */
+  if(f.com.length){ const c=card2('Tus compras','cart', f.com.length); const pr=f.com.map(x=>num(x.precio)).filter(x=>x!=null);
+    if(pr.length) c.querySelector('.l2').append(kv([['Último precio', eurc(pr[pr.length-1])],['Más barato', pr.length>1?eurc(Math.min(...pr)):null]]));
+    for(const x of [...f.com].sort((a,b)=>(b.fechaCompra||b.creado||'').localeCompare(a.fechaCompra||a.creado||''))) c.querySelector('.l2').append(row2({c:'var(--info)', i:'cart', t:x.nombre+(x.cantidad>1?' ×'+x.cantidad:''), s:[({pendiente:'Por comprar',comprado:'Comprado',montado:'Montado'})[x.estado], x.tienda, x.fechaCompra?fmtDate(x.fechaCompra):''].filter(Boolean).join(' · '), r:x.precio!=null?eurc(x.precio):null, fn:()=>{ closeSheet(); go('mant','compra'); }}));
+    body.append(c); }
+  /* historial */
+  if(f.int.length){ const c=card2('En tu historial','history', f.int.length);
+    for(const x of [...f.int].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''))) c.querySelector('.l2').append(row2({c:'var(--ok)', i:'history', t:x.descripcion||x.tipo||'Intervención', s:[fmtDate(x.fecha), x.km!=null?kmT(x.km):''].filter(Boolean).join(' · '), r:x.coste!=null?eurc(x.coste):null, fn:()=>{ closeSheet(); go('mant','hist'); }}));
+    body.append(c); }
+  /* modelo 3D */
+  if(f.m3d.length){ const c=card2('En el modelo 3D','cube', f.m3d.length);
+    for(const id of f.m3d) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'cube', t:parts[id]?.name||id, s:(LAYERS.find(l=>l.id===parts[id]?.layer)?.name||''), fn:()=>{ closeSheet(); go('coche','3d'); try{ select(id); _focusPart(id); if(matchMedia('(max-width:860px)').matches) setTab('ficha'); }catch{} }}));
+    body.append(c); }
+  const sub=f.uso.length?f.uso.slice(0,2).join(' · '):'';
+  detailSheet(f.nombre, sub, body, [
+    ['Añadir a la compra','cart',async()=>{ if(!S.db) return toast('Inicia sesión para guardar','err'); await S.db.collection('compras').add({nombre:f.nombre, ref:f.ref, cantidad:1, estado:'pendiente', notas:f.lam[0]?`Lámina ${f.lam[0].l.lamina}${f.lam[0].p.pos?' · pos. '+f.lam[0].p.pos:''}`:'', creado:new Date().toISOString()}); toast(`«${f.nombre}» añadido a la compra`); }],
+    ['Buscar en internet','search',()=>window.open('https://www.google.com/search?q='+encodeURIComponent(f.ref.replace(/\s+/g,' ')+' '+f.k),'_blank','noopener')],
+  ]);
+}
+MOD.refs={col:'refs', newT:'Nueva ficha', editT:'Tus datos de la pieza', delT:'Datos de la ficha borrados',
+  delQ:()=>'¿Borrar tus datos de esta ficha? La ficha sigue existiendo con lo que sale del catálogo, compras e historial.',
+  fields:[{k:'ref',l:'Referencia',req:true,ph:'7L0 971 341 F'},{k:'nombre',l:'Nombre',ph:'Si lo dejas vacío se usa el del catálogo'},
+    {k:'stock',l:'En casa (unidades)',t:'num',half:true,ph:'0'},{k:'precio',l:'Precio de referencia',t:'eur',half:true},
+    {k:'proveedor',l:'Dónde se compra',t:'prov',half:true,ph:'Tienda o web'},{k:'ubicacion',l:'Dónde la guardas',half:true,ph:'Garaje, caja 2…'},
+    {k:'notas',l:'Notas',t:'area',ph:'Equivalencias, medidas, trucos de montaje…'},{k:'fotos',l:'Fotos',t:'files'}],
+  check:v=>refKey(v.ref).length<5?'Esa referencia es demasiado corta':'' ,
+  prep:v=>{ v.ref=fmtRef(v.ref); },
+  after:async(v,id)=>{ const k=refKey(v.ref); if(id && id!==k){ const {_id,...d}=v; await S.db.collection('refs').doc(k).set(d); await S.db.collection('refs').doc(id).delete(); } setTimeout(()=>fichaSheet(k),350); }};
+function refForm(f){ if(f){ const x=f.user?{...f.user}:{_id:f.k, ref:f.ref, nombre:''}; if(!f.user) x.__nuevo=true; const ctx=recForm(MOD.refs, x); const r=ctx.v('ref'); if(r){ r.readOnly=true; } if(!f.user) ctx.box.querySelector('[data-a="del"]')?.remove(); return ctx; }
+  return recForm(MOD.refs, null); }
+{ const _p=MOD.refs.prep; MOD.refs.prep=v=>{ _p(v); delete v.__nuevo; }; }
+
+/* ---------- la página ---------- */
+function renderFichas(w){
+  const M=refIndex(), all=[...M.values()];
+  w.append(addBar('Nueva ficha', ()=>refForm(null)));
+  if(!all.length){ w.append(emptyCard('tag','Aquí tendrás una <b>ficha por cada referencia</b> de tu Touareg: nombre, en qué lámina sale, variantes, lo que pagaste, cuándo la montaste y tus notas. Se crean solas al importar láminas o al apuntar compras con referencia.','Importar datos',()=>masOpen('importar'))); return; }
+  w.append(h2(`<div class="stchips s3">${stat(nf.format(all.length),'Fichas','var(--accent)')}${stat(all.filter(f=>f.com.length).length,'Compradas','var(--info)')}${stat(all.filter(f=>f.stock).length,'En casa','var(--ok)')}</div>`));
+  const sr=h2(`<input class="inp2 ftq" type="search" placeholder="Referencia o nombre: 7L0 971 341, bombilla, junta…" value="${esc(UI.fiQ||'')}">`); w.append(sr);
+  const res=h2('<div></div>'); w.append(res);
+  const list=(title, icon, L)=>{ const c=card2(title, icon, nf.format(L.length)); const l2=c.querySelector('.l2'); let n=0;
+    const more=()=>{ for(const f of L.slice(n, n+80)) l2.append(refRow(f)); n+=80; l2.querySelector('.fimore')?.remove();
+      if(n<L.length){ const b=h2(`<button type="button" class="btn2 ghost fimore">Mostrar ${Math.min(80,L.length-n)} más</button>`); b.onclick=more; l2.append(b); } };
+    if(!L.length) l2.append(h2('<div class="empty2" style="padding:10px">Nada por aquí todavía.</div>')); else more(); return c; };
+  const draw=()=>{ res.innerHTML=''; const q=sr.value.trim();
+    if(norm(q).length>=2){ const hits=refFind(q); res.append(list('Resultados','search',hits));
+      if(!hits.length && refKey(q).length>=7){ const b=h2(`<button type="button" class="btn2 ghost" style="margin-top:8px">${ic('plus')}Crear ficha para ${esc(fmtRef(q))}</button>`); b.onclick=()=>recForm(MOD.refs,null,{ref:fmtRef(q)}); res.append(b); }
+      return; }
+    const tab=UI.fiTab||'grupo';
+    res.append(chips([['grupo','Por grupo'],['tipo','Por tipo de pieza'],['mias','Con datos tuyos']], tab, k=>{ UI.fiTab=k; UI.fiSel=null; v2Rerender(); }));
+    if(tab==='mias'){ const L=all.filter(f=>f.user||f.com.length||f.int.length||f.m3d.length).sort((a,b)=>COLL.compare(a.nombre,b.nombre)); res.append(list('Con datos tuyos','home',L)); return; }
+    const keyOf=f=>tab==='grupo'?f.grp:f.tipo, names=tab==='grupo'?FGRP:FTIPO_N;
+    if(UI.fiSel){ const back=h2(`<button type="button" class="btn2 ghost fiback">${ic('chevL')}Todas las secciones</button>`); back.onclick=()=>{ UI.fiSel=null; v2Rerender(); }; res.append(back);
+      const L=all.filter(f=>keyOf(f)===UI.fiSel).sort((a,b)=>COLL.compare(a.nombre,b.nombre)||COLL.compare(a.k,b.k)); res.append(list(names[UI.fiSel]||UI.fiSel, tab==='grupo'?'layers':'tag', L)); return; }
+    const cnt={}; for(const f of all) cnt[keyOf(f)]=(cnt[keyOf(f)]||0)+1;
+    const keys=tab==='grupo'?Object.keys(FGRP):Object.keys(FTIPO_N);
+    const c=card2(tab==='grupo'?'Grupos de ETKA':'Tipos de pieza', tab==='grupo'?'layers':'tag');
+    for(const kk of keys){ const n=cnt[kk]||0; const r=row2({c:n?'var(--accent)':'var(--txt-3)', i:tab==='grupo'?'layers':'tag', t:(tab==='grupo'&&GRP[kk]?kk+' · ':'')+names[kk], s:n?`${nf.format(n)} ficha${n===1?'':'s'}`:'Sin fichas todavía', fn:n?()=>{ UI.fiSel=kk; v2Rerender(); }:null}); if(!n) r.classList.add('dim'); c.querySelector('.l2').append(r); }
+    res.append(c);
+  };
+  sr.oninput=()=>{ UI.fiQ=sr.value; draw(); }; draw();
+}
+MAS2.fichas=['Fichas', renderFichas]; MAS_T.fichas='Fichas';
+/* el buscador general: fichas en vez de filas sueltas del catálogo */
+{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<3) return;
+    const hits=refFind(raw).slice(0,6); if(!hits.length) return;
+    const out=$('#srRes'); out.querySelector(':scope > .empty2')?.remove(); out.append(h2('<h5>Fichas</h5>'));
+    for(const f of hits){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic('tag')}</span><span class="tx"><b>${hl(f.nombre,q)}</b><small>${esc([f.ref, f.uso[0]].filter(Boolean).join(' · '))}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); go('mas'); masOpen('fichas'); setTimeout(()=>fichaSheet(f.k),200); }; out.append(r); } }; }
 
 connectDb();
 { const h=(location.hash||'').slice(1); go(SECS[h]?h:'inicio'); }

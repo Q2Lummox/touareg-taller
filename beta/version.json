@@ -1,19 +1,19 @@
 {
- "version": "2.0.0-beta.6",
- "fecha": "2026-10-08",
+ "version": "2.0.0-beta.7",
+ "fecha": "2026-10-09",
  "notas": [
-  "Nuevo: Cableado en 3D (Coche ▸ Modelo 3D ▸ Cableado): recorrido de cada circuito sobre el modelo, con colores reales de los cables, conectores, fusibles y masas",
-  "Los circuitos llegan por Más ▸ Importar datos y se guardan solo en tu cuenta; también aparecen en Catálogo ▸ Circuitos",
-  "En el móvil el visor se pone a pantalla completa al ver un circuito"
+  "Fichas: una ficha por cada referencia, con catálogo, variantes, compras, historial y tus datos.",
+  "Busca fichas por referencia o nombre y navega por grupo de ETKA o por tipo de pieza.",
+  "En las láminas, al tocar una referencia se abre su ficha."
  ],
  "historial": [
   {
-   "version": "2.0.0-beta.6",
-   "fecha": "2026-10-08",
+   "version": "2.0.0-beta.7",
+   "fecha": "2026-10-09",
    "notas": [
-    "Nuevo: Cableado en 3D (Coche ▸ Modelo 3D ▸ Cableado): recorrido de cada circuito sobre el modelo, con colores reales de los cables, conectores, fusibles y masas",
-    "Los circuitos llegan por Más ▸ Importar datos y se guardan solo en tu cuenta; también aparecen en Catálogo ▸ Circuitos",
-    "En el móvil el visor se pone a pantalla completa al ver un circuito"
+    "Fichas: una ficha por cada referencia, con catálogo, variantes, compras, historial y tus datos.",
+    "Busca fichas por referencia o nombre y navega por grupo de ETKA o por tipo de pieza.",
+    "En las láminas, al tocar una referencia se abre su ficha."
    ]
   }
  ]
