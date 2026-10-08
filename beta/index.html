@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.1.7-beta">
+<meta name="app-version" content="1.2.0-beta">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1274,6 +1274,104 @@ html:has(body.ui2.light){background:#eef1f4}
 .spkey svg{flex:none;width:24px!important;height:24px!important;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 @keyframes keyP{50%{box-shadow:0 0 40px #f39a1e88,0 8px 20px #000a}}
 .gauge.phys .g-fill,.gauge.phys .g-needle{transition:none!important}
+
+/* ===== v1.2: usabilidad ===== */
+:root{--ctabh:54px}
+/* pestañas que siempre caben */
+.subtabs{gap:6px}
+.subtabs button{position:relative}
+@media (max-width:860px){
+  .subtabs:not(.chips2) button{flex:1 1 0;min-width:0;justify-content:center;padding:7px 6px;gap:5px;font-size:13px}
+  .subtabs:not(.chips2) button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+}
+@media (max-width:430px){ .subtabs:not(.chips2) button svg{display:none} }
+.sbadge{position:absolute;top:-5px;right:-3px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--due);color:#fff;font:700 10.5px/17px var(--f-body);text-align:center;box-shadow:0 0 0 2px #101215}
+.sbadge.soon{background:var(--soon);color:#1a1003}.sbadge.info{background:var(--info)}
+/* Coche: pestañas fijas bajo la barra superior */
+.ctabs{position:fixed;z-index:9050;top:calc(var(--t2h) + var(--sa-t));left:var(--railw);right:0;height:var(--ctabh);box-sizing:border-box;display:none;align-items:center}
+body.ui2[data-sec="coche"] .ctabs{display:flex}
+body.ui2[data-sec="coche"] .app{top:calc(var(--t2h) + var(--sa-t) + var(--ctabh))!important}
+body.ui2[data-sec="coche"] .pages{display:block;top:calc(var(--t2h) + var(--sa-t) + var(--ctabh))!important}
+body.ui2[data-sec="coche"][data-csub="3d"] .pages{display:none!important}
+body.ui2[data-sec="coche"] .page[data-sec="coche"]{display:flex}
+body.ui2[data-sec="coche"]:not([data-csub="3d"]) .app{visibility:hidden}
+/* botón + */
+.fab2{position:fixed;z-index:9150;right:16px;bottom:calc(var(--navh) + var(--sa-b) + 14px);width:56px;height:56px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;color:var(--accent-ink);
+  background:radial-gradient(circle at 35% 30%,#ffc46b,var(--accent) 55%,var(--accent-2));box-shadow:0 0 0 1px #0006,0 8px 22px #000b,0 0 22px #f39a1e55;transition:transform .15s,opacity .2s}
+.fab2 svg{width:28px;height:28px;stroke-width:2.4}
+.fab2:active{transform:scale(.92)}
+@media (min-width:861px){ .fab2{bottom:24px;right:24px} }
+body.ui2[data-sec="coche"][data-csub="3d"] .fab2, body.formopen .fab2, body:has(#srch:not([hidden])) .fab2, body:has(#wiz:not([hidden])) .fab2{opacity:0;pointer-events:none;transform:scale(.6)}
+.fabg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.fabg button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 6px 12px;border-radius:14px;border:1px solid var(--card-line);background:linear-gradient(180deg,#1d2127,#14171b);color:var(--txt);cursor:pointer;text-align:center}
+.fabg button i{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#f39a1e1f;color:var(--accent)}
+.fabg button i svg{width:22px;height:22px}
+.fabg button b{font:600 14px var(--f-body)}
+.fabg button small{font-size:11px;color:var(--txt-3);line-height:1.25}
+body.ui2.light .fabg button{background:#fff;border-color:#dde2e8}
+.pages .pin2{padding-bottom:96px!important}
+.pages .pbody{padding-bottom:84px!important}
+/* Inicio: tarjeta compacta y «requiere atención» */
+.grid2>.c12{grid-column:1/-1}
+.hmini{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px!important}
+.hmcar{all:unset;display:flex;flex-direction:column;align-items:flex-start;gap:8px;cursor:pointer;min-width:0}
+.hmname{font:700 22px/1 var(--f-display);letter-spacing:.04em;text-transform:uppercase;color:var(--txt)}
+.hmname b{color:var(--accent)}
+.hmname small{display:block;margin-top:5px;font:500 12px var(--f-body);letter-spacing:.02em;text-transform:none;color:var(--txt-2)}
+.hmini .plate{margin:0;transform:scale(.86);transform-origin:left center}
+.hmkm{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
+.hmkm .kmbig{font:700 30px/1 var(--f-display);color:var(--txt);white-space:nowrap}
+.hmkm .kmbig small{font-size:13px;color:var(--accent);margin-left:4px;text-transform:uppercase}
+.hmkm .kmedit{background:#f39a1e1a;border:1px solid #f39a1e55;color:var(--accent);border-radius:16px;padding:5px 11px;font:600 12.5px var(--f-body);display:flex;align-items:center;gap:5px;cursor:pointer}
+.hmkm .kmedit svg{width:14px;height:14px}
+.attn h3 .cnt.due{background:var(--due);color:#fff}
+.okline{display:flex;align-items:center;gap:10px;padding:6px 2px;color:var(--txt-2)}
+.okline svg{width:22px;height:22px;color:var(--ok);flex:none}
+body.ui2.light .hmname,body.ui2.light .hmkm .kmbig{color:#14181d}
+/* formulario de intervención */
+.mdet{border:1px solid var(--card-line);border-radius:10px;padding:0 12px;background:#ffffff05}
+.mdet summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:12px 0;font:600 14px var(--f-body);color:var(--txt)}
+.mdet summary::-webkit-details-marker{display:none}
+.mdet summary svg{width:16px;height:16px;color:var(--accent);transition:transform .2s}
+.mdet[open] summary svg{transform:rotate(45deg)}
+.mdet summary small{font-weight:400;color:var(--txt-3);font-size:12px}
+.mdet>.fgrid{padding-bottom:12px}
+.mdet .aib{margin-bottom:12px}
+body.ui2 .ovl.docked form .acts{position:sticky;bottom:-1px;z-index:3;margin:0 -16px;padding:12px 16px calc(12px + 0px);background:linear-gradient(180deg,#14171bcc,#14171b 40%);border-top:1px solid var(--card-line)}
+body.ui2.light .ovl.docked form .acts{background:#fffffff2}
+/* Plan compacto */
+body.ui2 .page[data-sec="mant"] .mrow{grid-template-columns:minmax(0,1fr) auto!important;gap:4px 10px!important;padding:10px 12px!important}
+body.ui2 .page[data-sec="mant"] .mrow .nm{grid-column:1}
+body.ui2 .page[data-sec="mant"] .mrow .pill{grid-column:2;grid-row:1;align-self:start;width:auto!important}
+body.ui2 .page[data-sec="mant"] .mrow .c{grid-column:1/-1;display:flex;gap:6px;align-items:baseline;font-size:12px}
+body.ui2 .page[data-sec="mant"] .mrow .c b{display:inline!important;font-size:12.5px}
+body.ui2 .page[data-sec="mant"] .mrow .bt{grid-column:1/-1;justify-content:flex-end;margin-top:4px}
+body.ui2 .page[data-sec="mant"] .mrow .bt button{padding:6px 11px!important;font-size:12px!important}
+body.ui2 .page[data-sec="mant"] .mrow .mcfg{grid-column:1/-1}
+.mkm2{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.mkm2 b{font:700 18px var(--f-display);color:var(--txt)}
+.mkm2 .btn2{padding:5px 11px;font-size:12.5px}
+.nocfg{border:1px dashed #3a414b;border-radius:12px;padding:0 12px;margin-top:10px}
+.nocfg summary{list-style:none;cursor:pointer;display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:12px 0;font:600 14px var(--f-body);color:var(--txt-2)}
+.nocfg summary::-webkit-details-marker{display:none}
+.nocfg summary svg{width:16px;height:16px;color:var(--txt-3)}
+.nocfg summary .cnt{font:700 12px var(--f-body);background:#ffffff12;border-radius:10px;padding:1px 8px}
+.nocfg summary small{flex-basis:100%;font-weight:400;font-size:12px;color:var(--txt-3);margin-top:-4px}
+.ncbox{display:flex;flex-direction:column;gap:8px;padding-bottom:12px}
+/* selector de archivo propio */
+input[type=file].fhid{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none}
+.fpick{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:4px}
+.fpick button{display:flex;align-items:center;gap:6px;border:1px dashed #f39a1e77;background:#f39a1e12;color:var(--accent);border-radius:10px;padding:9px 12px;font:600 13px var(--f-body);cursor:pointer;text-transform:none;letter-spacing:0}
+.fpick button svg{width:16px;height:16px}
+.fpick small{color:var(--txt-3);font-size:12px;text-transform:none;letter-spacing:0;font-weight:400;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fpick.has small{color:var(--txt)}
+/* buscador */
+.sracts{margin-bottom:6px}
+.r2.act .ic{background:#f39a1e22;color:var(--accent)}
+.srrec{margin-top:18px}
+.srrec h5,.sracts h5{text-align:left}
+.srrec .chips2 button svg{width:14px;height:14px;margin-right:4px;opacity:.7}
+.ajh{margin:14px 2px 2px;font:600 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--txt-3)}
 </style>
 
 </head>
@@ -1307,7 +1405,7 @@ html:has(body.ui2.light){background:#eef1f4}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.1.7-beta</span>
+  <span class="spver">v1.2.0-beta</span>
 </div>
 
 <header class="top2" id="top2">
@@ -1325,14 +1423,16 @@ html:has(body.ui2.light){background:#eef1f4}
 
 <nav class="nav2" id="nav2" aria-label="Secciones">
   <button type="button" data-sec="inicio"><i></i><span>Inicio</span></button>
-  <button type="button" data-sec="coche"><i></i><span>Coche 3D</span><em class="navprog" id="navProg"></em></button>
+  <button type="button" data-sec="coche"><i></i><span>Coche</span><em class="navprog" id="navProg"></em></button>
   <button type="button" data-sec="mant"><i></i><span>Mantenim.</span><b class="nbadge" id="nbMant" hidden></b></button>
   <button type="button" data-sec="papeles"><i></i><span>Papeles</span><b class="nbadge" id="nbDocs" hidden></b></button>
   <button type="button" data-sec="mas"><i></i><span>Más</span></button>
 </nav>
 
+<div class="subtabs ctabs" id="stCoche" role="tablist"></div>
 <main class="pages" id="pages">
   <section class="page" data-sec="inicio"><div class="pin2" id="pgInicio"></div></section>
+  <section class="page" data-sec="coche"><div class="pbody" id="pbCoche"></div></section>
   <section class="page" data-sec="mant"><div class="subtabs" id="stMant" role="tablist"></div><div class="pbody" id="pbMant"></div></section>
   <section class="page" data-sec="papeles"><div class="subtabs" id="stPap" role="tablist"></div><div class="pbody" id="pbPap"></div></section>
   <section class="page" data-sec="mas"><div class="pbody" id="pbMas"></div></section>
@@ -2565,6 +2665,11 @@ function renderPop(){
     if(f.enlaces){ const ul=document.createElement('div'); ul.style.cssText='display:flex;flex-direction:column;gap:4px;font-size:13px';
       for(const l of f.enlaces.split(/\n+/).map(x=>x.trim()).filter(Boolean)){ const a=document.createElement('a'); a.href=/^https?:/.test(l)?l:'https://'+l; a.target='_blank'; a.rel='noopener'; a.textContent=l; ul.append(a); } facts.append(ul); }
     grid.append(th,facts); body.append(grid);
+    const ints=intsFor(id);
+    const ih=document.createElement('div'); ih.className='sub'; ih.style.cssText='font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600';
+    ih.textContent = ints.length ? `Historial de esta pieza (${ints.length})` : 'Historial de esta pieza'; body.append(ih);
+    if(ints.length) body.append(histList(ints.slice(0,6), false));
+    else { const e=document.createElement('p'); e.className='empty'; e.textContent='Sin intervenciones en esta pieza. Se registran con el botón + o desde Mantenimiento.'; body.append(e); }
     const acts=document.createElement('div'); acts.className='acts';
     const btn=(t,fn,pri)=>{ const b=document.createElement('button'); b.type='button'; b.textContent=t; if(pri) b.className='pri'; b.onclick=fn; acts.append(b); };
     btn(f.ref?'Editar datos':'Añadir datos', ()=>{ closePop(); runAction('edit',id); }, true);
@@ -3385,7 +3490,7 @@ function renderMant(){
   body.append(tabs);
   if(S.mantTab==='hist'){
     const all=[...S.int].sort(byDateDesc);
-    if(!all.length){ const e=document.createElement('p'); e.className='empty'; e.textContent='Aún no hay intervenciones. Regístralas desde aquí o tocando una pieza y eligiendo «Intervención» en la ruleta.'; body.append(e); }
+    if(!all.length){ const e=document.createElement('p'); e.className='empty'; e.textContent='Aún no hay intervenciones. Regístralas con el botón + o desde el Plan.'; body.append(e); }
     else body.append(histList(all, true));
     const acts=document.createElement('div'); acts.className='acts';
     const b=document.createElement('button'); b.className='pri'; b.textContent='Registrar intervención'; b.onclick=()=>openIntForm({back:'mant'}); acts.append(b); body.append(acts);
@@ -3753,7 +3858,7 @@ function renderGastos(){
   const byY={}; for(const x of ints){ const y=(x.fecha||'').slice(0,4)||'—'; byY[y]=(byY[y]||0)+(Number(x.coste)||0); }
   const years=Object.keys(byY).sort();
   body.append(el('div','sub ttl','Gasto por año'));
-  if(!years.length) body.append(el('p','empty','Aún no hay intervenciones con coste. Regístralas desde Mantenimiento o desde la ruleta de una pieza.'));
+  if(!years.length) body.append(el('p','empty','Aún no hay intervenciones con coste. Regístralas con el botón + o desde el Plan.'));
   else { const mx=Math.max(...Object.values(byY),1), ch=el('div','ybars');
     for(const y of years){ const c=el('div','yb'); const bar=el('i'); bar.style.height=(byY[y]/mx*100)+'%'; bar.title=money(byY[y]); c.append(el('span','v',money(byY[y])), bar, el('small',null,y)); ch.append(c); }
     body.append(ch); }
@@ -4107,7 +4212,7 @@ function setHover(id){
 }
 
 /* ---------- pantalla de carga ---------- */
-const TIPS=['Clic derecho o pulsación larga sobre una pieza: ruleta de acciones.','Doble clic en puertas, capó o portón para abrirlos.','«Inspección» colorea las piezas según su estado: bien, revisar o cambiar.','Con «Nota» puedes clavar un aviso en el punto exacto de una pieza.','«Despiece» separa las piezas del sistema seleccionado y permite cortar el coche.','En Taller ▸ Fichas pendientes ves qué piezas te faltan por documentar.'];
+const TIPS=['Toca una pieza para ver su ficha técnica y su historial.','Doble clic en puertas, capó o portón para abrirlos.','«Rayos X» deja ver la mecánica a través de la carrocería.','Con «Nota» puedes clavar un aviso en el punto exacto de una pieza.','«Despiece» separa las piezas del sistema seleccionado y permite cortar el coche.','En Más ▸ Fichas pendientes ves qué piezas te faltan por documentar.'];
 let tipI=0; const tipEl=$('#ltip'); if(tipEl){ tipEl.textContent=TIPS[0]; setInterval(()=>{ if(!$('#loader')) return; tipI=(tipI+1)%TIPS.length; tipEl.classList.remove('in'); void tipEl.offsetWidth; tipEl.textContent=TIPS[tipI]; tipEl.classList.add('in'); },3200); }
 function setLoad(txt,f){ const t=$('#ltxt'), b=$('#lbarI'); if(t) t.textContent=txt; if(b && f!=null) b.style.width=Math.round(f*100)+'%'; }
 
@@ -4178,7 +4283,7 @@ function renderCompra(){
   const body=$('#ovlBody'); body.innerHTML='';
   const ck=el('label','chk'); const cb=el('input'); cb.type='checkbox'; cb.checked=!!S.compraRev; cb.onchange=()=>{ S.compraRev=cb.checked; renderCompra(); }; ck.append(cb, document.createTextNode(' Incluir también las piezas marcadas «Revisar»')); body.append(ck);
   const items=compraItems();
-  if(!items.length){ body.append(el('p','empty','No hay piezas marcadas para cambiar. Márcalas con «Estado» en la ruleta o en la ficha.')); return; }
+  if(!items.length){ body.append(el('p','empty','No hay piezas marcadas para cambiar. Se marcan desde la ficha de cada pieza.')); return; }
   const tb=el('div','ctable');
   const hd=el('div','crow hd'); for(const t of ['Pieza','Referencia','Dónde','Cant.','Precio']) hd.append(el('span',null,t)); tb.append(hd);
   let total=0;
@@ -4716,7 +4821,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.1.7-beta';
+  const APP_VERSION='1.2.0-beta';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -4899,7 +5004,7 @@ const nf=new Intl.NumberFormat('es-ES');
 const eur=v=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v||0);
 
 const PERF={m:{}, fr:[], autoQ:null};
-const UI={nums:{}, introDone:false, sec:'inicio', sub:{mant:'plan', papeles:'docs'}, mas:null, papFilter:'todo', sig:{}, carIntro:false, modelReady:false,
+const UI={nums:{}, introDone:false, sec:'inicio', sub:{mant:'plan', papeles:'docs', coche:'3d'}, mas:null, papFilter:'todo', sig:{}, carIntro:false, modelReady:false,
   prefs:{sound:true, haptics:true, theme:'dark'}};
 try{ Object.assign(UI.prefs, JSON.parse(localStorage.getItem('taller7l-ui')||'{}')); }catch{}
 const savePrefsUI=()=>{ try{ localStorage.setItem('taller7l-ui', JSON.stringify(UI.prefs)); }catch{} };
@@ -4953,17 +5058,18 @@ document.body.classList.add('ui2');
 applyTheme();
 const SECS={
   inicio:{t:'Inicio', icon:'home'},
-  coche:{t:'Coche 3D', icon:'car'},
-  mant:{t:'Mantenimiento', icon:'wrench', subs:[['plan','Plan','list'],['hist','Historial','history'],['gastos','Gastos','euro'],['compra','Compra','cart'],['procs','Guías','book']]},
-  papeles:{t:'Papeles', icon:'file', subs:[['docs','Documentos','shield'],['fotos','Facturas y fotos','image'],['ficha','Ficha del coche','tag']]},
+  coche:{t:'Coche', icon:'car', subs:[['3d','Modelo 3D','cube'],['ficha','Ficha','tag'],['fus','Fusibles','zap'],['ave','Averías','alert']]},
+  mant:{t:'Mantenimiento', icon:'wrench', subs:[['plan','Plan','list'],['hist','Historial','history'],['compra','Compra','cart'],['gastos','Gastos','euro']]},
+  papeles:{t:'Papeles', icon:'file', subs:[['docs','Documentos','shield'],['fotos','Facturas y fotos','image']]},
   mas:{t:'Más', icon:'grid'},
 };
-const MAS_T={avisos:'Avisos y notificaciones', ave:'Averías y códigos', fus:'Fusibles y relés', pines:'Notas en el modelo', pend:'Fichas pendientes', backup:'Copia de seguridad', keys:'Atajos de teclado', about:'Acerca de y actualizaciones', ajustes:'Ajustes'};
+const MAS_T={avisos:'Avisos y notificaciones', procs:'Guías de reparación', pines:'Notas en el modelo', pend:'Fichas pendientes', backup:'Copia de seguridad', keys:'Atajos de teclado', about:'Acerca de y actualizaciones', ajustes:'Ajustes'};
 document.querySelectorAll('#nav2 button').forEach(b=>{ b.querySelector('i').innerHTML=ic(SECS[b.dataset.sec].icon); b.onclick=()=>{ uiSfx('tap'); go(b.dataset.sec); }; });
 $('#t2Search').innerHTML=ic('search'); $('#t2Back').innerHTML=ic('chevL'); $('#srIco').innerHTML=ic('search');
-for(const [sec,box] of [['mant','#stMant'],['papeles','#stPap']]){
+const SUBBOX={mant:'#stMant',papeles:'#stPap',coche:'#stCoche'}, SUBPB={mant:'#pbMant',papeles:'#pbPap',coche:'#pbCoche'};
+for(const [sec,box] of Object.entries(SUBBOX)){
   const st=$(box);
-  for(const [k,l,i] of SECS[sec].subs){ const b=h2(`<button type="button" role="tab" data-sub="${k}">${ic(i)}<span>${l}</span></button>`); b.onclick=()=>{ uiSfx('tap'); if(k==='docs') S.docEdit=null; if(k==='procs') S.procEdit=null; openSub(sec,k); }; st.append(b); }
+  for(const [k,l,i] of SECS[sec].subs){ const b=h2(`<button type="button" role="tab" data-sub="${k}">${ic(i)}<span>${l}</span></button>`); b.onclick=()=>{ uiSfx('tap'); if(k==='docs'){ S.docEdit=null; UI.docForm=false; } if(k==='ave'){ S.aveEdit=null; S.aveDraftParts=null; } openSub(sec,k); setTop(); }; st.append(b); }
 }
 /* «Gráficos» pasa a la barra superior (solo en Coche 3D); «Taller» se reparte en las secciones */
 { const mbs=[...document.querySelectorAll('.menubar .mb')]; const g=mbs[0];
@@ -4981,8 +5087,8 @@ function dockInto(box){ if(ovl.parentNode!==box){ box.prepend(ovl); } ovl.classL
 function undock(){ if(ovl.classList.contains('docked')){ ovl.classList.remove('docked'); ovlHome.append(ovl); ovl.hidden=true; popFor=null; popMode=null; } }
 const _openPanel=openPanel, _closePop=closePop, _focusPart=focusPart;
 function dockOpen(box,id,mode){ dockInto(box); _openPanel(id,mode); (box.closest('.pbody')||box).scrollTop=0; }
-const ROUTE={mant:()=>['mant',S.mantTab==='hist'?'hist':'plan'], int:()=>['mant','plan'], gastos:()=>['mant','gastos!'], compra:()=>['mant','compra!'], procs:()=>['mant','procs'], docs:()=>['papeles','docs'],
-  pend:()=>['mas','pend'], fus:()=>['mas','fus'], ave:()=>['mas','ave'], pines:()=>['mas','pines'], backup:()=>['mas','backup'], keys:()=>['mas','keys'], about:()=>['mas','about'], remind:()=>['inicio']};
+const ROUTE={mant:()=>['mant',S.mantTab==='hist'?'hist':'plan'], int:()=>['mant','plan'], gastos:()=>['mant','gastos!'], compra:()=>['mant','compra!'], procs:()=>['mas','procs'], docs:()=>['papeles','docs'],
+  pend:()=>['mas','pend'], fus:()=>['coche','fus'], ave:()=>['coche','ave'], pines:()=>['mas','pines'], backup:()=>['mas','backup'], keys:()=>['mas','keys'], about:()=>['mas','about'], remind:()=>['inicio']};
 openPanel=function(id,mode){
   const global = typeof id==='string' && id.startsWith('__') && mode!=='vista' && mode!=='pin';
   if(global && ROUTE[mode]){
@@ -4990,29 +5096,40 @@ openPanel=function(id,mode){
     if(sec==='inicio'){ go('inicio'); return; }
     go(sec,null,{silent:true});
     if(sec==='mas'){ UI.mas=sub; renderMas(); dockOpen($('#pbMas .masdock'),id,mode); setTop(); return; }
+    if(sec==='coche'){ UI.sub.coche=sub; markSub('coche'); clearCoche(); dockOpen($('#pbCoche'),id,mode); setTop(); return; }
     if(sub.endsWith('!')){ openSub(sec, sub.slice(0,-1)); return; }
-    UI.sub[sec]=sub; markSub(sec); if(sec==='mant') clearPb($('#pbMant')); dockOpen(sec==='mant'?$('#pbMant'):$('#pbPap'), id, mode); return;
+    UI.sub[sec]=sub; markSub(sec); if(sec==='mant') clearPb($('#pbMant')); dockOpen(sec==='mant'?$('#pbMant'):$('#pbPap'), id, mode); setTop(); return;
   }
-  if(UI.sec!=='coche') go('coche');
-  undock(); return _openPanel(id,mode);
+  if(global && mode==='int'){ go('mant',null,{silent:true}); UI.sub.mant='plan'; markSub('mant'); clearPb($('#pbMant')); dockOpen($('#pbMant'),id,mode); setTop(); return; }
+  if(UI.sec!=='coche' || UI.sub.coche!=='3d') go('coche','3d');
+  undock(); const r=_openPanel(id,mode); setTop(); return r;
 };
 closePop=function(){
   const wasDocked=ovl.classList.contains('docked');
   _closePop();
-  if(wasDocked) queueMicrotask(()=>{ if(ovl.hidden && UI.sec!=='coche') restoreSub(); });
+  if(wasDocked) queueMicrotask(()=>{ if(ovl.hidden && (UI.sec!=='coche' || UI.sub.coche!=='3d')) restoreSub(); setTop(); });
 };
 $('#ovlClose').onclick=()=>closePop();
-focusPart=function(...a){ if(UI.sec!=='coche') go('coche'); return _focusPart.apply(this,a); };
+focusPart=function(...a){ if(UI.sec!=='coche' || UI.sub.coche!=='3d') go('coche','3d'); return _focusPart.apply(this,a); };
 startupReminder=function(){};   // el resumen del Inicio sustituye al aviso emergente
 
 function restoreSub(){
   if(UI.sec==='mas'){ if(UI.mas && UI.mas!=='ajustes' && UI.mas!=='avisos'){ UI.mas=null; } renderMas(); setTop(); return; }
-  if(UI.sec==='mant'||UI.sec==='papeles') openSub(UI.sec, UI.sub[UI.sec]);
+  if(UI.sec==='mant'||UI.sec==='papeles'||UI.sec==='coche') openSub(UI.sec, UI.sub[UI.sec]);
 }
-function markSub(sec){ const box=sec==='mant'?'#stMant':'#stPap'; document.querySelectorAll(box+' button').forEach(b=>b.setAttribute('aria-selected', b.dataset.sub===UI.sub[sec])); }
+function markSub(sec){ document.querySelectorAll(SUBBOX[sec]+' button').forEach(b=>b.setAttribute('aria-selected', b.dataset.sub===UI.sub[sec])); if(sec==='coche') document.body.dataset.csub=UI.sub.coche; }
+function clearCoche(){ const pb=$('#pbCoche'); $('#holdCoche').append($('#secCoche')); [...pb.children].forEach(c=>{ if(c!==ovl) c.remove(); }); }
 function openSub(sec,sub){
   UI.sub[sec]=sub; markSub(sec);
-  const pb=sec==='mant'?$('#pbMant'):$('#pbPap');
+  const pb=$(SUBPB[sec]);
+  if(sec==='coche'){
+    if(ovl.classList.contains('docked') && ovl.parentNode===pb) _closePop();
+    clearCoche();
+    if(sub==='3d'){ requestAnimationFrame(()=>{ _rsz=''; resize(); dirty=true; carIntro(); }); }
+    else if(sub==='ficha') renderFichaCoche(pb);
+    else dockOpen(pb,'__'+sub, sub);
+    setTop(); return;
+  }
   if(sec==='mant'){
     if(sub==='plan'||sub==='hist'){ clearPb(pb); S.mantTab = sub==='hist'?'hist':'items'; dockOpen(pb,'__mant','mant'); }
     else if(sub==='procs'){ clearPb(pb); dockOpen(pb,'__procs','procs'); }
@@ -5027,25 +5144,32 @@ function openSub(sec,sub){
 }
 function setTop(){
   const s=SECS[UI.sec]; let t=s.t, sub='Touareg 7L · 9905 CMY', back=false;
-  if(UI.sec==='mas' && UI.mas){ t=MAS_T[UI.mas]||'Más'; sub='Más'; back=true; }
-  else if(UI.sec==='coche') sub = S.sel && parts[S.sel] ? parts[S.sel].name : 'Toca una pieza para ver su ficha';
-  else if(UI.sec==='mant') sub = S.cfg?.kmActual ? nf.format(S.cfg.kmActual)+' km' : 'Plan, historial y gastos';
-  else if(UI.sec==='papeles') sub='Documentos, facturas y datos del coche';
+  const subL=k=>(s.subs||[]).find(x=>x[0]===k)?.[1]||'';
+  const formOpen = !ovl.hidden && ovl.classList.contains('docked') && popMode==='int';
+  document.body.classList.toggle('formopen', formOpen);
+  if(formOpen){ t='Nueva intervención'; sub=subL(UI.sub[UI.sec])||s.t; back=true; }
+  else if(UI.sec==='mas' && UI.mas){ t=MAS_T[UI.mas]||'Más'; sub='Más'; back=true; }
+  else if(UI.sec==='coche') sub = UI.sub.coche!=='3d' ? subL(UI.sub.coche) : (S.sel && parts[S.sel] ? parts[S.sel].name : 'Modelo 3D · toca una pieza');
+  else if(UI.sec==='mant') sub = subL(UI.sub.mant) + (S.cfg?.kmActual ? ' · '+nf.format(S.cfg.kmActual)+' km' : '');
+  else if(UI.sec==='papeles') sub = subL(UI.sub.papeles);
   $('#t2Title').textContent=t; $('#t2Sub').textContent=sub; $('#t2Back').hidden=!back;
 }
-$('#t2Back').onclick=()=>{ uiSfx('tap'); if(UI.sec==='mas'){ UI.mas=null; if(ovl.classList.contains('docked')) _closePop(); renderMas(); setTop(); } };
+$('#t2Back').onclick=()=>{ uiSfx('tap');
+  if(document.body.classList.contains('formopen')){ const c=[...document.querySelectorAll('#ovlBody .acts button')].find(b=>b.textContent==='Cancelar'); if(c) c.click(); else closePop(); setTop(); return; }
+  if(UI.sec==='mas'){ UI.mas=null; if(ovl.classList.contains('docked')) _closePop(); renderMas(); setTop(); } };
 
 function go(sec, sub, opts={}){
   const prev=UI.sec; UI.sec=sec; document.body.dataset.sec=sec;
   document.querySelectorAll('#nav2 button').forEach(b=>b.setAttribute('aria-current', b.dataset.sec===sec?'page':'false'));
   document.querySelectorAll('.page').forEach(p=>p.classList.toggle('on', p.dataset.sec===sec));
   closeMenus();
-  if(sec==='coche'){ startModel(); if(ovl.classList.contains('docked')) undock(); requestAnimationFrame(()=>{ resize(); dirty=true; carIntro(); }); }
+  if(sec==='coche'){ startModel(); if(sub) UI.sub.coche=sub; markSub('coche'); if((sub||UI.sub.coche)==='3d'){ if(ovl.classList.contains('docked')) undock(); requestAnimationFrame(()=>{ resize(); dirty=true; carIntro(); }); } else if(prev!==sec && ovl.classList.contains('docked')) undock(); }
   else if(prev!==sec && ovl.classList.contains('docked')) undock();
   else if(sec!=='coche' && !ovl.hidden && !ovl.classList.contains('docked')){ _closePop(); }
   setTop();
   if(opts.silent) return;
   if(sec==='inicio') renderInicio(true);
+  else if(sec==='coche'){ if(UI.sub.coche!=='3d') openSub('coche', UI.sub.coche); }
   else if(sec==='mant') openSub('mant', sub||UI.sub.mant);
   else if(sec==='papeles') openSub('papeles', sub||UI.sub.papeles);
   else if(sec==='mas'){ UI.mas=null; renderMas(); setTop(); }
@@ -5119,26 +5243,10 @@ function renderInicio(force){
   if(!S.cfg){ box.append(h2(`<div class="grid2"><div class="skel" style="height:170px;border-radius:14px"></div><div class="skel" style="height:80px"></div><div class="skel c6" style="height:200px"></div><div class="skel c6" style="height:200px"></div></div>`)); return; }
   const c=counts(), km=S.cfg.kmActual;
   const g=h2('<div class="grid2"></div>'); box.append(g);
-  /* héroe */
-  const hero=heroCard('c8', true);
-  if(!km) hero.append(h2(`<div class="kmwarn">${ic('alert')}Pon los kilómetros actuales para que los avisos por kilometraje funcionen.</div>`));
-  g.append(hero);
-  animNum(hero.querySelector('#kmN'), Number(km)||0, undefined, 'km');
-  /* fichas documentadas */
-  const all=Object.keys(parts).filter(id=>!parts[id].scan), done=all.filter(id=>S.fichas[id]?.ref).length, pct=all.length?Math.round(done/all.length*100):0;
-  const fc=h2(`<div class="card2 c4"><h3>${ic('cube')}Fichas de piezas</h3><div class="prog2"><div class="ring" style="--p:0" data-v="${pct} %"></div><div><div class="big2">${done}<small class="muted2"> / ${all.length||'—'}</small></div><div class="muted2">piezas con referencia guardada</div></div></div><div class="row3" style="justify-content:flex-start"><button class="btn2 ghost" type="button">${ic('list')}Ver pendientes</button></div></div>`);
-  fc.querySelector('button').onclick=()=>openGlobal('pend'); g.append(fc);
-  { const rg=fc.querySelector('.ring'); if(UI.introDone) rg.style.setProperty('--p',pct); else requestAnimationFrame(()=>requestAnimationFrame(()=>rg.style.setProperty('--p',pct))); }
-  /* chips */
-  const ch=h2(`<div class="stchips"></div>`);
-  for(const [n,l,col,fn] of [[c.due,'Vencidos','var(--due)',()=>go('mant','plan')],[c.soon,'Próximos','var(--soon)',()=>go('mant','plan')],[c.ok,'Al día','var(--ok)',()=>go('mant','plan')],[c.ddue+c.dsoon,'Papeles por caducar','var(--info)',()=>go('papeles','docs')]]){
-    const b=h2(`<button type="button" class="stc" style="--c:${col}"><b>0</b><span>${l}</span></button>`); b.onclick=fn; ch.append(b); animNum(b.querySelector('b'), n, undefined, 'chip'+l); }
-  g.append(ch);
-  /* acciones rápidas */
-  const qa=h2('<div class="qa"></div>');
-  for(const [i,l,fn] of [['plus','Intervención',()=>openIntForm({})],['gauge','Kilómetros',quickKm],['camera','Foto factura',()=>$('#camIn').click()],['shield','Documento',()=>{ S.docEdit=null; go('papeles','docs'); }],['search','Buscar',openSearch]]){
-    const b=h2(`<button type="button"><i>${ic(i)}</i>${l}</button>`); b.onclick=()=>{ uiSfx('tap'); fn(); }; qa.append(b); }
-  g.append(qa);
+  /* coche en una línea: matrícula y kilómetros */
+  g.append(heroMini());
+  /* lo que requiere atención */
+  g.append(attentionCard(km));
   /* próximo mantenimiento */
   const ml=mantList(), mc=h2(`<div class="card2 c6"><h3>${ic('wrench')}Próximo mantenimiento<button class="more" type="button">Ver plan${ic('chevR')}</button></h3><div class="l2"></div></div>`);
   mc.querySelector('.more').onclick=()=>go('mant','plan');
@@ -5173,6 +5281,12 @@ function renderInicio(force){
   const gc=h2(`<div class="card2 c6"><h3>${ic('euro')}Gastos ${yr}<button class="more" type="button">Detalle${ic('chevR')}</button></h3><div class="big2" id="gTot">0 €</div><div class="muted2">${yi.length} gasto(s) este año · ${eur(totAll)} en total</div></div>`);
   setTimeout(()=>{ UI.introDone=true; },900);
   gc.querySelector('.more').onclick=()=>go('mant','gastos'); g.append(gc); animNum(gc.querySelector('#gTot'), tot, eur, 'gtot');
+  /* fichas documentadas */
+  const all=Object.keys(parts).filter(id=>!parts[id].scan), done=all.filter(id=>S.fichas[id]?.ref).length, pct=all.length?Math.round(done/all.length*100):0;
+  const fc=h2(`<div class="card2 c4"><h3>${ic('cube')}Fichas de piezas</h3><div class="prog2"><div class="ring" style="--p:0" data-v="${pct} %"></div><div><div class="big2">${done}<small class="muted2"> / ${all.length||'—'}</small></div><div class="muted2">piezas con referencia guardada</div></div></div><div class="row3" style="justify-content:flex-start"><button class="btn2 ghost" type="button">${ic('list')}Ver pendientes</button></div></div>`);
+  fc.querySelector('button').onclick=()=>openGlobal('pend'); 
+  { const rg=fc.querySelector('.ring'); if(UI.introDone) rg.style.setProperty('--p',pct); else requestAnimationFrame(()=>requestAnimationFrame(()=>rg.style.setProperty('--p',pct))); }
+  fc.classList.remove('c4'); fc.classList.add('c6'); g.append(fc);
 }
 
 /* ---------- km rápido ---------- */
@@ -5193,6 +5307,7 @@ $('#camIn').onchange=async e=>{
   await new Promise(r=>setTimeout(r,60));
   const iA=document.getElementById('iAdj'); if(!iA) return;
   try{ const dt=new DataTransfer(); files.forEach(f=>dt.items.add(f)); iA.files=dt.files; iA.dispatchEvent(new Event('change')); }catch{}
+  iA.closest('details')?.setAttribute('open','');
   toast('Foto lista: completa los datos de la intervención y guarda');
 };
 
@@ -5219,15 +5334,6 @@ function renderPapeles(sub){
     for(const x of list){ const gi=h2(`<div class="gi"></div>`); gi.append(attachThumbs([x.a])); gi.append(h2(`<p><b>${esc(x.t)}</b>${esc(x.s)}</p>`)); gal.append(gi); }
     wrap.append(gal); return;
   }
-  if(sub==='ficha'){
-    wrap.classList.add('pg-ficha');
-    const g=h2('<div class="grid2"></div>'); wrap.append(g);
-    const hero=heroCard('c6', false);
-    g.append(hero);
-    const card=h2(`<div class="card2 c6"><h3>${ic('tag')}Datos de fábrica</h3></div>`); card.append($('#secCoche')); g.append(card);
-    const pw=$('#cfgPrWrap'); if(pw) pw.open=true;
-    return;
-  }
 }
 
 /* ---------- MÁS ---------- */
@@ -5236,10 +5342,11 @@ function renderMas(){
   if(UI.mas==='avisos'){ renderAvisos(pb); return; }
   if(UI.mas && UI.mas!=='ajustes'){ pb.append(h2('<div class="masdock"></div>')); return; }
   if(UI.mas==='ajustes'){ renderAjustes(pb); return; }
+  const touch=matchMedia('(hover: none)').matches;
   const G=[
-    ['Diagnóstico',[['ave','alert','Averías y códigos','Síntomas y códigos OBD/VCDS'],['fus','zap','Fusibles y relés','Mapa editable de las cajas'],['pines','pin','Notas en el modelo','Avisos clavados en las piezas'],['pend','list','Fichas pendientes','Qué piezas faltan por documentar']]],
-    ['Datos',[['backup','download','Copia de seguridad','Exportar o restaurar tus datos'],['pdf','file','Historial en PDF','Para imprimir o enviar'],['glb','cube','Importar pieza escaneada','GLB o glTF al modelo 3D'],['wiz','sparkle','Asistente inicial','Km, últimos cambios y papeles en 4 pasos']]],
-    ['Aplicación',[['avisos','alert','Avisos y notificaciones','Push, correo y Telegram'],['ajustes','sliders','Ajustes','Tema, sonidos, vibración y gráficos'],['keys','keyboard','Atajos de teclado','Teclas rápidas del visor'],['about','info','Acerca de y actualizaciones','Versión, novedades y créditos'],['logout','logout','Cerrar sesión',window.FB?.user?.()?.email||'Cuenta de Google']]],
+    ['Taller',[['procs','book','Guías de reparación','Pasos, herramientas y pares'],['pines','pin','Notas en el modelo','Avisos clavados en las piezas'],['pend','list','Fichas pendientes','Qué piezas faltan por documentar']]],
+    ['Datos',[['backup','download','Copia de seguridad','Exportar o restaurar tus datos'],['pdf','file','Historial en PDF','Para imprimir o enviar'],['wiz','sparkle','Asistente inicial','Km, últimos cambios y papeles en 4 pasos']]],
+    ['Aplicación',[['avisos','alert','Avisos y notificaciones','Push, correo y Telegram'],['ajustes','sliders','Ajustes','Tema, sonidos, gráficos y avanzado'],...(touch?[]:[['keys','keyboard','Atajos de teclado','Teclas rápidas del visor']]),['about','info','Acerca de y actualizaciones','Versión, novedades y créditos'],['logout','logout','Cerrar sesión',(window.FB?.user?.()?.email||'Cuenta de Google')]]],
   ];
   for(const [gt,items] of G){
     const sec=h2(`<div class="mgrp"><h4>${gt}</h4><div class="mtiles"></div></div>`), t=sec.querySelector('.mtiles');
@@ -5254,7 +5361,7 @@ function masOpen(k){
   if(k==='wiz') return openWizard(0);
   if(k==='logout') return $('#mLogout').click();
   if(k==='ajustes'||k==='avisos'){ UI.mas=k; renderMas(); setTop(); return; }
-  if(k==='ave') S.aveDraftParts=null;
+  if(k==='procs') S.procEdit=null;
   openGlobal(k);
 }
 function renderAjustes(pb){
@@ -5266,10 +5373,12 @@ function renderAjustes(pb){
   const sw=(on,fn)=>{ const s=h2(`<button type="button" class="sw${on?' on':''}" role="switch" aria-checked="${on}"></button>`); s.onclick=()=>{ fn(); renderMas(); }; return s; };
   row('volume','Sonidos de la interfaz','Clics al tocar y al recorrer listas, carraca al registrar',sw(UI.prefs.sound,()=>{ UI.prefs.sound=!UI.prefs.sound; savePrefsUI(); uiSfx('save'); }));
   row('car','Sonidos de puertas y capó','En el visor 3D',sw($('#rSnd').checked,()=>$('#rSnd').click()));
-  row('vibrate','Vibración', navigator.vibrate ? 'Al tocar botones, guardar y recorrer listas' : 'No disponible en iPhone: Apple no deja vibrar a las webs',sw(UI.prefs.haptics,()=>{ UI.prefs.haptics=!UI.prefs.haptics; savePrefsUI(); }));
+  if(navigator.vibrate) row('vibrate','Vibración','Al tocar botones, guardar y recorrer listas',sw(UI.prefs.haptics,()=>{ UI.prefs.haptics=!UI.prefs.haptics; savePrefsUI(); }));
   row('maximize','Botones grandes','Más fáciles de pulsar con guantes',sw($('#rBig').checked,()=>$('#rBig').click()));
-  const gb=h2(`<button type="button" class="btn2 ghost">${ic('sliders')}Abrir</button>`); gb.onclick=()=>{ go('coche'); setTimeout(()=>{ const b=document.querySelector('#t2r .mbtn'); b?.click(); },120); };
+  const gb=h2(`<button type="button" class="btn2 ghost">${ic('sliders')}Abrir</button>`); gb.onclick=()=>{ go('coche','3d'); setTimeout(()=>{ const b=document.querySelector('#t2r .mbtn'); b?.click(); },120); };
   row('sliders','Gráficos del visor 3D','Luces, efectos, escenario y calidad',gb);
+  t.append(h2('<h4 class="ajh">Avanzado</h4>'));
+  { const ib=h2(`<button type="button" class="btn2 ghost">${ic('cube')}Importar</button>`); ib.onclick=()=>{ go('coche','3d'); $('#mGlb').click(); }; row('cube','Importar pieza escaneada','Archivo GLB o glTF al modelo 3D',ib); }
   { const d=h2(`<p class="muted2" style="margin:14px 2px 0;font-size:11px;opacity:.6"></p>`); d.textContent=`Pantalla ${SCR.iw}×${SCR.ih} (alto real ${SCR.sh}) · zonas seguras ${SCR.t}/${SCR.b} · franja ${SCR.gap} · ${SCR.st?'instalada':'navegador'}`; (typeof g!=='undefined'&&g?.append)?g.append(d):null; }
 }
 { const _ab=EXTRA_POP.about; EXTRA_POP.about=function(){ _ab(); $('#ovlBody .about')?.append(h2(`<p class="credit2">Modelo 3D: «Volkswagen Touareg MK1 2002-2010» de Merc_TV · <a href="https://creativecommons.org/licenses/by/4.0/deed.es" target="_blank" rel="noopener">CC BY 4.0</a> · modificado (frontal 2003, variantes retiradas, ruedas recolocadas, pintura).</p>`)); }; }
@@ -5290,17 +5399,17 @@ function runSearch(raw){
     const sug=h2('<div class="chips2 subtabs" style="border:0;background:none;justify-content:center"></div>'); for(const s of ['Filtro','Aceite','ITV','Freno','Fusible','C9Z']){ const b=h2(`<button type="button">${s}</button>`); b.onclick=()=>{ $('#srQ').value=s; runSearch(s); }; sug.append(b); } out.append(sug); return; }
   const groups=[];
   const add=(g,i,title,sub,fn,c)=>{ let G=groups.find(x=>x.g===g); if(!G){ G={g,items:[]}; groups.push(G); } if(G.items.length<8) G.items.push({i,title,sub,fn,c}); };
-  for(const [id,p] of Object.entries(parts)){ const f=S.fichas[id]||{}; const hay=norm(p.name+' '+(f.ref||'')+' '+(f.denominacion||'')+' '+(f.notas||'')); if(hay.includes(q)) add('Piezas','cube',p.name,(LAYERS.find(l=>l.id===p.layer)?.name||'')+(f.ref?' · '+f.ref:''),()=>{ closeSearch(); go('coche'); select(id); _focusPart(id); if(matchMedia('(max-width:860px)').matches) setTab('ficha'); }); }
+  for(const [id,p] of Object.entries(parts)){ const f=S.fichas[id]||{}; const hay=norm(p.name+' '+(f.ref||'')+' '+(f.denominacion||'')+' '+(f.notas||'')); if(hay.includes(q)) add('Piezas','cube',p.name,(LAYERS.find(l=>l.id===p.layer)?.name||'')+(f.ref?' · '+f.ref:''),()=>{ closeSearch(); go('coche','3d'); select(id); _focusPart(id); if(matchMedia('(max-width:860px)').matches) setTab('ficha'); }); }
   for(const it of S.mant) if(norm(it.nombre+' '+(it.grupo||'')).includes(q)){ const s=itemStatus(it); add('Mantenimiento','wrench',it.nombre,(it.grupo||'')+' · '+ST_LABEL[s.st],()=>{ closeSearch(); go('mant','plan'); },stColor(s.st)); }
   for(const x of S.int) if(norm([x.descripcion,x.ref,x.tipo,itemName(x.mant),partName(x.pieza)].join(' ')).includes(q)) add('Historial','history',x.descripcion||itemName(x.mant)||x.tipo,fmtDate(x.fecha)+(x.km!=null?' · '+nf.format(x.km)+' km':''),()=>{ closeSearch(); go('mant','hist'); });
   for(const c of (S.compras||[])) if(norm([c.nombre,c.ref,c.tienda,c.notas].join(' ')).includes(q)) add('Compras','cart',c.nombre+(c.cantidad>1?' ×'+c.cantidad:''),({pendiente:'Por comprar',comprado:'Comprado, sin montar',montado:'Montado'})[c.estado]+(c.precio?' · '+eur(c.precio):''),()=>{ closeSearch(); go('mant','compra'); });
-  for(const d of S.docs) if(norm(d.tipo+' '+(d.nombre||'')+' '+(d.notas||'')).includes(q)) add('Documentos','shield',d.tipo+(d.nombre?' · '+d.nombre:''),d.caduca?'Caduca el '+fmtDate(d.caduca):'',()=>{ closeSearch(); S.docEdit=d; go('papeles','docs'); });
+  for(const d of S.docs) if(norm(d.tipo+' '+(d.nombre||'')+' '+(d.notas||'')).includes(q)) add('Documentos','shield',d.tipo+(d.nombre?' · '+d.nombre:''),d.caduca?'Caduca el '+fmtDate(d.caduca):'',()=>{ closeSearch(); S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); });
   for(const a of S.ave) if(norm([a.codigo,a.sintoma,a.notas].join(' ')).includes(q)) add('Averías','alert',(a.codigo?a.codigo+' · ':'')+(a.sintoma||''),a.estado==='resuelta'?'Resuelta':'Abierta',()=>{ closeSearch(); S.aveEdit=a; S.aveDraftParts=null; openGlobal('ave'); });
-  for(const code of (S.cfg?.pr||[])){ const inf=S.prinfo?.[code]; if(norm(code+' '+(inf?.es||'')+' '+(inf?.en||'')).includes(q)) add('Códigos PR','tag',code+' · '+(inf?.es||'Sin descripción').slice(0,70),inf?.familia||'',()=>{ closeSearch(); go('papeles','ficha'); S.prOpen=code; renderFab(S.cfg); setTimeout(()=>$('#prCard')?.scrollIntoView({behavior:'smooth',block:'center'}),120); }); }
-  if(norm('C9Z '+(S.cfg?.pintura||'')+' pintura color').includes(q)) add('Ficha del coche','tag','Pintura '+(S.cfg?.pintura||'C9Z'),'Ficha del coche',()=>{ closeSearch(); go('papeles','ficha'); });
+  for(const code of (S.cfg?.pr||[])){ const inf=S.prinfo?.[code]; if(norm(code+' '+(inf?.es||'')+' '+(inf?.en||'')).includes(q)) add('Códigos PR','tag',code+' · '+(inf?.es||'Sin descripción').slice(0,70),inf?.familia||'',()=>{ closeSearch(); go('coche','ficha'); S.prOpen=code; renderFab(S.cfg); setTimeout(()=>$('#prCard')?.scrollIntoView({behavior:'smooth',block:'center'}),120); }); }
+  if(norm('C9Z '+(S.cfg?.pintura||'')+' pintura color').includes(q)) add('Ficha del coche','tag','Pintura '+(S.cfg?.pintura||'C9Z'),'Ficha del coche',()=>{ closeSearch(); go('coche','ficha'); });
   for(const f of S.fus) if(norm([f.caja,f.pos,f.circuito,f.notas,f.amp].join(' ')).includes(q)) add('Fusibles','zap',(f.pos?f.pos+' · ':'')+(f.circuito||''),(f.caja||'')+(f.amp?' · '+f.amp+' A':''),()=>{ closeSearch(); S.fusCaja=f.caja; openGlobal('fus'); });
-  for(const p of S.procs) if(norm(p.titulo+' '+(p.herramientas||'')).includes(q)) add('Guías','book',p.titulo,`${(p.pasos||[]).length} pasos`,()=>{ closeSearch(); S.procEdit=null; go('mant','procs'); });
-  for(const p of S.pins) if(norm(p.texto+' '+partName(p.pieza)).includes(q)) add('Notas en el modelo','pin',(p.texto||'').slice(0,60),partName(p.pieza),()=>{ closeSearch(); go('coche'); openPin(p._id); });
+  for(const p of S.procs) if(norm(p.titulo+' '+(p.herramientas||'')).includes(q)) add('Guías','book',p.titulo,`${(p.pasos||[]).length} pasos`,()=>{ closeSearch(); S.procEdit=null; openGlobal('procs'); });
+  for(const p of S.pins) if(norm(p.texto+' '+partName(p.pieza)).includes(q)) add('Notas en el modelo','pin',(p.texto||'').slice(0,60),partName(p.pieza),()=>{ closeSearch(); go('coche','3d'); openPin(p._id); });
   if(!groups.length){ out.append(h2(`<div class="empty2">${ic('search')}<div>Nada coincide con «${esc(raw)}».</div></div>`)); return; }
   for(const G of groups){ out.append(h2(`<h5>${G.g}</h5>`)); for(const x of G.items){ const r=h2(`<button type="button" class="r2" style="${x.c?'--c:'+x.c:''}"><span class="ic">${ic(x.i)}</span><span class="tx"><b>${hl(x.title,q)}</b><small>${hl(x.sub,q)}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ uiSfx('tap'); x.fn(); }; out.append(r); } }
 }
@@ -5378,7 +5487,7 @@ function buildGauge(svg){
 const stageGauge=h2($('#spGauge').outerHTML.replace(/ id="sp\w+"/g,''));
 const spSet=buildGauge($('#spGauge')); { const lb=$('#loader .lbox'); if(lb){ lb.insertBefore(stageGauge, lb.querySelector('.ltxt')); } }
 const stSet=buildGauge(stageGauge);
-const SP_TIPS=['Todo está en 5 secciones: Inicio, Coche 3D, Mantenimiento, Papeles y Más.','Pulsa la lupa (o Ctrl+K) para buscar cualquier pieza, código o documento.','Desde Inicio ▸ Foto factura fotografías una factura y queda adjunta a la intervención.','En el visor 3D, mantén pulsada una pieza para abrir su ruleta de acciones.','Arrastra la barra de pestañas del visor para agrandar o esconder el panel inferior.','Funciona sin conexión: los cambios se suben solos cuando vuelve internet.'];
+const SP_TIPS=['Todo está en 5 secciones: Inicio, Coche, Mantenimiento, Papeles y Más.','Pulsa la lupa (o Ctrl+K) para buscar cualquier pieza, código o documento.','El botón + está siempre a mano: intervención, kilómetros, foto de factura, compra, documento o avería.','En Coche ▸ Modelo 3D toca una pieza para ver su ficha y su historial.','Arrastra la barra de pestañas del visor para agrandar o esconder el panel inferior.','Funciona sin conexión: los cambios se suben solos cuando vuelve internet.'];
 let spTipI=0; const spTip=$('#spTip'); spTip.textContent=SP_TIPS[0];
 const spTipT=setInterval(()=>{ spTip.style.opacity=0; setTimeout(()=>{ spTipI=(spTipI+1)%SP_TIPS.length; spTip.textContent=SP_TIPS[spTipI]; spTip.style.opacity=1; },300); },3200);
 const spT0=performance.now(); let spDone=false, spF=0;
@@ -5466,7 +5575,7 @@ setInterval(()=>{
 function scheduleModel(){ if(scheduleModel.on) return; scheduleModel.on=true; const go2=()=>startModel(); if('requestIdleCallback' in window) requestIdleCallback(go2,{timeout:2500}); else setTimeout(go2,1200); }
 setTimeout(()=>startModel(), 7000);
 /* el visor no dibuja mientras estás en otra sección */
-{ const _rf=renderFrame; renderFrame=function(){ if(UI.sec!=='coche' && !document.querySelector('.stage.fs')) return; const t=performance.now(); PERF.fr.push(t); if(PERF.fr.length>90) PERF.fr.shift(); _rf(); }; }
+{ const _rf=renderFrame; renderFrame=function(){ if((UI.sec!=='coche' || UI.sub.coche!=='3d') && !document.querySelector('.stage.fs')) return; const t=performance.now(); PERF.fr.push(t); if(PERF.fr.length>90) PERF.fr.shift(); _rf(); }; }
 /* calidad automática la primera vez, según el dispositivo */
 { let saved={}; try{ saved=JSON.parse(localStorage.getItem('touareg-pro-render')||'{}'); }catch{}
   if(!saved.quality){ const cores=navigator.hardwareConcurrency||8, mem=navigator.deviceMemory||8, coarse=matchMedia('(pointer: coarse)').matches;
@@ -5557,11 +5666,11 @@ function listManager(sel, kind){
   del.onclick=async()=>{
     const v=sel.value; if(!v) return;
     const name=sel.selectedOptions[0]?.textContent||'';
-    const used = kind==='mant' ? S.int.filter(x=>x.mant===v).length : S.int.filter(x=>x.pieza===v).length;
+    const used = kind==='mant' ? S.int.filter(x=>x.mant===v).length : S.int.filter(x=>x.pieza===v).length; const bk = kind==='mant' ? S.mant.find(x=>x.id===v||x._id===v) : null;
     if(!confirm(`¿Borrar «${name}» de la lista?`+(used?`\n\nTiene ${used} intervención(es) registradas: se conservan en el historial.`:''))) return;
     try{
       if(kind==='mant') await S.db.collection('mantenimiento').doc(v).delete(); else await S.db.collection('piezasLista').doc(v.slice(2)).delete();
-      sel.selectedOptions[0]?.remove(); sel.value=''; if(S.draft){ if(kind==='mant') S.draft.mant=''; else S.draft.pieza=''; } sync(); toast(`«${name}» borrado de la lista`);
+      sel.selectedOptions[0]?.remove(); sel.value=''; if(S.draft){ if(kind==='mant') S.draft.mant=''; else S.draft.pieza=''; } sync(); toast(`«${name}» quitado de la lista`, null, {label:'Deshacer', fn:()=>{ if(kind==='mant'){ const it=bk; if(it){ const d={...it}; delete d._id; S.db.collection('mantenimiento').doc(v).set(d); } } else S.db.collection('piezasLista').doc(v.slice(2)).set({nombre:name.replace(/ \(modelo 3D\)$/,''), creado:new Date().toISOString()}); }});
     }catch{ toast('No se pudo borrar','err'); }
   };
   return box;
@@ -5610,7 +5719,7 @@ function compraSheet(c, mode){
     const dl=document.createElement('datalist'); dl.id='cpList'; const names=new Set([...S.piezasL.map(x=>x.nombre), ...S.mant.map(x=>x.nombre)]); [...names].sort(COLL.compare).forEach(n=>dl.append(new Option(n))); b.append(dl);
     const v=id=>b.querySelector('#'+id);
     v('cpNo2').onclick=()=>$('#sheet2').hidden=true;
-    if(v('cpDel')) v('cpDel').onclick=async()=>{ if(!confirm(`¿Borrar «${d.nombre}» de la compra?`)) return; await S.db.collection('compras').doc(c._id).delete(); $('#sheet2').hidden=true; toast('Borrado de la compra'); };
+    if(v('cpDel')) v('cpDel').onclick=async()=>{ if(!confirm(`¿Borrar «${d.nombre}» de la compra?`)) return; const bk={...c}; delete bk._id; await S.db.collection('compras').doc(c._id).delete(); $('#sheet2').hidden=true; toast('Borrado de la compra', null, {label:'Deshacer', fn:()=>S.db.collection('compras').doc(c._id).set(bk)}); };
     setTimeout(()=>(v('cpN')||v('cpP'))?.focus(),80);
     if(v('cpM')) v('cpM').addEventListener('change',()=>{ v('cpMW').hidden=v('cpM').value!=='taller'; });
     v('cpOk').onclick=async()=>{
@@ -5704,7 +5813,7 @@ function renderGastos2(){
   if(!mov.length) ll.append(h2('<div class="empty2" style="padding:10px">Sin movimientos todavía.</div>'));
   for(const x of mov.slice(0,40)) ll.append(h2(`<div class="r2" style="--c:${x.k==='compra'?'var(--soon)':'var(--ok)'};cursor:default"><span class="ic">${ic(x.k==='compra'?'cart':'wrench')}</span><span class="tx"><b>${esc(x.t)}</b><small>${fmtDate(x.fecha)} · ${esc(x.s)}</small></span><span class="rt">${eur(x.eur)}</span></div>`));
   wrap.append(lc);
-  const ex=h2(`<div class="row3" style="justify-content:flex-start"><button class="btn2 ghost" type="button">${ic('file')}Exportar historial en PDF</button></div>`); ex.querySelector('button').onclick=()=>$('#mPdf').click(); wrap.append(ex);
+  const ex=h2(`<div class="row3" style="justify-content:flex-start"><button class="btn2 ghost" type="button">${ic('file')}Historial en PDF</button></div>`); ex.querySelector('button').onclick=()=>$('#mPdf').click(); wrap.append(ex);
 }
 
 /* ---------- AVISOS: push en este dispositivo, correo y Telegram (los envía GitHub cada día) ---------- */
@@ -5864,6 +5973,154 @@ function openCsel(sel){
 addEventListener('resize',()=>{ if(CS && !CS.wrap.classList.contains('m')) closeCsel(); });
 document.querySelectorAll('select').forEach(enhanceSelect);
 new MutationObserver(muts=>{ for(const m of muts) for(const n of m.addedNodes){ if(n.nodeType!==1) continue; if(n.tagName==='SELECT') enhanceSelect(n); else if(n.querySelectorAll) n.querySelectorAll('select').forEach(enhanceSelect); } }).observe(document.body,{childList:true,subtree:true});
+
+
+/* ====================== v1.2: usabilidad ====================== */
+/* --- Coche ▸ Ficha: datos de fábrica y códigos PR --- */
+function renderFichaCoche(pb){
+  const wrap=h2('<div class="wrap pg-ficha" style="padding:14px 16px 28px"></div>'); pb.append(wrap);
+  const g=h2('<div class="grid2"></div>'); wrap.append(g);
+  g.append(heroCard('c6', false));
+  const card=h2(`<div class="card2 c6"><h3>${ic('tag')}Datos de fábrica</h3></div>`); card.append($('#secCoche')); g.append(card);
+  const pw=$('#cfgPrWrap'); if(pw) pw.open=true;
+}
+/* --- Inicio: tarjeta compacta y «requiere atención» --- */
+function heroMini(){
+  const c=S.cfg||{}, km=c.kmActual;
+  const el2=h2(`<div class="card2 hmini c12"><button type="button" class="hmcar" title="Ver la ficha del coche"><div class="plate"><i>E</i><span>9905 CMY</span></div><span class="hmname">Touareg <b>7L</b><small>2.5 R5 TDI · ${esc(c.motor||'BAC')} · ${esc((c.pintura||'C9Z Black Magic Pearl').split(' ')[0])}</small></span></button>
+    <div class="hmkm"><div class="kmbig"><span id="kmN">${km?nf.format(km):'—'}</span><small>km</small></div><button type="button" class="kmedit">${ic('edit')}Actualizar</button></div></div>`);
+  el2.querySelector('.kmedit').onclick=quickKm; el2.querySelector('.hmcar').onclick=()=>go('coche','ficha');
+  if(km) animNum(el2.querySelector('#kmN'), Number(km)||0, undefined, 'km');
+  return el2;
+}
+function attentionCard(km){
+  const rows=[];
+  for(const {it,s} of mantList()) if(s.st==='due'||s.st==='soon') rows.push({c:stColor(s.st), i:'wrench', t:it.nombre, s:mantLine(it,s), r:ST_LABEL[s.st], fn:()=>openIntForm({mant:it.id, back:'mant'})});
+  for(const d of S.docs){ const s=docStatus(d); if(s.st==='due'||s.st==='soon') rows.push({c:stColor(s.st), i:'shield', t:d.tipo+(d.nombre?' · '+d.nombre:''), s:'Caduca el '+fmtDate(d.caduca), r:s.days<0?'Caducado':s.days===0?'Hoy':`${s.days} días`, fn:()=>{ S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); }}); }
+  const mont=(S.compras||[]).filter(x=>x.estado==='comprado'), pend=(S.compras||[]).filter(x=>x.estado==='pendiente');
+  if(mont.length) rows.push({c:'var(--soon)', i:'cart', t:mont.length===1?mont[0].nombre:`${mont.length} piezas compradas`, s:'Compradas y sin montar', r:'Montar', fn:()=>go('mant','compra')});
+  if(pend.length) rows.push({c:'var(--info)', i:'cart', t:`${pend.length} en la lista de la compra`, s:pend.slice(0,3).map(x=>x.nombre).join(', ')+(pend.length>3?'…':''), r:'Ver', fn:()=>go('mant','compra')});
+  if(!km) rows.unshift({c:'var(--soon)', i:'gauge', t:'Pon los kilómetros actuales', s:'Sin ellos no se calculan los avisos por kilometraje', r:'Poner', fn:quickKm});
+  const urgent=rows.filter(r=>r.c==='var(--due)').length;
+  const card=h2(`<div class="card2 attn c12"><h3>${ic('alert')}${rows.length?'Requiere atención':'Todo al día'}${rows.length?`<span class="cnt${urgent?' due':''}">${rows.length}</span>`:''}</h3><div class="l2"></div></div>`), l=card.querySelector('.l2');
+  if(!rows.length) l.append(h2(`<div class="okline">${ic('checkc')}<span>Nada vencido ni a punto de caducar. Buen trabajo.</span></div>`));
+  for(const x of rows){ const r=h2(`<button type="button" class="r2" style="--c:${x.c}"><span class="ic">${ic(x.i)}</span><span class="tx"><b>${esc(x.t)}</b><small>${esc(x.s)}</small></span><span class="rt">${esc(x.r)}</span></button>`); r.onclick=()=>{ uiSfx('tap'); x.fn(); }; l.append(r); }
+  return card;
+}
+/* --- botón + siempre visible --- */
+const FABX=[['plus','Intervención','Trabajo hecho o cambio',()=>openIntForm({back:'mant'})],['gauge','Kilómetros','Lo que marca el cuentakilómetros',quickKm],['camera','Foto de factura','Se adjunta a una intervención',()=>$('#camIn').click()],
+  ['cart','A la compra','Pieza o artículo que necesitas',()=>compraSheet(null)],['shield','Documento','ITV, seguro, impuesto…',()=>{ S.docEdit=null; UI.docForm=true; go('papeles','docs'); }],['alert','Avería','Código o síntoma',()=>{ S.aveEdit=null; S.aveDraftParts=null; go('coche','ave'); setTimeout(()=>$('#pbCoche input')?.focus(),250); }]];
+{ const f=h2(`<button type="button" class="fab2" id="fab2" aria-label="Añadir">${ic('plus')}</button>`); document.body.append(f);
+  f.onclick=()=>{ uiSfx('open'); const box=h2(`<div><h3>Añadir</h3><div class="fabg"></div></div>`), gr=box.querySelector('.fabg');
+    for(const [i,l,d,fn] of FABX){ const b=h2(`<button type="button"><i>${ic(i)}</i><b>${l}</b><small>${d}</small></button>`); b.onclick=()=>{ uiSfx('tap'); $('#sheet2').hidden=true; fn(); }; gr.append(b); }
+    sheet(box); }; }
+/* --- formulario de intervención: listas dentro del desplegable y «Más detalles» --- */
+function listAsk(kind, onName){
+  sheet(`<div><h3>${kind==='mant'?'Nuevo elemento de mantenimiento':'Nueva pieza'}</h3><p class="muted2">Se añade a la lista y queda elegido.</p><input class="inp2" id="laN" placeholder="${kind==='mant'?'p. ej. Correa de distribución':'p. ej. Bomba de agua'}"><div class="row3"><button class="btn2 ghost" type="button" id="laNo">Cancelar</button><button class="btn2" type="button" id="laOk">${ic('plus')}Añadir</button></div></div>`, b=>{
+    const i=b.querySelector('#laN'); setTimeout(()=>i.focus(),80); b.querySelector('#laNo').onclick=()=>$('#sheet2').hidden=true;
+    const ok=()=>{ const n=i.value.trim(); if(!n){ i.focus(); return; } $('#sheet2').hidden=true; onName(n); }; b.querySelector('#laOk').onclick=ok; i.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); ok(); } }; });
+}
+function listInSelect(sel, kind){
+  const lm=listManager(sel, kind); lm.hidden=true; sel.closest('label').append(lm);   /* reutiliza la lógica de añadir y borrar */
+  const inp=lm.querySelector('input'), add=lm.querySelector('.lmadd'), del=lm.querySelector('.lmdel');
+  const build=()=>{ for(const o of [...sel.options]) if(o.value==='__add'||o.value==='__del') o.remove();
+    const head=sel.options[0]; const rest=[...sel.options].slice(1).sort((a,b)=>COLL.compare(a.textContent,b.textContent)); rest.forEach(o=>sel.append(o));
+    sel.append(new Option('＋ Añadir a la lista…','__add'));
+    if(sel.value && !(kind==='pieza' && !sel.value.startsWith('c:'))) sel.append(new Option('✕ Quitar «'+(sel.selectedOptions[0]?.textContent||'')+'» de la lista','__del')); };
+  sel.dataset.nosort=''; build(); let prev=sel.value;
+  sel.addEventListener('change',()=>{
+    const v=sel.value;
+    if(v==='__add'){ sel.value=prev; listAsk(kind, n=>{ inp.value=n; add.click(); setTimeout(()=>{ prev=sel.value; build(); },400); }); return; }
+    if(v==='__del'){ sel.value=prev; del.disabled=false; del.click(); setTimeout(()=>{ prev=sel.value; build(); },400); return; }
+    prev=v; build();
+  }, true);
+}
+{ const _rif2=renderIntForm; renderIntForm=function(){
+    const _lm=listManager; listManager=(sel,kind)=>{ const box=document.createElement('span'); box.hidden=true; box.dataset.kind=kind; return box; };
+    try{ _rif2(); } finally { listManager=_lm; }
+    const iM=$('#iMant'), iP=$('#iPieza');
+    document.querySelectorAll('#ovlBody label > span[data-kind]').forEach(x=>x.remove());
+    if(iM) listInSelect(iM,'mant'); if(iP) listInSelect(iP,'pieza');
+    /* referencia, coste, fotos y la lectura con IA en un bloque plegable */
+    const form=$('#ovlBody form'); const g=form?.querySelector('.fgrid'); if(!g) return;
+    const det=h2(`<details class="mdet"><summary>${ic('plus')}Más detalles<small>referencia, coste, fotos y facturas</small></summary><div class="fgrid"></div></details>`), g2=det.querySelector('.fgrid');
+    for(const id of ['iRef','iCoste','iAdj']){ const l=document.getElementById(id)?.closest('label'); if(l) g2.append(l); }
+    const ai=form.querySelector('.aib')?.parentElement; if(ai) g2.after(ai);
+    g.after(det);
+    const dr=S.draft||{}; if(dr.ref||dr.coste) det.open=true;
+  }; }
+/* --- Mantenimiento ▸ Plan compacto --- */
+{ const _rm=renderMant; renderMant=function(){
+    _rm();
+    const body=$('#ovlBody'); if(!body) return;
+    /* kilómetros: cifra + botón (el campo editable se quita) */
+    const kl=body.querySelector('#mKm')?.closest('label');
+    if(kl){ const km=S.cfg?.kmActual; const d=h2(`<div class="mkm2"><span class="muted2">Kilómetros actuales</span><b>${km?nf.format(km)+' km':'—'}</b><button type="button" class="btn2 ghost">${ic('edit')}Actualizar</button></div>`); d.querySelector('button').onclick=quickKm; kl.replaceWith(d); }
+    if(S.mantTab==='hist') return;
+    /* los elementos sin datos, plegados al final */
+    const rows=[...body.querySelectorAll('.mgroup .mrow.st-nodata, .mgroup .mrow.st-noint')];
+    if(rows.length){ const det=h2(`<details class="mgroup nocfg"><summary>${ic('sliders')}Sin configurar<span class="cnt">${rows.length}</span><small>Falta el último cambio o el intervalo</small></summary><div class="ncbox"></div></details>`), bx=det.querySelector('.ncbox');
+      const wz=h2(`<button type="button" class="btn2" style="margin:6px 0 10px">${ic('sparkle')}Configurar con el asistente</button>`); wz.onclick=()=>openWizard(1); bx.append(wz);
+      for(const r of rows) bx.append(r);
+      if(rows.some(r=>r.querySelector('.mcfg'))) det.open=true;
+      const groups=[...body.querySelectorAll('.mgroup:not(.nocfg)')]; groups.forEach(gg=>{ if(!gg.querySelector('.mrow')) gg.remove(); });
+      const addF=[...body.querySelectorAll('form.mcfg')].pop(); if(addF) addF.before(det); else body.append(det); }
+  }; }
+/* --- Papeles ▸ Documentos: la lista primero y el formulario tras un botón --- */
+{ const _rd=renderDocs; renderDocs=function(){
+    _rd();
+    const body=$('#ovlBody'); const form=body?.querySelector('form.fusform'), ttl=form?.previousElementSibling;
+    if(!form) return;
+    const editing=!!S.docEdit;
+    if(!editing && !UI.docForm){ form.hidden=true; if(ttl) ttl.hidden=true;
+      const b=h2(`<div class="row3" style="justify-content:flex-start"><button type="button" class="btn2">${ic('plus')}Añadir documento</button></div>`); b.querySelector('button').onclick=()=>{ UI.docForm=true; renderDocs(); }; form.before(b); }
+    else { UI.docForm=false; setTimeout(()=>{ form.scrollIntoView({behavior:'smooth',block:'start'}); form.querySelector('select,input')?.focus?.({preventScroll:true}); },60); }
+  }; if(typeof EXTRA_POP!=='undefined') EXTRA_POP.docs=renderDocs; }
+/* --- selectores de archivo con estilo propio y en español --- */
+function enhanceFile(inp){
+  if(inp._fx || inp.id==='camIn' || inp.closest('.dropz') || inp.hidden) return; inp._fx=true;
+  const w=h2(`<span class="fpick"><button type="button">${ic('camera')}Hacer foto o elegir archivo</button><small>Ningún archivo</small></span>`);
+  inp.after(w); inp.classList.add('fhid'); w.querySelector('button').onclick=()=>inp.click();
+  inp.addEventListener('change',()=>{ const n=inp.files?.length||0; w.querySelector('small').textContent = n ? (n===1?inp.files[0].name:`${n} archivos`) : 'Ningún archivo'; w.classList.toggle('has',!!n); });
+  if(inp.disabled) w.querySelector('button').disabled=true;
+}
+document.querySelectorAll('input[type=file]').forEach(enhanceFile);
+new MutationObserver(ms=>{ for(const m of ms) for(const n of m.addedNodes){ if(n.nodeType!==1) continue; if(n.matches?.('input[type=file]')) enhanceFile(n); else n.querySelectorAll?.('input[type=file]').forEach(enhanceFile); } }).observe(document.body,{childList:true,subtree:true});
+/* --- insignias en las pestañas: vencidos en Plan, pendientes en Compra --- */
+function subBadges(){
+  const c=counts(), cp=(S.compras||[]).filter(x=>x.estado!=='montado').length;
+  for(const [sel,n,cls] of [['#stMant [data-sub="plan"]',c.due||c.soon,c.due?'':'soon'],['#stMant [data-sub="compra"]',cp,'info'],['#stPap [data-sub="docs"]',c.ddue||c.dsoon,c.ddue?'':'soon']]){
+    const b=document.querySelector(sel); if(!b) continue; let x=b.querySelector('.sbadge'); if(!n){ x?.remove(); continue; } if(!x){ x=document.createElement('b'); b.append(x); } x.className='sbadge '+cls; x.textContent=n; }
+}
+{ const _ub=updateBadges; updateBadges=function(){ _ub(); subBadges(); }; }
+/* --- el punto de sincronización se explica al tocarlo --- */
+$('#t2Sync').style.cursor='pointer'; $('#t2Sync').onclick=()=>toast(navigator.onLine?'Todo guardado en la nube: los cambios se suben al momento.':'Sin conexión: los cambios se guardan en el móvil y se subirán solos.');
+/* --- atajos de teclado solo en el modelo 3D --- */
+addEventListener('keydown',e=>{ if(e.ctrlKey||e.metaKey||e.altKey||e.key.length!==1) return; if(/input|textarea|select/i.test(e.target.tagName||'')||e.target.isContentEditable) return;
+  if(UI.sec!=='coche' || UI.sub.coche!=='3d' || !$('#srch').hidden || !$('#sheet2').hidden) e.stopImmediatePropagation(); }, true);
+/* --- buscador: acciones directas y búsquedas recientes --- */
+const RECENT_K='t7-recientes'; const recents=()=>{ try{ return JSON.parse(localStorage.getItem(RECENT_K)||'[]'); }catch{ return []; } };
+function pushRecent(q){ q=q.trim(); if(q.length<2) return; try{ localStorage.setItem(RECENT_K, JSON.stringify([q,...recents().filter(x=>norm(x)!==norm(q))].slice(0,6))); }catch{} }
+{ const _rs=runSearch; runSearch=function(raw){
+    _rs(raw);
+    const out=$('#srRes'), q=norm(raw.trim());
+    if(!q){ const rc=recents(); if(rc.length){ const box=h2(`<div class="srrec"><h5>Búsquedas recientes</h5><div class="chips2 subtabs" style="border:0;background:none;justify-content:center"></div></div>`), c=box.querySelector('.chips2'); for(const r of rc){ const b=h2(`<button type="button">${ic('history')}${esc(r)}</button>`); b.onclick=()=>{ $('#srQ').value=r; runSearch(r); }; c.append(b); } out.append(box); } return; }
+    const acts=[];
+    const A=(i,t,fn)=>acts.push({i,t,fn});
+    if(/^(itv|segur|impuest|ivtm|document|permiso|ficha tec)/.test(q)) A('shield',`Añadir documento${/itv|segur|impuest/.test(q)?' ('+raw.trim().toUpperCase().slice(0,12)+')':''}`,()=>{ S.docEdit=null; UI.docForm=true; go('papeles','docs'); });
+    if(/^(km|kilom|cuentak)/.test(q)) A('gauge','Actualizar kilómetros',quickKm);
+    if(/^(compr|pedir|encarg)/.test(q)) A('cart','Añadir a la compra',()=>compraSheet(null));
+    if(/^(averi|codig|obd|vcds|fallo|testigo)/.test(q)) A('alert','Registrar avería',()=>{ S.aveEdit=null; go('coche','ave'); });
+    if(/^(factur|foto|ticket)/.test(q)) A('camera','Fotografiar factura',()=>$('#camIn').click());
+    if(/^(interv|repar|trabaj)/.test(q)) A('plus','Registrar intervención',()=>openIntForm({back:'mant'}));
+    for(const it of S.mant) if(norm(it.nombre).includes(q) && acts.length<5) A('wrench',`Registrar cambio: ${it.nombre}`,()=>openIntForm({mant:it.id, back:'mant'}));
+    if(!acts.length) return;
+    out.querySelector('.empty2')?.remove();
+    const box=h2('<div class="sracts"><h5>Acciones</h5></div>');
+    for(const x of acts){ const r=h2(`<button type="button" class="r2 act"><span class="ic">${ic(x.i)}</span><span class="tx"><b>${esc(x.t)}</b></span>${ic('chevR')}</button>`); r.onclick=()=>{ uiSfx('tap'); pushRecent(raw); closeSearch(); x.fn(); }; box.append(r); }
+    out.prepend(box);
+  }; }
+$('#srRes').addEventListener('click',e=>{ if(e.target.closest('.r2')) pushRecent($('#srQ').value); }, true);
 
 /* ---------- pantalla: zonas seguras del iPhone ----------
    En algunas versiones de iOS la app instalada recibe una ventana más baja que la pantalla y deja una franja

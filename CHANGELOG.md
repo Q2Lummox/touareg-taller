@@ -1,5 +1,14 @@
 # Novedades
 
+## v1.2.0 · 2026-10-08
+- Reorganización: Coche (modelo 3D, ficha, fusibles y averías), Mantenimiento (plan, historial, compra y gastos), Papeles (documentos y facturas) y Más (la app).
+- Botón + siempre a mano para registrar intervención, kilómetros, foto de factura, compra, documento o avería.
+- Inicio ordenado por urgencia: coche y km en una línea y «Requiere atención» arriba.
+- Historial de cada pieza en su ficha; formulario de intervención más corto con «Más detalles».
+- Plan compacto con los elementos sin configurar plegados; documentos con la lista primero.
+- Buscador con acciones directas y búsquedas recientes; insignias en las pestañas; deshacer al borrar compras.
+- Barra de estado opaca: la app llega hasta el borde inferior del iPhone (hay que volver a añadirla a la pantalla de inicio).
+
 ## v1.1.7 · 2026-10-08
 - Ajuste interno de la detección de la franja inferior del iPhone.
 
