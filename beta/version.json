@@ -1,29 +1,29 @@
 {
- "version": "1.7.0-beta",
+ "version": "2.0.0-beta",
  "fecha": "2026-10-08",
  "notas": [
-  "Cifras que ruedan como un cuentakilómetros (km y gastos).",
-  "Celebración con un check que se dibuja al guardar o registrar.",
-  "Barras de gastos que crecen desde cero; esqueletos de carga con brillo.",
-  "Las hojas se pueden estirar hacia arriba a pantalla completa, con rebote.",
-  "Tarjetas y filas se hunden al pulsar y vuelven con muelle; onda naranja desde donde tocas.",
-  "Las tarjetas de cada sección entran escalonadas.",
-  "Al terminar el arranque, el rombo 7L vuela hasta la cabecera.",
-  "Arreglado: al mantener pulsado un botón de la barra ya no se selecciona el texto ni sale el menú de copiar."
+  "Versión 2.0 (beta): todo el registro del coche",
+  "Galería del coche por álbumes y proyecto de mejoras con antes/después, presupuesto y coste real",
+  "Repostajes y consumo (L/100 km, €/km y gasto mensual), neumáticos con DOT, desgaste y rotaciones",
+  "Historial de kilómetros con ritmo anual y fechas estimadas para los mantenimientos por km",
+  "Talleres y proveedores, garantías, ITV detallada con defectos, siniestros y multas",
+  "Ficha técnica del BAC con fiabilidad de cada dato, estadísticas y listas de comprobación",
+  "Copia automática semanal en la nube, copia completa con fotos y restauración comprobada",
+  "Dossier de venta en PDF, enlace de solo lectura para el taller y lectura automática de facturas"
  ],
  "historial": [
   {
-   "version": "1.7.0-beta",
+   "version": "2.0.0-beta",
    "fecha": "2026-10-08",
    "notas": [
-    "Cifras que ruedan como un cuentakilómetros (km y gastos).",
-    "Celebración con un check que se dibuja al guardar o registrar.",
-    "Barras de gastos que crecen desde cero; esqueletos de carga con brillo.",
-    "Las hojas se pueden estirar hacia arriba a pantalla completa, con rebote.",
-    "Tarjetas y filas se hunden al pulsar y vuelven con muelle; onda naranja desde donde tocas.",
-    "Las tarjetas de cada sección entran escalonadas.",
-    "Al terminar el arranque, el rombo 7L vuela hasta la cabecera.",
-    "Arreglado: al mantener pulsado un botón de la barra ya no se selecciona el texto ni sale el menú de copiar."
+    "Versión 2.0 (beta): todo el registro del coche",
+    "Galería del coche por álbumes y proyecto de mejoras con antes/después, presupuesto y coste real",
+    "Repostajes y consumo (L/100 km, €/km y gasto mensual), neumáticos con DOT, desgaste y rotaciones",
+    "Historial de kilómetros con ritmo anual y fechas estimadas para los mantenimientos por km",
+    "Talleres y proveedores, garantías, ITV detallada con defectos, siniestros y multas",
+    "Ficha técnica del BAC con fiabilidad de cada dato, estadísticas y listas de comprobación",
+    "Copia automática semanal en la nube, copia completa con fotos y restauración comprobada",
+    "Dossier de venta en PDF, enlace de solo lectura para el taller y lectura automática de facturas"
    ]
   }
  ]

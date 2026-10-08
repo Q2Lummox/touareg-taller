@@ -43,7 +43,7 @@ for (const it of res.mantenimiento || []) {
   const d = it.proximaFecha ? days(it.proximaFecha) : null, k = (it.proximoKm != null && km) ? it.proximoKm - km : null;
   const venc = (d != null && d <= 0) || (k != null && k <= 0), prox = !venc && ((d != null && d <= 30) || (k != null && k <= 1500));
   if (!venc && !prox) continue;
-  const txt = `${it.nombre}: ${[d != null ? (d < 0 ? `venció hace ${-d} días` : d === 0 ? 'vence hoy' : `en ${d} días (${fmt(it.proximaFecha)})`) : '', k != null ? (k <= 0 ? `pasado ${nf(-k)} km` : `faltan ${nf(k)} km`) : ''].filter(Boolean).join(' · ')}`;
+  const txt = `${it.nombre}: ${[d != null ? (d < 0 ? `venció hace ${-d} días` : d === 0 ? 'vence hoy' : `en ${d} días (${fmt(it.proximaFecha)})`) : '', k != null ? (k <= 0 ? `pasado ${nf(-k)} km` : `faltan ${nf(k)} km`) : '', k != null && k > 0 && it.fechaEstimada ? `a tu ritmo, hacia el ${fmt(it.fechaEstimada)}` : ''].filter(Boolean).join(' · ')}`;
   resumen.push((venc ? '🔴 ' : '🟠 ') + txt);
   if (d != null && toca(d)) mant.push((venc ? '🔴 ' : '🟠 ') + txt);
 }

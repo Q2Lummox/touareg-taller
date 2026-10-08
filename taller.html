@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Touareg 7L · Historial para el taller</title>
+<style>
+:root{--bg:#0f1114;--card:#171a1f;--line:#272d34;--txt:#e9edf1;--t2:#9aa4ae;--acc:#f39a1e;--ok:#2fc48d;--soon:#f0a531;--due:#ef5a3c}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#eef1f4;--card:#fff;--line:#d9dee4;--txt:#141a20;--t2:#55606b;--acc:#c66f00}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:max(16px,env(safe-area-inset-top)) 16px 40px}
+main{max-width:860px;margin:0 auto}
+header{display:flex;gap:14px;align-items:center;margin:4px 0 16px}
+.mk{width:52px;height:52px;border-radius:14px;background:linear-gradient(140deg,#2a2f36,#121418);display:grid;place-items:center;font:800 20px system-ui;color:var(--acc);border:1px solid #333a42;flex:none}
+h1{font-size:21px;margin:0}h1 small{display:block;font-size:13px;color:var(--t2);font-weight:500}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--t2);margin:22px 2px 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px;overflow:hidden}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kv b{display:block;font-size:17px}.kv span{color:var(--t2);font-size:12px}
+.note{border-left:3px solid var(--acc)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;color:var(--t2);font-weight:600}
+td.n{white-space:nowrap}
+.st{display:inline-block;padding:1px 8px;border-radius:9px;font-size:12px;font-weight:600;color:#111}
+.ok{background:var(--ok)}.soon{background:var(--soon)}.due{background:var(--due);color:#fff}.nodata,.noint{background:var(--line);color:var(--t2)}
+.tw{overflow-x:auto}
+small.m{color:var(--t2)}
+.msg{text-align:center;padding:60px 10px;color:var(--t2)}
+.bar{display:flex;gap:8px;justify-content:flex-end;margin-top:-6px}
+button{background:var(--acc);color:#1a1003;border:0;border-radius:10px;padding:8px 14px;font:600 14px system-ui;cursor:pointer}
+footer{color:var(--t2);font-size:12px;text-align:center;margin-top:24px}
+@media print{body{background:#fff;color:#000;padding:0}.card{border-color:#ccc;break-inside:avoid}.bar{display:none}:root{--t2:#555;--line:#ccc}}
+</style>
+</head>
+<body>
+<main id="app"><p class="msg">Cargando historial…</p></main>
+<script>
+(async()=>{
+  const app=document.getElementById('app'), t=(location.hash||'').slice(1).replace(/[^A-Za-z0-9]/g,'');
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const nf=n=>n==null||n===''?'—':Number(n).toLocaleString('es-ES');
+  const fd=s=>s?String(s).slice(0,10).split('-').reverse().join('/'):'—';
+  const eur=v=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(v||0);
+  const msg=h=>app.innerHTML=`<p class="msg">${h}</p>`;
+  if(!t) return msg('Falta el código del enlace.');
+  let d;
+  try{
+    const r=await fetch('https://firestore.googleapis.com/v1/projects/touareg-taller/databases/(default)/documents/compartido/'+t,{credentials:'omit'});
+    if(r.status===404) return msg('Este enlace no existe o lo han anulado.');
+    if(!r.ok) return msg('No se puede abrir el enlace ahora mismo ('+r.status+').');
+    const j=await r.json(); d=JSON.parse(j.fields?.json?.stringValue||'{}');
+  }catch(e){ return msg('No se pudo cargar. Comprueba la conexión.'); }
+  if(!d.caduca || new Date(d.caduca)<new Date()) return msg('Este enlace ha caducado. Pide uno nuevo al propietario.');
+  const c=d.coche||{}, ST={ok:'Al día',soon:'Próximo',due:'Vencido',nodata:'Sin registro',noint:'Sin intervalo'};
+  let h=`<header><div class="mk">7L</div><h1>${esc(c.modelo)}<small>${esc(c.motor)} · ${esc(c.anio)} · ${esc(c.matricula)}</small></h1></header>
+  <div class="bar"><button onclick="print()">Imprimir</button></div>`;
+  if(d.nota) h+=`<div class="card note"><b>Mensaje del propietario</b><br>${esc(d.nota)}</div>`;
+  h+=`<div class="card grid"><div class="kv"><span>Kilómetros</span><b>${nf(c.km)} km</b></div><div class="kv"><span>Bastidor</span><b style="font-size:14px">${esc(c.vin||'—')}</b></div><div class="kv"><span>Pintura</span><b style="font-size:14px">${esc(c.pintura)}</b></div><div class="kv"><span>Datos a</span><b style="font-size:14px">${new Date(d.creado).toLocaleDateString('es-ES')}</b></div></div>`;
+  if(d.ficha && Object.keys(d.ficha).length) h+=`<h2>Datos técnicos</h2><div class="card tw"><table>${Object.entries(d.ficha).map(([k,v])=>`<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`).join('')}</table><small class="m">Datos orientativos aportados por el propietario; confírmalos con la documentación oficial.</small></div>`;
+  if(d.mant?.length) h+=`<h2>Plan de mantenimiento</h2><div class="card tw"><table><tr><th>Elemento</th><th>Último</th><th>Próximo</th><th>Estado</th></tr>${d.mant.map(m=>`<tr><td>${esc(m.n)}</td><td class="n">${m.u?fd(m.u.f)+'<br><small class="m">'+nf(m.u.k)+' km</small>':'—'}</td><td class="n">${[m.p?.k!=null?nf(m.p.k)+' km':'', m.p?.f?fd(m.p.f):''].filter(Boolean).join('<br>')||'—'}</td><td><span class="st ${m.st}">${ST[m.st]||''}</span></td></tr>`).join('')}</table></div>`;
+  if(d.averias?.length) h+=`<h2>Averías</h2><div class="card tw"><table><tr><th>Código</th><th>Síntoma</th><th>Estado</th></tr>${d.averias.map(a=>`<tr><td class="n">${esc(a.c||'—')}</td><td>${esc(a.s)}${a.n?'<br><small class="m">'+esc(a.n)+'</small>':''}</td><td>${esc(a.e==='resuelta'?'Resuelta':'Abierta')}</td></tr>`).join('')}</table></div>`;
+  if(d.ruedas) h+=`<h2>Neumáticos montados</h2><div class="card">${[d.ruedas.n, [d.ruedas.mk,d.ruedas.m].filter(Boolean).join(' ')].filter(Boolean).map(esc).join(' · ')}${d.ruedas.dot?' · DOT '+esc(d.ruedas.dot):''}${d.ruedas.mm!=null?' · dibujo mín. '+String(d.ruedas.mm).replace('.',',')+' mm':''}${d.ruedas.p?.[0]?` · presiones ${String(d.ruedas.p[0]).replace('.',',')} / ${String(d.ruedas.p[1]??'—').replace('.',',')} bar`:''}</div>`;
+  if(d.itv?.length) h+=`<h2>ITV</h2><div class="card tw"><table><tr><th>Fecha</th><th>Km</th><th>Resultado</th></tr>${d.itv.map(r=>`<tr><td class="n">${fd(r.f)}</td><td class="n">${nf(r.k)}</td><td>${esc(r.r)}${r.d?.length?'<br><small class="m">'+r.d.map(esc).join('; ')+'</small>':''}</td></tr>`).join('')}</table></div>`;
+  h+=`<h2>Historial de intervenciones (${d.ints?.length||0})</h2><div class="card tw"><table><tr><th>Fecha</th><th>Km</th><th>Trabajo</th>${d.ints?.some(x=>x.e!=null)?'<th>Coste</th>':''}</tr>${(d.ints||[]).map(x=>`<tr><td class="n">${fd(x.f)}</td><td class="n">${nf(x.k)}</td><td><b>${esc([x.t,x.q].filter(Boolean).join(' · '))}</b>${x.d?'<br>'+esc(x.d):''}${x.r?'<br><small class="m">Ref. '+esc(x.r)+'</small>':''}${x.w?'<br><small class="m">'+esc(x.w)+'</small>':''}</td>${d.ints.some(y=>y.e!=null)?`<td class="n">${x.e!=null?eur(x.e):''}</td>`:''}</tr>`).join('')||'<tr><td colspan="3">Sin intervenciones.</td></tr>'}</table></div>`;
+  h+=`<footer>Solo lectura · caduca el ${new Date(d.caduca).toLocaleString('es-ES',{dateStyle:'medium',timeStyle:'short'})} · Taller 7L</footer>`;
+  app.innerHTML=h;
+})();
+</script>
+</body>
+</html>

@@ -88,6 +88,15 @@ async function blobURL(id){
   if(urls.has(id)) return urls.get(id);
   const url = URL.createObjectURL(await blobGet(id)); urls.set(id, url); return url;
 }
+/* copia de seguridad completa: reponer un archivo con su mismo identificador */
+async function blobPut(id, blob){
+  const type = blob.type || 'application/octet-stream', buf = new Uint8Array(await blob.arrayBuffer()), n = Math.max(1, Math.ceil(buf.length/CH));
+  for(let i=0;i<n;i++) setDoc(doc(fs, 'blobs', id, 'c', String(i).padStart(3,'0')), {d: toB64(buf.subarray(i*CH, (i+1)*CH))}).catch(logErr);
+  const th = /^image\//.test(type) ? await makeThumb(blob) : null;
+  setDoc(doc(fs, 'blobs', id), {tipo: type, size: buf.length, n, fecha: new Date().toISOString(), ...(th ? {th} : {})}).catch(logErr);
+  return {id};
+}
+async function blobExists(id){ const m = await getDoc(doc(fs, 'blobs', id)).catch(() => null); return !!(m && m.exists()); }
 
 /* miniatura guardada junto a los datos del archivo: una sola lectura y pocos KB */
 async function blobThumb(id){
@@ -117,5 +126,5 @@ async function seedIfEmpty(seed){
   for(const [col, docs] of Object.entries(seed)) for(const [id, data] of Object.entries(docs)) setDoc(doc(fs, col, id), data).catch(logErr);
   return true;
 }
-window.FB = {db, assets, blobGet, blobURL, blobThumb, signIn, signOut: () => fbSignOut(auth), whenUser, authKnown, user: () => user, seedIfEmpty};
+window.FB = {db, assets, blobGet, blobURL, blobThumb, blobPut, blobExists, signIn, signOut: () => fbSignOut(auth), whenUser, authKnown, user: () => user, seedIfEmpty};
 window.dispatchEvent(new Event('fb-ready'));
