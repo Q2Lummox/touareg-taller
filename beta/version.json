@@ -1,17 +1,19 @@
 {
- "version": "2.0.0-beta.5",
+ "version": "2.0.0-beta.6",
  "fecha": "2026-10-08",
  "notas": [
-  "Ordenar: arreglado el temblor del vecino y el sonido repetido; cada cambio de sitio suena una sola vez con un toque corto y suave",
-  "El panel que arrastras se queda exactamente bajo el dedo"
+  "Nuevo: Cableado en 3D (Coche ▸ Modelo 3D ▸ Cableado): recorrido de cada circuito sobre el modelo, con colores reales de los cables, conectores, fusibles y masas",
+  "Los circuitos llegan por Más ▸ Importar datos y se guardan solo en tu cuenta; también aparecen en Catálogo ▸ Circuitos",
+  "En el móvil el visor se pone a pantalla completa al ver un circuito"
  ],
  "historial": [
   {
-   "version": "2.0.0-beta.5",
+   "version": "2.0.0-beta.6",
    "fecha": "2026-10-08",
    "notas": [
-    "Ordenar: arreglado el temblor del vecino y el sonido repetido; cada cambio de sitio suena una sola vez con un toque corto y suave",
-    "El panel que arrastras se queda exactamente bajo el dedo"
+    "Nuevo: Cableado en 3D (Coche ▸ Modelo 3D ▸ Cableado): recorrido de cada circuito sobre el modelo, con colores reales de los cables, conectores, fusibles y masas",
+    "Los circuitos llegan por Más ▸ Importar datos y se guardan solo en tu cuenta; también aparecen en Catálogo ▸ Circuitos",
+    "En el móvil el visor se pone a pantalla completa al ver un circuito"
    ]
   }
  ]
