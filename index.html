@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="1.4.0">
+<meta name="app-version" content="1.4.1">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1605,7 +1605,7 @@ body.ui2 .doclist .mrow .c{white-space:nowrap}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.4.0</span>
+  <span class="spver">v1.4.1</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5019,7 +5019,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.4.0';
+  const APP_VERSION='1.4.1';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5736,10 +5736,10 @@ function makeEngine(){
   /* cuerpo del motor (apagado hasta la explosión) */
   const bus=ctx.createGain(); bus.gain.value=0; bus.connect(out);
   const amp=ctx.createGain(); amp.gain.value=.65; amp.connect(bus);
-  const lpf=ctx.createBiquadFilter(); lpf.type='lowpass'; lpf.Q.value=3.2; lpf.frequency.value=380; const sh=shaper(3.4); sh.connect(lpf).connect(amp);
+  const lpf=ctx.createBiquadFilter(); lpf.type='lowpass'; lpf.Q.value=.9; lpf.frequency.value=320; const sh=shaper(3.4); sh.connect(lpf).connect(amp);
   const oA=ctx.createOscillator(); oA.type='sawtooth'; const gA=ctx.createGain(); gA.gain.value=.42; oA.connect(gA).connect(sh);
-  const oB=ctx.createOscillator(); oB.type='sawtooth'; const gB=ctx.createGain(); gB.gain.value=.16; oB.connect(gB).connect(sh);     /* armónico de escape */
-  const oS=ctx.createOscillator(); oS.type='sine'; const gS=ctx.createGain(); gS.gain.value=.55; oS.connect(gS).connect(amp);        /* grave que retumba */
+  const oB=ctx.createOscillator(); oB.type='sawtooth'; const gB=ctx.createGain(); gB.gain.value=.09; oB.connect(gB).connect(sh);     /* armónico de escape */
+  const oS=ctx.createOscillator(); oS.type='sine'; const gS=ctx.createGain(); gS.gain.value=.75; oS.connect(gS).connect(amp);        /* grave que retumba */
   const nz=noise(); const nbp=ctx.createBiquadFilter(); nbp.type='bandpass'; nbp.Q.value=.9; nbp.frequency.value=260; const gN=ctx.createGain(); gN.gain.value=.12; nz.connect(nbp).connect(gN).connect(sh);
   /* cinco cilindros irregulares: el «borboteo» característico del R5 */
   const lfo=ctx.createOscillator(); lfo.type='triangle'; const lfoG=ctx.createGain(); lfoG.gain.value=.32; lfo.connect(lfoG).connect(amp.gain);
@@ -5750,16 +5750,17 @@ function makeEngine(){
     setRpm(r){ if(!running) return; r=Math.max(620,r); if(Math.abs(r-lastR)<4) return; lastR=r; const now=ctx.currentTime, f=r/60*2.5, tc=.025;
       oA.frequency.setTargetAtTime(f,now,tc); oB.frequency.setTargetAtTime(f*1.5*1.004,now,tc); oS.frequency.setTargetAtTime(f/2,now,tc);
       lfo.frequency.setTargetAtTime(r/60,now,tc); puls.frequency.setTargetAtTime(f,now,tc);
-      lpf.frequency.setTargetAtTime(Math.min(5200, 240+r*.62),now,tc); nbp.frequency.setTargetAtTime(160+r*.12,now,tc);
+      lpf.frequency.setTargetAtTime(Math.min(2400, 200+r*.42),now,tc); nbp.frequency.setTargetAtTime(160+r*.12,now,tc);
       bus.gain.setTargetAtTime(.55+Math.min(.45,(r-800)/5000),now,.05); },
-    pump(){ const now=ctx.currentTime; const o=ctx.createOscillator(); o.type='sine'; o.frequency.setValueAtTime(820,now); o.frequency.linearRampToValueAtTime(1150,now+.5);
-      const g=ctx.createGain(); g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(.035,now+.08); g.gain.linearRampToValueAtTime(0,now+.85); o.connect(g).connect(out); o.start(now); o.stop(now+.9);
-      const n=noise(), ng=ctx.createGain(), hp=ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=2500; ng.gain.setValueAtTime(.5,now); ng.gain.exponentialRampToValueAtTime(.001,now+.03); n.connect(hp).connect(ng).connect(out); n.start(now); n.stop(now+.05); },
-    starter(dur=.7){ const now=ctx.currentTime; const o=ctx.createOscillator(); o.type='sawtooth'; o.frequency.setValueAtTime(95,now); o.frequency.linearRampToValueAtTime(150,now+dur);
-      const am=ctx.createOscillator(); am.frequency.setValueAtTime(7,now); am.frequency.linearRampToValueAtTime(11,now+dur); const amg=ctx.createGain(); amg.gain.value=.45;
-      const g=ctx.createGain(); g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(.5,now+.06); g.gain.setValueAtTime(.5,now+dur-.05); g.gain.linearRampToValueAtTime(0,now+dur+.05);
-      const bp=ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=420; bp.Q.value=1.4; am.connect(amg).connect(g.gain);
-      o.connect(bp).connect(g).connect(out); o.start(now); am.start(now); o.stop(now+dur+.1); am.stop(now+dur+.1); },
+    pump(){ const now=ctx.currentTime;
+      const n=noise(), ng=ctx.createGain(), bp=ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=1800; bp.Q.value=.8; ng.gain.setValueAtTime(.35,now); ng.gain.exponentialRampToValueAtTime(.001,now+.04); n.connect(bp).connect(ng).connect(out); n.start(now); n.stop(now+.06);
+      const h=noise(), hl=ctx.createBiquadFilter(); hl.type='lowpass'; hl.frequency.value=180; const hg=ctx.createGain(); hg.gain.setValueAtTime(0,now); hg.gain.linearRampToValueAtTime(.06,now+.1); hg.gain.linearRampToValueAtTime(0,now+.8); h.connect(hl).connect(hg).connect(out); h.start(now); h.stop(now+.85); },
+    starter(dur=.7){ const now=ctx.currentTime;
+      const n=noise(), lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=380; lp.Q.value=.5;
+      const o=ctx.createOscillator(); o.type='sawtooth'; o.frequency.setValueAtTime(48,now); o.frequency.linearRampToValueAtTime(62,now+dur); const og=ctx.createGain(); og.gain.value=.5; const ol=ctx.createBiquadFilter(); ol.type='lowpass'; ol.frequency.value=220;
+      const am=ctx.createOscillator(); am.type='square'; am.frequency.setValueAtTime(6.5,now); am.frequency.linearRampToValueAtTime(9,now+dur); const amg=ctx.createGain(); amg.gain.value=.4;
+      const g=ctx.createGain(); g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(.55,now+.05); g.gain.setValueAtTime(.55,now+dur-.04); g.gain.linearRampToValueAtTime(0,now+dur+.04); am.connect(amg).connect(g.gain);
+      n.connect(lp).connect(g); o.connect(ol).connect(og).connect(g); g.connect(out); n.start(now); o.start(now); am.start(now); for(const x of [n,o,am]) x.stop(now+dur+.1); },
     boom(){ const now=ctx.currentTime; const n=noise(), lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.setValueAtTime(900,now); lp.frequency.exponentialRampToValueAtTime(140,now+.5);
       const g=ctx.createGain(); g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(1.1,now+.008); g.gain.exponentialRampToValueAtTime(.001,now+.7); n.connect(lp).connect(g).connect(out); n.start(now); n.stop(now+.75);
       const o=ctx.createOscillator(); o.frequency.setValueAtTime(95,now); o.frequency.exponentialRampToValueAtTime(32,now+.45); const og=ctx.createGain(); og.gain.setValueAtTime(.9,now); og.gain.exponentialRampToValueAtTime(.001,now+.5); o.connect(og).connect(out); o.start(now); o.stop(now+.55);
