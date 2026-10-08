@@ -1,5 +1,15 @@
 # Novedades
 
+## v1.3.0 · 2026-10-08
+- Coche: pestañas «Modelo 3D · Datos · Fusibles · Averías» sin sombra encima; en el visor la hoja inferior dice «Pieza».
+- Barra inferior más alta y con hueco para la barrita de inicio del iPhone: tocar los botones ya no activa el gesto de cambiar de app.
+- Tema claro rediseñado: fondo gris, paneles blancos con borde y sombra, barras y pestañas con relieve, naranja más legible.
+- Botones y campos con un solo estilo y tamaño cómodo para el dedo en todas las pantallas.
+- Inicio con «Primeros pasos» mientras la app está vacía; tarjetas con títulos cortos; textos algo más grandes.
+- El botón + se esconde al bajar por una lista; la rayita de carga bajo «Coche» solo aparece mientras carga.
+- Solo queda el escenario «Taller clásico».
+- Avisos: la fila de cada dispositivo ya no se sale del panel.
+
 ## v1.2.2 · 2026-10-08
 - Arreglado: «Activar notificaciones» fallaba justo después de reinstalar la app (ahora espera a que termine de instalarse).
 - La app se instala más rápido: las librerías se guardan después, sin bloquear.

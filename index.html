@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="1.2.2">
+<meta name="app-version" content="1.3.0">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1372,6 +1372,116 @@ input[type=file].fhid{position:absolute!important;width:1px!important;height:1px
 .srrec h5,.sracts h5{text-align:left}
 .srrec .chips2 button svg{width:14px;height:14px;margin-right:4px;opacity:.7}
 .ajh{margin:14px 2px 2px;font:600 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--txt-3)}
+
+/* ===== v1.3 ===== */
+/* 1: filas de dispositivos dentro del panel */
+.card2 .l2>.r2{box-sizing:border-box;width:100%;max-width:100%}
+.card2 .l2>.r2>.btn2{flex:none;justify-self:end}
+.card2 .l2>.r2:has(>.btn2){grid-template-columns:auto minmax(0,1fr) auto}
+/* 2: barra inferior con hueco para la barrita de inicio */
+@media (max-width:860px){ :root{ --navh:58px; } .nav2 button{padding-top:7px} }
+/* 3: la sombra de la cabecera no cae sobre las pestañas: la llevan las pestañas */
+body.ui2:is([data-sec="coche"],[data-sec="mant"],[data-sec="papeles"]) .top2{box-shadow:0 1px 0 #ffffff08!important}
+.subtabs{position:relative;z-index:5;box-shadow:0 8px 18px #0009}
+.ctabs{border-bottom:1px solid #000}
+/* 6: un solo estilo de botones en las pantallas heredadas */
+body.ui2 .ovl :is(.acts button, .mrow .bt button, .mcfg button, .fusform button, .hist button.del){
+  min-height:44px;border-radius:12px!important;padding:10px 16px!important;font:600 14px var(--f-body)!important;letter-spacing:0!important;text-transform:none!important;
+  background:var(--card-2)!important;color:var(--txt)!important;border:1px solid var(--card-line)!important;cursor:pointer}
+body.ui2 .ovl :is(.acts button.pri, .mrow .bt button.pri, .mcfg button.pri, .mcfg button[type=submit], .fusform button[type=submit]){background:linear-gradient(180deg,#f8b04c,var(--accent))!important;color:var(--accent-ink)!important;border-color:transparent!important;box-shadow:0 2px 8px #f39a1e33}
+body.ui2 .page[data-sec="mant"] .mrow .bt button{min-height:40px;padding:8px 13px!important;font-size:13.5px!important}
+body.ui2 .ovl .hist button.del{min-height:36px;padding:6px 11px!important;font-size:12.5px!important}
+body.ui2 .ovl :is(input:not([type=checkbox]):not([type=radio]):not([type=file]),select,textarea){min-height:44px;border-radius:10px!important;font-size:15px!important;box-sizing:border-box}
+body.ui2 .ovl textarea{min-height:88px}
+body.ui2 .ovl .fgrid{gap:12px 12px}
+/* 9: textos más grandes y filas sin cortar */
+.nav2 button{font-size:11.5px!important}
+.t2t small{font-size:12.5px!important}
+.attn .r2 .tx b,.attn .r2 .tx small,.firsts .r2 .tx b,.firsts .r2 .tx small{white-space:normal;overflow:visible}
+/* 11: cabeceras de tarjeta en una línea */
+.card2 h3{flex-wrap:nowrap}
+.card2 h3 .more{white-space:nowrap;flex:none}
+/* 8: primeros pasos y «Sin km» */
+.firsts .r2.done{opacity:.7;cursor:default}
+.hmkm .kmbig.nokm{font:600 18px var(--f-body);color:var(--txt-3)}
+/* 12: rayita de carga solo mientras carga */
+.navprog{opacity:0;transition:opacity .3s}
+.navprog.ld{opacity:1}
+/* 13: + se esconde al bajar */
+body.fabhide .fab2{transform:translateY(90px);opacity:0;pointer-events:none}
+/* cabecera: títulos sin cortar en lo posible */
+@media (max-width:860px){ .t2t b{font-size:17px!important;letter-spacing:.03em!important} }
+
+/* ===== 5: tema claro con contraste ===== */
+body.ui2.light{--bg:#dfe3e9;--card:#ffffff;--card-2:#f3f5f8;--card-line:#cdd4dc;--txt:#121820;--txt-2:#46505c;--txt-3:#6b7581;--acc-t:#b85f00;
+  --hud:#ffffff;--hud-2:#f3f5f8;--hud-line:#c3cad3;--hud-ink:#121820;--hud-mut:#5b6570;--panel:#ffffff;--raise:#f3f5f8;--line:#cdd4dc;--ink:#121820;--muted:#46505c;
+  --carbon:linear-gradient(45deg,#1b263308 25%,transparent 25%,transparent 75%,#1b263308 75%),linear-gradient(45deg,#1b263308 25%,transparent 25%,transparent 75%,#1b263308 75%);background:#dfe3e9}
+html:has(body.ui2.light){background:#e9ecf0}
+body.ui2.light .pages{background-color:#dfe3e9!important;background-image:radial-gradient(900px 500px at 70% -10%,#ffffff99,transparent 70%),var(--carbon)!important}
+/* barras */
+body.ui2.light .top2{background:linear-gradient(90deg,transparent 8%,#f39a1eaa 50%,transparent 92%) bottom/100% 1.5px no-repeat,linear-gradient(180deg,#fdfdfe,#eef1f5)!important;border-bottom:1px solid #b9c1cb!important;box-shadow:0 2px 10px #1b263318!important}
+body.ui2.light .t2t b{color:#121820}
+body.ui2.light .t2t small{color:#56606c}
+body.ui2.light .t2b,body.ui2.light #t2r .mb .mbtn,body.ui2.light .t2back{background:linear-gradient(180deg,#fff,#e9edf2)!important;border:1px solid #b9c1cb!important;color:#121820!important;box-shadow:0 1px 2px #1b26331a}
+@media (max-width:860px){ body.ui2.light .nav2{background:linear-gradient(90deg,transparent 10%,#f39a1eaa 50%,transparent 90%) top/100% 1.5px no-repeat,linear-gradient(180deg,#fdfdfe,#e9edf2)!important;border-color:#b9c1cb!important;box-shadow:0 -4px 16px #1b26331f!important} }
+body.ui2.light .nav2 button{color:#5b6570}
+body.ui2.light .nav2 button[aria-current="page"],body.ui2.light .nav2 button[aria-current="page"] span{color:var(--acc-t)}
+body.ui2.light .subtabs{background:#e9edf2!important;border-bottom:1px solid #c3cad3!important;box-shadow:0 6px 14px #1b263314}
+body.ui2.light .subtabs button{background:#fff;border:1px solid #c3cad3;color:#3b4450;box-shadow:0 1px 2px #1b263314}
+body.ui2.light .subtabs button[aria-selected="true"]{background:linear-gradient(180deg,#f8b04c,var(--accent));border-color:#e08a12;color:#1a1003}
+body.ui2.light .sbadge{box-shadow:0 0 0 2px #e9edf2}
+/* paneles */
+body.ui2.light .card2{background:radial-gradient(130% 70px at 50% 0,#f39a1e14,transparent 75%) padding-box,linear-gradient(180deg,#fff,#fbfcfd) padding-box,linear-gradient(180deg,#f0a040 0%,#cdd4dc 18%,#c3cad3 100%) border-box!important;box-shadow:0 1px 2px #1b26330f,0 8px 20px #1b26331a!important}
+body.ui2.light .card2::after{background:linear-gradient(90deg,transparent,#fff,transparent) no-repeat;background-size:28% 100%}
+body.ui2.light .card2 h3{color:#3b4450}
+body.ui2.light .card2 h3 .more,body.ui2.light .muted2 a{color:var(--acc-t)}
+body.ui2.light .card2 h3 .cnt{background:#eef1f5;color:#46505c}
+body.ui2.light .r2,body.ui2.light .cmpi{background:#f3f5f8!important;border-color:#d3d9e0!important;color:#121820}
+body.ui2.light .r2 .ic{background:#e6eaf0}
+body.ui2.light .r2 .tx small{color:#56606c}
+body.ui2.light :is(.mt,.stc,.gi){background:#fff!important;border:1px solid #cdd4dc!important;box-shadow:0 1px 2px #1b26330f,0 6px 16px #1b263314!important}
+body.ui2.light .mt i,body.ui2.light .fabg button i{background:#fdf0dd;color:var(--acc-t)}
+body.ui2.light .mgrp h4,body.ui2.light .ajh,body.ui2.light .srres h5{color:#56606c}
+body.ui2.light .empty2{color:#56606c}
+body.ui2.light .hmname b,body.ui2.light .hero .htitle b{color:var(--acc-t)}
+body.ui2.light .hmkm .kmedit,body.ui2.light .hero .kmedit{background:#fdf0dd;border-color:#f0b060;color:var(--acc-t)}
+body.ui2.light .hchips span{background:#f3f5f8;border-color:#d3d9e0;color:#3b4450}
+/* paneles heredados acoplados: sin fondo blanco plano, filas como tarjetas */
+body.ui2.light .ovl.docked{background:transparent!important;border:0!important;box-shadow:none!important}
+body.ui2.light .ovl.docked .ovl-body{color:#121820}
+body.ui2.light :is(.mrow,.hist .h){background:#fff!important;border-color:#cdd4dc!important;border-top-color:#f0b060!important;box-shadow:0 1px 2px #1b26330f,0 6px 14px #1b263314!important;color:#121820!important}
+body.ui2.light :is(.mrow,.hist .h)::before{opacity:.9}
+body.ui2.light .mrow .c,body.ui2.light .mrow .nm small{color:#56606c!important}
+body.ui2.light .mrow .c b{color:#121820!important}
+body.ui2.light .mcfg,body.ui2.light .fusform,body.ui2.light form.mcfg{background:#fff;border:1px solid #cdd4dc;border-radius:12px;padding:12px}
+body.ui2.light .ovl :is(input:not([type=checkbox]):not([type=radio]),select,textarea),body.ui2.light .inp2{background:#f7f8fa!important;border:1px solid #b9c1cb!important;color:#121820!important}
+body.ui2.light .ovl :is(input,select,textarea):focus,body.ui2.light .inp2:focus{border-color:var(--accent)!important;box-shadow:0 0 0 3px #f39a1e33!important;outline:0}
+body.ui2.light .ovl label.f,body.ui2.light .wzlab{color:#46505c!important}
+body.ui2.light .ovl :is(.acts button, .mrow .bt button, .mcfg button, .fusform button){background:#fff!important;border-color:#b9c1cb!important;color:#121820!important;box-shadow:0 1px 2px #1b263314}
+body.ui2.light .ovl :is(.acts button.pri, .mrow .bt button.pri, .mcfg button.pri, .mcfg button[type=submit], .fusform button[type=submit]){background:linear-gradient(180deg,#f8b04c,var(--accent))!important;color:#1a1003!important;border-color:#e08a12!important}
+body.ui2.light .ovl.docked form .acts{background:linear-gradient(180deg,#dfe3e9cc,#dfe3e9 40%)!important;border-top-color:#c3cad3}
+body.ui2.light .mdet,body.ui2.light .nocfg{background:#fff;border-color:#c3cad3}
+body.ui2.light .mdet summary,body.ui2.light .nocfg summary{color:#121820}
+body.ui2.light .sum .pill{filter:saturate(1.2) brightness(.92)}
+body.ui2.light .btn2.ghost,body.ui2.light .fpick button{background:#fff;border:1px solid #b9c1cb;color:#121820}
+body.ui2.light .fpick button{border-style:dashed;border-color:#e08a12;color:var(--acc-t);background:#fdf6ec}
+body.ui2.light .btn2:not(.ghost){box-shadow:0 2px 8px #f39a1e40}
+/* hojas, desplegables, buscador, asistente */
+body.ui2.light .sheet2{background:#1b263366}
+body.ui2.light .shbox,body.ui2.light .wzbox,body.ui2.light .srbox{background:#f3f5f8!important;border-color:#c3cad3!important;color:#121820}
+body.ui2.light .shbox h3,body.ui2.light .srbox h5{color:#121820}
+body.ui2.light .fabg button{background:#fff;border-color:#cdd4dc;box-shadow:0 1px 2px #1b26330f}
+body.ui2.light .cspop{background:#fff!important;border-color:#c3cad3!important}
+body.ui2.light .csi{color:#121820}
+body.ui2.light .csi.on{background:#fdf0dd;color:var(--acc-t)}
+body.ui2.light .csel{background:#f7f8fa!important;border-color:#b9c1cb!important;color:#121820!important}
+body.ui2.light .srin{background:#fff;border-bottom:1px solid #c3cad3}
+body.ui2.light .srin input{color:#121820}
+/* visor 3D */
+body.ui2.light :is(aside.left,aside.right,.tabs){background:#f3f5f8!important;border-color:#c3cad3!important}
+body.ui2.light .tabs button{color:#56606c}
+body.ui2.light .tabs button[aria-selected="true"]{color:#121820}
+body.ui2.light .ctabs{background:#e9edf2!important}
 </style>
 
 </head>
@@ -1405,7 +1515,7 @@ input[type=file].fhid{position:absolute!important;width:1px!important;height:1px
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.2.2</span>
+  <span class="spver">v1.3.0</span>
 </div>
 
 <header class="top2" id="top2">
@@ -1746,7 +1856,7 @@ const $ = s => document.querySelector(s);
 /* ---------- escena ---------- */
 const stage = $('#stage');
 const COARSE = matchMedia('(pointer: coarse)').matches;
-const R = Object.assign({scene:'taller', quality: COARSE?'media':'alta', az:38, el:48, int:2.4, lampInt:6, sound:true, night:false}, loadPrefs());
+const R = Object.assign({scene:'clasico', quality: COARSE?'media':'alta', az:38, el:48, int:2.4, lampInt:6, sound:true, night:false}, loadPrefs());
 function loadPrefs(){ try{ return JSON.parse(localStorage.getItem('touareg-pro-render')||'{}'); }catch{ return {}; } }
 function savePrefs(){ try{ localStorage.setItem('touareg-pro-render', JSON.stringify({scene:R.scene,quality:R.quality,az:R.az,el:R.el,int:R.int,lampInt:R.lampInt,sound:R.sound,night:R.night,sunH:!!R.sunH})); }catch{} }
 
@@ -1897,7 +2007,6 @@ function gradientTex(inner, outer){
 }
 const SCENES = {
   clasico:  {name:'Taller clásico', hint:'ladrillo, hormigón y chapa', hemi:.16, exposure:1.0, bg:'#120d0a', fog:[6.5,19,'#140e0b'], maxDist:7.2},
-  taller:   {name:'Taller mecánico', hint:'interior con luces de techo', hemi:.32, exposure:.82, bg:'#1a1c1f', fog:null, maxDist:7.2},
   claro:    {name:'Estudio claro', hint:'fondo blanco de fotografía', inner:'#f6f7f8', outer:'#c9cdd2', floor:'#d4d7db', rough:.7, hemi:.5, exposure:.72, fog:[12,30,'#c9cdd2'], maxDist:18},
   studio:   {name:'Estudio oscuro', hint:'fondo negro de exposición', inner:'#2b2e38', outer:'#07080b', floor:'#0e0f13', rough:.32, hemi:.22, exposure:1.0, fog:[9,26,'#07080b'], maxDist:18},
 };
@@ -2150,7 +2259,7 @@ function setEnvIntensity(f){
     if(m.userData.envBase==null) m.userData.envBase=m.envMapIntensity; m.envMapIntensity=m.userData.envBase*f; });
 }
 function applyScene(){
-  if(!SCENES[R.scene]) R.scene='taller';
+  if(!SCENES[R.scene]) R.scene='clasico';
   const k = R.scene, c = SCENES[k], night = !!R.night, nf = NIGHT[k];
   const studioLike = k==='studio' || k==='claro';
   if(k==='studio'){ ENV.studio ||= studioEnv(); BG.studio ||= gradientTex(c.inner, c.outer); }
@@ -4820,7 +4929,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.2.2';
+  const APP_VERSION='1.3.0';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5058,12 +5167,12 @@ document.body.classList.add('ui2');
 applyTheme();
 const SECS={
   inicio:{t:'Inicio', icon:'home'},
-  coche:{t:'Coche', icon:'car', subs:[['3d','Modelo 3D','cube'],['ficha','Ficha','tag'],['fus','Fusibles','zap'],['ave','Averías','alert']]},
+  coche:{t:'Coche', icon:'car', subs:[['3d','Modelo 3D','cube'],['ficha','Datos','tag'],['fus','Fusibles','zap'],['ave','Averías','alert']]},
   mant:{t:'Mantenimiento', icon:'wrench', subs:[['plan','Plan','list'],['hist','Historial','history'],['compra','Compra','cart'],['gastos','Gastos','euro']]},
   papeles:{t:'Papeles', icon:'file', subs:[['docs','Documentos','shield'],['fotos','Facturas y fotos','image']]},
   mas:{t:'Más', icon:'grid'},
 };
-const MAS_T={avisos:'Avisos y notificaciones', procs:'Guías de reparación', pines:'Notas en el modelo', pend:'Fichas pendientes', backup:'Copia de seguridad', keys:'Atajos de teclado', about:'Acerca de y actualizaciones', ajustes:'Ajustes'};
+const MAS_T={avisos:'Avisos', procs:'Guías', pines:'Notas 3D', pend:'Fichas pendientes', backup:'Copia de seguridad', keys:'Atajos de teclado', about:'Acerca de', ajustes:'Ajustes'};
 document.querySelectorAll('#nav2 button').forEach(b=>{ b.querySelector('i').innerHTML=ic(SECS[b.dataset.sec].icon); b.onclick=()=>{ uiSfx('tap'); go(b.dataset.sec); }; });
 $('#t2Search').innerHTML=ic('search'); $('#t2Back').innerHTML=ic('chevL'); $('#srIco').innerHTML=ic('search');
 const SUBBOX={mant:'#stMant',papeles:'#stPap',coche:'#stCoche'}, SUBPB={mant:'#pbMant',papeles:'#pbPap',coche:'#pbCoche'};
@@ -5120,6 +5229,7 @@ function restoreSub(){
 function markSub(sec){ document.querySelectorAll(SUBBOX[sec]+' button').forEach(b=>b.setAttribute('aria-selected', b.dataset.sub===UI.sub[sec])); if(sec==='coche') document.body.dataset.csub=UI.sub.coche; }
 function clearCoche(){ const pb=$('#pbCoche'); $('#holdCoche').append($('#secCoche')); [...pb.children].forEach(c=>{ if(c!==ovl) c.remove(); }); }
 function openSub(sec,sub){
+  document.body.classList.remove('fabhide');
   UI.sub[sec]=sub; markSub(sec);
   const pb=$(SUBPB[sec]);
   if(sec==='coche'){
@@ -5154,11 +5264,12 @@ function setTop(){
   else if(UI.sec==='papeles') sub = subL(UI.sub.papeles);
   $('#t2Title').textContent=t; $('#t2Sub').textContent=sub; $('#t2Back').hidden=!back;
 }
-$('#t2Back').onclick=()=>{ uiSfx('tap');
+$('#t2Back').onclick=()=>{ uiSfx('tap'); document.body.classList.remove('fabhide');
   if(document.body.classList.contains('formopen')){ const c=[...document.querySelectorAll('#ovlBody .acts button')].find(b=>b.textContent==='Cancelar'); if(c) c.click(); else closePop(); setTop(); return; }
   if(UI.sec==='mas'){ UI.mas=null; if(ovl.classList.contains('docked')) _closePop(); renderMas(); setTop(); } };
 
 function go(sec, sub, opts={}){
+  document.body.classList.remove('fabhide');
   const prev=UI.sec; UI.sec=sec; document.body.dataset.sec=sec;
   document.querySelectorAll('#nav2 button').forEach(b=>b.setAttribute('aria-current', b.dataset.sec===sec?'page':'false'));
   document.querySelectorAll('.page').forEach(p=>p.classList.toggle('on', p.dataset.sec===sec));
@@ -5246,9 +5357,17 @@ function renderInicio(force){
   /* coche en una línea: matrícula y kilómetros */
   g.append(heroMini());
   /* lo que requiere atención */
-  g.append(attentionCard(km));
+  const noMant0=!mantList().length, noDocs0=!S.docs.some(d=>d.caduca);
+  { const ac=attentionCard(km, noMant0||noDocs0); if(!((noMant0||noDocs0) && !ac.querySelector('.r2'))) g.append(ac); }
+  /* con la app aún vacía, una sola tarjeta de primeros pasos en lugar de varias tarjetas vacías */
+  const noMant=!mantList().length, noDocs=!S.docs.some(d=>d.caduca), noInts=!S.int.length;
+  if(noMant || noDocs){
+    const pp=h2(`<div class="card2 c12 firsts"><h3>${ic('sparkle')}Primeros pasos</h3><div class="l2"></div></div>`), pl=pp.querySelector('.l2');
+    for(const [ok,i,t,d,fn] of [[!!km,'gauge','Kilómetros actuales','Para los avisos por kilometraje',quickKm],[!noMant,'wrench','Últimos cambios','Aceite, filtros, frenos… y cada cuánto se hacen',()=>openWizard(1)],[!noDocs,'shield','ITV, seguro e impuesto','Con su fecha de caducidad',()=>openWizard(2)]]){
+      const r=h2(`<button type="button" class="r2 step${ok?' done':''}" style="--c:${ok?'var(--ok)':'var(--accent)'}"><span class="ic">${ic(ok?'checkc':i)}</span><span class="tx"><b>${t}</b><small>${ok?'Hecho':d}</small></span>${ok?'':ic('chevR')}</button>`); if(!ok) r.onclick=()=>{ uiSfx('tap'); fn(); }; pl.append(r); }
+    g.append(pp); }
   /* próximo mantenimiento */
-  const ml=mantList(), mc=h2(`<div class="card2 c6"><h3>${ic('wrench')}Próximo mantenimiento<button class="more" type="button">Ver plan${ic('chevR')}</button></h3><div class="l2"></div></div>`);
+  const ml=mantList(), mc=h2(`<div class="card2 c6"><h3>${ic('wrench')}Mantenimiento<button class="more" type="button">Plan${ic('chevR')}</button></h3><div class="l2"></div></div>`);
   mc.querySelector('.more').onclick=()=>go('mant','plan');
   const l=mc.querySelector('.l2');
   if(!ml.length){ const e=h2(`<div class="empty2">${ic('wrench')}<div>Para calcular cuándo toca cada cambio necesito el último que se hizo y cada cuánto se hace.</div><button type="button">${ic('sparkle')}Registrar los últimos cambios</button></div>`); e.querySelector('button').onclick=()=>openWizard(1); l.append(e); }
@@ -5257,30 +5376,30 @@ function renderInicio(force){
     r.onclick=()=>go('mant','plan'); l.append(r);
     { const bi=r.querySelector('.bar2 i'), w=Math.round(mantPct(it,s)*100)+'%'; if(UI.introDone){ bi.style.transition='none'; bi.style.setProperty('--w',w); } else requestAnimationFrame(()=>requestAnimationFrame(()=>bi.style.setProperty('--w',w))); }
   }
-  g.append(mc);
+  if(!noMant) g.append(mc);
   /* documentos */
-  const dc=h2(`<div class="card2 c6"><h3>${ic('shield')}Documentación<button class="more" type="button">Ver todo${ic('chevR')}</button></h3><div class="l2"></div></div>`);
+  const dc=h2(`<div class="card2 c6"><h3>${ic('shield')}Papeles<button class="more" type="button">Todo${ic('chevR')}</button></h3><div class="l2"></div></div>`);
   dc.querySelector('.more').onclick=()=>go('papeles','docs');
   const dl=dc.querySelector('.l2'), docs=[...S.docs].filter(d=>d.caduca).sort((a,b)=>a.caduca.localeCompare(b.caduca));
   if(!docs.length){ const e=h2(`<div class="empty2">${ic('shield')}<div>Añade la ITV, el seguro y el impuesto y te avisaré antes de que caduquen.</div><button type="button">${ic('plus')}Añadir documentos</button></div>`); e.querySelector('button').onclick=()=>openWizard(2); dl.append(e); }
   for(const d of docs.slice(0,4)){ const s=docStatus(d);
     const r=h2(`<button type="button" class="r2" style="--c:${stColor(s.st)}"><span class="ic">${ic(d.tipo==='ITV'?'shield':d.tipo==='Seguro'?'file':'receipt')}</span><span class="tx"><b>${esc(d.tipo)}${d.nombre?' · '+esc(d.nombre):''}</b><small>Caduca el ${fmtDate(d.caduca)}</small></span><span class="rt">${s.days<0?'Caducado':s.days===0?'Hoy':s.days+' días'}</span></button>`);
     r.onclick=()=>{ S.docEdit=d; go('papeles','docs'); }; dl.append(r); }
-  g.append(dc);
+  if(!noDocs) g.append(dc);
   /* últimas intervenciones */
-  const ic2=h2(`<div class="card2 c6"><h3>${ic('history')}Últimas intervenciones<button class="more" type="button">Historial${ic('chevR')}</button></h3><div class="l2"></div></div>`);
+  const ic2=h2(`<div class="card2 c6"><h3>${ic('history')}Intervenciones<button class="more" type="button">Todas${ic('chevR')}</button></h3><div class="l2"></div></div>`);
   ic2.querySelector('.more').onclick=()=>go('mant','hist');
   const il=ic2.querySelector('.l2'), ints=[...S.int].sort(byDateDesc);
   if(!ints.length){ const e=h2(`<div class="empty2">${ic('history')}<div>Aún no hay intervenciones.</div><button type="button">${ic('plus')}Registrar la primera</button></div>`); e.querySelector('button').onclick=()=>openIntForm({}); il.append(e); }
   for(const x of ints.slice(0,4)){
     const r=h2(`<button type="button" class="r2"><span class="ic">${ic('wrench')}</span><span class="tx"><b>${esc(itemName(x.mant)||partName(x.pieza)||x.descripcion||x.tipo)}</b><small>${fmtDate(x.fecha)}${x.km!=null?' · '+nf.format(x.km)+' km':''}${x.adjuntos?.length?' · 📎 '+x.adjuntos.length:''}</small></span><span class="rt">${x.coste!=null?eur(x.coste):''}</span></button>`);
     r.onclick=()=>go('mant','hist'); il.append(r); }
-  g.append(ic2);
+  if(!noInts) g.append(ic2);
   /* gastos del año */
   const yr=String(new Date().getFullYear()), mov=gastosMov(), yi=mov.filter(x=>(x.fecha||'').startsWith(yr)), tot=yi.reduce((a,x)=>a+x.eur,0), totAll=mov.reduce((a,x)=>a+x.eur,0);
   const gc=h2(`<div class="card2 c6"><h3>${ic('euro')}Gastos ${yr}<button class="more" type="button">Detalle${ic('chevR')}</button></h3><div class="big2" id="gTot">0 €</div><div class="muted2">${yi.length} gasto(s) este año · ${eur(totAll)} en total</div></div>`);
   setTimeout(()=>{ UI.introDone=true; },900);
-  gc.querySelector('.more').onclick=()=>go('mant','gastos'); g.append(gc); animNum(gc.querySelector('#gTot'), tot, eur, 'gtot');
+  gc.querySelector('.more').onclick=()=>go('mant','gastos'); if(mov.length) g.append(gc); animNum(gc.querySelector('#gTot'), tot, eur, 'gtot');
   /* fichas documentadas */
   const all=Object.keys(parts).filter(id=>!parts[id].scan), done=all.filter(id=>S.fichas[id]?.ref).length, pct=all.length?Math.round(done/all.length*100):0;
   const fc=h2(`<div class="card2 c4"><h3>${ic('cube')}Fichas de piezas</h3><div class="prog2"><div class="ring" style="--p:0" data-v="${pct} %"></div><div><div class="big2">${done}<small class="muted2"> / ${all.length||'—'}</small></div><div class="muted2">piezas con referencia guardada</div></div></div><div class="row3" style="justify-content:flex-start"><button class="btn2 ghost" type="button">${ic('list')}Ver pendientes</button></div></div>`);
@@ -5683,7 +5802,7 @@ function listManager(sel, kind){
       for(const q of [...S.piezasL].sort((a,b)=>(a.nombre||'').localeCompare(b.nombre||'','es'))) iP.append(new Option(q.nombre,'c:'+q._id));
       if(dr.pieza && !String(dr.pieza).startsWith('c:') && parts[dr.pieza]) iP.append(new Option(parts[dr.pieza].name+' (modelo 3D)', dr.pieza));
       iP.value=dr.pieza||''; iP.onchange=()=>{ if(S.draft) S.draft.pieza=iP.value; };
-      iP.closest('label').classList.add('w3'); iP.closest('label').firstChild.textContent='Pieza (no de mantenimiento)';
+      iP.closest('label').classList.add('w3'); iP.closest('label').firstChild.textContent='Pieza afectada (opcional)';
       iP.closest('label').append(listManager(iP,'pieza'));
     }
     if(iM){
@@ -5995,6 +6114,14 @@ new MutationObserver(muts=>{ for(const m of muts) for(const n of m.addedNodes){ 
 
 
 /* ====================== v1.2: usabilidad ====================== */
+{ const tf=document.querySelector('.tabs [data-tab="ficha"]'); if(tf) tf.textContent='Pieza'; }
+/* el escenario «Taller mecánico» antiguo ya no existe: quien lo tuviera pasa al clásico */
+if(R.scene==='taller' || !SCENES[R.scene]){ R.scene='clasico'; try{ savePrefs(); applyScene(); renderMenus?.(); }catch{} }
+/* 12: rayita de carga bajo «Coche» solo mientras carga */
+{ const np=$('#navProg'), bi=$('#lbarI'); if(np && bi) new MutationObserver(()=>{ const f=(parseFloat(bi.style.width)||0)/100; np.classList.toggle('ld', f>0 && f<1); }).observe(bi,{attributes:true,attributeFilter:['style']}); }
+/* 13: el botón + se esconde al bajar por una lista y vuelve al subir */
+{ const last=new WeakMap(); document.addEventListener('scroll',e=>{ const t=e.target; if(!(t instanceof Element) || !t.matches('.pin2,.pbody')) return; const y=t.scrollTop, p=last.get(t)??0; last.set(t,y);
+    if(y>p+6 && y>40) document.body.classList.add('fabhide'); else if(y<p-6 || y<20) document.body.classList.remove('fabhide'); }, true); }
 /* --- Coche ▸ Ficha: datos de fábrica y códigos PR --- */
 function renderFichaCoche(pb){
   const wrap=h2('<div class="wrap pg-ficha" style="padding:14px 16px 28px"></div>'); pb.append(wrap);
@@ -6007,21 +6134,21 @@ function renderFichaCoche(pb){
 function heroMini(){
   const c=S.cfg||{}, km=c.kmActual;
   const el2=h2(`<div class="card2 hmini c12"><button type="button" class="hmcar" title="Ver la ficha del coche"><div class="plate"><i>E</i><span>9905 CMY</span></div><span class="hmname">Touareg <b>7L</b><small>2.5 R5 TDI · ${esc(c.motor||'BAC')} · ${esc((c.pintura||'C9Z Black Magic Pearl').split(' ')[0])}</small></span></button>
-    <div class="hmkm"><div class="kmbig"><span id="kmN">${km?nf.format(km):'—'}</span><small>km</small></div><button type="button" class="kmedit">${ic('edit')}Actualizar</button></div></div>`);
+    <div class="hmkm">${km?`<div class="kmbig"><span id="kmN">${nf.format(km)}</span><small>km</small></div>`:'<div class="kmbig nokm">Sin km</div>'}<button type="button" class="kmedit">${ic('edit')}${km?'Actualizar':'Poner km'}</button></div></div>`);
   el2.querySelector('.kmedit').onclick=quickKm; el2.querySelector('.hmcar').onclick=()=>go('coche','ficha');
   if(km) animNum(el2.querySelector('#kmN'), Number(km)||0, undefined, 'km');
   return el2;
 }
-function attentionCard(km){
+function attentionCard(km, skipKm){
   const rows=[];
   for(const {it,s} of mantList()) if(s.st==='due'||s.st==='soon') rows.push({c:stColor(s.st), i:'wrench', t:it.nombre, s:mantLine(it,s), r:ST_LABEL[s.st], fn:()=>openIntForm({mant:it.id, back:'mant'})});
   for(const d of S.docs){ const s=docStatus(d); if(s.st==='due'||s.st==='soon') rows.push({c:stColor(s.st), i:'shield', t:d.tipo+(d.nombre?' · '+d.nombre:''), s:'Caduca el '+fmtDate(d.caduca), r:s.days<0?'Caducado':s.days===0?'Hoy':`${s.days} días`, fn:()=>{ S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); }}); }
   const mont=(S.compras||[]).filter(x=>x.estado==='comprado'), pend=(S.compras||[]).filter(x=>x.estado==='pendiente');
   if(mont.length) rows.push({c:'var(--soon)', i:'cart', t:mont.length===1?mont[0].nombre:`${mont.length} piezas compradas`, s:'Compradas y sin montar', r:'Montar', fn:()=>go('mant','compra')});
   if(pend.length) rows.push({c:'var(--info)', i:'cart', t:`${pend.length} en la lista de la compra`, s:pend.slice(0,3).map(x=>x.nombre).join(', ')+(pend.length>3?'…':''), r:'Ver', fn:()=>go('mant','compra')});
-  if(!km) rows.unshift({c:'var(--soon)', i:'gauge', t:'Pon los kilómetros actuales', s:'Sin ellos no se calculan los avisos por kilometraje', r:'Poner', fn:quickKm});
+  if(!km && !skipKm) rows.unshift({c:'var(--soon)', i:'gauge', t:'Pon los kilómetros actuales', s:'Sin ellos no se calculan los avisos por kilometraje', r:'Poner', fn:quickKm});
   const urgent=rows.filter(r=>r.c==='var(--due)').length;
-  const card=h2(`<div class="card2 attn c12"><h3>${ic('alert')}${rows.length?'Requiere atención':'Todo al día'}${rows.length?`<span class="cnt${urgent?' due':''}">${rows.length}</span>`:''}</h3><div class="l2"></div></div>`), l=card.querySelector('.l2');
+  const card=h2(`<div class="card2 attn c12"><h3>${ic(rows.length?'alert':'checkc')}${rows.length?'Requiere atención':'Todo al día'}${rows.length?`<span class="cnt${urgent?' due':''}">${rows.length}</span>`:''}</h3><div class="l2"></div></div>`), l=card.querySelector('.l2');
   if(!rows.length) l.append(h2(`<div class="okline">${ic('checkc')}<span>Nada vencido ni a punto de caducar. Buen trabajo.</span></div>`));
   for(const x of rows){ const r=h2(`<button type="button" class="r2" style="--c:${x.c}"><span class="ic">${ic(x.i)}</span><span class="tx"><b>${esc(x.t)}</b><small>${esc(x.s)}</small></span><span class="rt">${esc(x.r)}</span></button>`); r.onclick=()=>{ uiSfx('tap'); x.fn(); }; l.append(r); }
   return card;
@@ -6075,7 +6202,7 @@ function listInSelect(sel, kind){
     /* kilómetros: cifra + botón (el campo editable se quita) */
     const kl=body.querySelector('#mKm')?.closest('label');
     if(kl){ const km=S.cfg?.kmActual; const d=h2(`<div class="mkm2"><span class="muted2">Kilómetros actuales</span><b>${km?nf.format(km)+' km':'—'}</b><button type="button" class="btn2 ghost">${ic('edit')}Actualizar</button></div>`); d.querySelector('button').onclick=quickKm; kl.replaceWith(d); }
-    if(S.mantTab==='hist') return;
+    if(S.mantTab==='hist'){ body.querySelector('.mtop')?.remove(); return; }
     /* los elementos sin datos, plegados al final */
     const rows=[...body.querySelectorAll('.mgroup .mrow.st-nodata, .mgroup .mrow.st-noint')];
     if(rows.length){ const det=h2(`<details class="mgroup nocfg"><summary>${ic('sliders')}Sin configurar<span class="cnt">${rows.length}</span><small>Falta el último cambio o el intervalo</small></summary><div class="ncbox"></div></details>`), bx=det.querySelector('.ncbox');
@@ -6154,7 +6281,8 @@ function measureScreen(){
   Object.assign(SCR,{t,b,gap,ih:innerHeight,iw:innerWidth,sh,st,ios});
   const R=document.documentElement.style;
   R.setProperty('--gapb',gap+'px');
-  R.setProperty('--sa-b',Math.max(0,b-gap)+'px');
+  const homeBar = ios && st && sh>=800;   /* iPhone sin botón: la barrita de inicio necesita su hueco aunque iOS no lo indique */
+  R.setProperty('--sa-b',Math.max(homeBar?30:0, b-gap)+'px');
 }
 measureScreen(); addEventListener('resize',()=>{ clearTimeout(measureScreen.t); measureScreen.t=setTimeout(measureScreen,120); }); addEventListener('orientationchange',()=>setTimeout(measureScreen,300));
 
