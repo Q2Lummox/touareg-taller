@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="1.4.3">
+<meta name="app-version" content="1.5.0">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1573,6 +1573,25 @@ body.ui2 .doclist .mrow .c{white-space:nowrap}
 .hl-l{left:13.7%;top:70.3%} .hl-r{left:85.8%;top:70.6%}
 .fl-l{left:16.6%;top:81.3%} .fl-r{left:82.4%;top:81.5%}
 .spveil{background:linear-gradient(180deg,#030405e6 0%,#030405b8 30%,#03040599 50%,#03040570 66%,#03040599 86%,#030405e6 100%),linear-gradient(90deg,#03040580 0%,transparent 10%,transparent 90%,#03040580 100%)!important}
+/* v1.5: foto 1284×2778 */
+.spimg{aspect-ratio:1284/2778!important;width:max(100vw, calc(100vh * 1284 / 2778))!important}
+/* gestos */
+.gedge{position:fixed;z-index:9700;left:6px;top:50%;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;opacity:0;pointer-events:none;
+  background:#14171bee;border:1px solid #3a414b;color:var(--accent);box-shadow:0 6px 18px #000a;transform:translateY(-50%) scale(.7);transition:opacity .2s,background .15s}
+.gedge svg{width:24px;height:24px}
+.gedge.r{left:auto;right:6px}
+.gedge.r svg{transform:rotate(180deg)}
+.gedge.go{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.gpull{position:fixed;z-index:9050;left:50%;top:calc(var(--t2h) + var(--sa-t) + 6px);width:40px;height:40px;opacity:0;pointer-events:none;transform:translate(-50%,0)}
+.gpull svg{width:100%;height:100%;fill:#14171bee;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round}
+.gpull circle{stroke:#3a414b;stroke-width:2}
+.gpull path{transform-origin:20px 20px;transition:transform .05s}
+.gpull.go svg{filter:drop-shadow(0 0 8px #f39a1e)}
+body.ui2.light .gedge,body.ui2.light .gpull svg{background:#fff;fill:#fff;border-color:#c3cad3}
+.shbox{touch-action:pan-y}
+html,body.ui2{overscroll-behavior-x:none}
+body.ui2 .pages,body.ui2 .pin2,body.ui2 .pbody{touch-action:pan-y}
+body.ui2 .pages :is(.subtabs,.chips2,.hchips,.gal){touch-action:pan-x pan-y}
 </style>
 
 </head>
@@ -1615,7 +1634,7 @@ body.ui2 .doclist .mrow .c{white-space:nowrap}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.4.3</span>
+  <span class="spver">v1.5.0</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5029,7 +5048,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.4.3';
+  const APP_VERSION='1.5.0';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5262,6 +5281,10 @@ function applyTheme(){
 }
 matchMedia('(prefers-color-scheme: light)').addEventListener?.('change', applyTheme);
 
+/* historial de navegación para los gestos de atrás y adelante */
+const NAVH=window.__navh={back:[], fwd:[], cur:null, lock:false,
+  push(sec, sub){ if(this.lock) return; const s2=sub || (UI.sub&&UI.sub[sec]) || null, k=sec+'/'+(s2||''); if(this.cur===k) return; if(this.cur) this.back.push(this.cur); if(this.back.length>40) this.back.shift(); this.cur=k; this.fwd=[]; },
+  jump(k){ const [sec,sub]=k.split('/'); this.lock=true; try{ go(sec, sub||undefined); } finally { this.lock=false; } this.cur=k; } };
 /* ---------- estructura ---------- */
 document.body.classList.add('ui2');
 applyTheme();
@@ -5330,6 +5353,7 @@ function markSub(sec){ document.querySelectorAll(SUBBOX[sec]+' button').forEach(
 function clearCoche(){ const pb=$('#pbCoche'); $('#holdCoche').append($('#secCoche')); [...pb.children].forEach(c=>{ if(c!==ovl) c.remove(); }); }
 function openSub(sec,sub){
   document.body.classList.remove('fabhide');
+  NAVH.push(sec, sub);
   UI.sub[sec]=sub; markSub(sec);
   const pb=$(SUBPB[sec]);
   if(sec==='coche'){
@@ -5370,6 +5394,7 @@ $('#t2Back').onclick=()=>{ uiSfx('tap'); document.body.classList.remove('fabhide
 
 function go(sec, sub, opts={}){
   document.body.classList.remove('fabhide');
+  NAVH.push(sec, sub);
   const prev=UI.sec; UI.sec=sec; document.body.dataset.sec=sec;
   document.querySelectorAll('#nav2 button').forEach(b=>b.setAttribute('aria-current', b.dataset.sec===sec?'page':'false'));
   document.querySelectorAll('.page').forEach(p=>p.classList.toggle('on', p.dataset.sec===sec));
@@ -5384,6 +5409,7 @@ function go(sec, sub, opts={}){
   else if(sec==='mant') openSub('mant', sub||UI.sub.mant);
   else if(sec==='papeles') openSub('papeles', sub||UI.sub.papeles);
   else if(sec==='mas'){ UI.mas=null; renderMas(); setTop(); }
+  setTop();
   try{ history.replaceState(null,'','#'+sec); }catch{}
 }
 
@@ -6484,6 +6510,70 @@ function foldForm(form, label, key){
       else if(popMode==='ave' && !S.aveEdit) foldForm([...body.querySelectorAll('form')].pop(), 'Registrar avería', 'addAve');
     }catch(e){ console.warn(e); }
     return r; }; }
+
+
+/* ====================== v1.5: gestos ====================== */
+const GEST={};
+function gBack(){
+  if(!$('#sheet2').hidden){ $('#sheet2').hidden=true; return true; }
+  if(document.querySelector('.csw')){ closeCsel(); return true; }
+  if(!$('#srch').hidden){ closeSearch(); return true; }
+  if(!$('#t2Back').hidden){ $('#t2Back').click(); return true; }
+  if(NAVH.back.length){ const k=NAVH.back.pop(); NAVH.fwd.push(NAVH.cur); NAVH.jump(k); uiSfx('tap'); return true; }
+  return false;
+}
+function gFwd(){ if(!NAVH.fwd.length) return false; const k=NAVH.fwd.pop(); NAVH.back.push(NAVH.cur); NAVH.jump(k); uiSfx('tap'); return true; }
+/* pestaña siguiente / anterior; al llegar al final, pasa a la sección de al lado */
+const SEC_ORDER=['inicio','coche','mant','papeles','mas'];
+function gTab(dir){
+  const sec=UI.sec, subs=SECS[sec].subs;
+  if(subs && !(sec==='mas' && UI.mas)){ const i=subs.findIndex(x=>x[0]===UI.sub[sec]), j=i+dir; if(j>=0 && j<subs.length){ openSub(sec, subs[j][0]); setTop(); return true; } }
+  if(sec==='mas' && UI.mas) return false;
+  const si=SEC_ORDER.indexOf(sec)+dir; if(si<0 || si>=SEC_ORDER.length) return false;
+  const ns=SEC_ORDER[si], nsubs=SECS[ns].subs; go(ns, nsubs ? (dir>0 ? nsubs[0][0] : nsubs[nsubs.length-1][0]) : undefined); return true;
+}
+/* indicador lateral (flecha que asoma al deslizar desde el borde) */
+const gEdge=h2(`<div class="gedge" aria-hidden="true">${ic('chevL')}</div>`); document.body.append(gEdge);
+const gPull=h2(`<div class="gpull" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15"/><path d="M20 20 L20 8"/></svg></div>`); document.body.append(gPull);
+const NOSWIPE='input,textarea,select,.subtabs,.chips2,.hchips,.app,.stage,.csw,.cspop,.gal,.lbx,[data-noswipe],.srch,.wiz,.splash,.ybars2,.avm';
+let G=null;
+document.addEventListener('touchstart',e=>{
+  if(e.touches.length!==1 || document.getElementById('splash')){ G=null; return; }
+  const t=e.touches[0], W=innerWidth, tgt=e.target;
+  const inSheet=tgt.closest?.('.shbox, .csw.m .cspop');
+  G={x0:t.clientX, y0:t.clientY, x:t.clientX, y:t.clientY, t0:performance.now(), mode:null, tgt,
+     edgeL: t.clientX<26, edgeR: t.clientX>W-26, sheet: inSheet, scroller: tgt.closest?.('.pin2,.pbody'),
+     canTab: !tgt.closest?.(NOSWIPE) && !inSheet && !(UI.sec==='coche' && UI.sub.coche==='3d'), page: document.querySelector('.page.on .pbody, .page.on .pin2, .page.on')};
+},{passive:true});
+document.addEventListener('touchmove',e=>{
+  if(!G) return; const t=e.touches[0]; G.x=t.clientX; G.y=t.clientY; const dx=G.x-G.x0, dy=G.y-G.y0;
+  if(!G.mode){
+    if(Math.abs(dx)<10 && Math.abs(dy)<10) return;
+    if(G.sheet && dy>0 && Math.abs(dy)>Math.abs(dx) && (G.sheet.scrollTop||0)<=0 && !G.tgt.closest('.csl, textarea')) G.mode='sheet';
+    else if(G.edgeL && dx>0 && Math.abs(dx)>Math.abs(dy)) G.mode='back';
+    else if(G.edgeR && dx<0 && Math.abs(dx)>Math.abs(dy) && NAVH.fwd.length) G.mode='fwd';
+    else if(G.canTab && Math.abs(dx)>Math.abs(dy)*1.8 && Math.abs(dx)>14) G.mode='tab';
+    else if(UI.sec==='inicio' && dy>0 && Math.abs(dy)>Math.abs(dx)*1.5 && ($('#pgInicio')?.scrollTop||0)<=0 && !G.sheet) G.mode='pull';
+    else { G.mode='none'; return; }
+  }
+  if(G.mode==='sheet'){ const box=G.sheet.closest('.shbox')||G.sheet; box.style.transition='none'; box.style.transform=`translateY(${Math.max(0,dy)}px)`; }
+  else if(G.mode==='back'||G.mode==='fwd'){ const p=Math.min(1,Math.abs(dx)/120); gEdge.classList.toggle('r',G.mode==='fwd'); gEdge.style.opacity=p; gEdge.style.transform=`translateY(-50%) translateX(${G.mode==='back'?Math.min(dx,120)*.5:Math.max(dx,-120)*.5}px) scale(${.7+p*.3})`; gEdge.classList.toggle('go',p>=1);
+    const pg=document.querySelector('.page.on'); if(pg && G.mode==='back'){ pg.style.transition='none'; pg.style.transform=`translateX(${Math.min(dx,140)*.35}px)`; } }
+  else if(G.mode==='tab'){ const pg=G.page; if(pg){ pg.style.transition='none'; pg.style.transform=`translateX(${dx*.28}px)`; pg.style.opacity=String(1-Math.min(.35,Math.abs(dx)/600)); } }
+  else if(G.mode==='pull'){ const d=Math.min(110, dy*.5); gPull.style.opacity=Math.min(1,d/70); gPull.style.transform=`translate(-50%, ${d}px)`; gPull.querySelector('path').style.transform=`rotate(${-90+Math.min(1,d/70)*180}deg)`; gPull.classList.toggle('go', d>=70); const pi=$('#pgInicio'); if(pi){ pi.style.transition='none'; pi.style.transform=`translateY(${d*.6}px)`; } }
+},{passive:true});
+function gReset(){ const pg=document.querySelector('.page.on'); for(const el2 of [pg, G?.page, $('#pgInicio')]) if(el2){ el2.style.transition='transform .28s cubic-bezier(.2,.8,.2,1), opacity .28s'; el2.style.transform=''; el2.style.opacity=''; }
+  gEdge.style.opacity=0; gEdge.classList.remove('go'); gPull.style.opacity=0; gPull.style.transform='translate(-50%,0)'; gPull.classList.remove('go'); }
+document.addEventListener('touchend',()=>{
+  if(!G) return; const g=G; G=null; const dx=g.x-g.x0, dy=g.y-g.y0, dt=performance.now()-g.t0, fast=dt<280;
+  if(g.mode==='sheet'){ const box=g.sheet.closest('.shbox')||g.sheet; box.style.transition='transform .25s ease'; if(dy>110 || (fast && dy>40)){ box.style.transform='translateY(100%)'; setTimeout(()=>{ box.style.transform=''; box.style.transition=''; if(box.closest('.csw')) closeCsel(); else $('#sheet2').hidden=true; },220); } else box.style.transform=''; return; }
+  if(g.mode==='back'){ const ok = dx>110 || (fast && dx>50); gReset(); if(ok && !gBack()) toast('No hay nada atrás'); return; }
+  if(g.mode==='fwd'){ const ok = -dx>110 || (fast && -dx>50); gReset(); if(ok) gFwd(); return; }
+  if(g.mode==='tab'){ const ok = Math.abs(dx)>90 || (fast && Math.abs(dx)>45); const pg=g.page; gReset();
+    if(ok && gTab(dx<0?1:-1)){ const np=document.querySelector('.page.on .pbody, .page.on .pin2, .page.on'); if(np && !RM){ np.animate([{transform:`translateX(${dx<0?40:-40}px)`,opacity:.4},{transform:'none',opacity:1}],{duration:240,easing:'cubic-bezier(.2,.8,.2,1)'}); } } return; }
+  if(g.mode==='pull'){ const go2=gPull.classList.contains('go'); gReset(); if(go2){ uiSfx('ratchet'); renderInicio(true); try{ window.__pwa?.check?.(true); }catch{} toast('Inicio actualizado'); } return; }
+},{passive:true});
+document.addEventListener('touchcancel',()=>{ if(G){ G=null; gReset(); } },{passive:true});
 
 /* ---------- pantalla: zonas seguras del iPhone ----------
    En algunas versiones de iOS la app instalada recibe una ventana más baja que la pantalla y deja una franja
