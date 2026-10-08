@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.0.0-beta.3">
+<meta name="app-version" content="2.0.0-beta.4">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1904,7 +1904,7 @@ body.ui2.light .v2chips button[aria-selected="true"]{background:linear-gradient(
 @keyframes rwig{0%,100%{transform:rotate(-.6deg)}50%{transform:rotate(.6deg)}}
 .reordc .rit{touch-action:none;cursor:grab;position:relative;outline:2px dashed color-mix(in srgb,var(--accent) 55%,transparent);outline-offset:2px;animation:rwig .32s ease-in-out infinite;animation-delay:calc(var(--i,0) * 40ms)}
 .reordc .rit:nth-child(2n){animation-direction:reverse}
-.reordc .rit.drag{animation:none;z-index:50;transform:scale(1.04);box-shadow:0 18px 40px #000a,0 0 0 2px var(--accent)!important;opacity:.96;cursor:grabbing}
+.reordc .rit.drag{animation:none;z-index:50;box-shadow:0 18px 40px #000a,0 0 0 2px var(--accent)!important;opacity:.97;cursor:grabbing;will-change:transform}
 .reordc .rit *{pointer-events:none}
 .reordc.compact>.card2{max-height:58px;overflow:hidden;padding-top:12px!important;padding-bottom:12px!important}
 .reordc.compact>.card2>:not(h3):not(.hmcar){visibility:hidden}
@@ -1918,6 +1918,7 @@ body.ui2.light .v2chips button[aria-selected="true"]{background:linear-gradient(
 body.reord .fab2{opacity:0;pointer-events:none}
 body.ui2.light .ordbar{background:#fff}
 @media (prefers-reduced-motion:reduce){ .reordc .rit{animation:none} }
+.reordc.compact{gap:8px!important;row-gap:8px!important}
 </style>
 
 </head>
@@ -1960,7 +1961,7 @@ body.ui2.light .ordbar{background:#fff}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.0.0-beta.3</span>
+  <span class="spver">v2.0.0-beta.4</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5375,7 +5376,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.0.0-beta.3';
+  const APP_VERSION='2.0.0-beta.4';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -8478,9 +8479,11 @@ function saveUI(patch){ const cur=UIC(); const d={...cur, ...patch, actualizado:
 requestAnimationFrame(applyAll);
 
 /* modo ordenar */
-function enterEdit(g, b){
+function enterEdit(g, b, anchor){
   if(ORD.edit) exitEdit(true);
+  const a0=anchor?.getBoundingClientRect().top;
   ORD.edit={g, b}; document.body.classList.add('reord'); b.classList.add('reordc'); if(g.compact) b.classList.add('compact');
+  if(g.compact && anchor && a0!=null){ const sp=scrollParent(b,'y')||document.scrollingElement; const d=anchor.getBoundingClientRect().top-a0; if(d) sp.scrollTop+=d; }
   for(const x of g.items(b)) x.classList.add('rit');
   if(navigator.vibrate && UI.prefs?.haptics!==false) try{ navigator.vibrate(18); }catch{}
   uiSfx('open');
@@ -8489,7 +8492,6 @@ function enterEdit(g, b){
   bar.querySelector('[data-a="ok"]').onclick=()=>{ uiSfx('save'); exitEdit(true); };
   bar.querySelector('[data-a="r"]').onclick=async()=>{ if(!confirm('¿Volver al orden y los nombres originales de '+g.name+'?')) return; const o={...(UIC().orden||{})}, n={...(UIC().nombres||{})}; delete o[g.key]; delete n[g.key]; exitEdit(false); await saveUI({orden:o, nombres:n}); applyAll(); if(g.key==='inicio') renderInicio(true); else if(g.key.startsWith('mas:')) renderMas(); toast('Orden y nombres originales'); };
   document.body.append(bar);
-  if(g.compact) b.scrollIntoView({block:'start', behavior:RM?'auto':'smooth'});
 }
 function exitEdit(save){
   const e=ORD.edit; if(!e) return; ORD.edit=null;
@@ -8512,8 +8514,9 @@ function renameItem(g, it){
 }
 function scrollParent(el, axis){ for(let p=el.parentElement; p; p=p.parentElement){ const cs=getComputedStyle(p), ov=axis==='x'?cs.overflowX:cs.overflowY; if(/(auto|scroll)/.test(ov) && (axis==='x'?p.scrollWidth>p.clientWidth:p.scrollHeight>p.clientHeight)) return p; } return null; }
 /* gestos */
+document.addEventListener('pointermove', ev=>{ ORD.lastX=ev.clientX; ORD.lastY=ev.clientY; }, true);
 document.addEventListener('pointerdown', ev=>{
-  if(ev.button>0) return;
+  if(ev.button>0) return; ORD.lastX=ev.clientX; ORD.lastY=ev.clientY;
   const t=ev.target;
   if(ORD.edit){
     if(t.closest('.ordbar') || t.closest('#sheet2')) return;
@@ -8524,24 +8527,55 @@ document.addEventListener('pointerdown', ev=>{
   const f=groupOf(t); if(!f) return;
   clearTimeout(ORD.lp?.tm);
   const x0=ev.clientX, y0=ev.clientY;
-  ORD.lp={f, x0, y0, tm:setTimeout(()=>{ ORD.lp=null; ORD.swallow=Date.now(); enterEdit(f.g, f.b); ORD.drag={it:f.it, x0, y0, moved:false, held:true, sp:scrollParent(f.it, f.g.axis)}; }, 560)};
+  ORD.lp={f, x0, y0, tm:setTimeout(()=>{ ORD.lp=null; ORD.swallow=Date.now(); enterEdit(f.g, f.b, f.it); const d={it:f.it, x0, y0, moved:false, held:true, sp:scrollParent(f.it, f.g.axis)}; ORD.drag=d; dragBegin(d, ORD.lastX??x0, ORD.lastY??y0); }, 560)};
 }, true);
+/* arrastre: el elemento sigue al dedo desde el primer momento y los vecinos se apartan al rozarlos */
+function dragBegin(d, x, y){
+  const r=d.it.getBoundingClientRect();
+  d.ox=Math.min(Math.max(x-r.left, 8), r.width-8); d.oy=Math.min(Math.max(y-r.top, 8), r.height-8);
+  d.tx=0; d.ty=0; d.x=x; d.y=y; d.on=true; d.it.classList.add('drag'); d.it.style.transition='none';
+  dragMove(d, x, y); if(!d.raf) d.raf=requestAnimationFrame(()=>dragTick(d));
+}
+function dragPlace(d){ const it=d.it, op=it.offsetParent||document.body, pr=op.getBoundingClientRect(), lx=pr.left+it.offsetLeft-op.scrollLeft+(op===document.body?0:op.clientLeft), ly=pr.top+it.offsetTop-op.scrollTop+(op===document.body?0:op.clientTop); d.tx=d.x-d.ox-lx; d.ty=d.y-d.oy-ly; d.it.style.transform=`translate(${d.tx}px,${d.ty}px) scale(1.05)`; }
+function dragMove(d, x, y){
+  d.x=x; d.y=y; if(!ORD.edit) return; const {g,b}=ORD.edit, X=g.axis==='x';
+  dragPlace(d);
+  /* posiciones de maqueta (sin transformaciones ni animaciones en curso) */
+  const L=z=>X?{s:z.offsetLeft, e:z.offsetLeft+z.offsetWidth}:{s:z.offsetTop, e:z.offsetTop+z.offsetHeight};
+  const me=L(d.it), c0=me.s+(X?d.tx:d.ty), c1=me.e+(X?d.tx:d.ty);
+  const items=g.items(b), i=items.indexOf(d.it); let target=null, before=false;
+  for(let k=i+1;k<items.length;k++){ const {s,e}=L(items[k]); if(c1>s+(e-s)*0.2) { target=items[k]; before=false; } else break; }
+  if(!target) for(let k=i-1;k>=0;k--){ const {s,e}=L(items[k]); if(c0<e-(e-s)*0.2) { target=items[k]; before=true; } else break; }
+  if(!target) return;
+  const first=new Map(items.map(z=>[z,z.getBoundingClientRect()]));
+  b.insertBefore(d.it, before?target:target.nextSibling);
+  for(const z of items){ if(z===d.it) continue; const a=first.get(z), n=z.getBoundingClientRect(), dx=a.left-n.left, dy=a.top-n.top; if((dx||dy) && !RM) z.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:'none'}],{duration:200,easing:'cubic-bezier(.2,.8,.2,1)'}); }
+  dragPlace(d); uiSfx('tick'); if(g.key.startsWith('sub:')) syncSubPills(true);
+}
+function dragTick(d){
+  d.raf=0; if(ORD.drag!==d || !d.on || !ORD.edit) return;
+  const sp=d.sp, X=ORD.edit.g.axis==='x';
+  if(sp){ const r=sp.getBoundingClientRect(), m=56, v=X?d.x:d.y, lo=X?r.left:r.top, hi=X?r.right:r.bottom; let s=0; if(v<lo+m) s=-Math.ceil((lo+m-v)/6); else if(v>hi-m) s=Math.ceil((v-(hi-m))/6); if(s){ if(X) sp.scrollLeft+=s; else sp.scrollTop+=s; } }
+  dragMove(d, d.x, d.y);
+  d.raf=requestAnimationFrame(()=>dragTick(d));
+}
+function dragDrop(d){
+  d.on=false; cancelAnimationFrame(d.raf); d.raf=0; const it=d.it;
+  it.style.transition=RM?'none':'transform .22s cubic-bezier(.2,.8,.2,1)'; it.style.transform='';
+  setTimeout(()=>{ it.classList.remove('drag'); it.style.transition=''; }, 230);
+}
 document.addEventListener('pointermove', ev=>{
   if(ORD.lp && Math.hypot(ev.clientX-ORD.lp.x0, ev.clientY-ORD.lp.y0)>9){ clearTimeout(ORD.lp.tm); ORD.lp=null; }
   const d=ORD.drag; if(!d || !ORD.edit) return;
-  if(!d.moved && Math.hypot(ev.clientX-d.x0, ev.clientY-d.y0)<7) return;
-  if(!d.moved){ d.moved=true; d.it.classList.add('drag'); }
-  ev.preventDefault();
-  const {g,b}=ORD.edit, x=ev.clientX, y=ev.clientY;
-  d.it.style.pointerEvents='none'; const el=document.elementFromPoint(x,y); d.it.style.pointerEvents='';
-  const over=g.items(b).find(z=>z!==d.it && el && z.contains(el));
-  if(over){ const r=over.getBoundingClientRect(), before=g.axis==='x'?x<r.left+r.width/2:y<r.top+r.height/2; const ref=before?over:over.nextSibling; if(ref!==d.it && d.it.nextSibling!==ref){ const items=g.items(b), first=new Map(items.map(z=>[z,z.getBoundingClientRect()])); b.insertBefore(d.it, ref); if(!RM) for(const z of items){ if(z===d.it) continue; const a=first.get(z), n=z.getBoundingClientRect(), dx=a.left-n.left, dy=a.top-n.top; if(dx||dy) z.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:'none'}],{duration:160,easing:'ease-out'}); } uiSfx('tick'); if(g.key.startsWith('sub:')) syncSubPills(true); } }
-  const sp=d.sp; if(sp){ const r=sp.getBoundingClientRect(), m=48; if(g.axis==='x'){ if(x<r.left+m) sp.scrollLeft-=12; else if(x>r.right-m) sp.scrollLeft+=12; } else { if(y<r.top+m) sp.scrollTop-=14; else if(y>r.bottom-m) sp.scrollTop+=14; } }
+  if(!d.on){ if(Math.hypot(ev.clientX-d.x0, ev.clientY-d.y0)<5) return; d.moved=true; dragBegin(d, ev.clientX, ev.clientY); }
+  else { if(Math.hypot(ev.clientX-d.x0, ev.clientY-d.y0)>=5) d.moved=true; }
+  ev.preventDefault(); dragMove(d, ev.clientX, ev.clientY);
 }, {capture:true, passive:false});
+document.addEventListener('touchmove', ev=>{ if(ORD.drag?.on) ev.preventDefault(); }, {capture:true, passive:false});
 const ordEnd=ev=>{
   if(ORD.lp){ clearTimeout(ORD.lp.tm); ORD.lp=null; }
   const d=ORD.drag; ORD.drag=null; if(!d || !ORD.edit) return;
-  d.it.classList.remove('drag');
+  if(d.on) dragDrop(d);
   if(!d.moved && ev.type==='pointerup' && !d.held){ ORD.swallow=Date.now(); renameItem(ORD.edit.g, d.it); }
   else if(d.moved) ORD.swallow=Date.now();
 };

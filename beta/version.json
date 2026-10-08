@@ -1,21 +1,19 @@
 {
- "version": "2.0.0-beta.3",
+ "version": "2.0.0-beta.4",
  "fecha": "2026-10-08",
  "notas": [
-  "Ordenar y renombrar: mantén pulsado un panel de Inicio, una pestaña (Coche, Mantenimiento, Papeles), un botón del visor 3D o de Más para moverlo o cambiarle el nombre",
-  "Primeros pasos: solo pide los kilómetros y los papeles, y desaparece al completarlos",
-  "Corregidos los botones que quedaban pegados bajo la sombra de un panel",
-  "El bastidor ya no aparece en los archivos publicados"
+  "Ordenar más natural: al mantener pulsado, el panel o botón se pega al dedo desde el primer momento y los vecinos se apartan con solo rozarlos",
+  "Los paneles de Inicio se compactan sin moverse de debajo del dedo",
+  "Desplazamiento automático al acercarse al borde mientras arrastras"
  ],
  "historial": [
   {
-   "version": "2.0.0-beta.3",
+   "version": "2.0.0-beta.4",
    "fecha": "2026-10-08",
    "notas": [
-    "Ordenar y renombrar: mantén pulsado un panel de Inicio, una pestaña (Coche, Mantenimiento, Papeles), un botón del visor 3D o de Más para moverlo o cambiarle el nombre",
-    "Primeros pasos: solo pide los kilómetros y los papeles, y desaparece al completarlos",
-    "Corregidos los botones que quedaban pegados bajo la sombra de un panel",
-    "El bastidor ya no aparece en los archivos publicados"
+    "Ordenar más natural: al mantener pulsado, el panel o botón se pega al dedo desde el primer momento y los vecinos se apartan con solo rozarlos",
+    "Los paneles de Inicio se compactan sin moverse de debajo del dedo",
+    "Desplazamiento automático al acercarse al borde mientras arrastras"
    ]
   }
  ]
