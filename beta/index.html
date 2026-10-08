@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.0.0-beta.4">
+<meta name="app-version" content="2.0.0-beta.5">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1919,6 +1919,7 @@ body.reord .fab2{opacity:0;pointer-events:none}
 body.ui2.light .ordbar{background:#fff}
 @media (prefers-reduced-motion:reduce){ .reordc .rit{animation:none} }
 .reordc.compact{gap:8px!important;row-gap:8px!important}
+.reordc.compact>.card2,.reordc.compact>.card2 *{transition:none!important}
 </style>
 
 </head>
@@ -1961,7 +1962,7 @@ body.ui2.light .ordbar{background:#fff}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.0.0-beta.4</span>
+  <span class="spver">v2.0.0-beta.5</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5376,7 +5377,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.0.0-beta.4';
+  const APP_VERSION='2.0.0-beta.5';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5596,6 +5597,7 @@ function uiSfx(kind){
       const s=UAC.createBufferSource(), f=UAC.createBiquadFilter(), g=UAC.createGain(); f.type='bandpass'; f.frequency.value=freq; f.Q.value=4; g.gain.value=vol; s.buffer=n; s.connect(f); f.connect(g); g.connect(out); s.start(t); };
     if(kind==='tap'){ click(t0,1800,.03,.35); }
     else if(kind==='tick'){ click(t0,2600,.012,.18); }
+    else if(kind==='swap'){ const o=UAC.createOscillator(), g=UAC.createGain(); o.type='sine'; o.frequency.setValueAtTime(760,t0); o.frequency.exponentialRampToValueAtTime(520,t0+.03); g.gain.setValueAtTime(.0001,t0); g.gain.exponentialRampToValueAtTime(.22,t0+.004); g.gain.exponentialRampToValueAtTime(.0001,t0+.035); o.connect(g); g.connect(out); o.start(t0); o.stop(t0+.05); }
     else if(kind==='save'){ noise(t0,.04,1.2,3800); click(t0,2600,.07,.5); click(t0+.06,3900,.09,.35); }
     else if(kind==='ratchet'){ for(let i=0;i<6;i++){ noise(t0+i*.055,.03,1.4,2600+i*90); click(t0+i*.055,1500,.03,.3); } }
     else if(kind==='err'){ click(t0,320,.18,.6); click(t0+.16,240,.22,.6); }
@@ -8483,7 +8485,11 @@ function enterEdit(g, b, anchor){
   if(ORD.edit) exitEdit(true);
   const a0=anchor?.getBoundingClientRect().top;
   ORD.edit={g, b}; document.body.classList.add('reord'); b.classList.add('reordc'); if(g.compact) b.classList.add('compact');
-  if(g.compact && anchor && a0!=null){ const sp=scrollParent(b,'y')||document.scrollingElement; const d=anchor.getBoundingClientRect().top-a0; if(d) sp.scrollTop+=d; }
+  if(g.compact && anchor && a0!=null){
+    const sp=scrollParent(b,'y')||b.closest('.pin2,.pbody')||document.scrollingElement; let d=anchor.getBoundingClientRect().top-a0;
+    if(d<0 && sp.scrollTop+d<0){ b.style.paddingTop=(-(sp.scrollTop+d))+'px'; d=anchor.getBoundingClientRect().top-a0; }
+    const want=sp.scrollTop+d, max=sp.scrollHeight-sp.clientHeight; if(want>max) b.style.paddingBottom=(want-max+4)+'px';
+    sp.scrollTop=want; }
   for(const x of g.items(b)) x.classList.add('rit');
   if(navigator.vibrate && UI.prefs?.haptics!==false) try{ navigator.vibrate(18); }catch{}
   uiSfx('open');
@@ -8496,7 +8502,7 @@ function enterEdit(g, b, anchor){
 function exitEdit(save){
   const e=ORD.edit; if(!e) return; ORD.edit=null;
   const ids=e.g.items(e.b).map(e.g.id);
-  e.b.classList.remove('reordc','compact'); for(const x of e.g.items(e.b)) x.classList.remove('rit','drag');
+  e.b.classList.remove('reordc','compact'); e.b.style.paddingTop=''; e.b.style.paddingBottom=''; for(const x of e.g.items(e.b)) x.classList.remove('rit','drag');
   document.body.classList.remove('reord'); document.querySelector('.ordbar')?.remove();
   if(save){ const o0=JSON.parse(e.b.dataset.o0||'[]'), same=JSON.stringify(ids)===JSON.stringify(o0); const o={...(UIC().orden||{})}; if(same) delete o[e.g.key]; else o[e.g.key]=ids; if(JSON.stringify(o)!==JSON.stringify(UIC().orden||{})) saveUI({orden:o}); }
   e.g.after?.();
@@ -8536,7 +8542,7 @@ function dragBegin(d, x, y){
   d.tx=0; d.ty=0; d.x=x; d.y=y; d.on=true; d.it.classList.add('drag'); d.it.style.transition='none';
   dragMove(d, x, y); if(!d.raf) d.raf=requestAnimationFrame(()=>dragTick(d));
 }
-function dragPlace(d){ const it=d.it, op=it.offsetParent||document.body, pr=op.getBoundingClientRect(), lx=pr.left+it.offsetLeft-op.scrollLeft+(op===document.body?0:op.clientLeft), ly=pr.top+it.offsetTop-op.scrollTop+(op===document.body?0:op.clientTop); d.tx=d.x-d.ox-lx; d.ty=d.y-d.oy-ly; d.it.style.transform=`translate(${d.tx}px,${d.ty}px) scale(1.05)`; }
+function dragPlace(d){ const it=d.it, prev=it.style.transform; it.style.transform='none'; const r=it.getBoundingClientRect(); d.tx=d.x-d.ox-r.left; d.ty=d.y-d.oy-r.top; it.style.transform=`translate(${d.tx}px,${d.ty}px) scale(1.05)`; }
 function dragMove(d, x, y){
   d.x=x; d.y=y; if(!ORD.edit) return; const {g,b}=ORD.edit, X=g.axis==='x';
   dragPlace(d);
@@ -8544,13 +8550,19 @@ function dragMove(d, x, y){
   const L=z=>X?{s:z.offsetLeft, e:z.offsetLeft+z.offsetWidth}:{s:z.offsetTop, e:z.offsetTop+z.offsetHeight};
   const me=L(d.it), c0=me.s+(X?d.tx:d.ty), c1=me.e+(X?d.tx:d.ty);
   const items=g.items(b), i=items.indexOf(d.it); let target=null, before=false;
-  for(let k=i+1;k<items.length;k++){ const {s,e}=L(items[k]); if(c1>s+(e-s)*0.2) { target=items[k]; before=false; } else break; }
-  if(!target) for(let k=i-1;k>=0;k--){ const {s,e}=L(items[k]); if(c0<e-(e-s)*0.2) { target=items[k]; before=true; } else break; }
+  /* solo en la dirección en que se mueve el dedo, y una pausa tras cada cambio: sin vaivén */
+  const v=X?x:y; if(d.lv==null) d.lv=v; const dv=v-d.lv; if(Math.abs(dv)>=2){ d.dir=Math.sign(dv); d.lv=v; }
+  if(!d.dir || performance.now()-(d.tsw||0)<140) return;
+  if(d.dir>0) for(let k=i+1;k<items.length;k++){ const {s,e}=L(items[k]); if(c1>s+(e-s)*0.2) { target=items[k]; before=false; } else break; }
+  if(d.dir<0) for(let k=i-1;k>=0;k--){ const {s,e}=L(items[k]); if(c0<e-(e-s)*0.2) { target=items[k]; before=true; } else break; }
   if(!target) return;
+  /* para devolver el mismo vecino a su sitio hay que retroceder al menos medio hueco */
+  if(d.last?.el===target){ const sz=X?target.offsetWidth:target.offsetHeight; if(Math.abs(v-d.last.v)<sz*0.5) return; }
+  d.last={el:target, v};
   const first=new Map(items.map(z=>[z,z.getBoundingClientRect()]));
   b.insertBefore(d.it, before?target:target.nextSibling);
   for(const z of items){ if(z===d.it) continue; const a=first.get(z), n=z.getBoundingClientRect(), dx=a.left-n.left, dy=a.top-n.top; if((dx||dy) && !RM) z.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:'none'}],{duration:200,easing:'cubic-bezier(.2,.8,.2,1)'}); }
-  dragPlace(d); uiSfx('tick'); if(g.key.startsWith('sub:')) syncSubPills(true);
+  d.tsw=performance.now(); dragPlace(d); uiSfx('swap'); if(g.key.startsWith('sub:')) syncSubPills(true);
 }
 function dragTick(d){
   d.raf=0; if(ORD.drag!==d || !d.on || !ORD.edit) return;

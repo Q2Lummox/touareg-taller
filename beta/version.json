@@ -1,19 +1,17 @@
 {
- "version": "2.0.0-beta.4",
+ "version": "2.0.0-beta.5",
  "fecha": "2026-10-08",
  "notas": [
-  "Ordenar más natural: al mantener pulsado, el panel o botón se pega al dedo desde el primer momento y los vecinos se apartan con solo rozarlos",
-  "Los paneles de Inicio se compactan sin moverse de debajo del dedo",
-  "Desplazamiento automático al acercarse al borde mientras arrastras"
+  "Ordenar: arreglado el temblor del vecino y el sonido repetido; cada cambio de sitio suena una sola vez con un toque corto y suave",
+  "El panel que arrastras se queda exactamente bajo el dedo"
  ],
  "historial": [
   {
-   "version": "2.0.0-beta.4",
+   "version": "2.0.0-beta.5",
    "fecha": "2026-10-08",
    "notas": [
-    "Ordenar más natural: al mantener pulsado, el panel o botón se pega al dedo desde el primer momento y los vecinos se apartan con solo rozarlos",
-    "Los paneles de Inicio se compactan sin moverse de debajo del dedo",
-    "Desplazamiento automático al acercarse al borde mientras arrastras"
+    "Ordenar: arreglado el temblor del vecino y el sonido repetido; cada cambio de sitio suena una sola vez con un toque corto y suave",
+    "El panel que arrastras se queda exactamente bajo el dedo"
    ]
   }
  ]
