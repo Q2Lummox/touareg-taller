@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.0.0-beta.7">
+<meta name="app-version" content="2.0.0-beta.8">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1959,6 +1959,10 @@ body.wireon .ovl:not(.docked){opacity:.15;pointer-events:none}
 .fiback{margin:0 0 10px}
 .r2.dim{opacity:.55;cursor:default}
 .stchips.s3{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+/* la etiqueta es un botón: al pulsarla no debe perder su desplazamiento (si no, salta y el clic se pierde) */
+body.ui2 button.wlab.wlab:active{transform:translate(-50%,-120%) scale(.95)}
+.wlab.on{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 45%,transparent)}
+.whint{display:flex;gap:6px;align-items:flex-start;margin:-2px 0 8px;font-size:12px;color:var(--txt-3)}.whint svg{width:14px;height:14px;flex:none;margin-top:1px}
 </style>
 
 </head>
@@ -2001,7 +2005,7 @@ body.wireon .ovl:not(.docked){opacity:.15;pointer-events:none}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.0.0-beta.7</span>
+  <span class="spver">v2.0.0-beta.8</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5416,7 +5420,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.0.0-beta.7';
+  const APP_VERSION='2.0.0-beta.8';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -8720,7 +8724,7 @@ function wireBuild(c){
   for(const n of (c.nodos||[])){ if(!n.ancla || n.oculto) continue; const v=anchorWorld(n.ancla); if(!v) continue;
     const host=n.ancla.a && parts[pid(n.ancla.a)]?.root; const local=host?host.worldToLocal(v.clone()):null;
     const el=h2(`<button type="button" class="wlab t-${esc(n.tipo||'comp')}"><b>${esc(n.cod||'')}</b><span>${esc(n.nombre||'')}</span></button>`);
-    el.onclick=e=>{ e.stopPropagation(); wireNodeInfo(c, n); }; box.append(el); WIRE.labels.push({el, v, host, local, n}); }
+    for(const ev of ['pointerdown','mousedown','touchstart']) el.addEventListener(ev, e=>e.stopPropagation(), {passive:true}); el.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); wireNodeInfo(c, n); }; box.append(el); WIRE.labels.push({el, v, host, local, n}); }
   WIRE.labels.box=box; WIRE.on=c; document.body.classList.add('wireon'); dirty=true;
   return {L};
 }
@@ -8743,7 +8747,7 @@ function wireFocus(){
   leaveCabin?.(); flyTo(c, pos);
 }
 function wireHighlight(id){
-  WIRE.sel=WIRE.sel===id?null:id;
+  WIRE.sel=WIRE.sel===id?null:id; document.querySelectorAll('.wlab.on').forEach(l=>l.classList.remove('on'));
   const all=[...(WIRE.grp?.children||[]), ...WIRE.tubes];
   for(const t of all){ const on=!WIRE.sel || t.userData.wire===WIRE.sel; t.material.opacity=on?.96:.1; }
   document.querySelectorAll('.wirecard .wrow').forEach(r=>r.classList.toggle('on', r.dataset.w===WIRE.sel));
@@ -8751,6 +8755,9 @@ function wireHighlight(id){
 }
 function wireNodeInfo(c, n){
   const ws=(c.cables||[]).filter(w=>(w.ruta||[]).some(a=>a===n.id) || [w.de,w.a].some(s=>s && n.cod && String(s).startsWith(n.cod)));
+  /* resalta en el 3D los cables que llegan a este punto */
+  { const ids=new Set(ws.map(w=>w.id)); WIRE.sel='n:'+n.id; for(const t of [...(WIRE.grp?.children||[]), ...WIRE.tubes]) t.material.opacity=ids.has(t.userData.wire)?.96:.1;
+    document.querySelectorAll('.wirecard .wrow').forEach(r=>r.classList.toggle('on', ids.has(r.dataset.w))); document.querySelectorAll('.wlab').forEach(l=>l.classList.toggle('on', l===WIRE.labels.find(x=>x.n===n)?.el)); dirty=true; }
   const body=h2('<div></div>'); body.append(kv([['Qué es',esc(n.nombre||'')],['Dónde',esc(n.donde||'')],['Nota',esc(n.nota||'')]]));
   if(ws.length){ const cc=card2('Cables','zap',ws.length); for(const w of ws) cc.querySelector('.l2').append(wireRow(w)); body.append(cc); }
   detailSheet(`${n.cod?n.cod+' · ':''}${n.nombre||''}`, ({comp:'Componente', unidad:'Unidad de control', conector:'Conector', fusible:'Fusible', masa:'Masa', paso:'Paso de cables'})[n.tipo]||'', body, []);
@@ -8765,7 +8772,7 @@ function wireCard(c){
   document.querySelector('.wirecard')?.remove();
   const n=(c.cables||[]).length;
   const cd=h2(`<div class="wirecard"><div class="wch"><span>${ic('zap')}<b>${esc(c.titulo)}</b></span><button type="button" class="wx" aria-label="Cerrar">${ic('x')}</button></div>
-    <p class="wsum">${esc(c.resumen||'Toca un cable para resaltarlo o un punto del modelo para ver qué es. El recorrido es orientativo.')}</p>
+    <p class="wsum">${esc(c.resumen||'Toca un cable para resaltarlo o un punto del modelo para ver qué es. El recorrido es orientativo.')}</p><p class="whint">${ic('info')}Toca una etiqueta del modelo (${esc((c.nodos||[]).filter(n=>n.cod&&!n.oculto).slice(0,2).map(n=>n.cod.split(' ')[0]).join(', '))}…) para ver qué es, dónde está y resaltar sus cables.</p>
     <div class="row3 wacts"></div><details class="wdet"><summary>Cables del circuito <em>${n}</em></summary><div class="wrows"></div></details></div>`);
   const rows=cd.querySelector('.wrows'); for(const w of (c.cables||[])) rows.append(wireRow(w));
   if(matchMedia('(min-width:861px)').matches) cd.querySelector('.wdet').open=true;
@@ -8775,6 +8782,7 @@ function wireCard(c){
   const fb=h2(`<button type="button" class="btn2 ghost">${ic('eye')}Centrar</button>`); fb.onclick=wireFocus; acts.append(fb);
   const lb=h2(`<button type="button" class="btn2 ghost">${ic('list')}Otro</button>`); lb.onclick=wirePicker; acts.append(lb);
   cd.querySelector('.wx').onclick=()=>{ uiSfx('tap'); wireClear(); };
+  for(const ev of ['pointerdown','mousedown','touchstart','wheel']) cd.addEventListener(ev, e=>e.stopPropagation(), {passive:true});
   stage.append(cd);
 }
 function wireShow(c){

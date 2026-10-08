@@ -1,19 +1,15 @@
 {
- "version": "2.0.0-beta.7",
+ "version": "2.0.0-beta.8",
  "fecha": "2026-10-09",
  "notas": [
-  "Fichas: una ficha por cada referencia, con catálogo, variantes, compras, historial y tus datos.",
-  "Busca fichas por referencia o nombre y navega por grupo de ETKA o por tipo de pieza.",
-  "En las láminas, al tocar una referencia se abre su ficha."
+  "Cableado 3D: al tocar una etiqueta (J388, SB10…) ya no salta; se abre qué es, dónde está y sus cables, y se resaltan en el modelo."
  ],
  "historial": [
   {
-   "version": "2.0.0-beta.7",
+   "version": "2.0.0-beta.8",
    "fecha": "2026-10-09",
    "notas": [
-    "Fichas: una ficha por cada referencia, con catálogo, variantes, compras, historial y tus datos.",
-    "Busca fichas por referencia o nombre y navega por grupo de ETKA o por tipo de pieza.",
-    "En las láminas, al tocar una referencia se abre su ficha."
+    "Cableado 3D: al tocar una etiqueta (J388, SB10…) ya no salta; se abre qué es, dónde está y sus cables, y se resaltan en el modelo."
    ]
   }
  ]
