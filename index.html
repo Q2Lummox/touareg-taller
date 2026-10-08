@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="1.3.1">
+<meta name="app-version" content="1.4.0">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1510,6 +1510,59 @@ body.ui2 .doclist .mrow>.thumbs,body.ui2 .doclist .mrow>.atts{grid-column:1/-1}
 body.ui2 .doclist .mrow .c:nth-of-type(3){font-size:0;gap:0}
 body.ui2 .doclist .mrow .c:nth-of-type(3) b{font-size:13px;color:var(--c,var(--txt-2))}
 body.ui2 .doclist .mrow .c{white-space:nowrap}
+
+/* ===== v1.4: pantalla de arranque ===== */
+.splash{overflow:hidden;background:#030405!important}
+.splash::after{display:none}
+.spbg{position:absolute;inset:0;z-index:0;transform:scale(1.04);transform-origin:50% 62%}
+.spimg{position:absolute;left:50%;bottom:-2%;width:max(100%, calc(100vh * .62));aspect-ratio:1088/1446;transform:translateX(-50%);transform-origin:50% 57%;transition:transform 1.2s cubic-bezier(.6,0,.2,1)}
+.spimg img{width:100%;height:100%;display:block;object-fit:cover;filter:brightness(.42) saturate(.75) blur(1.4px);transition:filter 1.4s ease}
+.spveil{position:absolute;inset:0;background:linear-gradient(180deg,#030405 0%,#030405f0 22%,#03040599 46%,#03040577 64%,#030405cc 88%,#030405 100%);transition:opacity 1.2s}
+.hl,.fl{position:absolute;width:46%;aspect-ratio:1;transform:translate(-50%,-50%) scale(.6);border-radius:50%;pointer-events:none;opacity:0;mix-blend-mode:screen;
+  background:radial-gradient(circle,#ffffff 0,#fff7e6 4%,#ffe2b0aa 11%,#ffcf8a33 28%,transparent 62%);transition:opacity .25s,transform .5s cubic-bezier(.2,.9,.2,1)}
+.hl::after{content:"";position:absolute;left:50%;top:50%;width:300%;height:2.5%;transform:translate(-50%,-50%);background:linear-gradient(90deg,transparent,#9fd2ff55 30%,#ffffffcc 50%,#9fd2ff55 70%,transparent);filter:blur(1px)}
+.hl-l{left:13.4%;top:57.05%} .hl-r{left:86.2%;top:57.3%}
+.fl{width:24%} .fl-l{left:16.5%;top:75.3%} .fl-r{left:82.7%;top:75.6%}
+.splash.fire .hl{opacity:1;transform:translate(-50%,-50%) scale(1);animation:hlFlick .9s steps(1) 1}
+.splash.fire .fl{opacity:.85;transform:translate(-50%,-50%) scale(1);transition-delay:.15s}
+.splash.fire .spimg img{filter:brightness(.62) saturate(.85) blur(1px)}
+.splash.fire .spveil{opacity:.82}
+@keyframes hlFlick{0%{opacity:.2}8%{opacity:1}14%{opacity:.5}22%{opacity:1}}
+.spflash{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(circle at 50% 62%,#fff 0,#fff8e8 30%,#ffe7c000 75%);opacity:0}
+.splash.fire .spflash{animation:spFlash .6s ease-out 1}
+@keyframes spFlash{0%{opacity:0}10%{opacity:.55}100%{opacity:0}}
+/* salida: acercamiento hacia los faros y fogonazo */
+.splash.going .spimg{transform:translateX(-50%) scale(1.9)}
+.splash.going .spflash{animation:spOut 1.3s ease-in 1 forwards}
+@keyframes spOut{0%{opacity:0}55%{opacity:.85}100%{opacity:0}}
+.splash.going .spbox{transform:scale(1.12)!important;opacity:0;filter:blur(6px)!important;transition:transform .9s cubic-bezier(.6,0,.2,1),opacity .7s,filter .7s}
+.spbox{z-index:2}
+/* testigos del cuadro */
+.splights{display:flex;gap:16px;justify-content:center;margin:2px 0 4px;height:26px}
+.wl{width:24px;height:24px;color:#2b3036;transition:color .12s,filter .12s}
+.wl svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.splash.lights .wl.red{color:#ff3b2e;filter:drop-shadow(0 0 6px #ff3b2e)}
+.splash.lights .wl.amb{color:#ffb21e;filter:drop-shadow(0 0 6px #ffb21e)}
+.splash.glowonly .wl:not(.glow){color:#2b3036!important;filter:none!important}
+/* botón ENGINE START STOP */
+.spstart{position:relative;margin-top:14px;width:118px;height:118px;border-radius:50%;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#ffb347;
+  background:radial-gradient(circle at 50% 35%,#3a3f47,#15181c 62%,#0b0c0e);box-shadow:0 0 0 3px #2a2e34,0 0 0 6px #0a0b0d,0 0 0 8px #3a3f47,0 10px 30px #000,inset 0 2px 6px #ffffff14;animation:stIn .5s cubic-bezier(.2,.9,.2,1)}
+.spstart b{font:800 17px var(--f-display);letter-spacing:.14em;text-shadow:0 0 12px #f39a1eaa}
+.spstart small{font:700 9.5px var(--f-mono);letter-spacing:.18em;color:#c9cdd3}
+.spstart .string{position:absolute;inset:7px;border-radius:50%;border:2px solid #f39a1e;box-shadow:0 0 18px #f39a1e88,inset 0 0 14px #f39a1e55;animation:stPulse 1.6s ease-in-out infinite}
+.spstart:active{transform:scale(.94)}
+@keyframes stPulse{50%{box-shadow:0 0 34px #f39a1ecc,inset 0 0 20px #f39a1e88;border-color:#ffc06a}}
+@keyframes stIn{from{transform:scale(.6);opacity:0}}
+.splash.ready .sptip,.splash.seq .sptip{opacity:0!important}
+.splash.ready .spauth,.splash.seq .spauth{opacity:.9}
+/* título: barrido de luz al arrancar */
+.splash.fire .sptitle{background:linear-gradient(100deg,#f1f3f5 40%,#fff6dc 48%,#ffb347 50%,#fff6dc 52%,#f1f3f5 60%) 0 0/300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:tSweep 1.1s ease-out 1}
+@keyframes tSweep{from{background-position:100% 0}to{background-position:0 0}}
+.splash.fire .spmark{box-shadow:0 0 60px #f39a1e,inset 0 0 26px #f39a1e66!important}
+.splash.fire .g-fill{filter:drop-shadow(0 0 10px #f39a1e)}
+@media (prefers-reduced-motion:reduce){ .splash.going .spimg{transform:translateX(-50%)} .hl,.fl{transition:none} }
+.spstart.used{opacity:0;pointer-events:none;transform:scale(.85);transition:opacity .35s,transform .35s}
+.splash.going .spflash{background:radial-gradient(circle at 50% 60%,#fff6e6 0,#ffd9a0cc 35%,#ff9a3c00 80%)}
 </style>
 
 </head>
@@ -1527,6 +1580,8 @@ body.ui2 .doclist .mrow .c{white-space:nowrap}
 <div class="upd" id="upd" hidden role="status"><b>Nueva actualización disponible</b><span id="updV"></span><button type="button" id="updGo">Actualizar</button><button type="button" class="x" id="updX" title="Más tarde">×</button></div>
 
 <div class="splash" id="splash" role="status" aria-live="polite">
+  <div class="spbg" id="spBg" aria-hidden="true"><div class="spimg" id="spImg"><img src="splash/touareg-noche.webp" alt="" decoding="async" fetchpriority="high"><i class="hl hl-l"></i><i class="hl hl-r"></i><i class="fl fl-l"></i><i class="fl fl-r"></i></div><div class="spveil"></div></div>
+  <div class="spflash" aria-hidden="true"></div>
   <div class="spbox">
     <div class="spmark"><span>7L</span></div>
     <b class="sptitle">Touareg 7L · Taller</b>
@@ -1539,11 +1594,18 @@ body.ui2 .doclist .mrow .c{white-space:nowrap}
       <g class="g-needle" id="spNeedle"><path d="M110 120 L110 52"/><circle cx="110" cy="120" r="7"/></g>
       <text x="110" y="104" class="g-unit">x1000 rpm</text>
     </svg>
+    <div class="splights" id="spLights" aria-hidden="true">
+      <i class="wl red" data-k="bat"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="1.5"/><path d="M7 7V5h3v2M14 7V5h3v2M7 13h3M14 13h3M15.5 11.5v3"/></svg></i>
+      <i class="wl red" data-k="oil"><svg viewBox="0 0 24 24"><path d="M3 13h9l5-3 4 1-6 6H5l-2-4zM6 13v-2h4M19 14.5c0 1 .7 1.6.7 2.2a.7.7 0 0 1-1.4 0c0-.6.7-1.2.7-2.2z"/></svg></i>
+      <i class="wl amb glow" data-k="glow"><svg viewBox="0 0 24 24"><path d="M5 9c2-3 4 3 6 0s4 3 6 0 3 1 3 1M5 15c2-3 4 3 6 0s4 3 6 0 3 1 3 1"/></svg></i>
+      <i class="wl amb" data-k="abs"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><path d="M4 6a10 10 0 0 0 0 12M20 6a10 10 0 0 1 0 12"/><text x="12" y="14.6" text-anchor="middle" font-size="6.2" font-weight="700" fill="currentColor" stroke="none">ABS</text></svg></i>
+      <i class="wl amb" data-k="mil"><svg viewBox="0 0 24 24"><path d="M4 10h2V8h3V6h5l2 2h2v3h2v4h-2v2h-3l-2 2H9l-3-3H4z"/></svg></i>
+    </div>
     <span class="sptxt" id="spTxt">Arrancando…</span>
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.3.1</span>
+  <span class="spver">v1.4.0</span>
 </div>
 
 <header class="top2" id="top2">
@@ -4957,7 +5019,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.3.1';
+  const APP_VERSION='1.4.0';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5518,6 +5580,7 @@ function renderAjustes(pb){
   const seg=h2('<div class="seg3"></div>');
   for(const [k,l] of [['dark','Oscuro'],['light','Claro'],['auto','Auto']]){ const b=h2(`<button type="button" aria-pressed="${UI.prefs.theme===k}">${l}</button>`); b.onclick=()=>{ UI.prefs.theme=k; savePrefsUI(); applyTheme(); renderMas(); }; seg.append(b); }
   row('sun','Tema','Claro para usarla al sol en el taller',seg);
+  { const sg=h2('<div class="seg3"></div>'); for(const [k,l] of [['full','Espectacular'],['simple','Sencilla']]){ const b=h2(`<button type="button" aria-pressed="${(UI.prefs.intro||'full')===k}">${l}</button>`); b.onclick=()=>{ UI.prefs.intro=k; savePrefsUI(); renderMas(); }; sg.append(b); } row('zap','Pantalla de arranque','Con motor, luces y sacudida, o directa a la app',sg); }
   const sw=(on,fn)=>{ const s=h2(`<button type="button" class="sw${on?' on':''}" role="switch" aria-checked="${on}"></button>`); s.onclick=()=>{ fn(); renderMas(); }; return s; };
   row('volume','Sonidos de la interfaz','Clics al tocar y al recorrer listas, carraca al registrar',sw(UI.prefs.sound,()=>{ UI.prefs.sound=!UI.prefs.sound; savePrefsUI(); uiSfx('save'); }));
   row('car','Sonidos de puertas y capó','En el visor 3D',sw($('#rSnd').checked,()=>$('#rSnd').click()));
@@ -5642,10 +5705,6 @@ const spT0=performance.now(); let spDone=false, spF=0;
 { const bi=$('#lbarI'); if(bi) new MutationObserver(()=>{ const f=(parseFloat(bi.style.width)||0)/100; spF=f; stSet(f);  const np=$('#navProg'); np.style.setProperty('--p',Math.round(f*100)+'%'); }).observe(bi,{attributes:true,attributeFilter:['style']}); }
 { const lt=$('#ltxt'); if(lt) new MutationObserver(()=>{ if(!spDone) $('#spTxt').textContent=lt.textContent; }).observe(lt,{childList:true,characterData:true,subtree:true}); }
 spSet(.12); $('#spTxt').textContent='Arrancando…';
-/* arranque del motor: suena al llegar el cuentarrevoluciones al máximo (5 s de arranque y 1 s de fundido, ya recortado en el archivo) */
-const ENG=new Audio('sfx/arranque.mp3'); ENG.preload='auto'; ENG.volume=1;
-let engUnlocked=false;
-$('#splash').addEventListener('pointerdown',()=>{ if(engUnlocked||spDone) return; engUnlocked=true; ENG.muted=true; ENG.play().then(()=>{ ENG.pause(); ENG.currentTime=0; ENG.muted=false; }).catch(()=>{ ENG.muted=false; }); },{once:true});
 function splashOut(wait){ setTimeout(()=>{ $('#splash')?.classList.add('out'); setTimeout(()=>$('#splash')?.remove(),1700); }, wait); }
 /* aguja con inercia: muelle amortiguado (se pasa un poco y vuelve) y ralentí con un vaivén muy ligero */
 const NDL={v:1,vel:0,tgt:1,idle:false,on:false,t0:0,w:0};
@@ -5666,22 +5725,99 @@ function needleRun(){
     requestAnimationFrame(step); };
   requestAnimationFrame(step);
 }
-function engineStart(){ ENG.currentTime=0; return ENG.play().then(()=>{
-    $('#spTxt').textContent='Motor en marcha'; NDL.v=1; NDL.vel=0; NDL.t0=performance.now(); NDL.idle=false;
-    NDL.tgt=0; needleRun();                                   /* contacto: la aguja cae a cero */
-    setTimeout(()=>{ NDL.tgt=.36; },420);                     /* arranca: subida de vueltas */
-    setTimeout(()=>{ NDL.tgt=.17; },850);
-    setTimeout(()=>{ NDL.tgt=.125; NDL.idle=true; },1250);    /* ralentí ~1.000 rpm */
-    return true; }); }
+/* ===== motor sintetizado: un 2.5 R5 TDI con escape más deportivo, siempre a las vueltas que marca la aguja ===== */
+function makeEngine(){
+  const C=window.AudioContext||window.webkitAudioContext; if(!C) return null;
+  const ctx=new C(); ctx.resume?.();
+  const out=ctx.createGain(); out.gain.value=.95; const comp=ctx.createDynamicsCompressor(); comp.threshold.value=-14; comp.ratio.value=4; out.connect(comp).connect(ctx.destination);
+  const noiseBuf=ctx.createBuffer(1, ctx.sampleRate*2, ctx.sampleRate); { const d=noiseBuf.getChannelData(0); let b=0; for(let i=0;i<d.length;i++){ const w=Math.random()*2-1; b=.97*b+.03*w; d[i]=w*.5+b*3; } }
+  const noise=()=>{ const n=ctx.createBufferSource(); n.buffer=noiseBuf; n.loop=true; return n; };
+  const shaper=k=>{ const ws=ctx.createWaveShaper(), c=new Float32Array(1024); for(let i=0;i<1024;i++){ const x=i/512-1; c[i]=Math.tanh(k*x); } ws.curve=c; return ws; };
+  /* cuerpo del motor (apagado hasta la explosión) */
+  const bus=ctx.createGain(); bus.gain.value=0; bus.connect(out);
+  const amp=ctx.createGain(); amp.gain.value=.65; amp.connect(bus);
+  const lpf=ctx.createBiquadFilter(); lpf.type='lowpass'; lpf.Q.value=3.2; lpf.frequency.value=380; const sh=shaper(3.4); sh.connect(lpf).connect(amp);
+  const oA=ctx.createOscillator(); oA.type='sawtooth'; const gA=ctx.createGain(); gA.gain.value=.42; oA.connect(gA).connect(sh);
+  const oB=ctx.createOscillator(); oB.type='sawtooth'; const gB=ctx.createGain(); gB.gain.value=.16; oB.connect(gB).connect(sh);     /* armónico de escape */
+  const oS=ctx.createOscillator(); oS.type='sine'; const gS=ctx.createGain(); gS.gain.value=.55; oS.connect(gS).connect(amp);        /* grave que retumba */
+  const nz=noise(); const nbp=ctx.createBiquadFilter(); nbp.type='bandpass'; nbp.Q.value=.9; nbp.frequency.value=260; const gN=ctx.createGain(); gN.gain.value=.12; nz.connect(nbp).connect(gN).connect(sh);
+  /* cinco cilindros irregulares: el «borboteo» característico del R5 */
+  const lfo=ctx.createOscillator(); lfo.type='triangle'; const lfoG=ctx.createGain(); lfoG.gain.value=.32; lfo.connect(lfoG).connect(amp.gain);
+  const puls=ctx.createOscillator(); puls.type='square'; const pulsG=ctx.createGain(); pulsG.gain.value=.18; puls.connect(pulsG).connect(gN.gain);
+  const t0=ctx.currentTime; for(const o of [oA,oB,oS,lfo,puls]) o.start(t0); nz.start(t0);
+  let running=false, lastR=0;
+  const E={ctx,
+    setRpm(r){ if(!running) return; r=Math.max(620,r); if(Math.abs(r-lastR)<4) return; lastR=r; const now=ctx.currentTime, f=r/60*2.5, tc=.025;
+      oA.frequency.setTargetAtTime(f,now,tc); oB.frequency.setTargetAtTime(f*1.5*1.004,now,tc); oS.frequency.setTargetAtTime(f/2,now,tc);
+      lfo.frequency.setTargetAtTime(r/60,now,tc); puls.frequency.setTargetAtTime(f,now,tc);
+      lpf.frequency.setTargetAtTime(Math.min(5200, 240+r*.62),now,tc); nbp.frequency.setTargetAtTime(160+r*.12,now,tc);
+      bus.gain.setTargetAtTime(.55+Math.min(.45,(r-800)/5000),now,.05); },
+    pump(){ const now=ctx.currentTime; const o=ctx.createOscillator(); o.type='sine'; o.frequency.setValueAtTime(820,now); o.frequency.linearRampToValueAtTime(1150,now+.5);
+      const g=ctx.createGain(); g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(.035,now+.08); g.gain.linearRampToValueAtTime(0,now+.85); o.connect(g).connect(out); o.start(now); o.stop(now+.9);
+      const n=noise(), ng=ctx.createGain(), hp=ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=2500; ng.gain.setValueAtTime(.5,now); ng.gain.exponentialRampToValueAtTime(.001,now+.03); n.connect(hp).connect(ng).connect(out); n.start(now); n.stop(now+.05); },
+    starter(dur=.7){ const now=ctx.currentTime; const o=ctx.createOscillator(); o.type='sawtooth'; o.frequency.setValueAtTime(95,now); o.frequency.linearRampToValueAtTime(150,now+dur);
+      const am=ctx.createOscillator(); am.frequency.setValueAtTime(7,now); am.frequency.linearRampToValueAtTime(11,now+dur); const amg=ctx.createGain(); amg.gain.value=.45;
+      const g=ctx.createGain(); g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(.5,now+.06); g.gain.setValueAtTime(.5,now+dur-.05); g.gain.linearRampToValueAtTime(0,now+dur+.05);
+      const bp=ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=420; bp.Q.value=1.4; am.connect(amg).connect(g.gain);
+      o.connect(bp).connect(g).connect(out); o.start(now); am.start(now); o.stop(now+dur+.1); am.stop(now+dur+.1); },
+    boom(){ const now=ctx.currentTime; const n=noise(), lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.setValueAtTime(900,now); lp.frequency.exponentialRampToValueAtTime(140,now+.5);
+      const g=ctx.createGain(); g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(1.1,now+.008); g.gain.exponentialRampToValueAtTime(.001,now+.7); n.connect(lp).connect(g).connect(out); n.start(now); n.stop(now+.75);
+      const o=ctx.createOscillator(); o.frequency.setValueAtTime(95,now); o.frequency.exponentialRampToValueAtTime(32,now+.45); const og=ctx.createGain(); og.gain.setValueAtTime(.9,now); og.gain.exponentialRampToValueAtTime(.001,now+.5); o.connect(og).connect(out); o.start(now); o.stop(now+.55);
+      running=true; lastR=0; },
+    stop(fade=1.8){ const now=ctx.currentTime; out.gain.cancelScheduledValues(now); out.gain.setValueAtTime(out.gain.value,now); out.gain.linearRampToValueAtTime(0,now+fade); setTimeout(()=>{ try{ ctx.close(); }catch{} }, fade*1000+300); },
+  };
+  return E;
+}
+let ENGX=null;
+{ const _nr=needleRun; needleRun=function(){ _nr(); if(needleRun.hooked) return; needleRun.hooked=true; const tick=()=>{ if(!document.getElementById('spGauge')) return; ENGX?.setRpm(NDL.v*8000); requestAnimationFrame(tick); }; requestAnimationFrame(tick); }; }
+/* sacudida de la pantalla con desenfoque de movimiento */
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function shake(amp, dur){
+  if(RM) return; const els=[$('#splash .spbox'), $('#spBg')].filter(Boolean), t0=performance.now();
+  const step=t=>{ const k=(t-t0)/dur; if(k>=1 || !document.getElementById('splash')){ els.forEach(e=>{ e.style.transform=''; e.style.filter=''; }); return; }
+    const a=amp*Math.pow(1-k,2.2), x=(Math.random()*2-1)*a, y=(Math.random()*2-1)*a*.7, r=(Math.random()*2-1)*a*.06;
+    els.forEach((e,i)=>{ e.style.transform=`translate(${x*(i?1.4:1)}px,${y*(i?1.4:1)}px) rotate(${r}deg)${i?' scale(1.04)':''}`; e.style.filter=`blur(${Math.min(3,a*.18)}px)`; });
+    requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+/* temblor fino mientras el motor está al ralentí */
+function idleJitter(){ if(RM) return; const bx=$('#splash .spbox'), bg=$('#spBg'); const step=()=>{ const sp=$('#splash'); if(!sp || sp.classList.contains('out')) return; if(!sp.classList.contains('shaking')){ const j=.55; bx&&(bx.style.transform=`translate(${(Math.random()-.5)*j}px,${(Math.random()-.5)*j}px)`); bg&&(bg.style.transform=`translate(${(Math.random()-.5)*j*1.6}px,${(Math.random()-.5)*j*1.6}px) scale(1.04)`); } setTimeout(()=>requestAnimationFrame(step),33); }; step(); }
+/* secuencia completa: contacto, precalentamiento, motor de arranque, explosión y ralentí */
+let SEQ=null;
+function ignition(){
+  if(SEQ) return; SEQ={t:[]}; const sp=$('#splash'); if(!sp) return;
+  const at=(ms,fn)=>SEQ.t.push(setTimeout(fn,ms));
+  try{ ENGX = UI.prefs.sound ? makeEngine() : null; }catch{ ENGX=null; }
+  sp.classList.remove('ready'); sp.classList.add('seq');
+  $("#spStart")?.classList.add("used");
+  NDL.v=1; NDL.vel=0; NDL.t0=performance.now(); NDL.idle=false; NDL.tgt=0; needleRun();
+  $('#spTxt').textContent='Contacto';
+  sp.classList.add('lights'); ENGX?.pump();
+  at(420,()=>{ NDL.tgt=1; });                                  /* autotest del cuadro: barrido completo */
+  at(950,()=>{ NDL.tgt=0; sp.classList.add('glowonly'); $('#spTxt').textContent='Precalentando'; });
+  at(1650,()=>{ sp.classList.remove('lights','glowonly'); });
+  at(1800,()=>{ $('#spTxt').textContent='Arrancando'; ENGX?.starter(.62); let k=0; const w=setInterval(()=>{ NDL.tgt = (k++%2)?.05:.022; },105); SEQ.t.push(w); at(2420,()=>clearInterval(w)); shake(2.2,600); });
+  at(2440,()=>{ ENGX?.boom(); NDL.tgt=.47; sp.classList.add('fire'); sp.classList.add('shaking'); shake(16,900); setTimeout(()=>sp.classList.remove('shaking'),900);
+    try{ navigator.vibrate?.([70,40,140]); }catch{} $('#spTxt').textContent='Motor en marcha'; });
+  at(2950,()=>{ NDL.tgt=.17; });
+  at(3400,()=>{ NDL.tgt=.125; NDL.idle=true; idleJitter(); });
+  at(4600,()=>exitSplash());
+  sp.addEventListener('pointerdown',()=>{ if(sp.classList.contains('fire')) exitSplash(); });
+}
+function exitSplash(){
+  const sp=$('#splash'); if(!sp || sp.classList.contains('going')) return; sp.classList.add('going');
+  SEQ?.t.forEach(x=>{ clearTimeout(x); clearInterval(x); });
+  setTimeout(()=>{ splashOut(0); ENGX?.stop(2.2); }, RM?0:650);
+}
 function hideSplash(){ if(spDone) return; spDone=true; PERF.m.ui=performance.now(); spSet(1); clearInterval(spTipT);
-  if(!UI.prefs.sound || $('#gate') && !$('#gate').hidden){ splashOut(350); return; }
-  setTimeout(()=>engineStart().then(()=>splashOut(2300)).catch(()=>{
-    /* el navegador no deja sonar sin tocar la pantalla: se pide girar la llave */
-    const sp=$('#splash'); if(!sp) return; const k=h2(`<button type="button" class="spkey">${ic('key')}<span>Toca para arrancar</span></button>`); sp.append(k); sp.classList.add('waitkey'); $('#spTxt').textContent='Listo para arrancar';
-    let gone=false; const go2=()=>{ if(gone) return; gone=true; k.remove(); engineStart().then(()=>splashOut(2300)).catch(()=>splashOut(200)); };
-    sp.addEventListener('pointerup',go2,{once:true});
-    setTimeout(()=>{ if(!gone){ gone=true; k.remove(); splashOut(100); } },7000);
-  }), 450);
+  const gate=$('#gate') && !$('#gate').hidden;
+  if(gate || UI.prefs.intro==='simple'){ splashOut(350); return; }
+  /* listo: botón de arranque (en iPhone el sonido solo puede empezar con un toque) */
+  const sp=$('#splash'); if(!sp) return; sp.classList.add('ready'); $('#spTxt').textContent='Listo';
+  const b=h2(`<button type="button" class="spstart" id="spStart"><span class="string"></span><b>ENGINE</b><small>START · STOP</small></button>`);
+  sp.querySelector('.spbox').append(b);
+  b.addEventListener('click',e=>{ e.stopPropagation(); uiSfx?.('tap'); ignition(); });
+  setTimeout(()=>{ if(!SEQ && document.getElementById('splash')) splashOut(0); }, 9000);
 }
 { const chk=setInterval(()=>{
     const el2=performance.now()-spT0, gate=!$('#gate').hidden;

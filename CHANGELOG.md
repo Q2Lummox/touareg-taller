@@ -1,5 +1,9 @@
 # Novedades
 
+## v1.4.0 · 2026-10-08
+- Pantalla de arranque nueva: tu Touareg de noche al fondo, testigos del cuadro, botón ENGINE START STOP, motor sintetizado sincronizado con la aguja, sacudida al arrancar, faros que se encienden y entrada a la app acercándose a los faros.
+- Ajustes ▸ Pantalla de arranque: Espectacular o Sencilla.
+
 ## v1.3.1 · 2026-10-08
 - Arreglado: en Inicio las flechas de «Primeros pasos» salían gigantes y la pantalla se desplazaba hacia los lados.
 - Inicio sin repeticiones: lo urgente solo aparece en «Requiere atención».
