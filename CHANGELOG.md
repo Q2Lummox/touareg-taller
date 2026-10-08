@@ -1,5 +1,9 @@
 # Novedades
 
+## v1.5.1 · 2026-10-08
+- Barra inferior: deslizando el dedo por ella se resalta cada sección y al soltar entras en la que tienes debajo.
+- Quitado el gesto de deslizar para cambiar de pestaña.
+
 ## v1.5.0 · 2026-10-08
 - Gestos: deslizar desde el borde izquierdo para volver atrás y desde el derecho para ir adelante; deslizar a los lados en el contenido para cambiar de pestaña (y de sección al llegar al final); deslizar hacia abajo para cerrar las hojas; tirar hacia abajo en Inicio para actualizar.
 - Pantalla de arranque con la foto a resolución completa (1284 × 2778).

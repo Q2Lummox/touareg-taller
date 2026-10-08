@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="1.5.0">
+<meta name="app-version" content="1.5.1">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1592,6 +1592,12 @@ body.ui2.light .gedge,body.ui2.light .gpull svg{background:#fff;fill:#fff;border
 html,body.ui2{overscroll-behavior-x:none}
 body.ui2 .pages,body.ui2 .pin2,body.ui2 .pbody{touch-action:pan-y}
 body.ui2 .pages :is(.subtabs,.chips2,.hchips,.gal){touch-action:pan-x pan-y}
+/* v1.5.1: elegir sección deslizando el dedo por la barra inferior */
+.nav2{touch-action:none}
+.nav2 button i{transition:background .2s,transform .18s cubic-bezier(.2,.9,.2,1.3),box-shadow .2s}
+.nav2.scrub button.hov i{transform:translateY(-6px) scale(1.18);background:#f39a1e33;box-shadow:0 0 0 1px #f39a1e88,0 6px 16px #000a}
+.nav2.scrub button.hov,.nav2.scrub button.hov span{color:var(--accent)}
+.nav2.scrub button[aria-current="page"]:not(.hov) i{background:#f39a1e44;box-shadow:none}
 </style>
 
 </head>
@@ -1634,7 +1640,7 @@ body.ui2 .pages :is(.subtabs,.chips2,.hchips,.gal){touch-action:pan-x pan-y}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.5.0</span>
+  <span class="spver">v1.5.1</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5048,7 +5054,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.5.0';
+  const APP_VERSION='1.5.1';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5281,6 +5287,17 @@ function applyTheme(){
 }
 matchMedia('(prefers-color-scheme: light)').addEventListener?.('change', applyTheme);
 
+/* barra inferior: con el dedo apoyado, al deslizar se va resaltando la sección de debajo y al soltar se entra */
+const NSCRUB={skip:false, on:false, hov:null, x0:0};
+{ const nav=document.getElementById('nav2');
+  const under=x=>{ const r=nav.getBoundingClientRect(); const el=document.elementFromPoint(Math.max(r.left+2,Math.min(r.right-2,x)), r.top+Math.min(30,r.height/2)); return el?.closest?.('#nav2 button')||null; };
+  const setHov=b=>{ if(b===NSCRUB.hov) return; NSCRUB.hov?.classList.remove('hov'); NSCRUB.hov=b; if(b){ b.classList.add('hov'); if(NSCRUB.on){ uiSfx('tick'); haptic?.('tick'); } } };
+  nav.addEventListener('touchstart',e=>{ const t=e.touches[0]; NSCRUB.x0=t.clientX; NSCRUB.on=false; setHov(under(t.clientX)); },{passive:true});
+  nav.addEventListener('touchmove',e=>{ const t=e.touches[0]; if(!NSCRUB.on && Math.abs(t.clientX-NSCRUB.x0)>8){ NSCRUB.on=true; nav.classList.add('scrub'); } if(NSCRUB.on){ e.preventDefault(); setHov(under(t.clientX)); } },{passive:false});
+  const end=()=>{ const b=NSCRUB.hov, was=NSCRUB.on; nav.classList.remove('scrub'); setHov(null); NSCRUB.on=false;
+    if(was){ NSCRUB.skip=true; setTimeout(()=>NSCRUB.skip=false,450); if(b){ uiSfx('tap'); go(b.dataset.sec); } } };
+  nav.addEventListener('touchend',end,{passive:true}); nav.addEventListener('touchcancel',()=>{ nav.classList.remove('scrub'); setHov(null); NSCRUB.on=false; },{passive:true});
+}
 /* historial de navegación para los gestos de atrás y adelante */
 const NAVH=window.__navh={back:[], fwd:[], cur:null, lock:false,
   push(sec, sub){ if(this.lock) return; const s2=sub || (UI.sub&&UI.sub[sec]) || null, k=sec+'/'+(s2||''); if(this.cur===k) return; if(this.cur) this.back.push(this.cur); if(this.back.length>40) this.back.shift(); this.cur=k; this.fwd=[]; },
@@ -5296,7 +5313,7 @@ const SECS={
   mas:{t:'Más', icon:'grid'},
 };
 const MAS_T={avisos:'Avisos', procs:'Guías', pines:'Notas 3D', pend:'Fichas pendientes', backup:'Copia de seguridad', keys:'Atajos de teclado', about:'Acerca de', ajustes:'Ajustes'};
-document.querySelectorAll('#nav2 button').forEach(b=>{ b.querySelector('i').innerHTML=ic(SECS[b.dataset.sec].icon); b.onclick=()=>{ uiSfx('tap'); go(b.dataset.sec); }; });
+document.querySelectorAll('#nav2 button').forEach(b=>{ b.querySelector('i').innerHTML=ic(SECS[b.dataset.sec].icon); b.onclick=()=>{ if(NSCRUB.skip) return; uiSfx('tap'); go(b.dataset.sec); }; });
 $('#t2Search').innerHTML=ic('search'); $('#t2Back').innerHTML=ic('chevL'); $('#srIco').innerHTML=ic('search');
 const SUBBOX={mant:'#stMant',papeles:'#stPap',coche:'#stCoche'}, SUBPB={mant:'#pbMant',papeles:'#pbPap',coche:'#pbCoche'};
 for(const [sec,box] of Object.entries(SUBBOX)){
@@ -6538,7 +6555,7 @@ const gPull=h2(`<div class="gpull" aria-hidden="true"><svg viewBox="0 0 40 40"><
 const NOSWIPE='input,textarea,select,.subtabs,.chips2,.hchips,.app,.stage,.csw,.cspop,.gal,.lbx,[data-noswipe],.srch,.wiz,.splash,.ybars2,.avm';
 let G=null;
 document.addEventListener('touchstart',e=>{
-  if(e.touches.length!==1 || document.getElementById('splash')){ G=null; return; }
+  if(e.touches.length!==1 || document.getElementById('splash') || e.target.closest?.('#nav2')){ G=null; return; }
   const t=e.touches[0], W=innerWidth, tgt=e.target;
   const inSheet=tgt.closest?.('.shbox, .csw.m .cspop');
   G={x0:t.clientX, y0:t.clientY, x:t.clientX, y:t.clientY, t0:performance.now(), mode:null, tgt,
@@ -6552,7 +6569,6 @@ document.addEventListener('touchmove',e=>{
     if(G.sheet && dy>0 && Math.abs(dy)>Math.abs(dx) && (G.sheet.scrollTop||0)<=0 && !G.tgt.closest('.csl, textarea')) G.mode='sheet';
     else if(G.edgeL && dx>0 && Math.abs(dx)>Math.abs(dy)) G.mode='back';
     else if(G.edgeR && dx<0 && Math.abs(dx)>Math.abs(dy) && NAVH.fwd.length) G.mode='fwd';
-    else if(G.canTab && Math.abs(dx)>Math.abs(dy)*1.8 && Math.abs(dx)>14) G.mode='tab';
     else if(UI.sec==='inicio' && dy>0 && Math.abs(dy)>Math.abs(dx)*1.5 && ($('#pgInicio')?.scrollTop||0)<=0 && !G.sheet) G.mode='pull';
     else { G.mode='none'; return; }
   }
