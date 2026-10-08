@@ -1,19 +1,21 @@
 {
- "version": "2.0.0-beta.2",
+ "version": "2.0.0-beta.3",
  "fecha": "2026-10-08",
  "notas": [
-  "Nuevo: Más ▸ Importar datos, para cargar por lotes lo que descargues de erWin y del catálogo (con vista previa y deshacer)",
-  "Nuevo: Más ▸ Catálogo de piezas, con láminas, referencias, pares de apriete y manuales; buscador por referencia y «Añadir a la compra»",
-  "Versión 2.0 (beta): galería, mejoras, repostajes, neumáticos, km, talleres, garantías, ITV, siniestros, ficha técnica, estadísticas, listas, copia semanal, dossier y enlace para el taller"
+  "Ordenar y renombrar: mantén pulsado un panel de Inicio, una pestaña (Coche, Mantenimiento, Papeles), un botón del visor 3D o de Más para moverlo o cambiarle el nombre",
+  "Primeros pasos: solo pide los kilómetros y los papeles, y desaparece al completarlos",
+  "Corregidos los botones que quedaban pegados bajo la sombra de un panel",
+  "El bastidor ya no aparece en los archivos publicados"
  ],
  "historial": [
   {
-   "version": "2.0.0-beta.2",
+   "version": "2.0.0-beta.3",
    "fecha": "2026-10-08",
    "notas": [
-    "Nuevo: Más ▸ Importar datos, para cargar por lotes lo que descargues de erWin y del catálogo (con vista previa y deshacer)",
-    "Nuevo: Más ▸ Catálogo de piezas, con láminas, referencias, pares de apriete y manuales; buscador por referencia y «Añadir a la compra»",
-    "Versión 2.0 (beta): galería, mejoras, repostajes, neumáticos, km, talleres, garantías, ITV, siniestros, ficha técnica, estadísticas, listas, copia semanal, dossier y enlace para el taller"
+    "Ordenar y renombrar: mantén pulsado un panel de Inicio, una pestaña (Coche, Mantenimiento, Papeles), un botón del visor 3D o de Más para moverlo o cambiarle el nombre",
+    "Primeros pasos: solo pide los kilómetros y los papeles, y desaparece al completarlos",
+    "Corregidos los botones que quedaban pegados bajo la sombra de un panel",
+    "El bastidor ya no aparece en los archivos publicados"
    ]
   }
  ]

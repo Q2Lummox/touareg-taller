@@ -5188,7 +5188,7 @@ function pwaInit(){
   function renderAbout(){
     $('#ovlKind').textContent='Aplicación'; $('#ovlTitle').textContent='Acerca de y actualizaciones';
     const body=$('#ovlBody'); body.innerHTML=''; const w=el('div','about');
-    w.append(el('div','ver','v'+APP_VERSION), el('p',null,'Touareg 7L · Taller — VIN WVGZZZ7LZ4D027701'));
+    w.append(el('div','ver','v'+APP_VERSION), el('p',null,'Touareg 7L · Taller — VIN WVGZZZ7LZ…'));
     const net=el('p','net'+(navigator.onLine?'':' off')); net.append(el('i'), document.createTextNode(navigator.onLine?'Conectado: los cambios se sincronizan al momento':'Sin conexión: los cambios se guardan aquí y se subirán al volver la conexión'));
     const u=window.FB?.user?.(); w.append(net, el('p','net', u ? 'Sesión: '+(u.email||u.displayName) : 'Sin sesión'));
     const acts=el('div','acts');
