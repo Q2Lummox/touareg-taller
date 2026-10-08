@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.0.0-beta">
+<meta name="app-version" content="2.0.0-beta.2">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1886,6 +1886,20 @@ body.ui2.light .gtm::before{box-shadow:0 0 0 3px #dfe3e9}
 .bch.sm{height:130px;gap:3px;overflow:hidden}
 .bch.sm .yb2{min-width:0;flex:1 1 0}
 .bch.sm .yb2 .st{width:70%}
+/* catálogo e importación */
+.lamimg{display:block;width:100%;padding:0;border:1px solid var(--card-line);border-radius:12px;overflow:hidden;background:#fff;margin:0 0 10px;cursor:zoom-in}
+.lamimg img{display:block;width:100%;height:auto}
+.pzt td{white-space:normal;vertical-align:top;text-align:left}
+.pzt td:first-child{width:34px;color:var(--txt-2);font-weight:700}
+.pzt td:nth-child(3){width:34px;text-align:center}
+.pzt b{display:block;font-size:14px}
+.pzt small{display:block;color:var(--txt-2);font-size:11.5px;white-space:normal}
+.pref{display:inline-block;margin:3px 0 2px;padding:2px 7px;border-radius:6px;border:1px solid var(--card-line);background:var(--card-2);color:var(--accent);font:700 12.5px ui-monospace,Menlo,monospace;cursor:pointer;user-select:text;-webkit-user-select:text}
+.padd{width:36px;height:36px;border-radius:10px;border:1px solid var(--card-line);background:var(--card-2);color:var(--txt);display:grid;place-items:center;cursor:pointer}
+.padd svg{width:17px;height:17px}
+.v2chips button[aria-selected="true"]{background:var(--accent)!important;color:var(--accent-ink,#1a1003)!important;border-color:var(--accent)!important}
+body.ui2.light .v2chips button[aria-selected="true"]{background:linear-gradient(180deg,#f8b04c,var(--accent))!important;color:#1a1003!important}
+.v2chips{margin-bottom:12px!important}
 </style>
 
 </head>
@@ -1928,7 +1942,7 @@ body.ui2.light .gtm::before{box-shadow:0 0 0 3px #dfe3e9}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.0.0-beta</span>
+  <span class="spver">v2.0.0-beta.2</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5343,7 +5357,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.0.0-beta';
+  const APP_VERSION='2.0.0-beta.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -7076,7 +7090,7 @@ Object.assign(IC,{
  road:'<path d="M7 3 4 21M17 3l3 18M12 4v3M12 10v3M12 16v3"/>',
  copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',
 });
-const C2=['galeria','mejoras','repostajes','neumaticos','kmlog','talleres','garantias','itv','siniestros'];
+const C2=['galeria','mejoras','repostajes','neumaticos','kmlog','talleres','garantias','itv','siniestros','catalogo','pares','manuales','lotes'];
 S.v2=Object.fromEntries(C2.map(c=>[c,[]])); S.v2ok={}; S.cfgX={}; S.copias=[];
 const V2={cur:null, memo:{}};
 function memoChk(){ if(V2.memo._i!==S.int || V2.memo._c!==S.compras){ V2.memo={_i:S.int, _c:S.compras}; } }
@@ -7176,8 +7190,8 @@ function v2MasHome(pb){
   if(pb.contains(ovl)){ ovl.classList.remove('docked'); ovlHome.append(ovl); } pb.innerHTML='';
   const touch=matchMedia('(hover: none)').matches;
   const G=[
-    ['Consulta',[['ficha','gauge','Ficha técnica del BAC','Aceites, capacidades, pares y presiones'],['stats','chart','Estadísticas','Coste por año, por km y por categoría'],['listas','list','Listas de comprobación','Antes de la ITV, viaje largo, invierno…'],['talleres','wrench','Talleres y proveedores','Teléfonos, valoración y trabajos hechos'],['procs','book','Guías de reparación','Pasos, herramientas y pares']]],
-    ['Datos',[['backup','cloud','Copia de seguridad','Semanal automática, exportar y restaurar'],['dossier','file','Dossier de venta','PDF con historial, ITV y fotos'],['compartir','link','Enlace para el taller','Solo lectura y con caducidad'],['pdf','receipt','Historial en PDF','Resumen corto para imprimir'],['wiz','sparkle','Asistente inicial','Km, últimos cambios y papeles']]],
+    ['Consulta',[['catalogo','layers','Catálogo de piezas','Láminas, referencias y pares oficiales'],['ficha','gauge','Ficha técnica del BAC','Aceites, capacidades, pares y presiones'],['stats','chart','Estadísticas','Coste por año, por km y por categoría'],['listas','list','Listas de comprobación','Antes de la ITV, viaje largo, invierno…'],['talleres','wrench','Talleres y proveedores','Teléfonos, valoración y trabajos hechos'],['procs','book','Guías de reparación','Pasos, herramientas y pares']]],
+    ['Datos',[['backup','cloud','Copia de seguridad','Semanal automática, exportar y restaurar'],['importar','upload','Importar datos','Lotes de erWin y del catálogo, con deshacer'],['dossier','file','Dossier de venta','PDF con historial, ITV y fotos'],['compartir','link','Enlace para el taller','Solo lectura y con caducidad'],['pdf','receipt','Historial en PDF','Resumen corto para imprimir'],['wiz','sparkle','Asistente inicial','Km, últimos cambios y papeles']]],
     ['Taller',[['pines','pin','Notas en el modelo','Avisos clavados en las piezas'],['pend','list','Fichas pendientes','Qué piezas faltan por documentar']]],
     ['Aplicación',[['avisos','alert','Avisos y notificaciones','Push, correo y Telegram'],['ajustes','sliders','Ajustes','Tema, sonidos, gráficos y avanzado'],...(touch?[]:[['keys','keyboard','Atajos de teclado','Teclas rápidas del visor']]),['about','info','Acerca de y actualizaciones','Versión, novedades y créditos'],['logout','logout','Cerrar sesión',(window.FB?.user?.()?.email||'Cuenta de Google')]]],
   ];
@@ -7986,7 +8000,7 @@ function bkCompare(b){
   return out;
 }
 function sortKeys(o){ if(Array.isArray(o)) return o.map(sortKeys); if(o && typeof o==='object'){ const r={}; for(const k of Object.keys(o).sort()) if(o[k]!==undefined) r[k]=sortKeys(o[k]); return r; } return o; }
-const COLN={piezas:'Fichas de piezas', intervenciones:'Intervenciones', mantenimiento:'Plan de mantenimiento', config:'Configuración', pines:'Notas 3D', fusibles:'Fusibles', averias:'Averías', documentos:'Documentos', procedimientos:'Guías', vistas:'Vistas', escaneos:'Escaneos', compras:'Compras', piezasLista:'Lista de piezas', galeria:'Galería', mejoras:'Mejoras', repostajes:'Repostajes', neumaticos:'Neumáticos', kmlog:'Lecturas de km', talleres:'Talleres', garantias:'Garantías', itv:'ITV', siniestros:'Siniestros y multas', avisos:'Avisos'};
+const COLN={piezas:'Fichas de piezas', intervenciones:'Intervenciones', mantenimiento:'Plan de mantenimiento', config:'Configuración', pines:'Notas 3D', fusibles:'Fusibles', averias:'Averías', documentos:'Documentos', procedimientos:'Guías', vistas:'Vistas', escaneos:'Escaneos', compras:'Compras', piezasLista:'Lista de piezas', galeria:'Galería', mejoras:'Mejoras', repostajes:'Repostajes', neumaticos:'Neumáticos', kmlog:'Lecturas de km', talleres:'Talleres', garantias:'Garantías', itv:'ITV', siniestros:'Siniestros y multas', catalogo:'Catálogo (láminas)', pares:'Pares de apriete', manuales:'Manuales', lotes:'Lotes importados', avisos:'Avisos'};
 function cmpTable(rows){ const t=h2(`<table class="yt cmpt"><thead><tr><th>Datos</th><th>En la copia</th><th>Iguales</th><th>Distintos</th><th>Faltan ahora</th><th>Nuevos</th></tr></thead><tbody></tbody></table>`), tb=t.querySelector('tbody');
   for(const r of rows) if(r.copia||r.extra) tb.append(h2(`<tr><td>${esc(COLN[r.col]||r.col)}</td><td>${r.copia}</td><td>${r.eq}</td><td${r.dif?' class="w"':''}>${r.dif}</td><td${r.solo?' class="w"':''}>${r.solo}</td><td>${r.extra}</td></tr>`)); return t; }
 async function bkRestore(b, exact, st){
@@ -8269,6 +8283,136 @@ async function readInvoiceInto(file){
     out.querySelector(':scope > .empty2')?.remove();
     for(const g of G){ out.append(h2(`<h5>${g.g}</h5>`)); for(const x of g.items){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic(x.i)}</span><span class="tx"><b>${hl(x.t,q)}</b><small>${hl(x.s,q)}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ uiSfx('tap'); x.fn(); }; out.append(r); } }
   }; }
+
+/* ====================== v2.0: IMPORTACIÓN POR LOTES Y CATÁLOGO DE PIEZAS ======================
+   Formato del archivo (lo genera Claude a partir de las descargas de erWin / ETKA):
+   { formato:'taller7l-import', version:1,
+     lote:{nombre, fuente, fecha},
+     laminas:[{id:'115-05', grupo:'1', subgrupo:'115', titulo, notas, img:{tipo,b64}|null,
+               piezas:[{pos, ref, nombre, cant, nota, pr, sustituye}]}],
+     pares:[{grupo, componente, valor, nota, fuente}],
+     guias:[{titulo, grupo, herramientas, fuente, pasos:[{texto, herr, par}]}],
+     ficha:[{k, v, fuente}],
+     manuales:[{titulo, grupo, enlace, nota}] }
+   Todo lo importado lleva el id de su lote y se puede deshacer entero. */
+const GRP={'0':'Accesorios','1':'Motor','2':'Combustible y escape','3':'Cambio y transmisión','4':'Eje delantero, dirección y frenos','5':'Eje trasero','6':'Ruedas y frenos','7':'Pedales y mandos','8':'Carrocería','9':'Eléctrico'};
+const grpName=g=>GRP[String(g??'').charAt(0)]?`${String(g).charAt(0)} · ${GRP[String(g).charAt(0)]}`:(g||'Sin grupo');
+const refKey=r=>String(r||'').toUpperCase().replace(/[^0-9A-Z]/g,'');
+const safeId=s=>String(s||'').replace(/[^\w\-.]/g,'_').slice(0,120);
+
+function importCheck(d){
+  const err=[], warn=[];
+  if(d?.formato!=='taller7l-import') err.push('No es un archivo de importación del Taller 7L.');
+  if(Number(d?.version)>1) err.push('El archivo es de una versión más nueva de la app. Actualiza la app primero.');
+  const L=d?.laminas||[], P=d?.pares||[], G=d?.guias||[], F=d?.ficha||[], M=d?.manuales||[];
+  const ids=new Set(); for(const l of L){ if(!l.id) err.push('Hay una lámina sin identificador.'); else if(ids.has(l.id)) warn.push('Lámina repetida en el archivo: '+l.id); ids.add(l.id); }
+  const nP=L.reduce((a,l)=>a+(l.piezas||[]).length,0), sinRef=L.reduce((a,l)=>a+(l.piezas||[]).filter(p=>!p.ref).length,0);
+  if(sinRef) warn.push(`${sinRef} pieza(s) sin referencia (se importan igual).`);
+  const exist=L.filter(l=>S.v2.catalogo.some(c=>c._id==='L_'+safeId(l.id)));
+  if(exist.length) warn.push(`${exist.length} lámina(s) ya existen y se sustituirán (al deshacer el lote vuelven las anteriores).`);
+  const fk=new Set(FT.flatMap(g=>g[2]).map(e=>e.k)); const fBad=F.filter(f=>!fk.has(f.k)); if(fBad.length) warn.push(`${fBad.length} dato(s) de ficha técnica con clave desconocida se ignorarán.`);
+  const imgs=L.filter(l=>l.img?.b64).length;
+  return {err, warn, n:{laminas:L.length, piezas:nP, imgs, pares:P.length, guias:G.length, ficha:F.length-fBad.length, manuales:M.length}};
+}
+async function importRun(d, st){
+  const id='lote_'+Date.now().toString(36), now=new Date().toISOString(), fuente=d.lote?.fuente||'';
+  const rec={nombre:d.lote?.nombre||'Lote sin nombre', fuente, fecha:now, docs:[], prev:{}, blobs:[], fichaPrev:{}, n:importCheck(d).n};
+  const put=async(col, docId, data)=>{ const cur=col==='catalogo'?S.v2.catalogo.find(c=>c._id===docId):null; if(cur) rec.prev[col+'/'+docId]=stripId2(cur); await S.db.collection(col).doc(docId).set({...data, lote:id, fuente:data.fuente||fuente, actualizado:now}); rec.docs.push(col+'/'+docId); };
+  let k=0; const L=d.laminas||[];
+  for(const l of L){ k++; st.textContent=`Láminas ${k}/${L.length}…`;
+    let img=null; if(l.img?.b64 && S.assets){ try{ const up=await S.assets.upload(b64b(l.img.b64, l.img.tipo||'image/png'), {type:l.img.tipo||'image/png'}); img={id:up.id, tipo:up.contentType}; rec.blobs.push(up.id); }catch{} }
+    await put('catalogo', 'L_'+safeId(l.id), {lamina:String(l.id), grupo:String(l.grupo??String(l.id).charAt(0)), subgrupo:String(l.subgrupo||''), titulo:l.titulo||'', notas:l.notas||'', img, piezas:(l.piezas||[]).map(p=>({pos:String(p.pos??''), ref:String(p.ref||''), nombre:String(p.nombre||''), cant:p.cant??null, nota:String(p.nota||''), pr:String(p.pr||''), sustituye:String(p.sustituye||'')}))}); }
+  const byG={}; for(const p of (d.pares||[])) (byG[String(p.grupo||'0').charAt(0)]=byG[String(p.grupo||'0').charAt(0)]||[]).push({componente:String(p.componente||''), valor:String(p.valor||''), nota:String(p.nota||''), fuente:String(p.fuente||''), grupo:String(p.grupo||'')});
+  for(const [g,items] of Object.entries(byG)) await put('pares', id+'_'+g, {grupo:g, items});
+  k=0; for(const g of (d.guias||[])){ k++; st.textContent=`Guías ${k}/${d.guias.length}…`; const r=await S.db.collection('procedimientos').add({titulo:g.titulo||'Guía importada', herramientas:g.herramientas||'', grupo:String(g.grupo||''), fuente:g.fuente||fuente, pasos:(g.pasos||[]).map(p=>({texto:p.texto||'', herr:p.herr||'', par:p.par||'', piezas:[]})), lote:id, actualizado:now}); rec.docs.push('procedimientos/'+r.id); }
+  for(const m of (d.manuales||[])){ const r=await S.db.collection('manuales').add({titulo:m.titulo||'', grupo:String(m.grupo||''), enlace:m.enlace||'', nota:m.nota||'', lote:id, fuente, actualizado:now}); rec.docs.push('manuales/'+r.id); }
+  const fk=new Set(FT.flatMap(g=>g[2]).map(e=>e.k)), F=(d.ficha||[]).filter(f=>fk.has(f.k) && f.v);
+  if(F.length){ const ft={...(S.cfgX.fichatec||{})}; for(const f of F){ rec.fichaPrev[f.k]=ft[f.k]||null; ft[f.k]={v:String(f.v), n:f.fuente||fuente||'Importado', fecha:todayISO(), lote:id}; } await S.db.doc('config/fichatec').set(ft); }
+  st.textContent='Guardando el registro del lote…';
+  await S.db.collection('lotes').doc(id).set(rec);
+  return {id, rec};
+}
+async function importUndo(l, st){
+  st && (st.textContent='Deshaciendo…');
+  for(const p of (l.docs||[])){ const [col,did]=p.split('/'); const prev=l.prev?.[p]; if(prev) await S.db.collection(col).doc(did).set(prev); else await S.db.collection(col).doc(did).delete(); }
+  if(l.fichaPrev && Object.keys(l.fichaPrev).length){ const ft={...(S.cfgX.fichatec||{})}; for(const [k,v] of Object.entries(l.fichaPrev)){ if(ft[k]?.lote!==l._id) continue; if(v) ft[k]=v; else delete ft[k]; } await S.db.doc('config/fichatec').set(ft); }
+  for(const b of (l.blobs||[])){ const still=S.v2.catalogo.some(c=>c.img?.id===b && c.lote!==l._id); if(!still) try{ await S.assets?.delete(b); }catch{} }
+  await S.db.collection('lotes').doc(l._id).delete();
+}
+function importPreview(d, nombreArchivo){
+  const c=importCheck(d), body=h2('<div></div>');
+  body.append(h2(`<p class="muted2" style="margin:0 0 10px">${esc(nombreArchivo)} · ${esc(d.lote?.fuente||'fuente sin indicar')}</p>`));
+  body.append(h2(`<div class="stchips">${stat(c.n.laminas,'Láminas','var(--accent)')}${stat(nf.format(c.n.piezas),'Piezas','var(--info)')}${stat(c.n.pares,'Pares de apriete','var(--soon)')}${stat(c.n.guias,'Guías','var(--ok)')}</div>`));
+  if(c.n.ficha||c.n.manuales||c.n.imgs) body.append(h2(`<p class="muted2">${[c.n.imgs?c.n.imgs+' ilustraciones':'', c.n.ficha?c.n.ficha+' datos de ficha técnica':'', c.n.manuales?c.n.manuales+' enlaces a manuales':''].filter(Boolean).join(' · ')}</p>`));
+  for(const e of c.err) body.append(h2(`<div class="alr due">${ic('alert')}<span>${esc(e)}</span></div>`));
+  for(const w of c.warn) body.append(h2(`<div class="alr soon">${ic('alert')}<span>${esc(w)}</span></div>`));
+  const L=(d.laminas||[]).slice(0,4); if(L.length){ const cc=card2('Muestra','layers'); for(const l of L) cc.querySelector('.l2').append(row2({c:'var(--accent)', i:'layers', t:`${l.id} · ${l.titulo||''}`, s:`${grpName(l.grupo??String(l.id).charAt(0))} · ${(l.piezas||[]).length} piezas${(l.piezas||[])[0]?' · p. ej. '+l.piezas[0].ref+' '+l.piezas[0].nombre:''}`})); body.append(cc); }
+  const st=h2('<p class="muted2 bkmsg"></p>'); body.append(st);
+  const box=detailSheet('Importar «'+(d.lote?.nombre||'lote')+'»', '', body, c.err.length?[]:[['Importar','upload',async()=>{
+    box.querySelectorAll('.dacts button').forEach(x=>x.disabled=true);
+    try{ const r=await importRun(d, st); st.textContent='Importado. Puedes deshacer este lote desde Más ▸ Importar datos.'; celebrate(); toast(`Importado: ${r.rec.n.laminas} láminas, ${r.rec.n.piezas} piezas`); setTimeout(()=>{ closeSheet(); go('mas'); masOpen('catalogo'); },1200); }
+    catch(e){ console.warn(e); st.textContent='No se pudo importar: '+(e.message||e); box.querySelectorAll('.dacts button').forEach(x=>x.disabled=false); }
+  },'pri']]);
+}
+function renderImportar(w){
+  w.append(h2(`<div class="card2 ftnote">${ic('upload')}<p>Aquí entran los <b>archivos de importación</b> que te preparo a partir de tus descargas de erWin y del catálogo de piezas: láminas con sus referencias, pares de apriete, guías de reparación y datos de la ficha técnica. Antes de importar ves un resumen, y cada lote se puede <b>deshacer entero</b>.</p></div>`));
+  const b=addBar('Elegir archivo de importación',()=>{ const i=document.createElement('input'); i.type='file'; i.accept='.json,application/json'; i.onchange=async()=>{ const f=i.files?.[0]; if(!f) return; let d; try{ d=JSON.parse(await f.text()); }catch{ toast('El archivo no se puede leer','err'); return; } if(d?.app==='touareg-taller' && d.colecciones){ toast('Eso es una copia de seguridad: ábrela en Más ▸ Copia de seguridad','err'); return; } importPreview(d, f.name); }; i.click(); });
+  w.append(b);
+  const L=[...S.v2.lotes].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
+  const c=card2('Lotes importados','history',L.length||''), l=c.querySelector('.l2');
+  if(!L.length) l.append(h2('<div class="empty2" style="padding:10px">Aún no has importado nada. Sigue la lista de descarga y pásame los archivos.</div>'));
+  for(const x of L) l.append(row2({c:'var(--info)', i:'upload', t:x.nombre, s:`${new Date(x.fecha).toLocaleDateString('es-ES')} · ${x.n?.laminas||0} láminas · ${nf.format(x.n?.piezas||0)} piezas · ${x.n?.pares||0} pares · ${x.n?.guias||0} guías`, r:'Deshacer', fn:async()=>{ if(!confirm(`¿Deshacer el lote «${x.nombre}»? Se quita todo lo que importó y vuelven los datos que sustituyó.`)) return; const st=h2('<p></p>'); toast('Deshaciendo lote…'); try{ await importUndo(x, st); toast('Lote deshecho'); }catch(e){ toast('No se pudo deshacer','err'); } }}));
+  w.append(c);
+}
+MAS2.importar=['Importar datos', renderImportar];
+
+/* ---------- CATÁLOGO DE PIEZAS ---------- */
+function catAll(){ memoChk(); if(V2.memo.cat) return V2.memo.cat; const out=[]; for(const l of S.v2.catalogo) for(const p of (l.piezas||[])) out.push({...p, l, rk:refKey(p.ref), nn:norm(p.nombre+' '+p.nota)}); return V2.memo.cat=out; }
+function laminaSheet(l){
+  const body=h2('<div></div>');
+  if(l.img?.id){ const im=h2(`<button type="button" class="lamimg" aria-label="Ver ilustración a pantalla completa"><img alt="Ilustración ${esc(l.lamina)}"></button>`); window.FB?.blobURL(l.img.id).then(u=>im.querySelector('img').src=u).catch(()=>im.remove()); im.onclick=()=>openViewer({id:l.img.id, tipo:l.img.tipo||'image/png', nombre:l.titulo}); body.append(im); }
+  if(l.notas) body.append(h2(`<p class="muted2">${esc(l.notas)}</p>`));
+  const t=h2('<div class="tscroll"><table class="yt pzt"><thead><tr><th>Pos.</th><th>Pieza</th><th>Cant.</th><th></th></tr></thead><tbody></tbody></table></div>'), tb=t.querySelector('tbody');
+  for(const p of (l.piezas||[])){ const r=h2(`<tr><td>${esc(p.pos)}</td><td><b>${esc(p.nombre)}</b><button type="button" class="pref">${esc(p.ref||'sin referencia')}</button>${p.nota||p.pr?`<small>${esc([p.nota, p.pr?'PR: '+p.pr:''].filter(Boolean).join(' · '))}</small>`:''}${p.sustituye?`<small>Sustituye a ${esc(p.sustituye)}</small>`:''}</td><td>${p.cant??''}</td><td><button type="button" class="padd" aria-label="Añadir a la compra">${ic('cart')}</button></td></tr>`);
+    r.querySelector('.pref').onclick=()=>{ if(p.ref) navigator.clipboard?.writeText(p.ref).then(()=>toast('Referencia copiada: '+p.ref)); };
+    r.querySelector('.padd').onclick=async()=>{ await S.db.collection('compras').add({nombre:p.nombre||p.ref, ref:p.ref||'', cantidad:Math.max(1,Number(p.cant)||1), estado:'pendiente', notas:`Lámina ${l.lamina}${p.pos?' · pos. '+p.pos:''}`, creado:new Date().toISOString()}); toast(`«${p.nombre}» añadido a la compra`); };
+    tb.append(r); }
+  body.append(t);
+  detailSheet(`${l.lamina} · ${l.titulo||''}`, `${grpName(l.grupo)} · ${(l.piezas||[]).length} piezas${l.fuente?' · '+l.fuente:''}`, body, []);
+}
+function renderCatalogo(w){
+  const C=S.v2.catalogo, P=S.v2.pares.flatMap(x=>(x.items||[]).map(i=>({...i, g:x.grupo}))), M=S.v2.manuales;
+  if(!C.length && !P.length && !M.length){ w.append(emptyCard('layers','Aquí tendrás el catálogo de <b>tu</b> Touareg: láminas con sus ilustraciones, cada referencia desde el capó hasta el último tornillo, pares de apriete oficiales y enlaces a los manuales. Se rellena importando los archivos que preparo con tus descargas.','Importar datos',()=>masOpen('importar'))); return; }
+  const tab=UI.catTab||'piezas', q=UI.catQ||'';
+  const sr=h2(`<input class="inp2 ftq" type="search" placeholder="Referencia o nombre: 7L0115561, junta, tornillo…" value="${esc(q)}">`); w.append(sr);
+  const res=h2('<div></div>');
+  const draw=()=>{ res.innerHTML=''; const qq=norm(sr.value.trim()), rk=refKey(sr.value);
+    if(qq.length>=2){ const hits=catAll().filter(p=>(rk.length>=3 && p.rk.includes(rk)) || p.nn.includes(qq)).slice(0,60), ph=P.filter(p=>norm(p.componente+' '+p.nota).includes(qq)).slice(0,20);
+      const c=card2('Resultados','search', hits.length+ph.length);
+      for(const p of hits) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'layers', t:p.nombre||p.ref, s:`${p.ref||'sin ref.'} · lámina ${p.l.lamina}${p.pos?' pos. '+p.pos:''}`, fn:()=>laminaSheet(p.l)}));
+      for(const p of ph) c.querySelector('.l2').append(row2({c:'var(--soon)', i:'wrench', t:p.componente, s:grpName(p.g), r:p.valor}));
+      if(!hits.length && !ph.length) c.querySelector('.l2').append(h2('<div class="empty2" style="padding:10px">Nada coincide.</div>'));
+      res.append(c); return; }
+    res.append(chips([['piezas',`Láminas · ${C.length}`],['pares',`Pares · ${P.length}`],['manuales',`Manuales · ${M.length}`]], tab, k=>{ UI.catTab=k; v2Rerender(); }));
+    if(tab==='piezas'){ const gs=[...new Set(C.map(l=>String(l.grupo).charAt(0)))].sort();
+      for(const g of gs){ const L=C.filter(l=>String(l.grupo).charAt(0)===g).sort((a,b)=>COLL.compare(a.lamina,b.lamina)); const c=card2(grpName(g),'layers',L.length);
+        for(const l of L) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'layers', thumb:l.img?.id, t:`${l.lamina} · ${l.titulo||''}`, s:`${(l.piezas||[]).length} pieza${(l.piezas||[]).length===1?"":"s"}`, fn:()=>laminaSheet(l)}));
+        res.append(c); } }
+    if(tab==='pares'){ const gs=[...new Set(P.map(p=>p.g))].sort(); if(!gs.length) res.append(h2('<div class="empty2">Sin pares importados.</div>'));
+      for(const g of gs){ const c=card2(grpName(g),'wrench'); for(const p of P.filter(x=>x.g===g).sort((a,b)=>COLL.compare(a.componente,b.componente))) c.querySelector('.l2').append(row2({c:'var(--soon)', i:'wrench', t:p.componente, s:[p.nota,p.fuente].filter(Boolean).join(' · '), r:p.valor})); res.append(c); } }
+    if(tab==='manuales'){ const c=card2('Manuales y documentos','book',M.length); if(!M.length) c.querySelector('.l2').append(h2('<div class="empty2" style="padding:10px">Sin enlaces a manuales.</div>'));
+      for(const m of [...M].sort((a,b)=>COLL.compare(a.grupo+a.titulo,b.grupo+b.titulo))) c.querySelector('.l2').append(row2({c:'var(--info)', i:'book', t:m.titulo, s:[grpName(m.grupo), m.nota].filter(Boolean).join(' · '), fn:()=>{ if(m.enlace) window.open(m.enlace,'_blank','noopener'); else toast('Este manual no tiene enlace'); }}));
+      res.append(c); }
+  };
+  sr.oninput=()=>{ UI.catQ=sr.value; draw(); }; draw(); w.append(res);
+}
+MAS2.catalogo=['Catálogo de piezas', renderCatalogo];
+for(const k of ['importar','catalogo']) MAS_T[k]=MAS2[k][0];
+/* el buscador general también encuentra referencias del catálogo */
+{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()), rk=refKey(raw); if(q.length<3) return;
+    const hits=catAll().filter(p=>(rk.length>=4 && p.rk.includes(rk)) || p.nn.includes(q)).slice(0,6); if(!hits.length) return;
+    const out=$('#srRes'); out.querySelector(':scope > .empty2')?.remove(); out.append(h2('<h5>Catálogo de piezas</h5>'));
+    for(const p of hits){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic('layers')}</span><span class="tx"><b>${hl(p.nombre||p.ref,q)}</b><small>${esc(p.ref)} · lámina ${esc(p.l.lamina)}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); go('mas'); masOpen('catalogo'); setTimeout(()=>laminaSheet(p.l),200); }; out.append(r); } }; }
 
 connectDb();
 { const h=(location.hash||'').slice(1); go(SECS[h]?h:'inicio'); }
