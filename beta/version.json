@@ -1,29 +1,23 @@
 {
- "version": "1.3.0-beta",
+ "version": "1.3.1-beta",
  "fecha": "2026-10-08",
  "notas": [
-  "Coche: pestañas «Modelo 3D · Datos · Fusibles · Averías» sin sombra encima; en el visor la hoja inferior dice «Pieza».",
-  "Barra inferior más alta y con hueco para la barrita de inicio del iPhone: tocar los botones ya no activa el gesto de cambiar de app.",
-  "Tema claro rediseñado: fondo gris, paneles blancos con borde y sombra, barras y pestañas con relieve, naranja más legible.",
-  "Botones y campos con un solo estilo y tamaño cómodo para el dedo en todas las pantallas.",
-  "Inicio con «Primeros pasos» mientras la app está vacía; tarjetas con títulos cortos; textos algo más grandes.",
-  "El botón + se esconde al bajar por una lista; la rayita de carga bajo «Coche» solo aparece mientras carga.",
-  "Solo queda el escenario «Taller clásico».",
-  "Avisos: la fila de cada dispositivo ya no se sale del panel."
+  "Arreglado: en Inicio las flechas de «Primeros pasos» salían gigantes y la pantalla se desplazaba hacia los lados.",
+  "Inicio sin repeticiones: lo urgente solo aparece en «Requiere atención».",
+  "Historial: al tocar una intervención se abre con sus datos, adjuntar y borrar.",
+  "Plan, Fusibles y Averías: el formulario de alta se abre con un botón.",
+  "Documentos en dos líneas; Coche ▸ Datos más directo."
  ],
  "historial": [
   {
-   "version": "1.3.0-beta",
+   "version": "1.3.1-beta",
    "fecha": "2026-10-08",
    "notas": [
-    "Coche: pestañas «Modelo 3D · Datos · Fusibles · Averías» sin sombra encima; en el visor la hoja inferior dice «Pieza».",
-    "Barra inferior más alta y con hueco para la barrita de inicio del iPhone: tocar los botones ya no activa el gesto de cambiar de app.",
-    "Tema claro rediseñado: fondo gris, paneles blancos con borde y sombra, barras y pestañas con relieve, naranja más legible.",
-    "Botones y campos con un solo estilo y tamaño cómodo para el dedo en todas las pantallas.",
-    "Inicio con «Primeros pasos» mientras la app está vacía; tarjetas con títulos cortos; textos algo más grandes.",
-    "El botón + se esconde al bajar por una lista; la rayita de carga bajo «Coche» solo aparece mientras carga.",
-    "Solo queda el escenario «Taller clásico».",
-    "Avisos: la fila de cada dispositivo ya no se sale del panel."
+    "Arreglado: en Inicio las flechas de «Primeros pasos» salían gigantes y la pantalla se desplazaba hacia los lados.",
+    "Inicio sin repeticiones: lo urgente solo aparece en «Requiere atención».",
+    "Historial: al tocar una intervención se abre con sus datos, adjuntar y borrar.",
+    "Plan, Fusibles y Averías: el formulario de alta se abre con un botón.",
+    "Documentos en dos líneas; Coche ▸ Datos más directo."
    ]
   }
  ]

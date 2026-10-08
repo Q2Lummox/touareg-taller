@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="1.3.0">
+<meta name="app-version" content="1.3.1">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1482,6 +1482,34 @@ body.ui2.light :is(aside.left,aside.right,.tabs){background:#f3f5f8!important;bo
 body.ui2.light .tabs button{color:#56606c}
 body.ui2.light .tabs button[aria-selected="true"]{color:#121820}
 body.ui2.light .ctabs{background:#e9edf2!important}
+
+/* ===== v1.3.1 ===== */
+/* flechas de las filas: tamaño fijo (en iPhone salían gigantes) y sin desplazamiento lateral */
+.r2>svg{width:18px;height:18px;flex:none;color:var(--txt-3)}
+.pin2,.pbody{overflow-x:hidden}
+.grid2>*{min-width:0}
+/* 17: Historial: fila entera tocable y sin botones sueltos */
+.hist2 .h.tap{cursor:pointer}
+.hist2 .h>button.del,.hist2 .t>button.del{display:none!important}
+.hist2 .h{grid-template-columns:auto minmax(0,1fr)!important}
+.kv2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px;margin-top:6px}
+.kv2 span{color:var(--txt-3)}
+.kv2 b{font-weight:600;color:var(--txt)}
+.isth{margin-top:10px}
+/* 19: documentos en dos líneas */
+body.ui2 .doclist .mrow{display:grid!important;grid-template-columns:auto auto minmax(0,1fr) auto!important;gap:4px 14px!important;padding:10px 12px!important;align-items:center}
+body.ui2 .doclist .mrow .nm{grid-column:1/4;grid-row:1}
+body.ui2 .doclist .mrow .pill{grid-column:4;grid-row:1;width:auto!important}
+body.ui2 .doclist .mrow .c{grid-row:2;display:flex;gap:5px;align-items:baseline;font-size:12px}
+body.ui2 .doclist .mrow .c b{display:inline!important;font-size:13px}
+body.ui2 .doclist .mrow .c:nth-of-type(2){grid-column:1}
+body.ui2 .doclist .mrow .c:nth-of-type(3){grid-column:2}
+body.ui2 .doclist .mrow .bt{grid-column:3/5;grid-row:2;justify-content:flex-end;display:flex;gap:6px}
+body.ui2 .doclist .mrow .bt button{min-height:36px!important;padding:6px 11px!important;font-size:13px!important}
+body.ui2 .doclist .mrow>.thumbs,body.ui2 .doclist .mrow>.atts{grid-column:1/-1}
+body.ui2 .doclist .mrow .c:nth-of-type(3){font-size:0;gap:0}
+body.ui2 .doclist .mrow .c:nth-of-type(3) b{font-size:13px;color:var(--c,var(--txt-2))}
+body.ui2 .doclist .mrow .c{white-space:nowrap}
 </style>
 
 </head>
@@ -1515,7 +1543,7 @@ body.ui2.light .ctabs{background:#e9edf2!important}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.3.0</span>
+  <span class="spver">v1.3.1</span>
 </div>
 
 <header class="top2" id="top2">
@@ -4929,7 +4957,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.3.0';
+  const APP_VERSION='1.3.1';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5371,21 +5399,22 @@ function renderInicio(force){
   mc.querySelector('.more').onclick=()=>go('mant','plan');
   const l=mc.querySelector('.l2');
   if(!ml.length){ const e=h2(`<div class="empty2">${ic('wrench')}<div>Para calcular cuándo toca cada cambio necesito el último que se hizo y cada cuánto se hace.</div><button type="button">${ic('sparkle')}Registrar los últimos cambios</button></div>`); e.querySelector('button').onclick=()=>openWizard(1); l.append(e); }
-  for(const {it,s} of ml.slice(0,5)){
+  const mlx=ml.filter(x=>x.s.st!=='due'&&x.s.st!=='soon');
+  for(const {it,s} of mlx.slice(0,5)){
     const r=h2(`<button type="button" class="r2" style="--c:${stColor(s.st)}"><span class="ic">${ic('wrench')}</span><span class="tx"><b>${esc(it.nombre)}</b><small>${esc(mantLine(it,s))}</small><div class="bar2"><i></i></div></span><span class="rt">${ST_LABEL[s.st]}</span></button>`);
     r.onclick=()=>go('mant','plan'); l.append(r);
     { const bi=r.querySelector('.bar2 i'), w=Math.round(mantPct(it,s)*100)+'%'; if(UI.introDone){ bi.style.transition='none'; bi.style.setProperty('--w',w); } else requestAnimationFrame(()=>requestAnimationFrame(()=>bi.style.setProperty('--w',w))); }
   }
-  if(!noMant) g.append(mc);
+  if(!noMant && mlx.length) g.append(mc);
   /* documentos */
   const dc=h2(`<div class="card2 c6"><h3>${ic('shield')}Papeles<button class="more" type="button">Todo${ic('chevR')}</button></h3><div class="l2"></div></div>`);
   dc.querySelector('.more').onclick=()=>go('papeles','docs');
-  const dl=dc.querySelector('.l2'), docs=[...S.docs].filter(d=>d.caduca).sort((a,b)=>a.caduca.localeCompare(b.caduca));
+  const dl=dc.querySelector('.l2'), docs=[...S.docs].filter(d=>d.caduca && !['due','soon'].includes(docStatus(d).st)).sort((a,b)=>a.caduca.localeCompare(b.caduca));
   if(!docs.length){ const e=h2(`<div class="empty2">${ic('shield')}<div>Añade la ITV, el seguro y el impuesto y te avisaré antes de que caduquen.</div><button type="button">${ic('plus')}Añadir documentos</button></div>`); e.querySelector('button').onclick=()=>openWizard(2); dl.append(e); }
   for(const d of docs.slice(0,4)){ const s=docStatus(d);
     const r=h2(`<button type="button" class="r2" style="--c:${stColor(s.st)}"><span class="ic">${ic(d.tipo==='ITV'?'shield':d.tipo==='Seguro'?'file':'receipt')}</span><span class="tx"><b>${esc(d.tipo)}${d.nombre?' · '+esc(d.nombre):''}</b><small>Caduca el ${fmtDate(d.caduca)}</small></span><span class="rt">${s.days<0?'Caducado':s.days===0?'Hoy':s.days+' días'}</span></button>`);
     r.onclick=()=>{ S.docEdit=d; go('papeles','docs'); }; dl.append(r); }
-  if(!noDocs) g.append(dc);
+  if(!noDocs && docs.length) g.append(dc);
   /* últimas intervenciones */
   const ic2=h2(`<div class="card2 c6"><h3>${ic('history')}Intervenciones<button class="more" type="button">Todas${ic('chevR')}</button></h3><div class="l2"></div></div>`);
   ic2.querySelector('.more').onclick=()=>go('mant','hist');
@@ -6126,8 +6155,8 @@ if(R.scene==='taller' || !SCENES[R.scene]){ R.scene='clasico'; try{ savePrefs();
 function renderFichaCoche(pb){
   const wrap=h2('<div class="wrap pg-ficha" style="padding:14px 16px 28px"></div>'); pb.append(wrap);
   const g=h2('<div class="grid2"></div>'); wrap.append(g);
-  g.append(heroCard('c6', false));
-  const card=h2(`<div class="card2 c6"><h3>${ic('tag')}Datos de fábrica</h3></div>`); card.append($('#secCoche')); g.append(card);
+  const hm=heroMini(); hm.querySelector('.hmcar').onclick=null; hm.querySelector('.hmcar').style.cursor='default'; g.append(hm);
+  const card=h2(`<div class="card2 c12"><h3>${ic('tag')}Datos de fábrica</h3></div>`); card.append($('#secCoche')); g.append(card);
   const pw=$('#cfgPrWrap'); if(pw) pw.open=true;
 }
 /* --- Inicio: tarjeta compacta y «requiere atención» --- */
@@ -6155,7 +6184,7 @@ function attentionCard(km, skipKm){
 }
 /* --- botón + siempre visible --- */
 const FABX=[['plus','Intervención','Trabajo hecho o cambio',()=>openIntForm({back:'mant'})],['gauge','Kilómetros','Lo que marca el cuentakilómetros',quickKm],['camera','Foto de factura','Se adjunta a una intervención',()=>$('#camIn').click()],
-  ['cart','A la compra','Pieza o artículo que necesitas',()=>compraSheet(null)],['shield','Documento','ITV, seguro, impuesto…',()=>{ S.docEdit=null; UI.docForm=true; go('papeles','docs'); }],['alert','Avería','Código o síntoma',()=>{ S.aveEdit=null; S.aveDraftParts=null; go('coche','ave'); setTimeout(()=>$('#pbCoche input')?.focus(),250); }]];
+  ['cart','A la compra','Pieza o artículo que necesitas',()=>compraSheet(null)],['shield','Documento','ITV, seguro, impuesto…',()=>{ S.docEdit=null; UI.docForm=true; go('papeles','docs'); }],['alert','Avería','Código o síntoma',()=>{ S.aveEdit=null; S.aveDraftParts=null; UI.addAve=true; go('coche','ave'); setTimeout(()=>$('#pbCoche input')?.focus(),250); }]];
 { const f=h2(`<button type="button" class="fab2" id="fab2" aria-label="Añadir">${ic('plus')}</button>`); document.body.append(f);
   f.onclick=()=>{ uiSfx('open'); const box=h2(`<div><h3>Añadir</h3><div class="fabg"></div></div>`), gr=box.querySelector('.fabg');
     for(const [i,l,d,fn] of FABX){ const b=h2(`<button type="button"><i>${ic(i)}</i><b>${l}</b><small>${d}</small></button>`); b.onclick=()=>{ uiSfx('tap'); $('#sheet2').hidden=true; fn(); }; gr.append(b); }
@@ -6256,7 +6285,7 @@ function pushRecent(q){ q=q.trim(); if(q.length<2) return; try{ localStorage.set
     if(/^(itv|segur|impuest|ivtm|document|permiso|ficha tec)/.test(q)) A('shield',`Añadir documento${/itv|segur|impuest/.test(q)?' ('+raw.trim().toUpperCase().slice(0,12)+')':''}`,()=>{ S.docEdit=null; UI.docForm=true; go('papeles','docs'); });
     if(/^(km|kilom|cuentak)/.test(q)) A('gauge','Actualizar kilómetros',quickKm);
     if(/^(compr|pedir|encarg)/.test(q)) A('cart','Añadir a la compra',()=>compraSheet(null));
-    if(/^(averi|codig|obd|vcds|fallo|testigo)/.test(q)) A('alert','Registrar avería',()=>{ S.aveEdit=null; go('coche','ave'); });
+    if(/^(averi|codig|obd|vcds|fallo|testigo)/.test(q)) A('alert','Registrar avería',()=>{ S.aveEdit=null; UI.addAve=true; go('coche','ave'); });
     if(/^(factur|foto|ticket)/.test(q)) A('camera','Fotografiar factura',()=>$('#camIn').click());
     if(/^(interv|repar|trabaj)/.test(q)) A('plus','Registrar intervención',()=>openIntForm({back:'mant'}));
     for(const it of S.mant) if(norm(it.nombre).includes(q) && acts.length<5) A('wrench',`Registrar cambio: ${it.nombre}`,()=>openIntForm({mant:it.id, back:'mant'}));
@@ -6267,6 +6296,47 @@ function pushRecent(q){ q=q.trim(); if(q.length<2) return; try{ localStorage.set
     out.prepend(box);
   }; }
 $('#srRes').addEventListener('click',e=>{ if(e.target.closest('.r2')) pushRecent($('#srQ').value); }, true);
+
+
+/* ====================== v1.3.1 ====================== */
+/* 17: Historial: cada intervención se abre en una hoja con sus datos, adjuntar y borrar */
+function intSheet(x){
+  const ad=(x.adjuntos||[]).length;
+  sheet(`<div><h3>${esc(itemName(x.mant)||partName(x.pieza)||x.tipo||'Intervención')}</h3>
+    <div class="kv2"><span>Fecha</span><b>${fmtDate(x.fecha)}</b><span>Kilómetros</span><b>${x.km!=null?nf.format(x.km)+' km':'—'}</b><span>Tipo</span><b>${esc(x.tipo||'—')}</b>${x.ref?`<span>Referencia</span><b>${esc(x.ref)}</b>`:''}${x.coste!=null&&x.coste!==''?`<span>Coste</span><b>${eur(x.coste)}</b>`:''}</div>
+    ${x.descripcion?`<p class="muted2" style="margin:10px 0 0">${esc(x.descripcion)}</p>`:''}<div class="isth"></div>
+    <div class="row3" style="justify-content:space-between;margin-top:14px"><button class="btn2 ghost" type="button" id="isDel">${ic('x')}Borrar</button><span style="display:flex;gap:8px"><button class="btn2 ghost" type="button" id="isAdj">${ic('camera')}Adjuntar</button><button class="btn2" type="button" id="isOk">Cerrar</button></span></div></div>`, b=>{
+    if(ad) b.querySelector('.isth').append(attachThumbs(x.adjuntos));
+    b.querySelector('#isOk').onclick=()=>$('#sheet2').hidden=true;
+    b.querySelector('#isDel').onclick=()=>{ if(!confirm('¿Borrar esta intervención? Podrás deshacerlo justo después.')) return; $('#sheet2').hidden=true; delDoc('intervenciones', x._id, stripId2(x), 'Intervención borrada'); };
+    const fi=document.createElement('input'); fi.type='file'; fi.multiple=true; fi.accept='image/*,application/pdf'; fi.hidden=true; fi._fx=true; b.append(fi);
+    b.querySelector('#isAdj').onclick=()=>fi.click();
+    fi.onchange=async()=>{ if(!fi.files.length) return; const bt=b.querySelector('#isAdj'); bt.disabled=true; bt.textContent='Subiendo…';
+      const up=await uploadFiles([...fi.files]); if(up.length){ try{ await S.db.collection('intervenciones').doc(x._id).set({...stripId2(x), adjuntos:[...(x.adjuntos||[]), ...up]}); toast(up.length+' adjunto(s) añadido(s)'); }catch{ toast('No se pudo guardar el adjunto','err'); } }
+      $('#sheet2').hidden=true; };
+  });
+}
+{ const _hl=histList; histList=function(list, withDelete){
+    const box=_hl(list, withDelete); box.classList.add('hist2');
+    [...box.children].forEach((h,i)=>{ const x=list[i]; if(!x) return; h.classList.add('tap'); h.addEventListener('click',e=>{ if(e.target.closest('.thumb,.att,a,button,img')) return; uiSfx('tap'); intSheet(x); }); });
+    return box; }; }
+/* 18: formularios de alta plegados tras un botón (Plan, Fusibles, Averías) */
+function foldForm(form, label, key){
+  if(!form || UI[key]){ UI[key]=false; return; }
+  const ttl=form.previousElementSibling?.classList.contains('ttl') ? form.previousElementSibling : null;
+  form.hidden=true; if(ttl) ttl.hidden=true;
+  const b=h2(`<div class="row3 foldb" style="justify-content:flex-start;margin:10px 0"><button type="button" class="btn2">${ic('plus')}${label}</button></div>`);
+  b.querySelector('button').onclick=()=>{ UI[key]=true; renderPop(); setTimeout(()=>{ const f=document.querySelector('#ovlBody form:not([hidden]).fusform, #ovlBody form:not([hidden]).mcfg'); (f||document.querySelector('#ovlBody form'))?.scrollIntoView({behavior:'smooth',block:'center'}); },80); };
+  (ttl||form).before(b);
+}
+{ const _rp=renderPop; renderPop=function(...a){
+    const r=_rp.apply(this,a);
+    try{ const body=$('#ovlBody');
+      if(popMode==='mant' && S.mantTab!=='hist') foldForm([...body.querySelectorAll('form.mcfg')].filter(f=>!f.closest('.mrow')).pop(), 'Añadir elemento al plan', 'addMant');
+      else if(popMode==='fus' && !S.fusEdit) foldForm(body.querySelector('form.fusform'), 'Añadir fusible o relé', 'addFus');
+      else if(popMode==='ave' && !S.aveEdit) foldForm([...body.querySelectorAll('form')].pop(), 'Registrar avería', 'addAve');
+    }catch(e){ console.warn(e); }
+    return r; }; }
 
 /* ---------- pantalla: zonas seguras del iPhone ----------
    En algunas versiones de iOS la app instalada recibe una ventana más baja que la pantalla y deja una franja

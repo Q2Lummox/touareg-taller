@@ -1,5 +1,12 @@
 # Novedades
 
+## v1.3.1 · 2026-10-08
+- Arreglado: en Inicio las flechas de «Primeros pasos» salían gigantes y la pantalla se desplazaba hacia los lados.
+- Inicio sin repeticiones: lo urgente solo aparece en «Requiere atención».
+- Historial: al tocar una intervención se abre con sus datos, adjuntar y borrar.
+- Plan, Fusibles y Averías: el formulario de alta se abre con un botón.
+- Documentos en dos líneas; Coche ▸ Datos más directo.
+
 ## v1.3.0 · 2026-10-08
 - Coche: pestañas «Modelo 3D · Datos · Fusibles · Averías» sin sombra encima; en el visor la hoja inferior dice «Pieza».
 - Barra inferior más alta y con hueco para la barrita de inicio del iPhone: tocar los botones ya no activa el gesto de cambiar de app.
