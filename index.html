@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="1.4.2">
+<meta name="app-version" content="1.4.3">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1567,6 +1567,12 @@ body.ui2 .doclist .mrow .c{white-space:nowrap}
 .spimg{width:100%!important;bottom:0!important}
 .spveil{background:linear-gradient(180deg,#030405 0%,#030405f2 26%,#030405a6 44%,#0304057a 62%,#030405b3 86%,#030405 100%),linear-gradient(90deg,#03040599 0%,transparent 9%,transparent 91%,#03040599 100%)!important}
 .spstart small{letter-spacing:.06em!important;font-size:9px!important;word-spacing:-2px}
+/* v1.4.3: foto vertical a pantalla completa */
+.spimg{width:max(100vw, calc(100vh * 853 / 1844))!important;aspect-ratio:853/1844!important;left:50%;bottom:0!important;transform-origin:50% 70.5%!important}
+.spbg{transform-origin:50% 70%!important}
+.hl-l{left:13.7%;top:70.3%} .hl-r{left:85.8%;top:70.6%}
+.fl-l{left:16.6%;top:81.3%} .fl-r{left:82.4%;top:81.5%}
+.spveil{background:linear-gradient(180deg,#030405e6 0%,#030405b8 30%,#03040599 50%,#03040570 66%,#03040599 86%,#030405e6 100%),linear-gradient(90deg,#03040580 0%,transparent 10%,transparent 90%,#03040580 100%)!important}
 </style>
 
 </head>
@@ -1609,7 +1615,7 @@ body.ui2 .doclist .mrow .c{white-space:nowrap}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.4.2</span>
+  <span class="spver">v1.4.3</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5023,7 +5029,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.4.2';
+  const APP_VERSION='1.4.3';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';

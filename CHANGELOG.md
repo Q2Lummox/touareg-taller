@@ -1,5 +1,8 @@
 # Novedades
 
+## v1.4.3 · 2026-10-08
+- Pantalla de arranque: nueva foto vertical que llena toda la pantalla, con el coche entero y los destellos sobre los faros.
+
 ## v1.4.2 · 2026-10-08
 - Pantalla de arranque: la foto se ve entera, con todo el coche y los faros a la vista; «START·STOP» más compacto en el botón.
 
