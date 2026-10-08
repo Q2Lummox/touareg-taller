@@ -1,27 +1,29 @@
 {
- "version": "1.6.0-beta",
+ "version": "1.7.0-beta",
  "fecha": "2026-10-08",
  "notas": [
-  "Movimiento más natural: la píldora naranja viaja entre secciones y pestañas; las pantallas entran desde el lado hacia el que te mueves; cada pestaña recuerda dónde te quedaste.",
-  "Atrás como en iOS: al deslizar desde el borde, la pantalla sigue al dedo y asoma adónde vuelves.",
-  "Volver a tocar la sección en la que estás te sube arriba (y otra vez, a su primera pestaña).",
-  "Mantén pulsado un botón de la barra para ver sus atajos.",
-  "Desliza una compra a la derecha para marcarla comprada o montada, y una intervención a la izquierda para borrarla.",
-  "El botón + gira y se convierte en ✕; sus opciones aparecen una tras otra.",
-  "El halo de la barra al deslizar ya no se sale por arriba."
+  "Cifras que ruedan como un cuentakilómetros (km y gastos).",
+  "Celebración con un check que se dibuja al guardar o registrar.",
+  "Barras de gastos que crecen desde cero; esqueletos de carga con brillo.",
+  "Las hojas se pueden estirar hacia arriba a pantalla completa, con rebote.",
+  "Tarjetas y filas se hunden al pulsar y vuelven con muelle; onda naranja desde donde tocas.",
+  "Las tarjetas de cada sección entran escalonadas.",
+  "Al terminar el arranque, el rombo 7L vuela hasta la cabecera.",
+  "Arreglado: al mantener pulsado un botón de la barra ya no se selecciona el texto ni sale el menú de copiar."
  ],
  "historial": [
   {
-   "version": "1.6.0-beta",
+   "version": "1.7.0-beta",
    "fecha": "2026-10-08",
    "notas": [
-    "Movimiento más natural: la píldora naranja viaja entre secciones y pestañas; las pantallas entran desde el lado hacia el que te mueves; cada pestaña recuerda dónde te quedaste.",
-    "Atrás como en iOS: al deslizar desde el borde, la pantalla sigue al dedo y asoma adónde vuelves.",
-    "Volver a tocar la sección en la que estás te sube arriba (y otra vez, a su primera pestaña).",
-    "Mantén pulsado un botón de la barra para ver sus atajos.",
-    "Desliza una compra a la derecha para marcarla comprada o montada, y una intervención a la izquierda para borrarla.",
-    "El botón + gira y se convierte en ✕; sus opciones aparecen una tras otra.",
-    "El halo de la barra al deslizar ya no se sale por arriba."
+    "Cifras que ruedan como un cuentakilómetros (km y gastos).",
+    "Celebración con un check que se dibuja al guardar o registrar.",
+    "Barras de gastos que crecen desde cero; esqueletos de carga con brillo.",
+    "Las hojas se pueden estirar hacia arriba a pantalla completa, con rebote.",
+    "Tarjetas y filas se hunden al pulsar y vuelven con muelle; onda naranja desde donde tocas.",
+    "Las tarjetas de cada sección entran escalonadas.",
+    "Al terminar el arranque, el rombo 7L vuela hasta la cabecera.",
+    "Arreglado: al mantener pulsado un botón de la barra ya no se selecciona el texto ni sale el menú de copiar."
    ]
   }
  ]

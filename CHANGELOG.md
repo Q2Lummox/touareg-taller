@@ -1,5 +1,15 @@
 # Novedades
 
+## v1.7.0 · 2026-10-08
+- Cifras que ruedan como un cuentakilómetros (km y gastos).
+- Celebración con un check que se dibuja al guardar o registrar.
+- Barras de gastos que crecen desde cero; esqueletos de carga con brillo.
+- Las hojas se pueden estirar hacia arriba a pantalla completa, con rebote.
+- Tarjetas y filas se hunden al pulsar y vuelven con muelle; onda naranja desde donde tocas.
+- Las tarjetas de cada sección entran escalonadas.
+- Al terminar el arranque, el rombo 7L vuela hasta la cabecera.
+- Arreglado: al mantener pulsado un botón de la barra ya no se selecciona el texto ni sale el menú de copiar.
+
 ## v1.6.0 · 2026-10-08
 - Movimiento más natural: la píldora naranja viaja entre secciones y pestañas; las pantallas entran desde el lado hacia el que te mueves; cada pestaña recuerda dónde te quedaste.
 - Atrás como en iOS: al deslizar desde el borde, la pantalla sigue al dedo y asoma adónde vuelves.
