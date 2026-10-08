@@ -1,15 +1,15 @@
 {
- "version": "1.2.0-beta",
+ "version": "1.2.1-beta",
  "fecha": "2026-10-08",
  "notas": [
-  "Misma versión que la 1.2.0 principal."
+  "Más ▸ Avisos: lista de dispositivos que reciben notificaciones push, con «Quitar» y «Dejar solo este dispositivo» para evitar avisos repetidos."
  ],
  "historial": [
   {
-   "version": "1.2.0-beta",
+   "version": "1.2.1-beta",
    "fecha": "2026-10-08",
    "notas": [
-    "Misma versión que la 1.2.0 principal."
+    "Más ▸ Avisos: lista de dispositivos que reciben notificaciones push, con «Quitar» y «Dejar solo este dispositivo» para evitar avisos repetidos."
    ]
   }
  ]

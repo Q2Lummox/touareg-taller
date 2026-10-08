@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="1.2.0-beta">
+<meta name="app-version" content="1.2.1-beta">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1405,7 +1405,7 @@ input[type=file].fhid{position:absolute!important;width:1px!important;height:1px
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.2.0-beta</span>
+  <span class="spver">v1.2.1-beta</span>
 </div>
 
 <header class="top2" id="top2">
@@ -4821,7 +4821,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.2.0-beta';
+  const APP_VERSION='1.2.1-beta';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -4950,6 +4950,7 @@ async function patchPrinfo(){
    (va dentro del módulo principal: reutiliza S, parts, openPanel, etc.)
    ===================================================================== */
 const IC={
+ phone:'<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>',
  key:'<circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 8.7-8.7M16.5 6.5l2.5 2.5M14 9l2 2"/>',
  home:'<path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
  car:'<path d="M3 15.5v-4L5.5 7h11l3.5 4.5h1v4"/><path d="M3 11.5h18"/><circle cx="7.5" cy="16.5" r="2"/><circle cx="16.5" cy="16.5" r="2"/>',
@@ -5836,7 +5837,7 @@ async function pushEnable(){
 }
 async function pushSave(sub){
   const j=JSON.stringify(sub), ua=navigator.userAgent, dev=/iPhone/.test(ua)?'iPhone':/iPad/.test(ua)?'iPad':/Android/.test(ua)?'Android':/Mac/.test(ua)?'Mac':/Windows/.test(ua)?'Windows':'Otro';
-  await S.db.collection('avisos').doc('push_'+hashStr(sub.endpoint)).set({sub:j, dispositivo:dev, fecha:new Date().toISOString()});
+  await S.db.collection('avisos').doc('push_'+hashStr(sub.endpoint)).set({sub:j, dispositivo:dev, app:location.pathname.includes('/beta/')?'Beta':'Principal', fecha:new Date().toISOString()});
 }
 /* cada vez que se abre la app, renueva la suscripción si ya estaba activada */
 setTimeout(async()=>{ try{ const st=await pushState(); if(st.ok && st.sub && st.perm==='granted' && S.db) await pushSave(st.sub); }catch{} }, 8000);
@@ -5862,6 +5863,22 @@ async function renderAvisos2(pb){
   else { txt.textContent = st.perm==='denied' ? 'Las tienes bloqueadas. Actívalas en los ajustes del navegador o del móvil para esta app.' : 'Aún no están activadas en este dispositivo.';
     if(st.perm!=='denied'){ const on=h2(`<button class="btn2" type="button">${ic('alert')}Activar notificaciones</button>`); on.onclick=async()=>{ on.disabled=true; const r=await pushEnable().catch(e=>({ok:false,why:String(e?.message||e)})); if(r.ok) toast('Notificaciones activadas'); else toast(r.why==='denied'?'Permiso denegado':'No se pudieron activar ('+r.why+')','err'); renderAvisos(pb); }; row.append(on); } }
   wrap.append(dev);
+  /* todos los dispositivos que reciben push: para quitar los repetidos */
+  { const box=h2(`<div class="card2" style="margin-top:14px"><h3>${ic('list')}Dispositivos que reciben notificaciones</h3><div class="l2"><div class="skel" style="height:44px"></div></div></div>`), l=box.querySelector('.l2'); wrap.append(box);
+    const mine = st.ok && st.sub ? 'push_'+hashStr(st.sub.endpoint) : null;
+    const docs = await withTO(new Promise(res=>{ let un=null; un=S.db.collection('avisos').onSnapshot(sn=>{ res(sn.docs.filter(d=>d.id.startsWith('push_')).map(d=>({id:d.id, ...d.data()}))); try{ un&&un(); }catch{} }, ()=>res([])); }), 4000, []);
+    l.innerHTML='';
+    if(!docs.length) l.append(h2('<div class="empty2" style="padding:10px">Ningún dispositivo tiene activadas las notificaciones push.</div>'));
+    docs.sort((a,b)=>(b.id===mine)-(a.id===mine) || (b.fecha||'').localeCompare(a.fecha||''));
+    for(const d of docs){ const me=d.id===mine;
+      const r=h2(`<div class="r2" style="--c:${me?'var(--ok)':'var(--txt-3)'};cursor:default"><span class="ic">${ic(d.dispositivo==='iPhone'||d.dispositivo==='Android'?'phone':'grid')}</span><span class="tx"><b>${esc(d.dispositivo||'Dispositivo')} · ${esc(d.app?('App '+d.app.toLowerCase()):'App antigua o beta')}${me?' · este':''}</b><small>Activado o renovado el ${d.fecha?fmtDate(d.fecha.slice(0,10)):'—'}</small></span></div>`);
+      if(!me){ const x=h2(`<button type="button" class="btn2 ghost" style="padding:6px 10px">${ic('x')}Quitar</button>`); x.onclick=async()=>{ x.disabled=true; try{ await S.db.collection('avisos').doc(d.id).delete(); toast('Dispositivo quitado: ya no recibirá avisos'); }catch{ toast('No se pudo quitar','err'); } renderAvisos(pb); }; r.append(x); }
+      l.append(r); }
+    if(mine && docs.some(d=>d.id!==mine)){ const all=h2(`<div class="row3" style="justify-content:flex-start;margin-top:8px"><button type="button" class="btn2">${ic('check')}Dejar solo este dispositivo</button></div>`);
+      all.querySelector('button').onclick=async()=>{ if(!confirm('¿Quitar las notificaciones push de todos los demás dispositivos y apps (incluida la beta)?')) return; for(const d of docs) if(d.id!==mine) try{ await S.db.collection('avisos').doc(d.id).delete(); }catch{} toast('Listo: solo este dispositivo recibirá los avisos push'); renderAvisos(pb); };
+      l.append(all); }
+    l.append(h2('<p class="muted2" style="margin:8px 2px 0;font-size:12px">Cada app instalada (la principal y la beta) cuenta como un dispositivo distinto. Si una app ya está borrada del móvil, no le llega nada, pero puedes quitarla de la lista igualmente.</p>'));
+  }
   /* qué y por dónde */
   const CH=[['push','Push'],['email','Correo'],['telegram','Telegram']], TY=[['mant','Mantenimiento vencido o próximo'],['docs','ITV, seguro e impuesto'],['compras','Piezas compradas sin montar'],['semanal','Resumen semanal']];
   const mx=h2(`<div class="card2" style="margin-top:14px"><h3>${ic('list')}Qué te aviso y por dónde</h3><div class="avm"><span></span>${CH.map(c=>`<b>${c[1]}</b>`).join('')}</div></div>`), grid=mx.querySelector('.avm');

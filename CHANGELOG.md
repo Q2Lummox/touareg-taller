@@ -1,5 +1,8 @@
 # Novedades
 
+## v1.2.1 · 2026-10-08
+- Más ▸ Avisos: lista de dispositivos que reciben notificaciones push, con «Quitar» y «Dejar solo este dispositivo» para evitar avisos repetidos.
+
 ## v1.2.0 · 2026-10-08
 - Reorganización: Coche (modelo 3D, ficha, fusibles y averías), Mantenimiento (plan, historial, compra y gastos), Papeles (documentos y facturas) y Más (la app).
 - Botón + siempre a mano para registrar intervención, kilómetros, foto de factura, compra, documento o avería.
