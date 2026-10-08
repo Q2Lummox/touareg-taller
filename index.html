@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="1.5.1">
+<meta name="app-version" content="1.6.0">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1598,6 +1598,57 @@ body.ui2 .pages :is(.subtabs,.chips2,.hchips,.gal){touch-action:pan-x pan-y}
 .nav2.scrub button.hov i{transform:translateY(-6px) scale(1.18);background:#f39a1e33;box-shadow:0 0 0 1px #f39a1e88,0 6px 16px #000a}
 .nav2.scrub button.hov,.nav2.scrub button.hov span{color:var(--accent)}
 .nav2.scrub button[aria-current="page"]:not(.hov) i{background:#f39a1e44;box-shadow:none}
+
+/* ===== v1.6: movimiento ===== */
+/* halo de la barra al deslizar: dentro de la barra */
+.nav2.scrub button.hov i{transform:translateY(-2px) scale(1.07)!important;box-shadow:0 0 0 1px #f39a1e77!important}
+/* A: píldora que viaja */
+.nav2{position:fixed}
+.navpill,.stpill{position:absolute;left:0;top:0;z-index:0;pointer-events:none;border-radius:15px;opacity:0;
+  background:linear-gradient(180deg,#f8b04c,var(--accent-2));box-shadow:0 0 14px #f39a1e55;
+  transition:transform .42s cubic-bezier(.3,1.35,.5,1),width .3s,height .3s,opacity .2s}
+.nav2 button{z-index:1}
+.nav2 button[aria-current="page"] i{background:transparent!important;box-shadow:none!important}
+.nav2.scrub button[aria-current="page"]:not(.hov) i{background:transparent!important}
+.nav2.scrub .navpill{transition:transform .22s cubic-bezier(.3,1.2,.5,1),width .2s,height .2s}
+.subtabs{position:relative}
+.stpill{border-radius:20px}
+.subtabs button{position:relative;z-index:1;transition:color .25s,background .25s,border-color .25s}
+.subtabs button[aria-selected="true"]{background:transparent!important;border-color:transparent!important}
+body.ui2.light .subtabs button[aria-selected="true"]{background:transparent!important;border-color:transparent!important}
+/* B: la animación de entrada la pone el código, con dirección */
+.page.on{animation:none!important}
+/* C: atrás estilo iOS */
+.gunder{position:fixed;z-index:15;left:var(--railw);right:0;top:calc(var(--t2h) + var(--sa-t));bottom:0;background:#07080a;display:none;align-items:center;justify-content:flex-start;padding-left:24px}
+.gunder.on{display:flex}
+.gunder span{font:700 15px var(--f-display);letter-spacing:.06em;text-transform:uppercase;color:#5b636d}
+.bkdrag{box-shadow:-14px 0 30px #000c}
+body.ui2.light .gunder{background:#c9d0d8} body.ui2.light .gunder span{color:#56606c}
+/* E: menú de atajos de la barra */
+.navmenubg{position:fixed;inset:0;z-index:9690;background:#0007;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:fadeIn .18s}
+.navmenu{position:fixed;z-index:9695;display:flex;flex-direction:column;gap:2px;padding:8px;border-radius:16px;background:linear-gradient(180deg,#22272e,#16191d);border:1px solid #3a414b;box-shadow:0 18px 40px #000c;animation:nmIn .26s cubic-bezier(.2,1.3,.4,1)}
+.navmenu b{font:700 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--txt-3);padding:6px 10px 4px}
+.navmenu button{display:flex;align-items:center;gap:12px;padding:12px;border:0;border-radius:10px;background:none;color:var(--txt);font:600 15px var(--f-body);text-align:left;cursor:pointer}
+.navmenu button svg{width:20px;height:20px;color:var(--accent);flex:none}
+.navmenu button:active{background:#f39a1e22}
+@keyframes nmIn{from{opacity:0;transform:scale(.6) translateY(16px)}}
+body.ui2.light .navmenu{background:#fff;border-color:#c3cad3} body.ui2.light .navmenu button{color:#121820}
+/* F: acción al deslizar una fila */
+.swiping{position:relative;overflow:visible!important;z-index:2}
+.swact{position:absolute;top:0;bottom:0;width:150px;display:flex;align-items:center;gap:8px;padding:0 18px;border-radius:12px;font:700 14px var(--f-body);color:#fff;background:#3a414b;pointer-events:none;transition:background .15s}
+.swact svg{width:20px;height:20px}
+.swact.r{right:100%;margin-right:8px;justify-content:flex-end;background:#2f5a3f}
+.swact.l{left:100%;margin-left:8px;justify-content:flex-start}
+.swact.go.r{background:var(--ok);color:#06140c}
+.swact.l.danger.go{background:var(--due)}
+/* G: el + se transforma */
+.fab2 svg{transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+body.fabopen .fab2{z-index:9650!important;opacity:1!important;pointer-events:auto!important;transform:none!important}
+body.fabopen .fab2 svg{transform:rotate(135deg)}
+.fabg button{animation:fabIn .38s cubic-bezier(.2,1.3,.4,1) both}
+.fabg button:nth-child(2){animation-delay:.035s}.fabg button:nth-child(3){animation-delay:.07s}.fabg button:nth-child(4){animation-delay:.105s}.fabg button:nth-child(5){animation-delay:.14s}.fabg button:nth-child(6){animation-delay:.175s}
+@keyframes fabIn{from{opacity:0;transform:translateY(22px) scale(.85)}}
+@media (prefers-reduced-motion:reduce){ .navpill,.stpill,.fab2 svg{transition:none} .fabg button,.navmenu{animation:none} }
 </style>
 
 </head>
@@ -1640,7 +1691,7 @@ body.ui2 .pages :is(.subtabs,.chips2,.hchips,.gal){touch-action:pan-x pan-y}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v1.5.1</span>
+  <span class="spver">v1.6.0</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5054,7 +5105,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='1.5.1';
+  const APP_VERSION='1.6.0';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5313,7 +5364,7 @@ const SECS={
   mas:{t:'Más', icon:'grid'},
 };
 const MAS_T={avisos:'Avisos', procs:'Guías', pines:'Notas 3D', pend:'Fichas pendientes', backup:'Copia de seguridad', keys:'Atajos de teclado', about:'Acerca de', ajustes:'Ajustes'};
-document.querySelectorAll('#nav2 button').forEach(b=>{ b.querySelector('i').innerHTML=ic(SECS[b.dataset.sec].icon); b.onclick=()=>{ if(NSCRUB.skip) return; uiSfx('tap'); go(b.dataset.sec); }; });
+document.querySelectorAll('#nav2 button').forEach(b=>{ b.querySelector('i').innerHTML=ic(SECS[b.dataset.sec].icon); b.onclick=()=>{ if(NSCRUB.skip) return; uiSfx('tap'); if(b.dataset.sec===UI.sec){ retap(); return; } go(b.dataset.sec); }; });
 $('#t2Search').innerHTML=ic('search'); $('#t2Back').innerHTML=ic('chevL'); $('#srIco').innerHTML=ic('search');
 const SUBBOX={mant:'#stMant',papeles:'#stPap',coche:'#stCoche'}, SUBPB={mant:'#pbMant',papeles:'#pbPap',coche:'#pbCoche'};
 for(const [sec,box] of Object.entries(SUBBOX)){
@@ -6119,10 +6170,10 @@ function renderCompras(){
   const sec=(title,icon,list,empty,row)=>{ const c=h2(`<div class="card2" style="margin-top:14px"><h3>${ic(icon)}${title}<span class="cnt">${list.length}</span></h3><div class="l2"></div></div>`), l=c.querySelector('.l2'); if(!list.length) l.append(h2(`<div class="empty2" style="padding:10px">${empty}</div>`)); list.forEach(x=>l.append(row(x))); wrap.append(c); };
   sec('Por comprar','cart',pend,'Nada pendiente. Añade arriba lo que necesites comprar.', x=>{
     const r=h2(`<div class="cmpi"><button type="button" class="ck" aria-label="Marcar como comprado"></button><button type="button" class="tx"><b>${esc(x.nombre)}${x.cantidad>1?` <em>×${x.cantidad}</em>`:''}</b>${x.notas?`<small>${esc(x.notas)}</small>`:''}</button></div>`);
-    r.querySelector('.ck').onclick=()=>{ uiSfx('tap'); compraSheet(x,'comprar'); }; r.querySelector('.tx').onclick=()=>compraSheet(x); return r; });
+    r.querySelector('.ck').onclick=()=>{ uiSfx('tap'); compraSheet(x,'comprar'); }; r.querySelector('.tx').onclick=()=>compraSheet(x); r._swR={l:'Comprado',i:'check',fn:()=>compraSheet(x,'comprar')}; return r; });
   sec('Comprado · pendiente de montar','wrench',comp,'Cuando marques algo como comprado aparecerá aquí hasta que lo montes.', x=>{
     const r=h2(`<div class="cmpi done"><span class="ck on">${ic('check')}</span><button type="button" class="tx"><b>${esc(x.nombre)}${x.cantidad>1?` <em>×${x.cantidad}</em>`:''}</b><small>${fmtDate(x.fechaCompra)}${x.tienda?' · '+esc(x.tienda):''}${x.montaje==='taller'?' · 🔧 taller'+(x.manoObra!=null?' '+eur(x.manoObra):''):''}${x.adjuntos?.length?' · 📎 '+x.adjuntos.length:''}</small></button><span class="pr">${x.precio!=null?eur(x.precio):'—'}</span><button type="button" class="btn2 mnt">${ic('wrench')}Montado</button></div>`);
-    r.querySelector('.tx').onclick=()=>compraSheet(x); r.querySelector('.mnt').onclick=()=>montarCompra(x); return r; });
+    r.querySelector('.tx').onclick=()=>compraSheet(x); r.querySelector('.mnt').onclick=()=>montarCompra(x); r._swR={l:'Montado',i:'wrench',fn:()=>montarCompra(x)}; return r; });
   const hc=h2(`<div class="card2" style="margin-top:14px"><h3>${ic('history')}Historial de compras<span class="cnt">${eur(tot)}</span></h3><div class="l2"></div></div>`), hl2=hc.querySelector('.l2');
   if(!hist.length) hl2.append(h2('<div class="empty2" style="padding:10px">Aún no has registrado compras.</div>'));
   for(const x of hist){ const r=h2(`<button type="button" class="r2" style="--c:${x.estado==='montado'?'var(--ok)':'var(--soon)'}"><span class="ic">${ic(x.estado==='montado'?'checkc':'cart')}</span><span class="tx"><b>${esc(x.nombre)}${x.cantidad>1?' ×'+x.cantidad:''}</b><small>${fmtDate(x.fechaCompra)}${x.tienda?' · '+esc(x.tienda):''} · ${x.estado==='montado'?'Montado'+(x.fechaMontaje?' el '+fmtDate(x.fechaMontaje):'')+(x.montaje==='taller'?' en taller'+(x.manoObra!=null?' ('+eur(x.manoObra)+' mano de obra)':''):' por mí'):'Sin montar'}</small></span><span class="rt">${x.precio!=null?eur(x.precio):'—'}</span></button>`); r.onclick=()=>compraSheet(x); hl2.append(r); }
@@ -6508,7 +6559,7 @@ function intSheet(x){
 }
 { const _hl=histList; histList=function(list, withDelete){
     const box=_hl(list, withDelete); box.classList.add('hist2');
-    [...box.children].forEach((h,i)=>{ const x=list[i]; if(!x) return; h.classList.add('tap'); h.addEventListener('click',e=>{ if(e.target.closest('.thumb,.att,a,button,img')) return; uiSfx('tap'); intSheet(x); }); });
+    [...box.children].forEach((h,i)=>{ const x=list[i]; if(!x) return; h.classList.add('tap'); if(withDelete) h._swL={l:'Borrar',i:'x',danger:true,fn:()=>{ if(confirm('¿Borrar esta intervención? Podrás deshacerlo justo después.')) delDoc('intervenciones', x._id, stripId2(x), 'Intervención borrada'); }}; h.addEventListener('click',e=>{ if(e.target.closest('.thumb,.att,a,button,img')) return; uiSfx('tap'); intSheet(x); }); });
     return box; }; }
 /* 18: formularios de alta plegados tras un botón (Plan, Fusibles, Averías) */
 function foldForm(form, label, key){
@@ -6552,15 +6603,44 @@ function gTab(dir){
 /* indicador lateral (flecha que asoma al deslizar desde el borde) */
 const gEdge=h2(`<div class="gedge" aria-hidden="true">${ic('chevL')}</div>`); document.body.append(gEdge);
 const gPull=h2(`<div class="gpull" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15"/><path d="M20 20 L20 8"/></svg></div>`); document.body.append(gPull);
+/* C: gesto atrás como en iOS: la pantalla sigue al dedo y debajo asoma adónde vas */
+const gUnder=h2('<div class="gunder" aria-hidden="true"><span></span></div>'); document.body.append(gUnder);
+function backTarget(){ return UI.sec==='coche' && UI.sub.coche==='3d' ? $('.app') : $('#pages'); }
+function backLabel(){
+  if(!$('#sheet2').hidden || document.querySelector('.csw') || !$('#srch').hidden) return null;
+  if(!$('#t2Back').hidden) return SECS[UI.sec].t;
+  const k=NAVH.back[NAVH.back.length-1]; if(!k) return null; const [s2,sub]=k.split('/'); const sl=(SECS[s2]?.subs||[]).find(x=>x[0]===sub)?.[1]; return SECS[s2]?.t+(sl?' · '+sl:'');
+}
+let BK=null;
+function backDrag(dx){
+  if(!BK){ const lab=backLabel(); BK={el:(lab==null?null:backTarget()), lab}; gUnder.querySelector('span').textContent = lab ? '‹ '+lab : ''; if(BK.el){ gUnder.classList.add('on'); BK.el.classList.add('bkdrag'); } }
+  if(!BK.el){ const p=Math.min(1,dx/120); gEdge.classList.remove('r'); gEdge.style.opacity=p; gEdge.style.transform=`translateY(-50%) translateX(${Math.min(dx,120)*.5}px) scale(${.7+p*.3})`; gEdge.classList.toggle('go',p>=1); return; }
+  const x=Math.max(0,dx); BK.el.style.transition='none'; BK.el.style.transform=`translateX(${x}px)`; gUnder.style.opacity=String(1-Math.min(.6,x/innerWidth)); gUnder.querySelector('span').style.transform=`translateX(${-40+x*.15}px)`; }
+function backEnd(ok){
+  const bk=BK; BK=null; gReset(); if(!bk) return; if(!bk.el){ if(ok && !gBack()) toast('No hay nada atrás'); return; }
+  const el=bk.el, done=()=>{ el.style.transition=''; el.style.transform=''; el.classList.remove('bkdrag'); gUnder.classList.remove('on'); gUnder.style.opacity=''; };
+  if(!ok){ el.style.transition='transform .32s cubic-bezier(.2,1.25,.4,1)'; el.style.transform='translateX(0)'; setTimeout(done,330); return; }
+  el.style.transition='transform .2s cubic-bezier(.4,0,1,1)'; el.style.transform=`translateX(${innerWidth}px)`;
+  setTimeout(()=>{ done(); gBack(); const n=backTarget(); if(n && !RM) n.animate([{transform:`translateX(${-innerWidth*.25}px)`,opacity:.6},{transform:'none',opacity:1}],{duration:260,easing:'cubic-bezier(.2,.8,.2,1)'}); }, 190);
+}
+/* F: deslizar una fila para actuar (compras a la derecha, intervenciones a la izquierda) */
+function rowDrag(g, dx){
+  const r=g.row; if(!g.act){ const a=dx<0?r._swL:r._swR; g.act=a; g.sw=h2(`<span class="swact ${dx<0?'l':'r'}${a.danger?' danger':''}">${ic(a.i)}<b>${esc(a.l)}</b></span>`); r.classList.add('swiping'); r.append(g.sw); }
+  const lim=dx<0?-150:150, x=dx<0?Math.max(lim,dx):Math.min(lim,dx); r.style.transition='none'; r.style.transform=`translateX(${x}px)`; g.sw.classList.toggle('go', Math.abs(x)>=90);
+  if(Math.abs(x)>=90 && !g.buzz){ g.buzz=true; uiSfx('tick'); haptic?.('tick'); } if(Math.abs(x)<90) g.buzz=false; }
+function rowEnd(g, dx){ const r=g.row; if(!r) return; const go2=Math.abs(dx)>=90 && g.act;
+  r.style.transition='transform .3s cubic-bezier(.2,1.2,.4,1)'; r.style.transform=''; setTimeout(()=>{ r.style.transition=''; r.classList.remove('swiping'); g.sw?.remove(); }, 320);
+  if(go2) setTimeout(()=>g.act.fn(), 120); }
 const NOSWIPE='input,textarea,select,.subtabs,.chips2,.hchips,.app,.stage,.csw,.cspop,.gal,.lbx,[data-noswipe],.srch,.wiz,.splash,.ybars2,.avm';
 let G=null;
 document.addEventListener('touchstart',e=>{
   if(e.touches.length!==1 || document.getElementById('splash') || e.target.closest?.('#nav2')){ G=null; return; }
   const t=e.touches[0], W=innerWidth, tgt=e.target;
   const inSheet=tgt.closest?.('.shbox, .csw.m .cspop');
+  let row=tgt.closest?.('.cmpi, .hist2 .h'); if(row && !(row._swL||row._swR)) row=null;
   G={x0:t.clientX, y0:t.clientY, x:t.clientX, y:t.clientY, t0:performance.now(), mode:null, tgt,
      edgeL: t.clientX<26, edgeR: t.clientX>W-26, sheet: inSheet, scroller: tgt.closest?.('.pin2,.pbody'),
-     canTab: !tgt.closest?.(NOSWIPE) && !inSheet && !(UI.sec==='coche' && UI.sub.coche==='3d'), page: document.querySelector('.page.on .pbody, .page.on .pin2, .page.on')};
+     row, canTab: !tgt.closest?.(NOSWIPE) && !inSheet && !(UI.sec==='coche' && UI.sub.coche==='3d'), page: document.querySelector('.page.on .pbody, .page.on .pin2, .page.on')};
 },{passive:true});
 document.addEventListener('touchmove',e=>{
   if(!G) return; const t=e.touches[0]; G.x=t.clientX; G.y=t.clientY; const dx=G.x-G.x0, dy=G.y-G.y0;
@@ -6568,12 +6648,15 @@ document.addEventListener('touchmove',e=>{
     if(Math.abs(dx)<10 && Math.abs(dy)<10) return;
     if(G.sheet && dy>0 && Math.abs(dy)>Math.abs(dx) && (G.sheet.scrollTop||0)<=0 && !G.tgt.closest('.csl, textarea')) G.mode='sheet';
     else if(G.edgeL && dx>0 && Math.abs(dx)>Math.abs(dy)) G.mode='back';
+    else if(G.row && Math.abs(dx)>Math.abs(dy)*1.3 && ((dx<0&&G.row._swL)||(dx>0&&G.row._swR))) G.mode='row';
     else if(G.edgeR && dx<0 && Math.abs(dx)>Math.abs(dy) && NAVH.fwd.length) G.mode='fwd';
     else if(UI.sec==='inicio' && dy>0 && Math.abs(dy)>Math.abs(dx)*1.5 && ($('#pgInicio')?.scrollTop||0)<=0 && !G.sheet) G.mode='pull';
     else { G.mode='none'; return; }
   }
   if(G.mode==='sheet'){ const box=G.sheet.closest('.shbox')||G.sheet; box.style.transition='none'; box.style.transform=`translateY(${Math.max(0,dy)}px)`; }
-  else if(G.mode==='back'||G.mode==='fwd'){ const p=Math.min(1,Math.abs(dx)/120); gEdge.classList.toggle('r',G.mode==='fwd'); gEdge.style.opacity=p; gEdge.style.transform=`translateY(-50%) translateX(${G.mode==='back'?Math.min(dx,120)*.5:Math.max(dx,-120)*.5}px) scale(${.7+p*.3})`; gEdge.classList.toggle('go',p>=1);
+  else if(G.mode==='back'){ backDrag(dx); }
+  else if(G.mode==='row'){ rowDrag(G, dx); }
+  else if(G.mode==='fwd'){ const p=Math.min(1,Math.abs(dx)/120); gEdge.classList.toggle('r',G.mode==='fwd'); gEdge.style.opacity=p; gEdge.style.transform=`translateY(-50%) translateX(${G.mode==='back'?Math.min(dx,120)*.5:Math.max(dx,-120)*.5}px) scale(${.7+p*.3})`; gEdge.classList.toggle('go',p>=1);
     const pg=document.querySelector('.page.on'); if(pg && G.mode==='back'){ pg.style.transition='none'; pg.style.transform=`translateX(${Math.min(dx,140)*.35}px)`; } }
   else if(G.mode==='tab'){ const pg=G.page; if(pg){ pg.style.transition='none'; pg.style.transform=`translateX(${dx*.28}px)`; pg.style.opacity=String(1-Math.min(.35,Math.abs(dx)/600)); } }
   else if(G.mode==='pull'){ const d=Math.min(110, dy*.5); gPull.style.opacity=Math.min(1,d/70); gPull.style.transform=`translate(-50%, ${d}px)`; gPull.querySelector('path').style.transform=`rotate(${-90+Math.min(1,d/70)*180}deg)`; gPull.classList.toggle('go', d>=70); const pi=$('#pgInicio'); if(pi){ pi.style.transition='none'; pi.style.transform=`translateY(${d*.6}px)`; } }
@@ -6583,13 +6666,83 @@ function gReset(){ const pg=document.querySelector('.page.on'); for(const el2 of
 document.addEventListener('touchend',()=>{
   if(!G) return; const g=G; G=null; const dx=g.x-g.x0, dy=g.y-g.y0, dt=performance.now()-g.t0, fast=dt<280;
   if(g.mode==='sheet'){ const box=g.sheet.closest('.shbox')||g.sheet; box.style.transition='transform .25s ease'; if(dy>110 || (fast && dy>40)){ box.style.transform='translateY(100%)'; setTimeout(()=>{ box.style.transform=''; box.style.transition=''; if(box.closest('.csw')) closeCsel(); else $('#sheet2').hidden=true; },220); } else box.style.transform=''; return; }
-  if(g.mode==='back'){ const ok = dx>110 || (fast && dx>50); gReset(); if(ok && !gBack()) toast('No hay nada atrás'); return; }
+  if(g.mode==='back'){ backEnd(dx>innerWidth*.33 || (fast && dx>50)); return; }
+  if(g.mode==='row'){ rowEnd(g, dx); return; }
   if(g.mode==='fwd'){ const ok = -dx>110 || (fast && -dx>50); gReset(); if(ok) gFwd(); return; }
   if(g.mode==='tab'){ const ok = Math.abs(dx)>90 || (fast && Math.abs(dx)>45); const pg=g.page; gReset();
     if(ok && gTab(dx<0?1:-1)){ const np=document.querySelector('.page.on .pbody, .page.on .pin2, .page.on'); if(np && !RM){ np.animate([{transform:`translateX(${dx<0?40:-40}px)`,opacity:.4},{transform:'none',opacity:1}],{duration:240,easing:'cubic-bezier(.2,.8,.2,1)'}); } } return; }
   if(g.mode==='pull'){ const go2=gPull.classList.contains('go'); gReset(); if(go2){ uiSfx('ratchet'); renderInicio(true); try{ window.__pwa?.check?.(true); }catch{} toast('Inicio actualizado'); } return; }
 },{passive:true});
 document.addEventListener('touchcancel',()=>{ if(G){ G=null; gReset(); } },{passive:true});
+
+
+/* ====================== v1.6: movimiento ====================== */
+/* A: píldora naranja que viaja entre botones (barra inferior y pestañas) */
+const navPill=h2('<span class="navpill" aria-hidden="true"></span>'); $('#nav2').prepend(navPill);
+function placePill(pill, btn, instant){ if(!btn || !pill.parentNode){ pill.style.opacity=0; return; } const i=btn.querySelector('i')||btn, host=pill.parentNode;
+  const hr=host.getBoundingClientRect(), r=i.getBoundingClientRect();
+  if(instant) pill.style.transition='none';
+  pill.style.opacity=1; pill.style.width=r.width+'px'; pill.style.height=r.height+'px'; pill.style.transform=`translate(${r.left-hr.left+host.scrollLeft}px,${r.top-hr.top+host.scrollTop}px)`;
+  if(instant){ pill.offsetWidth; pill.style.transition=''; } }
+function syncNavPill(instant){ placePill(navPill, NSCRUB.on && NSCRUB.hov ? NSCRUB.hov : document.querySelector('#nav2 button[aria-current="page"]'), instant); }
+for(const box of Object.values(SUBBOX)){ const st=$(box); if(st && !st.querySelector('.stpill')) st.prepend(h2('<span class="stpill" aria-hidden="true"></span>')); }
+function syncSubPills(instant){ for(const box of Object.values(SUBBOX)){ const st=$(box); if(!st || !st.offsetParent) continue; placePill(st.querySelector('.stpill'), st.querySelector('button[aria-selected="true"]'), instant); } }
+addEventListener('resize',()=>{ syncNavPill(true); syncSubPills(true); });
+new MutationObserver(()=>{ if(NSCRUB.on) syncNavPill(); }).observe($('#nav2'),{subtree:true,attributes:true,attributeFilter:['class']});
+/* B: transiciones con dirección entre secciones y pestañas  ·  H: cada pestaña recuerda su posición */
+const SCROLLMEM={};
+const pageBody=sec=>document.querySelector(`.page[data-sec="${sec}"] .pbody, .page[data-sec="${sec}"] .pin2`);
+function slideIn(el, dir){ if(!el || RM || !dir) return; el.animate([{transform:`translateX(${dir*34}px)`,opacity:.35},{transform:'none',opacity:1}],{duration:280,easing:'cubic-bezier(.2,.8,.2,1)'}); }
+{ const _go=go; go=function(sec, sub, opts={}){
+    const prev=UI.sec, pb=pageBody(prev); if(pb) SCROLLMEM[prev+'/'+(UI.sub[prev]||'')]=pb.scrollTop;
+    const r=_go(sec, sub, opts);
+    requestAnimationFrame(()=>{ syncNavPill(); syncSubPills(prev!==sec);
+      if(prev!==sec && !opts.silent){ const d=Math.sign(SEC_ORDER.indexOf(sec)-SEC_ORDER.indexOf(prev)); slideIn(document.querySelector(`.page[data-sec="${sec}"]`), d); } });
+    return r; }; }
+{ const _os=openSub; openSub=function(sec, sub){
+    const prevSub=UI.sub[sec], pb=pageBody(sec); if(pb && UI.sec===sec) SCROLLMEM[sec+'/'+(prevSub||'')]=pb.scrollTop;
+    const subs=SECS[sec].subs||[], d=Math.sign(subs.findIndex(x=>x[0]===sub)-subs.findIndex(x=>x[0]===prevSub));
+    const r=_os(sec, sub);
+    requestAnimationFrame(()=>{ syncSubPills(); const nb=pageBody(sec); if(nb){ const y=SCROLLMEM[sec+'/'+sub]; if(y) requestAnimationFrame(()=>{ nb.scrollTop=y; }); if(prevSub!==sub && UI.sec===sec) slideIn(nb, d); } });
+    return r; }; }
+requestAnimationFrame(()=>{ syncNavPill(true); syncSubPills(true); });
+setTimeout(()=>{ syncNavPill(true); syncSubPills(true); }, 600);
+/* D: volver a pulsar la sección en la que estás: arriba del todo, y si ya estás arriba, a su primera pestaña */
+function retap(){
+  const sec=UI.sec, pb=pageBody(sec);
+  if(sec==='mas' && UI.mas){ $('#t2Back').click(); return; }
+  if(document.body.classList.contains('formopen')){ $('#t2Back').click(); return; }
+  if(pb && pb.scrollTop>6 && !(sec==='coche' && UI.sub.coche==='3d')){ pb.scrollTo({top:0, behavior: RM?'auto':'smooth'}); return; }
+  const subs=SECS[sec].subs; if(subs && UI.sub[sec]!==subs[0][0]){ openSub(sec, subs[0][0]); setTop(); }
+}
+/* E: mantener pulsado un botón de la barra: atajos de esa sección */
+const NAVMENU={
+  inicio:[['gauge','Actualizar kilómetros',quickKm],['search','Buscar',openSearch]],
+  coche:[['cube','Modelo 3D',()=>go('coche','3d')],['tag','Datos del coche',()=>go('coche','ficha')],['zap','Fusibles',()=>go('coche','fus')],['alert','Registrar avería',()=>{ S.aveEdit=null; UI.addAve=true; go('coche','ave'); }]],
+  mant:[['plus','Registrar intervención',()=>openIntForm({back:'mant'})],['cart','Añadir a la compra',()=>compraSheet(null)],['list','Plan',()=>go('mant','plan')],['history','Historial',()=>go('mant','hist')]],
+  papeles:[['shield','Añadir documento',()=>{ S.docEdit=null; UI.docForm=true; go('papeles','docs'); }],['camera','Fotografiar factura',()=>$('#camIn').click()],['image','Facturas y fotos',()=>go('papeles','fotos')]],
+  mas:[['sliders','Ajustes',()=>{ go('mas'); masOpen('ajustes'); }],['alert','Avisos',()=>{ go('mas'); masOpen('avisos'); }],['download','Copia de seguridad',()=>{ go('mas'); masOpen('backup'); }]],
+};
+function closeNavMenu(){ document.querySelector('.navmenu')?.remove(); document.querySelector('.navmenubg')?.remove(); }
+function openNavMenu(btn){
+  closeNavMenu(); const items=NAVMENU[btn.dataset.sec]; if(!items) return;
+  const bg=h2('<div class="navmenubg"></div>'), m=h2(`<div class="navmenu" role="menu"><b>${esc(SECS[btn.dataset.sec].t)}</b></div>`);
+  for(const [i,l,fn] of items){ const it=h2(`<button type="button" role="menuitem">${ic(i)}<span>${esc(l)}</span></button>`); it.onclick=()=>{ uiSfx('tap'); closeNavMenu(); fn(); }; m.append(it); }
+  const t0=performance.now(); bg.onclick=()=>{ if(performance.now()-t0<500) return; closeNavMenu(); }; m.addEventListener('click',e=>{ if(performance.now()-t0<350) e.stopPropagation(); },true); document.body.append(bg, m);
+  const r=btn.getBoundingClientRect(), w=Math.min(250, innerWidth-24); m.style.width=w+'px';
+  m.style.left=Math.max(12, Math.min(innerWidth-w-12, r.left+r.width/2-w/2))+'px'; m.style.bottom=(innerHeight-r.top+10)+'px';
+  m.style.transformOrigin=`${r.left+r.width/2-parseFloat(m.style.left)}px 100%`;
+  uiSfx('open'); haptic?.('tap'); try{ navigator.vibrate?.(18); }catch{}
+}
+{ const nav=$('#nav2'); let lt=null, lx=0;
+  nav.addEventListener('touchstart',e=>{ const b=e.target.closest('button'); lx=e.touches[0].clientX; clearTimeout(lt); if(!b) return; lt=setTimeout(()=>{ if(NSCRUB.on) return; NSCRUB.skip=true; setTimeout(()=>NSCRUB.skip=false,600); openNavMenu(b); },460); },{passive:true});
+  nav.addEventListener('touchmove',e=>{ if(Math.abs(e.touches[0].clientX-lx)>8) clearTimeout(lt); },{passive:true});
+  nav.addEventListener('touchend',()=>clearTimeout(lt),{passive:true});
+  nav.addEventListener('contextmenu',e=>{ const b=e.target.closest('button'); if(!b) return; e.preventDefault(); openNavMenu(b); });
+}
+/* G: el botón + gira y se convierte en ✕ mientras su hoja está abierta */
+new MutationObserver(()=>{ const open=!$('#sheet2').hidden && !!$('#shBox .fabg'); document.body.classList.toggle('fabopen', open); }).observe($('#sheet2'),{attributes:true,attributeFilter:['hidden']});
+{ const f=$('#fab2'), _fc=f.onclick; f.onclick=e=>{ if(document.body.classList.contains('fabopen')){ $('#sheet2').hidden=true; uiSfx('tap'); return; } _fc(e); document.body.classList.toggle('fabopen', !!$('#shBox .fabg')); }; }
 
 /* ---------- pantalla: zonas seguras del iPhone ----------
    En algunas versiones de iOS la app instalada recibe una ventana más baja que la pantalla y deja una franja
