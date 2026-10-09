@@ -1,15 +1,19 @@
 {
- "version": "2.1.0-beta.3",
+ "version": "2.1.0-beta.4",
  "fecha": "2026-10-09",
  "notas": [
-  "Arreglado: al saltar la pantalla de arranque con el motor arrancando salían 3 errores en rojo."
+  "Fusibles y relés: cajas con su dibujo numerado, cada fusible con su amperaje y qué protege, y relés con su número y qué gestionan (filtrado para tu 2.5 TDI).",
+  "Guías nuevas: Ubicación de todos los fusibles y de todos los relés, con fotos.",
+  "Guías: los pasos pueden llevar título y foto."
  ],
  "historial": [
   {
-   "version": "2.1.0-beta.3",
+   "version": "2.1.0-beta.4",
    "fecha": "2026-10-09",
    "notas": [
-    "Arreglado: al saltar la pantalla de arranque con el motor arrancando salían 3 errores en rojo."
+    "Fusibles y relés: cajas con su dibujo numerado, cada fusible con su amperaje y qué protege, y relés con su número y qué gestionan (filtrado para tu 2.5 TDI).",
+    "Guías nuevas: Ubicación de todos los fusibles y de todos los relés, con fotos.",
+    "Guías: los pasos pueden llevar título y foto."
    ]
   }
  ]

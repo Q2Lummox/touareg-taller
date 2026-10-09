@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.0-beta.3">
+<meta name="app-version" content="2.1.0-beta.4">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2269,6 +2269,66 @@ body.an-full .card2:has(.r2[style*="--due"]){border-color:transparent;background
 body.an-lo .card2:has(.r2[style*="--due"]){animation:none}
 /* sin movimiento */
 body.an-off .stg,body.an-off .srin,body.an-off .wlab.lin{animation:none!important}
+
+/* =====================================================================
+   Fusibles y relés (v2m.js) — las dos pestañas comparten el mismo diseño
+   ===================================================================== */
+.eboxes{display:flex;flex-direction:column;gap:14px;margin-top:12px}
+.ebox{border-radius:18px;background:var(--card);border:1px solid var(--card-line);overflow:hidden;box-shadow:0 10px 30px #0003}
+.ebox>header{display:flex;align-items:center;gap:12px;padding:14px 14px 10px;background:none;box-shadow:none;border:0;position:static;margin:0;width:auto;height:auto;color:var(--txt)}
+.ebox .eic{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;flex:none;background:linear-gradient(140deg,#4cc8ff2e,#4cc8ff0a);color:#7fdcff}
+.ebox .eic svg{width:22px;height:22px}
+.ebox header .tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.ebox header .tx b{font:700 16px var(--f-body)}
+.ebox header .tx small{color:var(--txt-2);font-size:12.5px;line-height:1.35}
+.ebox .ecnt{font:700 12px var(--f-body);color:var(--txt-2);background:var(--card-2);border:1px solid var(--card-line);border-radius:999px;padding:3px 9px}
+.eart{padding:0 14px}
+.eimg{position:relative;display:block;width:100%;padding:0;border:1px solid var(--card-line);border-radius:14px;background:#fff;overflow:hidden;cursor:zoom-in}
+.eimg img{display:block;width:100%;max-height:420px;object-fit:contain}
+.eimg span{position:absolute;right:8px;bottom:8px;display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:999px;background:#000a;color:#fff;font:600 12px var(--f-body)}
+.eimg span svg{width:14px;height:14px}
+.eacts{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:10px 14px 0}
+.eacts p{margin:0;flex:1 1 220px}
+.elist{display:flex;flex-direction:column;padding:8px 8px 10px}
+.elrow{display:flex;align-items:center;gap:10px;width:100%;padding:9px 8px;border:0;border-bottom:1px solid var(--card-line);background:none;color:var(--txt);text-align:left;cursor:pointer;font:inherit;border-radius:10px;transition:background .15s}
+.elrow:last-child{border-bottom:0}
+.elrow:hover{background:#ffffff08}
+.elrow .epos{flex:none;min-width:48px;padding:3px 7px;border-radius:8px;background:var(--card-2);border:1px solid var(--card-line);font:700 12.5px var(--f-mono,ui-monospace);text-align:center;color:var(--txt)}
+.elrow .tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.elrow .tx b{font-weight:600;font-size:14px;line-height:1.3}
+.elrow .tx small{color:var(--txt-2);font-size:12px;line-height:1.35}
+.elrow>svg{width:16px;height:16px;color:var(--txt-3);flex:none}
+.elrow.st-libre,.elrow.st-na{opacity:.6}
+.erest{margin:0 14px 12px;font-size:13px}
+.erest summary{cursor:pointer;color:var(--txt-2);padding:6px 2px}
+/* fusible dibujado con su color de amperaje */
+.fz{position:relative;flex:none;display:inline-grid;place-items:center;width:34px;height:40px}
+.fz i{position:absolute;inset:4px 6px 10px;border-radius:5px 5px 3px 3px;background:linear-gradient(160deg,color-mix(in srgb,var(--fc) 100%,#fff 25%),var(--fc) 55%,color-mix(in srgb,var(--fc) 80%,#000));box-shadow:inset 0 1px 0 #ffffff66,0 2px 6px #0006}
+.fz i::before,.fz i::after{content:"";position:absolute;bottom:-8px;width:5px;height:8px;border-radius:0 0 2px 2px;background:linear-gradient(#d9dde2,#9aa2ab)}
+.fz i::before{left:3px}.fz i::after{right:3px}
+.fz b{position:relative;z-index:1;margin-top:-6px;font:800 11px var(--f-body);color:#111;text-shadow:0 1px 0 #ffffff80}
+.fz.big{width:40px}
+.fz.big i{inset:8px 3px 12px;border-radius:4px;background:linear-gradient(160deg,#e3e7ec,#aeb6bf)}
+.fz.big b{font-size:10px}
+/* relé dibujado con su número de tapa */
+.rz{position:relative;flex:none;display:inline-grid;place-items:center;width:38px;height:38px}
+.rz i{position:absolute;inset:3px;border-radius:7px;background:linear-gradient(160deg,#3b434c,#1c2126);border:1px solid #ffffff22;box-shadow:inset 0 1px 0 #ffffff18,0 2px 6px #0006}
+.rz i::after{content:"";position:absolute;left:6px;right:6px;top:5px;height:3px;border-radius:2px;background:#4cc8ff;opacity:.55}
+.rz b{position:relative;z-index:1;margin-top:5px;font:800 11px var(--f-body);color:#e9eef3}
+body.ui2.light .rz i{background:linear-gradient(160deg,#4a535d,#262c33)}
+.eldet .elhead{display:flex;align-items:center;gap:12px;margin:0 0 10px}
+.eldet .elhead b{font:800 20px var(--f-display);letter-spacing:.04em}
+.eldet .elhead small{display:block;color:var(--txt-2)}
+.eldet .fz{transform:scale(1.3);transform-origin:left center;margin-right:10px}
+.eldet .rz{transform:scale(1.3);transform-origin:left center;margin-right:10px}
+.eldet .ff{margin-top:12px}
+/* guías: título y foto de cada paso */
+.gsteps .gtit{display:block;font-weight:700;margin:0 0 4px}
+.gimg{display:block;width:100%;max-width:520px;margin:8px 0 2px;padding:0;border:1px solid var(--card-line);border-radius:12px;overflow:hidden;background:#000;cursor:zoom-in}
+.gimg img{display:block;width:100%;height:auto}
+.gsteps li.ghit{background:color-mix(in srgb,var(--accent) 9%,transparent);border-radius:12px;padding-left:8px;padding-right:8px}
+body.ui2.light .ebox{box-shadow:0 8px 24px #0000000f}
+.fz.w b{font-size:8.5px;letter-spacing:-.02em}
 </style>
 
 </head>
@@ -2311,7 +2371,7 @@ body.an-off .stg,body.an-off .srin,body.an-off .wlab.lin{animation:none!importan
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.0-beta.3</span>
+  <span class="spver">v2.1.0-beta.4</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5726,7 +5786,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.0-beta.3';
+  const APP_VERSION='2.1.0-beta.4';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -8689,12 +8749,14 @@ function importCheck(d){
   const imgs=L.filter(l=>l.img?.b64).length;
   const CI=d?.circuitos||[]; for(const c of CI){ if(!c.id) err.push('Hay un circuito sin identificador.'); if(!(c.cables||[]).length) warn.push(`El circuito «${c.titulo||c.id}» no tiene cables.`); }
   const cEx=CI.filter(c=>S.v2.circuitos.some(x=>x._id==='C_'+safeId(c.id))); if(cEx.length) warn.push(`${cEx.length} circuito(s) ya existen y se sustituirán.`);
-  return {err, warn, n:{laminas:L.length, piezas:nP, imgs, pares:P.length, guias:G.length, ficha:F.length-fBad.length, manuales:M.length, circuitos:CI.length}};
+  const EL=d?.electrico||[]; for(const c of EL) if(!c.id) err.push('Hay una caja de fusibles o relés sin identificador.');
+  const nFus=EL.filter(c=>c.tipo==='fusibles').reduce((a,c)=>a+(c.items||[]).length,0), nRel=EL.filter(c=>c.tipo==='reles').reduce((a,c)=>a+(c.items||[]).length,0);
+  return {err, warn, n:{laminas:L.length, piezas:nP, imgs:imgs+EL.filter(c=>c.img?.b64).length, pares:P.length, guias:G.length, ficha:F.length-fBad.length, manuales:M.length, circuitos:CI.length, cajas:EL.length, fusibles:nFus, reles:nRel}};
 }
 async function importRun(d, st){
   const id='lote_'+Date.now().toString(36), now=new Date().toISOString(), fuente=d.lote?.fuente||'';
   const rec={nombre:d.lote?.nombre||'Lote sin nombre', fuente, fecha:now, docs:[], prev:{}, blobs:[], fichaPrev:{}, n:importCheck(d).n};
-  const put=async(col, docId, data)=>{ const cur=(col==='catalogo'||col==='circuitos')?S.v2[col].find(c=>c._id===docId):null; if(cur) rec.prev[col+'/'+docId]=stripId2(cur); await S.db.collection(col).doc(docId).set({...data, lote:id, fuente:data.fuente||fuente, actualizado:now}); rec.docs.push(col+'/'+docId); };
+  const put=async(col, docId, data)=>{ const cur=(col==='catalogo'||col==='circuitos'||col==='electrico')?S.v2[col].find(c=>c._id===docId):null; if(cur) rec.prev[col+'/'+docId]=stripId2(cur); await S.db.collection(col).doc(docId).set({...data, lote:id, fuente:data.fuente||fuente, actualizado:now}); rec.docs.push(col+'/'+docId); };
   let k=0; const L=d.laminas||[];
   for(const l of L){ k++; st.textContent=`Láminas ${k}/${L.length}…`;
     let img=null; if(l.img?.b64 && S.assets){ try{ const up=await S.assets.upload(b64b(l.img.b64, l.img.tipo||'image/png'), {type:l.img.tipo||'image/png'}); img={id:up.id, tipo:up.contentType}; rec.blobs.push(up.id); }catch{} }
@@ -8702,9 +8764,18 @@ async function importRun(d, st){
   k=0; for(const c of (d.circuitos||[])){ k++; st.textContent=`Circuitos ${k}/${d.circuitos.length}…`;
     const esq=[]; for(const e of (c.esquemas||[])){ if(e.b64 && S.assets){ try{ const up=await S.assets.upload(b64b(e.b64, e.tipo||'image/png'), {type:e.tipo||'image/png'}); esq.push({id:up.id, tipo:up.contentType, hoja:e.hoja||''}); rec.blobs.push(up.id); }catch{} } }
     const {esquemas, ...rest}=c; await put('circuitos', 'C_'+safeId(c.id), {...rest, esquemas:esq}); }
+  const upImg=async o=>{ if(!o?.b64 || !S.assets) return null; try{ const up=await S.assets.upload(b64b(o.b64, o.tipo||'image/jpeg'), {type:o.tipo||'image/jpeg'}); rec.blobs.push(up.id); return {id:up.id, tipo:up.contentType}; }catch{ return null; } };
+  k=0; for(const c of (d.electrico||[])){ k++; st.textContent=`Fusibles y relés ${k}/${d.electrico.length}…`;
+    const {img, ...rest}=c; await put('electrico', 'E_'+safeId(c.id), {...rest, img:await upImg(img)}); }
   const byG={}; for(const p of (d.pares||[])) (byG[String(p.grupo||'0').charAt(0)]=byG[String(p.grupo||'0').charAt(0)]||[]).push({componente:String(p.componente||''), valor:String(p.valor||''), nota:String(p.nota||''), fuente:String(p.fuente||''), grupo:String(p.grupo||'')});
   for(const [g,items] of Object.entries(byG)) await put('pares', id+'_'+g, {grupo:g, items});
-  k=0; for(const g of (d.guias||[])){ k++; st.textContent=`Guías ${k}/${d.guias.length}…`; const r=await S.db.collection('procedimientos').add({titulo:g.titulo||'Guía importada', herramientas:g.herramientas||'', grupo:String(g.grupo||''), fuente:g.fuente||fuente, pasos:(g.pasos||[]).map(p=>({texto:p.texto||'', herr:p.herr||'', par:p.par||'', piezas:[]})), lote:id, actualizado:now}); rec.docs.push('procedimientos/'+r.id); }
+  k=0; for(const g of (d.guias||[])){ k++; st.textContent=`Guías ${k}/${d.guias.length}…`;
+    const pasos=[]; for(const p of (g.pasos||[])) pasos.push({texto:p.texto||'', herr:p.herr||'', par:p.par||'', piezas:[], ...(p.titulo?{titulo:p.titulo}:{}), ...(p.ancla?{ancla:p.ancla}:{}), img:await upImg(p.img)});
+    const data={titulo:g.titulo||'Guía importada', herramientas:g.herramientas||'', grupo:String(g.grupo||''), fuente:g.fuente||fuente, pasos, lote:id, actualizado:now};
+    /* si ya existe una guía importada con el mismo título, se sustituye (al deshacer vuelve la anterior) */
+    const old=(S.procs||[]).find(x=>x.lote && x.titulo===data.titulo);
+    if(old){ rec.prev['procedimientos/'+old._id]=stripId2(old); await S.db.collection('procedimientos').doc(old._id).set(data); rec.docs.push('procedimientos/'+old._id); }
+    else { const r=await S.db.collection('procedimientos').add(data); rec.docs.push('procedimientos/'+r.id); } }
   for(const m of (d.manuales||[])){ const r=await S.db.collection('manuales').add({titulo:m.titulo||'', grupo:String(m.grupo||''), enlace:m.enlace||'', nota:m.nota||'', lote:id, fuente, actualizado:now}); rec.docs.push('manuales/'+r.id); }
   const fk=new Set(FT.flatMap(g=>g[2]).map(e=>e.k)), F=(d.ficha||[]).filter(f=>fk.has(f.k) && f.v);
   if(F.length){ const ft={...(S.cfgX.fichatec||{})}; for(const f of F){ rec.fichaPrev[f.k]=ft[f.k]||null; ft[f.k]={v:String(f.v), n:f.fuente||fuente||'Importado', fecha:todayISO(), lote:id}; } await S.db.doc('config/fichatec').set(ft); }
@@ -8716,14 +8787,14 @@ async function importUndo(l, st){
   st && (st.textContent='Deshaciendo…');
   for(const p of (l.docs||[])){ const [col,did]=p.split('/'); const prev=l.prev?.[p]; if(prev) await S.db.collection(col).doc(did).set(prev); else await S.db.collection(col).doc(did).delete(); }
   if(l.fichaPrev && Object.keys(l.fichaPrev).length){ const ft={...(S.cfgX.fichatec||{})}; for(const [k,v] of Object.entries(l.fichaPrev)){ if(ft[k]?.lote!==l._id) continue; if(v) ft[k]=v; else delete ft[k]; } await S.db.doc('config/fichatec').set(ft); }
-  for(const b of (l.blobs||[])){ const still=S.v2.catalogo.some(c=>c.img?.id===b && c.lote!==l._id) || S.v2.circuitos.some(c=>c.lote!==l._id && (c.esquemas||[]).some(e=>e.id===b)); if(!still) try{ await S.assets?.delete(b); }catch{} }
+  for(const b of (l.blobs||[])){ const still=S.v2.catalogo.some(c=>c.img?.id===b && c.lote!==l._id) || S.v2.circuitos.some(c=>c.lote!==l._id && (c.esquemas||[]).some(e=>e.id===b)) || (S.v2.electrico||[]).some(c=>c.img?.id===b && c.lote!==l._id); if(!still) try{ await S.assets?.delete(b); }catch{} }
   await S.db.collection('lotes').doc(l._id).delete();
 }
 function importPreview(d, nombreArchivo){
   const c=importCheck(d), body=h2('<div></div>');
   body.append(h2(`<p class="muted2" style="margin:0 0 10px">${esc(nombreArchivo)} · ${esc(d.lote?.fuente||'fuente sin indicar')}</p>`));
   body.append(h2(`<div class="stchips">${stat(c.n.laminas,'Láminas','var(--accent)')}${stat(nf.format(c.n.piezas),'Piezas','var(--info)')}${stat(c.n.pares,'Pares de apriete','var(--soon)')}${stat(c.n.guias,'Guías','var(--ok)')}</div>`));
-  if(c.n.ficha||c.n.manuales||c.n.imgs||c.n.circuitos) body.append(h2(`<p class="muted2">${[c.n.circuitos?c.n.circuitos+' circuito(s) eléctrico(s) para el 3D':'', c.n.imgs?c.n.imgs+' ilustraciones':'', c.n.ficha?c.n.ficha+' datos de ficha técnica':'', c.n.manuales?c.n.manuales+' enlaces a manuales':''].filter(Boolean).join(' · ')}</p>`));
+  if(c.n.ficha||c.n.manuales||c.n.imgs||c.n.circuitos||c.n.cajas) body.append(h2(`<p class="muted2">${[c.n.cajas?`${c.n.cajas} cajas con ${c.n.fusibles} fusibles y ${c.n.reles} relés`:'', c.n.circuitos?c.n.circuitos+' circuito(s) eléctrico(s) para el 3D':'', c.n.imgs?c.n.imgs+' ilustraciones':'', c.n.ficha?c.n.ficha+' datos de ficha técnica':'', c.n.manuales?c.n.manuales+' enlaces a manuales':''].filter(Boolean).join(' · ')}</p>`));
   for(const e of c.err) body.append(h2(`<div class="alr due">${ic('alert')}<span>${esc(e)}</span></div>`));
   for(const w of c.warn) body.append(h2(`<div class="alr soon">${ic('alert')}<span>${esc(w)}</span></div>`));
   const L=(d.laminas||[]).slice(0,4); if(L.length){ const cc=card2('Muestra','layers'); for(const l of L) cc.querySelector('.l2').append(row2({c:'var(--accent)', i:'layers', t:`${l.id} · ${l.titulo||''}`, s:`${grpName(l.grupo??String(l.id).charAt(0))} · ${(l.piezas||[]).length} piezas${(l.piezas||[])[0]?' · p. ej. '+l.piezas[0].ref+' '+l.piezas[0].nombre:''}`})); body.append(cc); }
@@ -9328,7 +9399,7 @@ IC.fuse=IC.fuse||'<rect x="3" y="8" width="18" height="8" rx="2"/><path d="M7 8V
 IC.chevD=IC.chevD||'<path d="m6 9 6 6 6-6"/>';
 { const _go=go; go=function(...a){ elecMenuClose(); return _go(...a); }; }
 /* «Fusibles» ya no es pestaña: al entrar se muestra con «atrás» que vuelve al 3D */
-{ const _st=setTop; setTop=function(){ _st(); if(UI.sec==='coche' && UI.sub.coche==='fus'){ $('#t2Title').textContent='Fusibles'; $('#t2Sub').textContent='Coche · Electricidad'; $('#t2Back').hidden=false; } }; }
+{ const _st=setTop; setTop=function(){ _st(); if(UI.sec==='coche' && UI.sub.coche==='fus'){ $('#t2Title').textContent='Fusibles y relés'; $('#t2Sub').textContent='Coche · Electricidad'; $('#t2Back').hidden=false; } }; }
 $('#t2Back').addEventListener('click', e=>{ if(UI.sec==='coche' && UI.sub.coche==='fus'){ e.stopImmediatePropagation(); uiSfx('tap'); go('coche','3d'); } }, true);
 
 /* ---------- cableado: etiquetas por debajo de la barra de herramientas y sin pisarse ---------- */
@@ -9395,7 +9466,7 @@ document.addEventListener('pointerover', e=>{ const s=e.target.closest?.('.mi.su
 const gTools=pr=>[...new Set([pr.herramientas, ...(pr.pasos||[]).map(p=>p.herr)].filter(Boolean).flatMap(s=>String(s).split(/[,;·]/)).map(s=>s.trim()).filter(Boolean))];
 const gHas3D=pr=>(pr.pasos||[]).some(p=>p.cam || (p.piezas||[]).length);
 function guiaRun3D(pr){ closeSheet(); go('coche','3d'); const t0=Date.now(); const run=()=>{ if(!UI.modelReady && Date.now()-t0<30000) return setTimeout(run,300); try{ runProc(pr._id,0); }catch(e){ toast('No se pudo abrir la guía en el 3D','err'); } }; setTimeout(run,250); }
-function guiaRead(pr){
+function guiaRead(pr, at){
   UI.gchk=UI.gchk||{}; const done=UI.gchk[pr._id]=UI.gchk[pr._id]||new Set(); const P=pr.pasos||[];
   const body=h2('<div class="gread"></div>');
   const prog=h2(`<div class="gprog"><div class="gbar"><i></i></div><span></span></div>`); body.append(prog);
@@ -9403,10 +9474,12 @@ function guiaRead(pr){
   const meta=[pr.fuente?`Fuente: ${pr.fuente}`:'', gTools(pr).length?`Herramientas: ${gTools(pr).join(', ')}`:''].filter(Boolean);
   if(meta.length) body.append(h2(`<p class="muted2" style="margin:0 0 10px">${meta.map(esc).join('<br>')}</p>`));
   const ol=h2('<ol class="gsteps"></ol>');
-  P.forEach((p,i)=>{ const li=h2(`<li class="${done.has(i)?'on':''}"><button type="button" class="gchk" aria-label="Hecho">${ic('check')}</button><div><p>${esc(p.texto||'')}</p>${[p.herr?`${ic('wrench')}${esc(p.herr)}`:'', p.par?`${ic('gauge')}${esc(p.par)}`:'', (p.piezas||[]).length?`${ic('cube')}${esc((p.piezas||[]).map(partName).filter(Boolean).join(', '))}`:''].filter(Boolean).map(x=>`<small>${x}</small>`).join('')}</div></li>`);
+  P.forEach((p,i)=>{ const li=h2(`<li class="${done.has(i)?'on':''}"><button type="button" class="gchk" aria-label="Hecho">${ic('check')}</button><div>${p.titulo?`<b class="gtit">${esc(p.titulo)}</b>`:''}<p>${esc(p.texto||'')}</p>${p.img?.id?'<button type="button" class="gimg" aria-label="Ver la foto a pantalla completa"><img alt="" loading="lazy"></button>':''}${[p.herr?`${ic('wrench')}${esc(p.herr)}`:'', p.par?`${ic('gauge')}${esc(p.par)}`:'', (p.piezas||[]).length?`${ic('cube')}${esc((p.piezas||[]).map(partName).filter(Boolean).join(', '))}`:''].filter(Boolean).map(x=>`<small>${x}</small>`).join('')}</div></li>`);
+    if(p.img?.id){ const gb=li.querySelector('.gimg'); window.FB?.blobURL(p.img.id).then(u=>gb.querySelector('img').src=u).catch(()=>gb.remove()); gb.onclick=()=>openViewer({id:p.img.id, tipo:p.img.tipo||'image/jpeg', nombre:(p.titulo||pr.titulo||'Foto')}); }
+    if(at===i) li.classList.add('ghit');
     li.querySelector('.gchk').onclick=()=>{ if(done.has(i)) done.delete(i); else { done.add(i); uiSfx('tick'); } li.classList.toggle('on', done.has(i)); upd(); if(done.size===P.length && P.length){ celebrate(); toast('Guía completada'); } };
     ol.append(li); });
-  body.append(ol); upd();
+  body.append(ol); upd(); if(at!=null) setTimeout(()=>body.querySelector('li.ghit')?.scrollIntoView({block:'start', behavior:'smooth'}),350);
   const acts=[]; if(gHas3D(pr)) acts.push(['Seguir en el 3D','cube',()=>guiaRun3D(pr),'pri']);
   acts.push(['Editar','edit',()=>guiaEdit(pr)]);
   detailSheet(pr.titulo||'Guía', `${pl(P.length,'paso')}${done.size?` · ${done.size} hechos`:''}`, body, acts);
@@ -9799,6 +9872,73 @@ function circFix(c){ if(!c?.nodos?.some(n=>ANCLA_FIX[n.id]||ANCLA_FIX[n.cod])) r
 function navIconsCenter(){ document.querySelectorAll('#nav2 button i svg').forEach(sv=>{ if(sv.dataset.ctr) return; try{ const b=sv.getBBox(); if(!b.width) return; const cx=b.x+b.width/2, cy=b.y+b.height/2; sv.setAttribute('viewBox', `${(cx-12).toFixed(2)} ${(cy-12).toFixed(2)} 24 24`); sv.dataset.ctr='1'; }catch{} }); }
 setTimeout(navIconsCenter, 300); setTimeout(navIconsCenter, 2000);
 if(window.__wire) window.__wire.names=()=>Object.keys(parts);
+/* ====================== v2.1: FUSIBLES Y RELÉS (cajas importadas, mismo diseño para los dos) ======================
+   Colección «electrico»: un documento por caja {id, tipo:'fusibles'|'reles', nombre, corto, donde, guia, img, items:[…]}
+   fusible: {pos, amp, desc, nota, estado:'ok'|'libre'|'na'}   relé: {pos, cod, num, desc, nota, falla, estado}
+   Las notas propias de cada posición van en la colección antigua «fusibles» (id = caja_pos). */
+C2.push('electrico'); S.v2.electrico=[]; COLN.electrico='Fusibles y relés (cajas)';
+const FCOL={'5':'#d8b27a','7.5':'#8a5a2c','10':'#e0362c','15':'#2f6fe0','20':'#f2c12e','25':'#e9e9e9','30':'#3cb44b','40':'#f58220','50':'#e0362c','60':'#2f6fe0','80':'#e9e9e9'};
+function fuseColor(a){ const k=String(a||'').split('/')[0].replace(',','.'); return FCOL[k]||'#9aa3ad'; }
+function fuseIcon(a){ const c=fuseColor(a), big=Number(String(a).split('/')[0])>=100;
+  return big?`<span class="fz big" style="--fc:#b9c0c8"><i></i><b>${esc(String(a))}</b></span>`:`<span class="fz${String(a||'').length>2?' w':''}" style="--fc:${c}"><i></i><b>${esc(String(a||'—'))}</b></span>`; }
+function relayIcon(n){ return `<span class="rz"><i></i><b>${esc(String(n||'—'))}</b></span>`; }
+const elecBoxes=t=>(S.v2.electrico||[]).filter(c=>c.tipo===t).sort((a,b)=>(a.orden??99)-(b.orden??99));
+function elecNote(caja, it){ return (S.fus||[]).find(f=>f._id===safeId(caja.id+'_'+it.pos)) || null; }
+function elecGuide(caja){ if(!caja.guia) return null; const pr=(S.procs||[]).find(p=>p.titulo===caja.guia.titulo); return pr?{pr, at:caja.guia.paso??null}:null; }
+function elecItemSheet(caja, it){
+  const fus=caja.tipo==='fusibles', mine=elecNote(caja, it), body=h2('<div class="eldet"></div>');
+  body.append(h2(`<div class="elhead">${fus?fuseIcon(it.amp):relayIcon(it.num)}<div><b>${esc(it.pos)}</b><small>${esc(caja.nombre)}</small></div></div>`));
+  body.append(kv([[fus?'Amperaje':'Relé n.º (en la tapa)', fus?(it.amp?esc(String(it.amp))+' A':'Sin dato'):esc(String(it.num||'—'))], ['Código', it.cod?esc(it.cod):null],
+    [fus?'Qué protege':'Qué gestiona', esc(it.desc||'—')], ['Nota', it.nota?esc(it.nota):null], ['Si falla', it.falla?esc(it.falla):null], ['Dónde está la caja', esc(caja.donde||'')]]));
+  const ta=h2(`<div class="ff full"><label class="lab2">Tus notas</label><textarea class="inp2" rows="3" placeholder="Cambiado el …, de repuesto en la guantera, lo que sea"></textarea></div>`); ta.querySelector('textarea').value=mine?.notas||''; body.append(ta);
+  const g=elecGuide(caja), acts=[['Guardar nota','check',async()=>{ const v=ta.querySelector('textarea').value.trim(); if(!S.db) return toast('Inicia sesión para guardar','err');
+      const id=safeId(caja.id+'_'+it.pos); try{ if(v) await S.db.collection('fusibles').doc(id).set({caja:caja.nombre, pos:it.pos, amp:fus?String(it.amp||''):'', circuito:it.desc||'', notas:v, tipo:fus?'fusible':'rele', actualizado:new Date().toISOString()}); else if(mine) await S.db.collection('fusibles').doc(id).delete(); closeSheet(); toast(v?'Nota guardada':'Nota quitada'); }catch{ toast('No se pudo guardar','err'); } },'pri']];
+  if(g) acts.push(['Cómo llegar','book',()=>{ closeSheet(); setTimeout(()=>guiaRead(g.pr, g.at),120); }]);
+  detailSheet(`${it.pos} · ${fus?(it.amp?it.amp+' A':'fusible'):'relé'}`, it.desc||'', body, acts);
+}
+function elecRow(caja, it){
+  const fus=caja.tipo==='fusibles', mine=elecNote(caja, it);
+  const b=h2(`<button type="button" class="elrow st-${it.estado||'ok'}"><span class="epos">${esc(it.pos)}</span>${fus?fuseIcon(it.amp):relayIcon(it.num)}<span class="tx"><b>${esc(it.desc||'—')}</b>${[it.cod, it.nota, mine?.notas?'Tu nota: '+mine.notas:''].filter(Boolean).length?`<small>${esc([it.cod, it.nota, mine?.notas?'Tu nota: '+mine.notas:''].filter(Boolean).join(' · '))}</small>`:''}</span>${ic('chevR')}</button>`);
+  b.onclick=()=>{ uiSfx('tap'); elecItemSheet(caja, it); }; return b; }
+function elecBoxCard(caja, q){
+  const fus=caja.tipo==='fusibles', all=caja.items||[], qq=norm(q||'');
+  const match=it=>!qq || norm([it.pos, it.desc, it.cod, it.nota, it.num, it.amp&&it.amp+'a'].join(' ')).includes(qq) || norm(it.pos)===qq;
+  const L=all.filter(match); if(qq && !L.length) return null;
+  const act=L.filter(it=>!it.estado || it.estado==='ok'), rest=L.filter(it=>it.estado && it.estado!=='ok');
+  const c=h2(`<section class="ebox"><header><span class="eic">${ic(fus?'fuse':'zap')}</span><div class="tx"><b>${esc(caja.nombre)}</b><small>${esc(caja.donde||'')}</small></div><span class="ecnt">${act.length}</span></header><div class="eart"></div><div class="eacts"></div><div class="elist"></div></section>`);
+  if(caja.img?.id && !qq){ const im=h2(`<button type="button" class="eimg" aria-label="Ver la ilustración a pantalla completa"><img alt="Ilustración de ${esc(caja.nombre)}"><span>${ic('search')}Ampliar</span></button>`); window.FB?.blobURL(caja.img.id).then(u=>im.querySelector('img').src=u).catch(()=>im.remove()); im.onclick=()=>openViewer({id:caja.img.id, tipo:caja.img.tipo||'image/jpeg', nombre:caja.nombre}); c.querySelector('.eart').append(im); } else c.querySelector('.eart').remove();
+  const g=elecGuide(caja); if(g && !qq){ const bb=h2(`<button type="button" class="btn2 ghost sm">${ic('book')}Cómo llegar</button>`); bb.onclick=()=>{ uiSfx('tap'); guiaRead(g.pr, g.at); }; c.querySelector('.eacts').append(bb); }
+  if(caja.nota && !qq) c.querySelector('.eacts').append(h2(`<p class="muted2">${esc(caja.nota)}</p>`));
+  if(!c.querySelector('.eacts').children.length) c.querySelector('.eacts').remove();
+  const list=c.querySelector('.elist'); for(const it of act) list.append(elecRow(caja, it));
+  if(rest.length){ const d=h2(`<details class="erest"${qq?' open':''}><summary>${rest.length===1?'1 posición libre o de otra versión':rest.length+' posiciones libres o de otras versiones'}</summary><div class="elist"></div></details>`); for(const it of rest) d.querySelector('.elist').append(elecRow(caja, it)); c.append(d); }
+  return c; }
+function renderElec(w){
+  const tab=UI.elTab||'fusibles', F=elecBoxes('fusibles'), R=elecBoxes('reles');
+  const nF=F.reduce((a,c)=>a+(c.items||[]).filter(i=>!i.estado||i.estado==='ok').length,0), nR=R.reduce((a,c)=>a+(c.items||[]).filter(i=>!i.estado||i.estado==='ok').length,0);
+  if(!F.length && !R.length){ w.append(emptyCard('zap','Aquí van las <b>cajas de fusibles y relés</b> de tu Touareg con su dibujo numerado y qué protege cada posición. Llegan con el archivo de importación de fusibles y relés.','Importar datos',()=>{ go('mas'); masOpen('importar'); })); renderElecMine(w); return; }
+  w.append(chips([['fusibles',`Fusibles · ${nF}`],['reles',`Relés · ${nR}`]], tab, k=>{ UI.elTab=k; UI.elQ=''; v2Rerender(); }));
+  w.append(h2(`<p class="pintro">${ic(tab==='fusibles'?'fuse':'zap')}<span>${tab==='fusibles'?'Cada caja con su dibujo numerado y qué protege cada fusible. Ya filtrado para tu 2.5 TDI con cambio manual: lo de otras versiones va plegado al final de cada caja.':'Dónde está cada relé, el número que lleva en la tapa (para comprarlo igual) y qué gestiona. Mismo filtrado para tu coche.'}</span></p>`));
+  const sr=h2(`<input class="inp2 ftq" type="search" placeholder="${tab==='fusibles'?'Busca: elevalunas, luneta, SB10, 30 A…':'Busca: bomba, calentadores, J17, 404…'}" value="${esc(UI.elQ||'')}">`); w.append(sr);
+  const res=h2('<div class="eboxes"></div>'); w.append(res);
+  const draw=()=>{ res.innerHTML=''; const q=sr.value.trim(); let n=0; for(const c of (tab==='fusibles'?F:R)){ const card=elecBoxCard(c, q); if(card){ res.append(card); n++; } } if(!n) res.append(h2('<div class="empty2" style="padding:14px">Nada coincide con la búsqueda.</div>')); };
+  sr.oninput=()=>{ UI.elQ=sr.value; draw(); }; draw();
+  renderElecMine(w);
+}
+/* notas propias antiguas que no son de ninguna caja importada */
+function renderElecMine(w){ const ids=new Set((S.v2.electrico||[]).flatMap(c=>(c.items||[]).map(it=>safeId(c.id+'_'+it.pos)))); const L=(S.fus||[]).filter(f=>!ids.has(f._id)); if(!L.length) return;
+  const c=card2('Tus notas sueltas','edit',L.length); for(const f of L) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'fuse', t:[f.pos, f.circuito].filter(Boolean).join(' · ')||'Nota', s:[f.caja, f.amp?f.amp+' A':'', f.notas].filter(Boolean).join(' · ')})); w.append(c); }
+V2SUBS.coche.fus=renderElec;
+/* el menú Electricidad cuenta lo importado */
+{ const _em=elecMenu; elecMenu=function(){ _em(); const m=document.querySelector('.elecm'); if(!m) return; const nF=elecBoxes('fusibles').reduce((a,c)=>a+(c.items||[]).filter(i=>!i.estado||i.estado==='ok').length,0), nR=elecBoxes('reles').reduce((a,c)=>a+(c.items||[]).filter(i=>!i.estado||i.estado==='ok').length,0);
+    const b=[...m.querySelectorAll('button')].find(x=>/Fusibles/.test(x.textContent)); if(b && (nF||nR)) b.querySelector('small').textContent=`${nF} fusibles y ${nR} relés, con su dibujo`; }; }
+/* el buscador general encuentra fusibles y relés por lo que protegen */
+{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<3) return; const hits=[];
+    for(const c of (S.v2.electrico||[])) for(const it of (c.items||[])){ if(it.estado && it.estado!=='ok') continue; if(norm([it.pos,it.desc,it.cod].join(' ')).includes(q) || norm(it.pos)===q) hits.push([c,it]); }
+    if(!hits.length) return; const out=$('#srRes'); out.querySelector(':scope > .empty2')?.remove(); out.append(h2('<h5>Fusibles y relés</h5>'));
+    for(const [c,it] of hits.slice(0,6)){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic(c.tipo==='fusibles'?'fuse':'zap')}</span><span class="tx"><b>${esc(it.pos)} · ${hl(it.desc||'',q)}</b><small>${esc([c.tipo==='fusibles'&&it.amp?it.amp+' A':it.num?'Relé '+it.num:'', c.corto||c.nombre].filter(Boolean).join(' · '))}</small></span>${ic('chevR')}</button>`);
+      r.onclick=()=>{ closeSearch(); UI.elTab=c.tipo; go('coche','fus'); setTimeout(()=>elecItemSheet(c,it),250); }; out.append(r); } }; }
+{ let k0=''; setInterval(()=>{ const k=(S.fus||[]).map(f=>f._id+(f.notas||'')).join(); if(k!==k0){ const was=k0; k0=k; if(was && V2.cur?.fn===renderElec && document.body.contains(V2.cur.root)) v2Rerender(); } }, 1000); }
 
 connectDb();
 { const h=(location.hash||'').slice(1); go(SECS[h]?h:'inicio'); }
