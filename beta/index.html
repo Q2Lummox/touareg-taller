@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.0-beta.1">
+<meta name="app-version" content="2.1.0-beta.2">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2311,7 +2311,7 @@ body.an-off .stg,body.an-off .srin,body.an-off .wlab.lin{animation:none!importan
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.0-beta.1</span>
+  <span class="spver">v2.1.0-beta.2</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5726,7 +5726,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.0-beta.1';
+  const APP_VERSION='2.1.0-beta.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -9373,11 +9373,10 @@ function wfxSet(ids, sweep){
   WFX.raf=requestAnimationFrame(tick);
 }
 { const _wh=wireHighlight; wireHighlight=function(id){ _wh(id); wfxSet(WIRE.sel && !String(WIRE.sel).startsWith('n:')?new Set([WIRE.sel]):null); }; }
-{ const _wn=wireNodeInfo; wireNodeInfo=function(c,n){ _wn(c,n); const ids=new Set((c.cables||[]).filter(w=>(w.ruta||[]).some(a=>a===n.id) || [w.de,w.a].some(s=>s && n.cod && String(s).startsWith(n.cod))).map(w=>w.id)); wfxSet(ids); }; }
+/* la corriente animada solo va en el cable que eliges (Sergio, 9-10-2026): tocar un punto solo resalta sus cables */
+{ const _wn=wireNodeInfo; wireNodeInfo=function(c,n){ _wn(c,n); wfxClear(); }; }
 { const _wc=wireClear; wireClear=function(k){ wfxClear(); return _wc(k); }; }
-/* al abrir un circuito: un barrido de corriente por todos sus cables */
-{ const _wb=wireBuild; wireBuild=function(c){ const r=_wb(c); document.body.classList.add('wirepow'); setTimeout(()=>document.body.classList.remove('wirepow'),1600);
-    const ids=new Set((c.cables||[]).map(w=>w.id)), dl=(typeof ANIMON==='function' && ANIMON())?Math.max(700,(ids.size-1)*90+950):700; setTimeout(()=>{ if(WIRE.on===c && !WIRE.sel){ wfxSet(ids, true); setTimeout(()=>{ if(WIRE.on===c && !WIRE.sel) wfxClear(); }, 2600); } }, dl); return r; }; }
+
 
 /* ---------- Gráficos: escenario y calidad son de opción única ---------- */
 { const _rm=renderMenus; renderMenus=function(){ _rm();
@@ -9761,14 +9760,9 @@ new MutationObserver(()=>{ const s=$('#sheet2'); if(!s || s.hidden) return; cons
 /* buscador: los resultados aparecen escalonados */
 { const _rs=runSearch; runSearch=function(raw){ _rs(raw); if(!ANIMON()) return; [...($('#srRes')?.querySelectorAll(':scope > .r2, :scope > button, :scope > h5')||[])].slice(0,16).forEach((e,i)=>{ e.style.setProperty('--si',i); e.classList.add('srin'); }); }; }
 
-/* cableado: los cables «se tienden» al abrir un circuito y las etiquetas aparecen una a una */
+/* cableado: las etiquetas aparecen una a una (los cables ya no se animan al abrir: solo el que eliges) */
 { const _wb=wireBuild; wireBuild=function(c){ const r=_wb(c);
-    if(ANIMON()){ const tubes=[...(WIRE.grp?.children||[]), ...(WIRE.tubes||[])].filter(t=>t.geometry?.index); const t0=performance.now();
-      tubes.forEach(t=>t.geometry.setDrawRange(0,0));
-      const ids=[...new Set(tubes.map(t=>t.userData.wire))];
-      const tick=now=>{ let busy=false; for(const t of tubes){ const k=ids.indexOf(t.userData.wire), d=k*90, u=Math.max(0, Math.min(1, (now-t0-d)/900)); const e=1-Math.pow(1-u,3); const cnt=t.geometry.index.count; t.geometry.setDrawRange(0, Math.floor(cnt*e/3)*3); if(u<1) busy=true; }
-        dirty=true; if(busy && WIRE.on===c) requestAnimationFrame(tick); else tubes.forEach(t=>t.geometry.setDrawRange(0, Infinity)); };
-      requestAnimationFrame(tick);
+    if(ANIMON()){
       WIRE.labels.forEach((l,i)=>{ l.el.style.setProperty('--ld', (300+i*70)+'ms'); l.el.classList.add('lin'); setTimeout(()=>l.el.classList.remove('lin'), 1400+i*70); }); }
     return r; }; }
 
@@ -9795,6 +9789,16 @@ function wireFocusIds(ids){
   const fov=(camera.fov||40)*Math.PI/180, asp=Math.min(1, camera.aspect||1), dist=Math.max(1.05, (s*0.6)/Math.tan(fov/2)/asp);
   c.y-=dist*Math.tan(fov/2)*0.42; const pos=c.clone().add(side.multiplyScalar(dist*0.92)).add(new THREE.Vector3(0, dist*0.3, 0)); flyTo(c, pos); }
 { const _wh=wireHighlight; wireHighlight=function(id){ _wh(id); if(!WIRE.on) return; if(WIRE.sel && !String(WIRE.sel).startsWith('n:')) wireFocusIds(new Set([WIRE.sel])); else wireFocus(); }; }
+/* ====================== v2.1.x: ajustes pedidos el 9-10-2026 ====================== */
+/* cableado: posiciones corregidas a mano sobre el modelo (se aplican aunque el circuito importado traiga otra) */
+const ANCLA_FIX={ J519:{ancla:{ref:'dash', u:[0.39,0.19,0.27]}, donde:'Bajo el salpicadero, entre el volante y los pedales, pegada al lateral izquierdo de la consola central (ElsaWin «Control units», 203/60).'} };
+function circFix(c){ if(!c?.nodos?.some(n=>ANCLA_FIX[n.id]||ANCLA_FIX[n.cod])) return c; return {...c, nodos:c.nodos.map(n=>{ const f=ANCLA_FIX[n.id]||ANCLA_FIX[n.cod]; return f?{...n, ...f}:n; })}; }
+{ const _ws=wireShow; wireShow=function(c){ return _ws(circFix(c)); }; }
+
+/* barra inferior: cada icono centrado en su píldora (algunos dibujos no están centrados en su cuadro de 24) */
+function navIconsCenter(){ document.querySelectorAll('#nav2 button i svg').forEach(sv=>{ if(sv.dataset.ctr) return; try{ const b=sv.getBBox(); if(!b.width) return; const cx=b.x+b.width/2, cy=b.y+b.height/2; sv.setAttribute('viewBox', `${(cx-12).toFixed(2)} ${(cy-12).toFixed(2)} 24 24`); sv.dataset.ctr='1'; }catch{} }); }
+setTimeout(navIconsCenter, 300); setTimeout(navIconsCenter, 2000);
+if(window.__wire) window.__wire.names=()=>Object.keys(parts);
 
 connectDb();
 { const h=(location.hash||'').slice(1); go(SECS[h]?h:'inicio'); }

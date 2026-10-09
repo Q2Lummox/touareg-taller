@@ -1,27 +1,19 @@
 {
- "version": "2.1.0-beta.1",
+ "version": "2.1.0-beta.2",
  "fecha": "2026-10-09",
  "notas": [
-  "Examen completo: 31 fallos corregidos y la app reorganizada.",
-  "Visor 3D: botón Electricidad (Cableado y Fusibles); los cables se tienden al abrir un circuito y el cable elegido lleva corriente animada.",
-  "Papeles: una tarjeta por documento, sin repetidos, y pestaña IVTM; Archivos rehecho.",
-  "Más: Piezas (antes Fichas y Catálogo) y Guías y manuales, con guías que se leen y se siguen en el 3D.",
-  "Plan: «Poner intervalo» con sugerencias; historial por años.",
-  "Colección de ilustraciones, transiciones, cifras que se encienden y ajuste de Animaciones (Todas, Discretas o Ninguna).",
-  "Textos: plurales, cifras con punto de miles y ElsaWin/ETKA."
+  "Cableado: J519 colocada entre el volante y los pedales, junto a la consola central.",
+  "Cableado: la corriente animada sale solo en el cable que eliges.",
+  "Barra inferior: iconos centrados en su píldora."
  ],
  "historial": [
   {
-   "version": "2.1.0-beta.1",
+   "version": "2.1.0-beta.2",
    "fecha": "2026-10-09",
    "notas": [
-    "Examen completo: 31 fallos corregidos y la app reorganizada.",
-    "Visor 3D: botón Electricidad (Cableado y Fusibles); los cables se tienden al abrir un circuito y el cable elegido lleva corriente animada.",
-    "Papeles: una tarjeta por documento, sin repetidos, y pestaña IVTM; Archivos rehecho.",
-    "Más: Piezas (antes Fichas y Catálogo) y Guías y manuales, con guías que se leen y se siguen en el 3D.",
-    "Plan: «Poner intervalo» con sugerencias; historial por años.",
-    "Colección de ilustraciones, transiciones, cifras que se encienden y ajuste de Animaciones (Todas, Discretas o Ninguna).",
-    "Textos: plurales, cifras con punto de miles y ElsaWin/ETKA."
+    "Cableado: J519 colocada entre el volante y los pedales, junto a la consola central.",
+    "Cableado: la corriente animada sale solo en el cable que eliges.",
+    "Barra inferior: iconos centrados en su píldora."
    ]
   }
  ]
