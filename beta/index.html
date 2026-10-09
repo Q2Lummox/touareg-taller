@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.0.0-beta.8">
+<meta name="app-version" content="2.1.0-beta.1">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -1687,6 +1687,7 @@ body.ui2 .btn2:active{transform:scale(.95)}
 .odo{font-variant-numeric:tabular-nums;letter-spacing:0}
 
 /* ====================== v2.0: registro, consulta y utilidades ====================== */
+@media (min-width:561px){ body.ui2 .hist2 .h{grid-template-columns:auto 96px 1fr auto!important} body.ui2 .hist2 .h>.hic{grid-column:1!important;grid-row:1!important} body.ui2 .hist2 .h>.d{grid-column:2!important;grid-row:1!important} body.ui2 .hist2 .h>.t{grid-column:3!important;grid-row:1!important} body.ui2 .hist2 .h>.hdel{grid-column:4!important;grid-row:1!important} }
 .subtabs.many:not(.chips2) button{flex:none!important;min-width:auto!important;padding:7px 12px!important}
 .subtabs.many:not(.chips2) button span{overflow:visible!important}
 @media (max-width:430px){ .subtabs.many:not(.chips2) button svg{display:inline-block!important;width:15px;height:15px} .subtabs.many:not(.chips2) button{gap:5px!important;padding:7px 11px!important;font-size:13.5px!important} }
@@ -1963,6 +1964,311 @@ body.wireon .ovl:not(.docked){opacity:.15;pointer-events:none}
 body.ui2 button.wlab.wlab:active{transform:translate(-50%,-120%) scale(.95)}
 .wlab.on{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 45%,transparent)}
 .whint{display:flex;gap:6px;align-items:flex-start;margin:-2px 0 8px;font-size:12px;color:var(--txt-3)}.whint svg{width:14px;height:14px;flex:none;margin-top:1px}
+
+/* =====================================================================
+   v2.1 · revisión completa: arreglos, páginas nuevas y capa visual
+   ===================================================================== */
+/* cabecera: las tildes de las mayúsculas ya no se cortan (MÁS, TÉCNICA…) */
+body.ui2 .t2t b{line-height:1.28;padding-top:1px}
+/* pestañas: con más de las que caben, se difuminan los bordes para que se note que hay más */
+body.ui2 .subtabs.many{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 26px),transparent);mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 26px),transparent);scroll-padding-inline:24px}
+body.ui2 .subtabs button{position:relative}
+body.ui2 .subtabs button .sbadge{position:absolute;top:-7px;right:-7px;margin:0;min-width:17px;height:17px;padding:0 4px;font-size:10.5px;line-height:17px;border-radius:9px;box-shadow:0 0 0 2px var(--bg2,#0f1215)}
+/* enlaces de las cabeceras de tarjeta: objetivo táctil decente */
+body.ui2 .card2 h3 .more{min-height:32px;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,transparent);display:inline-flex;align-items:center;gap:2px}
+body.ui2 .card2 h3 .more:hover{background:color-mix(in srgb,var(--accent) 18%,transparent)}
+body.ui2 .chips2 button,body.ui2 .seg3 button{min-height:32px}
+/* leyendas de gráficos: cada categoría en una pieza, sin partir palabras */
+body.ui2 .lgd{display:flex;flex-wrap:wrap;gap:6px 14px}
+body.ui2 .lgd span{white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+/* acerca de: versiones en minúscula como se escriben */
+body.ui2 .about h4{text-transform:none;letter-spacing:.02em}
+details.diag{margin:14px 2px 0;font-size:12px;color:var(--txt-3)}
+details.diag summary{cursor:pointer;padding:6px 0}
+/* ficha técnica: filas sin «saltito» al pulsar y pares de apriete */
+body.ui2 .ftr:active,body.ui2 .ftr:active *{transform:none!important}
+body.ui2 .ftr{transition:background .2s}
+body.ui2 .ftr:active{background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.ftr.static{cursor:default;display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:9px 2px;border-bottom:1px solid var(--card-line)}
+.ftr.static small{grid-column:1/-1}
+.ftsub{margin:12px 0 2px;font:700 11px var(--f-body);letter-spacing:.1em;text-transform:uppercase;color:var(--txt-3)}
+.btn2.sm{min-height:34px;padding:6px 12px;font-size:13.5px}
+
+/* ---------- Electricidad ---------- */
+#tWire .chev{width:14px;height:14px;margin-left:2px;opacity:.7;transition:transform .2s}
+#tWire[aria-expanded="true"] .chev{transform:rotate(180deg)}
+body.wireon #tWire{color:#9fe6ff;border-color:#4cc8ff88;box-shadow:0 0 0 1px #4cc8ff44,0 0 18px #4cc8ff33}
+body.wireon #tWire svg:first-child{animation:zapF 2.4s infinite}
+@keyframes zapF{0%,92%,100%{filter:none;opacity:1}93%{opacity:.4}95%{filter:drop-shadow(0 0 6px #7fdcff);opacity:1}97%{opacity:.6}}
+.elecm{position:absolute;z-index:40;padding:8px;border-radius:16px;background:color-mix(in srgb,var(--card) 92%,transparent);border:1px solid var(--card-line);box-shadow:0 18px 50px #000a,0 0 0 1px #ffffff08;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);animation:emIn .22s var(--ease)}
+@keyframes emIn{from{opacity:0;transform:translateY(-6px) scale(.97)}to{opacity:1;transform:none}}
+.elech{display:flex;align-items:center;gap:8px;padding:6px 10px 8px;font:700 12px var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:#7fdcff}
+.elech svg{width:16px;height:16px;filter:drop-shadow(0 0 6px #4cc8ff)}
+.elecm>button{display:flex;align-items:center;gap:12px;width:100%;padding:10px;border:0;border-radius:12px;background:none;color:var(--txt);text-align:left;cursor:pointer;font:inherit}
+.elecm>button:hover,.elecm>button:focus-visible{background:#ffffff0d;outline:none}
+.elecm>button i{display:grid;place-items:center;width:38px;height:38px;border-radius:11px;background:linear-gradient(140deg,#4cc8ff26,#4cc8ff0a);color:#7fdcff;flex:none}
+.elecm>button i svg{width:20px;height:20px}
+.elecm>button span{flex:1;min-width:0;display:flex;flex-direction:column}
+.elecm>button small{color:var(--txt-2);font-size:12.5px}
+.elecm>button>svg{width:16px;height:16px;color:var(--txt-3)}
+.elecm>button.muted i{background:#ffffff0a;color:var(--txt-2)}
+body.ui2.light .elecm{background:#fffffff2;box-shadow:0 18px 50px #0003}
+body.ui2.light .elecm>button:hover{background:#0000000a}
+.wlab.under{opacity:0;pointer-events:none}
+.wlab{transition:opacity .2s}
+.wlab.on{animation:wlabOn 1.6s infinite}
+@keyframes wlabOn{0%,100%{box-shadow:0 0 0 2px #4cc8ff66,0 0 14px #4cc8ff55}50%{box-shadow:0 0 0 2px #4cc8ffaa,0 0 26px #4cc8ffaa}}
+body.wirepow .stage::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:5;background:radial-gradient(60% 50% at 50% 55%,#4cc8ff22,transparent 70%);animation:wpow 1.5s ease-out forwards}
+@keyframes wpow{0%{opacity:0}15%{opacity:1}30%{opacity:.3}42%{opacity:.9}100%{opacity:0}}
+
+/* ---------- Guías ---------- */
+.gcard{border:1px solid var(--card-line);border-radius:14px;background:var(--card-2);margin:0 0 10px;overflow:hidden;transition:border-color .2s,transform .25s var(--ease)}
+.gcard:hover{border-color:color-mix(in srgb,var(--accent) 40%,var(--card-line))}
+.gmain{display:flex;align-items:center;gap:12px;width:100%;padding:12px;background:none;border:0;color:var(--txt);text-align:left;cursor:pointer;font:inherit}
+.gmain .gic{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:linear-gradient(140deg,color-mix(in srgb,var(--accent) 26%,transparent),transparent);color:var(--accent);flex:none}
+.gmain .gic svg{width:22px;height:22px}
+.gmain .tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.gmain .tx small{color:var(--txt-2);font-size:12.5px}
+.gmain>svg{width:16px;color:var(--txt-3)}
+.gmini{display:block;height:4px;border-radius:2px;background:#ffffff12;margin-top:6px;overflow:hidden}
+.gmini i{display:block;height:100%;background:var(--ok);border-radius:2px}
+.gacts{display:flex;flex-wrap:wrap;gap:8px;padding:0 12px 12px}
+.gprog{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.gbar{flex:1;height:8px;border-radius:4px;background:#ffffff12;overflow:hidden}
+.gbar i{display:block;height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,var(--accent),#ffd27a);transition:width .5s var(--ease);box-shadow:0 0 12px color-mix(in srgb,var(--accent) 60%,transparent)}
+.gprog span{font:600 12.5px var(--f-body);color:var(--txt-2);min-width:56px;text-align:right}
+.gsteps{list-style:none;margin:0;padding:0;counter-reset:gs}
+.gsteps li{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--card-line);counter-increment:gs;transition:opacity .3s}
+.gsteps li p{margin:0 0 4px;white-space:pre-wrap}
+.gsteps li small{display:flex;align-items:center;gap:6px;color:var(--txt-2);font-size:12.5px;margin-top:2px}
+.gsteps li small svg{width:14px;height:14px;color:var(--accent)}
+.gchk{flex:none;width:32px;height:32px;border-radius:50%;border:2px solid var(--card-line);background:none;color:transparent;display:grid;place-items:center;cursor:pointer;position:relative;transition:all .25s var(--ease)}
+.gchk::before{content:counter(gs);position:absolute;font:700 13px var(--f-body);color:var(--txt-2);transition:opacity .2s}
+.gchk svg{width:18px;height:18px}
+.gsteps li.on .gchk{background:var(--ok);border-color:var(--ok);color:#06130d;transform:scale(1.06)}
+.gsteps li.on .gchk::before{opacity:0}
+.gsteps li.on p{opacity:.55;text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--ok) 60%,transparent)}
+.gedit .gestep{border:1px solid var(--card-line);border-radius:14px;padding:10px;margin:10px 0;background:var(--card-2)}
+.gesh{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.gesh .ib{width:34px;height:34px;border-radius:10px;border:1px solid var(--card-line);background:none;color:var(--txt-2);display:inline-grid;place-items:center;cursor:pointer;margin-left:4px}
+.gesh .ib:disabled{opacity:.35}
+.gesh .ib svg{width:16px;height:16px}
+.ge2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.gecam{width:100%;justify-content:center}
+
+/* ---------- Papeles ---------- */
+.pintro{display:flex;gap:10px;align-items:flex-start;margin:0 2px 14px;color:var(--txt-2);font-size:13.5px}
+.pintro svg{width:18px;height:18px;flex:none;color:var(--accent);margin-top:2px}
+.docgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;margin-bottom:14px}
+.doc2{position:relative;border-radius:18px;padding:14px;background:linear-gradient(160deg,color-mix(in srgb,var(--c,var(--accent)) 10%,var(--card)) 0%,var(--card) 55%);border:1px solid color-mix(in srgb,var(--c,var(--accent)) 30%,var(--card-line));overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s}
+.doc2::after{content:"";position:absolute;inset:auto -30% -60% auto;width:70%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--c,var(--accent)) 22%,transparent),transparent 70%);pointer-events:none}
+.doc2.st-due{animation:duePulse 2.2s infinite}
+@keyframes duePulse{0%,100%{box-shadow:0 0 0 0 #ef5a3c00}50%{box-shadow:0 0 0 3px #ef5a3c33,0 0 26px #ef5a3c33}}
+.dtop{display:flex;align-items:center;gap:12px}
+.dic{display:grid;place-items:center;width:44px;height:44px;border-radius:13px;flex:none;background:color-mix(in srgb,var(--c,var(--accent)) 18%,transparent);color:var(--c,var(--accent))}
+.dic svg{width:22px;height:22px}
+.doc2 .tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.doc2 .tx b{font:700 16px var(--f-body)}
+.doc2 .tx small{color:var(--txt-2);font-size:12.5px}
+.dring{position:relative;width:52px;height:52px;flex:none}
+.dring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.dring circle{fill:none;stroke:#ffffff14;stroke-width:4}
+.dring circle.v{stroke:var(--c,var(--accent));stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.2s var(--ease) .15s;filter:drop-shadow(0 0 4px color-mix(in srgb,var(--c) 60%,transparent))}
+.doc2.lit .dring circle.v,.an-off .doc2 .dring circle.v{stroke-dashoffset:calc(1 - var(--p))}
+.dring span{position:absolute;inset:0;display:grid;place-items:center;font:700 12px var(--f-body);color:var(--c,var(--txt))}
+.dleft{margin:10px 0 2px;font:700 15px var(--f-body);color:var(--c,var(--txt))}
+.dnote{margin:2px 0 0}
+.datt{margin-top:8px}
+.dacts{margin-top:12px;gap:8px;flex-wrap:wrap;justify-content:flex-start}
+.dold{margin-top:10px;font-size:13px}
+.dold summary{cursor:pointer;color:var(--txt-2);padding:4px 0}
+.doc2.empty{display:flex;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer;border-style:dashed;background:none;color:var(--txt);font:inherit;--c:var(--txt-3)}
+.doc2.empty:hover{border-color:var(--accent)}
+.doc2.empty .dadd{display:inline-flex;align-items:center;gap:4px;color:var(--accent);font-weight:700;font-size:13px}
+.doc2.empty .dadd svg{width:16px;height:16px}
+.dupban{display:flex;align-items:center;gap:12px;border-color:color-mix(in srgb,var(--soon) 50%,var(--card-line))!important}
+.dupban>svg{width:24px;height:24px;color:var(--soon);flex:none}
+.dupban>div{flex:1;display:flex;flex-direction:column}
+.dupban small{color:var(--txt-2)}
+
+/* ---------- Mantenimiento ---------- */
+.mrow .pri2{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(180deg,#ffb64a,var(--accent));color:#1b1206;border:0;border-radius:10px;padding:8px 12px;font-weight:700;cursor:pointer}
+.mrow .pri2 svg{width:16px;height:16px}
+.mrow.st-noint .pill{background:color-mix(in srgb,var(--soon) 16%,transparent);color:var(--soon);border-color:color-mix(in srgb,var(--soon) 40%,transparent)}
+.sugg{display:flex;align-items:center;gap:12px;width:100%;padding:12px;margin:0 0 12px;border-radius:14px;border:1px solid color-mix(in srgb,var(--accent) 45%,var(--card-line));background:linear-gradient(120deg,color-mix(in srgb,var(--accent) 14%,transparent),transparent);color:var(--txt);text-align:left;cursor:pointer;font:inherit}
+.sugg>svg{width:22px;height:22px;color:var(--accent);flex:none}
+.sugg span{flex:1;display:flex;flex-direction:column}
+.sugg small{color:var(--txt-2)}
+.sugg em{font-style:normal;font-weight:700;color:var(--accent)}
+.inp2.flash{animation:flash .7s}
+@keyframes flash{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 80%,transparent)}100%{box-shadow:0 0 0 10px transparent}}
+.life{display:flex;align-items:center;gap:8px;grid-column:1/-1;margin:4px 0 2px}
+.life i{position:relative;flex:1;height:6px;border-radius:3px;background:#ffffff10;overflow:hidden}
+.life i::after{content:"";position:absolute;inset:0;width:calc(var(--p)*100%);border-radius:3px;background:linear-gradient(90deg,var(--ok),#9be28a 60%,var(--soon) 85%,var(--due));background-size:calc(100% / max(var(--p),.05)) 100%;transform-origin:left;transform:scaleX(0);transition:transform 1.1s var(--ease)}
+.life.lit i::after,.an-off .life i::after{transform:scaleX(1)}
+.life span{font:600 11px var(--f-body);color:var(--txt-3);min-width:34px;text-align:right}
+.st-due .life i::after{box-shadow:0 0 10px var(--due)}
+
+/* ---------- COLECCIÓN DE ARTE ---------- */
+svg.art{width:150px;height:auto;display:block;margin:0 auto 10px;overflow:visible;--a:var(--accent)}
+svg.art *{vector-effect:non-scaling-stroke}
+svg.art .xa1{fill:none;stroke:var(--a);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--a) 45%,transparent))}
+svg.art .xa2{fill:none;stroke:color-mix(in srgb,var(--txt-2) 70%,transparent);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+svg.art .xaf{fill:var(--a);filter:drop-shadow(0 0 6px var(--a))}
+svg.art .xdash{stroke-dasharray:6 8;animation:dashm 1.6s linear infinite}
+svg.art .xdr{stroke-dasharray:1;stroke-dashoffset:1;animation:drawA 1.6s var(--ease) forwards}
+svg.art path.xdr,svg.art circle.xdr,svg.art rect.xdr,svg.art ellipse.xdr{stroke-dasharray:var(--len,600);stroke-dashoffset:var(--len,600)}
+svg.art .xtk{stroke-dasharray:60;stroke-dashoffset:60;animation:drawT .6s var(--ease) .9s forwards}
+svg.art .xtk.xd2{animation-delay:1.3s}
+svg.art .xfl{animation:floatA 4.5s ease-in-out infinite}
+svg.art .xfl.xd2{animation-delay:-2s}
+svg.art .xbl{animation:blinkA 2.4s ease-in-out infinite}
+svg.art .xsp{animation:spinA 14s linear infinite}
+svg.art .xsp3{transform-origin:80px 60px;animation:floatA 4s ease-in-out infinite}
+svg.art .xgl{fill:#ffe7a8;filter:drop-shadow(0 0 8px #ffd27a);animation:blinkA 3s ease-in-out infinite}
+svg.art .xspk{fill:color-mix(in srgb,var(--a) 85%,#fff);filter:drop-shadow(0 0 10px var(--a));animation:sparkA 2.2s ease-in-out infinite;transform-origin:80px 54px}
+svg.art .xdrop{fill:var(--a);animation:dropA 2.4s ease-in infinite;filter:drop-shadow(0 0 6px var(--a))}
+svg.art .xup{animation:upA 1.8s ease-in-out infinite}
+svg.art .xbar{fill:color-mix(in srgb,var(--a) 70%,transparent);transform-box:fill-box;transform-origin:bottom;animation:barA .9s var(--ease) var(--d) both}
+@keyframes drawA{to{stroke-dashoffset:0}}
+@keyframes drawT{to{stroke-dashoffset:0}}
+@keyframes dashm{to{stroke-dashoffset:-28}}
+@keyframes floatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes blinkA{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes spinA{to{transform:rotate(360deg)}}
+@keyframes sparkA{0%,100%{transform:scale(1);opacity:1}45%{transform:scale(1.08)}50%{opacity:.55}55%{opacity:1}}
+@keyframes dropA{0%{transform:translateY(-6px);opacity:0}20%{opacity:1}80%{opacity:1}100%{transform:translateY(16px);opacity:0}}
+@keyframes upA{0%,100%{transform:translateY(2px);opacity:.6}50%{transform:translateY(-4px);opacity:1}}
+@keyframes barA{from{transform:scaleY(0)}}
+body.ui2 .empty2>svg.art,body.ui2 .empty2.big2>svg.art{width:170px!important;height:auto!important;max-height:none!important;opacity:1;margin:4px auto 12px}
+body.ui2 .empty2.big2>div{font-family:var(--f-body);font-size:14.5px;line-height:1.55;letter-spacing:0}
+svg.art.panel{width:150px;height:auto;margin:22px auto 6px}
+p.empty3{text-align:center;max-width:420px;margin:0 auto 18px!important;font-size:14px}
+/* Inicio: el coche dibujado en la tarjeta principal */
+.card2.hmini{position:relative;overflow:hidden}
+.hart{position:absolute;right:4%;bottom:-18px;width:min(42%,300px);pointer-events:none;opacity:.22;z-index:0}
+.hart svg.art{width:100%;margin:0}
+.card2.hmini>*:not(.hart){position:relative;z-index:1}
+@media (max-width:860px){ .hart{right:-8%;width:62%;bottom:-22px;opacity:.14} }
+
+/* ---------- movimiento general ---------- */
+.page.pin .pbody,.page.pin>.wrap{animation:pageIn .46s var(--ease)}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px) scale(.995);filter:blur(2px)}to{opacity:1;transform:none;filter:none}}
+.tilt{transition:transform .12s ease-out!important;will-change:transform}
+.mt.tilt,.doc2.tilt,.gcard.tilt,.stc.tilt{background-image:radial-gradient(240px circle at var(--mx) var(--my),#ffffff0d,transparent 70%)}
+body.ui2 .stc{transition:transform .5s var(--ease),opacity .5s}
+body.ui2 .stc:not(.lit){opacity:.001;transform:translateY(8px)}
+body.ui2 .stc.lit{opacity:1;transform:none}
+body.ui2 .stc.lit b{animation:numGlow 1.4s var(--ease)}
+@keyframes numGlow{0%{text-shadow:0 0 0 transparent}30%{text-shadow:0 0 18px color-mix(in srgb,var(--c) 80%,transparent)}100%{text-shadow:0 0 0 transparent}}
+#fab2.hello{animation:fabHello 1.6s var(--ease) 2}
+@keyframes fabHello{0%,100%{box-shadow:0 10px 30px #f39a1e55,0 0 0 0 #f39a1e66}50%{box-shadow:0 10px 30px #f39a1e55,0 0 0 14px #f39a1e00}}
+/* botones principales con brillo que pasa al acercar el ratón */
+@media (hover:hover){ body.ui2 .btn2:not(.ghost){position:relative;overflow:hidden}
+  body.ui2 .btn2:not(.ghost)::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,#ffffff55 48%,transparent 66%);transform:translateX(-120%);transition:none;pointer-events:none}
+  body.ui2 .btn2:not(.ghost):hover::after{transform:translateX(120%);transition:transform .7s var(--ease)} }
+/* Más: iconos con relieve */
+body.ui2 #pbMas .mt>i{background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 24%,transparent),color-mix(in srgb,var(--accent) 6%,transparent));box-shadow:inset 0 1px 0 #ffffff14,0 6px 16px #0004;transition:transform .35s var(--ease)}
+body.ui2 #pbMas .mt:hover>i{transform:rotate(-6deg) scale(1.08)}
+body.ui2 #pbMas .mgrp>h4{display:flex;align-items:center;gap:10px}
+body.ui2 #pbMas .mgrp>h4::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--card-line),transparent)}
+/* atención: lo vencido late */
+body.ui2 .r2[style*="--due"]{animation:dueRow 2.6s ease-in-out infinite}
+@keyframes dueRow{0%,100%{box-shadow:inset 3px 0 0 var(--due)}50%{box-shadow:inset 3px 0 0 var(--due),0 0 22px #ef5a3c2e}}
+/* líneas de las gráficas que se dibujan */
+.drawln{stroke-dasharray:1;stroke-dashoffset:1;animation:drawA 1.4s var(--ease) .1s forwards}
+/* fondo: dos luces muy suaves que respiran */
+body.ui2.an-full:not(.light)::before{content:"";position:fixed;inset:-20%;pointer-events:none;z-index:0;background:radial-gradient(40% 35% at 20% 15%,#f39a1e10,transparent 70%),radial-gradient(35% 30% at 85% 80%,#4cc8ff0c,transparent 70%);animation:amb 18s ease-in-out infinite alternate;z-index:-1}
+@keyframes amb{to{transform:translate3d(4%,3%,0) rotate(6deg)}}
+/* modo discreto / sin animaciones */
+body.an-lo svg.art .xfl,body.an-lo svg.art .xsp,body.an-lo svg.art .xbl,body.an-lo .doc2.st-due,body.an-lo .r2[style*="--due"],body.an-lo svg.art .xdash{animation:none!important}
+body.an-off *,body.an-off *::before,body.an-off *::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+body.an-off svg.art .xdr,body.an-off svg.art .xtk,body.an-off .drawln{stroke-dashoffset:0!important}
+body.an-off .stc:not(.lit){opacity:1!important;transform:none!important}
+/* tema claro */
+body.ui2.light svg.art .xa2{stroke:#8a95a1}
+body.ui2.light .doc2{background:linear-gradient(160deg,color-mix(in srgb,var(--c,var(--accent)) 9%,#fff),#fff 60%)}
+body.ui2.light .gcard{background:#fff}
+body.ui2.light .life i,body.ui2.light .gbar,body.ui2.light .gmini{background:#0000000f}
+body.ui2.light .dring circle{stroke:#0000001a}
+body.ui2.light .dring circle.v{stroke:var(--c)}
+
+/* Historial */
+.acts.histtop{margin:0 0 12px!important;justify-content:flex-start}
+.hyear{display:flex;align-items:baseline;gap:10px;margin:14px 2px 8px;font:700 22px var(--f-display);letter-spacing:.04em;color:var(--txt)}
+.hyear em{font:500 12px var(--f-body);font-style:normal;color:var(--txt-3)}
+.hyear::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--card-line),transparent)}
+body.ui2 .hist2 .h{display:grid!important;grid-template-columns:auto auto 1fr auto;align-items:center;gap:10px;border-radius:14px;padding:10px 12px;margin:0 0 8px;background:var(--card-2);border:1px solid var(--card-line)}
+body.ui2 .hist2 .h .hic{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:color-mix(in srgb,var(--accent) 15%,transparent);color:var(--accent)}
+body.ui2 .hist2 .h .hic svg{width:18px;height:18px}
+body.ui2 .hist2 .h .d{font:600 12.5px var(--f-body);color:var(--txt-2);min-width:76px}
+body.ui2 .hist2 .h .d small{display:block;font:500 11.5px var(--f-mono,ui-monospace);color:var(--txt-3)}
+body.ui2 .hist2 .h .t b{display:block}
+body.ui2 .hist2 .h .t span{color:var(--txt-2);font-size:13px}
+body.ui2 .hist2 .h .t .del{margin:6px 6px 0 0}
+body.ui2 .hist2 .h .hdel{opacity:.6}
+@media (max-width:520px){ body.ui2 .hist2 .h{grid-template-columns:auto 1fr auto} body.ui2 .hist2 .h .d{grid-column:2} body.ui2 .hist2 .h .t{grid-column:1/-1} body.ui2 .hist2 .h .hdel{grid-row:1;grid-column:3} }
+.mrow .bt{flex-wrap:wrap;justify-content:flex-end;gap:6px}
+.mrow .bt button svg{width:16px;height:16px;flex:none}
+.mrow .bt button{display:inline-flex;align-items:center;gap:6px}
+@media (max-width:560px){ .dupban{flex-wrap:wrap} .dupban>div{flex-basis:calc(100% - 40px)} .dupban .btn2{margin-left:36px} }
+.wlab{translate:0 var(--dy,0px)}
+.wlab.moved::after{height:calc(6px + var(--dya,0px));bottom:calc(-6px - var(--dya,0px));opacity:.6}
+
+/* =====================================================================
+   v2.1 · remates del examen (v2k.js)
+   ===================================================================== */
+/* Archivos */
+.agal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.agi{margin:0;border-radius:14px;overflow:hidden;background:var(--card-2);border:1px solid var(--card-line);transition:transform .25s var(--ease),border-color .2s}
+.agi:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--accent) 45%,var(--card-line))}
+.agi .atts{display:block;margin:0}
+.agi .att{display:block;width:100%;aspect-ratio:4/3;margin:0;border-radius:0;overflow:hidden;background:#0006}
+.agi .att img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.agi:hover .att img{transform:scale(1.06)}
+.agi .att .pdf{display:grid;place-items:center;height:100%;font:800 18px var(--f-display);color:var(--accent);letter-spacing:.1em}
+.agi figcaption{padding:8px 10px 10px;display:flex;flex-direction:column;gap:2px}
+.agi figcaption b{font-size:13px;line-height:1.3}
+.agi figcaption small{font-size:11.5px;color:var(--txt-2)}
+/* nueva intervención: sin pestañas debajo */
+body.ui2.formopen #stMant{display:none!important}
+/* menú Electricidad: el ancho incluye el borde */
+.elecm{box-sizing:border-box}
+/* lámina abierta desde una ficha: la pieza marcada */
+.pzt tr.lamhit td{background:color-mix(in srgb,var(--accent) 16%,transparent)}
+.pzt tr.lamhit td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+body.an-full .pzt tr.lamhit td{animation:lamHit 1.4s var(--ease) 2}
+@keyframes lamHit{50%{background:color-mix(in srgb,var(--accent) 34%,transparent)}}
+
+/* ---------- movimiento ---------- */
+.stg{animation:riseIn .55s var(--ease) both;animation-delay:calc(var(--si,0) * 45ms)}
+@keyframes riseIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+.srin{animation:riseIn .32s var(--ease) both;animation-delay:calc(var(--si,0) * 22ms)}
+/* barra inferior: el icono activo da un pequeño salto */
+.nav2 button[aria-current="page"] i{animation:navPop .5s cubic-bezier(.2,.9,.25,1.4)}
+@keyframes navPop{0%{transform:scale(.8)}55%{transform:scale(1.12) translateY(-2px)}100%{transform:none}}
+/* pestañas: el texto activo se ilumina al cambiar */
+body.ui2 .subtabs button[aria-selected="true"]{animation:tabOn .4s var(--ease)}
+@keyframes tabOn{from{filter:brightness(1.5)}to{filter:none}}
+/* cableado: etiquetas que aparecen una a una */
+.wlab.lin{animation:wlabIn .5s cubic-bezier(.2,.9,.25,1.3) both;animation-delay:var(--ld,0ms)}
+@keyframes wlabIn{from{opacity:0;scale:.6}to{opacity:1;scale:1}}
+/* tarjeta del coche: brillo que la cruza */
+.card2.hmini.sheen::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(105deg,transparent 35%,#ffffff1f 50%,transparent 65%);transform:translateX(-100%);animation:sheen 1.3s var(--ease) .2s forwards}
+@keyframes sheen{to{transform:translateX(100%)}}
+/* guardar: el botón confirma */
+.pressok{animation:pressOk .5s var(--ease)}
+@keyframes pressOk{30%{transform:scale(.94)}70%{transform:scale(1.04);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 25%,transparent)}}
+/* hojas: el asa invita a arrastrar */
+body.an-full #sheet2:not([hidden]) .grab,body.an-full #sheet2:not([hidden]) .shgrab{animation:grabHint 1.2s var(--ease) .4s}
+@keyframes grabHint{40%{transform:translateY(-3px);opacity:1}}
+/* fila «Requiere atención» con vencidos: borde que recorre la tarjeta */
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+body.an-full .card2:has(.r2[style*="--due"]){border-color:transparent;background:linear-gradient(var(--card),var(--card)) padding-box,conic-gradient(from var(--ang),transparent 0 70%,#ef5a3c 82%,#f39a1e 90%,transparent 100%) border-box;animation:angSpin 5s linear infinite}
+@keyframes angSpin{to{--ang:360deg}}
+body.an-lo .card2:has(.r2[style*="--due"]){animation:none}
+/* sin movimiento */
+body.an-off .stg,body.an-off .srin,body.an-off .wlab.lin{animation:none!important}
 </style>
 
 </head>
@@ -2005,7 +2311,7 @@ body.ui2 button.wlab.wlab:active{transform:translate(-50%,-120%) scale(.95)}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.0.0-beta.8</span>
+  <span class="spver">v2.1.0-beta.1</span>
 </div>
 
 <header class="top2" id="top2">
@@ -2240,7 +2546,7 @@ body.ui2 button.wlab.wlab:active{transform:translate(-50%,-120%) scale(.95)}
         <form id="fForm" style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
           <div class="field"><label>Estado de la pieza</label><div class="estseg" id="fEst"><button type="button" data-est="ok">Bien</button><button type="button" data-est="revisar">Revisar</button><button type="button" data-est="cambiar">Cambiar</button></div></div>
           <div class="field"><label for="fRef">Referencia VW</label><input id="fRef" class="mono" placeholder="Ej. formato 7L0 000 000 A" autocomplete="off"></div>
-          <div class="field"><label for="fDen">Denominación (ETKA / erWin)</label><input id="fDen" autocomplete="off"></div>
+          <div class="field"><label for="fDen">Denominación (ETKA / ElsaWin)</label><input id="fDen" autocomplete="off"></div>
           <div class="row2">
             <div class="field"><label for="fPar">Par de apriete</label><input id="fPar" placeholder="Nm" autocomplete="off"></div>
             <div class="field"><label for="fCant">Cantidad</label><input id="fCant" inputmode="numeric" autocomplete="off"></div>
@@ -4146,7 +4452,7 @@ function renderMant(){
     try{ await S.db.collection('mantenimiento').doc(id).set({nombre:n.value.trim(), grupo:'Personalizados', pieza:null, orden:200, intervaloKm:k.value===''?null:Number(k.value), intervaloMeses:m.value===''?null:Number(m.value)}); }catch{} };
   body.append(add);
   const note=document.createElement('p'); note.className='empty';
-  note.textContent='Los intervalos los defines tú: tómalos del plan de mantenimiento de tu Touareg (libro de mantenimiento o erWin/ELSA). El estado se calcula con la fecha y los kilómetros del último cambio registrado.';
+  note.textContent='Los intervalos los defines tú: tómalos del plan de mantenimiento de tu Touareg (libro de mantenimiento o ElsaWin). El estado se calcula con la fecha y los kilómetros del último cambio registrado.';
   body.append(note);
 }
 function stripId(o){ const c={...o}; delete c.id; return c; }
@@ -4713,7 +5019,7 @@ function renderFus(){
     const d={caja:fv('caja').value.trim(), pos:fv('pos').value.trim(), tipo:fv('tipo').value, amp:fv('amp').value===''?null:Number(fv('amp').value), circuito:fv('circuito').value.trim(), notas:fv('notas').value.trim()};
     try{ if(ed) await S.db.collection('fusibles').doc(ed._id).set(d); else await S.db.collection('fusibles').add(d); S.fusCaja=d.caja; S.fusEdit=null; toast(ed?'Guardado':'Añadido'); }catch{ toast('No se pudo guardar','err'); } };
   body.append(el('div','sub ttl', ed?`Editar ${ed.tipo==='rele'?'relé':'fusible'} ${ed.pos}`:'Añadir fusible o relé'), form);
-  body.append(el('p','empty','Rellénalo con la tapa de tu caja de fusibles o el esquema de erWin/ELSA para tu bastidor. No lo relleno yo porque la asignación cambia según año y equipamiento, y un dato equivocado aquí es peor que ninguno.'));
+  body.append(el('p','empty','Rellénalo con la tapa de tu caja de fusibles o el esquema de ElsaWin para tu bastidor. No lo relleno yo porque la asignación cambia según año y equipamiento, y un dato equivocado aquí es peor que ninguno.'));
 }
 
 /* ---------- panel: averías y códigos ---------- */
@@ -5163,7 +5469,7 @@ function aiContext(){
 }
 const AI_RULES = `Eres el asistente del taller digital del Touareg de su propietario (aplicación web con un modelo 3D del coche, fichas de piezas, mantenimiento e historial). Responde siempre en español de España, de forma clara y práctica, como un mecánico experto y honesto.
 - Usa primero los DATOS DEL COCHE que te paso abajo (son los del propietario).
-- Si das datos técnicos que NO estén en esos datos (pares de apriete, capacidades, referencias, intervalos, procedimientos), di que son orientativos y que se confirmen en erWin/ELSA/ETKA para su bastidor. No inventes referencias VW.
+- Si das datos técnicos que NO estén en esos datos (pares de apriete, capacidades, referencias, intervalos, procedimientos), di que son orientativos y que se confirmen en ElsaWin/ETKA para su bastidor. No inventes referencias VW.
 - Si pregunta dónde está una pieza o pide verla, llama a la herramienta mostrar_pieza con el id exacto de la lista de piezas.
 - Si lo que pide se gestiona en un panel de la aplicación, puedes abrirlo con abrir_panel.
 - Respuestas breves: frases cortas y, si ayuda, listas con guiones y **negritas**. Nada de tablas.`;
@@ -5420,7 +5726,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.0.0-beta.8';
+  const APP_VERSION='2.1.0-beta.1';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -5487,7 +5793,7 @@ function pwaInit(){
     $('#ovlKind').textContent='Aviso'; $('#ovlTitle').textContent='Tienes cosas pendientes';
     const body=$('#ovlBody'); body.innerHTML=''; const box=el('div','remind');
     for(const it of S.mant){ const s=itemStatus(it); if(s.st==='due'||s.st==='soon'){ const r=el('div',s.st==='due'?'v':''); r.append(el('span',null,it.nombre), el('small',null,s.st==='due'?'Vencido':'Próximo')); box.append(r); } }
-    for(const d of S.docs){ const s=docStatus(d); if(s.st==='due'||s.st==='soon'){ const r=el('div',s.st==='due'?'v':''); r.append(el('span',null,(d.tipo||'Documento')+(d.nombre?' · '+d.nombre:'')), el('small',null,s.days<0?'Caducado hace '+(-s.days)+' d':'Caduca en '+s.days+' d')); box.append(r); } }
+    for(const d of docsVig()){ const s=docStatus(d); if(s.st==='due'||s.st==='soon'){ const r=el('div',s.st==='due'?'v':''); r.append(el('span',null,(d.tipo||'Documento')+(d.nombre?' · '+d.nombre:'')), el('small',null,s.days<0?'Caducado hace '+(-s.days)+' d':'Caduca en '+s.days+' d')); box.append(r); } }
     const acts=el('div','acts');
     const bm=el('button','pri','Ver mantenimiento'); bm.type='button'; bm.onclick=()=>{ closePop(); $('#bMant').click(); };
     const bd=el('button',null,'Ver documentación'); bd.type='button'; bd.onclick=()=>openGlobal('docs');
@@ -5498,7 +5804,7 @@ function pwaInit(){
   $('#mLogout').onclick=async()=>{ closeMenus(); if(!confirm('¿Cerrar la sesión en este dispositivo?')) return; await window.FB?.signOut(); location.reload(); };
 }
 function startupReminder(){
-  let n=0; for(const it of S.mant){ const s=itemStatus(it).st; if(s==='due'||s==='soon') n++; } for(const d of S.docs){ const s=docStatus(d).st; if(s==='due'||s==='soon') n++; }
+  let n=0; for(const it of S.mant){ const s=itemStatus(it).st; if(s==='due'||s==='soon') n++; } for(const d of docsVig()){ const s=docStatus(d).st; if(s==='due'||s==='soon') n++; }
   if(!n || popFor) return;
   const key='taller7l-aviso', today=todayISO();
   try{ if(localStorage.getItem(key)===today) return; localStorage.setItem(key,today); }catch{}
@@ -5514,7 +5820,7 @@ function publishAvisos(){
     const mant=[]; for(const it of S.mant){ const s=itemStatus(it); if(s.nextKm==null && !s.nextDate) continue;
       mant.push({nombre:it.nombre||it.id, proximoKm:s.nextKm??null, proximaFecha:s.nextDate||null, fechaEstimada:s.estDate||null, ultimaFecha:s.last?.fecha||null, ultimoKm:s.last?.km??null}); }
     const hoy=new Date().toISOString().slice(0,10), ayer=new Date(Date.now()-2*864e5).toISOString().slice(0,10);
-    const docs=[...S.docs.filter(d=>d.caduca).map(d=>({tipo:d.tipo||'Documento', nombre:d.nombre||'', caduca:d.caduca})),
+    const docs=[...docsVig().filter(d=>d.caduca).map(d=>({tipo:d.tipo||'Documento', nombre:d.nombre||'', caduca:d.caduca})),
       ...(S.v2?.garantias||[]).filter(g=>g.fin && g.fin>=ayer).map(g=>({tipo:'Garantía', nombre:g.articulo||'', caduca:g.fin})),
       ...(S.v2?.siniestros||[]).filter(x=>x.plazo && x.estado!=='cerrado' && x.plazo>=ayer).map(x=>({tipo:x.tipo==='multa'?'Plazo de multa':'Plazo de siniestro', nombre:x.titulo||'', caduca:x.plazo}))];
     const comp=(S.compras||[]).filter(c=>c.estado==='comprado').map(c=>({nombre:c.nombre, fechaCompra:c.fechaCompra||null}));
@@ -5603,7 +5909,7 @@ const IC={
 const ic=(n,cls)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"${cls?` class="${cls}"`:''} aria-hidden="true">${IC[n]||''}</svg>`;
 const h2=(html)=>{ const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; };
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const nf=new Intl.NumberFormat('es-ES');
+const nf=(()=>{ try{ const f=new Intl.NumberFormat('es-ES',{useGrouping:'always'}); if(f.format(4200).length===5) return f; }catch{} return new Intl.NumberFormat('de-DE'); })(); /* 4.200 km, como 272.800 km */
 const eur=v=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v||0);
 
 const PERF={m:{}, fr:[], autoQ:null};
@@ -5682,7 +5988,7 @@ const SECS={
   papeles:{t:'Papeles', icon:'file', subs:[['docs','Documentos','shield'],['fotos','Facturas y fotos','image']]},
   mas:{t:'Más', icon:'grid'},
 };
-const MAS_T={avisos:'Avisos', procs:'Guías', pines:'Notas 3D', pend:'Fichas pendientes', backup:'Copia de seguridad', keys:'Atajos de teclado', about:'Acerca de', ajustes:'Ajustes'};
+const MAS_T={avisos:'Avisos', procs:'Guías', pines:'Notas en el modelo', pend:'Fichas pendientes', backup:'Copia de seguridad', keys:'Atajos de teclado', about:'Acerca de', ajustes:'Ajustes'};
 document.querySelectorAll('#nav2 button').forEach(b=>{ b.querySelector('i').innerHTML=ic(SECS[b.dataset.sec].icon); b.onclick=()=>{ if(NSCRUB.skip) return; uiSfx('tap'); if(b.dataset.sec===UI.sec){ retap(); return; } go(b.dataset.sec); }; });
 $('#t2Search').innerHTML=ic('search'); $('#t2Back').innerHTML=ic('chevL'); $('#srIco').innerHTML=ic('search');
 const SUBBOX={mant:'#stMant',papeles:'#stPap',coche:'#stCoche'}, SUBPB={mant:'#pbMant',papeles:'#pbPap',coche:'#pbCoche'};
@@ -5817,7 +6123,7 @@ function mantList(){
 function counts(){
   const c={due:0,soon:0,ok:0,nodata:0,ddue:0,dsoon:0};
   for(const it of S.mant){ const s=itemStatus(it).st; if(c[s]!=null) c[s]++; else c.nodata++; }
-  for(const d of S.docs){ const s=docStatus(d).st; if(s==='due') c.ddue++; else if(s==='soon') c.dsoon++; }
+  for(const d of docsVig()){ const s=docStatus(d).st; if(s==='due') c.ddue++; else if(s==='soon') c.dsoon++; }
   return c;
 }
 const stColor=st=>st==='due'?'var(--due)':st==='soon'?'var(--soon)':st==='ok'?'var(--ok)':'var(--txt-3)';
@@ -5895,11 +6201,11 @@ function renderInicio(force){
   /* documentos */
   const dc=h2(`<div class="card2 c6"><h3>${ic('shield')}Papeles<button class="more" type="button">Todo${ic('chevR')}</button></h3><div class="l2"></div></div>`);
   dc.querySelector('.more').onclick=()=>go('papeles','docs');
-  const dl=dc.querySelector('.l2'), docs=[...S.docs].filter(d=>d.caduca && !['due','soon'].includes(docStatus(d).st)).sort((a,b)=>a.caduca.localeCompare(b.caduca));
+  const dl=dc.querySelector('.l2'), docs=[...docsVig()].filter(d=>d.caduca && !['due','soon'].includes(docStatus(d).st)).sort((a,b)=>a.caduca.localeCompare(b.caduca));
   if(!docs.length){ const e=h2(`<div class="empty2">${ic('shield')}<div>Añade la ITV, el seguro y el impuesto y te avisaré antes de que caduquen.</div><button type="button">${ic('plus')}Añadir documentos</button></div>`); e.querySelector('button').onclick=()=>openWizard(2); dl.append(e); }
   for(const d of docs.slice(0,4)){ const s=docStatus(d);
     const r=h2(`<button type="button" class="r2" style="--c:${stColor(s.st)}"><span class="ic">${ic(d.tipo==='ITV'?'shield':d.tipo==='Seguro'?'file':'receipt')}</span><span class="tx"><b>${esc(d.tipo)}${d.nombre?' · '+esc(d.nombre):''}</b><small>Caduca el ${fmtDate(d.caduca)}</small></span><span class="rt">${s.days<0?'Caducado':s.days===0?'Hoy':s.days+' días'}</span></button>`);
-    r.onclick=()=>{ S.docEdit=d; go('papeles','docs'); }; dl.append(r); }
+    r.onclick=()=>{ S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); }; dl.append(r); }
   if(!noDocs && docs.length) g.append(dc);
   /* últimas intervenciones */
   const ic2=h2(`<div class="card2 c6"><h3>${ic('history')}Intervenciones<button class="more" type="button">Todas${ic('chevR')}</button></h3><div class="l2"></div></div>`);
@@ -6081,7 +6387,7 @@ function renderWizard(){
     body.append(h2(`<div><label class="wzlab">ITV · próxima inspección</label><input class="inp2" type="date" id="wzItv" value="${esc(D.itv)}">
       <label class="wzlab">Seguro · compañía</label><input class="inp2" id="wzSegN" placeholder="Aseguradora" value="${esc(D.seguroNom)}">
       <label class="wzlab">Seguro · vencimiento</label><input class="inp2" type="date" id="wzSeg" value="${esc(D.seguro)}">
-      <label class="wzlab">Impuesto de circulación · fecha de pago</label><input class="inp2" type="date" id="wzImp" value="${esc(D.imp)}"></div>`));
+      <label class="wzlab">IVTM (impuesto de circulación) · próximo pago</label><input class="inp2" type="date" id="wzImp" value="${esc(D.imp)}"></div>`));
     body.querySelector('#wzItv').oninput=e=>D.itv=e.target.value; body.querySelector('#wzSegN').oninput=e=>D.seguroNom=e.target.value;
     body.querySelector('#wzSeg').oninput=e=>D.seguro=e.target.value; body.querySelector('#wzImp').oninput=e=>D.imp=e.target.value;
   } else {
@@ -6100,8 +6406,12 @@ function renderWizard(){
           const ck=r.ck===''?null:Number(r.ck), cm=r.cm===''?null:Number(r.cm);
           if(ck!==(it.intervaloKm??null) || cm!==(it.intervaloMeses??null)){ const {id:_x, ...rest}=it; await S.db.collection('mantenimiento').doc(id).set({...rest, intervaloKm:ck, intervaloMeses:cm}); n++; }
           if(!r.fecha) continue;
+          if(S.int.some(x=>x.mant===id && x.fecha===r.fecha)) continue; /* ese cambio ya estaba apuntado */
           await S.db.collection('intervenciones').add({fecha:r.fecha, km:r.km===''?null:Number(r.km), tipo:'Sustitución', mant:id, pieza:it.pieza||null, descripcion:'Último cambio (registro inicial)', ref:'', coste:null, creado:new Date().toISOString()}); n++; }
-        const D=WZ.docs, add=async(tipo,nombre,caduca)=>{ if(caduca){ await S.db.collection('documentos').add({tipo, nombre, caduca, notas:'', adjuntos:[]}); n++; } };
+        const D=WZ.docs, add=async(tipo,nombre,caduca)=>{ if(!caduca) return; const cur=docCur(tipo);
+          /* si ya existe ese documento se actualiza (antes se creaba otro cada vez que se pasaba el asistente) */
+          if(cur){ if(cur.caduca===caduca && (!nombre || cur.nombre===nombre)) return; if((cur.caduca||'')<=caduca){ const renov=cur.caduca && cur.caduca<caduca; await S.db.collection('documentos').doc(cur._id).set({...stripId2(cur), caduca, nombre:nombre||cur.nombre||'', ...(renov?{adjuntos:[], historial:[{caduca:cur.caduca, nombre:cur.nombre||'', notas:cur.notas||'', adjuntos:cur.adjuntos||[]}, ...(cur.historial||[])]}:{})}); n++; } return; }
+          await S.db.collection('documentos').add({tipo, nombre, caduca, notas:'', adjuntos:[]}); n++; };
         await add('ITV','',D.itv); await add('Seguro',D.seguroNom,D.seguro); await add('Impuesto de circulación','',D.imp);
         await wizardDone(false); if(n) toast(`Registrados ${n} datos iniciales`);
       }
@@ -6741,7 +7051,7 @@ function heroMini(){
 function attentionCard(km, skipKm){
   const rows=[];
   for(const {it,s} of mantList()) if(s.st==='due'||s.st==='soon') rows.push({c:stColor(s.st), i:'wrench', t:it.nombre, s:mantLine(it,s), r:ST_LABEL[s.st], fn:()=>openIntForm({mant:it.id, back:'mant'})});
-  for(const d of S.docs){ const s=docStatus(d); if(s.st==='due'||s.st==='soon') rows.push({c:stColor(s.st), i:'shield', t:d.tipo+(d.nombre?' · '+d.nombre:''), s:'Caduca el '+fmtDate(d.caduca), r:s.days<0?'Caducado':s.days===0?'Hoy':`${s.days} días`, fn:()=>{ S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); }}); }
+  for(const d of docsVig()){ const s=docStatus(d); if(s.st==='due'||s.st==='soon') rows.push({c:stColor(s.st), i:'shield', t:d.tipo+(d.nombre?' · '+d.nombre:''), s:'Caduca el '+fmtDate(d.caduca), r:s.days<0?'Caducado':s.days===0?'Hoy':`${s.days} días`, fn:()=>{ S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); }}); }
   const mont=(S.compras||[]).filter(x=>x.estado==='comprado'), pend=(S.compras||[]).filter(x=>x.estado==='pendiente');
   if(mont.length) rows.push({c:'var(--soon)', i:'cart', t:mont.length===1?mont[0].nombre:`${mont.length} piezas compradas`, s:'Compradas y sin montar', r:'Montar', fn:()=>go('mant','compra')});
   if(pend.length) rows.push({c:'var(--info)', i:'cart', t:`${pend.length} en la lista de la compra`, s:pend.slice(0,3).map(x=>x.nombre).join(', ')+(pend.length>3?'…':''), r:'Ver', fn:()=>go('mant','compra')});
@@ -7255,9 +7565,9 @@ function v2MasHome(pb){
   if(pb.contains(ovl)){ ovl.classList.remove('docked'); ovlHome.append(ovl); } pb.innerHTML='';
   const touch=matchMedia('(hover: none)').matches;
   const G=[
-    ['Consulta',[['fichas','tag','Fichas','Cada referencia con todo lo que se sabe de ella'],['catalogo','layers','Catálogo de piezas','Láminas, referencias y pares oficiales'],['ficha','gauge','Ficha técnica del BAC','Aceites, capacidades, pares y presiones'],['stats','chart','Estadísticas','Coste por año, por km y por categoría'],['listas','list','Listas de comprobación','Antes de la ITV, viaje largo, invierno…'],['talleres','wrench','Talleres y proveedores','Teléfonos, valoración y trabajos hechos'],['procs','book','Guías de reparación','Pasos, herramientas y pares']]],
-    ['Datos',[['backup','cloud','Copia de seguridad','Semanal automática, exportar y restaurar'],['importar','upload','Importar datos','Lotes de erWin y del catálogo, con deshacer'],['dossier','file','Dossier de venta','PDF con historial, ITV y fotos'],['compartir','link','Enlace para el taller','Solo lectura y con caducidad'],['pdf','receipt','Historial en PDF','Resumen corto para imprimir'],['wiz','sparkle','Asistente inicial','Km, últimos cambios y papeles']]],
-    ['Taller',[['pines','pin','Notas en el modelo','Avisos clavados en las piezas'],['pend','list','Fichas pendientes','Qué piezas faltan por documentar']]],
+    ['Piezas y taller',[['fichas','tag','Piezas','Busca por referencia o nombre y explora los dibujos'],['ficha','gauge','Ficha técnica del BAC','Aceites, capacidades, pares y presiones'],['procs','book','Guías y manuales','Paso a paso, con herramientas y pares'],['listas','list','Listas de comprobación','Antes de la ITV, viaje largo, invierno…'],['talleres','wrench','Talleres y proveedores','Teléfonos, valoración y trabajos hechos'],['pines','pin','Notas en el modelo','Avisos clavados en las piezas del 3D'],['pend','cube','Piezas del 3D sin referencia','Las que aún no tienen ficha completa']]],
+    ['Números y documentos',[['stats','chart','Estadísticas','Coste por año, por km y por categoría'],['dossier','file','Dossier de venta','PDF con historial, ITV y fotos'],['pdf','receipt','Historial en PDF','Resumen corto para imprimir'],['compartir','link','Enlace para el taller','Solo lectura y con caducidad']]],
+    ['Tus datos',[['backup','cloud','Copia de seguridad','Semanal automática, exportar y restaurar'],['importar','upload','Importar datos','Lotes de ElsaWin y ETKA, con deshacer'],['wiz','sparkle','Asistente inicial','Km, últimos cambios y papeles']]],
     ['Aplicación',[['avisos','alert','Avisos y notificaciones','Push, correo y Telegram'],['ajustes','sliders','Ajustes','Tema, sonidos, gráficos y avanzado'],...(touch?[]:[['keys','keyboard','Atajos de teclado','Teclas rápidas del visor']]),['about','info','Acerca de y actualizaciones','Versión, novedades y créditos'],['logout','logout','Cerrar sesión',(window.FB?.user?.()?.email||'Cuenta de Google')]]],
   ];
   for(const [gt,items] of G){
@@ -7634,7 +7944,7 @@ MOD.itv={col:'itv', newT:'Registrar inspección (ITV)', editT:'Editar inspecció
     const r=ctx.v('resultado'), p=ctx.v('proxima'), f=ctx.v('fecha'); r.onchange=()=>{ if(!p.value && f.value){ const d=new Date(f.value+'T12:00:00'); if(r.value==='desf'||r.value==='neg') d.setMonth(d.getMonth()+2); else d.setFullYear(d.getFullYear()+1); p.value=d.toISOString().slice(0,10); } }; },
   prep:(d,ctx)=>{ d.defectos=(ctx.defs||[]).filter(x=>(x.texto||'').trim()); },
   after:async(d)=>{ if(!d.actDoc || !d.proxima || !(d.resultado==='fav'||d.resultado==='leves')) return;
-    const doc=S.docs.find(x=>/itv/i.test(x.tipo||'')); const data={...(doc?stripId2(doc):{tipo:'ITV', nombre:d.estacion||'', notas:'', adjuntos:[]}), caduca:d.proxima};
+    const doc=docCur('ITV'); const data={...(doc?stripId2(doc):{tipo:'ITV', nombre:d.estacion||'', notas:'', adjuntos:[]}), caduca:d.proxima};
     if(doc) await S.db.collection('documentos').doc(doc._id).set(data); else await S.db.collection('documentos').add(data);
     if(num(d.km) && (!num(S.cfg?.kmActual) || num(d.km)>num(S.cfg.kmActual))) await S.db.doc('config/coche').set({...(S.cfg||{}), kmActual:num(d.km)});
     toast('Caducidad de la ITV actualizada: '+fmtDate(d.proxima)); }};
@@ -7642,13 +7952,13 @@ function itvPend(){ return S.v2.itv.flatMap(r=>(r.defectos||[]).filter(x=>!x.cor
 function renderITV(w){
   const L=[...S.v2.itv].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
   w.append(addBar('Registrar inspección',()=>recForm(MOD.itv)));
-  const doc=S.docs.find(x=>/itv/i.test(x.tipo||'')), ds=doc?docStatus(doc):null;
+  const doc=docCur('ITV'), ds=doc?docStatus(doc):null;
   if(doc?.caduca) w.append(h2(`<div class="card2 itvnext" style="--c:${stColor(ds.st)}"><span>${ic('calendar')}</span><div><small>Próxima ITV</small><b>${fmtDate(doc.caduca)}</b></div><em>${ds.days<0?'Caducada hace '+(-ds.days)+' días':ds.days===0?'Hoy':ds.days<=60?'En '+ds.days+' días':'En '+Math.round(ds.days/30.4)+' meses'}</em></div>`));
   if(!L.length){ w.append(emptyCard('checkc','Guarda cada inspección: resultado, defectos (leves, graves…), si los corregiste y el informe. Al registrar una favorable se actualiza sola la caducidad en Papeles.')); return; }
   const pend=itvPend();
   if(pend.length){ const c=card2('Defectos sin corregir','alert',pend.length); for(const p of pend) c.querySelector('.l2').append(row2({c:p.gravedad==='leve'?'var(--soon)':'var(--due)', i:'alert', t:p.texto, s:`${ITV_G[p.gravedad]||''} · ITV del ${fmtDate(p.r.fecha)}`, r:'Corregido', fn:async()=>{ const defs=(p.r.defectos||[]).map(x=>x===p.r.defectos.find(y=>y.texto===p.texto && !y.corregido)?{...x, corregido:true, fechaCorr:todayISO()}:x); await v2Upd('itv',p.r,{defectos:defs}); toast('Defecto marcado como corregido'); }})); w.append(c); }
   const c=card2('Inspecciones','history',L.length);
-  for(const r of L){ const nd=(r.defectos||[]).length; c.querySelector('.l2').append(row2({c:r.resultado==='fav'?'var(--ok)':r.resultado==='leves'?'var(--soon)':'var(--due)', i:'checkc', t:ITV_R[r.resultado]||'Inspección', s:`${fmtDate(r.fecha)} · ${kmT(r.km)}${r.estacion?' · '+r.estacion:''}${nd?` · ${nd} defecto(s)`:''}`, r:r.coste?eur(r.coste):'', fn:()=>recForm(MOD.itv,r)})); }
+  for(const r of L){ const nd=(r.defectos||[]).length; c.querySelector('.l2').append(row2({c:r.resultado==='fav'?'var(--ok)':r.resultado==='leves'?'var(--soon)':'var(--due)', i:'checkc', t:ITV_R[r.resultado]||'Inspección', s:`${fmtDate(r.fecha)} · ${kmT(r.km)}${r.estacion?' · '+r.estacion:''}${nd?` · ${pl(nd,'defecto')}`:''}`, r:r.coste?eur(r.coste):'', fn:()=>recForm(MOD.itv,r)})); }
   w.append(c);
 }
 V2SUBS.papeles.itv=renderITV;
@@ -7820,8 +8130,8 @@ const FT=[
   {k:'clima_aceite', l:'Aceite del compresor', v:'PAG G 052 300 A2 · 200 cc (2 zonas) · 300 cc (4 zonas)', c:'alta', s:['vwfl']},
  ]],
  ['Transmisión','layers',[
-  {k:'atf', l:'Cambio automático 09D (6 vel.)', v:'ATF G 055 025 A2 · 9,0 L llenado total', c:'alta', s:['idatf','vwfl'], n:'El cambio parcial (cárter) es bastante menos; mide lo que sale.'},
-  {k:'manual', l:'Cambio manual 6 vel.', v:'', c:'falta', s:[], n:'No encontrado en fuentes fiables. Consulta ELSA/erWin con tu bastidor.'},
+  {k:'atf', na:true, l:'Cambio automático 09D (6 vel.)', v:'ATF G 055 025 A2 · 9,0 L llenado total', c:'alta', s:['idatf','vwfl'], n:'El cambio parcial (cárter) es bastante menos; mide lo que sale.'},
+  {k:'manual', l:'Cambio manual 6 vel. (el tuyo)', v:'08D · código FEA · 6 velocidades con 4Motion', c:'media', s:[], n:'Código confirmado con la identificación de tu coche en ElsaWin. El aceite exacto y la cantidad están en ElsaWin ▸ Cambio manual 08D (grupo 34): cuando los importes se rellenan aquí.'},
   {k:'transfer', l:'Caja transfer 0AD', v:'G 052 515 A2 / G 055 515 A2 · 0,85 L', c:'alta', s:['idtc','vwfl']},
   {k:'dif_del', l:'Diferencial delantero', v:'1,0 L · aceite de engranajes G 052 145 S2', c:'media', s:['iddif','vwfl']},
   {k:'dif_tras', l:'Diferencial trasero', v:'1,25 L (1,6 L con bloqueo trasero) · G 052 145 S2', c:'media', s:['iddif','vwfl']},
@@ -7829,7 +8139,7 @@ const FT=[
  ]],
  ['Frenos','alert',[
   {k:'frenos', l:'Líquido de frenos', v:'DOT 4 · VW 501 14 (B 000 750) · cambio cada 2 años', c:'alta', s:['hay','vwfl11']},
-  {k:'pinzas', l:'Par de los soportes de pinza', v:'', c:'falta', s:[], n:'Consúltalo en ELSA/erWin y apúntalo aquí.'},
+  {k:'pinzas', l:'Par de los soportes de pinza', v:'', c:'falta', s:[], n:'Consúltalo en ElsaWin y apúntalo aquí.'},
  ]],
  ['Pares de apriete','wrench',[
   {k:'par_rueda', l:'Tornillos de rueda', v:'180 Nm', c:'alta', s:['bf']},
@@ -7870,19 +8180,19 @@ function fichaEdit(e){
   sheet(box, b=>b.classList.add('v2f'));
 }
 function renderFichaTec(w){
-  const own=S.cfgX.fichatec||{}, all=FT.flatMap(g=>g[2]), nOwn=all.filter(e=>own[e.k]?.v).length, nF=all.filter(e=>e.c==='falta' && !own[e.k]?.v).length;
-  w.append(h2(`<div class="card2 ftnote">${ic('info')}<p>Datos de taller del <b>Touareg 7L 2.5 R5 TDI (BAC)</b>, recopilados de fuentes públicas. Cada dato indica lo fiable que es. Toca cualquiera para ver sus fuentes o <b>poner tu propio dato</b> (de ELSA, de la etiqueta o de tu taller), que tendrá prioridad.<br><small>${nOwn} dato(s) tuyos · ${nF} por completar</small></p></div>`));
+  const own=S.cfgX.fichatec||{}, all=FT.flatMap(g=>g[2]), nOwn=all.filter(e=>own[e.k]?.v).length, nF=all.filter(e=>!e.na && e.c==='falta' && !own[e.k]?.v).length;
+  w.append(h2(`<div class="card2 ftnote">${ic('info')}<p>Datos de taller del <b>Touareg 7L 2.5 R5 TDI (BAC)</b>, recopilados de fuentes públicas. Cada dato indica lo fiable que es. Toca cualquiera para ver sus fuentes o <b>poner tu propio dato</b> (de ELSA, de la etiqueta o de tu taller), que tendrá prioridad.<br><small>${nOwn===1?'1 dato tuyo':nOwn+' datos tuyos'} · ${nF} por completar</small></p></div>`));
   const q=(UI.ftQ||'');
   const sr=h2(`<input class="inp2 ftq" type="search" placeholder="Buscar: aceite, par, presión…" value="${esc(q)}">`); sr.oninput=()=>{ UI.ftQ=sr.value; const qq=norm(sr.value); w.querySelectorAll('.ftr').forEach(r=>r.hidden=qq && !norm(r.dataset.s).includes(qq)); w.querySelectorAll('.ftg').forEach(g=>g.hidden=![...g.querySelectorAll('.ftr')].some(r=>!r.hidden)); };
   w.append(sr);
   for(const [t,i,L] of FT){
     const c=h2(`<div class="card2 ftg"><h3>${ic(i)}${esc(t)}</h3><div class="ftl"></div></div>`), l=c.querySelector('.ftl');
-    for(const e of L){ const o=own[e.k], val=o?.v||e.v, cc=o?.v?'tuyo':e.c;
+    for(const e of L){ if(e.na) continue; const o=own[e.k], val=o?.v||e.v, cc=o?.v?'tuyo':e.c;
       const r=h2(`<button type="button" class="ftr" data-s="${esc(t+' '+e.l+' '+val)}"><span class="ftk">${esc(e.l)}</span><b class="ftv${val?'':' miss'}">${esc(val||'Sin dato · toca para añadirlo')}</b><span class="ftc" style="--c:${FTC[cc][1]}">${FTC[cc][0]}</span></button>`);
       r.onclick=()=>{ uiSfx('tap'); fichaEdit(e); }; l.append(r); }
     w.append(c);
   }
-  w.append(h2(`<p class="muted2" style="margin:14px 2px">Antes de apretar o rellenar nada importante, confirma el dato con la documentación oficial de VW (ELSA / erWin) para tu bastidor${S.cfg?.vin?' '+esc(S.cfg.vin):''}.</p>`));
+  w.append(h2(`<p class="muted2" style="margin:14px 2px">Antes de apretar o rellenar nada importante, confirma el dato con la documentación oficial de VW (ElsaWin) para tu bastidor${S.cfg?.vin?' '+esc(S.cfg.vin):''}.</p>`));
   if(q) sr.dispatchEvent(new Event('input'));
 }
 MAS2.ficha=['Ficha técnica', renderFichaTec];
@@ -8162,7 +8472,7 @@ async function dossierPdf(o, st){
   const portada=[...S.v2.galeria].filter(g=>(g.fotos||[]).some(f=>(f.tipo||'').startsWith('image/'))).sort((a,b)=>(a.album==='Exterior'?0:1)-(b.album==='Exterior'?0:1)||(b.fecha||'').localeCompare(a.fecha||''))[0];
   if(portada && o.fotos){ try{ st.textContent='Preparando la foto de portada…'; const im=await imgData(portada.fotos.find(f=>(f.tipo||'').startsWith('image/')),1600); const mw=W-2*M, mh=Math.min(110, mw*im.h/im.w), mw2=mh*im.w/im.h; doc.addImage(im.d,'JPEG',M+(mw-mw2)/2,y,mw2,mh); y+=mh+8; }catch{} }
   /* resumen */
-  const mov=gastosMov(), ints=[...S.int].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||'')), pace=kmPace(), itvDoc=S.docs.find(d=>/itv/i.test(d.tipo||'')), mont=S.v2.neumaticos.find(n=>n.montado);
+  const mov=gastosMov(), ints=[...S.int].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||'')), pace=kmPace(), itvDoc=docCur('ITV'), mont=S.v2.neumaticos.find(n=>n.montado);
   const aceite=ints.find(x=>/aceite/i.test(itemName(x.mant)||x.descripcion||''));
   H2('Resumen');
   const rs=[[ 'Intervenciones registradas', String(ints.length)], ['Primer registro', ints.length?fmtDate(ints[ints.length-1].fecha):'—'], ['Último cambio de aceite', aceite?`${fmtDate(aceite.fecha)} · ${kmT(aceite.km)}`:'—'], ['ITV en vigor hasta', itvDoc?.caduca?fmtDate(itvDoc.caduca):'—'], ['Ritmo de uso', pace?`${nf.format(Math.round(pace.perYear))} km al año`:'—'], ['Neumáticos montados', mont?`${[mont.marca,mont.modelo].filter(Boolean).join(' ')} ${mont.medida||''}${dotAge(mont.dot)?' · '+nf1(dotAge(mont.dot).years)+' años':''}${tyreMin(mont)?' · '+nf1(tyreMin(mont).min)+' mm':''}`:'—']];
@@ -8350,7 +8660,7 @@ async function readInvoiceInto(file){
   }; }
 
 /* ====================== v2.0: IMPORTACIÓN POR LOTES Y CATÁLOGO DE PIEZAS ======================
-   Formato del archivo (lo genera Claude a partir de las descargas de erWin / ETKA):
+   Formato del archivo (lo genera Claude a partir de las descargas de ElsaWin / ETKA):
    { formato:'taller7l-import', version:1,
      lote:{nombre, fuente, fecha},
      laminas:[{id:'115-05', grupo:'1', subgrupo:'115', titulo, notas, img:{tipo,b64}|null,
@@ -8425,7 +8735,7 @@ function importPreview(d, nombreArchivo){
   },'pri']]);
 }
 function renderImportar(w){
-  w.append(h2(`<div class="card2 ftnote">${ic('upload')}<p>Aquí entran los <b>archivos de importación</b> que te preparo a partir de tus descargas de erWin y del catálogo de piezas: láminas con sus referencias, pares de apriete, guías de reparación y datos de la ficha técnica. Antes de importar ves un resumen, y cada lote se puede <b>deshacer entero</b>.</p></div>`));
+  w.append(h2(`<div class="card2 ftnote">${ic('upload')}<p>Aquí entran los <b>archivos de importación</b> que te preparo a partir de tus descargas de ElsaWin y del catálogo ETKA: láminas con sus referencias, pares de apriete, guías de reparación y datos de la ficha técnica. Antes de importar ves un resumen, y cada lote se puede <b>deshacer entero</b>.</p></div>`));
   const b=addBar('Elegir archivo de importación',()=>{ const i=document.createElement('input'); i.type='file'; i.accept='.json,application/json'; i.onchange=async()=>{ const f=i.files?.[0]; if(!f) return; let d; try{ d=JSON.parse(await f.text()); }catch{ toast('El archivo no se puede leer','err'); return; } if(d?.app==='touareg-taller' && d.colecciones){ toast('Eso es una copia de seguridad: ábrela en Más ▸ Copia de seguridad','err'); return; } importPreview(d, f.name); }; i.click(); });
   w.append(b);
   const L=[...S.v2.lotes].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
@@ -8714,7 +9024,7 @@ function wireBuild(c){
       for(let v=0; v<n; v++){ const sgi=Math.floor(v/(rad+1)), band=c2 && (sgi%5===0 || sgi%5===1); const cc=band?c2:c1; ca[v*3]=cc.r; ca[v*3+1]=cc.g; ca[v*3+2]=cc.b; }
       geo.setAttribute('color', new THREE.BufferAttribute(ca,3));
       const mat=new THREE.MeshBasicMaterial({vertexColors:true, depthTest:false, transparent:true, opacity:.96});
-      const t=new THREE.Mesh(geo, mat); t.renderOrder=999; t.userData.wire=w.id;
+      const t=new THREE.Mesh(geo, mat); t.renderOrder=999; t.userData.wire=w.id; t.userData.curve=curve; t.userData.rad=geo.parameters.radius; t.userData.seg=seg;
       const host=run.a && parts[pid(run.a)]?.root;
       if(host){ scene.add(t); host.attach(t); WIRE.tubes.push(t); } else WIRE.grp.add(t);
     }
@@ -8737,7 +9047,7 @@ function wireLabels(){
 }
 { const _up=updatePins; updatePins=function(){ _up(); wireLabels(); }; }
 function wireFocus(){
-  const b=new THREE.Box3(); WIRE.grp?.children.forEach(t=>b.expandByObject(t)); WIRE.tubes.forEach(t=>b.expandByObject(t)); if(b.isEmpty()) return;
+  const b=new THREE.Box3(); for(const t of [...(WIRE.grp?.children||[]), ...WIRE.tubes]){ t.updateWorldMatrix(true,false); if(!t.geometry.boundingBox) t.geometry.computeBoundingBox(); b.union(t.geometry.boundingBox.clone().applyMatrix4(t.matrixWorld)); } if(b.isEmpty()) return; /* solo los cables (no los brillos ni chispas, que nacen en el origen) */
   const c=b.getCenter(new THREE.Vector3()), s=b.getSize(new THREE.Vector3()).length(), f=carFrame();
   const side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s; /* desde el lado izquierdo del coche */
   if(WIRE.on?.lado==='der') side.negate();
@@ -8896,7 +9206,7 @@ function fichaSheet(k){
   /* catálogo */
   if(f.lam.length){ const c=card2('En el catálogo','layers', f.lam.length);
     for(const {l,p} of f.lam){ const extra=[p.cant!=null?`×${nf2(p.cant)}`:'', p.pr?'PR '+p.pr:''].filter(Boolean).join(' · ');
-      c.querySelector('.l2').append(row2({c:'var(--accent)', i:'layers', thumb:l.img?.id, t:`Lámina ${l.lamina}${p.pos?' · pos. '+p.pos:''}`, s:[tildes(l.titulo), tildes(p.nota), extra].filter(Boolean).join(' · '), fn:()=>laminaSheet(l)})); }
+      c.querySelector('.l2').append(row2({c:'var(--accent)', i:'layers', thumb:l.img?.id, t:`Lámina ${l.lamina}${p.pos?' · pos. '+p.pos:''}`, s:[tildes(l.titulo), tildes(p.nota), extra].filter(Boolean).join(' · '), fn:()=>{ UI.lamPos=p.pos; laminaSheet(l); }})); }
     body.append(c); }
   /* variantes de la misma pieza (misma base, otro índice) y sustituciones */
   const base=f.k.match(/^([0-9A-Z]{3}\d{6})/)?.[1];
@@ -8922,10 +9232,10 @@ function fichaSheet(k){
   const sub=f.uso.length?f.uso.slice(0,2).join(' · '):'';
   detailSheet(f.nombre, sub, body, [
     ['Añadir a la compra','cart',async()=>{ if(!S.db) return toast('Inicia sesión para guardar','err'); await S.db.collection('compras').add({nombre:f.nombre, ref:f.ref, cantidad:1, estado:'pendiente', notas:f.lam[0]?`Lámina ${f.lam[0].l.lamina}${f.lam[0].p.pos?' · pos. '+f.lam[0].p.pos:''}`:'', creado:new Date().toISOString()}); toast(`«${f.nombre}» añadido a la compra`); }],
-    ['Buscar en internet','search',()=>window.open('https://www.google.com/search?q='+encodeURIComponent(f.ref.replace(/\s+/g,' ')+' '+f.k),'_blank','noopener')],
+    ['Buscar en internet','search',()=>window.open('https://www.google.com/search?q='+encodeURIComponent(f.k),'_blank','noopener')],
   ]);
 }
-MOD.refs={col:'refs', newT:'Nueva ficha', editT:'Tus datos de la pieza', delT:'Datos de la ficha borrados',
+MOD.refs={col:'refs', newT:'Añadir pieza', editT:'Tus datos de la pieza', delT:'Datos de la ficha borrados',
   delQ:()=>'¿Borrar tus datos de esta ficha? La ficha sigue existiendo con lo que sale del catálogo, compras e historial.',
   fields:[{k:'ref',l:'Referencia',req:true,ph:'7L0 971 341 F'},{k:'nombre',l:'Nombre',ph:'Si lo dejas vacío se usa el del catálogo'},
     {k:'stock',l:'En casa (unidades)',t:'num',half:true,ph:'0'},{k:'precio',l:'Precio de referencia',t:'eur',half:true},
@@ -8941,10 +9251,10 @@ function refForm(f){ if(f){ const x=f.user?{...f.user}:{_id:f.k, ref:f.ref, nomb
 /* ---------- la página ---------- */
 function renderFichas(w){
   const M=refIndex(), all=[...M.values()];
-  w.append(addBar('Nueva ficha', ()=>refForm(null)));
-  if(!all.length){ w.append(emptyCard('tag','Aquí tendrás una <b>ficha por cada referencia</b> de tu Touareg: nombre, en qué lámina sale, variantes, lo que pagaste, cuándo la montaste y tus notas. Se crean solas al importar láminas o al apuntar compras con referencia.','Importar datos',()=>masOpen('importar'))); return; }
-  w.append(h2(`<div class="stchips s3">${stat(nf.format(all.length),'Fichas','var(--accent)')}${stat(all.filter(f=>f.com.length).length,'Compradas','var(--info)')}${stat(all.filter(f=>f.stock).length,'En casa','var(--ok)')}</div>`));
-  const sr=h2(`<input class="inp2 ftq" type="search" placeholder="Referencia o nombre: 7L0 971 341, bombilla, junta…" value="${esc(UI.fiQ||'')}">`); w.append(sr);
+  w.append(addBar('Añadir pieza', ()=>refForm(null)));
+  if(!all.length){ w.append(emptyCard('tag','Aquí está <b>cada pieza de tu Touareg</b> con su referencia: búscala por nombre o referencia, o explórala por grupo, por tipo o en los <b>dibujos del catálogo</b>. Cada una tiene su ficha con lo que pagaste, cuándo la montaste y tus notas. Se rellena sola al importar láminas o al apuntar compras con referencia.','Importar datos',()=>masOpen('importar'))); return; }
+  w.append(h2(`<div class="stchips s3">${stat(nf.format(all.length),'Piezas','var(--accent)')}${stat(all.filter(f=>f.com.length).length,'Compradas','var(--info)')}${stat(all.filter(f=>f.stock).length,'En casa','var(--ok)')}</div>`));
+  const sr=h2(`<input class="inp2 ftq" type="search" placeholder="Busca por referencia o nombre: 7L0971341, bombilla…" value="${esc(UI.fiQ||'')}">`); w.append(sr);
   const res=h2('<div></div>'); w.append(res);
   const list=(title, icon, L)=>{ const c=card2(title, icon, nf.format(L.length)); const l2=c.querySelector('.l2'); let n=0;
     const more=()=>{ for(const f of L.slice(n, n+80)) l2.append(refRow(f)); n+=80; l2.querySelector('.fimore')?.remove();
@@ -8955,8 +9265,13 @@ function renderFichas(w){
       if(!hits.length && refKey(q).length>=7){ const b=h2(`<button type="button" class="btn2 ghost" style="margin-top:8px">${ic('plus')}Crear ficha para ${esc(fmtRef(q))}</button>`); b.onclick=()=>recForm(MOD.refs,null,{ref:fmtRef(q)}); res.append(b); }
       return; }
     const tab=UI.fiTab||'grupo';
-    res.append(chips([['grupo','Por grupo'],['tipo','Por tipo de pieza'],['mias','Con datos tuyos']], tab, k=>{ UI.fiTab=k; UI.fiSel=null; v2Rerender(); }));
-    if(tab==='mias'){ const L=all.filter(f=>f.user||f.com.length||f.int.length||f.m3d.length).sort((a,b)=>COLL.compare(a.nombre,b.nombre)); res.append(list('Con datos tuyos','home',L)); return; }
+    res.append(chips([['grupo','Por grupo'],['tipo','Por tipo'],['dibujo','Por dibujo'],['mias','Las mías']], tab, k=>{ UI.fiTab=k; UI.fiSel=null; v2Rerender(); }));
+    if(tab==='dibujo'){ const C=S.v2.catalogo; if(!C.length){ res.append(emptyCard('layers','Aquí verás los <b>dibujos del catálogo</b> (láminas de ETKA) con cada pieza numerada. Toca una referencia del dibujo y vas a su ficha.','Importar datos',()=>masOpen('importar'))); return; }
+      for(const g of [...new Set(C.map(l=>String(l.grupo).charAt(0)))].sort()){ const L=C.filter(l=>String(l.grupo).charAt(0)===g).sort((a,b)=>COLL.compare(a.lamina,b.lamina)); const c=card2(grpName(g),'layers',L.length);
+        for(const l of L) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'layers', thumb:l.img?.id, t:`${l.lamina} · ${tildes(l.titulo||'')}`, s:pl((l.piezas||[]).length,'pieza'), fn:()=>laminaSheet(l)}));
+        res.append(c); }
+      return; }
+    if(tab==='mias'){ const L=all.filter(f=>f.user||f.com.length||f.int.length||f.m3d.length).sort((a,b)=>COLL.compare(a.nombre,b.nombre)); res.append(list('Las mías: compradas, en casa o anotadas','home',L)); return; }
     const keyOf=f=>tab==='grupo'?f.grp:f.tipo, names=tab==='grupo'?FGRP:FTIPO_N;
     if(UI.fiSel){ const back=h2(`<button type="button" class="btn2 ghost fiback">${ic('chevL')}Todas las secciones</button>`); back.onclick=()=>{ UI.fiSel=null; v2Rerender(); }; res.append(back);
       const L=all.filter(f=>keyOf(f)===UI.fiSel).sort((a,b)=>COLL.compare(a.nombre,b.nombre)||COLL.compare(a.k,b.k)); res.append(list(names[UI.fiSel]||UI.fiSel, tab==='grupo'?'layers':'tag', L)); return; }
@@ -8968,12 +9283,518 @@ function renderFichas(w){
   };
   sr.oninput=()=>{ UI.fiQ=sr.value; draw(); }; draw();
 }
-MAS2.fichas=['Fichas', renderFichas]; MAS_T.fichas='Fichas';
+MAS2.fichas=['Piezas', renderFichas]; MAS_T.fichas='Piezas';
+/* el antiguo «Catálogo de piezas» es ahora la pestaña «Por dibujo» de Piezas */
+MAS2.catalogo=['Piezas', w=>{ UI.fiTab='dibujo'; renderFichas(w); }]; MAS_T.catalogo='Piezas';
 /* el buscador general: fichas en vez de filas sueltas del catálogo */
 { const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<3) return;
     const hits=refFind(raw).slice(0,6); if(!hits.length) return;
-    const out=$('#srRes'); out.querySelector(':scope > .empty2')?.remove(); out.append(h2('<h5>Fichas</h5>'));
+    const out=$('#srRes'); out.querySelector(':scope > .empty2')?.remove(); out.append(h2('<h5>Piezas</h5>'));
     for(const f of hits){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic('tag')}</span><span class="tx"><b>${hl(f.nombre,q)}</b><small>${esc([f.ref, f.uso[0]].filter(Boolean).join(' · '))}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); go('mas'); masOpen('fichas'); setTimeout(()=>fichaSheet(f.k),200); }; out.append(r); } }; }
+/* ====================== v2.1: REVISIÓN COMPLETA (navegación, arreglos y textos) ====================== */
+/* ---------- plurales: «3 archivo(s)» → «3 archivos», «1 foto(s)» → «1 foto» en cualquier texto de la app ---------- */
+const pl=(n,s,p)=>`${nf.format(n)} ${n===1?s:(p||s+'s')}`;
+function fixPlural(t){ let last=null; return t.replace(/(\d[\d.]*(?:,\d+)?)|([A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+)\((e?s)\)/g,(m,num,w,suf)=>{ if(num){ last=Number(num.replace(/\./g,'').replace(',','.')); return m; } return w+(last===1?'':suf); }); }
+{ const skip=t=>!!t.parentElement?.closest('textarea,input,select,[contenteditable],script,style');
+  const fixNode=n=>{ if(n.nodeType===3){ if(!skip(n) && (n.data.includes('(s)')||n.data.includes('(es)'))){ const v=fixPlural(n.data); if(v!==n.data) n.data=v; } return; }
+    if(n.nodeType!==1 || n.closest?.('input,textarea,[contenteditable]')) return;
+    const w=document.createTreeWalker(n,NodeFilter.SHOW_TEXT); let t; while(t=w.nextNode()) if(!skip(t) && (t.data.includes('(s)')||t.data.includes('(es)'))){ const v=fixPlural(t.data); if(v!==t.data) t.data=v; }
+    for(const a of ['title','aria-label','placeholder']) n.querySelectorAll?.(`[${a}*="(s)"]`).forEach(e=>e.setAttribute(a, fixPlural(e.getAttribute(a)))); };
+  new MutationObserver(ms=>{ for(const m of ms){ if(m.type==='characterData') fixNode(m.target); else m.addedNodes.forEach(fixNode); } }).observe(document.body,{subtree:true, childList:true, characterData:true});
+  fixNode(document.body);
+  const _t=toast; toast=function(msg,...r){ return _t(typeof msg==='string'?fixPlural(msg):msg,...r); }; }
+
+/* ---------- 3D: botón «Electricidad» con submenú (Cableado · Fusibles) ---------- */
+{ const SC=SECS.coche.subs; const i=SC.findIndex(x=>x[0]==='fus'); if(i>=0) SC.splice(i,1); document.querySelector('#stCoche button[data-sub="fus"]')?.remove(); }
+let ELOFF=null;
+function elecMenuClose(){ if(ELOFF){ document.removeEventListener('pointerdown', ELOFF, true); ELOFF=null; } document.querySelector('.elecm')?.remove(); document.querySelector('#tWire')?.setAttribute('aria-expanded','false'); }
+function elecMenu(){
+  if(document.querySelector('.elecm')){ elecMenuClose(); return; }
+  const btn=$('#tWire'); if(!btn) return; btn.setAttribute('aria-expanded','true');
+  const nC=S.v2.circuitos.length, nF=(S.fus||[]).length;
+  const m=h2(`<div class="elecm" role="menu"><div class="elech">${ic('zap')}<span>Electricidad</span></div></div>`);
+  const item=(i,t,s,fn,cls)=>{ const b=h2(`<button type="button" role="menuitem" class="${cls||''}"><i>${ic(i)}</i><span><b>${esc(t)}</b><small>${esc(s)}</small></span>${ic('chevR')}</button>`); b.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenuClose(); fn(); }; m.append(b); };
+  item('zap','Cableado', WIRE.on?`Viendo: ${WIRE.on.titulo}`:(nC?`${pl(nC,'circuito')} para ver en 3D`:'Recorrido de los cables en 3D'), wirePicker);
+  if(WIRE.on) item('x','Quitar el cableado','Vuelve a ver el coche normal', ()=>wireClear(), 'muted');
+  item('fuse','Fusibles y relés', nF?`${pl(nF,'fusible')} apuntados`:'Cajas de fusibles con su circuito', ()=>{ if(WIRE.on) wireClear(); go('coche','fus'); });
+  for(const ev of ['pointerdown','mousedown','touchstart','wheel']) m.addEventListener(ev, e=>e.stopPropagation(), {passive:true});
+  stage.append(m);
+  const r=btn.getBoundingClientRect(), sr=stage.getBoundingClientRect(), w=Math.min(300, sr.width-16);
+  m.style.width=w+'px'; m.style.top=(r.bottom-sr.top+8)+'px'; m.style.left=Math.max(8, Math.min(r.left-sr.left, sr.width-w-8))+'px';
+  setTimeout(()=>{ ELOFF=e=>{ if(!e.target.closest('.elecm,#tWire')) elecMenuClose(); }; document.addEventListener('pointerdown', ELOFF, true); }, 0);
+}
+IC.fuse=IC.fuse||'<rect x="3" y="8" width="18" height="8" rx="2"/><path d="M7 8V6M17 8V6M7 18v-2M17 18v-2M9 12h6"/>';
+{ const b=$('#tWire'); if(b){ b.innerHTML=ic('zap','ti')+'<span>Electricidad</span>'+ic('chevD','ti chev'); b.setAttribute('aria-haspopup','menu'); b.title='Cableado de los circuitos y cajas de fusibles'; b.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenu(); }; } }
+IC.chevD=IC.chevD||'<path d="m6 9 6 6 6-6"/>';
+{ const _go=go; go=function(...a){ elecMenuClose(); return _go(...a); }; }
+/* «Fusibles» ya no es pestaña: al entrar se muestra con «atrás» que vuelve al 3D */
+{ const _st=setTop; setTop=function(){ _st(); if(UI.sec==='coche' && UI.sub.coche==='fus'){ $('#t2Title').textContent='Fusibles'; $('#t2Sub').textContent='Coche · Electricidad'; $('#t2Back').hidden=false; } }; }
+$('#t2Back').addEventListener('click', e=>{ if(UI.sec==='coche' && UI.sub.coche==='fus'){ e.stopImmediatePropagation(); uiSfx('tap'); go('coche','3d'); } }, true);
+
+/* ---------- cableado: etiquetas por debajo de la barra de herramientas y sin pisarse ---------- */
+{ let sig=''; const _wl=wireLabels; wireLabels=function(){ _wl(); if(!WIRE.on) return;
+    /* solo se recolocan si la cámara, el tamaño o las etiquetas han cambiado (antes se medía en cada fotograma) */
+    const k=camera.matrixWorld.elements.map(v=>v.toFixed(4)).join()+innerWidth+'x'+innerHeight+WIRE.labels.length+(document.querySelector('.wirecard')?.offsetHeight||0);
+    if(k===sig) return; sig=k;
+    const tb=document.querySelector('.tools')?.getBoundingClientRect(), wc=document.querySelector('.wirecard')?.getBoundingClientRect(); if(!tb) return;
+    const L=WIRE.labels.filter(l=>!l.el.hidden); L.forEach(l=>{ l.el.style.setProperty('--dy','0px'); l.el.classList.remove('moved'); });
+    const R=L.map(l=>({l, r:l.el.getBoundingClientRect()})); const hit=(r,b)=>b && r.bottom>b.top && r.top<b.bottom && r.right>b.left && r.left<b.right;
+    const vis=[]; for(const v of R){ const u=hit(v.r,tb)||hit(v.r,wc); v.l.el.classList.toggle('under', !!u); if(!u) vis.push(v); }
+    vis.sort((a,b)=>b.r.bottom-a.r.bottom); const placed=[];
+    for(const v of vis){ let dy=0; const r={left:v.r.left, right:v.r.right, top:v.r.top, bottom:v.r.bottom}; for(let i=0;i<8;i++){ const o=placed.find(p=>r.left<p.right+2 && r.right>p.left-2 && r.top<p.bottom+2 && r.bottom>p.top-2); if(!o) break; const d=r.bottom-(o.top-3); dy-=d; r.top-=d; r.bottom-=d; }
+      if(dy<0 && hit(r,tb)){ v.l.el.classList.add('under'); continue; }
+      v.l.el.style.setProperty('--dy', dy+'px'); v.l.el.style.setProperty('--dya', (-dy)+'px'); v.l.el.classList.toggle('moved', dy<0); placed.push(r); } }; }
+
+/* ---------- cableado: la corriente recorre el cable elegido ---------- */
+const WFX={on:false, items:[], raf:0, t0:0, sweep:0};
+function wfxTex(){ if(WFX.tex) return WFX.tex; const c=document.createElement('canvas'); c.width=256; c.height=8; const g=c.getContext('2d');
+  const gr=g.createLinearGradient(0,0,256,0); gr.addColorStop(0,'rgba(255,255,255,0)'); gr.addColorStop(.55,'rgba(120,220,255,.25)'); gr.addColorStop(.86,'rgba(190,240,255,.95)'); gr.addColorStop(.93,'rgba(255,255,255,1)'); gr.addColorStop(1,'rgba(255,255,255,0)');
+  g.fillStyle=gr; g.fillRect(0,0,256,8); const t=new THREE.CanvasTexture(c); t.wrapS=THREE.RepeatWrapping; t.colorSpace=THREE.SRGBColorSpace; return WFX.tex=t; }
+function wfxSpark(){ if(WFX.spk) return WFX.spk; const c=document.createElement('canvas'); c.width=c.height=64; const g=c.getContext('2d'); const gr=g.createRadialGradient(32,32,0,32,32,32);
+  gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(.25,'rgba(170,235,255,.9)'); gr.addColorStop(.6,'rgba(60,170,255,.25)'); gr.addColorStop(1,'rgba(60,170,255,0)'); g.fillStyle=gr; g.fillRect(0,0,64,64);
+  const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return WFX.spk=t; }
+function wfxClear(){ for(const it of WFX.items){ it.glow.removeFromParent(); it.glow.geometry.dispose(); it.glow.material.dispose(); it.tex?.dispose?.(); it.spk.forEach(s=>{ s.removeFromParent(); s.material.dispose(); }); } WFX.items=[]; WFX.on=false; cancelAnimationFrame(WFX.raf); dirty=true; }
+function wfxSet(ids, sweep){
+  wfxClear(); if(!WIRE.on || !ids || !ids.size || RM) { return; }
+  const all=[...(WIRE.grp?.children||[]), ...(WIRE.tubes||[])].filter(t=>ids.has(t.userData.wire) && t.userData.curve);
+  for(const t of all){ const len=t.userData.curve.getLength(), rad=t.userData.rad||.004;
+    const geo=new THREE.TubeGeometry(t.userData.curve, Math.min(400, t.userData.seg||80), rad*1.9, 8, false);
+    const tex=wfxTex().clone(); tex.needsUpdate=true; tex.repeat.set(Math.max(1, len/.35), 1);
+    const mat=new THREE.MeshBasicMaterial({map:tex, transparent:true, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending, color:0xffffff});
+    const glow=new THREE.Mesh(geo, mat); glow.renderOrder=1000; t.add(glow);
+    const spk=[0,1,2].map(()=>{ const s=new THREE.Sprite(new THREE.SpriteMaterial({map:wfxSpark(), transparent:true, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending})); s.renderOrder=1001; s.scale.setScalar(rad*14); t.add(s); return s; });
+    WFX.items.push({t, glow, tex, spk, len, ph:Math.random()}); }
+  WFX.on=WFX.items.length>0; WFX.t0=performance.now(); WFX.sweep=sweep?1:0;
+  const tick=now=>{ if(!WFX.on) return; if(document.hidden || UI.sec!=='coche' || UI.sub.coche!=='3d'){ WFX.raf=requestAnimationFrame(tick); return; } const s=(now-WFX.t0)/1000;
+    for(const it of WFX.items){ const sp=.55/Math.max(.4,it.len); it.tex.offset.x=-(s*1.6)%1;
+      it.spk.forEach((p,k)=>{ const u=((s*sp*1.4)+it.ph+k/3)%1; const pt=it.t.userData.curve.getPointAt(Math.min(u,.999)); if(pt) p.position.copy(pt); p.material.opacity=.55+.45*Math.sin(s*14+k*2); });
+      it.glow.material.opacity=.75+.25*Math.sin(s*9+it.ph*6); }
+    dirty=true; WFX.raf=requestAnimationFrame(tick); };
+  WFX.raf=requestAnimationFrame(tick);
+}
+{ const _wh=wireHighlight; wireHighlight=function(id){ _wh(id); wfxSet(WIRE.sel && !String(WIRE.sel).startsWith('n:')?new Set([WIRE.sel]):null); }; }
+{ const _wn=wireNodeInfo; wireNodeInfo=function(c,n){ _wn(c,n); const ids=new Set((c.cables||[]).filter(w=>(w.ruta||[]).some(a=>a===n.id) || [w.de,w.a].some(s=>s && n.cod && String(s).startsWith(n.cod))).map(w=>w.id)); wfxSet(ids); }; }
+{ const _wc=wireClear; wireClear=function(k){ wfxClear(); return _wc(k); }; }
+/* al abrir un circuito: un barrido de corriente por todos sus cables */
+{ const _wb=wireBuild; wireBuild=function(c){ const r=_wb(c); document.body.classList.add('wirepow'); setTimeout(()=>document.body.classList.remove('wirepow'),1600);
+    const ids=new Set((c.cables||[]).map(w=>w.id)), dl=(typeof ANIMON==='function' && ANIMON())?Math.max(700,(ids.size-1)*90+950):700; setTimeout(()=>{ if(WIRE.on===c && !WIRE.sel){ wfxSet(ids, true); setTimeout(()=>{ if(WIRE.on===c && !WIRE.sel) wfxClear(); }, 2600); } }, dl); return r; }; }
+
+/* ---------- Gráficos: escenario y calidad son de opción única ---------- */
+{ const _rm=renderMenus; renderMenus=function(){ _rm();
+    for(const [id,g] of [['mScene','esc'],['mQual','cal']]) document.querySelectorAll('#'+id+' .mi').forEach(mi=>{ const inp=mi.querySelector('input'); if(!inp) return; const on=mi.getAttribute('aria-checked')==='true'; inp.type='radio'; inp.name='g_'+g; inp.checked=on; inp.defaultChecked=on; }); };
+  renderMenus(); }
+document.addEventListener('click', e=>{ if(e.target.closest('.mbtn')) setTimeout(()=>{ try{ renderMenus(); }catch{} },0); }, true);
+document.addEventListener('pointerover', e=>{ const s=e.target.closest?.('.mi.sub'); if(!s) return; s.parentElement?.querySelectorAll(':scope > .mi.sub').forEach(o=>{ if(o!==s) o.classList.remove('hov','open'); }); });
+/* si la calidad cambia sola (por rendimiento), el menú lo refleja */
+{ let q=R.quality; setInterval(()=>{ if(R.quality!==q){ q=R.quality; try{ renderMenus(); }catch{} } }, 1500); }
+
+/* ---------- Ajustes: la línea técnica de pantalla pasa a «Acerca de» ---------- */
+{ const _rm=renderMas; renderMas=function(){ _rm(); if(UI.mas!=='ajustes') return; const p=[...document.querySelectorAll('#pbMas p.muted2')].find(x=>/zonas seguras/.test(x.textContent)); if(!p || p.closest('details')) return;
+    const d=h2(`<details class="diag"><summary>Datos técnicos de la pantalla</summary></details>`); p.style.opacity=''; p.style.margin='6px 2px 0'; p.before(d); d.append(p); }; }
+
+/* ---------- GUÍAS: página nueva (leer, seguir en el 3D, editar) + manuales ---------- */
+const gTools=pr=>[...new Set([pr.herramientas, ...(pr.pasos||[]).map(p=>p.herr)].filter(Boolean).flatMap(s=>String(s).split(/[,;·]/)).map(s=>s.trim()).filter(Boolean))];
+const gHas3D=pr=>(pr.pasos||[]).some(p=>p.cam || (p.piezas||[]).length);
+function guiaRun3D(pr){ closeSheet(); go('coche','3d'); const t0=Date.now(); const run=()=>{ if(!UI.modelReady && Date.now()-t0<30000) return setTimeout(run,300); try{ runProc(pr._id,0); }catch(e){ toast('No se pudo abrir la guía en el 3D','err'); } }; setTimeout(run,250); }
+function guiaRead(pr){
+  UI.gchk=UI.gchk||{}; const done=UI.gchk[pr._id]=UI.gchk[pr._id]||new Set(); const P=pr.pasos||[];
+  const body=h2('<div class="gread"></div>');
+  const prog=h2(`<div class="gprog"><div class="gbar"><i></i></div><span></span></div>`); body.append(prog);
+  const upd=()=>{ const n=done.size; prog.querySelector('i').style.width=(P.length?n/P.length*100:0)+'%'; prog.querySelector('span').textContent=`${n} de ${P.length}`; };
+  const meta=[pr.fuente?`Fuente: ${pr.fuente}`:'', gTools(pr).length?`Herramientas: ${gTools(pr).join(', ')}`:''].filter(Boolean);
+  if(meta.length) body.append(h2(`<p class="muted2" style="margin:0 0 10px">${meta.map(esc).join('<br>')}</p>`));
+  const ol=h2('<ol class="gsteps"></ol>');
+  P.forEach((p,i)=>{ const li=h2(`<li class="${done.has(i)?'on':''}"><button type="button" class="gchk" aria-label="Hecho">${ic('check')}</button><div><p>${esc(p.texto||'')}</p>${[p.herr?`${ic('wrench')}${esc(p.herr)}`:'', p.par?`${ic('gauge')}${esc(p.par)}`:'', (p.piezas||[]).length?`${ic('cube')}${esc((p.piezas||[]).map(partName).filter(Boolean).join(', '))}`:''].filter(Boolean).map(x=>`<small>${x}</small>`).join('')}</div></li>`);
+    li.querySelector('.gchk').onclick=()=>{ if(done.has(i)) done.delete(i); else { done.add(i); uiSfx('tick'); } li.classList.toggle('on', done.has(i)); upd(); if(done.size===P.length && P.length){ celebrate(); toast('Guía completada'); } };
+    ol.append(li); });
+  body.append(ol); upd();
+  const acts=[]; if(gHas3D(pr)) acts.push(['Seguir en el 3D','cube',()=>guiaRun3D(pr),'pri']);
+  acts.push(['Editar','edit',()=>guiaEdit(pr)]);
+  detailSheet(pr.titulo||'Guía', `${pl(P.length,'paso')}${done.size?` · ${done.size} hechos`:''}`, body, acts);
+}
+function guiaEdit(pr0){
+  const pr=pr0?JSON.parse(JSON.stringify(stripId2(pr0))):{titulo:'', herramientas:'', pasos:[]}; const id=pr0?._id;
+  const box=h2(`<div class="recf gedit"><h3>${id?'Editar guía':'Nueva guía'}</h3><div class="fgrid2">
+    <div class="ff full"><label class="lab2">Título</label><input class="inp2" id="ge_t" placeholder="Cambiar el filtro de gasoil"></div>
+    <div class="ff full"><label class="lab2">Herramientas generales</label><input class="inp2" id="ge_h" placeholder="Llave de 13, Torx T30…"></div></div>
+    <div class="gelist"></div><button type="button" class="btn2 ghost geadd">${ic('plus')}Añadir paso</button>
+    <p class="muted2" style="margin:10px 2px 0">Para que un paso mueva la cámara del 3D, coloca el coche como quieras verlo y pulsa «Usar la vista del 3D» en ese paso.</p>
+    <div class="row3 recacts">${id?`<button class="btn2 ghost" type="button" data-a="del" style="margin-right:auto;color:var(--due)">${ic('trash')}Borrar</button>`:''}<button class="btn2 ghost" type="button" data-a="no">Cancelar</button><button class="btn2" type="button" data-a="ok">${ic('check')}Guardar</button></div></div>`);
+  const t=box.querySelector('#ge_t'), hh=box.querySelector('#ge_h'), list=box.querySelector('.gelist'); t.value=pr.titulo||''; hh.value=pr.herramientas||'';
+  const draw=()=>{ list.innerHTML=''; pr.pasos.forEach((p,i)=>{ const c=h2(`<div class="gestep"><div class="gesh"><b>Paso ${i+1}</b><span>
+      <button type="button" class="ib" data-a="up" aria-label="Subir"${i?'':' disabled'}>${ic('chevU')}</button><button type="button" class="ib" data-a="dn" aria-label="Bajar"${i<pr.pasos.length-1?'':' disabled'}>${ic('chevD')}</button><button type="button" class="ib" data-a="rm" aria-label="Quitar">${ic('trash')}</button></span></div>
+      <textarea class="inp2" rows="3" placeholder="Qué hay que hacer en este paso"></textarea><div class="ge2"><input class="inp2" placeholder="Herramientas"><input class="inp2" placeholder="Par de apriete (Nm)"></div>
+      <button type="button" class="btn2 ghost gecam">${ic('video')}${p.cam?'Vista guardada · actualizar':'Usar la vista del 3D'}</button></div>`);
+      const [ta]=c.querySelectorAll('textarea'), [hi,pi]=c.querySelectorAll('.ge2 input'); ta.value=p.texto||''; hi.value=p.herr||''; pi.value=p.par||'';
+      ta.oninput=()=>p.texto=ta.value; hi.oninput=()=>p.herr=hi.value; pi.oninput=()=>p.par=pi.value;
+      c.querySelector('[data-a="up"]').onclick=()=>{ [pr.pasos[i-1],pr.pasos[i]]=[pr.pasos[i],pr.pasos[i-1]]; draw(); };
+      c.querySelector('[data-a="dn"]').onclick=()=>{ [pr.pasos[i+1],pr.pasos[i]]=[pr.pasos[i],pr.pasos[i+1]]; draw(); };
+      c.querySelector('[data-a="rm"]').onclick=()=>{ pr.pasos.splice(i,1); draw(); };
+      c.querySelector('.gecam').onclick=()=>{ try{ p.cam=camNow(); toast('Vista del paso guardada'); draw(); }catch{ toast('Abre antes el modelo 3D','err'); } };
+      list.append(c); }); };
+  box.querySelector('.geadd').onclick=()=>{ pr.pasos.push({texto:'', herr:'', par:'', piezas:S.sel?[S.sel]:[]}); draw(); setTimeout(()=>list.lastElementChild?.querySelector('textarea')?.focus(),50); };
+  box.querySelector('[data-a="no"]').onclick=closeSheet;
+  box.querySelector('[data-a="del"]')?.addEventListener('click',()=>{ if(!confirm('¿Borrar esta guía?')) return; closeSheet(); v2Del('procedimientos', pr0, 'Guía borrada'); });
+  box.querySelector('[data-a="ok"]').onclick=async()=>{ pr.titulo=t.value.trim(); pr.herramientas=hh.value.trim(); if(!pr.titulo){ t.focus(); toast('Ponle un título','err'); return; } if(!S.db) return toast('Inicia sesión para guardar','err');
+    const d={...pr, pasos:pr.pasos.filter(p=>(p.texto||'').trim()||p.cam), actualizado:new Date().toISOString()};
+    try{ if(id) await S.db.collection('procedimientos').doc(id).set(d); else await S.db.collection('procedimientos').add({...d, creado:d.actualizado}); closeSheet(); uiSfx('save'); celebrate(); toast('Guía guardada'); }catch{ toast('No se pudo guardar','err'); } };
+  draw(); sheet(box, b=>b.classList.add('v2f'));
+}
+IC.chevU=IC.chevU||'<path d="m6 15 6-6 6 6"/>';
+function renderGuias(w){
+  const L=[...(S.procs||[])].sort((a,b)=>COLL.compare(a.titulo||'',b.titulo||'')), M=S.v2.manuales||[];
+  w.append(addBar('Nueva guía', ()=>guiaEdit(null)));
+  if(!L.length && !M.length){ w.append(emptyCard('book','Aquí van tus <b>guías paso a paso</b>: qué hacer, con qué herramienta y a qué par. Puedes escribirlas tú o llegan importadas de ElsaWin; las que guardan vistas del coche se siguen <b>en el 3D</b>.','Nueva guía',()=>guiaEdit(null))); return; }
+  if(L.length){ const c=card2('Guías','book', L.length);
+    for(const pr of L){ const n=(pr.pasos||[]).length, d=UI.gchk?.[pr._id]?.size||0;
+      const r=h2(`<div class="gcard"><button type="button" class="gmain"><span class="gic">${ic(gHas3D(pr)?'cube':'book')}</span><span class="tx"><b>${esc(pr.titulo||'Sin título')}</b><small>${esc([pl(n,'paso'), pr.fuente?'De '+String(pr.fuente).split('·')[0].trim():'', gHas3D(pr)?'con vistas 3D':''].filter(Boolean).join(' · '))}</small>${d?`<span class="gmini"><i style="width:${n?d/n*100:0}%"></i></span>`:''}</span>${ic('chevR')}</button>
+        <div class="gacts"><button type="button" class="btn2 sm" data-a="leer">${ic('list')}Leer</button>${gHas3D(pr)?`<button type="button" class="btn2 sm ghost" data-a="3d">${ic('cube')}Seguir en 3D</button>`:''}<button type="button" class="btn2 sm ghost" data-a="ed">${ic('edit')}Editar</button></div></div>`);
+      r.querySelector('.gmain').onclick=()=>{ uiSfx('tap'); guiaRead(pr); }; r.querySelector('[data-a="leer"]').onclick=()=>{ uiSfx('tap'); guiaRead(pr); };
+      r.querySelector('[data-a="3d"]')?.addEventListener('click',()=>{ uiSfx('tap'); guiaRun3D(pr); }); r.querySelector('[data-a="ed"]').onclick=()=>{ uiSfx('tap'); guiaEdit(pr); };
+      c.querySelector('.l2').append(r); }
+    w.append(c); }
+  if(M.length){ const c=card2('Manuales y documentos','file',M.length);
+    for(const m of [...M].sort((a,b)=>COLL.compare((a.grupo||'')+a.titulo,(b.grupo||'')+b.titulo))) c.querySelector('.l2').append(row2({c:'var(--info)', i:'file', t:m.titulo, s:[grpName(m.grupo), m.nota].filter(Boolean).join(' · '), fn:()=>{ if(m.enlace) window.open(m.enlace,'_blank','noopener'); else toast('Este manual no tiene enlace'); }}));
+    w.append(c); }
+}
+MAS2.procs=['Guías y manuales', renderGuias]; MAS_T.procs='Guías y manuales';
+/* las guías se refrescan al cambiar */
+{ let n=-1; setInterval(()=>{ const k=(S.procs||[]).map(p=>p._id+(p.actualizado||'')).join(); if(k!==n){ const was=n; n=k; if(was!==-1 && UI.mas==='procs' && V2.cur?.fn===renderGuias && document.body.contains(V2.cur.root)) v2Rerender(); } }, 1200); }
+
+/* ---------- Piezas del 3D sin referencia: si el modelo aún no está cargado no hay que felicitar a nadie ---------- */
+{ const _rp=renderPend; const rp=function(){ _rp(); $('#ovlTitle').textContent='Piezas del 3D sin referencia';
+    if(!Object.keys(parts).length){ const b=$('#ovlBody'); b.innerHTML=''; const e=h2(`<div class="empty2 big2">${ic('cube')}<div>Para saber qué piezas del modelo 3D no tienen referencia hay que <b>cargar el modelo</b> una vez.</div><button type="button" class="btn2">${ic('cube')}Abrir el modelo 3D</button></div>`); e.querySelector('button').onclick=()=>go('coche','3d'); b.append(e); } };
+  renderPend=rp; if(typeof EXTRA_POP!=='undefined') EXTRA_POP.pend=rp; }
+{ const _pi=pendItem; pendItem=function(p){ const b=_pi(p); const f=b.onclick; b.onclick=()=>{ go('coche','3d'); setTimeout(()=>f(),180); }; return b; }; }
+MAS_T.pend='Piezas del 3D sin referencia';
+try{ Object.assign(ORD.origMasT,{procs:'Guías y manuales', fichas:'Piezas', catalogo:'Piezas', pend:'Piezas del 3D sin referencia'}); }catch{}
+
+/* ---------- Ficha técnica: los pares de apriete importados viven aquí ---------- */
+{ const _ft=MAS2.ficha[1]; MAS2.ficha[1]=function(w){ _ft(w); const P=S.v2.pares.flatMap(x=>(x.items||[]).map(i=>({...i, g:x.grupo}))); if(!P.length) return;
+    const c=card2('Pares de apriete oficiales','wrench',P.length); c.classList.add('ftg');
+    for(const g of [...new Set(P.map(p=>p.g))].sort()){ c.querySelector('.l2').append(h2(`<h5 class="ftsub">${esc(grpName(g))}</h5>`));
+      for(const p of P.filter(x=>x.g===g).sort((a,b)=>COLL.compare(a.componente,b.componente))) c.querySelector('.l2').append(h2(`<div class="ftr static" data-s="${esc('par apriete '+p.componente+' '+p.valor)}"><span class="ftk">${esc(p.componente)}</span><b class="ftv">${esc(p.valor)}</b>${p.nota||p.fuente?`<small class="muted2">${esc([p.nota,p.fuente].filter(Boolean).join(' · '))}</small>`:''}</div>`)); }
+    const last=[...w.children].pop(); w.insertBefore(c, last); }; }
+
+/* ====================== PAPELES: una tarjeta por documento, sin duplicados ====================== */
+const DOCX=[
+  {t:'ITV', re:/^itv/i, i:'checkc', n:'ITV', d:'Inspección técnica. Sin ella vigente no se puede circular.', sub:'itv', subL:'Ver inspecciones'},
+  {t:'Seguro', re:/^seguro/i, i:'shield', n:'Seguro', d:'Obligatorio. Apunta la compañía, la póliza y adjunta el recibo.'},
+  {t:'Impuesto de circulación', re:/impuesto|ivtm/i, i:'euro', n:'IVTM · impuesto de circulación', d:'Lo cobra tu ayuntamiento una vez al año.', sub:'ivtm', subL:'Ver pagos'},
+  {t:'Permiso de circulación', re:/permiso/i, i:'file', n:'Permiso de circulación', d:'El «papel del coche»: titular y datos del vehículo.', opt:true},
+  {t:'Ficha técnica', re:/ficha/i, i:'file', n:'Ficha técnica (tarjeta ITV)', d:'Tarjeta de inspección técnica con los datos homologados.', opt:true},
+];
+function docsOf(dx){ return S.docs.filter(d=>dx.re.test(d.tipo||'')).sort((a,b)=>(b.caduca||'').localeCompare(a.caduca||'')); }
+function docCur(t){ const dx=DOCX.find(x=>x.t===t)||{re:new RegExp('^'+t,'i')}; return docsOf(dx)[0]||null; }
+/* repetidos: varios documentos del mismo tipo. Se deja uno (el más reciente) y el resto se junta o pasa a su historial */
+function docDups(){ const out=[]; for(const dx of DOCX){ const L=docsOf(dx); if(L.length>1) out.push(L); } return out; }
+let DOCMERGING=false;
+async function docMerge(groups){
+  if(DOCMERGING) return; DOCMERGING=true;
+  const undo=groups.flatMap(L=>L.map(d=>[d._id, stripId2(d)])); let done=0;
+  try{
+    for(const L of groups){ const top=L[0].caduca||''; const near=L.filter(d=>!top || !d.caduca || Math.abs(new Date(d.caduca)-new Date(top))<=45*864e5);
+      const keep=[...near].sort((a,b)=>(b.adjuntos?.length||0)-(a.adjuntos?.length||0) || (b.historial?.length||0)-(a.historial?.length||0))[0], older=L.filter(d=>!near.includes(d));
+      const adj=[], seen=new Set(); for(const d of near) for(const a of (d.adjuntos||[])){ const k=a.id||a.nombre; if(!seen.has(k)){ seen.add(k); adj.push(a); } }
+      const notas=[...new Set(near.map(d=>(d.notas||'').trim()).filter(Boolean))].join(' · '), nombre=near.map(d=>d.nombre).find(Boolean)||'';
+      const hs=new Set(), hist=[...near.flatMap(d=>d.historial||[]), ...older.map(d=>({caduca:d.caduca||null, nombre:d.nombre||'', notas:d.notas||'', adjuntos:d.adjuntos||[]})), ...older.flatMap(d=>d.historial||[])]
+        .filter(h=>{ const k=(h.caduca||'')+'|'+(h.nombre||'')+'|'+(h.adjuntos||[]).map(a=>a.id).join(','); if(hs.has(k)) return false; hs.add(k); return true; }).sort((a,b)=>(b.caduca||'').localeCompare(a.caduca||''));
+      await S.db.collection('documentos').doc(keep._id).set({...stripId2(keep), caduca:top||keep.caduca||null, nombre, notas, adjuntos:adj, historial:hist}); done++;
+      for(const d of L) if(d!==keep){ await S.db.collection('documentos').doc(d._id).delete(); } }
+  } finally {
+    DOCMERGING=false;
+    if(done){ const n=groups.reduce((a,g)=>a+g.length-1,0);
+      v2toast(n===1?'Documento repetido ordenado':`${n} documentos repetidos ordenados`, async()=>{ for(const [id,d] of undo) await S.db.collection('documentos').doc(id).set(d); }); }
+  }
+}
+MOD.docs={col:'documentos', newT:'Añadir documento', editT:'Editar documento', delT:'Documento borrado',
+  fields:[{k:'tipo',l:'Documento',t:'sel',req:true,opts:DOC_T.map(t=>[t, t==='Impuesto de circulación'?'IVTM · impuesto de circulación':t])},{k:'nombre',l:'Compañía o detalle',ph:'Aseguradora, estación ITV, ayuntamiento…'},
+    {k:'caduca',l:'Caduca o vence',t:'date',half:true},{k:'notas',l:'Notas',t:'area',ph:'Nº de póliza, coste, teléfono de asistencia…'},{k:'adjuntos',l:'Fotos o PDF',t:'files'}],
+  prep:v=>{ if(v.__prev){ const p=v.__prev; v.historial=[{caduca:p.caduca||null, nombre:p.nombre||'', notas:p.notas||'', adjuntos:p.adjuntos||[]}, ...(p.historial||[])]; } delete v.__prev; },
+  savedT:(v,isNew)=>isNew?'Documento añadido':v.historial&&v.historial.length?'Documento renovado':'Cambios guardados'};
+function docRenew(cur){ const d=new Date((cur.caduca||todayISO())+'T12:00:00'); d.setFullYear(d.getFullYear()+1); const ctx=recForm({...MOD.docs, editT:'Renovar: '+(DOCX.find(x=>x.re.test(cur.tipo||''))?.n||cur.tipo)},{...cur, caduca:d.toISOString().slice(0,10), adjuntos:[], __prev:stripId2(cur)}); ctx?.box?.querySelector('[data-a="del"]')?.remove(); }
+const dLeft=days=>days==null?'Sin fecha':days<0?`Caducó hace ${pl(-days,'día')}`:days===0?'Caduca hoy':days<=60?`Quedan ${pl(days,'día')}`:days<=400?`Quedan ${Math.round(days/30.4)} meses`:`Quedan ${(days/365).toFixed(1).replace('.',',')} años`;
+function docCard(dx){
+  const L=docsOf(dx), cur=L[0], old=[...L.slice(1), ...(cur?.historial||[])];
+  if(!cur){ if(dx.opt) return null; const e=h2(`<button type="button" class="doc2 empty"><span class="dic">${ic(dx.i)}</span><span class="tx"><b>${esc(dx.n)}</b><small>${esc(dx.d)}</small></span><span class="dadd">${ic('plus')}Añadir</span></button>`); e.onclick=()=>{ uiSfx('tap'); recForm(MOD.docs,null,{tipo:dx.t}); }; return e; }
+  const s=docStatus(cur), pct=s.days==null?0:Math.max(0,Math.min(1,s.days/365)), col=stColor(s.st);
+  const c=h2(`<div class="doc2 st-${s.st}" style="--c:${col}"><div class="dtop"><span class="dic">${ic(dx.i)}</span><div class="tx"><b>${esc(dx.n)}</b><small>${esc([cur.nombre, cur.caduca?'Vence el '+fmtDate(cur.caduca):''].filter(Boolean).join(' · '))}</small></div>
+      <div class="dring" style="--p:${pct}"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19"/><circle class="v" cx="22" cy="22" r="19" pathLength="1"/></svg><span>${s.days==null?'—':s.days<0?'!':s.days>99?Math.round(s.days/30.4)+'m':s.days+'d'}</span></div></div>
+    <p class="dleft">${esc(dLeft(s.days))}</p>${cur.notas?`<p class="muted2 dnote">${esc(cur.notas)}</p>`:''}<div class="datt"></div>
+    <div class="row3 dacts"></div>${old.length?`<details class="dold"><summary>${pl(old.length,'año anterior','años anteriores')}</summary><div class="l2"></div></details>`:''}</div>`);
+  if(cur.adjuntos?.length) c.querySelector('.datt').append(attachThumbs(cur.adjuntos)); else c.querySelector('.datt').remove();
+  const a=c.querySelector('.dacts'), B=(l,i,fn,cls)=>{ const b=h2(`<button type="button" class="btn2 sm ${cls||'ghost'}">${ic(i)}${esc(l)}</button>`); b.onclick=()=>{ uiSfx('tap'); fn(); }; a.append(b); };
+  const next=()=>{ const d=new Date((cur.caduca||todayISO())+'T12:00:00'); d.setFullYear(d.getFullYear()+1); return d.toISOString().slice(0,10); };
+  if(dx.sub==='itv') B('Registrar la nueva ITV','checkc',()=>recForm(MOD.itv), s.st==='due'||s.st==='soon'?'':'ghost');
+  else if(dx.sub==='ivtm') B('Apuntar el pago','euro',()=>recForm(MOD.ivtm), s.st==='due'||s.st==='soon'?'':'ghost');
+  else B('Renovar','history',()=>docRenew(cur), s.st==='due'||s.st==='soon'?'':'ghost');
+  B('Editar','edit',()=>recForm(MOD.docs,cur));
+  if(dx.sub) B(dx.subL,'chevR',()=>openSub('papeles',dx.sub));
+  for(const o of old) c.querySelector('.dold .l2').append(row2({c:'var(--txt-3)', i:dx.i, t:o.caduca?'Venció el '+fmtDate(o.caduca):'Sin fecha', s:[o.nombre,o.notas,o.adjuntos?.length?pl(o.adjuntos.length,'adjunto'):''].filter(Boolean).join(' · '), fn:()=>{ if(o._id) return recForm(MOD.docs,o); const b=h2('<div></div>'); b.append(kv([['Venció', o.caduca?fmtDate(o.caduca):'—'],['Detalle', esc(o.nombre||'')],['Notas', esc(o.notas||'')]])); if(o.adjuntos?.length) b.append(attachThumbs(o.adjuntos)); detailSheet(dx.n+' · año anterior','',b,[]); }}));
+  return c;
+}
+function renderDocs2(w){
+  if(UI.docForm){ UI.docForm=false; const ed=S.docEdit?S.docs.find(d=>d._id===S.docEdit):null; S.docEdit=null; setTimeout(()=>recForm(MOD.docs, ed||null), 80); }
+  w.append(h2(`<p class="pintro">${ic('shield')}<span>Lo que tu Touareg necesita tener en regla. Cada tarjeta te dice si está al día y cuándo toca; te aviso antes de que caduque.</span></p>`));
+  const dup=DOCMERGING?[]:docDups(); if(dup.length){ const n=dup.reduce((a,g)=>a+g.length-1,0); const b=h2(`<div class="card2 dupban">${ic('copy')}<div><b>${n===1?'Hay 1 documento repetido':`Hay ${n} documentos repetidos`}</b><small>Se crearon al pasar el asistente varias veces. Ordénalos: queda uno por tipo con todas sus fotos y notas, y las fechas antiguas pasan a su historial. Se puede deshacer.</small></div><button type="button" class="btn2 sm">Ordenar</button></div>`);
+    b.querySelector('button').onclick=async e=>{ if(!confirm(`¿Ordenar los documentos repetidos?\n\nDe cada tipo queda uno (el que vence más tarde) con todas las fotos y notas; las fechas antiguas pasan a su historial. Podrás deshacerlo justo después.`)) return; e.target.disabled=true; try{ await docMerge(dup); celebrate(); }catch{ toast('No se pudo juntar','err'); e.target.disabled=false; } }; w.append(b); }
+  const grid=h2('<div class="docgrid"></div>'); for(const dx of DOCX){ const c=docCard(dx); if(c) grid.append(c); } w.append(grid);
+  const others=S.docs.filter(d=>!DOCX.some(dx=>dx.re.test(d.tipo||''))).sort((a,b)=>(a.caduca||'9').localeCompare(b.caduca||'9'));
+  if(others.length){ const c=card2('Otros documentos','file',others.length); for(const d of others){ const s=docStatus(d); c.querySelector('.l2').append(row2({c:stColor(s.st), i:'file', t:d.tipo+(d.nombre?' · '+d.nombre:''), s:d.caduca?dLeft(s.days)+' · '+fmtDate(d.caduca):'Sin fecha', fn:()=>recForm(MOD.docs,d)})); } w.append(c); }
+  w.append(addBar('Añadir otro documento',()=>recForm(MOD.docs,null,{tipo:'Otro'})));
+}
+V2SUBS.papeles.docs=renderDocs2;
+/* los documentos vienen de la colección antigua: al cambiar, se redibuja la página */
+{ let k0=''; setInterval(()=>{ const k=(S.docs||[]).map(d=>d._id+d.caduca+(d.nombre||'')+(d.adjuntos?.length||0)).join(); if(k!==k0){ k0=k; if(UI.sec==='papeles' && V2.cur && document.body.contains(V2.cur.root)) v2Rerender(); if(UI.sec==='inicio') renderInicio(); } }, 900); }
+
+/* ---------- IVTM ---------- */
+C2.push('ivtm'); S.v2.ivtm=[]; COLN.ivtm='IVTM (pagos)';
+MOD.ivtm={col:'ivtm', newT:'Pago del IVTM', editT:'Editar pago del IVTM', delT:'Pago borrado',
+  fields:[{k:'anio',l:'Año',t:'num',half:true,req:true,def:()=>new Date().getFullYear()},{k:'importe',l:'Importe',t:'eur',half:true,step:'0.01'},
+    {k:'fechaPago',l:'Fecha de pago',t:'date',half:true,def:()=>todayISO()},{k:'domiciliado',l:'Domiciliado en el banco',t:'check',half:true},
+    {k:'ayuntamiento',l:'Ayuntamiento',ph:'p. ej. Zaragoza'},{k:'notas',l:'Notas',t:'area',ph:'Referencia del recibo, bonificaciones…'},{k:'recibo',l:'Recibo (foto o PDF)',t:'files'}],
+  after:async(d)=>{ if(!d.fechaPago) return; const nx=new Date(d.fechaPago+'T12:00:00'); nx.setFullYear(nx.getFullYear()+1); const iso=nx.toISOString().slice(0,10); const cur=docCur('Impuesto de circulación');
+    if(cur && (cur.caduca||'')>=iso) return; try{ const data={...(cur?stripId2(cur):{tipo:'Impuesto de circulación', notas:'', adjuntos:[]}), nombre:d.ayuntamiento||cur?.nombre||'', caduca:iso};
+    if(cur?.caduca) data.historial=[{caduca:cur.caduca, nombre:cur.nombre||'', notas:cur.notas||'', adjuntos:cur.adjuntos||[]}, ...(cur.historial||[])];
+    if(cur) await S.db.collection('documentos').doc(cur._id).set(data); else await S.db.collection('documentos').add(data); toast('Próximo pago del IVTM: '+fmtDate(iso)); }catch{ toast('Pago guardado, pero no se pudo actualizar la fecha del próximo','err'); } }};
+function renderIVTM(w){
+  w.append(addBar('Apuntar un pago',()=>recForm(MOD.ivtm)));
+  const cur=docCur('Impuesto de circulación'), s=cur?docStatus(cur):null;
+  w.append(h2(`<div class="card2 ftnote">${ic('info')}<p><b>IVTM</b> es el <b>Impuesto sobre Vehículos de Tracción Mecánica</b>, el «impuesto de circulación». Lo cobra cada año el ayuntamiento donde está domiciliado el coche; si no está pagado no puedes hacer la ITV ni vender el coche.</p></div>`));
+  if(cur?.caduca) w.append(h2(`<div class="card2 itvnext" style="--c:${stColor(s.st)}"><span>${ic('calendar')}</span><div><small>Próximo pago</small><b>${fmtDate(cur.caduca)}</b></div><em>${esc(dLeft(s.days))}</em></div>`));
+  const L=[...S.v2.ivtm].sort((a,b)=>(b.anio||0)-(a.anio||0));
+  if(!L.length){ w.append(emptyCard('euro','Apunta cada pago con su recibo: tendrás el historial a mano y la fecha del próximo se pone sola.')); return; }
+  if(L.length>1) { const c=card2('Lo que has pagado','chart'); c.querySelector('.l2').append(barChart([...L].reverse().map(x=>({l:String(x.anio), t:eurc(x.importe||0), segs:[{v:num(x.importe)||0, c:'var(--accent)'}]})))); w.append(c); }
+  const c=card2('Pagos','history',L.length);
+  for(const x of L) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'euro', t:`IVTM ${x.anio}`, s:[x.fechaPago?'Pagado el '+fmtDate(x.fechaPago):'', x.ayuntamiento, x.domiciliado?'Domiciliado':''].filter(Boolean).join(' · '), r:x.importe!=null?eurc(x.importe):'', fn:()=>recForm(MOD.ivtm,x)}));
+  w.append(c);
+}
+V2SUBS.papeles.ivtm=renderIVTM;
+{ SECS.papeles.subs.splice(SECS.papeles.subs.findIndex(x=>x[0]==='itv')+1,0,['ivtm','IVTM','euro']);
+  const st=$('#stPap'), b=h2(`<button type="button" role="tab" data-sub="ivtm">${ic('euro')}<span>IVTM</span></button>`); b.onclick=()=>{ uiSfx('tap'); openSub('papeles','ivtm'); setTop(); };
+  st.querySelector('button[data-sub="itv"]')?.after(b); }
+/* el IVTM pagado cuenta como gasto */
+CAT.impuestos=CAT.impuestos||['Impuestos (IVTM)','euro','#d4a72c'];
+{ const _gm=gastosMov; gastosMov=function(){ memoChk(); if(V2.memo.gm2) return V2.memo.gm2; const out=[..._gm()];
+    for(const x of S.v2.ivtm||[]) if(Number(x.importe)) out.push({fecha:x.fechaPago||((x.anio||'')+'-01-01'), eur:Number(x.importe), t:`IVTM ${x.anio||''}`, s:x.ayuntamiento||'Impuesto de circulación', k:'ivtm', cat:'impuestos'});
+    out.sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||'')); return V2.memo.gm2=out; }; }
+/* documentos vigentes: el más reciente de cada tipo (los antiguos no avisan) */
+function docsVig(){ const out=[], used=new Set(); for(const dx of DOCX){ const L=docsOf(dx); if(L[0]) out.push(L[0]); L.forEach(d=>used.add(d._id)); } for(const d of S.docs) if(!used.has(d._id)) out.push(d); return out; }
+
+/* ====================== MANTENIMIENTO: «falta el intervalo» claro y con sugerencias ====================== */
+const INTSUG=[
+  [/l[ií]quido de frenos/i, {cm:24, t:'Cada 2 años (VW)'}],
+  [/bater[ií]a/i, {cm:12, t:'Revisarla cada año · suele durar 5–6 años'}],
+  [/pastillas/i, {ck:30000, cm:12, t:'Revisar cada 30.000 km o cada año'}],
+  [/discos/i, {ck:60000, cm:24, t:'Revisar cada 60.000 km o 2 años'}],
+  [/aceite (de )?(la )?(caja|cambio)/i, {ck:120000, t:'Orientativo 120.000 km (VW: «de por vida»)'}],
+  [/aceite (de )?motor/i, {ck:15000, cm:12, t:'15.000 km o 1 año (aceite 505.01)'}],
+  [/filtro de aire/i, {ck:30000, cm:48, t:'30.000 km o 4 años'}],
+  [/(habit|polen)/i, {ck:30000, cm:24, t:'30.000 km o 2 años'}],
+  [/(gasoil|combustible)/i, {ck:60000, cm:48, t:'Orientativo 60.000 km o 4 años'}],
+  [/(refrigerante|anticongelante)/i, {cm:60, t:'G12+: revisar cada año, cambio orientativo 5 años'}],
+  [/(transfer|reductora|diferencial)/i, {ck:120000, t:'Orientativo 120.000 km'}],
+  [/correa/i, {ck:120000, cm:72, t:'Orientativo 120.000 km o 6 años'}],
+  [/neum[aá]tic/i, {cm:12, t:'Revisar presión y desgaste cada año'}],
+];
+function intervalSheet(it){
+  const sug=INTSUG.find(([re])=>re.test(it.nombre||''))?.[1];
+  const box=h2(`<div class="recf"><h3>Cada cuánto: ${esc(it.nombre)}</h3><p class="muted2" style="margin:-4px 0 12px">Con el intervalo calculo cuándo toca y te aviso. Pon kilómetros, meses o los dos (lo que llegue antes).</p>
+    ${sug?`<button type="button" class="sugg">${ic('sparkle')}<span><b>Sugerencia</b><small>${esc(sug.t)}</small></span><em>Usar</em></button>`:''}
+    <div class="fgrid2"><div class="ff half"><label class="lab2">Cada (km)</label><input class="inp2" type="number" inputmode="numeric" step="500" placeholder="p. ej. 30000" value="${it.intervaloKm??''}"></div><div class="ff half"><label class="lab2">Cada (meses)</label><input class="inp2" type="number" inputmode="numeric" placeholder="p. ej. 24" value="${it.intervaloMeses??''}"></div></div>
+    <p class="muted2" style="margin:8px 2px 0">Las sugerencias son orientativas: si tu libro de mantenimiento o ElsaWin dicen otra cosa, manda lo suyo.</p>
+    <div class="row3 recacts"><button class="btn2 ghost" type="button" data-a="no">Cancelar</button><button class="btn2" type="button" data-a="ok">${ic('check')}Guardar</button></div></div>`);
+  const [k,m]=box.querySelectorAll('input');
+  box.querySelector('.sugg')?.addEventListener('click',()=>{ uiSfx('tap'); k.value=sug.ck??''; m.value=sug.cm??''; [k,m].forEach(x=>{ x.classList.remove('flash'); void x.offsetWidth; x.classList.add('flash'); }); });
+  box.querySelector('[data-a="no"]').onclick=closeSheet;
+  box.querySelector('[data-a="ok"]').onclick=async()=>{ const ck=k.value===''?null:Number(k.value), cm=m.value===''?null:Number(m.value); if(ck==null && cm==null){ toast('Pon kilómetros o meses','err'); return; }
+    try{ const {id, ...rest}=it; await S.db.collection('mantenimiento').doc(id).set({...rest, intervaloKm:ck, intervaloMeses:cm}); closeSheet(); uiSfx('save'); celebrate(); toast(`Intervalo guardado: ${[ck?nf.format(ck)+' km':'', cm?pl(cm,'mes','meses'):''].filter(Boolean).join(' o ')}`); }catch{ toast('No se pudo guardar','err'); } };
+  sheet(box, b=>b.classList.add('v2f'));
+}
+{ const _rm=renderMant; renderMant=function(){ _rm(); const body=$('#ovlBody'); if(!body || S.mantTab==='hist') return;
+    for(const r of body.querySelectorAll('.mrow.st-noint, .mrow.st-nodata')){ if(r.dataset.fx) continue; r.dataset.fx='1';
+      const name=r.querySelector('.nm')?.firstChild?.textContent?.trim(), it=S.mant.find(x=>x.nombre===name); if(!it) continue;
+      const noint=r.classList.contains('st-noint'), sm=r.querySelector('.nm small'), pill=r.querySelector('.pill');
+      if(noint){ if(sm) sm.textContent='Falta decir cada cuánto se cambia'; if(pill) pill.textContent='Falta intervalo';
+        const b=h2(`<button type="button" class="pri2">${ic('sliders')}Poner intervalo</button>`); b.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); intervalSheet(it); }; r.querySelector('.bt')?.prepend(b); }
+      else { if(sm && !it.intervaloKm && !it.intervaloMeses) sm.textContent='Sin intervalo ni último cambio'; else if(sm) sm.textContent='Falta apuntar el último cambio'; if(pill) pill.textContent='Sin datos';
+        if(!it.intervaloKm && !it.intervaloMeses){ const b=h2(`<button type="button">${ic('sliders')}Intervalo</button>`); b.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); intervalSheet(it); }; r.querySelector('.bt')?.append(b); } }
+      /* «km —» del último cambio sin kilómetros */
+      r.querySelectorAll('.c b').forEach(x=>{ x.textContent=x.textContent.replace(/ · —$/,' · km sin apuntar'); }); }
+    const sum=body.querySelector('details.nocfg summary small'); if(sum) sum.textContent='Les falta el intervalo o el último cambio: complétalos y te aviso a tiempo'; }; }
+Object.assign(window,{docsVig, docCur, docsOf, pl});
+/* ---------- buscador: primero lo que existe, las acciones rápidas al final ---------- */
+{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); const out=$('#srRes'), a=out?.querySelector(':scope > .sracts'); if(a && a.nextElementSibling) out.append(a); }; }
+/* ====================== v2.1: CAPA VISUAL — colección de arte, animaciones y movimiento ====================== */
+/* Ajuste «Animaciones»: todas · discretas · ninguna (además de «reducir movimiento» del sistema) */
+UI.prefs.anim=UI.prefs.anim||'full';
+function applyAnimPref(){ const a=RM?'off':UI.prefs.anim; document.body.classList.toggle('an-lo', a==='lo'); document.body.classList.toggle('an-off', a==='off'); document.body.classList.toggle('an-full', a==='full'); }
+applyAnimPref();
+const ANIMON=()=>!RM && UI.prefs.anim!=='off';
+{ const _rm=renderMas; renderMas=function(){ _rm(); if(UI.mas!=='ajustes') return; const t=[...document.querySelectorAll('#pbMas .mt.aj')].find(r=>/Pantalla de arranque/.test(r.textContent)); if(!t || t.parentElement.querySelector('.mt.aj[data-k="anim"]')) return;
+    const sg=h2('<div class="seg3"></div>'); for(const [k,l] of [['full','Todas'],['lo','Discretas'],['off','Ninguna']]){ const b=h2(`<button type="button" aria-pressed="${UI.prefs.anim===k}">${l}</button>`); b.onclick=()=>{ UI.prefs.anim=k; savePrefsUI(); applyAnimPref(); renderMas(); }; sg.append(b); }
+    const r=h2(`<div class="mt aj wide" data-k="anim" style="cursor:default"><i>${ic('sparkle')}</i><span><b>Animaciones</b><small>Movimiento, brillos, corriente en los cables y transiciones${RM?' · tu sistema pide reducir el movimiento':''}</small></span></div>`); r.append(sg); t.after(r); }; }
+
+/* ---------- COLECCIÓN DE ARTE: ilustraciones de línea propias para estados vacíos y cabeceras ---------- */
+const SUV='M16 68 L18 57 Q20 50 28 49 L52 46 L65 33 Q68 30 74 30 L114 30 Q120 30 123 34 L133 46 L143 48 Q150 50 150 57 L150 66 Q150 69 147 69 L138 69 A12 12 0 0 0 114 69 L56 69 A12 12 0 0 0 32 69 L19 69 Q16 69 16 68 Z';
+const ARTS={
+  car:`<path class="xa2" d="M6 82h148"/><path class="xa2 xdash" d="M10 88h22M44 88h36M92 88h18M122 88h30"/><g class="xfl"><path class="xa1 xdr" d="${SUV}"/><path class="xa2 xdr" d="M70 34 L60 46 L92 46 L92 34 Z M97 34 L97 46 L128 46 L119 34 Z"/><circle class="xa1 xdr" cx="44" cy="69" r="9"/><circle class="xa1 xdr" cx="126" cy="69" r="9"/><circle class="xaf" cx="44" cy="69" r="3"/><circle class="xaf" cx="126" cy="69" r="3"/><path class="xgl" d="M149 55 l10 -3 v8 z"/></g>`,
+  layers:`<g class="xfl"><path class="xa2 xdr" d="M80 20 L140 42 L80 64 L20 42 Z"/><path class="xa1 xdr" d="M20 56 L80 78 L140 56"/><path class="xa1 xdr" d="M20 70 L80 92 L140 70"/></g><circle class="xaf xbl" cx="80" cy="42" r="4"/><path class="xa2 xdash" d="M80 46v12"/>`,
+  tag:`<g class="xsp" style="transform-origin:58px 56px"><path class="xa1 xdr" d="M58 30l5 7 8-2 2 8 8 2-2 8 7 5-7 5 2 8-8 2-2 8-8-2-5 7-5-7-8 2-2-8-8-2 2-8-7-5 7-5-2-8 8-2 2-8 8 2z"/><circle class="xa2" cx="58" cy="56" r="10"/></g><g class="xfl"><path class="xa1 xdr" d="M100 30h28l6 8v40l-6 8h-28z"/><path class="xa2" d="M108 46h18M108 56h18M108 66h12"/><circle class="xaf" cx="104" cy="38" r="2.5"/></g>`,
+  book:`<g class="xfl"><path class="xa1 xdr" d="M80 30 Q60 22 30 26 V84 Q60 80 80 88 Q100 80 130 84 V26 Q100 22 80 30 Z"/><path class="xa2 xdr" d="M80 30v58"/><path class="xa2" d="M40 40h28M40 50h28M40 60h20M92 40h28M92 50h28M92 60h22"/></g><path class="xa1 xdr" d="M118 70l14 14m-4-18a6 6 0 1 1 8 8"/>`,
+  image:`<g class="xfl"><rect class="xa1 xdr" x="26" y="24" width="108" height="68" rx="8"/><path class="xa2 xdr" d="M34 82 L62 54 L82 72 L98 58 L126 82"/><circle class="xaf xbl" cx="106" cy="42" r="7"/></g>`,
+  checkc:`<g class="xfl"><rect class="xa1 xdr" x="44" y="18" width="72" height="80" rx="8"/><rect class="xa2" x="64" y="12" width="32" height="12" rx="4"/><path class="xa1 xtk" d="M56 44l6 6 12-12"/><path class="xa2" d="M82 44h20"/><path class="xa1 xtk xd2" d="M56 64l6 6 12-12"/><path class="xa2" d="M82 64h20"/><path class="xa2" d="M56 84h46"/></g>`,
+  shield:`<g class="xfl"><path class="xa1 xdr" d="M80 16 L122 30 V56 Q122 84 80 98 Q38 84 38 56 V30 Z"/><path class="xa1 xtk" d="M62 56l12 12 24-24"/></g><path class="xa2 xdash" d="M24 56h8M128 56h8"/>`,
+  euro:`<g class="xfl"><ellipse class="xa1 xdr" cx="70" cy="80" rx="30" ry="9"/><path class="xa1 xdr" d="M40 80v-10M100 80v-10"/><ellipse class="xa1" cx="70" cy="70" rx="30" ry="9"/><ellipse class="xa2" cx="70" cy="58" rx="30" ry="9"/><path class="xa2" d="M40 58v12M100 58v12"/></g><g class="xfl xd2"><circle class="xa1 xdr" cx="118" cy="38" r="18"/><path class="xa1" d="M124 30q-10-6-14 4h12m-12 6h12q-4 10-14 4"/></g>`,
+  zap:`<path class="xa2" d="M14 70h36M110 70h36"/><rect class="xa1 xdr" x="50" y="58" width="22" height="24" rx="4"/><rect class="xa1 xdr" x="88" y="58" width="22" height="24" rx="4"/><path class="xa2" d="M72 64h6M72 76h6M82 64h6M82 76h6"/><path class="xspk" d="M80 22 L70 44 H80 L74 62 L92 36 H82 L88 22 Z"/>`,
+  alert:`<g class="xfl"><path class="xa1 xdr" d="M80 18 L136 96 H24 Z"/><path class="xa1" d="M80 46v24"/><circle class="xaf xbl" cx="80" cy="80" r="3.5"/></g>`,
+  cube:`<g class="xfl xsp3"><path class="xa1 xdr" d="M80 18 L124 40 V80 L80 102 L36 80 V40 Z"/><path class="xa2 xdr" d="M36 40 L80 62 L124 40 M80 62 V102"/></g>`,
+  list:`<g class="xfl"><rect class="xa1 xdr" x="34" y="20" width="92" height="76" rx="10"/><path class="xa2" d="M54 42h52M54 58h52M54 74h36"/><circle class="xaf" cx="46" cy="42" r="3"/><circle class="xaf" cx="46" cy="58" r="3"/><circle class="xaf xbl" cx="46" cy="74" r="3"/></g>`,
+  wrench:`<g class="xfl"><path class="xa1 xdr" d="M108 26a20 20 0 0 0-26 25L40 93a8 8 0 0 0 11 11l42-42a20 20 0 0 0 25-26l-12 12-10-3-3-10z"/></g><path class="xa2 xdash" d="M24 40h20M120 84h20"/>`,
+  file:`<g class="xfl"><path class="xa1 xdr" d="M50 16h44l20 20v66H50z"/><path class="xa2" d="M94 16v20h20M62 52h40M62 64h40M62 76h28"/></g>`,
+  fuel:`<g class="xfl"><rect class="xa1 xdr" x="40" y="28" width="46" height="70" rx="6"/><rect class="xa2" x="48" y="36" width="30" height="18" rx="3"/><path class="xa1 xdr" d="M86 46h10l10 10v28a6 6 0 0 1-12 0V66"/></g><path class="xdrop" d="M124 30 q8 12 8 18 a8 8 0 0 1-16 0 q0-6 8-18z"/>`,
+  tyre:`<g class="xsp" style="transform-origin:80px 58px"><circle class="xa1 xdr" cx="80" cy="58" r="40"/><circle class="xa2" cx="80" cy="58" r="24"/><circle class="xaf" cx="80" cy="58" r="6"/><path class="xa2" d="M80 18v10M80 88v10M40 58h10M110 58h10M52 30l7 7M101 79l7 7M52 86l7-7M101 37l7-7"/></g>`,
+  chart:`<path class="xa2" d="M24 96h116"/><rect class="xbar" x="34" y="66" width="16" height="30" rx="3" style="--d:0s"/><rect class="xbar" x="60" y="50" width="16" height="46" rx="3" style="--d:.12s"/><rect class="xbar" x="86" y="58" width="16" height="38" rx="3" style="--d:.24s"/><rect class="xbar" x="112" y="32" width="16" height="64" rx="3" style="--d:.36s"/><path class="xa1 xdr" d="M30 60 L58 42 L86 50 L120 24"/>`,
+  cloud:`<g class="xfl"><path class="xa1 xdr" d="M50 84h66a20 20 0 0 0 0-40 30 30 0 0 0-56-6 22 22 0 0 0-10 46z"/></g><path class="xa1 xup" d="M80 76V48m-10 10 10-10 10 10"/>`,
+  pin:`<g class="xfl"><path class="xa1 xdr" d="M80 16a24 24 0 0 1 24 24c0 20-24 46-24 46S56 60 56 40a24 24 0 0 1 24-24z"/><circle class="xaf xbl" cx="80" cy="40" r="7"/></g><ellipse class="xa2" cx="80" cy="96" rx="22" ry="5"/>`,
+  sparkle:`<path class="xspk" d="M80 18 L88 46 L116 54 L88 62 L80 90 L72 62 L44 54 L72 46 Z"/><path class="xa2 xbl" d="M120 22v12M114 28h12M36 78v10M31 83h10"/>`,
+  calendar:`<g class="xfl"><rect class="xa1 xdr" x="34" y="26" width="92" height="72" rx="8"/><path class="xa2" d="M34 44h92M56 18v14M104 18v14"/><circle class="xaf xbl" cx="96" cy="72" r="6"/></g>`,
+};
+ARTS.history=ARTS.calendar; ARTS.receipt=ARTS.file; ARTS.gauge=ARTS.chart; ARTS.home=ARTS.car; ARTS.car2=ARTS.car; ARTS.cart=ARTS.tag;
+function art(k, cls){ const a=ARTS[k]; return a?`<svg class="art ${cls||''}" viewBox="0 0 160 110" aria-hidden="true">${a}</svg>`:''; }
+/* los estados vacíos ganan su ilustración */
+{ const _ec=emptyCard; emptyCard=function(icon, txt, btn, fn){ const e=_ec(icon, txt, btn, fn); const sv=e.querySelector(':scope > svg'); if(ARTS[icon] && sv){ sv.outerHTML=art(icon); } return e; }; }
+/* ---------- Inicio: el coche se dibuja en la tarjeta principal ---------- */
+function heroArt(){ document.querySelectorAll('.card2.hmini').forEach(c=>{ if(c.querySelector('.hart')) return; c.insertAdjacentHTML('afterbegin', `<span class="hart">${art('car','hero')}</span>`); }); }
+{ const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); try{ heroArt(); progBars(); }catch{} return r; }; }
+
+/* ---------- Mantenimiento: barra de vida de cada elemento (cuánto del intervalo se ha gastado) ---------- */
+function lifePct(it){ const s=itemStatus(it); if(!s || !['ok','soon','due'].includes(s.st)) return null; let p=0;
+  if(it.intervaloKm && s.kmLeft!=null) p=Math.max(p, 1-s.kmLeft/it.intervaloKm); if(it.intervaloMeses && s.daysLeft!=null) p=Math.max(p, 1-s.daysLeft/(it.intervaloMeses*30.44));
+  return Math.max(0, Math.min(1.08, p)); }
+function progBars(){ document.querySelectorAll('.mrow.st-ok, .mrow.st-soon, .mrow.st-due').forEach(r=>{ if(r.querySelector('.life')) return; const name=r.querySelector('.nm')?.firstChild?.textContent?.trim(); const it=S.mant.find(x=>x.nombre===name); if(!it) return; const p=lifePct(it); if(p==null) return;
+    const b=h2(`<div class="life" title="Vida usada: ${Math.round(p*100)} %"><i style="--p:${Math.min(1,p)}"></i><span>${Math.round(p*100)} %</span></div>`); r.querySelector('.nm')?.after(b); }); }
+{ const _rm=renderMant; renderMant=function(){ _rm(); try{ progBars(); }catch{} }; }
+
+/* ---------- gráficos: las líneas se dibujan y las barras crecen ---------- */
+{ const _lc=lineChart; lineChart=function(pts,o){ const el=_lc(pts,o); el.querySelectorAll?.('path').forEach(p=>{ if(p.getAttribute('fill')==='none' || /stroke/.test(p.getAttribute('class')||'') || !p.getAttribute('fill')) { p.setAttribute('pathLength','1'); p.classList.add('drawln'); } }); return el; }; }
+
+/* ---------- transición al cambiar de sección ---------- */
+{ const _go=go; go=function(sec, ...r){ const prev=UI.sec; const res=_go(sec, ...r); if(ANIMON() && prev!==sec){ const pg=document.querySelector('.page.on'); if(pg){ pg.classList.remove('pin'); void pg.offsetWidth; pg.classList.add('pin'); setTimeout(()=>pg.classList.remove('pin'),520); }
+      const t=$('#t2Title'); t?.animate([{opacity:0, transform:'translateY(6px)', filter:'blur(3px)'},{opacity:1, transform:'none', filter:'none'}],{duration:340, easing:'cubic-bezier(.2,.8,.2,1)'}); } return res; }; }
+
+/* ---------- tarjetas que se inclinan bajo el ratón (solo con ratón) ---------- */
+if(matchMedia('(hover: hover) and (pointer: fine)').matches){
+  let cur=null;
+  document.addEventListener('pointermove', e=>{ if(!ANIMON() || document.body.classList.contains('an-lo')) return; const c=e.target.closest?.('.mt, .doc2, .card2.hmini, .stc, .gcard'); if(cur && cur!==c){ cur.style.transform=''; cur.classList.remove('tilt'); } cur=c; if(!c) return;
+    const r=c.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; c.classList.add('tilt'); c.style.setProperty('--mx',(x+.5)*100+'%'); c.style.setProperty('--my',(y+.5)*100+'%');
+    c.style.transform=`perspective(700px) rotateX(${(-y*3).toFixed(2)}deg) rotateY(${(x*4).toFixed(2)}deg) translateY(-2px)`; }, {passive:true});
+  document.addEventListener('pointerleave', ()=>{ if(cur){ cur.style.transform=''; cur.classList.remove('tilt'); cur=null; } });
+}
+
+/* ---------- números que «encienden» al aparecer ---------- */
+const ioLit=('IntersectionObserver' in window)?new IntersectionObserver(es=>{ for(const e of es) if(e.isIntersecting){ e.target.classList.add('lit'); ioLit.unobserve(e.target); } },{threshold:.3}):null;
+new MutationObserver(ms=>{ if(!ioLit) return; for(const m of ms) for(const n of m.addedNodes){ if(n.nodeType!==1) continue; (n.matches?.('.stc, .doc2, .life, .gcard')?[n]:[]).concat([...(n.querySelectorAll?.('.stc, .doc2, .life, .gcard')||[])]).forEach(x=>ioLit.observe(x)); } }).observe(document.body,{childList:true, subtree:true});
+
+/* ---------- el botón + late una vez al arrancar, para que se vea ---------- */
+setTimeout(()=>{ if(ANIMON()) $('#fab2')?.classList.add('hello'); }, 2600);
+/* respaldo: lo que ya está a la vista se enciende aunque el observador no haya avisado */
+setInterval(()=>{ if(document.hidden) return; document.querySelectorAll('.page.on .stc:not(.lit), .page.on .doc2:not(.lit), .page.on .life:not(.lit), #shBox .stc:not(.lit)').forEach(e=>{ const r=e.getBoundingClientRect(); if(r.height && r.top<innerHeight && r.bottom>0) e.classList.add('lit'); }); }, 900);
+
+/* ---------- Historial: por años, con el botón arriba ---------- */
+{ const _rm=renderMant; renderMant=function(){ _rm(); if(S.mantTab!=='hist') return; const body=$('#ovlBody'), hist=body?.querySelector('.hist'); if(!hist || hist.dataset.fx) return; hist.dataset.fx='1';
+    const acts=body.querySelector(':scope > .acts'); if(acts){ acts.classList.add('histtop'); hist.before(acts); }
+    let y=''; for(const h of hist.querySelectorAll(':scope > .h')){ const d=h.querySelector('.d')?.firstChild?.textContent||''; const yy=(d.match(/\d{4}/)||[''])[0];
+      if(yy && yy!==y){ y=yy; const n=[...hist.querySelectorAll(':scope > .h')].filter(x=>(x.querySelector('.d')?.firstChild?.textContent||'').includes(yy)).length; h.before(h2(`<h5 class="hyear"><span>${yy}</span><em>${n===1?'1 trabajo':n+' trabajos'}</em></h5>`)); }
+      const t=h.querySelector('.t b')?.textContent||''; h.querySelector('.hic')||h.prepend(h2(`<span class="hic">${ic(/aver|repar/i.test(t)?'alert':/sustit/i.test(t)?'wrench':/revis|inspec/i.test(t)?'checkc':'history')}</span>`));
+      h.querySelectorAll('button.del').forEach(b=>{ if(/Borrar/.test(b.textContent)) b.classList.add('hdel'); }); }
+    if(!hist.querySelector('.h')) hist.replaceWith(emptyCard('history','Aquí aparece todo lo que se le ha hecho al coche: cambios, reparaciones e inspecciones, con km y coste. Se rellena al registrar una intervención.')); }; }
+/* ---------- paneles antiguos vacíos: también con ilustración ---------- */
+new MutationObserver(()=>{ const b=$('#ovlBody'); if(!b) return; const p=b.querySelector(':scope > p.empty:first-child'); if(!p || p.previousElementSibling?.matches('svg.art') || b.querySelector(':scope > svg.art')) return;
+  const k={pines:'pin', fus:'zap', ave:'alert', procs:'book', docs:'shield', pend:'cube'}[popMode]||'sparkle'; p.insertAdjacentHTML('beforebegin', art(k,'panel')); p.classList.add('empty3'); }).observe($('#ovlBody')||document.body,{childList:true});
+/* ====================== v2.1: REMATES DEL EXAMEN (navegación, Archivos, movimiento) ====================== */
+
+/* ---------- Papeles ▸ Archivos: rehecho con el diseño nuevo (los filtros antiguos no se veían) ---------- */
+function archivosAll(){
+  const items=[], isImg=a=>(a.tipo||'').startsWith('image/');
+  for(const x of (S.int||[])) for(const a of (x.adjuntos||[])) items.push({a, t:x.descripcion||itemName(x.mant)||x.tipo||'Intervención', s:fmtDate(x.fecha), f:x.fecha||'', k:isImg(a)?'foto':'factura', o:'Historial'});
+  for(const [id,f] of Object.entries(S.fichas||{})) for(const a of (f.fotos||[])) items.push({a, t:partName(id)||'Pieza', s:'Ficha de pieza del 3D', f:f.actualizado||'', k:isImg(a)?'foto':'factura', o:'Modelo 3D'});
+  for(const d of (S.docs||[])) for(const a of (d.adjuntos||[])) items.push({a, t:d.tipo||'Documento', s:d.nombre||'Documento', f:d.caduca||'', k:'doc', o:'Papeles'});
+  for(const c of (S.compras||[])) for(const a of (c.adjuntos||[])) items.push({a, t:'Compra · '+(c.nombre||''), s:fmtDate(c.fechaCompra), f:c.fechaCompra||'', k:isImg(a)?'foto':'factura', o:'Compras'});
+  for(const r of (S.v2.refs||[])) for(const a of (r.fotos||[])) items.push({a, t:r.nombre||r.ref||'Pieza', s:'Ficha · '+(r.ref||''), f:r.actualizado||'', k:'foto', o:'Piezas'});
+  for(const x of (S.v2.ivtm||[])) for(const a of (x.recibo||[])) items.push({a, t:`IVTM ${x.anio||''}`, s:x.ayuntamiento||'Recibo', f:x.fechaPago||'', k:'doc', o:'IVTM'});
+  return items.sort((a,b)=>String(b.f).localeCompare(String(a.f)));
+}
+function renderArchivos(w){
+  const all=archivosAll(), f=UI.papFilter||'todo';
+  w.append(addBar('Fotografiar factura', ()=>$('#camIn').click()));
+  w.append(h2(`<p class="pintro">${ic('image')}<span>Todas las fotos y facturas del coche juntas, vengan de donde vengan: historial, compras, papeles o piezas.</span></p>`));
+  if(!all.length){ w.append(emptyCard('image','Aún no hay fotos ni facturas. Se guardan al <b>registrar una intervención</b>, en una <b>compra</b>, en un <b>documento</b> o en la ficha de una pieza. Con «Fotografiar factura» la cámara lee el importe y la fecha.')); return; }
+  const n=k=>all.filter(x=>k==='todo'||x.k===k).length;
+  w.append(chips([['todo',`Todo · ${n('todo')}`],['factura',`Facturas · ${n('factura')}`],['foto',`Fotos · ${n('foto')}`],['doc',`De papeles · ${n('doc')}`]], f, k=>{ UI.papFilter=k; v2Rerender(); }));
+  const L=all.filter(x=>f==='todo'||x.k===f);
+  if(!L.length){ w.append(h2('<div class="empty2" style="padding:14px">Nada de este tipo todavía.</div>')); return; }
+  const g=h2('<div class="agal"></div>');
+  for(const x of L){ const c=h2(`<figure class="agi"></figure>`); c.append(attachThumbs([x.a])); c.append(h2(`<figcaption><b>${esc(x.t)}</b><small>${esc([x.s, x.o].filter(Boolean).join(' · '))}</small></figcaption>`)); g.append(c); }
+  w.append(g);
+}
+V2SUBS.papeles.fotos=renderArchivos;
+
+/* ---------- Nueva intervención: sin pestañas debajo (parecía que estabas en «Plan») ---------- */
+{ const _st=setTop; setTop=function(){ _st(); if(document.body.classList.contains('formopen')) $('#t2Sub').textContent='Mantenimiento'+(S.cfg?.kmActual?' · '+nf.format(S.cfg.kmActual)+' km':''); }; }
+
+/* ---------- Ficha → lámina: se marca la posición de la pieza ---------- */
+{ const _ls=laminaSheet; laminaSheet=function(l){ const pos=UI.lamPos; UI.lamPos=null; const r=_ls(l); if(pos!=null) setTimeout(()=>{ const tr=[...document.querySelectorAll('#shBox .pzt tbody tr')].find(t=>t.firstElementChild?.textContent.trim()===String(pos)); if(tr){ tr.classList.add('lamhit'); tr.scrollIntoView({block:'center', behavior:ANIMON()?'smooth':'auto'}); } }, 260); return r; }; }
+
+/* ---------- estados vacíos de los paneles antiguos que no empiezan por el texto (Averías…) ---------- */
+new MutationObserver(()=>{ const b=$('#ovlBody'); if(!b) return; const k={pines:'pin', ave:'alert', procs:'book', docs:'shield', pend:'cube'}[popMode]; if(!k) return;
+  for(const p of b.querySelectorAll('p.empty')){ if(/^Nada coincide/.test(p.textContent) || p.parentElement.querySelector(':scope > svg.art') || b.querySelector('svg.art')) continue; p.insertAdjacentHTML('beforebegin', art(k,'panel')); p.classList.add('empty3'); break; } }).observe($('#ovlBody')||document.body,{childList:true, subtree:true});
+/* la página antigua de Archivos se refrescaba sola y tapaba la nueva */
+{ const _rp=renderPapeles; renderPapeles=function(sub){ if(sub==='fotos'){ if(V2.cur?.fn===renderArchivos && document.body.contains(V2.cur.root)) return v2Rerender(); if(UI.sec==='papeles') return openSub('papeles','fotos'); return; } return _rp(sub); }; }
+
+/* ====================== MOVIMIENTO ====================== */
+/* (las páginas ya entran escalonadas desde la 1.7: aquí se añaden las hojas y el buscador) */
+function fxIn(root, sel){ if(!root || !ANIMON()) return; const L=[...root.querySelectorAll(sel||':scope > *')].filter(e=>e.offsetParent!==null).slice(0,14);
+  L.forEach((e,i)=>{ e.style.setProperty('--si', i); e.classList.remove('stg'); void e.offsetWidth; e.classList.add('stg'); setTimeout(()=>e.classList.remove('stg'), 900+i*45); }); }
+/* las hojas que se abren: su contenido entra en cascada */
+new MutationObserver(()=>{ const s=$('#sheet2'); if(!s || s.hidden) return; const b=$('#shBox'); const t=b?.querySelector('.dbody>div, .fgrid2, .fich'); if(t) fxIn(t); }).observe($('#sheet2'),{attributes:true, attributeFilter:['hidden']});
+/* buscador: los resultados aparecen escalonados */
+{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); if(!ANIMON()) return; [...($('#srRes')?.querySelectorAll(':scope > .r2, :scope > button, :scope > h5')||[])].slice(0,16).forEach((e,i)=>{ e.style.setProperty('--si',i); e.classList.add('srin'); }); }; }
+
+/* cableado: los cables «se tienden» al abrir un circuito y las etiquetas aparecen una a una */
+{ const _wb=wireBuild; wireBuild=function(c){ const r=_wb(c);
+    if(ANIMON()){ const tubes=[...(WIRE.grp?.children||[]), ...(WIRE.tubes||[])].filter(t=>t.geometry?.index); const t0=performance.now();
+      tubes.forEach(t=>t.geometry.setDrawRange(0,0));
+      const ids=[...new Set(tubes.map(t=>t.userData.wire))];
+      const tick=now=>{ let busy=false; for(const t of tubes){ const k=ids.indexOf(t.userData.wire), d=k*90, u=Math.max(0, Math.min(1, (now-t0-d)/900)); const e=1-Math.pow(1-u,3); const cnt=t.geometry.index.count; t.geometry.setDrawRange(0, Math.floor(cnt*e/3)*3); if(u<1) busy=true; }
+        dirty=true; if(busy && WIRE.on===c) requestAnimationFrame(tick); else tubes.forEach(t=>t.geometry.setDrawRange(0, Infinity)); };
+      requestAnimationFrame(tick);
+      WIRE.labels.forEach((l,i)=>{ l.el.style.setProperty('--ld', (300+i*70)+'ms'); l.el.classList.add('lin'); setTimeout(()=>l.el.classList.remove('lin'), 1400+i*70); }); }
+    return r; }; }
+
+/* tarjeta de Inicio: un brillo cruza la tarjeta del coche al entrar */
+{ const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); if(ANIMON()) document.querySelectorAll('.card2.hmini').forEach(c=>{ if(c.dataset.sh) return; c.dataset.sh='1'; c.classList.add('sheen'); setTimeout(()=>c.classList.remove('sheen'),1600); }); return r; }; }
+
+/* al guardar: el botón «respira» un momento (confirmación visual además del aviso) */
+document.addEventListener('click', e=>{ const b=e.target.closest?.('.recacts [data-a="ok"], .btn2.pri'); if(!b || !ANIMON()) return; b.classList.remove('pressok'); void b.offsetWidth; b.classList.add('pressok'); }, true);
+
+/* al cerrar el cableado la cámara vuelve a la vista normal (antes se quedaba mirando el suelo) */
+{ const _wc=wireClear; wireClear=function(keepX){ const was=!!WIRE.on; const r=_wc(keepX); if(was && !keepX){ try{ setView('iso'); }catch{} } return r; }; }
+
+/* cifras: en español «4.200» también lleva punto (el navegador lo quita en números de 4 cifras) */
+{ const nl=Number.prototype.toLocaleString; let ok=false; try{ ok=nl.call(4200,'es-ES',{useGrouping:'always'})==='4.200'; }catch{}
+  Number.prototype.toLocaleString=function(loc, opt){ if(loc==='es-ES' || loc==='es'){ if(ok) return nl.call(this, 'es-ES', {useGrouping:'always', ...(opt||{})}); if(!opt || (opt.style!=='unit' && !opt.notation)) return nl.call(this, 'de-DE', opt); } return nl.call(this, loc, opt); }; }
+{ const INF=Intl.NumberFormat; let ok=false; try{ ok=new INF('es-ES',{useGrouping:'always'}).format(4200)==='4.200'; }catch{}
+  const NF=function(loc, opt){ if(loc==='es-ES' || loc==='es'){ if(ok) return new INF('es-ES',{useGrouping:'always', ...(opt||{})}); if(!opt || (opt.style!=='unit' && !opt.notation)) return new INF('de-DE', opt); } return new INF(loc, opt); };
+  NF.prototype=INF.prototype; NF.supportedLocalesOf=INF.supportedLocalesOf.bind(INF); try{ Intl.NumberFormat=NF; }catch{} }
+
+/* cableado: al elegir un cable la cámara se acerca a él (los de dentro de la puerta quedaban tapados por la ficha) */
+function wireFocusIds(ids){
+  const b=new THREE.Box3(); for(const t of [...(WIRE.grp?.children||[]), ...(WIRE.tubes||[])]) if(ids.has(t.userData.wire)){ t.updateWorldMatrix(true,false); if(!t.geometry.boundingBox) t.geometry.computeBoundingBox(); b.union(t.geometry.boundingBox.clone().applyMatrix4(t.matrixWorld)); } if(b.isEmpty()) return;
+  const c=b.getCenter(new THREE.Vector3()), s=b.getSize(new THREE.Vector3()).length(), f=carFrame(), side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s; if(WIRE.on?.lado==='der') side.negate();
+  const fov=(camera.fov||40)*Math.PI/180, asp=Math.min(1, camera.aspect||1), dist=Math.max(1.05, (s*0.6)/Math.tan(fov/2)/asp);
+  c.y-=dist*Math.tan(fov/2)*0.42; const pos=c.clone().add(side.multiplyScalar(dist*0.92)).add(new THREE.Vector3(0, dist*0.3, 0)); flyTo(c, pos); }
+{ const _wh=wireHighlight; wireHighlight=function(id){ _wh(id); if(!WIRE.on) return; if(WIRE.sel && !String(WIRE.sel).startsWith('n:')) wireFocusIds(new Set([WIRE.sel])); else wireFocus(); }; }
 
 connectDb();
 { const h=(location.hash||'').slice(1); go(SECS[h]?h:'inicio'); }

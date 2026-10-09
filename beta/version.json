@@ -1,15 +1,27 @@
 {
- "version": "2.0.0-beta.8",
+ "version": "2.1.0-beta.1",
  "fecha": "2026-10-09",
  "notas": [
-  "Cableado 3D: al tocar una etiqueta (J388, SB10…) ya no salta; se abre qué es, dónde está y sus cables, y se resaltan en el modelo."
+  "Examen completo: 31 fallos corregidos y la app reorganizada.",
+  "Visor 3D: botón Electricidad (Cableado y Fusibles); los cables se tienden al abrir un circuito y el cable elegido lleva corriente animada.",
+  "Papeles: una tarjeta por documento, sin repetidos, y pestaña IVTM; Archivos rehecho.",
+  "Más: Piezas (antes Fichas y Catálogo) y Guías y manuales, con guías que se leen y se siguen en el 3D.",
+  "Plan: «Poner intervalo» con sugerencias; historial por años.",
+  "Colección de ilustraciones, transiciones, cifras que se encienden y ajuste de Animaciones (Todas, Discretas o Ninguna).",
+  "Textos: plurales, cifras con punto de miles y ElsaWin/ETKA."
  ],
  "historial": [
   {
-   "version": "2.0.0-beta.8",
+   "version": "2.1.0-beta.1",
    "fecha": "2026-10-09",
    "notas": [
-    "Cableado 3D: al tocar una etiqueta (J388, SB10…) ya no salta; se abre qué es, dónde está y sus cables, y se resaltan en el modelo."
+    "Examen completo: 31 fallos corregidos y la app reorganizada.",
+    "Visor 3D: botón Electricidad (Cableado y Fusibles); los cables se tienden al abrir un circuito y el cable elegido lleva corriente animada.",
+    "Papeles: una tarjeta por documento, sin repetidos, y pestaña IVTM; Archivos rehecho.",
+    "Más: Piezas (antes Fichas y Catálogo) y Guías y manuales, con guías que se leen y se siguen en el 3D.",
+    "Plan: «Poner intervalo» con sugerencias; historial por años.",
+    "Colección de ilustraciones, transiciones, cifras que se encienden y ajuste de Animaciones (Todas, Discretas o Ninguna).",
+    "Textos: plurales, cifras con punto de miles y ElsaWin/ETKA."
    ]
   }
  ]
