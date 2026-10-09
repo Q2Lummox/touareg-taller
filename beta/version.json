@@ -1,19 +1,15 @@
 {
- "version": "2.1.0-beta.2",
+ "version": "2.1.0-beta.3",
  "fecha": "2026-10-09",
  "notas": [
-  "Cableado: J519 colocada entre el volante y los pedales, junto a la consola central.",
-  "Cableado: la corriente animada sale solo en el cable que eliges.",
-  "Barra inferior: iconos centrados en su píldora."
+  "Arreglado: al saltar la pantalla de arranque con el motor arrancando salían 3 errores en rojo."
  ],
  "historial": [
   {
-   "version": "2.1.0-beta.2",
+   "version": "2.1.0-beta.3",
    "fecha": "2026-10-09",
    "notas": [
-    "Cableado: J519 colocada entre el volante y los pedales, junto a la consola central.",
-    "Cableado: la corriente animada sale solo en el cable que eliges.",
-    "Barra inferior: iconos centrados en su píldora."
+    "Arreglado: al saltar la pantalla de arranque con el motor arrancando salían 3 errores en rojo."
    ]
   }
  ]

@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.0-beta.2">
+<meta name="app-version" content="2.1.0-beta.3">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2311,7 +2311,7 @@ body.an-off .stg,body.an-off .srin,body.an-off .wlab.lin{animation:none!importan
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.0-beta.2</span>
+  <span class="spver">v2.1.0-beta.3</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5726,7 +5726,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.0-beta.2';
+  const APP_VERSION='2.1.0-beta.3';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -6437,8 +6437,8 @@ let spTipI=0; const spTip=$('#spTip'); spTip.textContent=SP_TIPS[0];
 const spTipT=setInterval(()=>{ spTip.style.opacity=0; setTimeout(()=>{ spTipI=(spTipI+1)%SP_TIPS.length; spTip.textContent=SP_TIPS[spTipI]; spTip.style.opacity=1; },300); },3200);
 const spT0=performance.now(); let spDone=false, spF=0;
 { const bi=$('#lbarI'); if(bi) new MutationObserver(()=>{ const f=(parseFloat(bi.style.width)||0)/100; spF=f; stSet(f);  const np=$('#navProg'); np.style.setProperty('--p',Math.round(f*100)+'%'); }).observe(bi,{attributes:true,attributeFilter:['style']}); }
-{ const lt=$('#ltxt'); if(lt) new MutationObserver(()=>{ if(!spDone) $('#spTxt').textContent=lt.textContent; }).observe(lt,{childList:true,characterData:true,subtree:true}); }
-spSet(.12); $('#spTxt').textContent='Arrancando…';
+{ const lt=$('#ltxt'); if(lt) new MutationObserver(()=>{ if(!spDone) (document.getElementById('spTxt')||{}).textContent=lt.textContent; }).observe(lt,{childList:true,characterData:true,subtree:true}); }
+spSet(.12); (document.getElementById('spTxt')||{}).textContent='Arrancando…';
 function splashOut(wait){ setTimeout(()=>{ $('#splash')?.classList.add('out'); setTimeout(()=>$('#splash')?.remove(),1700); }, wait); }
 /* aguja con inercia: muelle amortiguado (se pasa un poco y vuelve) y ralentí con un vaivén muy ligero */
 const NDL={v:1,vel:0,tgt:1,idle:false,on:false,t0:0,w:0};
@@ -6526,14 +6526,14 @@ function ignition(){
   sp.classList.remove('ready'); sp.classList.add('seq');
   $("#spStart")?.classList.add("used");
   NDL.v=1; NDL.vel=0; NDL.t0=performance.now(); NDL.idle=false; NDL.tgt=0; needleRun();
-  $('#spTxt').textContent='Contacto';
+  (document.getElementById('spTxt')||{}).textContent='Contacto';
   sp.classList.add('lights'); ENGX?.pump();
   at(420,()=>{ NDL.tgt=1; });                                  /* autotest del cuadro: barrido completo */
-  at(950,()=>{ NDL.tgt=0; sp.classList.add('glowonly'); $('#spTxt').textContent='Precalentando'; });
+  at(950,()=>{ NDL.tgt=0; sp.classList.add('glowonly'); (document.getElementById('spTxt')||{}).textContent='Precalentando'; });
   at(1650,()=>{ sp.classList.remove('lights','glowonly'); });
-  at(1800,()=>{ $('#spTxt').textContent='Arrancando'; ENGX?.starter(.62); let k=0; const w=setInterval(()=>{ NDL.tgt = (k++%2)?.05:.022; },105); SEQ.t.push(w); at(2420,()=>clearInterval(w)); shake(2.2,600); });
+  at(1800,()=>{ (document.getElementById('spTxt')||{}).textContent='Arrancando'; ENGX?.starter(.62); let k=0; const w=setInterval(()=>{ NDL.tgt = (k++%2)?.05:.022; },105); SEQ.t.push(w); at(2420,()=>clearInterval(w)); shake(2.2,600); });
   at(2440,()=>{ ENGX?.boom(); NDL.tgt=.47; sp.classList.add('fire'); sp.classList.add('shaking'); shake(16,900); setTimeout(()=>sp.classList.remove('shaking'),900);
-    try{ navigator.vibrate?.([70,40,140]); }catch{} $('#spTxt').textContent='Motor en marcha'; });
+    try{ navigator.vibrate?.([70,40,140]); }catch{} (document.getElementById('spTxt')||{}).textContent='Motor en marcha'; });
   at(2950,()=>{ NDL.tgt=.17; });
   at(3400,()=>{ NDL.tgt=.125; NDL.idle=true; idleJitter(); });
   at(4600,()=>exitSplash());
@@ -6557,7 +6557,7 @@ function hideSplash(){ if(spDone) return; spDone=true; PERF.m.ui=performance.now
   const gate=$('#gate') && !$('#gate').hidden;
   if(gate || UI.prefs.intro==='simple'){ splashOut(350); return; }
   /* listo: botón de arranque (en iPhone el sonido solo puede empezar con un toque) */
-  const sp=$('#splash'); if(!sp) return; sp.classList.add('ready'); $('#spTxt').textContent='Listo';
+  const sp=$('#splash'); if(!sp) return; sp.classList.add('ready'); (document.getElementById('spTxt')||{}).textContent='Listo';
   const b=h2(`<button type="button" class="spstart" id="spStart"><span class="string"></span><b>ENGINE</b><small>START·STOP</small></button>`);
   sp.querySelector('.spbox').append(b);
   b.addEventListener('click',e=>{ e.stopPropagation(); uiSfx?.('tap'); ignition(); });
@@ -6567,7 +6567,7 @@ function hideSplash(){ if(spDone) return; spDone=true; PERF.m.ui=performance.now
     const el2=performance.now()-spT0, gate=!$('#gate').hidden;
     if(S.cfg && !PERF.m.data){ PERF.m.data=performance.now(); scheduleModel(); }
     if(gate || (S.cfg && el2>1400) || UI.modelReady || el2>9000){ clearInterval(chk); hideSplash(); }
-    else { spSet(S.cfg?.9: window.FB?.user?.() ? .55 : .3); $('#spTxt').textContent = window.FB?.user?.() ? 'Cargando tus datos…' : 'Conectando…'; }
+    else { spSet(S.cfg?.9: window.FB?.user?.() ? .55 : .3); (document.getElementById('spTxt')||{}).textContent= window.FB?.user?.() ? 'Cargando tus datos…' : 'Conectando…'; }
   },150); }
 new MutationObserver((m,o)=>{ if(!document.getElementById('loader')){ o.disconnect(); UI.modelReady=true; PERF.m.model=performance.now(); $('#navProg').classList.add('done'); if(UI.sec==='coche') carIntro(); } }).observe($('#stage'),{childList:true});
 
