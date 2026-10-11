@@ -67,6 +67,11 @@ add('docs', 'Documentación', docsA, APP + '#papeles');
 add('compras', 'Compras sin montar', compras, APP + '#mant');
 if (semanal) add('semanal', 'Resumen semanal', resumen.length ? resumen : ['✅ Todo al día. Nada vencido ni próximo.'], APP);
 if (PRUEBA) for (const ch of Object.keys(out)) if (!out[ch].length) out[ch].push({ titulo: 'Aviso de prueba', lineas: ['✅ Este canal funciona. Todo al día.'], url: APP });
+/* v2.1: un solo mensaje por canal (antes llegaba uno por cada tipo de aviso) */
+for (const ch of ['push', 'telegram']) if (out[ch].length > 1) {
+  const L = out[ch];
+  out[ch] = [{ titulo: L.map(m => m.titulo).join(' · '), lineas: L.flatMap(m => [(ch === 'telegram' ? `\n<b>${m.titulo}</b>` : `· ${m.titulo} ·`), ...m.lineas]), url: L.length === 1 ? L[0].url : APP }];
+}
 console.log(`Avisos: push ${out.push.length}, correo ${out.email.length}, Telegram ${out.telegram.length}`);
 
 /* push */
@@ -76,7 +81,7 @@ if (out.push.length) {
   else {
     webpush.setVapidDetails('mailto:' + (E.EMAIL_TO || E.GMAIL_USER || 'avisos@example.com'), VAPID_PUBLIC, E.VAPID_PRIVATE);
     for (const m of out.push) for (const s of subs) {
-      try { await webpush.sendNotification(s.sub, JSON.stringify({ title: '🔧 ' + m.titulo, body: m.lineas.slice(0, 4).join('\n') + (m.lineas.length > 4 ? `\n…y ${m.lineas.length - 4} más` : ''), url: m.url, tag: m.titulo })); console.log('Push enviado a', s.id); }
+      try { await webpush.sendNotification(s.sub, JSON.stringify({ title: '🔧 ' + m.titulo, body: m.lineas.slice(0, 6).join('\n') + (m.lineas.length > 6 ? `\n…y ${m.lineas.length - 6} más` : ''), url: m.url, tag: m.titulo })); console.log('Push enviado a', s.id); }
       catch (e) { console.log(e.statusCode === 404 || e.statusCode === 410 ? 'Push: suscripción caducada (app borrada o desactivada), quítala en la app ▸ Más ▸ Avisos:' : 'Push falló en', s.id, e.statusCode || e.message); }
     }
   }

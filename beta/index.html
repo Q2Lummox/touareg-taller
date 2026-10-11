@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.0-beta.4">
+<meta name="app-version" content="2.1.0">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2329,6 +2329,64 @@ body.ui2.light .rz i{background:linear-gradient(160deg,#4a535d,#262c33)}
 .gsteps li.ghit{background:color-mix(in srgb,var(--accent) 9%,transparent);border-radius:12px;padding-left:8px;padding-right:8px}
 body.ui2.light .ebox{box-shadow:0 8px 24px #0000000f}
 .fz.w b{font-size:8.5px;letter-spacing:-.02em}
+
+/* ====== v2.1 oficial: drenajes, marcadores, línea de tiempo, atajos ====== */
+.wlab.t-dren b{color:#7fd0ff}.wlab.t-drensal b{color:#9fe0ff}.wlab.t-drensal{background:#0b2233e6;border-color:#7fd0ff66}
+.wlab.t-masa b{color:#d7a86e}
+.dsw{flex:none;width:12px;height:34px;border-radius:6px;margin-top:2px;background:var(--a);border:1px solid #0006;box-shadow:inset 0 0 0 3px #ffffff22}
+.drencard{border-color:#3fa9f5}
+.drencard .wrow.on{border-color:#3fa9f5;box-shadow:0 0 0 2px #3fa9f544}
+.drows{grid-template-columns:1fr 1fr}
+@media (max-width:860px){ .drows{gap:6px} .drows .wrow small{display:none} .drows .wrow{padding:7px 8px;align-items:center} .drows .dsw{height:22px} .drencard .wsum{display:none} .drencard .dinfo{font-size:12px!important} }
+.dinfo{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;margin:2px 0 8px!important;padding:8px 10px;border-radius:10px;background:color-mix(in srgb,#3fa9f5 12%,transparent);font-size:12.5px!important;line-height:1.4}
+.dinfo>svg{width:16px;height:16px;flex:none;margin-top:1px;color:#3fa9f5}.dinfo>span{flex:1;min-width:0}
+.dinfo .btn2{padding:6px 10px;font-size:12.5px}
+.marcacard{border-color:var(--card-line)}
+.marcacard .wch em.mcnt{font-style:normal;font-size:11.5px;color:var(--txt-2);background:var(--card-2);border-radius:999px;padding:1px 8px;margin-left:6px}
+.mk{flex:none;display:grid;place-items:center;min-width:38px;height:24px;padding:0 5px;border-radius:7px;font:800 11px var(--f-body);font-style:normal;background:#0d1014;color:#d7a86e;border:1px solid #ffffff22}
+.mk.t-unidad{color:#2fc48d}.mk.t-fusible{color:#f1c40f}.mk.t-conector{color:#7fb3ff}
+body.ui2.light .mk{background:#1b1f25}
+.mzona{margin:8px 2px 2px;font:700 11px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--txt-3)}
+#tDren[aria-pressed="true"]{background:color-mix(in srgb,#3fa9f5 22%,transparent);color:#9fd9ff}
+.gdren{width:100%;justify-content:center;margin:0 0 12px}
+.btn2.dim{opacity:.6}
+.ebox.ehit{box-shadow:0 0 0 2px var(--accent),0 10px 30px #0003;transition:box-shadow .4s}
+/* línea de tiempo del plan */
+.mtl{--lanes:1;position:relative}
+.mtlax{position:relative;height:22px;border-bottom:2px solid var(--card-line);margin:4px 6px 0}
+.mtlax .tk{position:absolute;bottom:4px;transform:translateX(-50%);font-size:11px;color:var(--txt-3);white-space:nowrap}
+.mtlax .now{position:absolute;bottom:-6px;width:2px;height:12px;background:var(--accent);border-radius:2px}
+.mtldots{position:relative;height:calc(var(--lanes)*16px + 16px);margin:0 6px}
+.mdot{position:absolute;top:calc(var(--ln)*16px + 6px);transform:translateX(-50%);width:22px;height:22px;padding:0;border:0;background:none;cursor:pointer}
+.mdot i{display:block;width:12px;height:12px;margin:5px;border-radius:50%;background:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 30%,transparent);animation:mdotIn .5s cubic-bezier(.2,1.4,.4,1) both;animation-delay:calc(var(--i)*50ms)}
+@keyframes mdotIn{from{transform:scale(0)}to{transform:scale(1)}}
+.mtlist{display:grid;gap:4px;margin-top:6px}
+.mtrow{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:9px;font-size:13px}
+.mtrow i{width:9px;height:9px;border-radius:50%;background:var(--c);flex:none}
+.mtrow b{flex:1;min-width:0;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mtrow span{color:var(--txt-2);font-size:12px;white-space:nowrap}
+.mtrow.on{background:var(--card-2);box-shadow:inset 0 0 0 1px var(--c)}
+/* Inicio: atajos y barras del gasto */
+.qadd{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.qadd button{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 4px;border-radius:14px;border:1px solid var(--card-line);background:var(--card);color:var(--txt);font:600 12px var(--f-body);cursor:pointer}
+.qadd button svg{width:20px;height:20px;color:var(--accent)}
+.qadd button:active{transform:scale(.96)}
+.gspark{display:flex;align-items:flex-end;gap:4px;height:58px;margin-top:12px;cursor:pointer}
+.gspark i{flex:1;position:relative;height:var(--h);min-height:2px;border-radius:4px 4px 2px 2px;background:color-mix(in srgb,var(--info) 55%,transparent);animation:gsIn .6s cubic-bezier(.2,.9,.3,1) both;animation-delay:var(--d);transform-origin:bottom}
+.gspark i.cur{background:var(--accent)}
+.gspark i b{position:absolute;bottom:-15px;left:50%;transform:translateX(-50%);font:600 9.5px var(--f-body);color:var(--txt-3)}
+.gspark{margin-bottom:14px}
+@keyframes gsIn{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@media (prefers-reduced-motion:reduce){ .gspark i,.mdot i{animation:none} }
+/* textos de ayuda: dos líneas y «más» */
+.pintro.clamp span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pintro.clamp{cursor:pointer;position:relative;padding-right:22px}
+.pintro.clamp::after{content:"";position:absolute;right:4px;top:6px;width:7px;height:7px;border-right:2px solid var(--txt-3);border-bottom:2px solid var(--txt-3);transform:rotate(45deg);transition:transform .2s}
+.pintro.clamp.open span{-webkit-line-clamp:unset;display:block}
+.pintro.clamp.open::after{transform:rotate(225deg);top:10px}
+/* modo claro: selectores de opción única que se quedaban negros */
+body.ui2.light .seg3{background:#e9edf2;border-color:#d3d9e0}
+body.ui2.light .seg3 button{color:var(--txt-2)}
 </style>
 
 </head>
@@ -2371,7 +2429,7 @@ body.ui2.light .ebox{box-shadow:0 8px 24px #0000000f}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.0-beta.4</span>
+  <span class="spver">v2.1.0</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5786,7 +5844,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.0-beta.4';
+  const APP_VERSION='2.1.0';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -6660,8 +6718,10 @@ setInterval(()=>{
 },1000);
 
 /* ---------- rendimiento ---------- */
-function scheduleModel(){ if(scheduleModel.on) return; scheduleModel.on=true; const go2=()=>startModel(); if('requestIdleCallback' in window) requestIdleCallback(go2,{timeout:2500}); else setTimeout(go2,1200); }
-setTimeout(()=>startModel(), 7000);
+/* v2.1: con «ahorro de datos» o red lenta el 3D solo se descarga al entrar en Coche */
+const LITE3D=(()=>{ const c=navigator.connection; return !!(c && (c.saveData || /(^|-)2g$/.test(c.effectiveType||''))); })();
+function scheduleModel(){ if(scheduleModel.on || LITE3D) return; scheduleModel.on=true; const go2=()=>startModel(); if('requestIdleCallback' in window) requestIdleCallback(go2,{timeout:2500}); else setTimeout(go2,1200); }
+setTimeout(()=>{ if(!LITE3D) startModel(); }, 7000);
 /* el visor no dibuja mientras estás en otra sección */
 { const _rf=renderFrame; renderFrame=function(){ if((UI.sec!=='coche' || UI.sub.coche!=='3d') && !document.querySelector('.stage.fs')) return; const t=performance.now(); PERF.fr.push(t); if(PERF.fr.length>90) PERF.fr.shift(); _rf(); }; }
 /* calidad automática la primera vez, según el dispositivo */
@@ -9939,6 +9999,237 @@ V2SUBS.coche.fus=renderElec;
     for(const [c,it] of hits.slice(0,6)){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic(c.tipo==='fusibles'?'fuse':'zap')}</span><span class="tx"><b>${esc(it.pos)} · ${hl(it.desc||'',q)}</b><small>${esc([c.tipo==='fusibles'&&it.amp?it.amp+' A':it.num?'Relé '+it.num:'', c.corto||c.nombre].filter(Boolean).join(' · '))}</small></span>${ic('chevR')}</button>`);
       r.onclick=()=>{ closeSearch(); UI.elTab=c.tipo; go('coche','fus'); setTimeout(()=>elecItemSheet(c,it),250); }; out.append(r); } }; }
 { let k0=''; setInterval(()=>{ const k=(S.fus||[]).map(f=>f._id+(f.notas||'')).join(); if(k!==k0){ const was=k0; k0=k; if(was && V2.cur?.fn===renderElec && document.body.contains(V2.cur.root)) v2Rerender(); } }, 1000); }
+
+/* ====================== v2.1 oficial: DRENAJES, MARCADORES 3D, PLAN EN EL TIEMPO Y ATAJOS ====================== */
+IC.drop=IC.drop||'<path d="M12 3s6 6.4 6 11a6 6 0 0 1-12 0c0-4.6 6-11 6-11z"/><path d="M9.5 15.5a2.6 2.6 0 0 0 2.5 2"/>';
+IC.pinD=IC.pinD||'<path d="M12 21s-6-5.6-6-10.5A6 6 0 0 1 18 10.5C18 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.2"/>';
+IC.chip=IC.chip||'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>';
+IC.earth=IC.earth||'<path d="M12 3v9M6 12h12M8.5 15.5h7M11 19h2"/>';
+
+/* ---------- utilidades comunes ---------- */
+const mirU=u=>[1-u[0], u[1], u[2]];
+WCOL.grd='#a3abb4'; WCOLN.grd='gris';
+const BA=(u,a)=>({ref:'body', u, ...(a?{a}:{})});
+let _ground=null;
+function groundY(){ if(_ground!=null) return _ground; let m=Infinity; for(const id of Object.keys(parts)){ if(!/wheel|tyre|tire|rueda/i.test(id)) continue; const b=partBox(id); if(b && b.min.y<m) m=b.min.y; }
+  if(!isFinite(m)){ const b=partBox('body'); m=b?b.min.y-(b.max.y-b.min.y)*.16:0; } return _ground=m; }
+function stopIn(el){ for(const ev of ['pointerdown','mousedown','touchstart','wheel']) el.addEventListener(ev, e=>e.stopPropagation(), {passive:true}); }
+
+/* ====================== DRENAJES DEL TECHO SOLAR ======================
+   Recorrido según la ilustración del manual (N60-0225): los dos delanteros bajan por los pilares A
+   hasta el pie del pilar, detrás del paso de rueda delantero; los dos traseros van por el larguero
+   del techo y bajan por el pilar D hasta la parte baja trasera. Verde = delanteros, gris = traseros. */
+const DREN_L={
+  F:[[.29,.925,.315],[.245,.93,.30],[.175,.925,.272],[.13,.80,.17],[.088,.635,.062],[.064,.46,.075],[.052,.2,.082],[.046,.085,.086]],
+  R:[[.29,.925,.497],[.24,.93,.52],[.185,.926,.565],[.172,.922,.80],[.158,.905,.876],[.12,.72,.918],[.09,.5,.945],[.072,.3,.955],[.066,.2,.957]] };
+const DREN=[
+  {id:'DI', pos:'F', lado:'izq', color:'gn', nombre:'Delantero izquierdo', corto:'Del. izq.', sale:'Pie del pilar A izquierdo, entre la aleta y la puerta delantera (detrás del paso de rueda)', baja:'Por dentro del pilar A izquierdo'},
+  {id:'DD', pos:'F', lado:'der', color:'gn', nombre:'Delantero derecho', corto:'Del. der.', sale:'Pie del pilar A derecho, entre la aleta y la puerta delantera (detrás del paso de rueda)', baja:'Por dentro del pilar A derecho'},
+  {id:'TI', pos:'R', lado:'izq', color:'grd', nombre:'Trasero izquierdo', corto:'Tras. izq.', sale:'Parte baja trasera izquierda, detrás del paso de rueda trasero (bajo el piloto)', baja:'Por el larguero del techo y el pilar D izquierdo'},
+  {id:'TD', pos:'R', lado:'der', color:'grd', nombre:'Trasero derecho', corto:'Tras. der.', sale:'Parte baja trasera derecha, detrás del paso de rueda trasero (bajo el piloto)', baja:'Por el larguero del techo y el pilar D derecho'} ];
+function drenCircuit(){
+  const nodos=[], cables=[];
+  for(const d of DREN){ const P=DREN_L[d.pos].map(u=>d.lado==='der'?mirU(u):u);
+    nodos.push({id:'t'+d.id, h:d.id, cod:d.id, nombre:'Desagüe '+d.corto, tipo:'dren', ancla:BA(P[0]), donde:`Esquina ${d.pos==='F'?'delantera':'trasera'} ${d.lado==='izq'?'izquierda':'derecha'} del marco del techo solar (canaleta)`, nota:'Aquí entra el agua que recoge la canaleta del techo.'});
+    nodos.push({id:'s'+d.id, h:d.id, cod:'↓', nombre:'Salida '+d.corto, tipo:'drensal', ancla:BA(P[P.length-1]), donde:d.sale, nota:'Por aquí debe salir el agua. Suele llevar una válvula de goma que se tapona con barro.'});
+    cables.push({id:d.id, nombre:'Drenaje '+d.nombre.toLowerCase(), color:d.color, seccion:2, de:'Techo solar', a:d.sale, drenaje:true, lado:d.lado, ruta:['t'+d.id, ...P.slice(1,-1).map(u=>BA(u)), 's'+d.id]}); }
+  return {id:'drenajes', titulo:'Drenajes del techo solar', sistema:'Carrocería', drenaje:true, lado:'izq', resumen:'Cuatro mangueras llevan el agua de la canaleta del techo solar hasta abajo: las delanteras (verde) por los pilares A y las traseras (gris) por los pilares D. Toca una para ver cómo baja el agua.', nodos, cables};
+}
+const drenGuide=()=>(S.procs||[]).find(p=>/drenaj/i.test(p.titulo||''));
+function drenShow(){ if(WIRE.on?.drenaje){ wireClear(); return; } wireShow(drenCircuit()); }
+function drenCard(c){
+  document.querySelector('.wirecard')?.remove();
+  const cd=h2(`<div class="wirecard drencard"><div class="wch"><span>${ic('drop')}<b>${esc(c.titulo)}</b></span><button type="button" class="wx" aria-label="Cerrar">${ic('x')}</button></div>
+    <p class="wsum">${esc(c.resumen)}</p><p class="dinfo" hidden></p><div class="wrows drows"></div><div class="row3 wacts"></div></div>`);
+  const rows=cd.querySelector('.drows');
+  for(const d of DREN){ const r=h2(`<button type="button" class="wrow" data-w="${d.id}"><i class="dsw" style="--a:${WCOL[d.color]}"></i><span><b>${esc(d.nombre)}</b><small>${esc(d.baja)}</small></span></button>`);
+    r.onclick=()=>{ uiSfx('tap'); wireHighlight(d.id); }; rows.append(r); }
+  const acts=cd.querySelector('.wacts'), g=drenGuide();
+  const gb=h2(`<button type="button" class="btn2 ghost">${ic('book')}Guía de limpieza</button>`);
+  gb.onclick=()=>{ const gg=drenGuide(); if(gg) guiaRead(gg); else toast('Importa «importar-guia-drenajes.json» (Más ▸ Importar datos) para tener la guía con la ilustración'); };
+  if(!g) gb.classList.add('dim'); acts.append(gb);
+  const fb=h2(`<button type="button" class="btn2 ghost">${ic('eye')}Centrar</button>`); fb.onclick=()=>{ if(WIRE.sel) drenFocus(WIRE.sel); else wireFocus(); }; acts.append(fb);
+  cd.querySelector('.wsum').onclick=e=>e.currentTarget.classList.toggle('open');
+  cd.querySelector('.wx').onclick=()=>{ uiSfx('tap'); wireClear(); };
+  stopIn(cd); stage.append(cd);
+}
+function drenInfo(id){ const p=document.querySelector('.drencard .dinfo'); if(!p) return; const d=DREN.find(x=>x.id===id);
+  if(!d){ p.hidden=true; return; } p.hidden=false; p.innerHTML=`${ic('drop')}<span><b>${esc(d.nombre)}</b> · ${esc(d.baja)}. Sale por: ${esc(d.sale)}.</span>`; }
+
+/* --- animación del agua: entra por la canaleta, recorre la manguera y gotea por abajo --- */
+const DFX={on:false, raf:0, objs:[], t0:0};
+function dfxCanvasTex(w,h,draw){ const c=document.createElement('canvas'); c.width=w; c.height=h; draw(c.getContext('2d'),w,h); const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return t; }
+function dfxDrop(){ return DFX.drop||(DFX.drop=dfxCanvasTex(64,64,(g)=>{ const gr=g.createRadialGradient(28,26,0,32,32,30); gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(.3,'rgba(170,225,255,.95)'); gr.addColorStop(.7,'rgba(50,150,255,.45)'); gr.addColorStop(1,'rgba(50,150,255,0)'); g.fillStyle=gr; g.fillRect(0,0,64,64); })); }
+function dfxRing(){ return DFX.ring||(DFX.ring=dfxCanvasTex(128,128,(g)=>{ g.strokeStyle='rgba(190,235,255,.95)'; g.lineWidth=7; g.beginPath(); g.arc(64,64,52,0,Math.PI*2); g.stroke(); g.strokeStyle='rgba(120,200,255,.5)'; g.lineWidth=3; g.beginPath(); g.arc(64,64,36,0,Math.PI*2); g.stroke(); })); }
+function dfxPool(){ return DFX.pool||(DFX.pool=dfxCanvasTex(128,128,(g)=>{ const gr=g.createRadialGradient(64,64,0,64,64,62); gr.addColorStop(0,'rgba(90,180,255,.75)'); gr.addColorStop(.7,'rgba(70,160,255,.35)'); gr.addColorStop(1,'rgba(70,160,255,0)'); g.fillStyle=gr; g.fillRect(0,0,128,128); })); }
+function dfxFlow(){ return DFX.flow||(DFX.flow=(()=>{ const t=dfxCanvasTex(256,8,(g,w)=>{ const gr=g.createLinearGradient(0,0,w,0); gr.addColorStop(0,'rgba(60,150,255,.55)'); gr.addColorStop(.45,'rgba(120,205,255,.9)'); gr.addColorStop(.6,'rgba(235,250,255,1)'); gr.addColorStop(.75,'rgba(120,205,255,.85)'); gr.addColorStop(1,'rgba(60,150,255,.55)'); g.fillStyle=gr; g.fillRect(0,0,w,8); }); t.wrapS=THREE.RepeatWrapping; return t; })()); }
+function dfxClear(){ cancelAnimationFrame(DFX.raf); for(const o of DFX.objs){ o.removeFromParent(); o.geometry?.dispose?.(); if(o.material){ if(o.material.map && o.material.map!==DFX.drop && o.material.map!==DFX.ring && o.material.map!==DFX.pool && o.material.map!==DFX.flow) o.material.map.dispose(); o.material.dispose(); } } DFX.objs=[]; DFX.on=false; if(typeof dirty!=='undefined') dirty=true; }
+function dfxSet(id){
+  dfxClear(); if(!id || !WIRE.on?.drenaje) return;
+  const t=[...(WIRE.grp?.children||[])].find(x=>x.userData.wire===id && x.userData.curve); if(!t) return;
+  const curve=t.userData.curve, rad=t.userData.rad||.005, len=curve.getLength(), P0=curve.getPointAt(0), P1=curve.getPointAt(1), G=groundY();
+  const add=o=>{ scene.add(o); DFX.objs.push(o); return o; };
+  const seg=Math.min(400, t.userData.seg||160), radial=8;
+  const geo=new THREE.TubeGeometry(curve, seg, rad*1.3, radial, false), tex=dfxFlow().clone(); tex.needsUpdate=true; tex.repeat.set(Math.max(1,len/.22),1);
+  const water=add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({map:tex, transparent:true, opacity:.95, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending}))); water.renderOrder=1002;
+  const spr=(s,map)=>{ const o=add(new THREE.Sprite(new THREE.SpriteMaterial({map:map||dfxDrop(), transparent:true, depthTest:false, depthWrite:false}))); o.renderOrder=1004; o.scale.setScalar(s); return o; };
+  const flat=(map,op)=>{ const o=add(new THREE.Mesh(new THREE.PlaneGeometry(1,1), new THREE.MeshBasicMaterial({map, transparent:true, opacity:op, depthTest:false, depthWrite:false, side:THREE.DoubleSide}))); o.rotation.x=-Math.PI/2; o.renderOrder=1003; return o; };
+  const rnd=(k,a)=>((Math.sin(k*12.9898+a*78.233)*43758.5453)%1+1)%1-.5;
+  const rain=Array.from({length:12},(_,k)=>({o:spr(.024), ph:k/12, dx:rnd(k,1)*.16, dz:rnd(k,2)*.16}));
+  const blobs=Array.from({length:7},(_,k)=>({o:spr(rad*6.5), ph:k/7}));
+  const drips=Array.from({length:6},(_,k)=>({o:spr(.022), ph:k/6, dx:rnd(k,3)*.03, dz:rnd(k,4)*.03, ring:flat(dfxRing(),0)}));
+  const inRing=flat(dfxRing(),0); inRing.position.copy(P0).add(new THREE.Vector3(0,.004,0));
+  const pool=flat(dfxPool(),0); pool.position.set(P1.x, G+.003, P1.z);
+  const FILL0=.6, FILL=Math.max(1.8, Math.min(3.2, len*.9)), RAIN_H=.34;
+  DFX.on=true; DFX.t0=performance.now(); const still=RM;
+  const tick=now=>{ if(!DFX.on) return;
+    if(document.hidden || UI.sec!=='coche' || UI.sub.coche!=='3d'){ DFX.raf=requestAnimationFrame(tick); return; }
+    const s=still?99:(now-DFX.t0)/1000, f=Math.max(0, Math.min(1, (s-FILL0)/FILL));
+    geo.setDrawRange(0, Math.floor(f*seg)*radial*6); tex.offset.x=-(s*1.1)%1;
+    /* lluvia que cae en la esquina del techo */
+    for(const r of rain){ const u=((s/.85)+r.ph)%1, k=1-u; r.o.position.set(P0.x+r.dx*k, P0.y+RAIN_H*(1-u*u), P0.z+r.dz*k); r.o.material.opacity=still?0:(u<.85?.95:(1-u)/.15*.95); }
+    { const w=(s/.42)%1; inRing.scale.setScalar(.02+w*.1); inRing.material.opacity=still?0:(1-w)*.85; }
+    /* el agua avanza por dentro de la manguera */
+    for(const b of blobs){ const u=((s*.42)+b.ph)%1; const on=u<=f; b.o.visible=on || still; const p=curve.getPointAt(Math.min(.999,u)); if(p) b.o.position.copy(p); b.o.material.opacity=.95; }
+    /* gotea por la salida y salpica en el suelo */
+    const out=f>=1;
+    for(const d of drips){ const u=((s/.8)+d.ph)%1; d.o.visible=out; d.o.position.set(P1.x+d.dx*u, P1.y-(P1.y-G)*u*u, P1.z+d.dz*u); d.o.material.opacity=.95;
+      d.ring.visible=out; d.ring.position.set(P1.x+d.dx, G+.004, P1.z+d.dz); d.ring.scale.setScalar(.015+u*.16); d.ring.material.opacity=out?(1-u)*.8:0; }
+    { const pw=out?Math.min(1,(s-FILL0-FILL)/2.5):0; pool.scale.setScalar(.04+pw*.22); pool.material.opacity=pw*.55; }
+    dirty=true; if(!still) DFX.raf=requestAnimationFrame(tick); };
+  DFX.raf=requestAnimationFrame(tick);
+}
+/* elegir manguera: resalta, acerca la cámara y lanza el agua (en vez de la «corriente» de los cables) */
+{ const _wh=wireHighlight; wireHighlight=function(id){ const dren=!!WIRE.on?.drenaje; if(dren){ const d=DREN.find(x=>x.id===id); if(d) WIRE.on.lado=d.lado; }
+    _wh(id); if(!dren) return; wfxClear(); const sel=WIRE.sel && !String(WIRE.sel).startsWith('n:')?WIRE.sel:null; dfxSet(sel); drenInfo(sel); if(sel) drenFocus(sel); }; }
+/* encuadre de una manguera entera: desde la lluvia en el techo hasta el charco en el suelo */
+function drenFocus(id){
+  const all=!id, T0=[...(WIRE.grp?.children||[])].filter(x=>all || x.userData.wire===id); const d=all?{lado:'izq', pos:'F'}:DREN.find(x=>x.id===id); if(!T0.length||!d) return;
+  const b=new THREE.Box3(); for(const t of T0){ if(!t.geometry.boundingBox) t.geometry.computeBoundingBox(); b.union(t.geometry.boundingBox.clone().applyMatrix4(t.matrixWorld)); }
+  const t=T0[0], P0=t.userData.curve.getPointAt(0), P1=t.userData.curve.getPointAt(1); if(!all){ b.expandByPoint(P0.clone().add(new THREE.Vector3(0,.38,0))); b.expandByPoint(new THREE.Vector3(P1.x, groundY(), P1.z)); }
+  const c=b.getCenter(new THREE.Vector3()), sz=b.getSize(new THREE.Vector3()).length(), f=carFrame();
+  const side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s*(d.lado==='der'?-1:1); const lng=new THREE.Vector3(); lng[f.lng.k]=f.lng.s*(d.pos==='F'?-1:1);
+  const T=Math.tan((camera.fov||40)*Math.PI/360), asp=camera.aspect||1, hz=Math.hypot(b.max.x-b.min.x, b.max.z-b.min.z), hg=b.max.y-b.min.y;
+  /* arriba van los botones y abajo la ficha: la manguera tiene que caber en la franja libre del medio-alto */
+  const dist=Math.max(1.8, (hg/2)/(.45*T), (hz/2)/(T*asp*.85));
+  c.y-=.3*T*dist;
+  const pos=c.clone().add(side.multiplyScalar(dist*.9)).add(lng.multiplyScalar(dist*(all?.45:.3))).add(new THREE.Vector3(0,dist*(all?.32:.12),0)); leaveCabin?.(); flyTo(c, pos); }
+{ const _wc=wireClear; wireClear=function(k){ dfxClear(); return _wc(k); }; }
+/* tocar una etiqueta de drenaje = elegir su manguera */
+{ const _wn=wireNodeInfo; wireNodeInfo=function(c,n){ if(c?.drenaje){ if(WIRE.sel===n.h) WIRE.sel=null; wireHighlight(n.h); document.querySelectorAll('.wlab').forEach(l=>l.classList.toggle('on', WIRE.labels.find(x=>x.el===l)?.n.h===WIRE.sel)); return; }
+    if(c?.marcas) return marcaInfo(c,n); return _wn(c,n); }; }
+{ const _wcd=wireCard; wireCard=function(c){ if(c?.drenaje) return drenCard(c); if(c?.marcas) return marcasCard(c); return _wcd(c); }; }
+/* tocar la manguera en el propio modelo */
+{ let pd=null;
+  stage.addEventListener('pointerdown', e=>{ pd=(WIRE.on?.drenaje && e.target===renderer.domElement)?{x:e.clientX,y:e.clientY}:null; }, true);
+  stage.addEventListener('pointerup', e=>{ if(!pd || !WIRE.on?.drenaje) return; const d=pd; pd=null; if(Math.hypot(e.clientX-d.x,e.clientY-d.y)>6) return;
+    const rr=renderer.domElement.getBoundingClientRect(); let best=null, bd=26; camera.updateMatrixWorld();
+    for(const t of (WIRE.grp?.children||[])){ const cv=t.userData.curve; if(!cv) continue; for(let i=0;i<=80;i++){ const p=cv.getPointAt(i/80).project(camera); if(p.z>1) continue; const sx=(p.x+1)/2*rr.width+rr.left, sy=(1-p.y)/2*rr.height+rr.top, dd=Math.hypot(sx-e.clientX, sy-e.clientY); if(dd<bd){ bd=dd; best=t.userData.wire; } } }
+    if(!best) return; e.stopPropagation(); try{ clearTimeout(pressTimer); down=null; }catch{} uiSfx('tap'); if(WIRE.sel!==best) wireHighlight(best); }, true); }
+/* botón «Drenajes» en el visor 3D, junto a Electricidad */
+{ const w=document.querySelector('#tWire')?.closest('.seg'); if(w){ const s=h2(`<div class="seg"><button id="tDren" type="button" aria-pressed="false" title="Recorrido de los drenajes del techo solar">${ic('drop','ti')}<span>Drenajes</span></button></div>`);
+    s.querySelector('button').onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenuClose(); drenShow(); }; w.after(s); } }
+{ const sync=()=>{ const b=$('#tDren'); if(b) b.setAttribute('aria-pressed', String(!!WIRE.on?.drenaje)); };
+  const _ws=wireShow; wireShow=function(c){ const r=_ws(c); setTimeout(sync,700); return r; };
+  const _wc=wireClear; wireClear=function(k){ const r=_wc(k); sync(); return r; }; }
+/* desde la guía de drenajes: ver el recorrido en el 3D */
+{ const _gr=guiaRead; guiaRead=function(pr, at){ const r=_gr(pr, at); if(/drenaj/i.test(pr?.titulo||'')){ const b=h2(`<button type="button" class="btn2 pri gdren">${ic('drop')}Ver las mangueras en el 3D</button>`); b.onclick=()=>{ closeSheet(); if(!WIRE.on?.drenaje) wireShow(drenCircuit()); }; document.querySelector('#shBox .gread')?.prepend(b); } return r; }; }
+
+/* ====================== MARCADORES 3D: PUNTOS DE MASA, CENTRALITAS Y CAJAS DE FUSIBLES ======================
+   Solo posiciones aproximadas sobre el modelo; los textos salen de tus guías importadas. */
+const MARCA_U={
+  masa:{ '12':[.15,.5,-.27], '640':[.17,.4,-.15], '13':[.83,.4,-.15], '644':[.83,.4,-.1], '614':[.85,.5,-.27], '608':[.5,.58,0], '647':[.3,.56,0], '645':[.7,.56,0], '646':[.76,.56,.012], '18':[.42,.3,-.12],
+    '32':[.2,.5,.12], '45':[.5,.5,.12], '33':[.8,.5,.12], '639':[.08,.45,.1], '638':[.92,.45,.1], '610':[.5,.38,.18], '637':[.5,.3,.25], '34':[.3,.18,.32], '35':[.7,.18,.32],
+    '632':[.06,.12,.43], '631':[.94,.12,.43], '39':[.3,.2,.58], '49':[.82,.25,.86], '50':[.08,.45,.93], '51':[.92,.45,.93], '58':[.5,.7,.985], '664':[.25,.75,.97], '665':[.75,.75,.97], '667':[.25,.93,.85], '666':[.75,.93,.85] },
+  unidad:{ J623:[.74,.55,-.02], J104:[.79,.5,-.03], J519:{ref:'dash', u:[0.39,0.19,0.27]}, J518:[.5,.42,.12], J745:[.46,.44,.12], J412:[.54,.4,.13], J527:[.3,.5,.18], J502:[.12,.3,.14], J234:[.5,.28,.24],
+    J136:[.3,.17,.34], J505:[.26,.17,.37], J521:[.7,.17,.34], J646:[.7,.15,.3], J499:[.74,.16,.37], J530:[.5,.92,.25], J393:[.88,.4,.82], G384:[.88,.37,.79], J345:[.88,.35,.85], J197:[.9,.45,.92],
+    U13:[.9,.35,.88], R78:[.9,.36,.86], J772:[.9,.33,.9], J446:[.1,.4,.95], J647:[.12,.35,.78], J742:[.5,.1,.92] },
+  caja:{ SB:[.05,.52,.13], SC:[.95,.52,.13], MOT:[.2,.52,-.035], MOTR:[.23,.5,-.03], SD:[.3,.16,.36], SDR:[.33,.16,.38], EBOX:{ref:'dash', u:[0.42,0.24,0.3]} } };
+const MARCA_T={masa:['Puntos de masa','earth'], unidad:['Centralitas','chip'], caja:['Cajas de fusibles y relés','fuse']};
+function marcasData(kind){
+  const out=[]; const anc=v=>Array.isArray(v)?BA(v):v;
+  if(kind==='caja'){ for(const c of (S.v2.electrico||[])){ const u=MARCA_U.caja[c.id]; if(!u) continue; out.push({id:'c_'+c.id, cod:({MOT:'S', EBOX:'E-Box', MOTR:'Relés', SDR:'Relés'})[c.id]||c.id, nombre:c.nombre, tipo:c.tipo==='reles'?'conector':'fusible', ancla:anc(u), donde:c.donde, caja:c.id, tab:c.tipo, zona:c.tipo==='reles'?'Relés':'Fusibles'}); } return out; }
+  const g=(S.procs||[]).find(p=>kind==='masa'?/puntos de masa/i.test(p.titulo||''):/unidades de control|centralitas/i.test(p.titulo||''));
+  for(const p of (g?.pasos||[])){ const t=String(p.texto||'');
+    const m=kind==='masa'?t.match(/^Masa\s+(\d+)\s*·\s*([^:]+):\s*(.*)$/):t.match(/^([A-Z]\d{2,3})\s*·\s*([^:]+):\s*(.*)$/); if(!m) continue;
+    const u=MARCA_U[kind][m[1]]; if(!u) continue;
+    out.push(kind==='masa'?{id:'m'+m[1], cod:m[1], nombre:'Masa '+m[1], tipo:'masa', ancla:anc(u), donde:m[3], zona:m[2].trim()}
+                         :{id:'u'+m[1], cod:m[1], nombre:m[2].trim(), tipo:'unidad', ancla:anc(u), donde:m[3], zona:/maletero|trasero|repuesto/i.test(m[3])?'Detrás':/cámara de agua|vano/i.test(m[3])?'Vano motor':/asiento/i.test(m[3])?'Bajo los asientos':'Salpicadero y consola'}); }
+  return out;
+}
+function marcasShow(kind){
+  const N=marcasData(kind), [tit]=MARCA_T[kind];
+  if(!N.length){ toast(kind==='caja'?'Primero importa «importar-fusibles-y-reles.json» (Más ▸ Importar datos)':'Primero importa «importar-etka-mazos-y-ubicaciones.json»: trae las guías con cada punto', 'err'); return; }
+  wireShow({id:'marcas-'+kind, titulo:tit, marcas:kind, lado:'izq', nodos:N, cables:[]});
+}
+function marcaFly(n){ const l=WIRE.labels.find(x=>x.n===n); if(!l) return; const v=l.v.clone(), f=carFrame(), side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s; if((n.ancla.u?.[0]??0)>.5 && n.ancla.ref==='body') side.negate();
+  const up=new THREE.Vector3(0,1,0), pos=v.clone().add(side.multiplyScalar(1.7)).add(up.multiplyScalar(.9)); leaveCabin?.(); flyTo(v, pos);
+  document.querySelectorAll('.wlab').forEach(x=>x.classList.toggle('on', x===l.el)); document.querySelectorAll('.marcacard .wrow').forEach(r=>r.classList.toggle('on', r.dataset.w===n.id)); }
+function marcaInfo(c,n){ marcaFly(n); const p=document.querySelector('.marcacard .dinfo');
+  if(p){ p.hidden=false; p.innerHTML=`${ic(MARCA_T[c.marcas][1])}<span><b>${esc(n.nombre)}</b> · ${esc(n.donde||'')}</span>`; if(n.caja){ const b=h2(`<button type="button" class="btn2 ghost">${ic('fuse')}Ver su dibujo</button>`); b.onclick=()=>elecGoBox(n.caja, n.tab); p.append(b); } } }
+function elecGoBox(id, tab){ wireClear(); UI.elTab=tab||'fusibles'; UI.elQ=''; UI.elGo=id; go('coche','fus'); }
+{ const _re=renderElec; renderElec=function(w){ _re(w); const id=UI.elGo; if(!id) return; if(!UI.elGoT) UI.elGoT=Date.now(); if(Date.now()-UI.elGoT>2500){ UI.elGo=UI.elGoT=null; return; } const c=(S.v2.electrico||[]).find(x=>x.id===id); if(!c) return;
+    /* la página puede volver a pintarse al entrar: se repite el salto mientras dure el aviso */
+    setTimeout(()=>{ const sec=[...document.querySelectorAll('.page.on .ebox')].find(s=>s.querySelector('header b')?.textContent===c.nombre); if(sec){ sec.scrollIntoView({block:'start', behavior:'auto'}); sec.classList.add('ehit'); setTimeout(()=>sec.classList.remove('ehit'),2400); } }, 280);
+    setTimeout(()=>{ UI.elGo=UI.elGoT=null; }, 2500); };
+  V2SUBS.coche.fus=renderElec; }
+function marcasCard(c){
+  document.querySelector('.wirecard')?.remove(); const [tit,icn]=MARCA_T[c.marcas];
+  const cd=h2(`<div class="wirecard marcacard"><div class="wch"><span>${ic(icn)}<b>${esc(tit)}</b><em class="mcnt">${c.nodos.length}</em></span><button type="button" class="wx" aria-label="Cerrar">${ic('x')}</button></div>
+    <p class="wsum">Posición aproximada sobre el modelo. Toca un punto (aquí o en el 3D) para acercarte y ver dónde está.</p><p class="dinfo" hidden></p><details class="wdet"><summary>Lista <em>${c.nodos.length}</em></summary><div class="wrows"></div></details></div>`);
+  const rows=cd.querySelector('.wrows'); let z=null;
+  for(const n of c.nodos){ if(n.zona!==z){ z=n.zona; rows.append(h2(`<h5 class="mzona">${esc(z||'')}</h5>`)); }
+    const r=h2(`<button type="button" class="wrow" data-w="${esc(n.id)}"><i class="mk t-${n.tipo}">${esc(String(n.cod).slice(0,4))}</i><span><b>${esc(n.nombre)}</b><small>${esc(n.donde||'')}</small></span></button>`); r.onclick=()=>{ uiSfx('tap'); marcaInfo(c,n); }; rows.append(r); }
+  if(matchMedia('(min-width:861px)').matches) cd.querySelector('.wdet').open=true;
+  cd.querySelector('.wx').onclick=()=>{ uiSfx('tap'); wireClear(); }; stopIn(cd); stage.append(cd);
+}
+/* sin cables que encuadrar: se encuadran los puntos; los drenajes, enteros */
+{ const _wf=wireFocus; wireFocus=function(){ if(WIRE.on?.drenaje){ try{ setView('iso'); }catch{} return; } if(!WIRE.on?.marcas) return _wf(); const b=new THREE.Box3(); WIRE.labels.forEach(l=>b.expandByPoint(l.v)); if(b.isEmpty()) return; const c=b.getCenter(new THREE.Vector3()), s=Math.max(1.2, b.getSize(new THREE.Vector3()).length());
+    const f=carFrame(), side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s; const fov=(camera.fov||40)*Math.PI/180, dist=Math.max(2.2, s*.62/Math.tan(fov/2)/Math.min(1,camera.aspect||1)); c.y-=dist*Math.tan(fov/2)*.35;
+    leaveCabin?.(); flyTo(c, c.clone().add(side.multiplyScalar(dist*.85)).add(new THREE.Vector3(0,dist*.45,0))); }; }
+/* menú Electricidad: nuevas entradas */
+{ const _em=elecMenu; elecMenu=function(){ _em(); const m=document.querySelector('.elecm'); if(!m) return;
+    const item=(i,t,s,fn)=>{ const b=h2(`<button type="button" role="menuitem"><i>${ic(i)}</i><span><b>${esc(t)}</b><small>${esc(s)}</small></span>${ic('chevR')}</button>`); b.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenuClose(); fn(); }; m.append(b); };
+    item('fuse','Cajas en el 3D','Dónde está cada caja de fusibles y relés', ()=>marcasShow('caja'));
+    item('earth','Puntos de masa','Los tornillos de masa sobre el modelo', ()=>marcasShow('masa'));
+    item('chip','Centralitas','Dónde va cada unidad de control', ()=>marcasShow('unidad')); }; }
+
+/* ====================== MANTENIMIENTO: LO QUE VIENE, EN UNA LÍNEA DE TIEMPO ====================== */
+function mantTimeline(){
+  const pace=kmPace(), pd=pace?.perDay||41, L=mantList().map(({it,s})=>{ const c=[]; if(s.daysLeft!=null) c.push(s.daysLeft); if(s.kmLeft!=null) c.push(s.kmLeft/pd); const d=c.length?Math.min(...c):null; return d==null?null:{it,s,d:Math.round(d), byKm:s.kmLeft!=null && (s.daysLeft==null || s.kmLeft/pd<s.daysLeft)}; }).filter(Boolean).filter(x=>x.d<=365).sort((a,b)=>a.d-b.d);
+  if(!L.length) return null;
+  const c=card2('Lo que viene en 12 meses','calendar', L.length), now=new Date(), MESC=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const pos=d=>Math.max(0, Math.min(100, (Math.max(-20,d)+20)/385*100));
+  let ticks=''; for(let i=0;i<=12;i+=3){ const dt=new Date(now.getFullYear(), now.getMonth()+i, 1); const d=(dt-now)/864e5; ticks+=`<span class="tk" style="left:${pos(d)}%">${MESC[dt.getMonth()]}${i&&dt.getMonth()===0?' '+String(dt.getFullYear()).slice(2):''}</span>`; }
+  const tl=h2(`<div class="mtl"><div class="mtlax"><i class="now" style="left:${pos(0)}%"></i>${ticks}</div><div class="mtldots"></div></div>`), dots=tl.querySelector('.mtldots');
+  const lanes=[]; L.forEach((x,i)=>{ const p=pos(x.d); let ln=0; while(lanes[ln]!=null && p-lanes[ln]<7) ln++; lanes[ln]=p;
+    const b=h2(`<button type="button" class="mdot" style="left:${p}%;--ln:${Math.min(ln,3)};--c:${stColor(x.s.st)};--i:${i}" title="${esc(x.it.nombre)}"><i></i></button>`); b.onclick=()=>{ uiSfx('tap'); tl.querySelectorAll('.mtrow').forEach(r=>r.classList.toggle('on', r.dataset.i==i)); tl.querySelector(`.mtrow[data-i="${i}"]`)?.scrollIntoView({block:'nearest', behavior:'smooth'}); }; dots.append(b); });
+  tl.style.setProperty('--lanes', Math.min(4, lanes.length));
+  const list=h2('<div class="mtlist"></div>');
+  L.slice(0,8).forEach((x,i)=>{ const when=x.d<=0?'Ya toca':x.d<45?`en ${pl(x.d,'día')}`:`en ${pl(Math.round(x.d/30.4),'mes','meses')}`; list.append(h2(`<div class="mtrow" data-i="${i}" style="--c:${stColor(x.s.st)}"><i></i><b>${esc(x.it.nombre)}</b><span>${when}${x.byKm?' · por km':''}</span></div>`)); });
+  if(L.length>8) list.append(h2(`<div class="muted2" style="font-size:12px;padding:4px 2px">…y ${L.length-8} más en el plan</div>`));
+  tl.append(list); c.querySelector('.l2').replaceWith(tl);
+  if(!pace) c.append(h2(`<p class="muted2" style="margin:8px 2px 0;font-size:12px">Lo que va por kilómetros se estima a 15.000 km/año hasta que tengas dos lecturas de km.</p>`));
+  c.classList.add('mtlcard'); return c;
+}
+{ const _rm=renderMant; renderMant=function(){ _rm(); const body=$('#ovlBody'); if(!body || S.mantTab==='hist' || popMode!=='mant') return; body.querySelector('.mtlcard')?.remove(); const c=mantTimeline(); if(!c) return;
+    const k=body.querySelector('.mkm2'); if(k) k.after(c); else body.prepend(c); }; }
+
+/* ====================== INICIO: ATAJOS Y GASTO DEL AÑO EN BARRAS ====================== */
+{ const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); const box=$('#pgInicio'); if(!box || !S.cfg) return r;
+    if(!box.querySelector('.qadd')){ const q=h2(`<div class="qadd c12" role="group" aria-label="Atajos"></div>`);
+      for(const [i,t,fn] of [['gauge','Km',quickKm],['fuel','Repostaje',()=>recForm(MOD.repostajes)],['camera','Factura',()=>$('#camIn')?.click()],['wrench','Intervención',()=>openIntForm({})]]){ const b=h2(`<button type="button">${ic(i)}<span>${t}</span></button>`); b.onclick=()=>{ uiSfx('tap'); fn(); }; q.append(b); }
+      const hero=box.querySelector('.hmini'); if(hero) hero.after(q); else box.querySelector('.grid2')?.prepend(q); }
+    const gc=box.querySelector('#gTot')?.closest('.card2'); if(gc && !gc.querySelector('.gspark')){ const mov=gastosMov(), now=new Date(), M=[]; for(let i=11;i>=0;i--){ const d=new Date(now.getFullYear(), now.getMonth()-i, 1); M.push(d.toISOString().slice(0,7)); }
+      const v=M.map(m=>mov.filter(x=>(x.fecha||'').startsWith(m)).reduce((s,x)=>s+x.eur,0)), mx=Math.max(...v); if(mx>0){ const MS='EFMAMJJASOND';
+        const sp=h2(`<div class="gspark" aria-label="Gasto de los últimos 12 meses">${v.map((x,i)=>`<i style="--h:${Math.max(x?6:2, Math.round(x/mx*100))}%;--d:${i*30}ms" title="${M[i]}: ${eur(x)}" class="${i===11?'cur':''}"><b>${MS[+M[i].slice(5)-1]}</b></i>`).join('')}</div>`);
+        sp.onclick=()=>{ go('mas'); masOpen('stats'); }; gc.append(sp); } } return r; }; }
+
+/* ====================== TEXTOS DE AYUDA LARGOS: dos líneas y «más» ====================== */
+function pintroFix(root){ for(const p of (root||document).querySelectorAll?.('.pintro:not([data-cl])')||[]){ p.dataset.cl='1'; const s=p.querySelector('span'); if(!s) continue;
+    requestAnimationFrame(()=>{ if(s.scrollHeight>s.clientHeight+4){ p.classList.add('clamp'); p.setAttribute('role','button'); p.tabIndex=0; p.title='Toca para leer todo'; p.addEventListener('click',()=>{ p.classList.toggle('open'); }); } }); } }
+new MutationObserver(ms=>{ for(const m of ms) for(const n of m.addedNodes) if(n.nodeType===1 && (n.classList?.contains('pintro') || n.querySelector?.('.pintro'))) pintroFix(n.classList?.contains('pintro')?n.parentElement:n); }).observe(document.body,{childList:true, subtree:true});
+setTimeout(()=>pintroFix(document),800);
 
 connectDb();
 { const h=(location.hash||'').slice(1); go(SECS[h]?h:'inicio'); }

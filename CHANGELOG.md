@@ -1,5 +1,19 @@
 # Novedades
 
+## v2.1.0 · 2026-10-11
+- Versión 2: registro completo (repostajes, compras, neumáticos, mejoras, galería y averías), estadísticas, dossier de venta y copia de seguridad semanal.
+- Importación por lotes de ElsaWin y ETKA (láminas, pares de apriete, guías, circuitos, fusibles): todo va solo a tu base de datos privada y se puede deshacer.
+- Piezas: búsqueda por referencia, por grupo o por dibujo, con tus propias fichas.
+- Electricidad en el 3D: el recorrido de cada circuito (elevalunas de las cuatro puertas y cierre centralizado), con la corriente en el cable que eliges; puntos de masa, centralitas y cajas de fusibles sobre el modelo.
+- Fusibles y relés: cada caja con su dibujo numerado, el amperaje y qué protege cada posición.
+- Drenajes del techo solar en el 3D: las cuatro mangueras (delanteras en verde, traseras en gris) y el agua bajando por la que elijas.
+- Guías con pasos, fotos e ilustraciones: ubicación de fusibles y relés, limpieza de los drenajes del techo y las que crees tú.
+- Papeles sin duplicados, renovaciones con historial e IVTM.
+- Mantenimiento: línea de tiempo con lo que toca en los próximos 12 meses e intervalos con sugerencias.
+- Inicio: atajos (km, repostaje, factura e intervención) y el gasto de los últimos 12 meses en barras.
+- Más ligera: fotos en WebP y, con ahorro de datos, el 3D no se descarga hasta que entras en Coche. Los avisos llegan en un solo mensaje por canal.
+- Dibujos y animaciones nuevas, textos de ayuda plegables, miles con punto y decenas de arreglos.
+
 ## v1.7.0 · 2026-10-08
 - Cifras que ruedan como un cuentakilómetros (km y gastos).
 - Celebración con un check que se dibuja al guardar o registrar.
