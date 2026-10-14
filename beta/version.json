@@ -1,17 +1,25 @@
 {
- "version": "2.1.1-beta.1",
+ "version": "2.1.1-beta.2",
  "fecha": "2026-10-14",
  "notas": [
-  "Por dentro: el código está reorganizado en módulos por función (cableado, fusibles, drenajes, piezas…). Todo funciona igual; los próximos cambios serán más rápidos y seguros.",
-  "Cierre centralizado ajustado a tu coche (sin Kessy): vuelve a importar importar-cableado-puertas.json."
+  "Cambios de pantalla con animación y un sonido suave (secciones, apartados de Más, hojas y formularios).",
+  "Sonido: ahora suena también con el iPhone en silencio; sonidos al tocar piezas del coche, cambiar de vista y Rayos X.",
+  "Taller sin vigas ni fluorescentes en el techo (la luz sigue igual).",
+  "Cableado, drenajes y marcadores: solo la carrocería traslúcida; la mecánica en color queda para «Rayos X».",
+  "Drenajes delanteros: salen en el paso de rueda, detrás de la rueda.",
+  "Cámara en el móvil más estable: girar desde el borde ya no arrastra la página y el giro se para donde sueltas."
  ],
  "historial": [
   {
-   "version": "2.1.1-beta.1",
+   "version": "2.1.1-beta.2",
    "fecha": "2026-10-14",
    "notas": [
-    "Por dentro: el código está reorganizado en módulos por función (cableado, fusibles, drenajes, piezas…). Todo funciona igual; los próximos cambios serán más rápidos y seguros.",
-    "Cierre centralizado ajustado a tu coche (sin Kessy): vuelve a importar importar-cableado-puertas.json."
+    "Cambios de pantalla con animación y un sonido suave (secciones, apartados de Más, hojas y formularios).",
+    "Sonido: ahora suena también con el iPhone en silencio; sonidos al tocar piezas del coche, cambiar de vista y Rayos X.",
+    "Taller sin vigas ni fluorescentes en el techo (la luz sigue igual).",
+    "Cableado, drenajes y marcadores: solo la carrocería traslúcida; la mecánica en color queda para «Rayos X».",
+    "Drenajes delanteros: salen en el paso de rueda, detrás de la rueda.",
+    "Cámara en el móvil más estable: girar desde el borde ya no arrastra la página y el giro se para donde sueltas."
    ]
   }
  ]

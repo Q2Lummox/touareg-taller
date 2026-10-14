@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.1-beta.1">
+<meta name="app-version" content="2.1.1-beta.2">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2387,6 +2387,8 @@ body.ui2.light .mk{background:#1b1f25}
 /* modo claro: selectores de opción única que se quedaban negros */
 body.ui2.light .seg3{background:#e9edf2;border-color:#d3d9e0}
 body.ui2.light .seg3 button{color:var(--txt-2)}
+/* 2.1.1: barrido de luz al cambiar de sección */
+.navsweep{position:fixed;z-index:60;left:0;top:calc(var(--t2h, 56px) + var(--sa-t, 0px) - 1px);width:45%;height:2px;pointer-events:none;background:linear-gradient(90deg,transparent,var(--accent),#fff8,var(--accent),transparent);filter:drop-shadow(0 0 6px var(--accent));opacity:0}
 </style>
 
 </head>
@@ -2429,7 +2431,7 @@ body.ui2.light .seg3 button{color:var(--txt-2)}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.1-beta.1</span>
+  <span class="spver">v2.1.1-beta.2</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5844,7 +5846,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.1-beta.1';
+  const APP_VERSION='2.1.1-beta.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -9148,7 +9150,7 @@ function wireClear(keepX){
   WIRE.grp=null; WIRE.tubes=[]; WIRE.labels.forEach(l=>l.el.remove()); WIRE.labels=[]; WIRE.on=null; WIRE.sel=null;
   document.querySelector('.wirecard')?.remove(); document.body.classList.remove('wireon');
   if(!keepX && WIRE.fs0){ WIRE.fs0=false; const fs=$('#fsBtn'); if(fs?.getAttribute('aria-pressed')==='true') fs.click(); }
-  if(!keepX){ if(WIRE.xray0===false && $('#xray')?.getAttribute('aria-pressed')==='true') $('#xray').click(); WIRE.xray0=null; }
+  if(!keepX) ghostOff();
   WIRE.labels.box?.remove(); dirty=true;
   if(was && !keepX){ try{ setView('iso'); }catch{} }   /* antes la cámara se quedaba mirando el suelo */
   drenSync();
@@ -9275,7 +9277,7 @@ function wireShow(c){
   if(UI.sec!=='coche' || UI.sub.coche!=='3d') go('coche','3d');
   const run=()=>{ if(!UI.modelReady && !parts[pid('door_RL')]) return setTimeout(run,400);
     const fs=$('#fsBtn'); if(matchMedia('(max-width:860px)').matches && fs && fs.getAttribute('aria-pressed')!=='true'){ WIRE.fs0=true; fs.click(); }
-    const xr=$('#xray'); if(WIRE.xray0==null) WIRE.xray0=xr?.getAttribute('aria-pressed')==='true'; if(xr && xr.getAttribute('aria-pressed')!=='true') xr.click();
+    ghostOn();   /* solo la carrocería traslúcida (la mecánica coloreada es cosa de «Rayos X») */
     wireBuild(c); wireCard(c); setTimeout(wireFocus,60); };
   setTimeout(run,120);
 }
@@ -9492,14 +9494,14 @@ if(window.__wire) window.__wire.names=()=>Object.keys(parts);
 
 /* ====================== DRENAJES DEL TECHO SOLAR ======================
    Recorrido según la ilustración del manual (N60-0225): los dos delanteros bajan por los pilares A
-   hasta el pie del pilar, detrás del paso de rueda delantero; los dos traseros van por el larguero
+   y desaguan en el paso de rueda delantero, detrás de la rueda; los dos traseros van por el larguero
    del techo y bajan por el pilar D hasta la parte baja trasera. Verde = delanteros, gris = traseros. */
 const DREN_L={
-  F:[[.29,.925,.315],[.245,.93,.30],[.175,.925,.272],[.13,.80,.17],[.088,.635,.062],[.064,.46,.075],[.052,.2,.082],[.046,.085,.086]],
+  F:[[.29,.925,.315],[.245,.93,.30],[.175,.925,.272],[.13,.80,.17],[.088,.635,.062],[.066,.46,.072],[.06,.31,.066],[.066,.2,.036]],  /* sale en el paso de rueda, detrás de la rueda */
   R:[[.29,.925,.497],[.24,.93,.52],[.185,.926,.565],[.172,.922,.80],[.158,.905,.876],[.12,.72,.918],[.09,.5,.945],[.072,.3,.955],[.066,.2,.957]] };
 const DREN=[
-  {id:'DI', pos:'F', lado:'izq', color:'gn', nombre:'Delantero izquierdo', corto:'Del. izq.', sale:'Pie del pilar A izquierdo, entre la aleta y la puerta delantera (detrás del paso de rueda)', baja:'Por dentro del pilar A izquierdo'},
-  {id:'DD', pos:'F', lado:'der', color:'gn', nombre:'Delantero derecho', corto:'Del. der.', sale:'Pie del pilar A derecho, entre la aleta y la puerta delantera (detrás del paso de rueda)', baja:'Por dentro del pilar A derecho'},
+  {id:'DI', pos:'F', lado:'izq', color:'gn', nombre:'Delantero izquierdo', corto:'Del. izq.', sale:'Paso de rueda delantero izquierdo, justo detrás de la rueda', baja:'Por dentro del pilar A izquierdo hasta el paso de rueda'},
+  {id:'DD', pos:'F', lado:'der', color:'gn', nombre:'Delantero derecho', corto:'Del. der.', sale:'Paso de rueda delantero derecho, justo detrás de la rueda', baja:'Por dentro del pilar A derecho hasta el paso de rueda'},
   {id:'TI', pos:'R', lado:'izq', color:'grd', nombre:'Trasero izquierdo', corto:'Tras. izq.', sale:'Parte baja trasera izquierda, detrás del paso de rueda trasero (bajo el piloto)', baja:'Por el larguero del techo y el pilar D izquierdo'},
   {id:'TD', pos:'R', lado:'der', color:'grd', nombre:'Trasero derecho', corto:'Tras. der.', sale:'Parte baja trasera derecha, detrás del paso de rueda trasero (bajo el piloto)', baja:'Por el larguero del techo y el pilar D derecho'} ];
 function drenCircuit(){
@@ -9592,7 +9594,7 @@ function drenFocus(id){
   stage.addEventListener('pointerup', e=>{ if(!pd || !WIRE.on?.drenaje) return; const d=pd; pd=null; if(Math.hypot(e.clientX-d.x,e.clientY-d.y)>6) return;
     const rr=renderer.domElement.getBoundingClientRect(); let best=null, bd=26; camera.updateMatrixWorld();
     for(const t of (WIRE.grp?.children||[])){ const cv=t.userData.curve; if(!cv) continue; for(let i=0;i<=80;i++){ const p=cv.getPointAt(i/80).project(camera); if(p.z>1) continue; const sx=(p.x+1)/2*rr.width+rr.left, sy=(1-p.y)/2*rr.height+rr.top, dd=Math.hypot(sx-e.clientX, sy-e.clientY); if(dd<bd){ bd=dd; best=t.userData.wire; } } }
-    if(!best) return; e.stopPropagation(); try{ clearTimeout(pressTimer); down=null; }catch{} uiSfx('tap'); if(WIRE.sel!==best) wireHighlight(best); }, true); }
+    if(!best) return; try{ clearTimeout(pressTimer); down=null; }catch{} /* sin cortar el evento: la cámara tiene que enterarse de que se soltó el dedo */ uiSfx('tap'); if(WIRE.sel!==best) wireHighlight(best); }, true); }
 /* botón «Drenajes» en el visor 3D, junto a Electricidad */
 { const w=document.querySelector('#tWire')?.closest('.seg'); if(w){ const s=h2(`<div class="seg"><button id="tDren" type="button" aria-pressed="false" title="Recorrido de los drenajes del techo solar">${ic('drop','ti')}<span>Drenajes</span></button></div>`);
     s.querySelector('button').onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenuClose(); drenShow(); }; w.after(s); } }
@@ -10219,6 +10221,109 @@ function pintroFix(root){ for(const p of (root||document).querySelectorAll?.('.p
     requestAnimationFrame(()=>{ if(s.scrollHeight>s.clientHeight+4){ p.classList.add('clamp'); p.setAttribute('role','button'); p.tabIndex=0; p.title='Toca para leer todo'; p.addEventListener('click',()=>{ p.classList.toggle('open'); }); } }); } }
 new MutationObserver(ms=>{ for(const m of ms) for(const n of m.addedNodes) if(n.nodeType===1 && (n.classList?.contains('pintro') || n.querySelector?.('.pintro'))) pintroFix(n.classList?.contains('pintro')?n.parentElement:n); }).observe(document.body,{childList:true, subtree:true});
 setTimeout(()=>pintroFix(document),800);
+
+/* ====================== VISOR 3D: sonido, techo del taller, modo fantasma y gestos (2.1.1) ====================== */
+
+/* ---------- sonido: en iPhone el interruptor de silencio apagaba todo el audio de la web ----------
+   Con audioSession 'playback' (iOS 17+) suena aunque el móvil esté en silencio; en iOS anteriores
+   basta con reproducir una vez un audio mudo con un toque. */
+const SILENT_WAV='data:audio/wav;base64,UklGRkQDAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YSADAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==';
+function audioUnlock(){
+  if(!(UI.prefs.sound || R.sound!==false)) return;
+  try{ if(navigator.audioSession && navigator.audioSession.type!=='playback') navigator.audioSession.type='playback'; }catch{}
+  try{ if(UAC && UAC.state==='suspended') UAC.resume(); }catch{}
+  try{ if(AC && AC.state==='suspended') AC.resume(); }catch{}
+  if(!navigator.audioSession && !audioUnlock.done){ audioUnlock.done=true; try{ const a=new Audio(SILENT_WAV); a.setAttribute('playsinline',''); a.play().catch(()=>{ audioUnlock.done=false; }); }catch{} }
+}
+for(const ev of ['pointerdown','touchend','keydown']) addEventListener(ev, audioUnlock, {capture:true, passive:true});
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) audioUnlock(); });
+
+/* ---------- sonidos del coche 3D (con «Sonidos de puertas y capó» activado) ---------- */
+function sfx3d(kind, pan){
+  if(R.sound===false) return; const ac=audio(); if(!ac) return;
+  try{
+    const t=ac.currentTime, out=ac.createGain(); out.gain.value=.5; let dst=out;
+    if(pan && ac.createStereoPanner){ const p=ac.createStereoPanner(); p.pan.value=Math.max(-1,Math.min(1,pan)); out.connect(p); p.connect(ac.destination); } else out.connect(ac.destination);
+    const tone=(f0,f1,dur,vol,type)=>{ const o=ac.createOscillator(), g=ac.createGain(); o.type=type||'sine'; o.frequency.setValueAtTime(f0,t); o.frequency.exponentialRampToValueAtTime(f1,t+dur); g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(vol,t+.008); g.gain.exponentialRampToValueAtTime(.0001,t+dur); o.connect(g); g.connect(dst); o.start(t); o.stop(t+dur+.03); };
+    const air=(dur,f0,f1,vol)=>{ const s=ac.createBufferSource(); s.buffer=noiseBuf(ac,dur+.05); const fl=ac.createBiquadFilter(); fl.type='bandpass'; fl.Q.value=1.4; fl.frequency.setValueAtTime(f0,t); fl.frequency.exponentialRampToValueAtTime(f1,t+dur); const g=ac.createGain(); g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(vol,t+dur*.35); g.gain.exponentialRampToValueAtTime(.0001,t+dur); s.connect(fl); fl.connect(g); g.connect(dst); s.start(t); s.stop(t+dur+.05); };
+    if(kind==='sel'){ tone(620,410,.07,.16); tone(1240,900,.04,.05,'triangle'); }
+    else if(kind==='desel'){ tone(420,300,.06,.08); }
+    else if(kind==='view'){ air(.32,380,1500,.16); }
+    else if(kind==='xray'){ tone(1320,1900,.18,.05); tone(1980,2600,.22,.035); air(.2,2500,5000,.05); }
+  }catch{}
+}
+{ const _sel=select; select=function(id,...a){ const prev=S.sel; const r=_sel(id,...a); if(id && id!==prev) sfx3d('sel'); else if(!id && prev) sfx3d('desel'); return r; }; }
+{ const _sv=setView; setView=function(v, animate=true){ if(animate!==false && UI.sec==='coche' && UI.sub.coche==='3d') sfx3d('view'); return _sv(v, animate); }; }
+$('#xray')?.addEventListener('click',()=>sfx3d('xray'));
+
+/* ---------- taller: fuera vigas y fluorescentes del techo (se cruzaban delante de la cámara); la luz se queda ---------- */
+function stripCeiling(g){ if(!g || g.userData.sinTecho) return; g.userData.sinTecho=true; g.updateMatrixWorld(true);
+  let ceil=null; g.traverse(o=>{ if(!ceil && o.isMesh && o.geometry?.type==='PlaneGeometry' && Math.abs(Math.abs(o.rotation.x)-Math.PI/2)<.01 && o.rotation.x>0) ceil=o; });
+  if(!ceil) return; const Hh=ceil.getWorldPosition(new THREE.Vector3()).y, W=ceil.geometry.parameters.width/2-.35, D=ceil.geometry.parameters.height/2-.35;
+  const del=[]; g.traverse(o=>{ if(!o.isMesh || o===ceil) return; const p=o.getWorldPosition(new THREE.Vector3()); if(p.y>Hh-1.05 && Math.abs(p.x)<W && Math.abs(p.z)<D) del.push(o); });
+  for(const o of del){ o.removeFromParent(); o.geometry?.dispose?.(); } dirty=true; }
+{ const _bc=buildClasico; buildClasico=function(){ const r=_bc(); stripCeiling(r.group||r); return r; }; }
+{ const _bt=buildTaller; buildTaller=function(){ const r=_bt(); stripCeiling(r.group||r); return r; }; }
+for(const k in envGroups) stripCeiling(envGroups[k]?.group);
+
+/* ---------- modo fantasma: en cableado, drenajes y marcadores solo la carrocería traslúcida ----------
+   (las piezas de mecánica coloreadas quedan para el botón «Rayos X») */
+const GH={on:false, x0:false};
+const ghostL=id=>LAYERS.find(l=>l.id===id);
+function ghostOn(){ if(GH.on) return; GH.on=true; GH.x0=S.xray; S.xray=true; S.ghostOnly=true; const w=ghostL('ruedas'); if(w) w.ghost=true; $('#xray')?.setAttribute('aria-pressed','false'); applyVisibility(); }
+function ghostOff(){ if(!GH.on) return; GH.on=false; S.ghostOnly=false; const w=ghostL('ruedas'); if(w) w.ghost=false; S.xray=GH.x0; $('#xray')?.setAttribute('aria-pressed', String(!!S.xray)); applyVisibility(); }
+{ const _pv=partVisible; partVisible=function(p){ if(S.ghostOnly && !ghostL(p.layer)?.ghost) return false; return _pv(p); }; }
+/* pulsar «Rayos X» con el cableado abierto enseña también la mecánica */
+$('#xray')?.addEventListener('click', e=>{ if(!S.ghostOnly) return; e.stopImmediatePropagation(); S.ghostOnly=false; const w=ghostL('ruedas'); if(w) w.ghost=false; S.xray=true; e.currentTarget.setAttribute('aria-pressed','true'); applyVisibility(); sfx3d('xray'); }, true);
+
+/* ---------- gestos en el móvil: girar el coche desde el borde ya no arrastra la página hacia atrás ---------- */
+document.addEventListener('touchstart', e=>{ if(stage.contains(e.target)) G=null; }, {passive:true});
+/* inercia más corta en pantallas táctiles: el giro se para donde sueltas, sin derivas */
+if(matchMedia('(pointer:coarse)').matches){ controls.dampingFactor=.16; }
+
+/* ====================== TRANSICIONES Y SONIDOS AL CAMBIAR DE PANTALLA (2.1.1) ======================
+   Secciones: la pantalla entra deslizándose y enfocándose, con un barrido de luz arriba y un «fsss» con dirección.
+   Apartados (Más ▸ Piezas, Fusibles…): entran con zoom suave; al volver, desde la izquierda.
+   Hojas: un soplo corto al abrir y al cerrar. Todo con «Sonidos de la interfaz» y sin animación si el sistema pide menos movimiento. */
+let NAVT=0;
+function navSfx(kind, dir){
+  if(!UI.prefs.sound) return; const now=performance.now(); if(now-NAVT<140 && kind!=='back') return; NAVT=now;
+  try{
+    if(!UAC){ const C=window.AudioContext||window.webkitAudioContext; if(!C) return; UAC=new C(); }
+    if(UAC.state==='suspended') UAC.resume();
+    const ac=UAC, t=ac.currentTime, out=ac.createGain(); out.gain.value=.2;
+    if(ac.createStereoPanner && dir){ const p=ac.createStereoPanner(); p.pan.value=dir*.35; out.connect(p); p.connect(ac.destination); } else out.connect(ac.destination);
+    const air=(dur,f0,f1,vol,q=1.2,dl=0)=>{ const t0=t+dl, n=Math.floor(ac.sampleRate*(dur+.05)), b=ac.createBuffer(1,n,ac.sampleRate), d=b.getChannelData(0); for(let i=0;i<n;i++) d[i]=Math.random()*2-1;
+      const s=ac.createBufferSource(); s.buffer=b; const fl=ac.createBiquadFilter(); fl.type='bandpass'; fl.Q.value=q; fl.frequency.setValueAtTime(f0,t0); fl.frequency.exponentialRampToValueAtTime(f1,t0+dur);
+      const g=ac.createGain(); g.gain.setValueAtTime(.0001,t0); g.gain.exponentialRampToValueAtTime(vol,t0+dur*.4); g.gain.exponentialRampToValueAtTime(.0001,t0+dur); s.connect(fl); fl.connect(g); g.connect(out); s.start(t0); s.stop(t0+dur+.05); };
+    const tone=(f0,f1,dur,vol,dl=0)=>{ const t0=t+dl, o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.setValueAtTime(f0,t0); o.frequency.exponentialRampToValueAtTime(f1,t0+dur); g.gain.setValueAtTime(.0001,t0); g.gain.exponentialRampToValueAtTime(vol,t0+.01); g.gain.exponentialRampToValueAtTime(.0001,t0+dur); o.connect(g); g.connect(out); o.start(t0); o.stop(t0+dur+.03); };
+    if(kind==='sec'){ air(.28,450,1900,.9); tone(330,495,.13,.05,.05); }
+    else if(kind==='sub'){ air(.17,900,2300,.55,1.6); }
+    else if(kind==='in'){ air(.2,700,2600,.6,1.4); tone(520,780,.1,.06,.05); }
+    else if(kind==='back'){ air(.2,2300,650,.55,1.4); tone(700,470,.1,.05,.03); }
+    else if(kind==='sheet'){ air(.14,1100,2600,.35,1.8); }
+    else if(kind==='sheetx'){ air(.12,2400,1000,.25,1.8); }
+  }catch{}
+}
+/* barrido de luz bajo la cabecera, en la dirección del cambio */
+function navSweep(dir){ if(RM) return; const s=document.createElement('i'); s.className='navsweep'; document.body.append(s);
+  s.animate([{transform:`translateX(${dir>0?'-40%':'140%'})`, opacity:0},{opacity:1, offset:.35},{transform:`translateX(${dir>0?'140%':'-40%'})`, opacity:0}],{duration:520, easing:'cubic-bezier(.3,.6,.2,1)'}).onfinish=()=>s.remove(); }
+/* secciones y pestañas (sustituye al deslizamiento de la 1.6, más corto) */
+slideIn=function(el, dir){ if(!el || !dir) return; const page=el.classList.contains('page'); navSfx(page?'sec':'sub', dir); if(RM) return;
+  if(page){ const heavy=el.dataset.sec==='coche'; el.animate([{transform:`translateX(${dir*56}px) scale(.975)`, opacity:0, filter:heavy?'none':'blur(6px)'},{transform:'none', opacity:1, filter:'blur(0)'}],{duration:440, easing:'cubic-bezier(.16,1,.3,1)'}); navSweep(dir); }
+  else el.animate([{transform:`translateX(${dir*40}px)`, opacity:0},{transform:'none', opacity:1}],{duration:300, easing:'cubic-bezier(.2,.9,.25,1)'}); };
+const zoomIn=el=>{ if(!el || RM) return; el.animate([{transform:'scale(.955) translateY(16px)', opacity:0, filter:'blur(4px)'},{transform:'none', opacity:1, filter:'blur(0)'}],{duration:380, easing:'cubic-bezier(.16,1,.3,1)'}); };
+const fromLeft=el=>{ if(!el || RM) return; el.animate([{transform:'translateX(-44px)', opacity:0},{transform:'none', opacity:1}],{duration:320, easing:'cubic-bezier(.2,.9,.25,1)'}); };
+/* Más ▸ un apartado (Piezas, Guías, Copia…) y vuelta */
+{ let last=UI.mas; const _rm=renderMas; renderMas=function(...a){ const prev=last, r=_rm(...a); last=UI.mas;
+    if(prev!==UI.mas && UI.sec==='mas'){ const pb=$('#pbMas'); if(UI.mas){ navSfx('in'); zoomIn(pb); } else { navSfx('back'); fromLeft(pb); } } return r; }; }
+/* apartados que no son pestañas (Coche ▸ Fusibles y relés, Archivos…) */
+{ const _os=openSub; openSub=function(sec, sub){ const prevSub=UI.sub[sec], subs=SECS[sec]?.subs||[], inTabs=subs.some(x=>x[0]===sub) && subs.some(x=>x[0]===prevSub);
+    const r=_os(sec, sub); if(UI.sec===sec && prevSub!==sub && !inTabs){ requestAnimationFrame(()=>{ navSfx('in'); zoomIn(pageBody(sec)); }); } return r; }; }
+/* hojas que se abren desde abajo */
+{ const sh=$('#sheet2'); if(sh){ let was=!sh.hidden; new MutationObserver(()=>{ const on=!sh.hidden; if(on!==was){ was=on; navSfx(on?'sheet':'sheetx'); } }).observe(sh,{attributes:true, attributeFilter:['hidden']}); } }
+/* formularios a pantalla completa (nueva intervención…) */
+{ let fo=false; new MutationObserver(()=>{ const on=document.body.classList.contains('formopen'); if(on!==fo){ fo=on; navSfx(on?'in':'back'); if(on) zoomIn($('#ovl')); } }).observe(document.body,{attributes:true, attributeFilter:['class']}); }
 
 
 connectDb();

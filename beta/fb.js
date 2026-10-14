@@ -37,15 +37,18 @@ const fromB64 = b => { const s=atob(b), u=new Uint8Array(s.length); for(let i=0;
 async function compressImage(blob){
   try{
     const bmp = await createImageBitmap(blob);
-    let max = 1800, q = .82, out = null;
-    for(let k=0;k<5;k++){
+    /* v2.1: WebP si el navegador sabe hacerlo (≈30 % menos), si no JPEG; objetivo ≈450 KB */
+    let max = 1700, q = .8, out = null, fmt = 'image/webp';
+    for(let k=0;k<6;k++){
       const sc = Math.min(1, max/Math.max(bmp.width, bmp.height));
       const c = document.createElement('canvas'); c.width = Math.round(bmp.width*sc); c.height = Math.round(bmp.height*sc);
       c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
-      out = await new Promise(r => c.toBlob(r, 'image/jpeg', q));
-      if(out && out.size < 650*1024) break;
-      max *= .8; q -= .08;
+      out = await new Promise(r => c.toBlob(r, fmt, q));
+      if(out && out.type !== fmt){ fmt = 'image/jpeg'; out = await new Promise(r => c.toBlob(r, fmt, q)); }
+      if(out && out.size < 450*1024) break;
+      max *= .82; q -= .07;
     }
+    if(out && blob.size && out.size >= blob.size && /^image\/(jpeg|webp)$/.test(blob.type)) return blob;
     return out || blob;
   }catch{ return blob; }
 }
@@ -59,7 +62,7 @@ async function makeThumb(blob){
 const assets = {
   async upload(blob, opts = {}){
     let type = opts.type || blob.type || 'application/octet-stream', b = blob;
-    if(/^image\//.test(type) && type !== 'image/gif' && type !== 'image/svg+xml'){ b = await compressImage(blob); type = 'image/jpeg'; }
+    if(/^image\//.test(type) && type !== 'image/gif' && type !== 'image/svg+xml'){ b = await compressImage(blob); type = b.type || 'image/jpeg'; }
     const buf = new Uint8Array(await b.arrayBuffer());
     if(buf.length > 40*1024*1024) throw {code:'too_large'};
     const id = doc(collection(fs, 'blobs')).id, n = Math.max(1, Math.ceil(buf.length/CH));
