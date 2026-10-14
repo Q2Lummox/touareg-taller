@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.1-beta.2">
+<meta name="app-version" content="2.1.1-beta.3">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2389,6 +2389,23 @@ body.ui2.light .seg3{background:#e9edf2;border-color:#d3d9e0}
 body.ui2.light .seg3 button{color:var(--txt-2)}
 /* 2.1.1: barrido de luz al cambiar de sección */
 .navsweep{position:fixed;z-index:60;left:0;top:calc(var(--t2h, 56px) + var(--sa-t, 0px) - 1px);width:45%;height:2px;pointer-events:none;background:linear-gradient(90deg,transparent,var(--accent),#fff8,var(--accent),transparent);filter:drop-shadow(0 0 6px var(--accent));opacity:0}
+.pgghost{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;will-change:transform,opacity}
+/* 2.1.1: interfaz simplificada */
+#t2Mas.on{background:color-mix(in srgb,var(--accent) 22%,transparent);color:var(--accent)}
+#t2Mas svg{width:20px;height:20px}
+body[data-sec="mas"] #nav2 .navpill{opacity:0}
+.mhecho{margin:22px 0 8px}
+.mhecho>h4{display:flex;align-items:center;gap:8px;margin:0 2px 10px;font:700 13px var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--txt-2)}
+.mhecho>h4 svg{width:18px;height:18px;color:var(--accent)}
+.mhecho>h4 em{font-style:normal;font-weight:600;letter-spacing:0;text-transform:none;color:var(--txt-3);font-size:12px}
+.mhecho>h4 .btn2{margin-left:auto}
+.gchips{margin:0 0 12px}
+.p3dx{display:flex;gap:6px;margin:6px 0 10px;flex-wrap:wrap}
+.p3dx button{flex:1;min-width:120px;display:flex;align-items:center;gap:6px;padding:7px 9px;border-radius:9px;border:1px solid var(--card-line);background:var(--card-2);color:var(--txt-2);font:600 12px var(--f-body);cursor:pointer}
+.p3dx button svg{width:15px;height:15px;color:var(--accent)}
+.mhecho>h4{flex-wrap:nowrap}
+.mhecho>h4 span,.mhecho>h4 em{white-space:nowrap;flex:none}
+.mhecho>h4 em{margin-left:2px}
 </style>
 
 </head>
@@ -2431,7 +2448,7 @@ body.ui2.light .seg3 button{color:var(--txt-2)}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.1-beta.2</span>
+  <span class="spver">v2.1.1-beta.3</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5846,7 +5863,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.1-beta.2';
+  const APP_VERSION='2.1.1-beta.3';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -10127,9 +10144,7 @@ function progBars(){ document.querySelectorAll('.mrow.st-ok, .mrow.st-soon, .mro
 /* ---------- gráficos: las líneas se dibujan y las barras crecen ---------- */
 { const _lc=lineChart; lineChart=function(pts,o){ const el=_lc(pts,o); el.querySelectorAll?.('path').forEach(p=>{ if(p.getAttribute('fill')==='none' || /stroke/.test(p.getAttribute('class')||'') || !p.getAttribute('fill')) { p.setAttribute('pathLength','1'); p.classList.add('drawln'); } }); return el; }; }
 
-/* ---------- transición al cambiar de sección ---------- */
-{ const _go=go; go=function(sec, ...r){ const prev=UI.sec; const res=_go(sec, ...r); if(ANIMON() && prev!==sec){ const pg=document.querySelector('.page.on'); if(pg){ pg.classList.remove('pin'); void pg.offsetWidth; pg.classList.add('pin'); setTimeout(()=>pg.classList.remove('pin'),520); }
-      const t=$('#t2Title'); t?.animate([{opacity:0, transform:'translateY(6px)', filter:'blur(3px)'},{opacity:1, transform:'none', filter:'none'}],{duration:340, easing:'cubic-bezier(.2,.8,.2,1)'}); } return res; }; }
+/* (la transición entre secciones vive en 14-transiciones.js; la de aquí usaba la clase «pin», que es la de las notas del 3D, y encogía la pantalla) */
 
 /* ---------- tarjetas que se inclinan bajo el ratón (solo con ratón) ---------- */
 if(matchMedia('(hover: hover) and (pointer: fine)').matches){
@@ -10224,18 +10239,9 @@ setTimeout(()=>pintroFix(document),800);
 
 /* ====================== VISOR 3D: sonido, techo del taller, modo fantasma y gestos (2.1.1) ====================== */
 
-/* ---------- sonido: en iPhone el interruptor de silencio apagaba todo el audio de la web ----------
-   Con audioSession 'playback' (iOS 17+) suena aunque el móvil esté en silencio; en iOS anteriores
-   basta con reproducir una vez un audio mudo con un toque. */
-const SILENT_WAV='data:audio/wav;base64,UklGRkQDAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YSADAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==';
-function audioUnlock(){
-  if(!(UI.prefs.sound || R.sound!==false)) return;
-  try{ if(navigator.audioSession && navigator.audioSession.type!=='playback') navigator.audioSession.type='playback'; }catch{}
-  try{ if(UAC && UAC.state==='suspended') UAC.resume(); }catch{}
-  try{ if(AC && AC.state==='suspended') AC.resume(); }catch{}
-  if(!navigator.audioSession && !audioUnlock.done){ audioUnlock.done=true; try{ const a=new Audio(SILENT_WAV); a.setAttribute('playsinline',''); a.play().catch(()=>{ audioUnlock.done=false; }); }catch{} }
-}
-for(const ev of ['pointerdown','touchend','keydown']) addEventListener(ev, audioUnlock, {capture:true, passive:true});
+/* ---------- sonido: los contextos de audio se reactivan al volver a la app (respeta el modo silencio del iPhone) ---------- */
+function audioUnlock(){ try{ if(UAC && UAC.state==='suspended') UAC.resume(); }catch{} try{ if(AC && AC.state==='suspended') AC.resume(); }catch{} }
+for(const ev of ['pointerdown','keydown']) addEventListener(ev, audioUnlock, {capture:true, passive:true});
 document.addEventListener('visibilitychange',()=>{ if(!document.hidden) audioUnlock(); });
 
 /* ---------- sonidos del coche 3D (con «Sonidos de puertas y capó» activado) ---------- */
@@ -10285,9 +10291,9 @@ if(matchMedia('(pointer:coarse)').matches){ controls.dampingFactor=.16; }
    Secciones: la pantalla entra deslizándose y enfocándose, con un barrido de luz arriba y un «fsss» con dirección.
    Apartados (Más ▸ Piezas, Fusibles…): entran con zoom suave; al volver, desde la izquierda.
    Hojas: un soplo corto al abrir y al cerrar. Todo con «Sonidos de la interfaz» y sin animación si el sistema pide menos movimiento. */
-let NAVT=0;
+const NAV={t:0, busy:false};
 function navSfx(kind, dir){
-  if(!UI.prefs.sound) return; const now=performance.now(); if(now-NAVT<140 && kind!=='back') return; NAVT=now;
+  if(!UI.prefs.sound) return; const now=performance.now(); if(now-NAV.t<140 && kind!=='back') return; NAV.t=now;
   try{
     if(!UAC){ const C=window.AudioContext||window.webkitAudioContext; if(!C) return; UAC=new C(); }
     if(UAC.state==='suspended') UAC.resume();
@@ -10305,25 +10311,124 @@ function navSfx(kind, dir){
     else if(kind==='sheetx'){ air(.12,2400,1000,.25,1.8); }
   }catch{}
 }
-/* barrido de luz bajo la cabecera, en la dirección del cambio */
-function navSweep(dir){ if(RM) return; const s=document.createElement('i'); s.className='navsweep'; document.body.append(s);
-  s.animate([{transform:`translateX(${dir>0?'-40%':'140%'})`, opacity:0},{opacity:1, offset:.35},{transform:`translateX(${dir>0?'140%':'-40%'})`, opacity:0}],{duration:520, easing:'cubic-bezier(.3,.6,.2,1)'}).onfinish=()=>s.remove(); }
-/* secciones y pestañas (sustituye al deslizamiento de la 1.6, más corto) */
-slideIn=function(el, dir){ if(!el || !dir) return; const page=el.classList.contains('page'); navSfx(page?'sec':'sub', dir); if(RM) return;
-  if(page){ const heavy=el.dataset.sec==='coche'; el.animate([{transform:`translateX(${dir*56}px) scale(.975)`, opacity:0, filter:heavy?'none':'blur(6px)'},{transform:'none', opacity:1, filter:'blur(0)'}],{duration:440, easing:'cubic-bezier(.16,1,.3,1)'}); navSweep(dir); }
-  else el.animate([{transform:`translateX(${dir*40}px)`, opacity:0},{transform:'none', opacity:1}],{duration:300, easing:'cubic-bezier(.2,.9,.25,1)'}); };
-const zoomIn=el=>{ if(!el || RM) return; el.animate([{transform:'scale(.955) translateY(16px)', opacity:0, filter:'blur(4px)'},{transform:'none', opacity:1, filter:'blur(0)'}],{duration:380, easing:'cubic-bezier(.16,1,.3,1)'}); };
-const fromLeft=el=>{ if(!el || RM) return; el.animate([{transform:'translateX(-44px)', opacity:0},{transform:'none', opacity:1}],{duration:320, easing:'cubic-bezier(.2,.9,.25,1)'}); };
+/* ---------- cambio de pantalla de verdad: la pantalla vieja se va y la nueva entra a la vez ----------
+   (antes la vieja desaparecía de golpe y la nueva solo se movía 34 px: casi no se notaba) */
+const curPage=()=>document.querySelector('.page.on:not(.pgghost)');
+function snapPage(page){
+  if(!page || RM) return null;
+  const all=[...page.querySelectorAll('*')], sc=[]; all.forEach((e,i)=>{ if(e.scrollTop>0) sc.push([i,e.scrollTop]); }); const top0=page.scrollTop;
+  const c=page.cloneNode(true); c.removeAttribute('id'); c.removeAttribute('data-sec'); c.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));
+  c.querySelectorAll('canvas').forEach(cv=>{ const d=document.createElement('div'); d.style.cssText='position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,#2b3036,#0d0f12 70%)'; cv.replaceWith(d); });
+  c.classList.remove('page','on'); c.classList.add('pgghost');   /* sin la clase «page»: go() no la apaga */ c.setAttribute('aria-hidden','true'); c.style.zIndex='0'; c.style.pointerEvents='none';
+  page.parentNode.insertBefore(c, page.parentNode.firstChild);
+  const cl=c.querySelectorAll('*'); for(const [i,y] of sc) if(cl[i]) cl[i].scrollTop=y; c.scrollTop=top0;
+  return c;
+}
+const PGE='cubic-bezier(.22,.8,.2,1)';
+function swapPages(old, neu, mode, dir){
+  if(!old) return; if(!neu || old===neu){ old.remove(); return; }
+  const D=440; neu.style.zIndex='1'; NAV.until=performance.now()+D+250;
+  const K={ slide:[[{transform:'none',opacity:1},{transform:`translateX(${-dir*30}%) scale(.94)`,opacity:0}], [{transform:`translateX(${dir*38}%)`,opacity:0},{transform:'none',opacity:1}]],
+            in:   [[{transform:'none',opacity:1},{transform:'scale(.9)',opacity:0}], [{transform:'scale(1.08)',opacity:0},{transform:'none',opacity:1}]],
+            back: [[{transform:'none',opacity:1},{transform:'scale(1.08)',opacity:0}], [{transform:'scale(.9)',opacity:0},{transform:'none',opacity:1}]] }[mode]||null;
+  if(!K){ old.remove(); neu.style.zIndex=''; return; }
+  const a1=old.animate(K[0],{duration:D, easing:PGE, fill:'forwards'}), a2=neu.animate(K[1],{duration:D, easing:PGE});
+  const end=()=>{ old.remove(); neu.style.zIndex=''; }; a2.onfinish=end; a2.oncancel=end; setTimeout(end, D+200);
+}
+/* las animaciones antiguas (1.6) se apagan: ahora lo hace swapPages */
+slideIn=function(){};
+/* secciones de la barra inferior */
+{ const _go=go; go=function(sec, sub, opts={}){
+    const prev=UI.sec, old=(prev!==sec && !opts?.silent)?snapPage(curPage()):null; NAV.busy=true;
+    let r; try{ r=_go(sec, sub, opts); } finally { NAV.busy=false; }
+    if(prev!==sec && !opts?.silent){ const d=Math.sign(SEC_ORDER.indexOf(sec)-SEC_ORDER.indexOf(prev))||1; navSfx('sec', d); swapPages(old, curPage(), 'slide', d); }
+    return r; }; }
+/* pestañas dentro de una sección y apartados que no son pestaña (Fusibles, Archivos…) */
+{ const _os=openSub; openSub=function(sec, sub){
+    const prevSub=UI.sub[sec]; let old=null, mode=null, dir=0;
+    if(!NAV.busy && UI.sec===sec && prevSub!==sub){ const subs=SECS[sec]?.subs||[], a=subs.findIndex(x=>x[0]===prevSub), b=subs.findIndex(x=>x[0]===sub);
+      if(a>=0 && b>=0){ mode='slide'; dir=Math.sign(b-a)||1; } else mode=b<0?'in':'back'; old=snapPage(curPage()); }
+    NAV.busy=true; let r; try{ r=_os(sec, sub); } finally { NAV.busy=false; }
+    if(mode){ navSfx(mode==='slide'?'sub':mode, dir); swapPages(old, curPage(), mode, dir); }
+    return r; }; }
 /* Más ▸ un apartado (Piezas, Guías, Copia…) y vuelta */
-{ let last=UI.mas; const _rm=renderMas; renderMas=function(...a){ const prev=last, r=_rm(...a); last=UI.mas;
-    if(prev!==UI.mas && UI.sec==='mas'){ const pb=$('#pbMas'); if(UI.mas){ navSfx('in'); zoomIn(pb); } else { navSfx('back'); fromLeft(pb); } } return r; }; }
-/* apartados que no son pestañas (Coche ▸ Fusibles y relés, Archivos…) */
-{ const _os=openSub; openSub=function(sec, sub){ const prevSub=UI.sub[sec], subs=SECS[sec]?.subs||[], inTabs=subs.some(x=>x[0]===sub) && subs.some(x=>x[0]===prevSub);
-    const r=_os(sec, sub); if(UI.sec===sec && prevSub!==sub && !inTabs){ requestAnimationFrame(()=>{ navSfx('in'); zoomIn(pageBody(sec)); }); } return r; }; }
+{ let last=UI.mas; const _rm=renderMas; renderMas=function(...a){
+    const changed=last!==UI.mas && UI.sec==='mas' && !NAV.busy, mode=UI.mas?'in':'back', old=changed?snapPage(curPage()):null; last=UI.mas;
+    const r=_rm(...a); if(changed){ navSfx(mode); swapPages(old, curPage(), mode, 0); } return r; }; }
 /* hojas que se abren desde abajo */
 { const sh=$('#sheet2'); if(sh){ let was=!sh.hidden; new MutationObserver(()=>{ const on=!sh.hidden; if(on!==was){ was=on; navSfx(on?'sheet':'sheetx'); } }).observe(sh,{attributes:true, attributeFilter:['hidden']}); } }
 /* formularios a pantalla completa (nueva intervención…) */
-{ let fo=false; new MutationObserver(()=>{ const on=document.body.classList.contains('formopen'); if(on!==fo){ fo=on; navSfx(on?'in':'back'); if(on) zoomIn($('#ovl')); } }).observe(document.body,{attributes:true, attributeFilter:['class']}); }
+{ let fo=false; new MutationObserver(()=>{ const on=document.body.classList.contains('formopen'); if(on!==fo){ fo=on; navSfx(on?'in':'back'); } }).observe(document.body,{attributes:true, attributeFilter:['class']}); }
+/* durante el cambio, las tarjetas no hacen su entrada escalonada (se quedaba la pantalla vacía un instante) */
+{ const _st=stagger; stagger=function(root){ if(performance.now()<(NAV.until||0)) return; return _st(root); }; }
+
+/* ====================== INTERFAZ SIMPLIFICADA (2.1.1, elegido por Sergio el 15-10-2026) ======================
+   1 · Cuatro secciones abajo (Inicio · Coche · Taller · Papeles); «Más» pasa a un botón de la cabecera.
+   2 · Taller: el Plan lleva debajo lo ya hecho; Repostajes y Compra van dentro de Gastos.
+   5 · Más solo con lo esencial; copia e importación en «Tus datos»; dossier, PDF y enlace en «Compartir»;
+       notas en el modelo y piezas sin referencia, en el propio 3D. */
+
+/* ---------- 1 · barra inferior de cuatro y botón «Más» arriba ---------- */
+{ const nb=document.querySelector('#nav2 button[data-sec="mas"]'); if(nb) nb.hidden=true;
+  const mb=document.querySelector('#nav2 button[data-sec="mant"] span'); if(mb) mb.textContent='Taller';
+  SECS.mant.t='Taller';
+  const s=$('#t2Search'); if(s){ const b=h2(`<button class="t2b" id="t2Mas" type="button" title="Más: piezas, guías, ajustes…" aria-label="Más">${ic('grid')}</button>`);
+    b.onclick=()=>{ uiSfx('tap'); if(UI.sec==='mas' && !UI.mas) return; if(UI.sec==='mas'){ UI.mas=null; renderMas(); setTop(); } else go('mas'); }; s.before(b); } }
+{ const _st=setTop; setTop=function(){ _st(); $('#t2Mas')?.classList.toggle('on', UI.sec==='mas');
+    if(UI.sec==='mant'){ const k=UI.sub.mant, L={repost:'Repostajes', compra:'Compra'}[k]; if(L){ const km=S.cfg?.kmActual?' · '+nf.format(S.cfg.kmActual)+' km':''; $('#t2Sub').textContent=`Gastos · ${L}${km}`; } } }; }
+
+/* ---------- 2 · Taller con tres pestañas: Plan (con lo hecho debajo), Ruedas y Gastos ---------- */
+const TALLER_GASTOS=['gastos','repost','compra'];
+{ const st=$('#stMant'); for(const k of ['hist','repost','compra']){ st?.querySelector(`button[data-sub="${k}"]`)?.remove(); const i=SECS.mant.subs.findIndex(x=>x[0]===k); if(i>=0) SECS.mant.subs.splice(i,1); } }
+/* ir al historial = ir al plan y bajar hasta «Trabajos hechos» */
+{ const _os=openSub; openSub=function(sec, sub){ if(sec==='mant' && sub==='hist'){ UI.toHist=true; sub='plan'; } const r=_os(sec, sub);
+    if(UI.toHist && sec==='mant'){ setTimeout(()=>{ const h=document.querySelector('#ovlBody .mhecho'); if(h){ UI.toHist=false; h.scrollIntoView({block:'start', behavior:RM?'auto':'smooth'}); } }, 380); } return r; }; }
+/* la pestaña «Gastos» queda marcada también en Repostajes y Compra */
+{ const _mk=markSub; markSub=function(sec){ _mk(sec); if(sec==='mant' && TALLER_GASTOS.includes(UI.sub.mant)) document.querySelectorAll('#stMant button[data-sub]').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.sub==='gastos'))); }; }
+/* Plan: lo que toca arriba y lo ya hecho debajo, por años */
+function histYears(hist){ let y=''; for(const h of hist.querySelectorAll(':scope > .h')){ const d=h.querySelector('.d')?.firstChild?.textContent||''; const yy=(d.match(/\d{4}/)||[''])[0];
+    if(yy && yy!==y){ y=yy; const n=[...hist.querySelectorAll(':scope > .h')].filter(x=>(x.querySelector('.d')?.firstChild?.textContent||'').includes(yy)).length; h.before(h2(`<h5 class="hyear"><span>${yy}</span><em>${n===1?'1 trabajo':n+' trabajos'}</em></h5>`)); }
+    const t=h.querySelector('.t b')?.textContent||''; h.querySelector('.hic')||h.prepend(h2(`<span class="hic">${ic(/aver|repar/i.test(t)?'alert':/sustit/i.test(t)?'wrench':/revis|inspec/i.test(t)?'checkc':'history')}</span>`));
+    h.querySelectorAll('button.del').forEach(b=>{ if(/Borrar/.test(b.textContent)) b.classList.add('hdel'); }); } }
+{ const _rm=renderMant; renderMant=function(){ _rm(); const body=$('#ovlBody'); if(!body || popMode!=='mant' || S.mantTab==='hist' || body.querySelector('.mhecho')) return;
+    const all=[...S.int].sort(byDateDesc), sec=h2(`<section class="mhecho"><h4>${ic('history')}<span>Trabajos hechos</span><em>${pl(all.length,'trabajo')}</em><button type="button" class="btn2 sm">${ic('plus')}Registrar</button></h4></section>`);
+    sec.querySelector('button').onclick=()=>{ uiSfx('tap'); openIntForm({back:'mant'}); };
+    if(all.length){ const hl=histList(all, true); histYears(hl); sec.append(hl); } else sec.append(emptyCard('history','Aquí aparece todo lo que se le ha hecho al coche: cambios, reparaciones e inspecciones, con km y coste.'));
+    body.append(sec); if(UI.toHist) setTimeout(()=>{ UI.toHist=false; sec.scrollIntoView({block:'start', behavior:RM?'auto':'smooth'}); }, 120); }; }
+/* Gastos ▸ Resumen · Repostajes · Compra */
+function gastosChips(){ const pb=$('#pbMant'), w=pb?.querySelector(':scope > .wrap'); if(!w || UI.sec!=='mant' || !TALLER_GASTOS.includes(UI.sub.mant) || w.querySelector(':scope > .gchips')) return;
+  const c=chips([['gastos','Resumen'],['repost','Repostajes'],['compra','Compra']], UI.sub.mant, k=>{ if(k!==UI.sub.mant){ openSub('mant',k); setTop(); } }); c.classList.add('gchips'); w.prepend(c); }
+new MutationObserver(gastosChips).observe($('#pbMant'),{childList:true, subtree:false});
+{ const _os=openSub; openSub=function(sec, sub){ const r=_os(sec, sub); if(sec==='mant') requestAnimationFrame(()=>{ gastosChips(); syncSubPills(true); }); return r; }; }
+setTimeout(()=>syncSubPills(true), 700);
+NAVMENU.mant=[['plus','Registrar intervención',()=>openIntForm({back:'mant'})],['fuel','Repostaje',()=>recForm(MOD.repostajes)],['cart','Añadir a la compra',()=>compraSheet(null)],['history','Trabajos hechos',()=>go('mant','hist')]];
+
+/* ---------- 5 · Más con lo esencial ---------- */
+MAS2.datos=['Tus datos', w=>{ w.append(h2(`<p class="pintro">${ic('cloud')}<span>Tu copia de seguridad, los archivos de importación de ElsaWin y ETKA y el asistente para empezar.</span></p>`));
+  const c=card2('Tus datos','cloud'); for(const [k,i,t,s] of [['backup','cloud','Copia de seguridad','Semanal automática, exportar y restaurar'],['importar','upload','Importar datos','Lotes de ElsaWin y ETKA, con deshacer'],['wiz','sparkle','Asistente inicial','Km, últimos cambios y papeles']]) c.querySelector('.l2').append(row2({c:'var(--accent)', i, t, s, fn:()=>masOpen(k)})); w.append(c); }];
+MAS2.exportar=['Compartir', w=>{ w.append(h2(`<p class="pintro">${ic('link')}<span>Para enseñar el coche: a un comprador, al taller o en papel.</span></p>`));
+  const c=card2('Compartir','link'); for(const [k,i,t,s] of [['dossier','file','Dossier de venta','PDF con historial, ITV y fotos'],['pdf','receipt','Historial en PDF','Resumen corto para imprimir'],['compartir','link','Enlace para el taller','Solo lectura y con caducidad']]) c.querySelector('.l2').append(row2({c:'var(--info)', i, t, s, fn:()=>masOpen(k)})); w.append(c); }];
+MAS_T.datos='Tus datos'; MAS_T.exportar='Compartir';
+v2MasHome=function(pb){
+  if(pb.contains(ovl)){ ovl.classList.remove('docked'); ovlHome.append(ovl); } pb.innerHTML='';
+  const touch=matchMedia('(hover: none)').matches;
+  const G=[
+    ['Taller y piezas',[['fichas','tag','Piezas','Busca por referencia o nombre y explora los dibujos'],['procs','book','Guías y listas','Paso a paso, manuales y listas de comprobación'],['ficha','gauge','Ficha técnica del BAC','Aceites, capacidades, pares y presiones'],['talleres','wrench','Talleres y proveedores','Teléfonos, valoración y trabajos hechos']]],
+    ['Números',[['stats','chart','Estadísticas','Coste por año, por km y por categoría'],['exportar','link','Compartir','Dossier de venta, historial en PDF y enlace para el taller']]],
+    ['Aplicación',[['datos','cloud','Tus datos','Copia de seguridad, importar y asistente'],['ajustes','sliders','Ajustes','Tema, sonidos, gráficos y avanzado'],['avisos','alert','Avisos y notificaciones','Push, correo y Telegram'],...(touch?[]:[['keys','keyboard','Atajos de teclado','Teclas rápidas del visor']]),['about','info','Acerca de','Versión y novedades'],['logout','logout','Cerrar sesión',(window.FB?.user?.()?.email||'Cuenta de Google')]]],
+  ];
+  for(const [gt,items] of G){ const sec=h2(`<div class="mgrp"><h4>${gt}</h4><div class="mtiles"></div></div>`), t=sec.querySelector('.mtiles');
+    for(const [k,i,l,d] of items){ const b=h2(`<button type="button" class="mt" data-k="${k}"><i>${ic(i)}</i><span><b>${l}</b><small>${esc(d)}</small></span>${ic('chevR')}</button>`); b.onclick=()=>{ uiSfx('tap'); masOpen(k); }; t.append(b); }
+    pb.append(sec); }
+  pb.append(h2('<div style="height:24px"></div>'));
+};
+/* las listas de comprobación, dentro de Guías */
+{ const _rg=renderGuias; renderGuias=function(w){ _rg(w); const c=card2('Listas de comprobación','list'); c.querySelector('.l2').append(row2({c:'var(--ok)', i:'list', t:'Listas de comprobación', s:'Antes de la ITV, viaje largo, invierno, verano…', fn:()=>masOpen('listas')}));
+    const first=w.querySelector(':scope > .card2'); if(first) first.before(c); else w.append(c); };
+  MAS2.procs=['Guías y listas', renderGuias]; MAS_T.procs='Guías y listas'; }
+/* notas en el modelo y piezas sin referencia: dentro del 3D, en el panel de Piezas */
+{ const sp=document.querySelector('#secPiezas .field.search'); if(sp){ const box=h2(`<div class="p3dx"><button type="button">${ic('pin')}<span>Notas en el modelo</span></button><button type="button">${ic('cube')}<span>Piezas sin referencia</span></button></div>`);
+    const [a,b]=box.querySelectorAll('button'); a.onclick=()=>{ uiSfx('tap'); openGlobal('pines'); }; b.onclick=()=>{ uiSfx('tap'); openGlobal('pend'); }; sp.after(box); } }
 
 
 connectDb();

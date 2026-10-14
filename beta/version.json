@@ -1,25 +1,23 @@
 {
- "version": "2.1.1-beta.2",
- "fecha": "2026-10-14",
+ "version": "2.1.1-beta.3",
+ "fecha": "2026-10-15",
  "notas": [
-  "Cambios de pantalla con animación y un sonido suave (secciones, apartados de Más, hojas y formularios).",
-  "Sonido: ahora suena también con el iPhone en silencio; sonidos al tocar piezas del coche, cambiar de vista y Rayos X.",
-  "Taller sin vigas ni fluorescentes en el techo (la luz sigue igual).",
-  "Cableado, drenajes y marcadores: solo la carrocería traslúcida; la mecánica en color queda para «Rayos X».",
-  "Drenajes delanteros: salen en el paso de rueda, detrás de la rueda.",
-  "Cámara en el móvil más estable: girar desde el borde ya no arrastra la página y el giro se para donde sueltas."
+  "Cambios de pantalla de verdad: la pantalla anterior sale y la nueva entra a la vez (secciones, pestañas y apartados de Más). Arreglado el fallo que encogía la pantalla al cambiar de sección.",
+  "Cuatro secciones abajo: Inicio, Coche, Taller y Papeles. «Más» está ahora en el botón de cuadritos de arriba.",
+  "Taller: el Plan lleva debajo los trabajos hechos; Repostajes y Compra están dentro de Gastos.",
+  "Más, solo lo esencial: Tus datos (copia, importar, asistente) y Compartir (dossier, PDF, enlace). Las listas de comprobación están en Guías; las notas en el modelo y las piezas sin referencia, en el panel Piezas del 3D.",
+  "El sonido vuelve a respetar el modo silencio del iPhone."
  ],
  "historial": [
   {
-   "version": "2.1.1-beta.2",
-   "fecha": "2026-10-14",
+   "version": "2.1.1-beta.3",
+   "fecha": "2026-10-15",
    "notas": [
-    "Cambios de pantalla con animación y un sonido suave (secciones, apartados de Más, hojas y formularios).",
-    "Sonido: ahora suena también con el iPhone en silencio; sonidos al tocar piezas del coche, cambiar de vista y Rayos X.",
-    "Taller sin vigas ni fluorescentes en el techo (la luz sigue igual).",
-    "Cableado, drenajes y marcadores: solo la carrocería traslúcida; la mecánica en color queda para «Rayos X».",
-    "Drenajes delanteros: salen en el paso de rueda, detrás de la rueda.",
-    "Cámara en el móvil más estable: girar desde el borde ya no arrastra la página y el giro se para donde sueltas."
+    "Cambios de pantalla de verdad: la pantalla anterior sale y la nueva entra a la vez (secciones, pestañas y apartados de Más). Arreglado el fallo que encogía la pantalla al cambiar de sección.",
+    "Cuatro secciones abajo: Inicio, Coche, Taller y Papeles. «Más» está ahora en el botón de cuadritos de arriba.",
+    "Taller: el Plan lleva debajo los trabajos hechos; Repostajes y Compra están dentro de Gastos.",
+    "Más, solo lo esencial: Tus datos (copia, importar, asistente) y Compartir (dossier, PDF, enlace). Las listas de comprobación están en Guías; las notas en el modelo y las piezas sin referencia, en el panel Piezas del 3D.",
+    "El sonido vuelve a respetar el modo silencio del iPhone."
    ]
   }
  ]
