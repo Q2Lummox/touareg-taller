@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.0">
+<meta name="app-version" content="2.1.1-beta.1">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2429,7 +2429,7 @@ body.ui2.light .seg3 button{color:var(--txt-2)}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.0</span>
+  <span class="spver">v2.1.1-beta.1</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5844,7 +5844,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.0';
+  const APP_VERSION='2.1.1-beta.1';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -7872,6 +7872,7 @@ async function v2Migrate(){
   }catch(e){ console.warn('migración', e); V2.migr=false; }
 }
 
+
 /* ====================== v2.0: REGISTRO ====================== */
 
 /* ---------- TALLERES Y PROVEEDORES ---------- */
@@ -8212,6 +8213,7 @@ function kmCard(){
 }
 { const _rf=renderFichaCoche; renderFichaCoche=function(pb){ _rf(pb); const g=pb.querySelector('.grid2'); if(!g) return; let kc=kmCard(); g.insertBefore(kc, g.children[1]||null); const cur={pb, root:kc, run:()=>{ const n=kmCard(); const op=kc.querySelector('details')?.open; if(op) n.querySelector('details').open=true; kc.replaceWith(n); kc=n; cur.root=n; }}; V2.cur=cur; }; }
 
+
 /* ====================== v2.0: CONSULTA ====================== */
 
 /* ---------- FICHA TÉCNICA DEL BAC ---------- */
@@ -8435,6 +8437,7 @@ function renderLista(w, D, l){
   }
 }
 MAS2.listas=['Listas de comprobación', renderListas];
+
 
 /* ====================== v2.0: UTILIDADES ====================== */
 const PROJECT='touareg-taller';
@@ -8779,6 +8782,7 @@ async function readInvoiceInto(file){
     for(const g of G){ out.append(h2(`<h5>${g.g}</h5>`)); for(const x of g.items){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic(x.i)}</span><span class="tx"><b>${hl(x.t,q)}</b><small>${hl(x.s,q)}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ uiSfx('tap'); x.fn(); }; out.append(r); } }
   }; }
 
+
 /* ====================== v2.0: IMPORTACIÓN POR LOTES Y CATÁLOGO DE PIEZAS ======================
    Formato del archivo (lo genera Claude a partir de las descargas de ElsaWin / ETKA):
    { formato:'taller7l-import', version:1,
@@ -8923,6 +8927,10 @@ function renderCatalogo(w){
 MAS2.catalogo=['Catálogo de piezas', renderCatalogo];
 for(const k of ['importar','catalogo']) MAS_T[k]=MAS2[k][0];
 /* el buscador general de referencias está en v2h.js (Fichas) */
+
+/* ficha → lámina: se marca la posición de la pieza */
+{ const _ls=laminaSheet; laminaSheet=function(l){ const pos=UI.lamPos; UI.lamPos=null; const r=_ls(l); if(pos!=null) setTimeout(()=>{ const tr=[...document.querySelectorAll('#shBox .pzt tbody tr')].find(t=>t.firstElementChild?.textContent.trim()===String(pos)); if(tr){ tr.classList.add('lamhit'); tr.scrollIntoView({block:'center', behavior:ANIMON()?'smooth':'auto'}); } }, 260); return r; }; }
+
 
 /* ====================== v2.0: ORDENAR Y RENOMBRAR (mantener pulsado) ====================== */
 const ORD={edit:null, lp:null, drag:null, swallow:0, origMasT:{...MAS_T}};
@@ -9088,6 +9096,13 @@ document.addEventListener('contextmenu', ev=>{ if(groupOf(ev.target)) ev.prevent
 /* salir al cambiar de sección */
 { const _go=go; go=function(...a){ if(ORD.edit) exitEdit(true); return _go(...a); }; }
 
+/* ====================== ELECTRICIDAD: cableado en 3D, menú, fusibles y relés, marcadores ======================
+   (2.1.1: lo que antes eran capas sueltas —v2g, v2i, v2k, v2l, v2m, v2n— está unido aquí, cada función en un solo sitio) */
+IC.drop=IC.drop||'<path d="M12 3s6 6.4 6 11a6 6 0 0 1-12 0c0-4.6 6-11 6-11z"/><path d="M9.5 15.5a2.6 2.6 0 0 0 2.5 2"/>';
+IC.pinD=IC.pinD||'<path d="M12 21s-6-5.6-6-10.5A6 6 0 0 1 18 10.5C18 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.2"/>';
+IC.chip=IC.chip||'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>';
+IC.earth=IC.earth||'<path d="M12 3v9M6 12h12M8.5 15.5h7M11 19h2"/>';
+
 /* ====================== v2.0: CABLEADO EN 3D ======================
    Los circuitos llegan por importación (colección privada «circuitos»): nada de VW va en el código.
    Circuito: {titulo, sistema, fuente, hoja, esquemas:[{id,tipo}], nodos:[{id, cod, nombre, tipo, ancla, nota}],
@@ -9128,12 +9143,15 @@ function roundPath(pts, rad){
   cp.add(new THREE.LineCurve3(prev, pts[pts.length-1].clone())); return cp;
 }
 function wireClear(keepX){
+  const was=!!WIRE.on; wfxClear(); dfxClear();
   if(WIRE.grp){ WIRE.grp.traverse(o=>{ o.geometry?.dispose?.(); o.material?.dispose?.(); }); WIRE.grp.removeFromParent(); for(const t of WIRE.tubes||[]) t.removeFromParent(); }
   WIRE.grp=null; WIRE.tubes=[]; WIRE.labels.forEach(l=>l.el.remove()); WIRE.labels=[]; WIRE.on=null; WIRE.sel=null;
   document.querySelector('.wirecard')?.remove(); document.body.classList.remove('wireon');
   if(!keepX && WIRE.fs0){ WIRE.fs0=false; const fs=$('#fsBtn'); if(fs?.getAttribute('aria-pressed')==='true') fs.click(); }
   if(!keepX){ if(WIRE.xray0===false && $('#xray')?.getAttribute('aria-pressed')==='true') $('#xray').click(); WIRE.xray0=null; }
   WIRE.labels.box?.remove(); dirty=true;
+  if(was && !keepX){ try{ setView('iso'); }catch{} }   /* antes la cámara se quedaba mirando el suelo */
+  drenSync();
 }
 function wireBuild(c){
   wireClear(true); WIRE.frame=null;
@@ -9167,6 +9185,7 @@ function wireBuild(c){
     const el=h2(`<button type="button" class="wlab t-${esc(n.tipo||'comp')}"><b>${esc(n.cod||'')}</b><span>${esc(n.nombre||'')}</span></button>`);
     for(const ev of ['pointerdown','mousedown','touchstart']) el.addEventListener(ev, e=>e.stopPropagation(), {passive:true}); el.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); wireNodeInfo(c, n); }; box.append(el); WIRE.labels.push({el, v, host, local, n}); }
   WIRE.labels.box=box; WIRE.on=c; document.body.classList.add('wireon'); dirty=true;
+  if(ANIMON()) WIRE.labels.forEach((l,i)=>{ l.el.style.setProperty('--ld', (300+i*70)+'ms'); l.el.classList.add('lin'); setTimeout(()=>l.el.classList.remove('lin'), 1400+i*70); });
   return {L};
 }
 function wireLabels(){
@@ -9175,9 +9194,24 @@ function wireLabels(){
   for(const l of WIRE.labels){ const w=l.host?l.host.localToWorld(tmp.copy(l.local)):tmp.copy(l.v); const p=w.project(camera);
     if(p.z>1 || Math.abs(p.x)>1.05 || Math.abs(p.y)>1.05){ l.el.hidden=true; continue; } l.el.hidden=false;
     l.el.style.left=((p.x+1)/2*rr.width + rr.left - st.left)+'px'; l.el.style.top=((1-p.y)/2*rr.height + rr.top - st.top)+'px'; }
+  /* debajo de la barra de herramientas y sin pisarse; solo si la cámara, el tamaño o las etiquetas han cambiado */
+  if(!WIRE.on) return;
+    /* solo se recolocan si la cámara, el tamaño o las etiquetas han cambiado (antes se medía en cada fotograma) */
+    const k=camera.matrixWorld.elements.map(v=>v.toFixed(4)).join()+innerWidth+'x'+innerHeight+WIRE.labels.length+(document.querySelector('.wirecard')?.offsetHeight||0);
+    if(k===WIRE.lsig) return; WIRE.lsig=k;
+    const tb=document.querySelector('.tools')?.getBoundingClientRect(), wc=document.querySelector('.wirecard')?.getBoundingClientRect(); if(!tb) return;
+    const L=WIRE.labels.filter(l=>!l.el.hidden); L.forEach(l=>{ l.el.style.setProperty('--dy','0px'); l.el.classList.remove('moved'); });
+    const R=L.map(l=>({l, r:l.el.getBoundingClientRect()})); const hit=(r,b)=>b && r.bottom>b.top && r.top<b.bottom && r.right>b.left && r.left<b.right;
+    const vis=[]; for(const v of R){ const u=hit(v.r,tb)||hit(v.r,wc); v.l.el.classList.toggle('under', !!u); if(!u) vis.push(v); }
+    vis.sort((a,b)=>b.r.bottom-a.r.bottom); const placed=[];
+    for(const v of vis){ let dy=0; const r={left:v.r.left, right:v.r.right, top:v.r.top, bottom:v.r.bottom}; for(let i=0;i<8;i++){ const o=placed.find(p=>r.left<p.right+2 && r.right>p.left-2 && r.top<p.bottom+2 && r.bottom>p.top-2); if(!o) break; const d=r.bottom-(o.top-3); dy-=d; r.top-=d; r.bottom-=d; }
+      if(dy<0 && hit(r,tb)){ v.l.el.classList.add('under'); continue; }
+      v.l.el.style.setProperty('--dy', dy+'px'); v.l.el.style.setProperty('--dya', (-dy)+'px'); v.l.el.classList.toggle('moved', dy<0); placed.push(r); }
 }
 { const _up=updatePins; updatePins=function(){ _up(); wireLabels(); }; }
 function wireFocus(){
+  if(WIRE.on?.drenaje){ try{ setView('iso'); }catch{} return; }
+  if(WIRE.on?.marcas) return marcasFocus();
   const b=new THREE.Box3(); for(const t of [...(WIRE.grp?.children||[]), ...WIRE.tubes]){ t.updateWorldMatrix(true,false); if(!t.geometry.boundingBox) t.geometry.computeBoundingBox(); b.union(t.geometry.boundingBox.clone().applyMatrix4(t.matrixWorld)); } if(b.isEmpty()) return; /* solo los cables (no los brillos ni chispas, que nacen en el origen) */
   const c=b.getCenter(new THREE.Vector3()), s=b.getSize(new THREE.Vector3()).length(), f=carFrame();
   const side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s; /* desde el lado izquierdo del coche */
@@ -9188,13 +9222,21 @@ function wireFocus(){
   leaveCabin?.(); flyTo(c, pos);
 }
 function wireHighlight(id){
+  const dren=!!WIRE.on?.drenaje; if(dren){ const d=DREN.find(x=>x.id===id); if(d) WIRE.on.lado=d.lado; }
   WIRE.sel=WIRE.sel===id?null:id; document.querySelectorAll('.wlab.on').forEach(l=>l.classList.remove('on'));
   const all=[...(WIRE.grp?.children||[]), ...WIRE.tubes];
   for(const t of all){ const on=!WIRE.sel || t.userData.wire===WIRE.sel; t.material.opacity=on?.96:.1; }
   document.querySelectorAll('.wirecard .wrow').forEach(r=>r.classList.toggle('on', r.dataset.w===WIRE.sel));
   dirty=true;
+  const sel=WIRE.sel && !String(WIRE.sel).startsWith('n:')?WIRE.sel:null;
+  if(dren){ wfxClear(); dfxSet(sel); drenInfo(sel); if(sel) drenFocus(sel); else wireFocus(); return; }
+  wfxSet(sel?new Set([sel]):null);   /* la corriente solo va en el cable que eliges */
+  if(WIRE.on){ if(sel) wireFocusIds(new Set([sel])); else wireFocus(); }
 }
 function wireNodeInfo(c, n){
+  if(c?.drenaje){ if(WIRE.sel===n.h) WIRE.sel=null; wireHighlight(n.h); document.querySelectorAll('.wlab').forEach(l=>l.classList.toggle('on', WIRE.labels.find(x=>x.el===l)?.n.h===WIRE.sel)); return; }
+  if(c?.marcas) return marcaInfo(c,n);
+  wfxClear();
   const ws=(c.cables||[]).filter(w=>(w.ruta||[]).some(a=>a===n.id) || [w.de,w.a].some(s=>s && n.cod && String(s).startsWith(n.cod)));
   /* resalta en el 3D los cables que llegan a este punto */
   { const ids=new Set(ws.map(w=>w.id)); WIRE.sel='n:'+n.id; for(const t of [...(WIRE.grp?.children||[]), ...WIRE.tubes]) t.material.opacity=ids.has(t.userData.wire)?.96:.1;
@@ -9210,6 +9252,8 @@ function wireRow(w){
   return r;
 }
 function wireCard(c){
+  if(c?.drenaje) return drenCard(c);
+  if(c?.marcas) return marcasCard(c);
   document.querySelector('.wirecard')?.remove();
   const n=(c.cables||[]).length;
   const cd=h2(`<div class="wirecard"><div class="wch"><span>${ic('zap')}<b>${esc(c.titulo)}</b></span><button type="button" class="wx" aria-label="Cerrar">${ic('x')}</button></div>
@@ -9227,6 +9271,7 @@ function wireCard(c){
   stage.append(cd);
 }
 function wireShow(c){
+  c=circFix(c); setTimeout(drenSync,700);
   if(UI.sec!=='coche' || UI.sub.coche!=='3d') go('coche','3d');
   const run=()=>{ if(!UI.modelReady && !parts[pid('door_RL')]) return setTimeout(run,400);
     const fs=$('#fsBtn'); if(matchMedia('(max-width:860px)').matches && fs && fs.getAttribute('aria-pressed')!=='true'){ WIRE.fs0=true; fs.click(); }
@@ -9247,8 +9292,312 @@ function wirePicker(){
 /* botón «Cableado» en el visor 3D */
 { const tools=document.querySelector('.tools');
   if(tools){ const s=h2(`<div class="seg"><button id="tWire" type="button" title="Ver el recorrido de un circuito eléctrico">${ic('zap','ti')}Cableado</button></div>`); s.querySelector('button').onclick=()=>{ uiSfx('tap'); if(WIRE.on){ wireClear(); return; } wirePicker(); }; tools.append(s); } }
-{ const _go=go; go=function(sec, sub, ...r){ const res=_go(sec, sub, ...r); if(WIRE.on && (UI.sec!=='coche' || UI.sub.coche!=='3d')) wireClear(); return res; }; }
+{ const _go=go; go=function(sec, sub, ...r){ elecMenuClose(); const res=_go(sec, sub, ...r); if(WIRE.on && (UI.sec!=='coche' || UI.sub.coche!=='3d')) wireClear(); return res; }; }
 window.__wire={wl:()=>{ wireLabels(); return WIRE.labels.map(l=>l.el.hidden+':'+document.body.contains(l.el)); }, proj:()=>WIRE.labels.map(l=>{ const w=(l.host?l.host.localToWorld(l.local.clone()):l.v.clone()); const p=w.clone().project(camera); return [w.toArray().map(v=>+v.toFixed(2)), p.toArray().map(v=>+v.toFixed(2))]; }), cam:()=>({p:camera.position.toArray(), t:controls.target.toArray(), fov:camera.fov, asp:camera.aspect}), carFrame, anchorWorld, partBox, wireShow, wireClear, WIRE, pid};
+
+/* ---------- posiciones corregidas a mano sobre el modelo (mandan aunque el circuito importado traiga otra) ---------- */
+/* cableado: posiciones corregidas a mano sobre el modelo (se aplican aunque el circuito importado traiga otra) */
+const ANCLA_FIX={ J519:{ancla:{ref:'dash', u:[0.39,0.19,0.27]}, donde:'Bajo el salpicadero, entre el volante y los pedales, pegada al lateral izquierdo de la consola central (ElsaWin «Control units», 203/60).'} };
+function circFix(c){ if(!c?.nodos?.some(n=>ANCLA_FIX[n.id]||ANCLA_FIX[n.cod])) return c; return {...c, nodos:c.nodos.map(n=>{ const f=ANCLA_FIX[n.id]||ANCLA_FIX[n.cod]; return f?{...n, ...f}:n; })}; }
+/* ---------- 3D: botón «Electricidad» con submenú (Cableado · Fusibles) ---------- */
+{ const SC=SECS.coche.subs; const i=SC.findIndex(x=>x[0]==='fus'); if(i>=0) SC.splice(i,1); document.querySelector('#stCoche button[data-sub="fus"]')?.remove(); }
+let ELOFF=null;
+function elecMenuClose(){ if(ELOFF){ document.removeEventListener('pointerdown', ELOFF, true); ELOFF=null; } document.querySelector('.elecm')?.remove(); document.querySelector('#tWire')?.setAttribute('aria-expanded','false'); }
+function elecMenu(){
+  if(document.querySelector('.elecm')){ elecMenuClose(); return; }
+  const btn=$('#tWire'); if(!btn) return; btn.setAttribute('aria-expanded','true');
+  const nC=S.v2.circuitos.length, nF=(S.fus||[]).length;
+  const m=h2(`<div class="elecm" role="menu"><div class="elech">${ic('zap')}<span>Electricidad</span></div></div>`);
+  const item=(i,t,s,fn,cls)=>{ const b=h2(`<button type="button" role="menuitem" class="${cls||''}"><i>${ic(i)}</i><span><b>${esc(t)}</b><small>${esc(s)}</small></span>${ic('chevR')}</button>`); b.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenuClose(); fn(); }; m.append(b); };
+  item('zap','Cableado', WIRE.on?`Viendo: ${WIRE.on.titulo}`:(nC?`${pl(nC,'circuito')} para ver en 3D`:'Recorrido de los cables en 3D'), wirePicker);
+  if(WIRE.on) item('x','Quitar el cableado','Vuelve a ver el coche normal', ()=>wireClear(), 'muted');
+  const nFz=elecBoxes('fusibles').reduce((a,c)=>a+(c.items||[]).filter(i=>!i.estado||i.estado==='ok').length,0), nRz=elecBoxes('reles').reduce((a,c)=>a+(c.items||[]).filter(i=>!i.estado||i.estado==='ok').length,0);
+  item('fuse','Fusibles y relés', (nFz||nRz)?`${nFz} fusibles y ${nRz} relés, con su dibujo`:nF?`${pl(nF,'fusible')} apuntados`:'Cajas de fusibles con su circuito', ()=>{ if(WIRE.on) wireClear(); go('coche','fus'); });
+  item('fuse','Cajas en el 3D','Dónde está cada caja de fusibles y relés', ()=>marcasShow('caja'));
+  item('earth','Puntos de masa','Los tornillos de masa sobre el modelo', ()=>marcasShow('masa'));
+  item('chip','Centralitas','Dónde va cada unidad de control', ()=>marcasShow('unidad'));
+  for(const ev of ['pointerdown','mousedown','touchstart','wheel']) m.addEventListener(ev, e=>e.stopPropagation(), {passive:true});
+  stage.append(m);
+  const r=btn.getBoundingClientRect(), sr=stage.getBoundingClientRect(), w=Math.min(300, sr.width-16);
+  m.style.width=w+'px'; m.style.top=(r.bottom-sr.top+8)+'px'; m.style.left=Math.max(8, Math.min(r.left-sr.left, sr.width-w-8))+'px';
+  setTimeout(()=>{ ELOFF=e=>{ if(!e.target.closest('.elecm,#tWire')) elecMenuClose(); }; document.addEventListener('pointerdown', ELOFF, true); }, 0);
+}
+IC.fuse=IC.fuse||'<rect x="3" y="8" width="18" height="8" rx="2"/><path d="M7 8V6M17 8V6M7 18v-2M17 18v-2M9 12h6"/>';
+{ const b=$('#tWire'); if(b){ b.innerHTML=ic('zap','ti')+'<span>Electricidad</span>'+ic('chevD','ti chev'); b.setAttribute('aria-haspopup','menu'); b.title='Cableado de los circuitos y cajas de fusibles'; b.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenu(); }; } }
+IC.chevD=IC.chevD||'<path d="m6 9 6 6 6-6"/>';
+/* «Fusibles» ya no es pestaña: al entrar se muestra con «atrás» que vuelve al 3D */
+{ const _st=setTop; setTop=function(){ _st(); if(UI.sec==='coche' && UI.sub.coche==='fus'){ $('#t2Title').textContent='Fusibles y relés'; $('#t2Sub').textContent='Coche · Electricidad'; $('#t2Back').hidden=false; } }; }
+$('#t2Back').addEventListener('click', e=>{ if(UI.sec==='coche' && UI.sub.coche==='fus'){ e.stopImmediatePropagation(); uiSfx('tap'); go('coche','3d'); } }, true);
+/* ---------- la corriente recorre el cable elegido ---------- */
+/* ---------- cableado: la corriente recorre el cable elegido ---------- */
+const WFX={on:false, items:[], raf:0, t0:0, sweep:0};
+function wfxTex(){ if(WFX.tex) return WFX.tex; const c=document.createElement('canvas'); c.width=256; c.height=8; const g=c.getContext('2d');
+  const gr=g.createLinearGradient(0,0,256,0); gr.addColorStop(0,'rgba(255,255,255,0)'); gr.addColorStop(.55,'rgba(120,220,255,.25)'); gr.addColorStop(.86,'rgba(190,240,255,.95)'); gr.addColorStop(.93,'rgba(255,255,255,1)'); gr.addColorStop(1,'rgba(255,255,255,0)');
+  g.fillStyle=gr; g.fillRect(0,0,256,8); const t=new THREE.CanvasTexture(c); t.wrapS=THREE.RepeatWrapping; t.colorSpace=THREE.SRGBColorSpace; return WFX.tex=t; }
+function wfxSpark(){ if(WFX.spk) return WFX.spk; const c=document.createElement('canvas'); c.width=c.height=64; const g=c.getContext('2d'); const gr=g.createRadialGradient(32,32,0,32,32,32);
+  gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(.25,'rgba(170,235,255,.9)'); gr.addColorStop(.6,'rgba(60,170,255,.25)'); gr.addColorStop(1,'rgba(60,170,255,0)'); g.fillStyle=gr; g.fillRect(0,0,64,64);
+  const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return WFX.spk=t; }
+function wfxClear(){ for(const it of WFX.items){ it.glow.removeFromParent(); it.glow.geometry.dispose(); it.glow.material.dispose(); it.tex?.dispose?.(); it.spk.forEach(s=>{ s.removeFromParent(); s.material.dispose(); }); } WFX.items=[]; WFX.on=false; cancelAnimationFrame(WFX.raf); dirty=true; }
+function wfxSet(ids, sweep){
+  wfxClear(); if(!WIRE.on || !ids || !ids.size || RM) { return; }
+  const all=[...(WIRE.grp?.children||[]), ...(WIRE.tubes||[])].filter(t=>ids.has(t.userData.wire) && t.userData.curve);
+  for(const t of all){ const len=t.userData.curve.getLength(), rad=t.userData.rad||.004;
+    const geo=new THREE.TubeGeometry(t.userData.curve, Math.min(400, t.userData.seg||80), rad*1.9, 8, false);
+    const tex=wfxTex().clone(); tex.needsUpdate=true; tex.repeat.set(Math.max(1, len/.35), 1);
+    const mat=new THREE.MeshBasicMaterial({map:tex, transparent:true, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending, color:0xffffff});
+    const glow=new THREE.Mesh(geo, mat); glow.renderOrder=1000; t.add(glow);
+    const spk=[0,1,2].map(()=>{ const s=new THREE.Sprite(new THREE.SpriteMaterial({map:wfxSpark(), transparent:true, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending})); s.renderOrder=1001; s.scale.setScalar(rad*14); t.add(s); return s; });
+    WFX.items.push({t, glow, tex, spk, len, ph:Math.random()}); }
+  WFX.on=WFX.items.length>0; WFX.t0=performance.now(); WFX.sweep=sweep?1:0;
+  const tick=now=>{ if(!WFX.on) return; if(document.hidden || UI.sec!=='coche' || UI.sub.coche!=='3d'){ WFX.raf=requestAnimationFrame(tick); return; } const s=(now-WFX.t0)/1000;
+    for(const it of WFX.items){ const sp=.55/Math.max(.4,it.len); it.tex.offset.x=-(s*1.6)%1;
+      it.spk.forEach((p,k)=>{ const u=((s*sp*1.4)+it.ph+k/3)%1; const pt=it.t.userData.curve.getPointAt(Math.min(u,.999)); if(pt) p.position.copy(pt); p.material.opacity=.55+.45*Math.sin(s*14+k*2); });
+      it.glow.material.opacity=.75+.25*Math.sin(s*9+it.ph*6); }
+    dirty=true; WFX.raf=requestAnimationFrame(tick); };
+  WFX.raf=requestAnimationFrame(tick);
+}
+/* al elegir un cable la cámara se acerca a él (los de dentro de la puerta quedaban tapados por la ficha) */
+function wireFocusIds(ids){
+  const b=new THREE.Box3(); for(const t of [...(WIRE.grp?.children||[]), ...(WIRE.tubes||[])]) if(ids.has(t.userData.wire)){ t.updateWorldMatrix(true,false); if(!t.geometry.boundingBox) t.geometry.computeBoundingBox(); b.union(t.geometry.boundingBox.clone().applyMatrix4(t.matrixWorld)); } if(b.isEmpty()) return;
+  const c=b.getCenter(new THREE.Vector3()), s=b.getSize(new THREE.Vector3()).length(), f=carFrame(), side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s; if(WIRE.on?.lado==='der') side.negate();
+  const fov=(camera.fov||40)*Math.PI/180, asp=Math.min(1, camera.aspect||1), dist=Math.max(1.05, (s*0.6)/Math.tan(fov/2)/asp);
+  c.y-=dist*Math.tan(fov/2)*0.42; const pos=c.clone().add(side.multiplyScalar(dist*0.92)).add(new THREE.Vector3(0, dist*0.3, 0)); flyTo(c, pos); }
+/* ====================== v2.1: FUSIBLES Y RELÉS (cajas importadas, mismo diseño para los dos) ======================
+   Colección «electrico»: un documento por caja {id, tipo:'fusibles'|'reles', nombre, corto, donde, guia, img, items:[…]}
+   fusible: {pos, amp, desc, nota, estado:'ok'|'libre'|'na'}   relé: {pos, cod, num, desc, nota, falla, estado}
+   Las notas propias de cada posición van en la colección antigua «fusibles» (id = caja_pos). */
+C2.push('electrico'); S.v2.electrico=[]; COLN.electrico='Fusibles y relés (cajas)';
+const FCOL={'5':'#d8b27a','7.5':'#8a5a2c','10':'#e0362c','15':'#2f6fe0','20':'#f2c12e','25':'#e9e9e9','30':'#3cb44b','40':'#f58220','50':'#e0362c','60':'#2f6fe0','80':'#e9e9e9'};
+function fuseColor(a){ const k=String(a||'').split('/')[0].replace(',','.'); return FCOL[k]||'#9aa3ad'; }
+function fuseIcon(a){ const c=fuseColor(a), big=Number(String(a).split('/')[0])>=100;
+  return big?`<span class="fz big" style="--fc:#b9c0c8"><i></i><b>${esc(String(a))}</b></span>`:`<span class="fz${String(a||'').length>2?' w':''}" style="--fc:${c}"><i></i><b>${esc(String(a||'—'))}</b></span>`; }
+function relayIcon(n){ return `<span class="rz"><i></i><b>${esc(String(n||'—'))}</b></span>`; }
+const elecBoxes=t=>(S.v2.electrico||[]).filter(c=>c.tipo===t).sort((a,b)=>(a.orden??99)-(b.orden??99));
+function elecNote(caja, it){ return (S.fus||[]).find(f=>f._id===safeId(caja.id+'_'+it.pos)) || null; }
+function elecGuide(caja){ if(!caja.guia) return null; const pr=(S.procs||[]).find(p=>p.titulo===caja.guia.titulo); return pr?{pr, at:caja.guia.paso??null}:null; }
+function elecItemSheet(caja, it){
+  const fus=caja.tipo==='fusibles', mine=elecNote(caja, it), body=h2('<div class="eldet"></div>');
+  body.append(h2(`<div class="elhead">${fus?fuseIcon(it.amp):relayIcon(it.num)}<div><b>${esc(it.pos)}</b><small>${esc(caja.nombre)}</small></div></div>`));
+  body.append(kv([[fus?'Amperaje':'Relé n.º (en la tapa)', fus?(it.amp?esc(String(it.amp))+' A':'Sin dato'):esc(String(it.num||'—'))], ['Código', it.cod?esc(it.cod):null],
+    [fus?'Qué protege':'Qué gestiona', esc(it.desc||'—')], ['Nota', it.nota?esc(it.nota):null], ['Si falla', it.falla?esc(it.falla):null], ['Dónde está la caja', esc(caja.donde||'')]]));
+  const ta=h2(`<div class="ff full"><label class="lab2">Tus notas</label><textarea class="inp2" rows="3" placeholder="Cambiado el …, de repuesto en la guantera, lo que sea"></textarea></div>`); ta.querySelector('textarea').value=mine?.notas||''; body.append(ta);
+  const g=elecGuide(caja), acts=[['Guardar nota','check',async()=>{ const v=ta.querySelector('textarea').value.trim(); if(!S.db) return toast('Inicia sesión para guardar','err');
+      const id=safeId(caja.id+'_'+it.pos); try{ if(v) await S.db.collection('fusibles').doc(id).set({caja:caja.nombre, pos:it.pos, amp:fus?String(it.amp||''):'', circuito:it.desc||'', notas:v, tipo:fus?'fusible':'rele', actualizado:new Date().toISOString()}); else if(mine) await S.db.collection('fusibles').doc(id).delete(); closeSheet(); toast(v?'Nota guardada':'Nota quitada'); }catch{ toast('No se pudo guardar','err'); } },'pri']];
+  if(g) acts.push(['Cómo llegar','book',()=>{ closeSheet(); setTimeout(()=>guiaRead(g.pr, g.at),120); }]);
+  detailSheet(`${it.pos} · ${fus?(it.amp?it.amp+' A':'fusible'):'relé'}`, it.desc||'', body, acts);
+}
+function elecRow(caja, it){
+  const fus=caja.tipo==='fusibles', mine=elecNote(caja, it);
+  const b=h2(`<button type="button" class="elrow st-${it.estado||'ok'}"><span class="epos">${esc(it.pos)}</span>${fus?fuseIcon(it.amp):relayIcon(it.num)}<span class="tx"><b>${esc(it.desc||'—')}</b>${[it.cod, it.nota, mine?.notas?'Tu nota: '+mine.notas:''].filter(Boolean).length?`<small>${esc([it.cod, it.nota, mine?.notas?'Tu nota: '+mine.notas:''].filter(Boolean).join(' · '))}</small>`:''}</span>${ic('chevR')}</button>`);
+  b.onclick=()=>{ uiSfx('tap'); elecItemSheet(caja, it); }; return b; }
+function elecBoxCard(caja, q){
+  const fus=caja.tipo==='fusibles', all=caja.items||[], qq=norm(q||'');
+  const match=it=>!qq || norm([it.pos, it.desc, it.cod, it.nota, it.num, it.amp&&it.amp+'a'].join(' ')).includes(qq) || norm(it.pos)===qq;
+  const L=all.filter(match); if(qq && !L.length) return null;
+  const act=L.filter(it=>!it.estado || it.estado==='ok'), rest=L.filter(it=>it.estado && it.estado!=='ok');
+  const c=h2(`<section class="ebox"><header><span class="eic">${ic(fus?'fuse':'zap')}</span><div class="tx"><b>${esc(caja.nombre)}</b><small>${esc(caja.donde||'')}</small></div><span class="ecnt">${act.length}</span></header><div class="eart"></div><div class="eacts"></div><div class="elist"></div></section>`);
+  if(caja.img?.id && !qq){ const im=h2(`<button type="button" class="eimg" aria-label="Ver la ilustración a pantalla completa"><img alt="Ilustración de ${esc(caja.nombre)}"><span>${ic('search')}Ampliar</span></button>`); window.FB?.blobURL(caja.img.id).then(u=>im.querySelector('img').src=u).catch(()=>im.remove()); im.onclick=()=>openViewer({id:caja.img.id, tipo:caja.img.tipo||'image/jpeg', nombre:caja.nombre}); c.querySelector('.eart').append(im); } else c.querySelector('.eart').remove();
+  const g=elecGuide(caja); if(g && !qq){ const bb=h2(`<button type="button" class="btn2 ghost sm">${ic('book')}Cómo llegar</button>`); bb.onclick=()=>{ uiSfx('tap'); guiaRead(g.pr, g.at); }; c.querySelector('.eacts').append(bb); }
+  if(caja.nota && !qq) c.querySelector('.eacts').append(h2(`<p class="muted2">${esc(caja.nota)}</p>`));
+  if(!c.querySelector('.eacts').children.length) c.querySelector('.eacts').remove();
+  const list=c.querySelector('.elist'); for(const it of act) list.append(elecRow(caja, it));
+  if(rest.length){ const d=h2(`<details class="erest"${qq?' open':''}><summary>${rest.length===1?'1 posición libre o de otra versión':rest.length+' posiciones libres o de otras versiones'}</summary><div class="elist"></div></details>`); for(const it of rest) d.querySelector('.elist').append(elecRow(caja, it)); c.append(d); }
+  return c; }
+function renderElec(w){
+  const tab=UI.elTab||'fusibles', F=elecBoxes('fusibles'), R=elecBoxes('reles');
+  const nF=F.reduce((a,c)=>a+(c.items||[]).filter(i=>!i.estado||i.estado==='ok').length,0), nR=R.reduce((a,c)=>a+(c.items||[]).filter(i=>!i.estado||i.estado==='ok').length,0);
+  if(!F.length && !R.length){ w.append(emptyCard('zap','Aquí van las <b>cajas de fusibles y relés</b> de tu Touareg con su dibujo numerado y qué protege cada posición. Llegan con el archivo de importación de fusibles y relés.','Importar datos',()=>{ go('mas'); masOpen('importar'); })); renderElecMine(w); return; }
+  w.append(chips([['fusibles',`Fusibles · ${nF}`],['reles',`Relés · ${nR}`]], tab, k=>{ UI.elTab=k; UI.elQ=''; v2Rerender(); }));
+  w.append(h2(`<p class="pintro">${ic(tab==='fusibles'?'fuse':'zap')}<span>${tab==='fusibles'?'Cada caja con su dibujo numerado y qué protege cada fusible. Ya filtrado para tu 2.5 TDI con cambio manual: lo de otras versiones va plegado al final de cada caja.':'Dónde está cada relé, el número que lleva en la tapa (para comprarlo igual) y qué gestiona. Mismo filtrado para tu coche.'}</span></p>`));
+  const sr=h2(`<input class="inp2 ftq" type="search" placeholder="${tab==='fusibles'?'Busca: elevalunas, luneta, SB10, 30 A…':'Busca: bomba, calentadores, J17, 404…'}" value="${esc(UI.elQ||'')}">`); w.append(sr);
+  const res=h2('<div class="eboxes"></div>'); w.append(res);
+  const draw=()=>{ res.innerHTML=''; const q=sr.value.trim(); let n=0; for(const c of (tab==='fusibles'?F:R)){ const card=elecBoxCard(c, q); if(card){ res.append(card); n++; } } if(!n) res.append(h2('<div class="empty2" style="padding:14px">Nada coincide con la búsqueda.</div>')); };
+  sr.oninput=()=>{ UI.elQ=sr.value; draw(); }; draw();
+  renderElecMine(w);
+  elecGoJump();
+}
+/* venir desde el 3D a una caja concreta: salta a ella (la página puede pintarse dos veces al entrar) */
+function elecGoJump(){ const id=UI.elGo; if(!id) return; if(!UI.elGoT) UI.elGoT=Date.now(); if(Date.now()-UI.elGoT>2500){ UI.elGo=UI.elGoT=null; return; } const c=(S.v2.electrico||[]).find(x=>x.id===id); if(!c) return;
+  setTimeout(()=>{ const sec=[...document.querySelectorAll('.page.on .ebox')].find(s=>s.querySelector('header b')?.textContent===c.nombre); if(sec){ sec.scrollIntoView({block:'start', behavior:'auto'}); sec.classList.add('ehit'); setTimeout(()=>sec.classList.remove('ehit'),2400); } }, 280);
+  setTimeout(()=>{ UI.elGo=UI.elGoT=null; }, 2500); }
+/* notas propias antiguas que no son de ninguna caja importada */
+function renderElecMine(w){ const ids=new Set((S.v2.electrico||[]).flatMap(c=>(c.items||[]).map(it=>safeId(c.id+'_'+it.pos)))); const L=(S.fus||[]).filter(f=>!ids.has(f._id)); if(!L.length) return;
+  const c=card2('Tus notas sueltas','edit',L.length); for(const f of L) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'fuse', t:[f.pos, f.circuito].filter(Boolean).join(' · ')||'Nota', s:[f.caja, f.amp?f.amp+' A':'', f.notas].filter(Boolean).join(' · ')})); w.append(c); }
+V2SUBS.coche.fus=renderElec;
+/* el buscador general encuentra fusibles y relés por lo que protegen */
+{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<3) return; const hits=[];
+    for(const c of (S.v2.electrico||[])) for(const it of (c.items||[])){ if(it.estado && it.estado!=='ok') continue; if(norm([it.pos,it.desc,it.cod].join(' ')).includes(q) || norm(it.pos)===q) hits.push([c,it]); }
+    if(!hits.length) return; const out=$('#srRes'); out.querySelector(':scope > .empty2')?.remove(); out.append(h2('<h5>Fusibles y relés</h5>'));
+    for(const [c,it] of hits.slice(0,6)){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic(c.tipo==='fusibles'?'fuse':'zap')}</span><span class="tx"><b>${esc(it.pos)} · ${hl(it.desc||'',q)}</b><small>${esc([c.tipo==='fusibles'&&it.amp?it.amp+' A':it.num?'Relé '+it.num:'', c.corto||c.nombre].filter(Boolean).join(' · '))}</small></span>${ic('chevR')}</button>`);
+      r.onclick=()=>{ closeSearch(); UI.elTab=c.tipo; go('coche','fus'); setTimeout(()=>elecItemSheet(c,it),250); }; out.append(r); } }; }
+{ let k0=''; setInterval(()=>{ const k=(S.fus||[]).map(f=>f._id+(f.notas||'')).join(); if(k!==k0){ const was=k0; k0=k; if(was && V2.cur?.fn===renderElec && document.body.contains(V2.cur.root)) v2Rerender(); } }, 1000); }
+
+/* ====================== MARCADORES 3D ====================== */
+/* ---------- utilidades comunes ---------- */
+const mirU=u=>[1-u[0], u[1], u[2]];
+WCOL.grd='#a3abb4'; WCOLN.grd='gris';
+const BA=(u,a)=>({ref:'body', u, ...(a?{a}:{})});
+let _ground=null;
+function groundY(){ if(_ground!=null) return _ground; let m=Infinity; for(const id of Object.keys(parts)){ if(!/wheel|tyre|tire|rueda/i.test(id)) continue; const b=partBox(id); if(b && b.min.y<m) m=b.min.y; }
+  if(!isFinite(m)){ const b=partBox('body'); m=b?b.min.y-(b.max.y-b.min.y)*.16:0; } return _ground=m; }
+function stopIn(el){ for(const ev of ['pointerdown','mousedown','touchstart','wheel']) el.addEventListener(ev, e=>e.stopPropagation(), {passive:true}); }
+/* ====================== MARCADORES 3D: PUNTOS DE MASA, CENTRALITAS Y CAJAS DE FUSIBLES ======================
+   Solo posiciones aproximadas sobre el modelo; los textos salen de tus guías importadas. */
+const MARCA_U={
+  masa:{ '12':[.15,.5,-.27], '640':[.17,.4,-.15], '13':[.83,.4,-.15], '644':[.83,.4,-.1], '614':[.85,.5,-.27], '608':[.5,.58,0], '647':[.3,.56,0], '645':[.7,.56,0], '646':[.76,.56,.012], '18':[.42,.3,-.12],
+    '32':[.2,.5,.12], '45':[.5,.5,.12], '33':[.8,.5,.12], '639':[.08,.45,.1], '638':[.92,.45,.1], '610':[.5,.38,.18], '637':[.5,.3,.25], '34':[.3,.18,.32], '35':[.7,.18,.32],
+    '632':[.06,.12,.43], '631':[.94,.12,.43], '39':[.3,.2,.58], '49':[.82,.25,.86], '50':[.08,.45,.93], '51':[.92,.45,.93], '58':[.5,.7,.985], '664':[.25,.75,.97], '665':[.75,.75,.97], '667':[.25,.93,.85], '666':[.75,.93,.85] },
+  unidad:{ J623:[.74,.55,-.02], J104:[.79,.5,-.03], J519:{ref:'dash', u:[0.39,0.19,0.27]}, J518:[.5,.42,.12], J745:[.46,.44,.12], J412:[.54,.4,.13], J527:[.3,.5,.18], J502:[.12,.3,.14], J234:[.5,.28,.24],
+    J136:[.3,.17,.34], J505:[.26,.17,.37], J521:[.7,.17,.34], J646:[.7,.15,.3], J499:[.74,.16,.37], J530:[.5,.92,.25], J393:[.88,.4,.82], G384:[.88,.37,.79], J345:[.88,.35,.85], J197:[.9,.45,.92],
+    U13:[.9,.35,.88], R78:[.9,.36,.86], J772:[.9,.33,.9], J446:[.1,.4,.95], J647:[.12,.35,.78], J742:[.5,.1,.92] },
+  caja:{ SB:[.05,.52,.13], SC:[.95,.52,.13], MOT:[.2,.52,-.035], MOTR:[.23,.5,-.03], SD:[.3,.16,.36], SDR:[.33,.16,.38], EBOX:{ref:'dash', u:[0.42,0.24,0.3]} } };
+const MARCA_T={masa:['Puntos de masa','earth'], unidad:['Centralitas','chip'], caja:['Cajas de fusibles y relés','fuse']};
+function marcasData(kind){
+  const out=[]; const anc=v=>Array.isArray(v)?BA(v):v;
+  if(kind==='caja'){ for(const c of (S.v2.electrico||[])){ const u=MARCA_U.caja[c.id]; if(!u) continue; out.push({id:'c_'+c.id, cod:({MOT:'S', EBOX:'E-Box', MOTR:'Relés', SDR:'Relés'})[c.id]||c.id, nombre:c.nombre, tipo:c.tipo==='reles'?'conector':'fusible', ancla:anc(u), donde:c.donde, caja:c.id, tab:c.tipo, zona:c.tipo==='reles'?'Relés':'Fusibles'}); } return out; }
+  const g=(S.procs||[]).find(p=>kind==='masa'?/puntos de masa/i.test(p.titulo||''):/unidades de control|centralitas/i.test(p.titulo||''));
+  for(const p of (g?.pasos||[])){ const t=String(p.texto||'');
+    const m=kind==='masa'?t.match(/^Masa\s+(\d+)\s*·\s*([^:]+):\s*(.*)$/):t.match(/^([A-Z]\d{2,3})\s*·\s*([^:]+):\s*(.*)$/); if(!m) continue;
+    const u=MARCA_U[kind][m[1]]; if(!u) continue;
+    out.push(kind==='masa'?{id:'m'+m[1], cod:m[1], nombre:'Masa '+m[1], tipo:'masa', ancla:anc(u), donde:m[3], zona:m[2].trim()}
+                         :{id:'u'+m[1], cod:m[1], nombre:m[2].trim(), tipo:'unidad', ancla:anc(u), donde:m[3], zona:/maletero|trasero|repuesto/i.test(m[3])?'Detrás':/cámara de agua|vano/i.test(m[3])?'Vano motor':/asiento/i.test(m[3])?'Bajo los asientos':'Salpicadero y consola'}); }
+  return out;
+}
+function marcasShow(kind){
+  const N=marcasData(kind), [tit]=MARCA_T[kind];
+  if(!N.length){ toast(kind==='caja'?'Primero importa «importar-fusibles-y-reles.json» (Más ▸ Importar datos)':'Primero importa «importar-etka-mazos-y-ubicaciones.json»: trae las guías con cada punto', 'err'); return; }
+  wireShow({id:'marcas-'+kind, titulo:tit, marcas:kind, lado:'izq', nodos:N, cables:[]});
+}
+function marcaFly(n){ const l=WIRE.labels.find(x=>x.n===n); if(!l) return; const v=l.v.clone(), f=carFrame(), side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s; if((n.ancla.u?.[0]??0)>.5 && n.ancla.ref==='body') side.negate();
+  const up=new THREE.Vector3(0,1,0), pos=v.clone().add(side.multiplyScalar(1.7)).add(up.multiplyScalar(.9)); leaveCabin?.(); flyTo(v, pos);
+  document.querySelectorAll('.wlab').forEach(x=>x.classList.toggle('on', x===l.el)); document.querySelectorAll('.marcacard .wrow').forEach(r=>r.classList.toggle('on', r.dataset.w===n.id)); }
+function marcaInfo(c,n){ marcaFly(n); const p=document.querySelector('.marcacard .dinfo');
+  if(p){ p.hidden=false; p.innerHTML=`${ic(MARCA_T[c.marcas][1])}<span><b>${esc(n.nombre)}</b> · ${esc(n.donde||'')}</span>`; if(n.caja){ const b=h2(`<button type="button" class="btn2 ghost">${ic('fuse')}Ver su dibujo</button>`); b.onclick=()=>elecGoBox(n.caja, n.tab); p.append(b); } } }
+function elecGoBox(id, tab){ wireClear(); UI.elTab=tab||'fusibles'; UI.elQ=''; UI.elGo=id; go('coche','fus'); }
+function marcasCard(c){
+  document.querySelector('.wirecard')?.remove(); const [tit,icn]=MARCA_T[c.marcas];
+  const cd=h2(`<div class="wirecard marcacard"><div class="wch"><span>${ic(icn)}<b>${esc(tit)}</b><em class="mcnt">${c.nodos.length}</em></span><button type="button" class="wx" aria-label="Cerrar">${ic('x')}</button></div>
+    <p class="wsum">Posición aproximada sobre el modelo. Toca un punto (aquí o en el 3D) para acercarte y ver dónde está.</p><p class="dinfo" hidden></p><details class="wdet"><summary>Lista <em>${c.nodos.length}</em></summary><div class="wrows"></div></details></div>`);
+  const rows=cd.querySelector('.wrows'); let z=null;
+  for(const n of c.nodos){ if(n.zona!==z){ z=n.zona; rows.append(h2(`<h5 class="mzona">${esc(z||'')}</h5>`)); }
+    const r=h2(`<button type="button" class="wrow" data-w="${esc(n.id)}"><i class="mk t-${n.tipo}">${esc(String(n.cod).slice(0,4))}</i><span><b>${esc(n.nombre)}</b><small>${esc(n.donde||'')}</small></span></button>`); r.onclick=()=>{ uiSfx('tap'); marcaInfo(c,n); }; rows.append(r); }
+  if(matchMedia('(min-width:861px)').matches) cd.querySelector('.wdet').open=true;
+  cd.querySelector('.wx').onclick=()=>{ uiSfx('tap'); wireClear(); }; stopIn(cd); stage.append(cd);
+}
+/* sin cables que encuadrar: se encuadran los puntos */
+function marcasFocus(){ const b=new THREE.Box3(); WIRE.labels.forEach(l=>b.expandByPoint(l.v)); if(b.isEmpty()) return; const c=b.getCenter(new THREE.Vector3()), s=Math.max(1.2, b.getSize(new THREE.Vector3()).length());
+  const f=carFrame(), side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s; const fov=(camera.fov||40)*Math.PI/180, dist=Math.max(2.2, s*.62/Math.tan(fov/2)/Math.min(1,camera.aspect||1)); c.y-=dist*Math.tan(fov/2)*.35;
+  leaveCabin?.(); flyTo(c, c.clone().add(side.multiplyScalar(dist*.85)).add(new THREE.Vector3(0,dist*.45,0))); }
+if(window.__wire) window.__wire.names=()=>Object.keys(parts);
+
+/* ====================== DRENAJES DEL TECHO SOLAR ======================
+   Recorrido según la ilustración del manual (N60-0225): los dos delanteros bajan por los pilares A
+   hasta el pie del pilar, detrás del paso de rueda delantero; los dos traseros van por el larguero
+   del techo y bajan por el pilar D hasta la parte baja trasera. Verde = delanteros, gris = traseros. */
+const DREN_L={
+  F:[[.29,.925,.315],[.245,.93,.30],[.175,.925,.272],[.13,.80,.17],[.088,.635,.062],[.064,.46,.075],[.052,.2,.082],[.046,.085,.086]],
+  R:[[.29,.925,.497],[.24,.93,.52],[.185,.926,.565],[.172,.922,.80],[.158,.905,.876],[.12,.72,.918],[.09,.5,.945],[.072,.3,.955],[.066,.2,.957]] };
+const DREN=[
+  {id:'DI', pos:'F', lado:'izq', color:'gn', nombre:'Delantero izquierdo', corto:'Del. izq.', sale:'Pie del pilar A izquierdo, entre la aleta y la puerta delantera (detrás del paso de rueda)', baja:'Por dentro del pilar A izquierdo'},
+  {id:'DD', pos:'F', lado:'der', color:'gn', nombre:'Delantero derecho', corto:'Del. der.', sale:'Pie del pilar A derecho, entre la aleta y la puerta delantera (detrás del paso de rueda)', baja:'Por dentro del pilar A derecho'},
+  {id:'TI', pos:'R', lado:'izq', color:'grd', nombre:'Trasero izquierdo', corto:'Tras. izq.', sale:'Parte baja trasera izquierda, detrás del paso de rueda trasero (bajo el piloto)', baja:'Por el larguero del techo y el pilar D izquierdo'},
+  {id:'TD', pos:'R', lado:'der', color:'grd', nombre:'Trasero derecho', corto:'Tras. der.', sale:'Parte baja trasera derecha, detrás del paso de rueda trasero (bajo el piloto)', baja:'Por el larguero del techo y el pilar D derecho'} ];
+function drenCircuit(){
+  const nodos=[], cables=[];
+  for(const d of DREN){ const P=DREN_L[d.pos].map(u=>d.lado==='der'?mirU(u):u);
+    nodos.push({id:'t'+d.id, h:d.id, cod:d.id, nombre:'Desagüe '+d.corto, tipo:'dren', ancla:BA(P[0]), donde:`Esquina ${d.pos==='F'?'delantera':'trasera'} ${d.lado==='izq'?'izquierda':'derecha'} del marco del techo solar (canaleta)`, nota:'Aquí entra el agua que recoge la canaleta del techo.'});
+    nodos.push({id:'s'+d.id, h:d.id, cod:'↓', nombre:'Salida '+d.corto, tipo:'drensal', ancla:BA(P[P.length-1]), donde:d.sale, nota:'Por aquí debe salir el agua. Suele llevar una válvula de goma que se tapona con barro.'});
+    cables.push({id:d.id, nombre:'Drenaje '+d.nombre.toLowerCase(), color:d.color, seccion:2, de:'Techo solar', a:d.sale, drenaje:true, lado:d.lado, ruta:['t'+d.id, ...P.slice(1,-1).map(u=>BA(u)), 's'+d.id]}); }
+  return {id:'drenajes', titulo:'Drenajes del techo solar', sistema:'Carrocería', drenaje:true, lado:'izq', resumen:'Cuatro mangueras llevan el agua de la canaleta del techo solar hasta abajo: las delanteras (verde) por los pilares A y las traseras (gris) por los pilares D. Toca una para ver cómo baja el agua.', nodos, cables};
+}
+const drenGuide=()=>(S.procs||[]).find(p=>/drenaj/i.test(p.titulo||''));
+function drenShow(){ if(WIRE.on?.drenaje){ wireClear(); return; } wireShow(drenCircuit()); }
+function drenCard(c){
+  document.querySelector('.wirecard')?.remove();
+  const cd=h2(`<div class="wirecard drencard"><div class="wch"><span>${ic('drop')}<b>${esc(c.titulo)}</b></span><button type="button" class="wx" aria-label="Cerrar">${ic('x')}</button></div>
+    <p class="wsum">${esc(c.resumen)}</p><p class="dinfo" hidden></p><div class="wrows drows"></div><div class="row3 wacts"></div></div>`);
+  const rows=cd.querySelector('.drows');
+  for(const d of DREN){ const r=h2(`<button type="button" class="wrow" data-w="${d.id}"><i class="dsw" style="--a:${WCOL[d.color]}"></i><span><b>${esc(d.nombre)}</b><small>${esc(d.baja)}</small></span></button>`);
+    r.onclick=()=>{ uiSfx('tap'); wireHighlight(d.id); }; rows.append(r); }
+  const acts=cd.querySelector('.wacts'), g=drenGuide();
+  const gb=h2(`<button type="button" class="btn2 ghost">${ic('book')}Guía de limpieza</button>`);
+  gb.onclick=()=>{ const gg=drenGuide(); if(gg) guiaRead(gg); else toast('Importa «importar-guia-drenajes.json» (Más ▸ Importar datos) para tener la guía con la ilustración'); };
+  if(!g) gb.classList.add('dim'); acts.append(gb);
+  const fb=h2(`<button type="button" class="btn2 ghost">${ic('eye')}Centrar</button>`); fb.onclick=()=>{ if(WIRE.sel) drenFocus(WIRE.sel); else wireFocus(); }; acts.append(fb);
+  cd.querySelector('.wsum').onclick=e=>e.currentTarget.classList.toggle('open');
+  cd.querySelector('.wx').onclick=()=>{ uiSfx('tap'); wireClear(); };
+  stopIn(cd); stage.append(cd);
+}
+function drenInfo(id){ const p=document.querySelector('.drencard .dinfo'); if(!p) return; const d=DREN.find(x=>x.id===id);
+  if(!d){ p.hidden=true; return; } p.hidden=false; p.innerHTML=`${ic('drop')}<span><b>${esc(d.nombre)}</b> · ${esc(d.baja)}. Sale por: ${esc(d.sale)}.</span>`; }
+
+/* --- animación del agua: entra por la canaleta, recorre la manguera y gotea por abajo --- */
+const DFX={on:false, raf:0, objs:[], t0:0};
+function dfxCanvasTex(w,h,draw){ const c=document.createElement('canvas'); c.width=w; c.height=h; draw(c.getContext('2d'),w,h); const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return t; }
+function dfxDrop(){ return DFX.drop||(DFX.drop=dfxCanvasTex(64,64,(g)=>{ const gr=g.createRadialGradient(28,26,0,32,32,30); gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(.3,'rgba(170,225,255,.95)'); gr.addColorStop(.7,'rgba(50,150,255,.45)'); gr.addColorStop(1,'rgba(50,150,255,0)'); g.fillStyle=gr; g.fillRect(0,0,64,64); })); }
+function dfxRing(){ return DFX.ring||(DFX.ring=dfxCanvasTex(128,128,(g)=>{ g.strokeStyle='rgba(190,235,255,.95)'; g.lineWidth=7; g.beginPath(); g.arc(64,64,52,0,Math.PI*2); g.stroke(); g.strokeStyle='rgba(120,200,255,.5)'; g.lineWidth=3; g.beginPath(); g.arc(64,64,36,0,Math.PI*2); g.stroke(); })); }
+function dfxPool(){ return DFX.pool||(DFX.pool=dfxCanvasTex(128,128,(g)=>{ const gr=g.createRadialGradient(64,64,0,64,64,62); gr.addColorStop(0,'rgba(90,180,255,.75)'); gr.addColorStop(.7,'rgba(70,160,255,.35)'); gr.addColorStop(1,'rgba(70,160,255,0)'); g.fillStyle=gr; g.fillRect(0,0,128,128); })); }
+function dfxFlow(){ return DFX.flow||(DFX.flow=(()=>{ const t=dfxCanvasTex(256,8,(g,w)=>{ const gr=g.createLinearGradient(0,0,w,0); gr.addColorStop(0,'rgba(60,150,255,.55)'); gr.addColorStop(.45,'rgba(120,205,255,.9)'); gr.addColorStop(.6,'rgba(235,250,255,1)'); gr.addColorStop(.75,'rgba(120,205,255,.85)'); gr.addColorStop(1,'rgba(60,150,255,.55)'); g.fillStyle=gr; g.fillRect(0,0,w,8); }); t.wrapS=THREE.RepeatWrapping; return t; })()); }
+function dfxClear(){ cancelAnimationFrame(DFX.raf); for(const o of DFX.objs){ o.removeFromParent(); o.geometry?.dispose?.(); if(o.material){ if(o.material.map && o.material.map!==DFX.drop && o.material.map!==DFX.ring && o.material.map!==DFX.pool && o.material.map!==DFX.flow) o.material.map.dispose(); o.material.dispose(); } } DFX.objs=[]; DFX.on=false; if(typeof dirty!=='undefined') dirty=true; }
+function dfxSet(id){
+  dfxClear(); if(!id || !WIRE.on?.drenaje) return;
+  const t=[...(WIRE.grp?.children||[])].find(x=>x.userData.wire===id && x.userData.curve); if(!t) return;
+  const curve=t.userData.curve, rad=t.userData.rad||.005, len=curve.getLength(), P0=curve.getPointAt(0), P1=curve.getPointAt(1), G=groundY();
+  const add=o=>{ scene.add(o); DFX.objs.push(o); return o; };
+  const seg=Math.min(400, t.userData.seg||160), radial=8;
+  const geo=new THREE.TubeGeometry(curve, seg, rad*1.3, radial, false), tex=dfxFlow().clone(); tex.needsUpdate=true; tex.repeat.set(Math.max(1,len/.22),1);
+  const water=add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({map:tex, transparent:true, opacity:.95, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending}))); water.renderOrder=1002;
+  const spr=(s,map)=>{ const o=add(new THREE.Sprite(new THREE.SpriteMaterial({map:map||dfxDrop(), transparent:true, depthTest:false, depthWrite:false}))); o.renderOrder=1004; o.scale.setScalar(s); return o; };
+  const flat=(map,op)=>{ const o=add(new THREE.Mesh(new THREE.PlaneGeometry(1,1), new THREE.MeshBasicMaterial({map, transparent:true, opacity:op, depthTest:false, depthWrite:false, side:THREE.DoubleSide}))); o.rotation.x=-Math.PI/2; o.renderOrder=1003; return o; };
+  const rnd=(k,a)=>((Math.sin(k*12.9898+a*78.233)*43758.5453)%1+1)%1-.5;
+  const rain=Array.from({length:12},(_,k)=>({o:spr(.024), ph:k/12, dx:rnd(k,1)*.16, dz:rnd(k,2)*.16}));
+  const blobs=Array.from({length:7},(_,k)=>({o:spr(rad*6.5), ph:k/7}));
+  const drips=Array.from({length:6},(_,k)=>({o:spr(.022), ph:k/6, dx:rnd(k,3)*.03, dz:rnd(k,4)*.03, ring:flat(dfxRing(),0)}));
+  const inRing=flat(dfxRing(),0); inRing.position.copy(P0).add(new THREE.Vector3(0,.004,0));
+  const pool=flat(dfxPool(),0); pool.position.set(P1.x, G+.003, P1.z);
+  const FILL0=.6, FILL=Math.max(1.8, Math.min(3.2, len*.9)), RAIN_H=.34;
+  DFX.on=true; DFX.t0=performance.now(); const still=RM;
+  const tick=now=>{ if(!DFX.on) return;
+    if(document.hidden || UI.sec!=='coche' || UI.sub.coche!=='3d'){ DFX.raf=requestAnimationFrame(tick); return; }
+    const s=still?99:(now-DFX.t0)/1000, f=Math.max(0, Math.min(1, (s-FILL0)/FILL));
+    geo.setDrawRange(0, Math.floor(f*seg)*radial*6); tex.offset.x=-(s*1.1)%1;
+    /* lluvia que cae en la esquina del techo */
+    for(const r of rain){ const u=((s/.85)+r.ph)%1, k=1-u; r.o.position.set(P0.x+r.dx*k, P0.y+RAIN_H*(1-u*u), P0.z+r.dz*k); r.o.material.opacity=still?0:(u<.85?.95:(1-u)/.15*.95); }
+    { const w=(s/.42)%1; inRing.scale.setScalar(.02+w*.1); inRing.material.opacity=still?0:(1-w)*.85; }
+    /* el agua avanza por dentro de la manguera */
+    for(const b of blobs){ const u=((s*.42)+b.ph)%1; const on=u<=f; b.o.visible=on || still; const p=curve.getPointAt(Math.min(.999,u)); if(p) b.o.position.copy(p); b.o.material.opacity=.95; }
+    /* gotea por la salida y salpica en el suelo */
+    const out=f>=1;
+    for(const d of drips){ const u=((s/.8)+d.ph)%1; d.o.visible=out; d.o.position.set(P1.x+d.dx*u, P1.y-(P1.y-G)*u*u, P1.z+d.dz*u); d.o.material.opacity=.95;
+      d.ring.visible=out; d.ring.position.set(P1.x+d.dx, G+.004, P1.z+d.dz); d.ring.scale.setScalar(.015+u*.16); d.ring.material.opacity=out?(1-u)*.8:0; }
+    { const pw=out?Math.min(1,(s-FILL0-FILL)/2.5):0; pool.scale.setScalar(.04+pw*.22); pool.material.opacity=pw*.55; }
+    dirty=true; if(!still) DFX.raf=requestAnimationFrame(tick); };
+  DFX.raf=requestAnimationFrame(tick);
+}
+/* encuadre de una manguera entera: desde la lluvia en el techo hasta el charco en el suelo */
+function drenFocus(id){
+  const all=!id, T0=[...(WIRE.grp?.children||[])].filter(x=>all || x.userData.wire===id); const d=all?{lado:'izq', pos:'F'}:DREN.find(x=>x.id===id); if(!T0.length||!d) return;
+  const b=new THREE.Box3(); for(const t of T0){ if(!t.geometry.boundingBox) t.geometry.computeBoundingBox(); b.union(t.geometry.boundingBox.clone().applyMatrix4(t.matrixWorld)); }
+  const t=T0[0], P0=t.userData.curve.getPointAt(0), P1=t.userData.curve.getPointAt(1); if(!all){ b.expandByPoint(P0.clone().add(new THREE.Vector3(0,.38,0))); b.expandByPoint(new THREE.Vector3(P1.x, groundY(), P1.z)); }
+  const c=b.getCenter(new THREE.Vector3()), sz=b.getSize(new THREE.Vector3()).length(), f=carFrame();
+  const side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s*(d.lado==='der'?-1:1); const lng=new THREE.Vector3(); lng[f.lng.k]=f.lng.s*(d.pos==='F'?-1:1);
+  const T=Math.tan((camera.fov||40)*Math.PI/360), asp=camera.aspect||1, hz=Math.hypot(b.max.x-b.min.x, b.max.z-b.min.z), hg=b.max.y-b.min.y;
+  /* arriba van los botones y abajo la ficha: la manguera tiene que caber en la franja libre del medio-alto */
+  const dist=Math.max(1.8, (hg/2)/(.45*T), (hz/2)/(T*asp*.85));
+  c.y-=.3*T*dist;
+  const pos=c.clone().add(side.multiplyScalar(dist*.9)).add(lng.multiplyScalar(dist*(all?.45:.3))).add(new THREE.Vector3(0,dist*(all?.32:.12),0)); leaveCabin?.(); flyTo(c, pos); }
+/* tocar la manguera en el propio modelo */
+{ let pd=null;
+  stage.addEventListener('pointerdown', e=>{ pd=(WIRE.on?.drenaje && e.target===renderer.domElement)?{x:e.clientX,y:e.clientY}:null; }, true);
+  stage.addEventListener('pointerup', e=>{ if(!pd || !WIRE.on?.drenaje) return; const d=pd; pd=null; if(Math.hypot(e.clientX-d.x,e.clientY-d.y)>6) return;
+    const rr=renderer.domElement.getBoundingClientRect(); let best=null, bd=26; camera.updateMatrixWorld();
+    for(const t of (WIRE.grp?.children||[])){ const cv=t.userData.curve; if(!cv) continue; for(let i=0;i<=80;i++){ const p=cv.getPointAt(i/80).project(camera); if(p.z>1) continue; const sx=(p.x+1)/2*rr.width+rr.left, sy=(1-p.y)/2*rr.height+rr.top, dd=Math.hypot(sx-e.clientX, sy-e.clientY); if(dd<bd){ bd=dd; best=t.userData.wire; } } }
+    if(!best) return; e.stopPropagation(); try{ clearTimeout(pressTimer); down=null; }catch{} uiSfx('tap'); if(WIRE.sel!==best) wireHighlight(best); }, true); }
+/* botón «Drenajes» en el visor 3D, junto a Electricidad */
+{ const w=document.querySelector('#tWire')?.closest('.seg'); if(w){ const s=h2(`<div class="seg"><button id="tDren" type="button" aria-pressed="false" title="Recorrido de los drenajes del techo solar">${ic('drop','ti')}<span>Drenajes</span></button></div>`);
+    s.querySelector('button').onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenuClose(); drenShow(); }; w.after(s); } }
+function drenSync(){ const b=$('#tDren'); if(b) b.setAttribute('aria-pressed', String(!!WIRE.on?.drenaje)); }
+
 /* ====================== v2.1: FICHAS POR REFERENCIA ======================
    Una ficha por cada referencia que aparece en cualquier sitio de la app (láminas importadas,
    compras, intervenciones, fichas del modelo 3D). Se construyen solas; lo único que se guarda
@@ -9422,6 +9771,7 @@ MAS2.catalogo=['Piezas', w=>{ UI.fiTab='dibujo'; renderFichas(w); }]; MAS_T.cata
     const hits=refFind(raw).slice(0,6); if(!hits.length) return;
     const out=$('#srRes'); out.querySelector(':scope > .empty2')?.remove(); out.append(h2('<h5>Piezas</h5>'));
     for(const f of hits){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic('tag')}</span><span class="tx"><b>${hl(f.nombre,q)}</b><small>${esc([f.ref, f.uso[0]].filter(Boolean).join(' · '))}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); go('mas'); masOpen('fichas'); setTimeout(()=>fichaSheet(f.k),200); }; out.append(r); } }; }
+
 /* ====================== v2.1: REVISIÓN COMPLETA (navegación, arreglos y textos) ====================== */
 /* ---------- plurales: «3 archivo(s)» → «3 archivos», «1 foto(s)» → «1 foto» en cualquier texto de la app ---------- */
 const pl=(n,s,p)=>`${nf.format(n)} ${n===1?s:(p||s+'s')}`;
@@ -9434,79 +9784,6 @@ function fixPlural(t){ let last=null; return t.replace(/(\d[\d.]*(?:,\d+)?)|([A-
   new MutationObserver(ms=>{ for(const m of ms){ if(m.type==='characterData') fixNode(m.target); else m.addedNodes.forEach(fixNode); } }).observe(document.body,{subtree:true, childList:true, characterData:true});
   fixNode(document.body);
   const _t=toast; toast=function(msg,...r){ return _t(typeof msg==='string'?fixPlural(msg):msg,...r); }; }
-
-/* ---------- 3D: botón «Electricidad» con submenú (Cableado · Fusibles) ---------- */
-{ const SC=SECS.coche.subs; const i=SC.findIndex(x=>x[0]==='fus'); if(i>=0) SC.splice(i,1); document.querySelector('#stCoche button[data-sub="fus"]')?.remove(); }
-let ELOFF=null;
-function elecMenuClose(){ if(ELOFF){ document.removeEventListener('pointerdown', ELOFF, true); ELOFF=null; } document.querySelector('.elecm')?.remove(); document.querySelector('#tWire')?.setAttribute('aria-expanded','false'); }
-function elecMenu(){
-  if(document.querySelector('.elecm')){ elecMenuClose(); return; }
-  const btn=$('#tWire'); if(!btn) return; btn.setAttribute('aria-expanded','true');
-  const nC=S.v2.circuitos.length, nF=(S.fus||[]).length;
-  const m=h2(`<div class="elecm" role="menu"><div class="elech">${ic('zap')}<span>Electricidad</span></div></div>`);
-  const item=(i,t,s,fn,cls)=>{ const b=h2(`<button type="button" role="menuitem" class="${cls||''}"><i>${ic(i)}</i><span><b>${esc(t)}</b><small>${esc(s)}</small></span>${ic('chevR')}</button>`); b.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenuClose(); fn(); }; m.append(b); };
-  item('zap','Cableado', WIRE.on?`Viendo: ${WIRE.on.titulo}`:(nC?`${pl(nC,'circuito')} para ver en 3D`:'Recorrido de los cables en 3D'), wirePicker);
-  if(WIRE.on) item('x','Quitar el cableado','Vuelve a ver el coche normal', ()=>wireClear(), 'muted');
-  item('fuse','Fusibles y relés', nF?`${pl(nF,'fusible')} apuntados`:'Cajas de fusibles con su circuito', ()=>{ if(WIRE.on) wireClear(); go('coche','fus'); });
-  for(const ev of ['pointerdown','mousedown','touchstart','wheel']) m.addEventListener(ev, e=>e.stopPropagation(), {passive:true});
-  stage.append(m);
-  const r=btn.getBoundingClientRect(), sr=stage.getBoundingClientRect(), w=Math.min(300, sr.width-16);
-  m.style.width=w+'px'; m.style.top=(r.bottom-sr.top+8)+'px'; m.style.left=Math.max(8, Math.min(r.left-sr.left, sr.width-w-8))+'px';
-  setTimeout(()=>{ ELOFF=e=>{ if(!e.target.closest('.elecm,#tWire')) elecMenuClose(); }; document.addEventListener('pointerdown', ELOFF, true); }, 0);
-}
-IC.fuse=IC.fuse||'<rect x="3" y="8" width="18" height="8" rx="2"/><path d="M7 8V6M17 8V6M7 18v-2M17 18v-2M9 12h6"/>';
-{ const b=$('#tWire'); if(b){ b.innerHTML=ic('zap','ti')+'<span>Electricidad</span>'+ic('chevD','ti chev'); b.setAttribute('aria-haspopup','menu'); b.title='Cableado de los circuitos y cajas de fusibles'; b.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenu(); }; } }
-IC.chevD=IC.chevD||'<path d="m6 9 6 6 6-6"/>';
-{ const _go=go; go=function(...a){ elecMenuClose(); return _go(...a); }; }
-/* «Fusibles» ya no es pestaña: al entrar se muestra con «atrás» que vuelve al 3D */
-{ const _st=setTop; setTop=function(){ _st(); if(UI.sec==='coche' && UI.sub.coche==='fus'){ $('#t2Title').textContent='Fusibles y relés'; $('#t2Sub').textContent='Coche · Electricidad'; $('#t2Back').hidden=false; } }; }
-$('#t2Back').addEventListener('click', e=>{ if(UI.sec==='coche' && UI.sub.coche==='fus'){ e.stopImmediatePropagation(); uiSfx('tap'); go('coche','3d'); } }, true);
-
-/* ---------- cableado: etiquetas por debajo de la barra de herramientas y sin pisarse ---------- */
-{ let sig=''; const _wl=wireLabels; wireLabels=function(){ _wl(); if(!WIRE.on) return;
-    /* solo se recolocan si la cámara, el tamaño o las etiquetas han cambiado (antes se medía en cada fotograma) */
-    const k=camera.matrixWorld.elements.map(v=>v.toFixed(4)).join()+innerWidth+'x'+innerHeight+WIRE.labels.length+(document.querySelector('.wirecard')?.offsetHeight||0);
-    if(k===sig) return; sig=k;
-    const tb=document.querySelector('.tools')?.getBoundingClientRect(), wc=document.querySelector('.wirecard')?.getBoundingClientRect(); if(!tb) return;
-    const L=WIRE.labels.filter(l=>!l.el.hidden); L.forEach(l=>{ l.el.style.setProperty('--dy','0px'); l.el.classList.remove('moved'); });
-    const R=L.map(l=>({l, r:l.el.getBoundingClientRect()})); const hit=(r,b)=>b && r.bottom>b.top && r.top<b.bottom && r.right>b.left && r.left<b.right;
-    const vis=[]; for(const v of R){ const u=hit(v.r,tb)||hit(v.r,wc); v.l.el.classList.toggle('under', !!u); if(!u) vis.push(v); }
-    vis.sort((a,b)=>b.r.bottom-a.r.bottom); const placed=[];
-    for(const v of vis){ let dy=0; const r={left:v.r.left, right:v.r.right, top:v.r.top, bottom:v.r.bottom}; for(let i=0;i<8;i++){ const o=placed.find(p=>r.left<p.right+2 && r.right>p.left-2 && r.top<p.bottom+2 && r.bottom>p.top-2); if(!o) break; const d=r.bottom-(o.top-3); dy-=d; r.top-=d; r.bottom-=d; }
-      if(dy<0 && hit(r,tb)){ v.l.el.classList.add('under'); continue; }
-      v.l.el.style.setProperty('--dy', dy+'px'); v.l.el.style.setProperty('--dya', (-dy)+'px'); v.l.el.classList.toggle('moved', dy<0); placed.push(r); } }; }
-
-/* ---------- cableado: la corriente recorre el cable elegido ---------- */
-const WFX={on:false, items:[], raf:0, t0:0, sweep:0};
-function wfxTex(){ if(WFX.tex) return WFX.tex; const c=document.createElement('canvas'); c.width=256; c.height=8; const g=c.getContext('2d');
-  const gr=g.createLinearGradient(0,0,256,0); gr.addColorStop(0,'rgba(255,255,255,0)'); gr.addColorStop(.55,'rgba(120,220,255,.25)'); gr.addColorStop(.86,'rgba(190,240,255,.95)'); gr.addColorStop(.93,'rgba(255,255,255,1)'); gr.addColorStop(1,'rgba(255,255,255,0)');
-  g.fillStyle=gr; g.fillRect(0,0,256,8); const t=new THREE.CanvasTexture(c); t.wrapS=THREE.RepeatWrapping; t.colorSpace=THREE.SRGBColorSpace; return WFX.tex=t; }
-function wfxSpark(){ if(WFX.spk) return WFX.spk; const c=document.createElement('canvas'); c.width=c.height=64; const g=c.getContext('2d'); const gr=g.createRadialGradient(32,32,0,32,32,32);
-  gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(.25,'rgba(170,235,255,.9)'); gr.addColorStop(.6,'rgba(60,170,255,.25)'); gr.addColorStop(1,'rgba(60,170,255,0)'); g.fillStyle=gr; g.fillRect(0,0,64,64);
-  const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return WFX.spk=t; }
-function wfxClear(){ for(const it of WFX.items){ it.glow.removeFromParent(); it.glow.geometry.dispose(); it.glow.material.dispose(); it.tex?.dispose?.(); it.spk.forEach(s=>{ s.removeFromParent(); s.material.dispose(); }); } WFX.items=[]; WFX.on=false; cancelAnimationFrame(WFX.raf); dirty=true; }
-function wfxSet(ids, sweep){
-  wfxClear(); if(!WIRE.on || !ids || !ids.size || RM) { return; }
-  const all=[...(WIRE.grp?.children||[]), ...(WIRE.tubes||[])].filter(t=>ids.has(t.userData.wire) && t.userData.curve);
-  for(const t of all){ const len=t.userData.curve.getLength(), rad=t.userData.rad||.004;
-    const geo=new THREE.TubeGeometry(t.userData.curve, Math.min(400, t.userData.seg||80), rad*1.9, 8, false);
-    const tex=wfxTex().clone(); tex.needsUpdate=true; tex.repeat.set(Math.max(1, len/.35), 1);
-    const mat=new THREE.MeshBasicMaterial({map:tex, transparent:true, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending, color:0xffffff});
-    const glow=new THREE.Mesh(geo, mat); glow.renderOrder=1000; t.add(glow);
-    const spk=[0,1,2].map(()=>{ const s=new THREE.Sprite(new THREE.SpriteMaterial({map:wfxSpark(), transparent:true, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending})); s.renderOrder=1001; s.scale.setScalar(rad*14); t.add(s); return s; });
-    WFX.items.push({t, glow, tex, spk, len, ph:Math.random()}); }
-  WFX.on=WFX.items.length>0; WFX.t0=performance.now(); WFX.sweep=sweep?1:0;
-  const tick=now=>{ if(!WFX.on) return; if(document.hidden || UI.sec!=='coche' || UI.sub.coche!=='3d'){ WFX.raf=requestAnimationFrame(tick); return; } const s=(now-WFX.t0)/1000;
-    for(const it of WFX.items){ const sp=.55/Math.max(.4,it.len); it.tex.offset.x=-(s*1.6)%1;
-      it.spk.forEach((p,k)=>{ const u=((s*sp*1.4)+it.ph+k/3)%1; const pt=it.t.userData.curve.getPointAt(Math.min(u,.999)); if(pt) p.position.copy(pt); p.material.opacity=.55+.45*Math.sin(s*14+k*2); });
-      it.glow.material.opacity=.75+.25*Math.sin(s*9+it.ph*6); }
-    dirty=true; WFX.raf=requestAnimationFrame(tick); };
-  WFX.raf=requestAnimationFrame(tick);
-}
-{ const _wh=wireHighlight; wireHighlight=function(id){ _wh(id); wfxSet(WIRE.sel && !String(WIRE.sel).startsWith('n:')?new Set([WIRE.sel]):null); }; }
-/* la corriente animada solo va en el cable que eliges (Sergio, 9-10-2026): tocar un punto solo resalta sus cables */
-{ const _wn=wireNodeInfo; wireNodeInfo=function(c,n){ _wn(c,n); wfxClear(); }; }
-{ const _wc=wireClear; wireClear=function(k){ wfxClear(); return _wc(k); }; }
 
 
 /* ---------- Gráficos: escenario y calidad son de opción única ---------- */
@@ -9539,6 +9816,7 @@ function guiaRead(pr, at){
     if(at===i) li.classList.add('ghit');
     li.querySelector('.gchk').onclick=()=>{ if(done.has(i)) done.delete(i); else { done.add(i); uiSfx('tick'); } li.classList.toggle('on', done.has(i)); upd(); if(done.size===P.length && P.length){ celebrate(); toast('Guía completada'); } };
     ol.append(li); });
+  if(/drenaj/i.test(pr.titulo||'')){ const b=h2(`<button type="button" class="btn2 pri gdren">${ic('drop')}Ver las mangueras en el 3D</button>`); b.onclick=()=>{ closeSheet(); if(!WIRE.on?.drenaje) wireShow(drenCircuit()); }; body.prepend(b); }
   body.append(ol); upd(); if(at!=null) setTimeout(()=>body.querySelector('li.ghit')?.scrollIntoView({block:'start', behavior:'smooth'}),350);
   const acts=[]; if(gHas3D(pr)) acts.push(['Seguir en el 3D','cube',()=>guiaRun3D(pr),'pri']);
   acts.push(['Editar','edit',()=>guiaEdit(pr)]);
@@ -9757,6 +10035,42 @@ function intervalSheet(it){
 Object.assign(window,{docsVig, docCur, docsOf, pl});
 /* ---------- buscador: primero lo que existe, las acciones rápidas al final ---------- */
 { const _rs=runSearch; runSearch=function(raw){ _rs(raw); const out=$('#srRes'), a=out?.querySelector(':scope > .sracts'); if(a && a.nextElementSibling) out.append(a); }; }
+
+/* ---------- Papeles ▸ Archivos: rehecho con el diseño nuevo (los filtros antiguos no se veían) ---------- */
+function archivosAll(){
+  const items=[], isImg=a=>(a.tipo||'').startsWith('image/');
+  for(const x of (S.int||[])) for(const a of (x.adjuntos||[])) items.push({a, t:x.descripcion||itemName(x.mant)||x.tipo||'Intervención', s:fmtDate(x.fecha), f:x.fecha||'', k:isImg(a)?'foto':'factura', o:'Historial'});
+  for(const [id,f] of Object.entries(S.fichas||{})) for(const a of (f.fotos||[])) items.push({a, t:partName(id)||'Pieza', s:'Ficha de pieza del 3D', f:f.actualizado||'', k:isImg(a)?'foto':'factura', o:'Modelo 3D'});
+  for(const d of (S.docs||[])) for(const a of (d.adjuntos||[])) items.push({a, t:d.tipo||'Documento', s:d.nombre||'Documento', f:d.caduca||'', k:'doc', o:'Papeles'});
+  for(const c of (S.compras||[])) for(const a of (c.adjuntos||[])) items.push({a, t:'Compra · '+(c.nombre||''), s:fmtDate(c.fechaCompra), f:c.fechaCompra||'', k:isImg(a)?'foto':'factura', o:'Compras'});
+  for(const r of (S.v2.refs||[])) for(const a of (r.fotos||[])) items.push({a, t:r.nombre||r.ref||'Pieza', s:'Ficha · '+(r.ref||''), f:r.actualizado||'', k:'foto', o:'Piezas'});
+  for(const x of (S.v2.ivtm||[])) for(const a of (x.recibo||[])) items.push({a, t:`IVTM ${x.anio||''}`, s:x.ayuntamiento||'Recibo', f:x.fechaPago||'', k:'doc', o:'IVTM'});
+  return items.sort((a,b)=>String(b.f).localeCompare(String(a.f)));
+}
+function renderArchivos(w){
+  const all=archivosAll(), f=UI.papFilter||'todo';
+  w.append(addBar('Fotografiar factura', ()=>$('#camIn').click()));
+  w.append(h2(`<p class="pintro">${ic('image')}<span>Todas las fotos y facturas del coche juntas, vengan de donde vengan: historial, compras, papeles o piezas.</span></p>`));
+  if(!all.length){ w.append(emptyCard('image','Aún no hay fotos ni facturas. Se guardan al <b>registrar una intervención</b>, en una <b>compra</b>, en un <b>documento</b> o en la ficha de una pieza. Con «Fotografiar factura» la cámara lee el importe y la fecha.')); return; }
+  const n=k=>all.filter(x=>k==='todo'||x.k===k).length;
+  w.append(chips([['todo',`Todo · ${n('todo')}`],['factura',`Facturas · ${n('factura')}`],['foto',`Fotos · ${n('foto')}`],['doc',`De papeles · ${n('doc')}`]], f, k=>{ UI.papFilter=k; v2Rerender(); }));
+  const L=all.filter(x=>f==='todo'||x.k===f);
+  if(!L.length){ w.append(h2('<div class="empty2" style="padding:14px">Nada de este tipo todavía.</div>')); return; }
+  const g=h2('<div class="agal"></div>');
+  for(const x of L){ const c=h2(`<figure class="agi"></figure>`); c.append(attachThumbs([x.a])); c.append(h2(`<figcaption><b>${esc(x.t)}</b><small>${esc([x.s, x.o].filter(Boolean).join(' · '))}</small></figcaption>`)); g.append(c); }
+  w.append(g);
+}
+V2SUBS.papeles.fotos=renderArchivos;
+
+/* ---------- Nueva intervención: sin pestañas debajo (parecía que estabas en «Plan») ---------- */
+{ const _st=setTop; setTop=function(){ _st(); if(document.body.classList.contains('formopen')) $('#t2Sub').textContent='Mantenimiento'+(S.cfg?.kmActual?' · '+nf.format(S.cfg.kmActual)+' km':''); }; }
+/* la página antigua de Archivos se refrescaba sola y tapaba la nueva */
+{ const _rp=renderPapeles; renderPapeles=function(sub){ if(sub==='fotos'){ if(V2.cur?.fn===renderArchivos && document.body.contains(V2.cur.root)) return v2Rerender(); if(UI.sec==='papeles') return openSub('papeles','fotos'); return; } return _rp(sub); }; }
+
+/* barra inferior: cada icono centrado en su píldora (algunos dibujos no están centrados en su cuadro de 24) */
+function navIconsCenter(){ document.querySelectorAll('#nav2 button i svg').forEach(sv=>{ if(sv.dataset.ctr) return; try{ const b=sv.getBBox(); if(!b.width) return; const cx=b.x+b.width/2, cy=b.y+b.height/2; sv.setAttribute('viewBox', `${(cx-12).toFixed(2)} ${(cy-12).toFixed(2)} 24 24`); sv.dataset.ctr='1'; }catch{} }); }
+setTimeout(navIconsCenter, 300); setTimeout(navIconsCenter, 2000);
+
 /* ====================== v2.1: CAPA VISUAL — colección de arte, animaciones y movimiento ====================== */
 /* Ajuste «Animaciones»: todas · discretas · ninguna (además de «reducir movimiento» del sistema) */
 UI.prefs.anim=UI.prefs.anim||'full';
@@ -9844,46 +10158,11 @@ setInterval(()=>{ if(document.hidden) return; document.querySelectorAll('.page.o
 /* ---------- paneles antiguos vacíos: también con ilustración ---------- */
 new MutationObserver(()=>{ const b=$('#ovlBody'); if(!b) return; const p=b.querySelector(':scope > p.empty:first-child'); if(!p || p.previousElementSibling?.matches('svg.art') || b.querySelector(':scope > svg.art')) return;
   const k={pines:'pin', fus:'zap', ave:'alert', procs:'book', docs:'shield', pend:'cube'}[popMode]||'sparkle'; p.insertAdjacentHTML('beforebegin', art(k,'panel')); p.classList.add('empty3'); }).observe($('#ovlBody')||document.body,{childList:true});
-/* ====================== v2.1: REMATES DEL EXAMEN (navegación, Archivos, movimiento) ====================== */
 
-/* ---------- Papeles ▸ Archivos: rehecho con el diseño nuevo (los filtros antiguos no se veían) ---------- */
-function archivosAll(){
-  const items=[], isImg=a=>(a.tipo||'').startsWith('image/');
-  for(const x of (S.int||[])) for(const a of (x.adjuntos||[])) items.push({a, t:x.descripcion||itemName(x.mant)||x.tipo||'Intervención', s:fmtDate(x.fecha), f:x.fecha||'', k:isImg(a)?'foto':'factura', o:'Historial'});
-  for(const [id,f] of Object.entries(S.fichas||{})) for(const a of (f.fotos||[])) items.push({a, t:partName(id)||'Pieza', s:'Ficha de pieza del 3D', f:f.actualizado||'', k:isImg(a)?'foto':'factura', o:'Modelo 3D'});
-  for(const d of (S.docs||[])) for(const a of (d.adjuntos||[])) items.push({a, t:d.tipo||'Documento', s:d.nombre||'Documento', f:d.caduca||'', k:'doc', o:'Papeles'});
-  for(const c of (S.compras||[])) for(const a of (c.adjuntos||[])) items.push({a, t:'Compra · '+(c.nombre||''), s:fmtDate(c.fechaCompra), f:c.fechaCompra||'', k:isImg(a)?'foto':'factura', o:'Compras'});
-  for(const r of (S.v2.refs||[])) for(const a of (r.fotos||[])) items.push({a, t:r.nombre||r.ref||'Pieza', s:'Ficha · '+(r.ref||''), f:r.actualizado||'', k:'foto', o:'Piezas'});
-  for(const x of (S.v2.ivtm||[])) for(const a of (x.recibo||[])) items.push({a, t:`IVTM ${x.anio||''}`, s:x.ayuntamiento||'Recibo', f:x.fechaPago||'', k:'doc', o:'IVTM'});
-  return items.sort((a,b)=>String(b.f).localeCompare(String(a.f)));
-}
-function renderArchivos(w){
-  const all=archivosAll(), f=UI.papFilter||'todo';
-  w.append(addBar('Fotografiar factura', ()=>$('#camIn').click()));
-  w.append(h2(`<p class="pintro">${ic('image')}<span>Todas las fotos y facturas del coche juntas, vengan de donde vengan: historial, compras, papeles o piezas.</span></p>`));
-  if(!all.length){ w.append(emptyCard('image','Aún no hay fotos ni facturas. Se guardan al <b>registrar una intervención</b>, en una <b>compra</b>, en un <b>documento</b> o en la ficha de una pieza. Con «Fotografiar factura» la cámara lee el importe y la fecha.')); return; }
-  const n=k=>all.filter(x=>k==='todo'||x.k===k).length;
-  w.append(chips([['todo',`Todo · ${n('todo')}`],['factura',`Facturas · ${n('factura')}`],['foto',`Fotos · ${n('foto')}`],['doc',`De papeles · ${n('doc')}`]], f, k=>{ UI.papFilter=k; v2Rerender(); }));
-  const L=all.filter(x=>f==='todo'||x.k===f);
-  if(!L.length){ w.append(h2('<div class="empty2" style="padding:14px">Nada de este tipo todavía.</div>')); return; }
-  const g=h2('<div class="agal"></div>');
-  for(const x of L){ const c=h2(`<figure class="agi"></figure>`); c.append(attachThumbs([x.a])); c.append(h2(`<figcaption><b>${esc(x.t)}</b><small>${esc([x.s, x.o].filter(Boolean).join(' · '))}</small></figcaption>`)); g.append(c); }
-  w.append(g);
-}
-V2SUBS.papeles.fotos=renderArchivos;
-
-/* ---------- Nueva intervención: sin pestañas debajo (parecía que estabas en «Plan») ---------- */
-{ const _st=setTop; setTop=function(){ _st(); if(document.body.classList.contains('formopen')) $('#t2Sub').textContent='Mantenimiento'+(S.cfg?.kmActual?' · '+nf.format(S.cfg.kmActual)+' km':''); }; }
-
-/* ---------- Ficha → lámina: se marca la posición de la pieza ---------- */
-{ const _ls=laminaSheet; laminaSheet=function(l){ const pos=UI.lamPos; UI.lamPos=null; const r=_ls(l); if(pos!=null) setTimeout(()=>{ const tr=[...document.querySelectorAll('#shBox .pzt tbody tr')].find(t=>t.firstElementChild?.textContent.trim()===String(pos)); if(tr){ tr.classList.add('lamhit'); tr.scrollIntoView({block:'center', behavior:ANIMON()?'smooth':'auto'}); } }, 260); return r; }; }
-
+/* ====================== MOVIMIENTO Y REMATES ====================== */
 /* ---------- estados vacíos de los paneles antiguos que no empiezan por el texto (Averías…) ---------- */
 new MutationObserver(()=>{ const b=$('#ovlBody'); if(!b) return; const k={pines:'pin', ave:'alert', procs:'book', docs:'shield', pend:'cube'}[popMode]; if(!k) return;
   for(const p of b.querySelectorAll('p.empty')){ if(/^Nada coincide/.test(p.textContent) || p.parentElement.querySelector(':scope > svg.art') || b.querySelector('svg.art')) continue; p.insertAdjacentHTML('beforebegin', art(k,'panel')); p.classList.add('empty3'); break; } }).observe($('#ovlBody')||document.body,{childList:true, subtree:true});
-/* la página antigua de Archivos se refrescaba sola y tapaba la nueva */
-{ const _rp=renderPapeles; renderPapeles=function(sub){ if(sub==='fotos'){ if(V2.cur?.fn===renderArchivos && document.body.contains(V2.cur.root)) return v2Rerender(); if(UI.sec==='papeles') return openSub('papeles','fotos'); return; } return _rp(sub); }; }
-
 /* ====================== MOVIMIENTO ====================== */
 /* (las páginas ya entran escalonadas desde la 1.7: aquí se añaden las hojas y el buscador) */
 function fxIn(root, sel){ if(!root || !ANIMON()) return; const L=[...root.querySelectorAll(sel||':scope > *')].filter(e=>e.offsetParent!==null).slice(0,14);
@@ -9892,307 +10171,17 @@ function fxIn(root, sel){ if(!root || !ANIMON()) return; const L=[...root.queryS
 new MutationObserver(()=>{ const s=$('#sheet2'); if(!s || s.hidden) return; const b=$('#shBox'); const t=b?.querySelector('.dbody>div, .fgrid2, .fich'); if(t) fxIn(t); }).observe($('#sheet2'),{attributes:true, attributeFilter:['hidden']});
 /* buscador: los resultados aparecen escalonados */
 { const _rs=runSearch; runSearch=function(raw){ _rs(raw); if(!ANIMON()) return; [...($('#srRes')?.querySelectorAll(':scope > .r2, :scope > button, :scope > h5')||[])].slice(0,16).forEach((e,i)=>{ e.style.setProperty('--si',i); e.classList.add('srin'); }); }; }
-
-/* cableado: las etiquetas aparecen una a una (los cables ya no se animan al abrir: solo el que eliges) */
-{ const _wb=wireBuild; wireBuild=function(c){ const r=_wb(c);
-    if(ANIMON()){
-      WIRE.labels.forEach((l,i)=>{ l.el.style.setProperty('--ld', (300+i*70)+'ms'); l.el.classList.add('lin'); setTimeout(()=>l.el.classList.remove('lin'), 1400+i*70); }); }
-    return r; }; }
-
 /* tarjeta de Inicio: un brillo cruza la tarjeta del coche al entrar */
 { const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); if(ANIMON()) document.querySelectorAll('.card2.hmini').forEach(c=>{ if(c.dataset.sh) return; c.dataset.sh='1'; c.classList.add('sheen'); setTimeout(()=>c.classList.remove('sheen'),1600); }); return r; }; }
 
 /* al guardar: el botón «respira» un momento (confirmación visual además del aviso) */
 document.addEventListener('click', e=>{ const b=e.target.closest?.('.recacts [data-a="ok"], .btn2.pri'); if(!b || !ANIMON()) return; b.classList.remove('pressok'); void b.offsetWidth; b.classList.add('pressok'); }, true);
-
-/* al cerrar el cableado la cámara vuelve a la vista normal (antes se quedaba mirando el suelo) */
-{ const _wc=wireClear; wireClear=function(keepX){ const was=!!WIRE.on; const r=_wc(keepX); if(was && !keepX){ try{ setView('iso'); }catch{} } return r; }; }
-
 /* cifras: en español «4.200» también lleva punto (el navegador lo quita en números de 4 cifras) */
 { const nl=Number.prototype.toLocaleString; let ok=false; try{ ok=nl.call(4200,'es-ES',{useGrouping:'always'})==='4.200'; }catch{}
   Number.prototype.toLocaleString=function(loc, opt){ if(loc==='es-ES' || loc==='es'){ if(ok) return nl.call(this, 'es-ES', {useGrouping:'always', ...(opt||{})}); if(!opt || (opt.style!=='unit' && !opt.notation)) return nl.call(this, 'de-DE', opt); } return nl.call(this, loc, opt); }; }
 { const INF=Intl.NumberFormat; let ok=false; try{ ok=new INF('es-ES',{useGrouping:'always'}).format(4200)==='4.200'; }catch{}
   const NF=function(loc, opt){ if(loc==='es-ES' || loc==='es'){ if(ok) return new INF('es-ES',{useGrouping:'always', ...(opt||{})}); if(!opt || (opt.style!=='unit' && !opt.notation)) return new INF('de-DE', opt); } return new INF(loc, opt); };
   NF.prototype=INF.prototype; NF.supportedLocalesOf=INF.supportedLocalesOf.bind(INF); try{ Intl.NumberFormat=NF; }catch{} }
-
-/* cableado: al elegir un cable la cámara se acerca a él (los de dentro de la puerta quedaban tapados por la ficha) */
-function wireFocusIds(ids){
-  const b=new THREE.Box3(); for(const t of [...(WIRE.grp?.children||[]), ...(WIRE.tubes||[])]) if(ids.has(t.userData.wire)){ t.updateWorldMatrix(true,false); if(!t.geometry.boundingBox) t.geometry.computeBoundingBox(); b.union(t.geometry.boundingBox.clone().applyMatrix4(t.matrixWorld)); } if(b.isEmpty()) return;
-  const c=b.getCenter(new THREE.Vector3()), s=b.getSize(new THREE.Vector3()).length(), f=carFrame(), side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s; if(WIRE.on?.lado==='der') side.negate();
-  const fov=(camera.fov||40)*Math.PI/180, asp=Math.min(1, camera.aspect||1), dist=Math.max(1.05, (s*0.6)/Math.tan(fov/2)/asp);
-  c.y-=dist*Math.tan(fov/2)*0.42; const pos=c.clone().add(side.multiplyScalar(dist*0.92)).add(new THREE.Vector3(0, dist*0.3, 0)); flyTo(c, pos); }
-{ const _wh=wireHighlight; wireHighlight=function(id){ _wh(id); if(!WIRE.on) return; if(WIRE.sel && !String(WIRE.sel).startsWith('n:')) wireFocusIds(new Set([WIRE.sel])); else wireFocus(); }; }
-/* ====================== v2.1.x: ajustes pedidos el 9-10-2026 ====================== */
-/* cableado: posiciones corregidas a mano sobre el modelo (se aplican aunque el circuito importado traiga otra) */
-const ANCLA_FIX={ J519:{ancla:{ref:'dash', u:[0.39,0.19,0.27]}, donde:'Bajo el salpicadero, entre el volante y los pedales, pegada al lateral izquierdo de la consola central (ElsaWin «Control units», 203/60).'} };
-function circFix(c){ if(!c?.nodos?.some(n=>ANCLA_FIX[n.id]||ANCLA_FIX[n.cod])) return c; return {...c, nodos:c.nodos.map(n=>{ const f=ANCLA_FIX[n.id]||ANCLA_FIX[n.cod]; return f?{...n, ...f}:n; })}; }
-{ const _ws=wireShow; wireShow=function(c){ return _ws(circFix(c)); }; }
-
-/* barra inferior: cada icono centrado en su píldora (algunos dibujos no están centrados en su cuadro de 24) */
-function navIconsCenter(){ document.querySelectorAll('#nav2 button i svg').forEach(sv=>{ if(sv.dataset.ctr) return; try{ const b=sv.getBBox(); if(!b.width) return; const cx=b.x+b.width/2, cy=b.y+b.height/2; sv.setAttribute('viewBox', `${(cx-12).toFixed(2)} ${(cy-12).toFixed(2)} 24 24`); sv.dataset.ctr='1'; }catch{} }); }
-setTimeout(navIconsCenter, 300); setTimeout(navIconsCenter, 2000);
-if(window.__wire) window.__wire.names=()=>Object.keys(parts);
-/* ====================== v2.1: FUSIBLES Y RELÉS (cajas importadas, mismo diseño para los dos) ======================
-   Colección «electrico»: un documento por caja {id, tipo:'fusibles'|'reles', nombre, corto, donde, guia, img, items:[…]}
-   fusible: {pos, amp, desc, nota, estado:'ok'|'libre'|'na'}   relé: {pos, cod, num, desc, nota, falla, estado}
-   Las notas propias de cada posición van en la colección antigua «fusibles» (id = caja_pos). */
-C2.push('electrico'); S.v2.electrico=[]; COLN.electrico='Fusibles y relés (cajas)';
-const FCOL={'5':'#d8b27a','7.5':'#8a5a2c','10':'#e0362c','15':'#2f6fe0','20':'#f2c12e','25':'#e9e9e9','30':'#3cb44b','40':'#f58220','50':'#e0362c','60':'#2f6fe0','80':'#e9e9e9'};
-function fuseColor(a){ const k=String(a||'').split('/')[0].replace(',','.'); return FCOL[k]||'#9aa3ad'; }
-function fuseIcon(a){ const c=fuseColor(a), big=Number(String(a).split('/')[0])>=100;
-  return big?`<span class="fz big" style="--fc:#b9c0c8"><i></i><b>${esc(String(a))}</b></span>`:`<span class="fz${String(a||'').length>2?' w':''}" style="--fc:${c}"><i></i><b>${esc(String(a||'—'))}</b></span>`; }
-function relayIcon(n){ return `<span class="rz"><i></i><b>${esc(String(n||'—'))}</b></span>`; }
-const elecBoxes=t=>(S.v2.electrico||[]).filter(c=>c.tipo===t).sort((a,b)=>(a.orden??99)-(b.orden??99));
-function elecNote(caja, it){ return (S.fus||[]).find(f=>f._id===safeId(caja.id+'_'+it.pos)) || null; }
-function elecGuide(caja){ if(!caja.guia) return null; const pr=(S.procs||[]).find(p=>p.titulo===caja.guia.titulo); return pr?{pr, at:caja.guia.paso??null}:null; }
-function elecItemSheet(caja, it){
-  const fus=caja.tipo==='fusibles', mine=elecNote(caja, it), body=h2('<div class="eldet"></div>');
-  body.append(h2(`<div class="elhead">${fus?fuseIcon(it.amp):relayIcon(it.num)}<div><b>${esc(it.pos)}</b><small>${esc(caja.nombre)}</small></div></div>`));
-  body.append(kv([[fus?'Amperaje':'Relé n.º (en la tapa)', fus?(it.amp?esc(String(it.amp))+' A':'Sin dato'):esc(String(it.num||'—'))], ['Código', it.cod?esc(it.cod):null],
-    [fus?'Qué protege':'Qué gestiona', esc(it.desc||'—')], ['Nota', it.nota?esc(it.nota):null], ['Si falla', it.falla?esc(it.falla):null], ['Dónde está la caja', esc(caja.donde||'')]]));
-  const ta=h2(`<div class="ff full"><label class="lab2">Tus notas</label><textarea class="inp2" rows="3" placeholder="Cambiado el …, de repuesto en la guantera, lo que sea"></textarea></div>`); ta.querySelector('textarea').value=mine?.notas||''; body.append(ta);
-  const g=elecGuide(caja), acts=[['Guardar nota','check',async()=>{ const v=ta.querySelector('textarea').value.trim(); if(!S.db) return toast('Inicia sesión para guardar','err');
-      const id=safeId(caja.id+'_'+it.pos); try{ if(v) await S.db.collection('fusibles').doc(id).set({caja:caja.nombre, pos:it.pos, amp:fus?String(it.amp||''):'', circuito:it.desc||'', notas:v, tipo:fus?'fusible':'rele', actualizado:new Date().toISOString()}); else if(mine) await S.db.collection('fusibles').doc(id).delete(); closeSheet(); toast(v?'Nota guardada':'Nota quitada'); }catch{ toast('No se pudo guardar','err'); } },'pri']];
-  if(g) acts.push(['Cómo llegar','book',()=>{ closeSheet(); setTimeout(()=>guiaRead(g.pr, g.at),120); }]);
-  detailSheet(`${it.pos} · ${fus?(it.amp?it.amp+' A':'fusible'):'relé'}`, it.desc||'', body, acts);
-}
-function elecRow(caja, it){
-  const fus=caja.tipo==='fusibles', mine=elecNote(caja, it);
-  const b=h2(`<button type="button" class="elrow st-${it.estado||'ok'}"><span class="epos">${esc(it.pos)}</span>${fus?fuseIcon(it.amp):relayIcon(it.num)}<span class="tx"><b>${esc(it.desc||'—')}</b>${[it.cod, it.nota, mine?.notas?'Tu nota: '+mine.notas:''].filter(Boolean).length?`<small>${esc([it.cod, it.nota, mine?.notas?'Tu nota: '+mine.notas:''].filter(Boolean).join(' · '))}</small>`:''}</span>${ic('chevR')}</button>`);
-  b.onclick=()=>{ uiSfx('tap'); elecItemSheet(caja, it); }; return b; }
-function elecBoxCard(caja, q){
-  const fus=caja.tipo==='fusibles', all=caja.items||[], qq=norm(q||'');
-  const match=it=>!qq || norm([it.pos, it.desc, it.cod, it.nota, it.num, it.amp&&it.amp+'a'].join(' ')).includes(qq) || norm(it.pos)===qq;
-  const L=all.filter(match); if(qq && !L.length) return null;
-  const act=L.filter(it=>!it.estado || it.estado==='ok'), rest=L.filter(it=>it.estado && it.estado!=='ok');
-  const c=h2(`<section class="ebox"><header><span class="eic">${ic(fus?'fuse':'zap')}</span><div class="tx"><b>${esc(caja.nombre)}</b><small>${esc(caja.donde||'')}</small></div><span class="ecnt">${act.length}</span></header><div class="eart"></div><div class="eacts"></div><div class="elist"></div></section>`);
-  if(caja.img?.id && !qq){ const im=h2(`<button type="button" class="eimg" aria-label="Ver la ilustración a pantalla completa"><img alt="Ilustración de ${esc(caja.nombre)}"><span>${ic('search')}Ampliar</span></button>`); window.FB?.blobURL(caja.img.id).then(u=>im.querySelector('img').src=u).catch(()=>im.remove()); im.onclick=()=>openViewer({id:caja.img.id, tipo:caja.img.tipo||'image/jpeg', nombre:caja.nombre}); c.querySelector('.eart').append(im); } else c.querySelector('.eart').remove();
-  const g=elecGuide(caja); if(g && !qq){ const bb=h2(`<button type="button" class="btn2 ghost sm">${ic('book')}Cómo llegar</button>`); bb.onclick=()=>{ uiSfx('tap'); guiaRead(g.pr, g.at); }; c.querySelector('.eacts').append(bb); }
-  if(caja.nota && !qq) c.querySelector('.eacts').append(h2(`<p class="muted2">${esc(caja.nota)}</p>`));
-  if(!c.querySelector('.eacts').children.length) c.querySelector('.eacts').remove();
-  const list=c.querySelector('.elist'); for(const it of act) list.append(elecRow(caja, it));
-  if(rest.length){ const d=h2(`<details class="erest"${qq?' open':''}><summary>${rest.length===1?'1 posición libre o de otra versión':rest.length+' posiciones libres o de otras versiones'}</summary><div class="elist"></div></details>`); for(const it of rest) d.querySelector('.elist').append(elecRow(caja, it)); c.append(d); }
-  return c; }
-function renderElec(w){
-  const tab=UI.elTab||'fusibles', F=elecBoxes('fusibles'), R=elecBoxes('reles');
-  const nF=F.reduce((a,c)=>a+(c.items||[]).filter(i=>!i.estado||i.estado==='ok').length,0), nR=R.reduce((a,c)=>a+(c.items||[]).filter(i=>!i.estado||i.estado==='ok').length,0);
-  if(!F.length && !R.length){ w.append(emptyCard('zap','Aquí van las <b>cajas de fusibles y relés</b> de tu Touareg con su dibujo numerado y qué protege cada posición. Llegan con el archivo de importación de fusibles y relés.','Importar datos',()=>{ go('mas'); masOpen('importar'); })); renderElecMine(w); return; }
-  w.append(chips([['fusibles',`Fusibles · ${nF}`],['reles',`Relés · ${nR}`]], tab, k=>{ UI.elTab=k; UI.elQ=''; v2Rerender(); }));
-  w.append(h2(`<p class="pintro">${ic(tab==='fusibles'?'fuse':'zap')}<span>${tab==='fusibles'?'Cada caja con su dibujo numerado y qué protege cada fusible. Ya filtrado para tu 2.5 TDI con cambio manual: lo de otras versiones va plegado al final de cada caja.':'Dónde está cada relé, el número que lleva en la tapa (para comprarlo igual) y qué gestiona. Mismo filtrado para tu coche.'}</span></p>`));
-  const sr=h2(`<input class="inp2 ftq" type="search" placeholder="${tab==='fusibles'?'Busca: elevalunas, luneta, SB10, 30 A…':'Busca: bomba, calentadores, J17, 404…'}" value="${esc(UI.elQ||'')}">`); w.append(sr);
-  const res=h2('<div class="eboxes"></div>'); w.append(res);
-  const draw=()=>{ res.innerHTML=''; const q=sr.value.trim(); let n=0; for(const c of (tab==='fusibles'?F:R)){ const card=elecBoxCard(c, q); if(card){ res.append(card); n++; } } if(!n) res.append(h2('<div class="empty2" style="padding:14px">Nada coincide con la búsqueda.</div>')); };
-  sr.oninput=()=>{ UI.elQ=sr.value; draw(); }; draw();
-  renderElecMine(w);
-}
-/* notas propias antiguas que no son de ninguna caja importada */
-function renderElecMine(w){ const ids=new Set((S.v2.electrico||[]).flatMap(c=>(c.items||[]).map(it=>safeId(c.id+'_'+it.pos)))); const L=(S.fus||[]).filter(f=>!ids.has(f._id)); if(!L.length) return;
-  const c=card2('Tus notas sueltas','edit',L.length); for(const f of L) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'fuse', t:[f.pos, f.circuito].filter(Boolean).join(' · ')||'Nota', s:[f.caja, f.amp?f.amp+' A':'', f.notas].filter(Boolean).join(' · ')})); w.append(c); }
-V2SUBS.coche.fus=renderElec;
-/* el menú Electricidad cuenta lo importado */
-{ const _em=elecMenu; elecMenu=function(){ _em(); const m=document.querySelector('.elecm'); if(!m) return; const nF=elecBoxes('fusibles').reduce((a,c)=>a+(c.items||[]).filter(i=>!i.estado||i.estado==='ok').length,0), nR=elecBoxes('reles').reduce((a,c)=>a+(c.items||[]).filter(i=>!i.estado||i.estado==='ok').length,0);
-    const b=[...m.querySelectorAll('button')].find(x=>/Fusibles/.test(x.textContent)); if(b && (nF||nR)) b.querySelector('small').textContent=`${nF} fusibles y ${nR} relés, con su dibujo`; }; }
-/* el buscador general encuentra fusibles y relés por lo que protegen */
-{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<3) return; const hits=[];
-    for(const c of (S.v2.electrico||[])) for(const it of (c.items||[])){ if(it.estado && it.estado!=='ok') continue; if(norm([it.pos,it.desc,it.cod].join(' ')).includes(q) || norm(it.pos)===q) hits.push([c,it]); }
-    if(!hits.length) return; const out=$('#srRes'); out.querySelector(':scope > .empty2')?.remove(); out.append(h2('<h5>Fusibles y relés</h5>'));
-    for(const [c,it] of hits.slice(0,6)){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic(c.tipo==='fusibles'?'fuse':'zap')}</span><span class="tx"><b>${esc(it.pos)} · ${hl(it.desc||'',q)}</b><small>${esc([c.tipo==='fusibles'&&it.amp?it.amp+' A':it.num?'Relé '+it.num:'', c.corto||c.nombre].filter(Boolean).join(' · '))}</small></span>${ic('chevR')}</button>`);
-      r.onclick=()=>{ closeSearch(); UI.elTab=c.tipo; go('coche','fus'); setTimeout(()=>elecItemSheet(c,it),250); }; out.append(r); } }; }
-{ let k0=''; setInterval(()=>{ const k=(S.fus||[]).map(f=>f._id+(f.notas||'')).join(); if(k!==k0){ const was=k0; k0=k; if(was && V2.cur?.fn===renderElec && document.body.contains(V2.cur.root)) v2Rerender(); } }, 1000); }
-
-/* ====================== v2.1 oficial: DRENAJES, MARCADORES 3D, PLAN EN EL TIEMPO Y ATAJOS ====================== */
-IC.drop=IC.drop||'<path d="M12 3s6 6.4 6 11a6 6 0 0 1-12 0c0-4.6 6-11 6-11z"/><path d="M9.5 15.5a2.6 2.6 0 0 0 2.5 2"/>';
-IC.pinD=IC.pinD||'<path d="M12 21s-6-5.6-6-10.5A6 6 0 0 1 18 10.5C18 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.2"/>';
-IC.chip=IC.chip||'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>';
-IC.earth=IC.earth||'<path d="M12 3v9M6 12h12M8.5 15.5h7M11 19h2"/>';
-
-/* ---------- utilidades comunes ---------- */
-const mirU=u=>[1-u[0], u[1], u[2]];
-WCOL.grd='#a3abb4'; WCOLN.grd='gris';
-const BA=(u,a)=>({ref:'body', u, ...(a?{a}:{})});
-let _ground=null;
-function groundY(){ if(_ground!=null) return _ground; let m=Infinity; for(const id of Object.keys(parts)){ if(!/wheel|tyre|tire|rueda/i.test(id)) continue; const b=partBox(id); if(b && b.min.y<m) m=b.min.y; }
-  if(!isFinite(m)){ const b=partBox('body'); m=b?b.min.y-(b.max.y-b.min.y)*.16:0; } return _ground=m; }
-function stopIn(el){ for(const ev of ['pointerdown','mousedown','touchstart','wheel']) el.addEventListener(ev, e=>e.stopPropagation(), {passive:true}); }
-
-/* ====================== DRENAJES DEL TECHO SOLAR ======================
-   Recorrido según la ilustración del manual (N60-0225): los dos delanteros bajan por los pilares A
-   hasta el pie del pilar, detrás del paso de rueda delantero; los dos traseros van por el larguero
-   del techo y bajan por el pilar D hasta la parte baja trasera. Verde = delanteros, gris = traseros. */
-const DREN_L={
-  F:[[.29,.925,.315],[.245,.93,.30],[.175,.925,.272],[.13,.80,.17],[.088,.635,.062],[.064,.46,.075],[.052,.2,.082],[.046,.085,.086]],
-  R:[[.29,.925,.497],[.24,.93,.52],[.185,.926,.565],[.172,.922,.80],[.158,.905,.876],[.12,.72,.918],[.09,.5,.945],[.072,.3,.955],[.066,.2,.957]] };
-const DREN=[
-  {id:'DI', pos:'F', lado:'izq', color:'gn', nombre:'Delantero izquierdo', corto:'Del. izq.', sale:'Pie del pilar A izquierdo, entre la aleta y la puerta delantera (detrás del paso de rueda)', baja:'Por dentro del pilar A izquierdo'},
-  {id:'DD', pos:'F', lado:'der', color:'gn', nombre:'Delantero derecho', corto:'Del. der.', sale:'Pie del pilar A derecho, entre la aleta y la puerta delantera (detrás del paso de rueda)', baja:'Por dentro del pilar A derecho'},
-  {id:'TI', pos:'R', lado:'izq', color:'grd', nombre:'Trasero izquierdo', corto:'Tras. izq.', sale:'Parte baja trasera izquierda, detrás del paso de rueda trasero (bajo el piloto)', baja:'Por el larguero del techo y el pilar D izquierdo'},
-  {id:'TD', pos:'R', lado:'der', color:'grd', nombre:'Trasero derecho', corto:'Tras. der.', sale:'Parte baja trasera derecha, detrás del paso de rueda trasero (bajo el piloto)', baja:'Por el larguero del techo y el pilar D derecho'} ];
-function drenCircuit(){
-  const nodos=[], cables=[];
-  for(const d of DREN){ const P=DREN_L[d.pos].map(u=>d.lado==='der'?mirU(u):u);
-    nodos.push({id:'t'+d.id, h:d.id, cod:d.id, nombre:'Desagüe '+d.corto, tipo:'dren', ancla:BA(P[0]), donde:`Esquina ${d.pos==='F'?'delantera':'trasera'} ${d.lado==='izq'?'izquierda':'derecha'} del marco del techo solar (canaleta)`, nota:'Aquí entra el agua que recoge la canaleta del techo.'});
-    nodos.push({id:'s'+d.id, h:d.id, cod:'↓', nombre:'Salida '+d.corto, tipo:'drensal', ancla:BA(P[P.length-1]), donde:d.sale, nota:'Por aquí debe salir el agua. Suele llevar una válvula de goma que se tapona con barro.'});
-    cables.push({id:d.id, nombre:'Drenaje '+d.nombre.toLowerCase(), color:d.color, seccion:2, de:'Techo solar', a:d.sale, drenaje:true, lado:d.lado, ruta:['t'+d.id, ...P.slice(1,-1).map(u=>BA(u)), 's'+d.id]}); }
-  return {id:'drenajes', titulo:'Drenajes del techo solar', sistema:'Carrocería', drenaje:true, lado:'izq', resumen:'Cuatro mangueras llevan el agua de la canaleta del techo solar hasta abajo: las delanteras (verde) por los pilares A y las traseras (gris) por los pilares D. Toca una para ver cómo baja el agua.', nodos, cables};
-}
-const drenGuide=()=>(S.procs||[]).find(p=>/drenaj/i.test(p.titulo||''));
-function drenShow(){ if(WIRE.on?.drenaje){ wireClear(); return; } wireShow(drenCircuit()); }
-function drenCard(c){
-  document.querySelector('.wirecard')?.remove();
-  const cd=h2(`<div class="wirecard drencard"><div class="wch"><span>${ic('drop')}<b>${esc(c.titulo)}</b></span><button type="button" class="wx" aria-label="Cerrar">${ic('x')}</button></div>
-    <p class="wsum">${esc(c.resumen)}</p><p class="dinfo" hidden></p><div class="wrows drows"></div><div class="row3 wacts"></div></div>`);
-  const rows=cd.querySelector('.drows');
-  for(const d of DREN){ const r=h2(`<button type="button" class="wrow" data-w="${d.id}"><i class="dsw" style="--a:${WCOL[d.color]}"></i><span><b>${esc(d.nombre)}</b><small>${esc(d.baja)}</small></span></button>`);
-    r.onclick=()=>{ uiSfx('tap'); wireHighlight(d.id); }; rows.append(r); }
-  const acts=cd.querySelector('.wacts'), g=drenGuide();
-  const gb=h2(`<button type="button" class="btn2 ghost">${ic('book')}Guía de limpieza</button>`);
-  gb.onclick=()=>{ const gg=drenGuide(); if(gg) guiaRead(gg); else toast('Importa «importar-guia-drenajes.json» (Más ▸ Importar datos) para tener la guía con la ilustración'); };
-  if(!g) gb.classList.add('dim'); acts.append(gb);
-  const fb=h2(`<button type="button" class="btn2 ghost">${ic('eye')}Centrar</button>`); fb.onclick=()=>{ if(WIRE.sel) drenFocus(WIRE.sel); else wireFocus(); }; acts.append(fb);
-  cd.querySelector('.wsum').onclick=e=>e.currentTarget.classList.toggle('open');
-  cd.querySelector('.wx').onclick=()=>{ uiSfx('tap'); wireClear(); };
-  stopIn(cd); stage.append(cd);
-}
-function drenInfo(id){ const p=document.querySelector('.drencard .dinfo'); if(!p) return; const d=DREN.find(x=>x.id===id);
-  if(!d){ p.hidden=true; return; } p.hidden=false; p.innerHTML=`${ic('drop')}<span><b>${esc(d.nombre)}</b> · ${esc(d.baja)}. Sale por: ${esc(d.sale)}.</span>`; }
-
-/* --- animación del agua: entra por la canaleta, recorre la manguera y gotea por abajo --- */
-const DFX={on:false, raf:0, objs:[], t0:0};
-function dfxCanvasTex(w,h,draw){ const c=document.createElement('canvas'); c.width=w; c.height=h; draw(c.getContext('2d'),w,h); const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return t; }
-function dfxDrop(){ return DFX.drop||(DFX.drop=dfxCanvasTex(64,64,(g)=>{ const gr=g.createRadialGradient(28,26,0,32,32,30); gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(.3,'rgba(170,225,255,.95)'); gr.addColorStop(.7,'rgba(50,150,255,.45)'); gr.addColorStop(1,'rgba(50,150,255,0)'); g.fillStyle=gr; g.fillRect(0,0,64,64); })); }
-function dfxRing(){ return DFX.ring||(DFX.ring=dfxCanvasTex(128,128,(g)=>{ g.strokeStyle='rgba(190,235,255,.95)'; g.lineWidth=7; g.beginPath(); g.arc(64,64,52,0,Math.PI*2); g.stroke(); g.strokeStyle='rgba(120,200,255,.5)'; g.lineWidth=3; g.beginPath(); g.arc(64,64,36,0,Math.PI*2); g.stroke(); })); }
-function dfxPool(){ return DFX.pool||(DFX.pool=dfxCanvasTex(128,128,(g)=>{ const gr=g.createRadialGradient(64,64,0,64,64,62); gr.addColorStop(0,'rgba(90,180,255,.75)'); gr.addColorStop(.7,'rgba(70,160,255,.35)'); gr.addColorStop(1,'rgba(70,160,255,0)'); g.fillStyle=gr; g.fillRect(0,0,128,128); })); }
-function dfxFlow(){ return DFX.flow||(DFX.flow=(()=>{ const t=dfxCanvasTex(256,8,(g,w)=>{ const gr=g.createLinearGradient(0,0,w,0); gr.addColorStop(0,'rgba(60,150,255,.55)'); gr.addColorStop(.45,'rgba(120,205,255,.9)'); gr.addColorStop(.6,'rgba(235,250,255,1)'); gr.addColorStop(.75,'rgba(120,205,255,.85)'); gr.addColorStop(1,'rgba(60,150,255,.55)'); g.fillStyle=gr; g.fillRect(0,0,w,8); }); t.wrapS=THREE.RepeatWrapping; return t; })()); }
-function dfxClear(){ cancelAnimationFrame(DFX.raf); for(const o of DFX.objs){ o.removeFromParent(); o.geometry?.dispose?.(); if(o.material){ if(o.material.map && o.material.map!==DFX.drop && o.material.map!==DFX.ring && o.material.map!==DFX.pool && o.material.map!==DFX.flow) o.material.map.dispose(); o.material.dispose(); } } DFX.objs=[]; DFX.on=false; if(typeof dirty!=='undefined') dirty=true; }
-function dfxSet(id){
-  dfxClear(); if(!id || !WIRE.on?.drenaje) return;
-  const t=[...(WIRE.grp?.children||[])].find(x=>x.userData.wire===id && x.userData.curve); if(!t) return;
-  const curve=t.userData.curve, rad=t.userData.rad||.005, len=curve.getLength(), P0=curve.getPointAt(0), P1=curve.getPointAt(1), G=groundY();
-  const add=o=>{ scene.add(o); DFX.objs.push(o); return o; };
-  const seg=Math.min(400, t.userData.seg||160), radial=8;
-  const geo=new THREE.TubeGeometry(curve, seg, rad*1.3, radial, false), tex=dfxFlow().clone(); tex.needsUpdate=true; tex.repeat.set(Math.max(1,len/.22),1);
-  const water=add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({map:tex, transparent:true, opacity:.95, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending}))); water.renderOrder=1002;
-  const spr=(s,map)=>{ const o=add(new THREE.Sprite(new THREE.SpriteMaterial({map:map||dfxDrop(), transparent:true, depthTest:false, depthWrite:false}))); o.renderOrder=1004; o.scale.setScalar(s); return o; };
-  const flat=(map,op)=>{ const o=add(new THREE.Mesh(new THREE.PlaneGeometry(1,1), new THREE.MeshBasicMaterial({map, transparent:true, opacity:op, depthTest:false, depthWrite:false, side:THREE.DoubleSide}))); o.rotation.x=-Math.PI/2; o.renderOrder=1003; return o; };
-  const rnd=(k,a)=>((Math.sin(k*12.9898+a*78.233)*43758.5453)%1+1)%1-.5;
-  const rain=Array.from({length:12},(_,k)=>({o:spr(.024), ph:k/12, dx:rnd(k,1)*.16, dz:rnd(k,2)*.16}));
-  const blobs=Array.from({length:7},(_,k)=>({o:spr(rad*6.5), ph:k/7}));
-  const drips=Array.from({length:6},(_,k)=>({o:spr(.022), ph:k/6, dx:rnd(k,3)*.03, dz:rnd(k,4)*.03, ring:flat(dfxRing(),0)}));
-  const inRing=flat(dfxRing(),0); inRing.position.copy(P0).add(new THREE.Vector3(0,.004,0));
-  const pool=flat(dfxPool(),0); pool.position.set(P1.x, G+.003, P1.z);
-  const FILL0=.6, FILL=Math.max(1.8, Math.min(3.2, len*.9)), RAIN_H=.34;
-  DFX.on=true; DFX.t0=performance.now(); const still=RM;
-  const tick=now=>{ if(!DFX.on) return;
-    if(document.hidden || UI.sec!=='coche' || UI.sub.coche!=='3d'){ DFX.raf=requestAnimationFrame(tick); return; }
-    const s=still?99:(now-DFX.t0)/1000, f=Math.max(0, Math.min(1, (s-FILL0)/FILL));
-    geo.setDrawRange(0, Math.floor(f*seg)*radial*6); tex.offset.x=-(s*1.1)%1;
-    /* lluvia que cae en la esquina del techo */
-    for(const r of rain){ const u=((s/.85)+r.ph)%1, k=1-u; r.o.position.set(P0.x+r.dx*k, P0.y+RAIN_H*(1-u*u), P0.z+r.dz*k); r.o.material.opacity=still?0:(u<.85?.95:(1-u)/.15*.95); }
-    { const w=(s/.42)%1; inRing.scale.setScalar(.02+w*.1); inRing.material.opacity=still?0:(1-w)*.85; }
-    /* el agua avanza por dentro de la manguera */
-    for(const b of blobs){ const u=((s*.42)+b.ph)%1; const on=u<=f; b.o.visible=on || still; const p=curve.getPointAt(Math.min(.999,u)); if(p) b.o.position.copy(p); b.o.material.opacity=.95; }
-    /* gotea por la salida y salpica en el suelo */
-    const out=f>=1;
-    for(const d of drips){ const u=((s/.8)+d.ph)%1; d.o.visible=out; d.o.position.set(P1.x+d.dx*u, P1.y-(P1.y-G)*u*u, P1.z+d.dz*u); d.o.material.opacity=.95;
-      d.ring.visible=out; d.ring.position.set(P1.x+d.dx, G+.004, P1.z+d.dz); d.ring.scale.setScalar(.015+u*.16); d.ring.material.opacity=out?(1-u)*.8:0; }
-    { const pw=out?Math.min(1,(s-FILL0-FILL)/2.5):0; pool.scale.setScalar(.04+pw*.22); pool.material.opacity=pw*.55; }
-    dirty=true; if(!still) DFX.raf=requestAnimationFrame(tick); };
-  DFX.raf=requestAnimationFrame(tick);
-}
-/* elegir manguera: resalta, acerca la cámara y lanza el agua (en vez de la «corriente» de los cables) */
-{ const _wh=wireHighlight; wireHighlight=function(id){ const dren=!!WIRE.on?.drenaje; if(dren){ const d=DREN.find(x=>x.id===id); if(d) WIRE.on.lado=d.lado; }
-    _wh(id); if(!dren) return; wfxClear(); const sel=WIRE.sel && !String(WIRE.sel).startsWith('n:')?WIRE.sel:null; dfxSet(sel); drenInfo(sel); if(sel) drenFocus(sel); }; }
-/* encuadre de una manguera entera: desde la lluvia en el techo hasta el charco en el suelo */
-function drenFocus(id){
-  const all=!id, T0=[...(WIRE.grp?.children||[])].filter(x=>all || x.userData.wire===id); const d=all?{lado:'izq', pos:'F'}:DREN.find(x=>x.id===id); if(!T0.length||!d) return;
-  const b=new THREE.Box3(); for(const t of T0){ if(!t.geometry.boundingBox) t.geometry.computeBoundingBox(); b.union(t.geometry.boundingBox.clone().applyMatrix4(t.matrixWorld)); }
-  const t=T0[0], P0=t.userData.curve.getPointAt(0), P1=t.userData.curve.getPointAt(1); if(!all){ b.expandByPoint(P0.clone().add(new THREE.Vector3(0,.38,0))); b.expandByPoint(new THREE.Vector3(P1.x, groundY(), P1.z)); }
-  const c=b.getCenter(new THREE.Vector3()), sz=b.getSize(new THREE.Vector3()).length(), f=carFrame();
-  const side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s*(d.lado==='der'?-1:1); const lng=new THREE.Vector3(); lng[f.lng.k]=f.lng.s*(d.pos==='F'?-1:1);
-  const T=Math.tan((camera.fov||40)*Math.PI/360), asp=camera.aspect||1, hz=Math.hypot(b.max.x-b.min.x, b.max.z-b.min.z), hg=b.max.y-b.min.y;
-  /* arriba van los botones y abajo la ficha: la manguera tiene que caber en la franja libre del medio-alto */
-  const dist=Math.max(1.8, (hg/2)/(.45*T), (hz/2)/(T*asp*.85));
-  c.y-=.3*T*dist;
-  const pos=c.clone().add(side.multiplyScalar(dist*.9)).add(lng.multiplyScalar(dist*(all?.45:.3))).add(new THREE.Vector3(0,dist*(all?.32:.12),0)); leaveCabin?.(); flyTo(c, pos); }
-{ const _wc=wireClear; wireClear=function(k){ dfxClear(); return _wc(k); }; }
-/* tocar una etiqueta de drenaje = elegir su manguera */
-{ const _wn=wireNodeInfo; wireNodeInfo=function(c,n){ if(c?.drenaje){ if(WIRE.sel===n.h) WIRE.sel=null; wireHighlight(n.h); document.querySelectorAll('.wlab').forEach(l=>l.classList.toggle('on', WIRE.labels.find(x=>x.el===l)?.n.h===WIRE.sel)); return; }
-    if(c?.marcas) return marcaInfo(c,n); return _wn(c,n); }; }
-{ const _wcd=wireCard; wireCard=function(c){ if(c?.drenaje) return drenCard(c); if(c?.marcas) return marcasCard(c); return _wcd(c); }; }
-/* tocar la manguera en el propio modelo */
-{ let pd=null;
-  stage.addEventListener('pointerdown', e=>{ pd=(WIRE.on?.drenaje && e.target===renderer.domElement)?{x:e.clientX,y:e.clientY}:null; }, true);
-  stage.addEventListener('pointerup', e=>{ if(!pd || !WIRE.on?.drenaje) return; const d=pd; pd=null; if(Math.hypot(e.clientX-d.x,e.clientY-d.y)>6) return;
-    const rr=renderer.domElement.getBoundingClientRect(); let best=null, bd=26; camera.updateMatrixWorld();
-    for(const t of (WIRE.grp?.children||[])){ const cv=t.userData.curve; if(!cv) continue; for(let i=0;i<=80;i++){ const p=cv.getPointAt(i/80).project(camera); if(p.z>1) continue; const sx=(p.x+1)/2*rr.width+rr.left, sy=(1-p.y)/2*rr.height+rr.top, dd=Math.hypot(sx-e.clientX, sy-e.clientY); if(dd<bd){ bd=dd; best=t.userData.wire; } } }
-    if(!best) return; e.stopPropagation(); try{ clearTimeout(pressTimer); down=null; }catch{} uiSfx('tap'); if(WIRE.sel!==best) wireHighlight(best); }, true); }
-/* botón «Drenajes» en el visor 3D, junto a Electricidad */
-{ const w=document.querySelector('#tWire')?.closest('.seg'); if(w){ const s=h2(`<div class="seg"><button id="tDren" type="button" aria-pressed="false" title="Recorrido de los drenajes del techo solar">${ic('drop','ti')}<span>Drenajes</span></button></div>`);
-    s.querySelector('button').onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenuClose(); drenShow(); }; w.after(s); } }
-{ const sync=()=>{ const b=$('#tDren'); if(b) b.setAttribute('aria-pressed', String(!!WIRE.on?.drenaje)); };
-  const _ws=wireShow; wireShow=function(c){ const r=_ws(c); setTimeout(sync,700); return r; };
-  const _wc=wireClear; wireClear=function(k){ const r=_wc(k); sync(); return r; }; }
-/* desde la guía de drenajes: ver el recorrido en el 3D */
-{ const _gr=guiaRead; guiaRead=function(pr, at){ const r=_gr(pr, at); if(/drenaj/i.test(pr?.titulo||'')){ const b=h2(`<button type="button" class="btn2 pri gdren">${ic('drop')}Ver las mangueras en el 3D</button>`); b.onclick=()=>{ closeSheet(); if(!WIRE.on?.drenaje) wireShow(drenCircuit()); }; document.querySelector('#shBox .gread')?.prepend(b); } return r; }; }
-
-/* ====================== MARCADORES 3D: PUNTOS DE MASA, CENTRALITAS Y CAJAS DE FUSIBLES ======================
-   Solo posiciones aproximadas sobre el modelo; los textos salen de tus guías importadas. */
-const MARCA_U={
-  masa:{ '12':[.15,.5,-.27], '640':[.17,.4,-.15], '13':[.83,.4,-.15], '644':[.83,.4,-.1], '614':[.85,.5,-.27], '608':[.5,.58,0], '647':[.3,.56,0], '645':[.7,.56,0], '646':[.76,.56,.012], '18':[.42,.3,-.12],
-    '32':[.2,.5,.12], '45':[.5,.5,.12], '33':[.8,.5,.12], '639':[.08,.45,.1], '638':[.92,.45,.1], '610':[.5,.38,.18], '637':[.5,.3,.25], '34':[.3,.18,.32], '35':[.7,.18,.32],
-    '632':[.06,.12,.43], '631':[.94,.12,.43], '39':[.3,.2,.58], '49':[.82,.25,.86], '50':[.08,.45,.93], '51':[.92,.45,.93], '58':[.5,.7,.985], '664':[.25,.75,.97], '665':[.75,.75,.97], '667':[.25,.93,.85], '666':[.75,.93,.85] },
-  unidad:{ J623:[.74,.55,-.02], J104:[.79,.5,-.03], J519:{ref:'dash', u:[0.39,0.19,0.27]}, J518:[.5,.42,.12], J745:[.46,.44,.12], J412:[.54,.4,.13], J527:[.3,.5,.18], J502:[.12,.3,.14], J234:[.5,.28,.24],
-    J136:[.3,.17,.34], J505:[.26,.17,.37], J521:[.7,.17,.34], J646:[.7,.15,.3], J499:[.74,.16,.37], J530:[.5,.92,.25], J393:[.88,.4,.82], G384:[.88,.37,.79], J345:[.88,.35,.85], J197:[.9,.45,.92],
-    U13:[.9,.35,.88], R78:[.9,.36,.86], J772:[.9,.33,.9], J446:[.1,.4,.95], J647:[.12,.35,.78], J742:[.5,.1,.92] },
-  caja:{ SB:[.05,.52,.13], SC:[.95,.52,.13], MOT:[.2,.52,-.035], MOTR:[.23,.5,-.03], SD:[.3,.16,.36], SDR:[.33,.16,.38], EBOX:{ref:'dash', u:[0.42,0.24,0.3]} } };
-const MARCA_T={masa:['Puntos de masa','earth'], unidad:['Centralitas','chip'], caja:['Cajas de fusibles y relés','fuse']};
-function marcasData(kind){
-  const out=[]; const anc=v=>Array.isArray(v)?BA(v):v;
-  if(kind==='caja'){ for(const c of (S.v2.electrico||[])){ const u=MARCA_U.caja[c.id]; if(!u) continue; out.push({id:'c_'+c.id, cod:({MOT:'S', EBOX:'E-Box', MOTR:'Relés', SDR:'Relés'})[c.id]||c.id, nombre:c.nombre, tipo:c.tipo==='reles'?'conector':'fusible', ancla:anc(u), donde:c.donde, caja:c.id, tab:c.tipo, zona:c.tipo==='reles'?'Relés':'Fusibles'}); } return out; }
-  const g=(S.procs||[]).find(p=>kind==='masa'?/puntos de masa/i.test(p.titulo||''):/unidades de control|centralitas/i.test(p.titulo||''));
-  for(const p of (g?.pasos||[])){ const t=String(p.texto||'');
-    const m=kind==='masa'?t.match(/^Masa\s+(\d+)\s*·\s*([^:]+):\s*(.*)$/):t.match(/^([A-Z]\d{2,3})\s*·\s*([^:]+):\s*(.*)$/); if(!m) continue;
-    const u=MARCA_U[kind][m[1]]; if(!u) continue;
-    out.push(kind==='masa'?{id:'m'+m[1], cod:m[1], nombre:'Masa '+m[1], tipo:'masa', ancla:anc(u), donde:m[3], zona:m[2].trim()}
-                         :{id:'u'+m[1], cod:m[1], nombre:m[2].trim(), tipo:'unidad', ancla:anc(u), donde:m[3], zona:/maletero|trasero|repuesto/i.test(m[3])?'Detrás':/cámara de agua|vano/i.test(m[3])?'Vano motor':/asiento/i.test(m[3])?'Bajo los asientos':'Salpicadero y consola'}); }
-  return out;
-}
-function marcasShow(kind){
-  const N=marcasData(kind), [tit]=MARCA_T[kind];
-  if(!N.length){ toast(kind==='caja'?'Primero importa «importar-fusibles-y-reles.json» (Más ▸ Importar datos)':'Primero importa «importar-etka-mazos-y-ubicaciones.json»: trae las guías con cada punto', 'err'); return; }
-  wireShow({id:'marcas-'+kind, titulo:tit, marcas:kind, lado:'izq', nodos:N, cables:[]});
-}
-function marcaFly(n){ const l=WIRE.labels.find(x=>x.n===n); if(!l) return; const v=l.v.clone(), f=carFrame(), side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s; if((n.ancla.u?.[0]??0)>.5 && n.ancla.ref==='body') side.negate();
-  const up=new THREE.Vector3(0,1,0), pos=v.clone().add(side.multiplyScalar(1.7)).add(up.multiplyScalar(.9)); leaveCabin?.(); flyTo(v, pos);
-  document.querySelectorAll('.wlab').forEach(x=>x.classList.toggle('on', x===l.el)); document.querySelectorAll('.marcacard .wrow').forEach(r=>r.classList.toggle('on', r.dataset.w===n.id)); }
-function marcaInfo(c,n){ marcaFly(n); const p=document.querySelector('.marcacard .dinfo');
-  if(p){ p.hidden=false; p.innerHTML=`${ic(MARCA_T[c.marcas][1])}<span><b>${esc(n.nombre)}</b> · ${esc(n.donde||'')}</span>`; if(n.caja){ const b=h2(`<button type="button" class="btn2 ghost">${ic('fuse')}Ver su dibujo</button>`); b.onclick=()=>elecGoBox(n.caja, n.tab); p.append(b); } } }
-function elecGoBox(id, tab){ wireClear(); UI.elTab=tab||'fusibles'; UI.elQ=''; UI.elGo=id; go('coche','fus'); }
-{ const _re=renderElec; renderElec=function(w){ _re(w); const id=UI.elGo; if(!id) return; if(!UI.elGoT) UI.elGoT=Date.now(); if(Date.now()-UI.elGoT>2500){ UI.elGo=UI.elGoT=null; return; } const c=(S.v2.electrico||[]).find(x=>x.id===id); if(!c) return;
-    /* la página puede volver a pintarse al entrar: se repite el salto mientras dure el aviso */
-    setTimeout(()=>{ const sec=[...document.querySelectorAll('.page.on .ebox')].find(s=>s.querySelector('header b')?.textContent===c.nombre); if(sec){ sec.scrollIntoView({block:'start', behavior:'auto'}); sec.classList.add('ehit'); setTimeout(()=>sec.classList.remove('ehit'),2400); } }, 280);
-    setTimeout(()=>{ UI.elGo=UI.elGoT=null; }, 2500); };
-  V2SUBS.coche.fus=renderElec; }
-function marcasCard(c){
-  document.querySelector('.wirecard')?.remove(); const [tit,icn]=MARCA_T[c.marcas];
-  const cd=h2(`<div class="wirecard marcacard"><div class="wch"><span>${ic(icn)}<b>${esc(tit)}</b><em class="mcnt">${c.nodos.length}</em></span><button type="button" class="wx" aria-label="Cerrar">${ic('x')}</button></div>
-    <p class="wsum">Posición aproximada sobre el modelo. Toca un punto (aquí o en el 3D) para acercarte y ver dónde está.</p><p class="dinfo" hidden></p><details class="wdet"><summary>Lista <em>${c.nodos.length}</em></summary><div class="wrows"></div></details></div>`);
-  const rows=cd.querySelector('.wrows'); let z=null;
-  for(const n of c.nodos){ if(n.zona!==z){ z=n.zona; rows.append(h2(`<h5 class="mzona">${esc(z||'')}</h5>`)); }
-    const r=h2(`<button type="button" class="wrow" data-w="${esc(n.id)}"><i class="mk t-${n.tipo}">${esc(String(n.cod).slice(0,4))}</i><span><b>${esc(n.nombre)}</b><small>${esc(n.donde||'')}</small></span></button>`); r.onclick=()=>{ uiSfx('tap'); marcaInfo(c,n); }; rows.append(r); }
-  if(matchMedia('(min-width:861px)').matches) cd.querySelector('.wdet').open=true;
-  cd.querySelector('.wx').onclick=()=>{ uiSfx('tap'); wireClear(); }; stopIn(cd); stage.append(cd);
-}
-/* sin cables que encuadrar: se encuadran los puntos; los drenajes, enteros */
-{ const _wf=wireFocus; wireFocus=function(){ if(WIRE.on?.drenaje){ try{ setView('iso'); }catch{} return; } if(!WIRE.on?.marcas) return _wf(); const b=new THREE.Box3(); WIRE.labels.forEach(l=>b.expandByPoint(l.v)); if(b.isEmpty()) return; const c=b.getCenter(new THREE.Vector3()), s=Math.max(1.2, b.getSize(new THREE.Vector3()).length());
-    const f=carFrame(), side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s; const fov=(camera.fov||40)*Math.PI/180, dist=Math.max(2.2, s*.62/Math.tan(fov/2)/Math.min(1,camera.aspect||1)); c.y-=dist*Math.tan(fov/2)*.35;
-    leaveCabin?.(); flyTo(c, c.clone().add(side.multiplyScalar(dist*.85)).add(new THREE.Vector3(0,dist*.45,0))); }; }
-/* menú Electricidad: nuevas entradas */
-{ const _em=elecMenu; elecMenu=function(){ _em(); const m=document.querySelector('.elecm'); if(!m) return;
-    const item=(i,t,s,fn)=>{ const b=h2(`<button type="button" role="menuitem"><i>${ic(i)}</i><span><b>${esc(t)}</b><small>${esc(s)}</small></span>${ic('chevR')}</button>`); b.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenuClose(); fn(); }; m.append(b); };
-    item('fuse','Cajas en el 3D','Dónde está cada caja de fusibles y relés', ()=>marcasShow('caja'));
-    item('earth','Puntos de masa','Los tornillos de masa sobre el modelo', ()=>marcasShow('masa'));
-    item('chip','Centralitas','Dónde va cada unidad de control', ()=>marcasShow('unidad')); }; }
 
 /* ====================== MANTENIMIENTO: LO QUE VIENE, EN UNA LÍNEA DE TIEMPO ====================== */
 function mantTimeline(){
@@ -10230,6 +10219,7 @@ function pintroFix(root){ for(const p of (root||document).querySelectorAll?.('.p
     requestAnimationFrame(()=>{ if(s.scrollHeight>s.clientHeight+4){ p.classList.add('clamp'); p.setAttribute('role','button'); p.tabIndex=0; p.title='Toca para leer todo'; p.addEventListener('click',()=>{ p.classList.toggle('open'); }); } }); } }
 new MutationObserver(ms=>{ for(const m of ms) for(const n of m.addedNodes) if(n.nodeType===1 && (n.classList?.contains('pintro') || n.querySelector?.('.pintro'))) pintroFix(n.classList?.contains('pintro')?n.parentElement:n); }).observe(document.body,{childList:true, subtree:true});
 setTimeout(()=>pintroFix(document),800);
+
 
 connectDb();
 { const h=(location.hash||'').slice(1); go(SECS[h]?h:'inicio'); }
