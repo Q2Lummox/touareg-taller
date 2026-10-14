@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.1-beta.3">
+<meta name="app-version" content="2.1.1-beta.4">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2448,7 +2448,7 @@ body[data-sec="mas"] #nav2 .navpill{opacity:0}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.1-beta.3</span>
+  <span class="spver">v2.1.1-beta.4</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5863,7 +5863,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.1-beta.3';
+  const APP_VERSION='2.1.1-beta.4';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -10286,6 +10286,8 @@ $('#xray')?.addEventListener('click', e=>{ if(!S.ghostOnly) return; e.stopImmedi
 document.addEventListener('touchstart', e=>{ if(stage.contains(e.target)) G=null; }, {passive:true});
 /* inercia más corta en pantallas táctiles: el giro se para donde sueltas, sin derivas */
 if(matchMedia('(pointer:coarse)').matches){ controls.dampingFactor=.16; }
+/* inventario del modelo (para pruebas y para la lista de piezas) */
+if(window.__wire) window.__wire.inv=()=>Object.entries(parts).map(([id,p])=>{ let t=0; for(const m of p.meshes){ const g=m.geometry; t+=(g.index?g.index.count:g.attributes.position.count)/3; } const b=partBox(id), s=b?b.getSize(new THREE.Vector3()):null; return {id:id.replace(/^Touareg2008_/,''), n:p.name, l:p.layer, m:p.meshes.length, t:Math.round(t), s:s?[s.x,s.y,s.z].map(v=>+v.toFixed(2)):null}; });
 
 /* ====================== TRANSICIONES Y SONIDOS AL CAMBIAR DE PANTALLA (2.1.1) ======================
    Secciones: la pantalla entra deslizándose y enfocándose, con un barrido de luz arriba y un «fsss» con dirección.
@@ -10429,6 +10431,50 @@ v2MasHome=function(pb){
 /* notas en el modelo y piezas sin referencia: dentro del 3D, en el panel de Piezas */
 { const sp=document.querySelector('#secPiezas .field.search'); if(sp){ const box=h2(`<div class="p3dx"><button type="button">${ic('pin')}<span>Notas en el modelo</span></button><button type="button">${ic('cube')}<span>Piezas sin referencia</span></button></div>`);
     const [a,b]=box.querySelectorAll('button'); a.onclick=()=>{ uiSfx('tap'); openGlobal('pines'); }; b.onclick=()=>{ uiSfx('tap'); openGlobal('pend'); }; sp.after(box); } }
+
+/* ====================== MODELO 3D · FASE 0: piezas separadas (2.1.1) ======================
+   La geometría la separa scripts/split_parts.py (out/web -> out/web2 -> pwa/model2). Aquí van los nombres y capas.
+   Los ids que ya existían se quedan con una de las partes (la izquierda o la principal), así no se pierden
+   los enlaces de fichas, mantenimiento y notas. */
+{ const set=(id,name,layer)=>{ const k=(id.startsWith('Rueda')||id.startsWith('Llanta'))?id:P+id; C[k]={...(C[k]||{}), name, layer:layer||C[k]?.layer}; };
+  const LR=(id,izq,der,layer)=>{ set(id,izq,layer); set(id+'_der',der,layer||C[P+id]?.layer); };
+  /* frenos y suspensión: cada lado por separado */
+  LR('caliper_F','Pinza delantera izquierda','Pinza delantera derecha','frenos');
+  LR('caliper_R','Pinza trasera izquierda','Pinza trasera derecha','frenos');
+  LR('strut_F','Amortiguador delantero izquierdo','Amortiguador delantero derecho','suspension');
+  LR('shock_R','Amortiguador trasero izquierdo','Amortiguador trasero derecho','suspension');
+  LR('spring_R','Muelle trasero izquierdo','Muelle trasero derecho','suspension');
+  LR('hub_F','Mangueta y buje delantero izquierdo','Mangueta y buje delantero derecho','suspension');
+  LR('hub_R','Mangueta y buje trasero izquierdo','Mangueta y buje trasero derecho','suspension');
+  LR('tierod_F','Barra de acoplamiento izquierda','Barra de acoplamiento derecha','suspension');
+  LR('tierod_R','Tirante de convergencia trasero izquierdo','Tirante de convergencia trasero derecho','suspension');
+  LR('lowerarm_R','Brazo inferior trasero izquierdo','Brazo inferior trasero derecho','suspension');
+  LR('upperarm_R','Brazo superior trasero izquierdo','Brazo superior trasero derecho','suspension');
+  LR('lowerarm_F_a','Brazo inferior delantero izquierdo (A)','Brazo inferior delantero derecho (A)','suspension');
+  LR('lowerarm_F_b','Brazo inferior delantero izquierdo (B)','Brazo inferior delantero derecho (B)','suspension');
+  LR('halfshaft_F','Palier delantero izquierdo','Palier delantero derecho','transmision');
+  LR('halfshaft_R','Palier trasero izquierdo','Palier trasero derecho','transmision');
+  LR('tubs','Paso de rueda delantero izquierdo','Paso de rueda delantero derecho','carroceria');
+  /* ruedas: neumático (el id de siempre, enlaza con «Neumáticos») y llanta */
+  for(const [w,t] of [['FL','delantero izquierdo'],['FR','delantero derecho'],['RL','trasero izquierdo'],['RR','trasero derecho']]){
+    set('Rueda_'+w,'Neumático '+t,'ruedas'); set('Llanta_'+w,'Llanta '+t.replace('delantero','delantera').replace('trasero','trasera').replace('izquierdo','izquierda').replace('derecho','derecha'),'ruedas'); }
+  /* salpicadero por partes */
+  set('dash','Salpicadero','interior'); set('dash_cuadro','Cuadro de instrumentos','interior'); set('dash_radio','Radio, climatizador y pantalla','interior');
+  set('dash_consola','Consola central','interior'); set('dash_mandos','Mandos y botones del salpicadero','interior'); set('dash_molduras','Molduras y aireadores','interior');
+  /* paragolpes delantero por partes */
+  set('bumper_F','Paragolpes delantero','carroceria'); set('bumper_F_rejilla','Rejilla y parte baja del paragolpes','carroceria'); set('bumper_F_cromo','Rejilla cromada y molduras del frontal','carroceria');
+  set('foglight_L','Antiniebla izquierdo','alumbrado'); set('foglight_R','Antiniebla derecho','alumbrado');
+  /* guarnecidos, techo y asiento trasero */
+  set('Interior_L','Guarnecidos del maletero','interior'); set('trim_FL','Guarnecidos delanteros izquierdos (puerta y pilar)','interior'); set('trim_FR','Guarnecidos delanteros derechos (puerta y pilar)','interior');
+  set('trim_RL','Guarnecidos traseros izquierdos (puerta y pilar)','interior'); set('trim_RR','Guarnecidos traseros derechos (puerta y pilar)','interior');
+  set('Interior_H','Techo interior','interior'); set('roof_mirror','Retrovisor interior','interior');
+  set('seats_R','Banqueta trasera','interior'); set('seats_R_back','Respaldo trasero y reposacabezas','interior'); }
+
+/* las posiciones que se calculan sobre una pieza que ahora va en trozos (cables, marcas) usan el conjunto entero,
+   así no se mueve nada de lo que ya estaba colocado */
+const PART_GRP={ dash:['dash','dash_cuadro','dash_radio','dash_consola','dash_mandos','dash_molduras'], bumper_F:['bumper_F','bumper_F_rejilla','bumper_F_cromo','foglight_L','foglight_R'],
+  Interior_L:['Interior_L','trim_FL','trim_FR','trim_RL','trim_RR'], Interior_H:['Interior_H','roof_mirror'], seats_R:['seats_R','seats_R_back'] };
+{ const _pb=partBox; partBox=function(r){ const g=PART_GRP[String(r||'').replace(P,'')]; if(!g) return _pb(r); const b=new THREE.Box3(); for(const k of g){ const x=_pb(k); if(x) b.union(x); } return b.isEmpty()?null:b; }; }
 
 
 connectDb();

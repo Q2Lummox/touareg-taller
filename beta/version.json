@@ -1,23 +1,21 @@
 {
- "version": "2.1.1-beta.3",
+ "version": "2.1.1-beta.4",
  "fecha": "2026-10-15",
  "notas": [
-  "Cambios de pantalla de verdad: la pantalla anterior sale y la nueva entra a la vez (secciones, pestañas y apartados de Más). Arreglado el fallo que encogía la pantalla al cambiar de sección.",
-  "Cuatro secciones abajo: Inicio, Coche, Taller y Papeles. «Más» está ahora en el botón de cuadritos de arriba.",
-  "Taller: el Plan lleva debajo los trabajos hechos; Repostajes y Compra están dentro de Gastos.",
-  "Más, solo lo esencial: Tus datos (copia, importar, asistente) y Compartir (dossier, PDF, enlace). Las listas de comprobación están en Guías; las notas en el modelo y las piezas sin referencia, en el panel Piezas del 3D.",
-  "El sonido vuelve a respetar el modo silencio del iPhone."
+  "Modelo 3D, fase 0: 35 piezas más que se pueden tocar por separado (de 104 a 139), sin cambiar cómo se ve el coche.",
+  "Cada lado por separado: pinzas, amortiguadores, muelles, manguetas, brazos, palieres, barras de acoplamiento y pasos de rueda.",
+  "Ruedas: neumático y llanta aparte. Salpicadero: cuadro de instrumentos, radio y clima, consola central, mandos y molduras.",
+  "Frontal: rejilla, rejilla cromada y los dos antinieblas. Interior: guarnecidos por zonas, retrovisor interior, banqueta y respaldo traseros."
  ],
  "historial": [
   {
-   "version": "2.1.1-beta.3",
+   "version": "2.1.1-beta.4",
    "fecha": "2026-10-15",
    "notas": [
-    "Cambios de pantalla de verdad: la pantalla anterior sale y la nueva entra a la vez (secciones, pestañas y apartados de Más). Arreglado el fallo que encogía la pantalla al cambiar de sección.",
-    "Cuatro secciones abajo: Inicio, Coche, Taller y Papeles. «Más» está ahora en el botón de cuadritos de arriba.",
-    "Taller: el Plan lleva debajo los trabajos hechos; Repostajes y Compra están dentro de Gastos.",
-    "Más, solo lo esencial: Tus datos (copia, importar, asistente) y Compartir (dossier, PDF, enlace). Las listas de comprobación están en Guías; las notas en el modelo y las piezas sin referencia, en el panel Piezas del 3D.",
-    "El sonido vuelve a respetar el modo silencio del iPhone."
+    "Modelo 3D, fase 0: 35 piezas más que se pueden tocar por separado (de 104 a 139), sin cambiar cómo se ve el coche.",
+    "Cada lado por separado: pinzas, amortiguadores, muelles, manguetas, brazos, palieres, barras de acoplamiento y pasos de rueda.",
+    "Ruedas: neumático y llanta aparte. Salpicadero: cuadro de instrumentos, radio y clima, consola central, mandos y molduras.",
+    "Frontal: rejilla, rejilla cromada y los dos antinieblas. Interior: guarnecidos por zonas, retrovisor interior, banqueta y respaldo traseros."
    ]
   }
  ]
