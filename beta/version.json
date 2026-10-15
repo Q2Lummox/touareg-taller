@@ -1,17 +1,19 @@
 {
- "version": "2.1.2",
+ "version": "2.1.3",
  "fecha": "2026-10-16",
  "notas": [
-  "La importación de ETKA puede completar piezas que estaban en la compra sin referencia",
-  "Diagnóstico y reparación: pequeños ajustes de presentación"
+  "Arreglado: en el ordenador la ficha de Cableado, Drenajes y Refrigeración no se veía",
+  "Nuevo en Sistemas: circuito de aceite (presiones de ElsaWin y modo presión baja) y circuito de combustible (bomba tándem, filtro y enfriador)",
+  "Diagnóstico: testigo rojo de aceite y enlaces a los nuevos circuitos 3D"
  ],
  "historial": [
   {
-   "version": "2.1.2",
+   "version": "2.1.3",
    "fecha": "2026-10-16",
    "notas": [
-    "La importación de ETKA puede completar piezas que estaban en la compra sin referencia",
-    "Diagnóstico y reparación: pequeños ajustes de presentación"
+    "Arreglado: en el ordenador la ficha de Cableado, Drenajes y Refrigeración no se veía",
+    "Nuevo en Sistemas: circuito de aceite (presiones de ElsaWin y modo presión baja) y circuito de combustible (bomba tándem, filtro y enfriador)",
+    "Diagnóstico: testigo rojo de aceite y enlaces a los nuevos circuitos 3D"
    ]
   }
  ]

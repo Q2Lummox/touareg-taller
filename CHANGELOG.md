@@ -1,5 +1,10 @@
 # Novedades
 
+## v2.1.3 · 2026-10-16
+- Arreglado: en el ordenador la ficha de Cableado, Drenajes y Refrigeración no se veía
+- Nuevo en Sistemas: circuito de aceite (presiones de ElsaWin y modo presión baja) y circuito de combustible (bomba tándem, filtro y enfriador)
+- Diagnóstico: testigo rojo de aceite y enlaces a los nuevos circuitos 3D
+
 ## v2.1.2 · 2026-10-16
 - La importación de ETKA puede completar piezas que estaban en la compra sin referencia
 - Diagnóstico y reparación: pequeños ajustes de presentación
