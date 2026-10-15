@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.1-beta.8">
+<meta name="app-version" content="2.1.1">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2445,6 +2445,39 @@ body.wireon #tWire[data-k="refri"]{color:#ffc77a;border-color:#f39a1e99;box-shad
 body.wireon #tWire[data-k="dren"]{color:#9fd9ff;border-color:#3fa9f599;box-shadow:0 0 0 1px #3fa9f544,0 0 18px #3fa9f533}
 body.wireon #tWire[data-k="refri"] svg:first-child,body.wireon #tWire[data-k="dren"] svg:first-child{animation:none}
 @media (max-width:860px){ .sysm>button small{display:none} .sysm>button{padding:7px 10px;gap:10px} .sysm>button i{width:32px;height:32px} .sysm .elech{padding:4px 10px 4px} }
+/* ---- reparación en curso y seguimiento ---- */
+.grep{width:100%;justify-content:center;margin:0 0 10px}
+.repnew .chk{display:flex;gap:10px;align-items:flex-start;padding:8px 2px;cursor:pointer}
+.repnew .chk input{margin-top:3px;accent-color:var(--accent)}
+.repnew .chk small{opacity:.7;font-variant-numeric:tabular-nums}.repnew .chk em{font-style:normal;font-size:11.5px;color:var(--ok)}
+.rpcomp{max-height:240px;overflow:auto;border:1px solid var(--card-line);border-radius:12px;padding:2px 10px;margin-bottom:6px}
+.repnew .wzlab{display:block;margin:12px 0 6px}
+.rphead{display:flex;align-items:center;gap:10px;margin-bottom:10px}.rphead .gbar{flex:1}.rpcount{font-size:12.5px;opacity:.8;white-space:nowrap}
+.rpstep h4{display:flex;gap:8px;align-items:center;margin:0 0 10px;font-size:17px}.rpstep h4 svg{width:20px;height:20px;color:var(--accent);flex:none}.rpstep h4.on svg{color:var(--ok)}
+.rpstep p{line-height:1.5;white-space:pre-line;margin:0 0 10px}
+.rppar{display:flex;align-items:center;gap:10px;padding:12px 14px;margin:0 0 12px;border-radius:14px;background:color-mix(in srgb,var(--accent) 16%,transparent);border:1px solid color-mix(in srgb,var(--accent) 55%,transparent)}
+.rppar svg{width:24px;height:24px;color:var(--accent);flex:none}.rppar b{font-size:19px;line-height:1.25}
+.rpherr{display:flex;gap:8px;font-size:13px;opacity:.85}.rpherr svg{width:15px;height:15px;flex:none;margin-top:2px}
+.rpimg{display:block;width:100%;padding:0;border:1px solid var(--card-line);border-radius:12px;overflow:hidden;background:#fff;cursor:zoom-in}.rpimg img{display:block;width:100%;max-height:340px;object-fit:contain}
+.rpnav{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:8px;margin:12px 0}.rpnav .btn2{justify-content:center}
+.rpdots{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.rpdots button{width:30px;height:30px;border-radius:8px;border:1px solid var(--card-line);background:none;color:inherit;font:600 12px var(--f-body);cursor:pointer}
+.rpdots button.on{background:color-mix(in srgb,var(--ok) 25%,transparent);border-color:var(--ok)}.rpdots button.cur{outline:2px solid var(--accent);outline-offset:1px}
+.rpparts,.rpnotes{border:1px solid var(--card-line);border-radius:12px;padding:8px 10px;margin-bottom:8px}
+.rpparts summary,.rpnotes summary{display:flex;gap:8px;align-items:center;cursor:pointer;font-weight:600}.rpparts summary svg,.rpnotes summary svg{width:16px;height:16px}
+.rpparts summary em{margin-left:auto;font-style:normal;font-weight:400;font-size:12px;opacity:.75}.rpnotes textarea{width:100%;margin-top:8px}
+.segops{display:flex;flex-direction:column;margin:6px 0}
+/* ---- diagnóstico por síntomas ---- */
+.dsint{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.dchip{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid var(--card-line);background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.dchip svg{width:18px;height:18px;flex:none;margin-top:1px;color:var(--txt-2)}
+.dchip span{display:flex;flex-direction:column;min-width:0}.dchip small{font-size:11.5px;opacity:.7;margin-top:2px}
+.dchip.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent)}.dchip.on svg{color:var(--accent)}
+.dcausa .dbar{height:6px;border-radius:3px;background:color-mix(in srgb,currentColor 12%,transparent);margin:2px 0 10px}.dcausa .dbar i{display:block;height:100%;border-radius:3px;background:var(--accent)}
+.dcausa p{line-height:1.5;margin:0 0 8px}.dhits{font-size:12.5px;opacity:.75}.dver{display:block;margin:6px 0 4px}
+.dcausa ol{margin:0 0 10px;padding-left:20px;line-height:1.5}.dacts2{flex-wrap:wrap}
+.ddiag{width:100%;justify-content:center;margin:0 0 10px}
+.dcausa .cnt{white-space:nowrap}
 </style>
 
 </head>
@@ -2487,7 +2520,7 @@ body.wireon #tWire[data-k="refri"] svg:first-child,body.wireon #tWire[data-k="dr
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.1-beta.8</span>
+  <span class="spver">v2.1.1</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5902,7 +5935,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.1-beta.8';
+  const APP_VERSION='2.1.1';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -6000,7 +6033,7 @@ function publishAvisos(){
       ...(S.v2?.garantias||[]).filter(g=>g.fin && g.fin>=ayer).map(g=>({tipo:'Garantía', nombre:g.articulo||'', caduca:g.fin})),
       ...(S.v2?.siniestros||[]).filter(x=>x.plazo && x.estado!=='cerrado' && x.plazo>=ayer).map(x=>({tipo:x.tipo==='multa'?'Plazo de multa':'Plazo de siniestro', nombre:x.titulo||'', caduca:x.plazo}))];
     const comp=(S.compras||[]).filter(c=>c.estado==='comprado').map(c=>({nombre:c.nombre, fechaCompra:c.fechaCompra||null}));
-    const data={kmActual:S.cfg.kmActual??null, mantenimiento:mant, documentos:docs, compras:comp, porComprar:(S.compras||[]).filter(c=>c.estado==='pendiente').length};
+    const data={kmActual:S.cfg.kmActual??null, mantenimiento:mant, documentos:docs, compras:comp, porComprar:(S.compras||[]).filter(c=>c.estado==='pendiente').length, seguimientos:(typeof segAvisos==='function'?segAvisos():[])};
     const j=JSON.stringify(data); if(j===avisosLast) return; avisosLast=j;
     S.db.collection('avisos').doc('resumen').set({...data, actualizado:new Date().toISOString()});
   }, 4000);
@@ -10730,6 +10763,259 @@ function wcFit(){ const cd=document.querySelector('.wirecard'); if(!cd) return; 
 addEventListener('resize', ()=>requestAnimationFrame(wcFit));
 document.addEventListener('fullscreenchange', ()=>setTimeout(wcFit,120));
 $('#fsBtn')?.addEventListener('click', ()=>setTimeout(wcFit,120));
+
+/* ====================== REPARACIÓN EN CURSO Y SEGUIMIENTO ======================
+   Reparación: una guía hecha paso a paso el día del trabajo (pasos marcados que se guardan, par de apriete
+   bien visible, piezas de la compra que se van montando). Al terminar se registra sola la intervención,
+   las piezas pasan a «montadas», la avería se cierra y, si toca, se crea un seguimiento.
+   Seguimiento: revisiones con fecha (p. ej. nivel de refrigerante a 1, 7 y 30 días) que salen en el
+   Inicio y en los avisos (push / Telegram) el día que tocan.
+   Firestore: reparaciones/{id} {titulo, guia, inicio, estado:'en_curso'|'terminada', hechos:[i], paso,
+              compras:[id], montadas:[id], averia, km, notas, fin, intervencion}
+              seguimientos/{id} {titulo, que, opciones:[...], malo:[...], ayuda, checks:[{fecha, valor, nota, hecho}],
+              origen, estado:'activo'|'cerrado'} */
+C2.push('reparaciones','seguimientos'); for(const c of ['reparaciones','seguimientos']) S.v2[c]=S.v2[c]||[];
+const repList=()=>(S.v2.reparaciones||[]);
+const repActiva=()=>repList().filter(r=>r.estado==='en_curso').sort((a,b)=>(b.inicio||'').localeCompare(a.inicio||''));
+const repGuia=r=>(S.procs||[]).find(p=>p._id===r.guia);
+const fmtD=iso=>iso?iso.split('-').reverse().join('/'):'';
+
+/* ---------- empezar ---------- */
+function repStart(pr){
+  const ya=repActiva().find(r=>r.guia===pr._id); if(ya) return repRun(ya);
+  const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta');
+  const cands=(S.compras||[]).filter(c=>c.estado==='pendiente'||c.estado==='comprado');
+  const body=h2(`<div class="repnew">
+    <p class="pintro">${ic('wrench')}<span>Vas a hacer «${esc(pr.titulo)}» paso a paso. Lo que marques se guarda: puedes cerrar la app y seguir luego. Al terminar se apunta solo en el historial.</span></p>
+    <label class="wzlab">Km del coche</label><input class="inp2" id="rpKm" inputmode="numeric" value="${S.cfg?.kmActual??''}">
+    ${aves.length?`<label class="wzlab">Avería que arregla</label><select class="inp2" id="rpAve" data-nosort><option value="">Ninguna</option>${aves.map(a=>`<option value="${a._id}"${/bomba de agua/i.test(a.sintoma||'')&&/bomba de agua/i.test(pr.titulo||'')?' selected':''}>${esc(a.sintoma||a.codigo||'Avería')}</option>`).join('')}</select>`:''}
+    ${cands.length?`<label class="wzlab">Piezas que vas a montar</label><div class="rpcomp">${cands.map(c=>`<label class="chk"><input type="checkbox" value="${c._id}"${c.lote?' checked':''}><span>${esc(c.nombre)}${c.ref?` <small>${esc(c.ref)}</small>`:''}${c.estado==='comprado'?' <em>comprada</em>':''}</span></label>`).join('')}</div>`:''}
+  </div>`);
+  detailSheet('Empezar la reparación', pr.titulo, body, [['Empezar','wrench',async()=>{
+    const km=body.querySelector('#rpKm').value.trim(), compras=[...body.querySelectorAll('.rpcomp input:checked')].map(x=>x.value);
+    const d={titulo:pr.titulo, guia:pr._id, inicio:new Date().toISOString(), estado:'en_curso', hechos:[], paso:0, compras, montadas:[], averia:body.querySelector('#rpAve')?.value||null, km:km===''?null:Number(km), notas:''};
+    try{ const r=await S.db.collection('reparaciones').add(d); closeSheet(); toast('Reparación empezada'); repRun({...d, _id:r.id}); }catch{ toast('No se pudo guardar','err'); } },'pri']]);
+}
+/* ---------- paso a paso ---------- */
+function repRun(rep0){
+  const pr=repGuia(rep0); if(!pr){ toast('No encuentro la guía de esta reparación','err'); return; }
+  let rep={...rep0, hechos:[...(rep0.hechos||[])], montadas:[...(rep0.montadas||[])]}; const P=pr.pasos||[]; let i=Math.min(rep.paso||0, Math.max(0,P.length-1));
+  const save=async patch=>{ rep={...rep, ...patch}; try{ await v2Upd('reparaciones', rep, patch); }catch{} };
+  const box=h2(`<div class="reprun"><div class="rphead"><div class="gbar"><i></i></div><span class="rpcount"></span></div><div class="rpstep"></div>
+    <div class="rpnav"><button type="button" class="btn2 ghost rpprev">${ic('chevL')}Anterior</button><button type="button" class="btn2 pri rpok">${ic('check')}<span>Hecho</span></button><button type="button" class="btn2 ghost rpnext">Siguiente${ic('chevR')}</button></div>
+    <div class="rpdots"></div>
+    <details class="rpparts"><summary>${ic('cart')}Piezas de esta reparación <em></em></summary><div class="l2"></div></details>
+    <details class="rpnotes"><summary>${ic('edit')}Notas del trabajo</summary><textarea class="inp2" rows="3" placeholder="Lo que encuentres: estado de la bomba vieja, juntas, medidas…"></textarea></details></div>`);
+  const draw=()=>{ const p=P[i]||{}, n=rep.hechos.length;
+    box.querySelector('.gbar i').style.width=(P.length?n/P.length*100:0)+'%'; box.querySelector('.rpcount').textContent=`Paso ${i+1} de ${P.length} · ${n} hechos`;
+    const st=box.querySelector('.rpstep'); const done=rep.hechos.includes(i);
+    st.innerHTML=`<h4 class="${done?'on':''}">${ic(done?'check':'wrench')}<span>${esc(p.titulo||('Paso '+(i+1)))}</span></h4>${p.par?`<div class="rppar">${ic('gauge')}<b>${esc(p.par)}</b></div>`:''}<p>${esc(p.texto||'')}</p>${p.herr?`<p class="rpherr">${ic('wrench')}${esc(p.herr)}</p>`:''}${p.img?.id?'<button type="button" class="gimg rpimg" aria-label="Ver el dibujo a pantalla completa"><img alt=""></button>':''}`;
+    if(p.img?.id){ const gb=st.querySelector('.rpimg'); window.FB?.blobURL(p.img.id).then(u=>gb.querySelector('img').src=u).catch(()=>gb.remove()); gb.onclick=()=>openViewer({id:p.img.id, tipo:p.img.tipo||'image/png', nombre:p.titulo||pr.titulo}); }
+    box.querySelector('.rpok span').textContent=done?'Quitar «hecho»':(i===P.length-1?'Hecho':'Hecho y siguiente');
+    box.querySelector('.rpok').classList.toggle('pri', !done); box.querySelector('.rpprev').disabled=i===0; box.querySelector('.rpnext').disabled=i>=P.length-1;
+    const dots=box.querySelector('.rpdots'); dots.innerHTML=''; P.forEach((_,k)=>{ const b=h2(`<button type="button" class="${rep.hechos.includes(k)?'on':''}${k===i?' cur':''}" aria-label="Paso ${k+1}">${k+1}</button>`); b.onclick=()=>{ i=k; save({paso:i}); draw(); }; dots.append(b); });
+    const L=box.querySelector('.rpparts .l2'); L.innerHTML=''; const cs=(rep.compras||[]).map(id=>(S.compras||[]).find(c=>c._id===id)).filter(Boolean);
+    box.querySelector('.rpparts em').textContent=cs.length?`${rep.montadas.length} de ${cs.length} montadas`:'ninguna';
+    for(const c of cs){ const on=rep.montadas.includes(c._id); L.append(row2({c:on?'var(--ok)':'var(--txt-3)', i:on?'check':'cube', t:c.nombre, s:[c.ref, on?'Montada':'Toca cuando la montes'].filter(Boolean).join(' · '), fn:()=>{ save({montadas:on?rep.montadas.filter(x=>x!==c._id):[...rep.montadas, c._id]}); if(!on) uiSfx('tick'); draw(); }})); }
+    if(!cs.length) L.append(h2('<p class="muted2">No elegiste piezas de la compra al empezar.</p>'));
+  };
+  box.querySelector('.rpprev').onclick=()=>{ if(i>0){ i--; uiSfx('tap'); save({paso:i}); draw(); } };
+  box.querySelector('.rpnext').onclick=()=>{ if(i<P.length-1){ i++; uiSfx('tap'); save({paso:i}); draw(); } };
+  box.querySelector('.rpok').onclick=()=>{ const done=rep.hechos.includes(i);
+    if(done){ save({hechos:rep.hechos.filter(x=>x!==i)}); draw(); return; }
+    uiSfx('tick'); const h=[...rep.hechos, i]; if(i<P.length-1) i++; save({hechos:h, paso:i}); draw();
+    if(h.length===P.length){ celebrate(); toast('Todos los pasos hechos. Cuando quieras, pulsa «Terminar».'); } };
+  const ta=box.querySelector('textarea'); ta.value=rep.notas||''; ta.onblur=()=>{ if(ta.value!==(rep.notas||'')) save({notas:ta.value}); };
+  draw();
+  detailSheet(rep.titulo, 'Reparación en curso', box, [['Terminar','check',()=>repFinish(rep),'pri'],['Ver la guía entera','book',()=>guiaRead(pr)]]);
+}
+/* ---------- terminar ---------- */
+function repFinish(rep){
+  const pr=repGuia(rep), P=pr?.pasos||[], faltan=P.length-(rep.hechos||[]).length;
+  const cs=(rep.compras||[]).map(id=>(S.compras||[]).find(c=>c._id===id)).filter(Boolean), ave=(S.ave||[]).find(a=>a._id===rep.averia), tpl=segTpl(rep.titulo);
+  const body=h2(`<div class="repnew">
+    ${faltan>0?`<div class="alr soon">${ic('alert')}<span>Quedan ${pl(faltan,'paso')} sin marcar. Puedes terminar igual.</span></div>`:''}
+    <label class="wzlab">Fecha</label><input class="inp2" id="rfF" type="date" value="${todayISO()}">
+    <label class="wzlab">Km</label><input class="inp2" id="rfK" inputmode="numeric" value="${S.cfg?.kmActual??rep.km??''}">
+    <label class="wzlab">Mano de obra (€, si pagaste a alguien)</label><input class="inp2" id="rfMO" inputmode="decimal" placeholder="0">
+    ${cs.length?`<label class="chk"><input type="checkbox" id="rfMont" checked><span>Marcar como montadas las ${pl(cs.length,'pieza')} de la compra</span></label>`:''}
+    ${ave?`<label class="chk"><input type="checkbox" id="rfAve" checked><span>Dar por resuelta la avería «${esc(ave.sintoma||ave.codigo)}»</span></label>`:''}
+    <label class="chk"><input type="checkbox" id="rfSeg" checked><span>Crear seguimiento: ${esc(tpl.titulo)} (${tpl.dias.map(d=>d===1?'mañana':d+' días').join(', ')})</span></label>
+  </div>`);
+  detailSheet('Terminar la reparación', rep.titulo, body, [['Guardar y terminar','check',async()=>{
+    const f=body.querySelector('#rfF').value||todayISO(), kmv=body.querySelector('#rfK').value.trim(), km=kmv===''?null:Number(kmv), mo=body.querySelector('#rfMO').value.trim();
+    try{
+      const refs=cs.map(c=>c.ref).filter(Boolean).join(', ');
+      const desc=`${rep.titulo}${cs.length?' · piezas: '+cs.map(c=>c.nombre).join(', '):''}${rep.notas?' · '+rep.notas:''}`;
+      const r=await S.db.collection('intervenciones').add({fecha:f, km, tipo:'Reparación', mant:null, pieza:ave?.piezas?.[0]||null, descripcion:desc, ref:refs, coste:mo===''?null:Number(mo.replace(',','.')), reparacion:rep._id, creado:new Date().toISOString()});
+      if(body.querySelector('#rfMont')?.checked) for(const c of cs){ const {_id,...data}=c; await S.db.collection('compras').doc(_id).set({...data, estado:'montado', fechaMontaje:f, montaje:'yo', intervencion:r.id}); }
+      if(ave && body.querySelector('#rfAve')?.checked){ const {_id,...a}=ave; await S.db.collection('averias').doc(_id).set({...a, estado:'resuelta', notas:[a.notas, `Resuelta el ${fmtD(f)}: ${rep.titulo}.`].filter(Boolean).join('\n')}); }
+      if(km!=null && (!S.cfg?.kmActual || km>Number(S.cfg.kmActual))) await S.db.doc('config/coche').set({...(S.cfg||{}), kmActual:km});
+      if(body.querySelector('#rfSeg')?.checked) await segCreate(tpl, f, rep._id);
+      await v2Upd('reparaciones', rep, {estado:'terminada', fin:new Date().toISOString(), intervencion:r.id, km});
+      closeSheet(); celebrate(); toast('Reparación registrada en el historial');
+    }catch(e){ toast('No se pudo guardar','err'); } },'pri']]);
+}
+/* ---------- seguimiento ---------- */
+function segTpl(titulo){
+  if(/bomba de agua|refrigera|termostato|radiador|manguito/i.test(titulo||'')) return {titulo:'Nivel de refrigerante', dias:[1,7,30],
+    que:'Con el motor FRÍO (mejor por la mañana), mira el nivel del vaso de expansión entre las marcas MIN y MAX. Mira también si hay gotas debajo del coche y si sale humo blanco por el escape al arrancar.',
+    opciones:['Bien, en su sitio','Ha bajado un poco','Ha bajado mucho','Gotea o hay humo blanco'], malo:['Ha bajado mucho','Gotea o hay humo blanco'],
+    ayuda:'Si baja: rellena con G12++ mezclado al 50 % y busca fugas en la tapa de la bomba, los tapones de vaciado y los manguitos que tocaste. Si sigue bajando sin fuga visible o hay humo blanco, puede ser la junta de culata: haz una prueba de presión (1,4–1,6 bar) antes de seguir usando el coche.'};
+  return {titulo:'Revisión tras la reparación', dias:[1,7], que:'Comprueba que todo sigue bien: sin fugas, ruidos ni testigos.', opciones:['Todo bien','Algo raro'], malo:['Algo raro'], ayuda:'Apunta qué notas y revisa lo que tocaste en la reparación.'};
+}
+async function segCreate(tpl, desde, origen){
+  const d={titulo:tpl.titulo, que:tpl.que, opciones:tpl.opciones, malo:tpl.malo, ayuda:tpl.ayuda, checks:tpl.dias.map(n=>({fecha:addDays(n,desde), hecho:false, valor:'', nota:''})), origen:origen||null, estado:'activo', creado:new Date().toISOString()};
+  return S.db.collection('seguimientos').add(d);
+}
+const segList=()=>(S.v2.seguimientos||[]).filter(s=>s.estado==='activo');
+const segNext=s=>(s.checks||[]).map((c,k)=>({...c, k})).find(c=>!c.hecho);
+function segCheck(s, k){
+  const c=s.checks[k]; const body=h2(`<div class="repnew"><p class="pintro">${ic('eye')}<span>${esc(s.que)}</span></p>
+    <div class="segops">${s.opciones.map((o,j)=>`<label class="chk"><input type="radio" name="sgv" value="${esc(o)}"${j===0?' checked':''}><span>${esc(o)}</span></label>`).join('')}</div>
+    <label class="wzlab">Nota (opcional)</label><input class="inp2" id="sgN" placeholder="Por ejemplo: un dedo por debajo de MAX"></div>`);
+  detailSheet(s.titulo, `Revisión ${k+1} de ${s.checks.length} · ${fmtD(c.fecha)}`, body, [['Guardar','check',async()=>{
+    const v=body.querySelector('input[name="sgv"]:checked')?.value||'', n=body.querySelector('#sgN').value.trim();
+    const checks=s.checks.map((x,j)=>j===k?{...x, hecho:true, valor:v, nota:n, hechoEl:todayISO()}:x), fin=checks.every(x=>x.hecho), bad=(s.malo||[]).includes(v);
+    await v2Upd('seguimientos', s, {checks, estado:fin&&!bad?'cerrado':'activo'});
+    closeSheet();
+    if(bad) detailSheet('Ojo con esto', s.titulo, h2(`<div class="alr due">${ic('alert')}<span>${esc(s.ayuda||'')}</span></div>`), [['Registrar avería','alert',async()=>{ await S.db.collection('averias').add({codigo:'', sintoma:`${s.titulo}: ${v}`, notas:n, estado:'abierta', piezas:[], fecha:todayISO(), km:S.cfg?.kmActual??null}); closeSheet(); toast('Avería registrada'); },'pri']]);
+    else { uiSfx('tick'); toast(fin?'Seguimiento terminado: todo bien':'Apuntado'); } },'pri'],
+    ['Dejar de seguir','x',async()=>{ if(!confirm('¿Dejar de hacer este seguimiento?')) return; await v2Upd('seguimientos', s, {estado:'cerrado'}); closeSheet(); }]]);
+}
+/* para los avisos (push / Telegram): la próxima revisión de cada seguimiento */
+function segAvisos(){ return segList().map(s=>{ const c=segNext(s); return c?{titulo:s.titulo, fecha:c.fecha, n:c.k+1, de:s.checks.length}:null; }).filter(Boolean); }
+/* ---------- Inicio ---------- */
+{ const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); const box=$('#pgInicio'); if(!box || !S.cfg) return r;
+    box.querySelector('.repcard')?.remove(); const reps=repActiva(), segs=segList(); if(!reps.length && !segs.length) return r;
+    const c=card2('Taller en marcha','wrench'); c.classList.add('c12','repcard'); const L=c.querySelector('.l2'), hoy=todayISO();
+    for(const rp of reps){ const pr=repGuia(rp), n=(rp.hechos||[]).length, t=pr?.pasos?.length||0; L.append(row2({c:'var(--accent)', i:'wrench', t:rp.titulo, s:`Reparación en curso · ${n} de ${t} pasos`, r:'Seguir', fn:()=>repRun(rp)})); }
+    for(const s of segs){ const nx=segNext(s); if(!nx) continue; const d=Math.round((new Date(nx.fecha+'T12:00:00Z')-new Date(hoy+'T12:00:00Z'))/864e5);
+      L.append(row2({c:d<=0?'var(--due)':'var(--info)', i:'eye', t:s.titulo, s:d<0?`Revisión ${nx.k+1} de ${s.checks.length}: tocaba hace ${pl(-d,'día')}`:d===0?`Revisión ${nx.k+1} de ${s.checks.length}: hoy`:`Revisión ${nx.k+1} de ${s.checks.length}: ${d===1?'mañana':'el '+fmtD(nx.fecha)}`, r:d<=0?'Apuntar':'', fn:()=>segCheck(s, nx.k)})); }
+    const q=box.querySelector('.qadd'); if(q) q.after(c); else box.querySelector('.grid2')?.prepend(c); return r; }; }
+/* ---------- botón en la guía ---------- */
+{ const _g=guiaRead; guiaRead=function(pr, at){ const r=_g(pr, at); const b=document.querySelector('#shBox .gread'); if(b && (pr.pasos||[]).length>2 && S.db){ const ya=repActiva().find(x=>x.guia===pr._id);
+    const bt=h2(`<button type="button" class="btn2 ${ya?'pri':'ghost'} grep">${ic('wrench')}${ya?`Seguir la reparación (${(ya.hechos||[]).length} de ${pr.pasos.length})`:'Empezar la reparación paso a paso'}</button>`);
+    bt.onclick=()=>{ uiSfx('tap'); ya?repRun(ya):repStart(pr); }; b.prepend(bt); } return r; }; }
+IC.chevL=IC.chevL||'<path d="m15 18-6-6 6-6"/>';
+
+/* ====================== DIAGNÓSTICO POR SÍNTOMAS (R5 TDI BAC · cambio manual) ======================
+   Marcas lo que notas y salen las causas más probables, ordenadas por cuántos síntomas encajan,
+   con qué comprobar, la guía y la vista 3D relacionadas y un botón para registrar la avería.
+   Es orientativo: conocimiento general del motor, no un diagnóstico con máquina. */
+const SINT=[
+  ['calor','thermo','Se calienta','La aguja pasa de 90 °C o salta el testigo de temperatura'],
+  ['calorpar','thermo','Se calienta parado o en atasco','En carretera va bien'],
+  ['pierde','drop','Pierde refrigerante','Baja el nivel del vaso o hay gotas debajo'],
+  ['noCalef','fan','La calefacción no calienta','O tarda mucho en salir aire caliente'],
+  ['frio','thermo','No llega a temperatura','La aguja se queda por debajo de 90 °C'],
+  ['humoB','cloud','Humo blanco','Sobre todo al arrancar o al acelerar'],
+  ['humoN','cloud','Humo negro al acelerar',''],
+  ['humoA','cloud','Humo azulado','Huele a aceite quemado'],
+  ['potencia','gauge','Pierde potencia o entra en modo emergencia','Va «capado», sin fuerza a partir de cierto régimen'],
+  ['tirones','zap','Tirones o falla al acelerar',''],
+  ['arrFrio','key','Cuesta arrancar en frío',''],
+  ['arrCal','key','Cuesta arrancar en caliente',''],
+  ['testMotor','alert','Testigo de motor o EPC encendido',''],
+  ['testPre','alert','Testigo de precalentamiento parpadea','La espiral naranja'],
+  ['silbido','zap','Silbido o soplido al acelerar',''],
+  ['golpe','zap','Golpeteo o vibración al arrancar o apagar','Al ralentí o al soltar el embrague'],
+  ['ruidoBomba','zap','Ruido de rozamiento en la parte baja del motor',''],
+  ['agua','drop','Agua dentro del coche','Moqueta mojada, olor a humedad, cristales empañados'],
+  ['bateria','zap','La batería se descarga','O arranca con desgana'],
+];
+const CAUSAS=[
+  {id:'bomba', t:'Bomba de agua', s:{calor:3, pierde:3, noCalef:2, ruidoBomba:3},
+   por:'En el BAC la bomba va por engranaje, abajo y delante. Cuando falla gotea por la tapa o deja de mover el agua: el motor se calienta y la calefacción sale fría.',
+   ver:['Con el motor frío, mira si hay rastro de refrigerante seco (rosa) en la tapa de la bomba, por abajo','Con el motor caliente, toca los dos manguitos del radiador: si el de abajo sigue frío, el agua no circula','Comprueba el nivel del vaso en frío'],
+   guia:/bomba de agua/i, vista:'refri', pieza:'engine'},
+  {id:'termoC', t:'Termostato atascado cerrado', s:{calor:3, calorpar:1},
+   por:'Si no abre, el agua no pasa por el radiador y el motor se calienta aunque la bomba esté bien.',
+   ver:['Con el motor caliente, el manguito superior del radiador debe quemar; si está tibio, el termostato no abre','Debe empezar a abrir a unos 87 °C (ElsaWin)'],
+   guia:/vaciar y llenar|refrigerante/i, vista:'refri', pieza:'engine'},
+  {id:'termoA', t:'Termostato atascado abierto', s:{frio:3, noCalef:2},
+   por:'Si se queda abierto, el agua pasa siempre por el radiador y el motor no llega a 90 °C: gasta más y la calefacción calienta poco.',
+   ver:['Con el motor frío, al arrancar el manguito superior del radiador debe seguir frío unos minutos','Lee la temperatura real con VCDS u OBD: si no pasa de unos 75 °C en carretera, es él'],
+   guia:/vaciar y llenar|refrigerante/i, vista:'refri', pieza:'engine'},
+  {id:'fuga', t:'Fuga en manguitos, radiador o vaso', s:{pierde:3, calor:2},
+   por:'Las abrazaderas, los manguitos viejos y las aletas del radiador acaban perdiendo.',
+   ver:['Busca gotas o restos rosas secos en las uniones de los manguitos y en el radiador','Si tienes comprobador, mete presión (1,4–1,6 bar) y mira si baja'],
+   guia:/circuito de refrigeraci/i, vista:'refri', pieza:'radiator'},
+  {id:'tapon', t:'Tapón del vaso de expansión', s:{pierde:2, calor:1},
+   por:'Si la válvula del tapón no aguanta la presión, el líquido se escapa en forma de vapor y el nivel baja sin fuga visible.',
+   ver:['Mira si hay restos alrededor del tapón y del rebosadero','Se prueba con el adaptador V.A.G 1274/9: debe aguantar 1,4–1,6 bar'],
+   vista:'refri'},
+  {id:'culata', t:'Junta de culata', s:{humoB:3, pierde:2, calor:2},
+   por:'Si pasa refrigerante a los cilindros sale humo blanco con olor dulce y baja el nivel sin fuga visible. Suele aparecer después de un calentón fuerte.',
+   ver:['Con el motor en marcha y el vaso abierto (en frío), mira si suben burbujas sin parar','Test de CO₂ en el refrigerante (tubo de líquido azul) o prueba de compresión'],
+   vista:'refri', pieza:'engine'},
+  {id:'vent', t:'Ventilador del radiador', s:{calorpar:3, calor:1},
+   por:'En carretera el aire enfría el radiador; parado depende del ventilador. Si no entra, se calienta en atascos.',
+   ver:['Con el motor caliente y el aire acondicionado puesto, el ventilador debe girar','Revisa el fusible y el relé del ventilador (Sistemas ▸ Fusibles y relés)']},
+  {id:'calent', t:'Calentadores (bujías de precalentamiento)', s:{arrFrio:3, humoB:2, testPre:2},
+   por:'Con algún calentador fundido, en frío arranca mal y echa humo blanco los primeros segundos.',
+   ver:['Lee las averías con VCDS: suele salir el calentador concreto','Mide la resistencia de cada calentador (unos pocos ohmios; si es infinita, está fundido)']},
+  {id:'iny', t:'Inyectores-bomba o su cableado', s:{tirones:3, arrCal:2, humoN:2, testMotor:2, testPre:1},
+   por:'El R5 TDI lleva inyector-bomba en cada cilindro. Un inyector o su conector con mal contacto da tirones y, a veces, falla en caliente.',
+   ver:['Lee averías y mira los valores de corrección de cada cilindro con VCDS (prueba de equilibrado)','Revisa el conector del mazo de inyectores bajo la tapa de balancines (fugas de aceite)'],
+   pieza:'engine'},
+  {id:'turbo', t:'Turbo o manguitos del intercooler', s:{potencia:3, silbido:3, humoN:2, humoA:2, testMotor:1},
+   por:'Un manguito del intercooler roto o suelto pierde presión: silba, echa humo negro y entra en modo emergencia. Si el turbo pierde aceite, el humo es azulado.',
+   ver:['Revisa los manguitos y abrazaderas entre el turbo, el intercooler y la admisión: busca aceite o grietas','Con VCDS, compara la presión de turbo pedida con la real'],
+   pieza:'etk_intercooler'},
+  {id:'maf', t:'Caudalímetro (medidor de masa de aire)', s:{potencia:2, humoN:2, testMotor:2},
+   por:'Si mide de menos, la centralita mete poco gasoil o entra en emergencia; si mide mal, echa humo negro.',
+   ver:['Con VCDS, mira los mg/carrera de aire a plena carga','Prueba a desenchufarlo: si va mejor sin él, está mal']},
+  {id:'egr', t:'Válvula EGR sucia o agarrotada', s:{humoN:2, potencia:2, testMotor:1, tirones:1},
+   por:'Con los años se llena de carbonilla y se queda abierta o cerrada.',
+   ver:['Lee las averías con VCDS','Desmóntala y mira si está llena de carbonilla']},
+  {id:'tandem', t:'Bomba tándem (combustible y vacío)', s:{arrCal:2, potencia:2, arrFrio:1},
+   por:'Alimenta de gasoil a los inyectores-bomba. Si pierde presión, cuesta arrancar y falta fuerza.',
+   ver:['Mide la presión de alimentación con manómetro','Revisa el filtro de gasoil (si está obstruido da síntomas parecidos)']},
+  {id:'bimasa', t:'Volante bimasa', s:{golpe:3},
+   por:'En el cambio manual, un bimasa gastado golpetea al arrancar, al apagar y al ralentí, y vibra al soltar el embrague.',
+   ver:['Escucha al apagar el motor: un «clonc» seco es típico','Si al pisar el embrague el ruido cambia o desaparece, apunta al bimasa']},
+  {id:'dren', t:'Drenajes del techo solar atascados', s:{agua:3},
+   por:'Con hojas o barro, el agua de la canaleta del techo no baja por las mangueras y acaba en la moqueta.',
+   ver:['Echa un vaso de agua en cada esquina del techo solar y mira si sale por abajo'],
+   guia:/drenaj/i, vista:'dren'},
+  {id:'bat', t:'Batería o alternador', s:{bateria:3, arrFrio:1, arrCal:1},
+   por:'Una batería cansada se nota primero en frío. Si el alternador no carga, se descarga circulando.',
+   ver:['Con el motor parado debe tener unos 12,6 V; en marcha, entre 13,8 y 14,5 V','Si en marcha marca menos, revisa el alternador y su correa']},
+];
+UI.diag=UI.diag||new Set();
+function diagRank(){ const sel=UI.diag; return CAUSAS.map(c=>{ const hits=Object.keys(c.s).filter(k=>sel.has(k)); return {c, hits, sc:hits.reduce((a,k)=>a+c.s[k],0)}; }).filter(x=>x.sc>0).sort((a,b)=>b.sc-a.sc); }
+function renderDiag(w){
+  w.append(h2(`<p class="pintro">${ic('search')}<span>Marca lo que notas y te digo las causas más probables en tu 2,5 R5 TDI, con qué mirar primero. Es orientativo: si puedes, lee también las averías con VCDS u OBD.</span></p>`));
+  const sc=h2(`<div class="card2"><h3>${ic('list')}¿Qué notas?</h3><div class="dsint"></div></div>`), box=sc.querySelector('.dsint');
+  for(const [k,i,t,d] of SINT){ const b=h2(`<button type="button" class="dchip${UI.diag.has(k)?' on':''}" aria-pressed="${UI.diag.has(k)}">${ic(i)}<span><b>${esc(t)}</b>${d?`<small>${esc(d)}</small>`:''}</span></button>`);
+    b.onclick=()=>{ uiSfx('tap'); UI.diag.has(k)?UI.diag.delete(k):UI.diag.add(k); b.classList.toggle('on'); b.setAttribute('aria-pressed', UI.diag.has(k)); drawRes(); }; box.append(b); }
+  w.append(sc); const res=h2('<div class="dres"></div>'); w.append(res);
+  const drawRes=()=>{ res.innerHTML=''; const R=diagRank();
+    if(!UI.diag.size){ res.append(h2(`<p class="muted2" style="padding:6px 4px">Marca al menos un síntoma.</p>`)); return; }
+    if(!R.length){ res.append(h2(`<p class="muted2">No tengo causas para esa combinación.</p>`)); return; }
+    const mx=R[0].sc;
+    R.slice(0,6).forEach(({c,hits,sc:s},n)=>{ const pct=Math.round(s/mx*100), g=c.guia?(S.procs||[]).find(p=>c.guia.test(p.titulo||'')):null;
+      const cd=h2(`<div class="card2 dcausa"><h3>${ic(n===0?'alert':'info')}${esc(c.t)}<span class="cnt">${n===0?'Más probable':pct+' %'}</span></h3>
+        <div class="dbar"><i style="width:${pct}%"></i></div>
+        <p class="dhits">Encaja con: ${hits.map(k=>esc(SINT.find(x=>x[0]===k)[2].toLowerCase())).join(', ')}</p>
+        <p>${esc(c.por)}</p><b class="dver">Qué mirar primero</b><ol>${c.ver.map(v=>`<li>${esc(v)}</li>`).join('')}</ol><div class="row3 dacts2"></div></div>`);
+      const a=cd.querySelector('.dacts2'); const btn=(l,i,fn,cls)=>{ const b=h2(`<button type="button" class="btn2 sm ${cls||'ghost'}">${ic(i)}${esc(l)}</button>`); b.onclick=()=>{ uiSfx('tap'); fn(); }; a.append(b); };
+      if(g) btn('Ver la guía','book',()=>guiaRead(g));
+      if(c.vista==='refri') btn('Circuito en 3D','thermo',()=>wireShow(refriCircuit()));
+      if(c.vista==='dren') btn('Drenajes en 3D','drop',()=>wireShow(drenCircuit()));
+      btn('Registrar avería','alert',async()=>{ if(!S.db) return toast('Inicia sesión para guardar','err');
+        await S.db.collection('averias').add({codigo:'', sintoma:hits.map(k=>SINT.find(x=>x[0]===k)[2]).join(' · '), notas:`Diagnóstico orientativo: ${c.t}. ${c.ver.join(' / ')}`, estado:'abierta', piezas:c.pieza?[pid(c.pieza)||'Touareg2008_'+c.pieza]:[], fecha:todayISO(), km:S.cfg?.kmActual??null}); toast('Avería registrada'); },'pri');
+      res.append(cd); });
+    const cl=h2(`<button type="button" class="btn2 ghost" style="margin:4px 0 20px">${ic('x')}Borrar los síntomas</button>`); cl.onclick=()=>{ UI.diag.clear(); box.querySelectorAll('.dchip').forEach(b=>{ b.classList.remove('on'); b.setAttribute('aria-pressed','false'); }); drawRes(); }; res.append(cl); };
+  drawRes();
+}
+MAS2.diag=['Diagnóstico por síntomas', renderDiag]; MAS_T.diag='Diagnóstico por síntomas';
+{ const _m=v2MasHome; v2MasHome=function(pb){ _m(pb); const t=pb.querySelector('.mgrp .mtiles'); if(t && !t.querySelector('[data-k="diag"]')){ const b=h2(`<button type="button" class="mt" data-k="diag"><i>${ic('search')}</i><span><b>Diagnóstico por síntomas</b><small>Marca lo que notas y te digo las causas probables</small></span>${ic('chevR')}</button>`); b.onclick=()=>{ uiSfx('tap'); masOpen('diag'); }; t.prepend(b); } }; }
+NAVMENU.coche.push(['search','Diagnóstico por síntomas',()=>{ go('mas'); masOpen('diag'); }]);
+{ const _ra=renderAve; renderAve=function(...a){ const r=_ra(...a); const body=$('#ovlBody'); if(body && !body.querySelector('.ddiag')){ const b=h2(`<button type="button" class="btn2 ghost ddiag">${ic('search')}¿No sabes qué es? Diagnóstico por síntomas</button>`); b.onclick=()=>{ uiSfx('tap'); go('mas'); masOpen('diag'); }; body.prepend(b); } return r; }; }
+IC.fan=IC.fan||'<path d="M12 12c0-4 1-8 4-8s2 5-4 8Zm0 0c4 0 8 1 8 4s-5 2-8-4Zm0 0c0 4-1 8-4 8s-2-5 4-8Zm0 0c-4 0-8-1-8-4s5-2 8 4Z"/>';
+IC.cloud=IC.cloud||'<path d="M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 9a4.5 4.5 0 0 0 1 9Z"/>';
 
 
 connectDb();

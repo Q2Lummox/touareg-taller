@@ -1,5 +1,13 @@
 # Novedades
 
+## v2.1.1 · 2026-10-16
+- 3D: menú «Sistemas» con Electricidad, Drenajes y el nuevo circuito de Refrigeración (agua circulando: motor caliente, frío y bomba averiada)
+- Reparación en curso: sigue una guía paso a paso el día del trabajo; al terminar se apunta sola en el historial, monta las piezas de la compra y cierra la avería
+- Seguimiento después de la reparación: revisiones con fecha (p. ej. nivel de refrigerante a 1, 7 y 30 días) en el Inicio y en los avisos
+- Diagnóstico por síntomas: marca lo que notas y te dice las causas probables del R5 TDI
+- La importación de ElsaWin/ETKA trae también averías y piezas para la compra
+- Modelo 3D: piezas separadas con su tamaño real; arreglos en móvil y en el 3D
+
 ## v2.1.0 · 2026-10-11
 - Versión 2: registro completo (repostajes, compras, neumáticos, mejoras, galería y averías), estadísticas, dossier de venta y copia de seguridad semanal.
 - Importación por lotes de ElsaWin y ETKA (láminas, pares de apriete, guías, circuitos, fusibles): todo va solo a tu base de datos privada y se puede deshacer.

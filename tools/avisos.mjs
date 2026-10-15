@@ -57,6 +57,12 @@ for (const c of res.compras || []) {
   const txt = `${c.nombre}: comprado el ${fmt(c.fechaCompra)}, sin montar`;
   resumen.push('🛒 ' + txt); if (PRUEBA || (d >= 14 && d % 7 === 0)) compras.push('🛒 ' + txt);
 }
+const segA = [];
+for (const sg of res.seguimientos || []) {
+  if (!sg.fecha) continue; const d = days(sg.fecha); if (d > 0) continue;
+  const txt = `${sg.titulo}: revisión ${sg.n} de ${sg.de} ${d === 0 ? 'hoy' : `(tocaba el ${fmt(sg.fecha)})`}`;
+  resumen.push('🔧 ' + txt); if (PRUEBA || d === 0 || (-d) % 2 === 0) segA.push('🔧 ' + txt);
+}
 if (res.porComprar) resumen.push(`📝 ${res.porComprar} artículo(s) en la lista de la compra`);
 
 /* mensajes por canal */
@@ -64,6 +70,7 @@ const out = { push: [], email: [], telegram: [] };
 const add = (tipo, titulo, lineas, url) => { if (!lineas.length) return; for (const ch of C.canales[tipo] || []) out[ch]?.push({ titulo, lineas, url }); };
 add('mant', 'Mantenimiento', mant, APP + '#mant');
 add('docs', 'Documentación', docsA, APP + '#papeles');
+add('mant', 'Seguimiento', segA, APP);
 add('compras', 'Compras sin montar', compras, APP + '#mant');
 if (semanal) add('semanal', 'Resumen semanal', resumen.length ? resumen : ['✅ Todo al día. Nada vencido ni próximo.'], APP);
 if (PRUEBA) for (const ch of Object.keys(out)) if (!out[ch].length) out[ch].push({ titulo: 'Aviso de prueba', lineas: ['✅ Este canal funciona. Todo al día.'], url: APP });
