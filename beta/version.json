@@ -1,21 +1,17 @@
 {
- "version": "2.1.1-beta.5",
+ "version": "2.1.1-beta.6",
  "fecha": "2026-10-15",
  "notas": [
-  "Nuevo en el 3D: circuito de refrigeración con el agua circulando (motor caliente, frío y bomba averiada)",
-  "La importación de ElsaWin/ETKA ya puede traer averías y piezas para la compra",
-  "Las guías de la bomba de agua y del refrigerante tienen botón para ver el circuito en el 3D",
-  "Modelo 3D: las piezas separadas ya tienen su tamaño real al seleccionarlas"
+  "3D: Electricidad, Drenajes y Refrigeración van ahora en un solo desplegable «Sistemas», junto a Vista",
+  "El botón muestra qué sistema estás viendo y desde el menú se quita la vista"
  ],
  "historial": [
   {
-   "version": "2.1.1-beta.5",
+   "version": "2.1.1-beta.6",
    "fecha": "2026-10-15",
    "notas": [
-    "Nuevo en el 3D: circuito de refrigeración con el agua circulando (motor caliente, frío y bomba averiada)",
-    "La importación de ElsaWin/ETKA ya puede traer averías y piezas para la compra",
-    "Las guías de la bomba de agua y del refrigerante tienen botón para ver el circuito en el 3D",
-    "Modelo 3D: las piezas separadas ya tienen su tamaño real al seleccionarlas"
+    "3D: Electricidad, Drenajes y Refrigeración van ahora en un solo desplegable «Sistemas», junto a Vista",
+    "El botón muestra qué sistema estás viendo y desde el menú se quita la vista"
    ]
   }
  ]

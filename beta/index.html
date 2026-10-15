@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.1-beta.5">
+<meta name="app-version" content="2.1.1-beta.6">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2432,6 +2432,19 @@ body[data-sec="mas"] #nav2 .navpill{opacity:0}
 body.ui2.light .rmodes button{border-color:#0002}
 .rnote{display:flex;gap:6px;align-items:flex-start;margin:0 0 8px!important;font-size:11.5px!important;line-height:1.35;opacity:.7}.rnote svg{width:13px;height:13px;flex:none;margin-top:1px}
 @media (max-width:860px){ .refricard .rnote{display:none} }
+/* ---- menú «Sistemas» del 3D ---- */
+.sysm{overflow-y:auto;overscroll-behavior:contain}
+.sysm .elech{margin-top:4px}
+.sysm .elech.w{color:#7fd0ff}.sysm .elech.w svg{filter:drop-shadow(0 0 6px #3fa9f5)}
+.sysm>button.w i{background:linear-gradient(140deg,#3fa9f526,#3fa9f50a);color:#8fd6ff}
+.sysm>button.r i{background:linear-gradient(140deg,#f39a1e2e,#f39a1e0a);color:#ffbf6b}
+.sysm>button.on{background:#ffffff0f}
+.sysm>button.on>svg{color:var(--ok,#2fc48d)}
+body.ui2.light .sysm>button.on{background:#0000000d}
+body.wireon #tWire[data-k="refri"]{color:#ffc77a;border-color:#f39a1e99;box-shadow:0 0 0 1px #f39a1e44,0 0 18px #f39a1e33}
+body.wireon #tWire[data-k="dren"]{color:#9fd9ff;border-color:#3fa9f599;box-shadow:0 0 0 1px #3fa9f544,0 0 18px #3fa9f533}
+body.wireon #tWire[data-k="refri"] svg:first-child,body.wireon #tWire[data-k="dren"] svg:first-child{animation:none}
+@media (max-width:860px){ .sysm>button small{display:none} .sysm>button{padding:7px 10px;gap:10px} .sysm>button i{width:32px;height:32px} .sysm .elech{padding:4px 10px 4px} }
 </style>
 
 </head>
@@ -2474,7 +2487,7 @@ body.ui2.light .rmodes button{border-color:#0002}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.1-beta.5</span>
+  <span class="spver">v2.1.1-beta.6</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5889,7 +5902,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.1-beta.5';
+  const APP_VERSION='2.1.1-beta.6';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -10667,6 +10680,47 @@ function refriFocus(id){
     s.querySelector('button').onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenuClose(); refriShow(); }; w.after(s); } }
 /* el motor y el radiador se ven, pero traslúcidos: el agua tiene que verse por dentro */
 { const _av=applyVisibility; applyVisibility=function(){ _av(); if(!RF.keep.size) return; for(const id of RF.keep) for(const m of (parts[id]?.meshes||[])){ const mat=m.material; mat.transparent=true; mat.opacity=.16; mat.depthWrite=false; m.castShadow=false; mat.needsUpdate=true; } dirty=true; }; }
+
+/* ====================== 3D: UN SOLO MENÚ «SISTEMAS» ======================
+   Electricidad (cableado, fusibles, cajas, masas, centralitas), drenajes y refrigeración en un desplegable,
+   como el de «Vista». Sustituye a los tres botones sueltos de la barra. */
+IC.sys=IC.sys||'<circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><circle cx="6" cy="18" r="2"/><path d="M8 6h5a3 3 0 0 1 3 3v7M6 8v8"/>';
+document.querySelector('#tDren')?.closest('.seg')?.remove();
+document.querySelector('#tRefri')?.closest('.seg')?.remove();
+function sysKind(){ const c=WIRE.on; if(!c) return null; return c.refri?'refri':c.drenaje?'dren':c.marcas?'marcas':'cable'; }
+function sysSync(){ const b=$('#tWire'); if(!b) return; const k=sysKind();
+  const lab={refri:'Refrigeración', dren:'Drenajes', marcas:({caja:'Cajas', masa:'Masas', unidad:'Centralitas'})[WIRE.on?.marcas]||'Electricidad', cable:'Cableado'}[k]||'Sistemas';
+  const icn={refri:'thermo', dren:'drop', marcas:'zap', cable:'zap'}[k]||'sys';
+  b.innerHTML=ic(icn,'ti')+`<span>${lab}</span>`+ic('chevD','ti chev'); b.dataset.k=k||''; b.title='Sistemas en el 3D: electricidad, drenajes y refrigeración'; }
+{ const _d=drenSync; drenSync=function(){ _d(); sysSync(); }; }
+{ const _r=refriSync; refriSync=function(){ _r(); sysSync(); }; }
+elecMenu=function(){
+  if(document.querySelector('.elecm')){ elecMenuClose(); return; }
+  const btn=$('#tWire'); if(!btn) return; btn.setAttribute('aria-expanded','true');
+  const nC=S.v2.circuitos.length, nF=(S.fus||[]).length, k=sysKind();
+  const m=h2(`<div class="elecm sysm" role="menu"></div>`);
+  const head=(i,t,cls)=>m.append(h2(`<div class="elech ${cls||''}">${ic(i)}<span>${esc(t)}</span></div>`));
+  const item=(i,t,s,fn,cls,on)=>{ const b=h2(`<button type="button" role="menuitem" class="${cls||''}${on?' on':''}"><i>${ic(i)}</i><span><b>${esc(t)}</b><small>${esc(s)}</small></span>${ic(on?'check':'chevR')}</button>`); b.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenuClose(); fn(); }; m.append(b); };
+  if(WIRE.on) item('x','Quitar la vista', `Ahora: ${WIRE.on.titulo||''} · vuelve al coche normal`, ()=>wireClear(), 'muted');
+  head('zap','Electricidad');
+  item('zap','Cableado', k==='cable'?`Viendo: ${WIRE.on.titulo}`:(nC?`${pl(nC,'circuito')} para ver en 3D`:'Recorrido de los cables en 3D'), wirePicker, '', k==='cable');
+  const nFz=elecBoxes('fusibles').reduce((a,c)=>a+(c.items||[]).filter(i=>!i.estado||i.estado==='ok').length,0), nRz=elecBoxes('reles').reduce((a,c)=>a+(c.items||[]).filter(i=>!i.estado||i.estado==='ok').length,0);
+  item('fuse','Fusibles y relés', (nFz||nRz)?`${nFz} fusibles y ${nRz} relés, con su dibujo`:nF?`${pl(nF,'fusible')} apuntados`:'Cajas de fusibles con su circuito', ()=>{ if(WIRE.on) wireClear(); go('coche','fus'); });
+  item('fuse','Cajas en el 3D','Dónde está cada caja de fusibles y relés', ()=>marcasShow('caja'), '', WIRE.on?.marcas==='caja');
+  item('earth','Puntos de masa','Los tornillos de masa sobre el modelo', ()=>marcasShow('masa'), '', WIRE.on?.marcas==='masa');
+  item('chip','Centralitas','Dónde va cada unidad de control', ()=>marcasShow('unidad'), '', WIRE.on?.marcas==='unidad');
+  head('drop','Agua','w');
+  item('drop','Drenajes del techo solar','Por dónde baja el agua y por dónde sale', ()=>{ if(!WIRE.on?.drenaje) wireShow(drenCircuit()); }, 'w', k==='dren');
+  item('thermo','Refrigeración del motor','El agua circulando: caliente, frío y bomba averiada', ()=>{ if(!WIRE.on?.refri) wireShow(refriCircuit()); }, 'r', k==='refri');
+  for(const ev of ['pointerdown','mousedown','touchstart','wheel']) m.addEventListener(ev, e=>e.stopPropagation(), {passive:true});
+  stage.append(m);
+  const r=btn.getBoundingClientRect(), sr=stage.getBoundingClientRect(), w=Math.min(310, sr.width-16), top=r.bottom-sr.top+8;
+  m.style.width=w+'px'; m.style.top=top+'px'; m.style.left=Math.max(8, Math.min(r.left-sr.left, sr.width-w-8))+'px'; m.style.maxHeight=Math.max(200, sr.height-top-10)+'px';
+  setTimeout(()=>{ ELOFF=e=>{ if(!e.target.closest('.elecm,#tWire')) elecMenuClose(); }; document.addEventListener('pointerdown', ELOFF, true); }, 0);
+};
+/* el desplegable va justo después de «Vista», para que en el móvil se vea sin deslizar la barra */
+{ const w=$('#tWire')?.closest('.seg'), v=$('#vdrop'); if(w && v && v!==w) v.after(w); }
+sysSync();
 
 
 connectDb();
