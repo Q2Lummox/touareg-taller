@@ -1,5 +1,9 @@
 # Novedades
 
+## v2.1.2 · 2026-10-16
+- La importación de ETKA puede completar piezas que estaban en la compra sin referencia
+- Diagnóstico y reparación: pequeños ajustes de presentación
+
 ## v2.1.1 · 2026-10-16
 - 3D: menú «Sistemas» con Electricidad, Drenajes y el nuevo circuito de Refrigeración (agua circulando: motor caliente, frío y bomba averiada)
 - Reparación en curso: sigue una guía paso a paso el día del trabajo; al terminar se apunta sola en el historial, monta las piezas de la compra y cierra la avería

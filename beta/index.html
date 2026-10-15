@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.1">
+<meta name="app-version" content="2.1.2">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2520,7 +2520,7 @@ body.wireon #tWire[data-k="refri"] svg:first-child,body.wireon #tWire[data-k="dr
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.1</span>
+  <span class="spver">v2.1.2</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5935,7 +5935,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.1';
+  const APP_VERSION='2.1.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -8934,7 +8934,8 @@ async function importRun(d, st){
     else { const r=await S.db.collection('procedimientos').add(data); rec.docs.push('procedimientos/'+r.id); } }
   for(const m of (d.manuales||[])){ const r=await S.db.collection('manuales').add({titulo:m.titulo||'', grupo:String(m.grupo||''), enlace:m.enlace||'', nota:m.nota||'', lote:id, fuente, actualizado:now}); rec.docs.push('manuales/'+r.id); }
   for(const a of (d.averias||[])){ if((S.ave||[]).some(x=>x.estado!=='resuelta' && x.sintoma===a.sintoma)) continue; const r=await S.db.collection('averias').add({codigo:String(a.codigo||'').toUpperCase(), sintoma:a.sintoma||'', notas:a.notas||'', estado:'abierta', piezas:(a.piezas||[]).map(x=>pid(x)||'Touareg2008_'+x), fecha:a.fecha||todayISO(), km:S.cfg?.kmActual??null, lote:id}); rec.docs.push('averias/'+r.id); }
-  for(const c of (d.compras||[])){ if(c.ref && (S.compras||[]).some(x=>x.estado==='pendiente' && refKey(x.ref)===refKey(c.ref))) continue; const r=await S.db.collection('compras').add({nombre:c.nombre||c.ref||'', ref:c.ref||'', cantidad:Math.max(1,Number(c.cantidad)||1), estado:'pendiente', notas:c.notas||'', creado:now, lote:id}); rec.docs.push('compras/'+r.id); }
+  for(const c of (d.compras||[])){ if(c.sustituye){ const old=(S.compras||[]).find(x=>x.estado!=='montado' && x.nombre===c.sustituye); if(old){ const {_id,...od}=old; rec.prev['compras/'+_id]=od; await S.db.collection('compras').doc(_id).set({...od, nombre:c.nombre||od.nombre, ref:c.ref||od.ref||'', notas:c.notas||od.notas||'', cantidad:Math.max(1,Number(c.cantidad)||od.cantidad||1)}); rec.docs.push('compras/'+_id); continue; } }
+    if(c.ref && (S.compras||[]).some(x=>x.estado==='pendiente' && refKey(x.ref)===refKey(c.ref))) continue; const r=await S.db.collection('compras').add({nombre:c.nombre||c.ref||'', ref:c.ref||'', cantidad:Math.max(1,Number(c.cantidad)||1), estado:'pendiente', notas:c.notas||'', creado:now, lote:id}); rec.docs.push('compras/'+r.id); }
   const fk=new Set(FT.flatMap(g=>g[2]).map(e=>e.k)), F=(d.ficha||[]).filter(f=>fk.has(f.k) && f.v);
   if(F.length){ const ft={...(S.cfgX.fichatec||{})}; for(const f of F){ rec.fichaPrev[f.k]=ft[f.k]||null; ft[f.k]={v:String(f.v), n:f.fuente||fuente||'Importado', fecha:todayISO(), lote:id}; } await S.db.doc('config/fichatec').set(ft); }
   st.textContent='Guardando el registro del lote…';

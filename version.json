@@ -1,15 +1,19 @@
 {
- "version": "2.1.1",
+ "version": "2.1.2",
  "fecha": "2026-10-16",
  "notas": [
-  "3D: menú «Sistemas» con Electricidad, Drenajes y el nuevo circuito de Refrigeración (agua circulando: motor caliente, frío y bomba averiada)",
-  "Reparación en curso: sigue una guía paso a paso el día del trabajo; al terminar se apunta sola en el historial, monta las piezas de la compra y cierra la avería",
-  "Seguimiento después de la reparación: revisiones con fecha (p. ej. nivel de refrigerante a 1, 7 y 30 días) en el Inicio y en los avisos",
-  "Diagnóstico por síntomas: marca lo que notas y te dice las causas probables del R5 TDI",
-  "La importación de ElsaWin/ETKA trae también averías y piezas para la compra",
-  "Modelo 3D: piezas separadas con su tamaño real; arreglos en móvil y en el 3D"
+  "La importación de ETKA puede completar piezas que estaban en la compra sin referencia",
+  "Diagnóstico y reparación: pequeños ajustes de presentación"
  ],
  "historial": [
+  {
+   "version": "2.1.2",
+   "fecha": "2026-10-16",
+   "notas": [
+    "La importación de ETKA puede completar piezas que estaban en la compra sin referencia",
+    "Diagnóstico y reparación: pequeños ajustes de presentación"
+   ]
+  },
   {
    "version": "2.1.1",
    "fecha": "2026-10-16",
