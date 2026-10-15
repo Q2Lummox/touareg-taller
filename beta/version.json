@@ -1,15 +1,15 @@
 {
- "version": "2.1.1-beta.7",
+ "version": "2.1.1-beta.8",
  "fecha": "2026-10-15",
  "notas": [
-  "Arreglado el error «Cannot read properties of null» con la refrigeración y los drenajes abiertos en el 3D"
+  "Móvil: la ficha de Cableado, Drenajes y Refrigeración ya no queda tapada por la barra de abajo"
  ],
  "historial": [
   {
-   "version": "2.1.1-beta.7",
+   "version": "2.1.1-beta.8",
    "fecha": "2026-10-15",
    "notas": [
-    "Arreglado el error «Cannot read properties of null» con la refrigeración y los drenajes abiertos en el 3D"
+    "Móvil: la ficha de Cableado, Drenajes y Refrigeración ya no queda tapada por la barra de abajo"
    ]
   }
  ]

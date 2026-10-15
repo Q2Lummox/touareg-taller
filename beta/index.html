@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.1-beta.7">
+<meta name="app-version" content="2.1.1-beta.8">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2487,7 +2487,7 @@ body.wireon #tWire[data-k="refri"] svg:first-child,body.wireon #tWire[data-k="dr
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.1-beta.7</span>
+  <span class="spver">v2.1.1-beta.8</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5902,7 +5902,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.1-beta.7';
+  const APP_VERSION='2.1.1-beta.8';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -10721,6 +10721,15 @@ elecMenu=function(){
 /* el desplegable va justo después de «Vista», para que en el móvil se vea sin deslizar la barra */
 { const w=$('#tWire')?.closest('.seg'), v=$('#vdrop'); if(w && v && v!==w) v.after(w); }
 sysSync();
+/* la ficha de abajo (cableado, drenajes, refrigeración) no puede quedar tapada por la barra de navegación del móvil */
+function wcFit(){ const cd=document.querySelector('.wirecard'); if(!cd) return; cd.style.bottom=''; cd.style.maxHeight='';
+  const sr=stage.getBoundingClientRect(); let lim=Math.min(sr.bottom, innerHeight);
+  for(const el of [$('#nav2')]){ if(!el) continue; const cs=getComputedStyle(el), r=el.getBoundingClientRect(); if(!r.height || cs.display==='none' || cs.visibility==='hidden' || +cs.opacity===0) continue; const hit=document.elementFromPoint(r.left+r.width/2, Math.min(innerHeight-2, r.top+r.height/2)); if(!hit || !el.contains(hit)) continue; /* solo si la barra queda por encima del visor */ if(r.top<lim && r.bottom>sr.top) lim=Math.min(lim, r.top); }
+  const extra=sr.bottom-lim; if(extra>1){ cd.style.bottom=(10+extra)+'px'; cd.style.maxHeight=Math.max(170, (lim-sr.top)*.48)+'px'; } }
+{ const _c=wireCard; wireCard=function(c){ const r=_c(c); requestAnimationFrame(wcFit); return r; }; }
+addEventListener('resize', ()=>requestAnimationFrame(wcFit));
+document.addEventListener('fullscreenchange', ()=>setTimeout(wcFit,120));
+$('#fsBtn')?.addEventListener('click', ()=>setTimeout(wcFit,120));
 
 
 connectDb();
