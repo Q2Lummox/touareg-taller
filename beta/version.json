@@ -1,17 +1,15 @@
 {
- "version": "2.1.1-beta.6",
+ "version": "2.1.1-beta.7",
  "fecha": "2026-10-15",
  "notas": [
-  "3D: Electricidad, Drenajes y Refrigeración van ahora en un solo desplegable «Sistemas», junto a Vista",
-  "El botón muestra qué sistema estás viendo y desde el menú se quita la vista"
+  "Arreglado el error «Cannot read properties of null» con la refrigeración y los drenajes abiertos en el 3D"
  ],
  "historial": [
   {
-   "version": "2.1.1-beta.6",
+   "version": "2.1.1-beta.7",
    "fecha": "2026-10-15",
    "notas": [
-    "3D: Electricidad, Drenajes y Refrigeración van ahora en un solo desplegable «Sistemas», junto a Vista",
-    "El botón muestra qué sistema estás viendo y desde el menú se quita la vista"
+    "Arreglado el error «Cannot read properties of null» con la refrigeración y los drenajes abiertos en el 3D"
    ]
   }
  ]

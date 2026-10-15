@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.1-beta.6">
+<meta name="app-version" content="2.1.1-beta.7">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2487,7 +2487,7 @@ body.wireon #tWire[data-k="refri"] svg:first-child,body.wireon #tWire[data-k="dr
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.1-beta.6</span>
+  <span class="spver">v2.1.1-beta.7</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5902,7 +5902,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.1-beta.6';
+  const APP_VERSION='2.1.1-beta.7';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -9652,7 +9652,7 @@ function drenFocus(id){
   stage.addEventListener('pointerdown', e=>{ pd=(WIRE.on?.drenaje && e.target===renderer.domElement)?{x:e.clientX,y:e.clientY}:null; }, true);
   stage.addEventListener('pointerup', e=>{ if(!pd || !WIRE.on?.drenaje) return; const d=pd; pd=null; if(Math.hypot(e.clientX-d.x,e.clientY-d.y)>6) return;
     const rr=renderer.domElement.getBoundingClientRect(); let best=null, bd=26; camera.updateMatrixWorld();
-    for(const t of (WIRE.grp?.children||[])){ const cv=t.userData.curve; if(!cv) continue; for(let i=0;i<=80;i++){ const p=cv.getPointAt(i/80).project(camera); if(p.z>1) continue; const sx=(p.x+1)/2*rr.width+rr.left, sy=(1-p.y)/2*rr.height+rr.top, dd=Math.hypot(sx-e.clientX, sy-e.clientY); if(dd<bd){ bd=dd; best=t.userData.wire; } } }
+    for(const t of (WIRE.grp?.children||[])){ const cv=t.userData.curve; if(!cv) continue; for(let i=0;i<=80;i++){ const q=cv.getPointAt(Math.min(i/80,.999)); if(!q) continue; const p=q.project(camera); if(p.z>1) continue; const sx=(p.x+1)/2*rr.width+rr.left, sy=(1-p.y)/2*rr.height+rr.top, dd=Math.hypot(sx-e.clientX, sy-e.clientY); if(dd<bd){ bd=dd; best=t.userData.wire; } } }
     if(!best) return; try{ clearTimeout(pressTimer); down=null; }catch{} /* sin cortar el evento: la cámara tiene que enterarse de que se soltó el dedo */ uiSfx('tap'); if(WIRE.sel!==best) wireHighlight(best); }, true); }
 /* botón «Drenajes» en el visor 3D, junto a Electricidad */
 { const w=document.querySelector('#tWire')?.closest('.seg'); if(w){ const s=h2(`<div class="seg"><button id="tDren" type="button" aria-pressed="false" title="Recorrido de los drenajes del techo solar">${ic('drop','ti')}<span>Drenajes</span></button></div>`);
@@ -10632,7 +10632,7 @@ function rfxStart(){
     if(document.hidden || UI.sec!=='coche' || UI.sub.coche!=='3d'){ RF.raf=requestAnimationFrame(tick); return; }
     const s=still?50:(now-t0)/1000;
     for(const f of flows){ f.tex.offset.x=-(s*.9*M.v)%1; const sel=!WIRE.sel || WIRE.sel===f.w.id || String(WIRE.sel).startsWith('n:'); f.mesh.material.opacity=sel?(RF.mode==='rota'?.55+.35*Math.sin(s*4):.9):.08;
-      for(const b of f.blobs){ const u=((s*M.v*.6/Math.max(.4,f.len))+b.ph)%1; b.o.position.copy(f.curve.getPointAt(u)); b.o.visible=sel; } }
+      for(const b of f.blobs){ const u=((s*M.v*.6/Math.max(.4,f.len))+b.ph)%1; const pt=f.curve.getPointAt(Math.min(u,.999)); if(pt) b.o.position.copy(pt); b.o.visible=sel && !!pt; } }
     for(const h of heat) h.material.opacity=.32+.22*Math.sin(s*3+h.position.x*20);
     for(const st of steam){ const u=((s/2.2)+st.ph)%1; st.o.position.set(st.x+st.dx*u, st.y+.05+u*.45, st.z+st.dz*u); st.o.scale.setScalar(.06+u*.22); st.o.material.opacity=(u<.15?u/.15:1-u)*.5; }
     /* termómetro: en «bomba averiada» sube de 90 a 120 °C y se queda parpadeando */
@@ -10673,7 +10673,7 @@ function refriFocus(id){
   stage.addEventListener('pointerdown', e=>{ pd=(WIRE.on?.refri && e.target===renderer.domElement)?{x:e.clientX,y:e.clientY}:null; }, true);
   stage.addEventListener('pointerup', e=>{ if(!pd || !WIRE.on?.refri) return; const d=pd; pd=null; if(Math.hypot(e.clientX-d.x,e.clientY-d.y)>6) return;
     const rr=renderer.domElement.getBoundingClientRect(); let best=null, bd=24; camera.updateMatrixWorld();
-    for(const t of (WIRE.grp?.children||[])){ const cv=t.userData.curve; if(!cv) continue; for(let i=0;i<=60;i++){ const p=cv.getPointAt(i/60).project(camera); if(p.z>1) continue; const sx=(p.x+1)/2*rr.width+rr.left, sy=(1-p.y)/2*rr.height+rr.top, dd=Math.hypot(sx-e.clientX, sy-e.clientY); if(dd<bd){ bd=dd; best=t.userData.wire; } } }
+    for(const t of (WIRE.grp?.children||[])){ const cv=t.userData.curve; if(!cv) continue; for(let i=0;i<=60;i++){ const q=cv.getPointAt(Math.min(i/60,.999)); if(!q) continue; const p=q.project(camera); if(p.z>1) continue; const sx=(p.x+1)/2*rr.width+rr.left, sy=(1-p.y)/2*rr.height+rr.top, dd=Math.hypot(sx-e.clientX, sy-e.clientY); if(dd<bd){ bd=dd; best=t.userData.wire; } } }
     if(!best) return; try{ clearTimeout(pressTimer); down=null; }catch{} uiSfx('tap'); if(WIRE.sel!==best) wireHighlight(best); }, true); }
 /* botón «Refrigeración» en el visor 3D, junto a Drenajes */
 { const w=document.querySelector('#tDren')?.closest('.seg')||document.querySelector('#tWire')?.closest('.seg'); if(w){ const s=h2(`<div class="seg"><button id="tRefri" type="button" aria-pressed="false" title="Circuito de refrigeración">${ic('thermo','ti')}<span>Refrigeración</span></button></div>`);
