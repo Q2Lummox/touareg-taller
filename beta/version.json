@@ -1,21 +1,21 @@
 {
- "version": "2.1.1-beta.4",
+ "version": "2.1.1-beta.5",
  "fecha": "2026-10-15",
  "notas": [
-  "Modelo 3D, fase 0: 35 piezas más que se pueden tocar por separado (de 104 a 139), sin cambiar cómo se ve el coche.",
-  "Cada lado por separado: pinzas, amortiguadores, muelles, manguetas, brazos, palieres, barras de acoplamiento y pasos de rueda.",
-  "Ruedas: neumático y llanta aparte. Salpicadero: cuadro de instrumentos, radio y clima, consola central, mandos y molduras.",
-  "Frontal: rejilla, rejilla cromada y los dos antinieblas. Interior: guarnecidos por zonas, retrovisor interior, banqueta y respaldo traseros."
+  "Nuevo en el 3D: circuito de refrigeración con el agua circulando (motor caliente, frío y bomba averiada)",
+  "La importación de ElsaWin/ETKA ya puede traer averías y piezas para la compra",
+  "Las guías de la bomba de agua y del refrigerante tienen botón para ver el circuito en el 3D",
+  "Modelo 3D: las piezas separadas ya tienen su tamaño real al seleccionarlas"
  ],
  "historial": [
   {
-   "version": "2.1.1-beta.4",
+   "version": "2.1.1-beta.5",
    "fecha": "2026-10-15",
    "notas": [
-    "Modelo 3D, fase 0: 35 piezas más que se pueden tocar por separado (de 104 a 139), sin cambiar cómo se ve el coche.",
-    "Cada lado por separado: pinzas, amortiguadores, muelles, manguetas, brazos, palieres, barras de acoplamiento y pasos de rueda.",
-    "Ruedas: neumático y llanta aparte. Salpicadero: cuadro de instrumentos, radio y clima, consola central, mandos y molduras.",
-    "Frontal: rejilla, rejilla cromada y los dos antinieblas. Interior: guarnecidos por zonas, retrovisor interior, banqueta y respaldo traseros."
+    "Nuevo en el 3D: circuito de refrigeración con el agua circulando (motor caliente, frío y bomba averiada)",
+    "La importación de ElsaWin/ETKA ya puede traer averías y piezas para la compra",
+    "Las guías de la bomba de agua y del refrigerante tienen botón para ver el circuito en el 3D",
+    "Modelo 3D: las piezas separadas ya tienen su tamaño real al seleccionarlas"
    ]
   }
  ]

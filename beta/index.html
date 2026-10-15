@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.1-beta.4">
+<meta name="app-version" content="2.1.1-beta.5">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2406,6 +2406,32 @@ body[data-sec="mas"] #nav2 .navpill{opacity:0}
 .mhecho>h4{flex-wrap:nowrap}
 .mhecho>h4 span,.mhecho>h4 em{white-space:nowrap;flex:none}
 .mhecho>h4 em{margin-left:2px}
+/* ---- circuito de refrigeración en 3D ---- */
+.refricard{border-color:#f39a1e}
+.refricard .wrow.on{border-color:#f39a1e;box-shadow:0 0 0 2px #f39a1e44}
+.rmodes{display:flex;gap:6px;margin:2px 0 8px}
+.rmodes button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:5px;padding:7px 6px;border-radius:10px;border:1px solid var(--line,#ffffff22);background:transparent;color:inherit;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
+.rmodes button svg{width:15px;height:15px;flex:none}
+.rmodes button span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rmodes button.on{background:color-mix(in srgb,#f39a1e 20%,transparent);border-color:#f39a1e}
+.rmodes button[data-m="cold"].on{background:color-mix(in srgb,#3fa9ff 20%,transparent);border-color:#3fa9ff}
+.rmodes button[data-m="rota"].on{background:color-mix(in srgb,#ff4433 22%,transparent);border-color:#ff4433}
+.rtemp{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:4px 10px;margin:0 0 8px}
+.rtv{font-weight:800;font-size:15px;font-variant-numeric:tabular-nums;min-width:62px}
+.rtbar{position:relative;height:8px;border-radius:4px;background:color-mix(in srgb,currentColor 14%,transparent)}
+.rtbar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px;width:60%;background:#f39a1e}
+.rtbar em{position:absolute;top:-3px;bottom:-3px;width:2px;background:currentColor;opacity:.5}
+.rtd{grid-column:1/-1;font-size:12px;line-height:1.4;opacity:.85}
+.refricard.rhot .rtv{color:#ff4433;animation:rblink 1s steps(2) infinite}
+@keyframes rblink{50%{opacity:.35}}
+.refricard .dinfo{background:color-mix(in srgb,#f39a1e 12%,transparent)}.refricard .dinfo>svg{color:#f39a1e}
+.wlab.t-rbomba b{color:#ffb04a}.wlab.t-rterm b{color:#ffd166}.wlab.t-rrad b{color:#7fd0ff}.wlab.t-rexp b{color:#c7d2dc}.wlab.t-rcal b{color:#ff8a65}.wlab.t-rcomp b{color:#f0c27a}
+.wlab.alarm{background:#5a0e08ee;border-color:#ff4433;animation:rblink 1s steps(2) infinite}
+#tRefri[aria-pressed="true"]{background:color-mix(in srgb,#f39a1e 22%,transparent);color:#ffc77a}
+@media (max-width:860px){ .refricard .wsum{display:none} .rrows .wrow small{display:none} .rrows .wrow{padding:7px 8px;align-items:center} .rrows .dsw{height:22px} .rmodes button{font-size:11.5px;padding:6px 4px} .rtd{font-size:11.5px} }
+body.ui2.light .rmodes button{border-color:#0002}
+.rnote{display:flex;gap:6px;align-items:flex-start;margin:0 0 8px!important;font-size:11.5px!important;line-height:1.35;opacity:.7}.rnote svg{width:13px;height:13px;flex:none;margin-top:1px}
+@media (max-width:860px){ .refricard .rnote{display:none} }
 </style>
 
 </head>
@@ -2448,7 +2474,7 @@ body[data-sec="mas"] #nav2 .navpill{opacity:0}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.1-beta.4</span>
+  <span class="spver">v2.1.1-beta.5</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5863,7 +5889,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.1-beta.4';
+  const APP_VERSION='2.1.1-beta.5';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -8811,7 +8837,8 @@ async function readInvoiceInto(file){
      pares:[{grupo, componente, valor, nota, fuente}],
      guias:[{titulo, grupo, herramientas, fuente, pasos:[{texto, herr, par}]}],
      ficha:[{k, v, fuente}],
-     manuales:[{titulo, grupo, enlace, nota}] }
+     manuales:[{titulo, grupo, enlace, nota}],
+     averias:[{codigo, sintoma, notas, fecha}], compras:[{nombre, ref, cantidad, notas}] }
    Todo lo importado lleva el id de su lote y se puede deshacer entero. */
 const GRP={'0':'Accesorios','1':'Motor','2':'Combustible y escape','3':'Cambio y transmisión','4':'Eje delantero, dirección y frenos','5':'Eje trasero','6':'Ruedas y frenos','7':'Pedales y mandos','8':'Carrocería','9':'Eléctrico'};
 const grpName=g=>GRP[String(g??'').charAt(0)]?`${String(g).charAt(0)} · ${GRP[String(g).charAt(0)]}`:(g||'Sin grupo');
@@ -8834,7 +8861,7 @@ function importCheck(d){
   const cEx=CI.filter(c=>S.v2.circuitos.some(x=>x._id==='C_'+safeId(c.id))); if(cEx.length) warn.push(`${cEx.length} circuito(s) ya existen y se sustituirán.`);
   const EL=d?.electrico||[]; for(const c of EL) if(!c.id) err.push('Hay una caja de fusibles o relés sin identificador.');
   const nFus=EL.filter(c=>c.tipo==='fusibles').reduce((a,c)=>a+(c.items||[]).length,0), nRel=EL.filter(c=>c.tipo==='reles').reduce((a,c)=>a+(c.items||[]).length,0);
-  return {err, warn, n:{laminas:L.length, piezas:nP, imgs:imgs+EL.filter(c=>c.img?.b64).length, pares:P.length, guias:G.length, ficha:F.length-fBad.length, manuales:M.length, circuitos:CI.length, cajas:EL.length, fusibles:nFus, reles:nRel}};
+  return {err, warn, n:{laminas:L.length, piezas:nP, imgs:imgs+EL.filter(c=>c.img?.b64).length, pares:P.length, guias:G.length, ficha:F.length-fBad.length, manuales:M.length, circuitos:CI.length, cajas:EL.length, fusibles:nFus, reles:nRel, averias:(d?.averias||[]).length, compras:(d?.compras||[]).length}};
 }
 async function importRun(d, st){
   const id='lote_'+Date.now().toString(36), now=new Date().toISOString(), fuente=d.lote?.fuente||'';
@@ -8860,6 +8887,8 @@ async function importRun(d, st){
     if(old){ rec.prev['procedimientos/'+old._id]=stripId2(old); await S.db.collection('procedimientos').doc(old._id).set(data); rec.docs.push('procedimientos/'+old._id); }
     else { const r=await S.db.collection('procedimientos').add(data); rec.docs.push('procedimientos/'+r.id); } }
   for(const m of (d.manuales||[])){ const r=await S.db.collection('manuales').add({titulo:m.titulo||'', grupo:String(m.grupo||''), enlace:m.enlace||'', nota:m.nota||'', lote:id, fuente, actualizado:now}); rec.docs.push('manuales/'+r.id); }
+  for(const a of (d.averias||[])){ if((S.ave||[]).some(x=>x.estado!=='resuelta' && x.sintoma===a.sintoma)) continue; const r=await S.db.collection('averias').add({codigo:String(a.codigo||'').toUpperCase(), sintoma:a.sintoma||'', notas:a.notas||'', estado:'abierta', piezas:(a.piezas||[]).map(x=>pid(x)||'Touareg2008_'+x), fecha:a.fecha||todayISO(), km:S.cfg?.kmActual??null, lote:id}); rec.docs.push('averias/'+r.id); }
+  for(const c of (d.compras||[])){ if(c.ref && (S.compras||[]).some(x=>x.estado==='pendiente' && refKey(x.ref)===refKey(c.ref))) continue; const r=await S.db.collection('compras').add({nombre:c.nombre||c.ref||'', ref:c.ref||'', cantidad:Math.max(1,Number(c.cantidad)||1), estado:'pendiente', notas:c.notas||'', creado:now, lote:id}); rec.docs.push('compras/'+r.id); }
   const fk=new Set(FT.flatMap(g=>g[2]).map(e=>e.k)), F=(d.ficha||[]).filter(f=>fk.has(f.k) && f.v);
   if(F.length){ const ft={...(S.cfgX.fichatec||{})}; for(const f of F){ rec.fichaPrev[f.k]=ft[f.k]||null; ft[f.k]={v:String(f.v), n:f.fuente||fuente||'Importado', fecha:todayISO(), lote:id}; } await S.db.doc('config/fichatec').set(ft); }
   st.textContent='Guardando el registro del lote…';
@@ -8877,7 +8906,7 @@ function importPreview(d, nombreArchivo){
   const c=importCheck(d), body=h2('<div></div>');
   body.append(h2(`<p class="muted2" style="margin:0 0 10px">${esc(nombreArchivo)} · ${esc(d.lote?.fuente||'fuente sin indicar')}</p>`));
   body.append(h2(`<div class="stchips">${stat(c.n.laminas,'Láminas','var(--accent)')}${stat(nf.format(c.n.piezas),'Piezas','var(--info)')}${stat(c.n.pares,'Pares de apriete','var(--soon)')}${stat(c.n.guias,'Guías','var(--ok)')}</div>`));
-  if(c.n.ficha||c.n.manuales||c.n.imgs||c.n.circuitos||c.n.cajas) body.append(h2(`<p class="muted2">${[c.n.cajas?`${c.n.cajas} cajas con ${c.n.fusibles} fusibles y ${c.n.reles} relés`:'', c.n.circuitos?c.n.circuitos+' circuito(s) eléctrico(s) para el 3D':'', c.n.imgs?c.n.imgs+' ilustraciones':'', c.n.ficha?c.n.ficha+' datos de ficha técnica':'', c.n.manuales?c.n.manuales+' enlaces a manuales':''].filter(Boolean).join(' · ')}</p>`));
+  if(c.n.ficha||c.n.manuales||c.n.imgs||c.n.circuitos||c.n.cajas||c.n.averias||c.n.compras) body.append(h2(`<p class="muted2">${[c.n.cajas?`${c.n.cajas} cajas con ${c.n.fusibles} fusibles y ${c.n.reles} relés`:'', c.n.circuitos?c.n.circuitos+' circuito(s) eléctrico(s) para el 3D':'', c.n.imgs?c.n.imgs+' ilustraciones':'', c.n.ficha?c.n.ficha+' datos de ficha técnica':'', c.n.manuales?c.n.manuales+' enlaces a manuales':'', c.n.averias?c.n.averias+' avería(s)':'', c.n.compras?c.n.compras+' piezas para la compra':''].filter(Boolean).join(' · ')}</p>`));
   for(const e of c.err) body.append(h2(`<div class="alr due">${ic('alert')}<span>${esc(e)}</span></div>`));
   for(const w of c.warn) body.append(h2(`<div class="alr soon">${ic('alert')}<span>${esc(w)}</span></div>`));
   const L=(d.laminas||[]).slice(0,4); if(L.length){ const cc=card2('Muestra','layers'); for(const l of L) cc.querySelector('.l2').append(row2({c:'var(--accent)', i:'layers', t:`${l.id} · ${l.titulo||''}`, s:`${grpName(l.grupo??String(l.id).charAt(0))} · ${(l.piezas||[]).length} piezas${(l.piezas||[])[0]?' · p. ej. '+l.piezas[0].ref+' '+l.piezas[0].nombre:''}`})); body.append(cc); }
@@ -9179,7 +9208,7 @@ function wireBuild(c){
   const nodes=Object.fromEntries((c.nodos||[]).map(n=>[n.id,n]));
   (c.cables||[]).forEach((w,i)=>{
     const cols=wcol(w.color), base=new THREE.Color(cols[0]);
-    const off=new THREE.Vector3(0, (i-(c.cables.length-1)/2)*r*2.6, 0);
+    const off=new THREE.Vector3(0, c.sinOff?0:(i-(c.cables.length-1)/2)*r*2.6, 0);
     /* trozos: puntos seguidos con el mismo «a» van juntos (dentro de la puerta se mueven con ella) */
     const pts=(w.ruta||[]).map(an=>{ const an2=typeof an==='string'?nodes[an]?.ancla:an; const v=an2&&anchorWorld(an2); return v?{v:v.add(off), a:an2.a||null}:null; }).filter(Boolean);
     const runs=[]; for(const p of pts){ const last=runs[runs.length-1]; if(!last || last.a!==p.a){ if(last) runs.push({a:p.a, pts:[last.pts[last.pts.length-1], p.v]}); else runs.push({a:p.a, pts:[p.v]}); } else last.pts.push(p.v); }
@@ -9836,6 +9865,7 @@ function guiaRead(pr, at){
     li.querySelector('.gchk').onclick=()=>{ if(done.has(i)) done.delete(i); else { done.add(i); uiSfx('tick'); } li.classList.toggle('on', done.has(i)); upd(); if(done.size===P.length && P.length){ celebrate(); toast('Guía completada'); } };
     ol.append(li); });
   if(/drenaj/i.test(pr.titulo||'')){ const b=h2(`<button type="button" class="btn2 pri gdren">${ic('drop')}Ver las mangueras en el 3D</button>`); b.onclick=()=>{ closeSheet(); if(!WIRE.on?.drenaje) wireShow(drenCircuit()); }; body.prepend(b); }
+  if(/bomba de agua|refrigera/i.test(pr.titulo||'')){ const b=h2(`<button type="button" class="btn2 pri gdren">${ic('thermo')}Ver el circuito en el 3D</button>`); b.onclick=()=>{ closeSheet(); if(!WIRE.on?.refri) wireShow(refriCircuit()); }; body.prepend(b); }
   body.append(ol); upd(); if(at!=null) setTimeout(()=>body.querySelector('li.ghit')?.scrollIntoView({block:'start', behavior:'smooth'}),350);
   const acts=[]; if(gHas3D(pr)) acts.push(['Seguir en el 3D','cube',()=>guiaRun3D(pr),'pri']);
   acts.push(['Editar','edit',()=>guiaEdit(pr)]);
@@ -10475,6 +10505,168 @@ v2MasHome=function(pb){
 const PART_GRP={ dash:['dash','dash_cuadro','dash_radio','dash_consola','dash_mandos','dash_molduras'], bumper_F:['bumper_F','bumper_F_rejilla','bumper_F_cromo','foglight_L','foglight_R'],
   Interior_L:['Interior_L','trim_FL','trim_FR','trim_RL','trim_RR'], Interior_H:['Interior_H','roof_mirror'], seats_R:['seats_R','seats_R_back'] };
 { const _pb=partBox; partBox=function(r){ const g=PART_GRP[String(r||'').replace(P,'')]; if(!g) return _pb(r); const b=new THREE.Box3(); for(const k of g){ const x=_pb(k); if(x) b.union(x); } return b.isEmpty()?null:b; }; }
+
+/* ====================== CIRCUITO DE REFRIGERACIÓN EN 3D ======================
+   Según el esquema de ElsaWin (N19-10026) para el 2,5 R5 TDI (BAC) con cambio manual: sin enfriador EGR.
+   El motor del modelo es genérico (no es el R5), así que el recorrido es orientativo: muestra qué va con qué
+   y por dónde circula el agua. Tres modos: motor caliente (termostato abierto), motor frío (cerrado) y
+   bomba de agua averiada (no circula nada y el motor se calienta). */
+const RF={mode:'hot', keep:new Set(), raf:0, objs:[], on:false};
+const RE=(u)=>({ref:'engine', u}), RR=(u)=>({ref:'radiator', u});
+/* puntos clave (u: [lado 0=izq…1=der, alto, largo 0=delante…1=detrás]) */
+const RF_N=[
+  {id:'nB', cod:'1', nombre:'Bomba de agua', tipo:'rbomba', ancla:RE([.42,.12,.03]), donde:'Delante y abajo del bloque, lado del cilindro 1. La mueve un piñón de la cascada de engranajes, no una correa.', nota:'Si falla, el agua deja de circular: sube la temperatura en pocos minutos aunque el radiador esté bien.'},
+  {id:'nT', cod:'2', nombre:'Termostato', tipo:'rterm', ancla:RE([.6,.08,.07]), donde:'En la carcasa de abajo, junto a la entrada de la bomba.', nota:'Empieza a abrir a unos 87 °C y termina a unos 102 °C, con al menos 8 mm de carrera. Cerrado, el agua no pasa por el radiador.'},
+  {id:'nR', cod:'3', nombre:'Radiador', tipo:'rrad', ancla:RR([.5,.75,.6]), donde:'En el frontal, delante del motor y detrás del condensador del aire acondicionado.', nota:'Entra caliente por arriba y sale enfriada por abajo. Si lo cambias, cambia todo el refrigerante.'},
+  {id:'nE', cod:'4', nombre:'Vaso de expansión', tipo:'rexp', ancla:BA([.27,.56,-.045]), donde:'En el vano motor (posición aproximada en el modelo).', nota:'Recoge la dilatación del líquido y saca el aire del circuito. El tapón abre a 1,4–1,6 bar. Ábrelo solo en frío.'},
+  {id:'nC', cod:'5', nombre:'Radiador de calefacción', tipo:'rcal', ancla:BA([.5,.46,.11]), donde:'Dentro del salpicadero, detrás del cortafuegos.', nota:'Recibe agua caliente aunque el termostato esté cerrado: por eso la calefacción calienta antes de que el motor llegue a su temperatura.'},
+  {id:'nO', cod:'6', nombre:'Enfriador de aceite', tipo:'rcomp', ancla:RE([.12,.32,.4]), donde:'En el lateral del bloque, junto al filtro de aceite.', nota:'El refrigerante enfría el aceite del motor.'},
+  {id:'nV', cod:'V166', nombre:'Bomba de refrigeración del combustible', tipo:'rcomp', ancla:BA([.36,.18,-.215]), donde:'Abajo, delante, junto al manguito inferior del radiador.', nota:'Bomba eléctrica auxiliar. Para vaciar el circuito se suelta el manguito que llega a ella (guía «Vaciar y llenar»).'},
+  {id:'nF', cod:'7', nombre:'Enfriador del combustible', tipo:'rcomp', ancla:BA([.64,.14,.03]), donde:'En los bajos (posición aproximada).', nota:'Enfría el gasóleo que vuelve al depósito usando el circuito de refrigeración.'},
+  {id:'nH', cod:'8', nombre:'Culata y bloque', tipo:'rcomp', ancla:RE([.5,.9,.5]), donde:'Por dentro del motor: camisas de agua del bloque y la culata.', nota:'Aquí se recoge el calor de la combustión.'} ];
+/* mangueras: color de base, temperatura (para el color del agua) y en qué modos circula */
+const RF_W=[
+  {id:'blq', nombre:'Por dentro del motor', s:'Bomba → bloque → culata', color:'or', t:.7, sec:10, en:'hot cold', ruta:['nT','nB', RE([.4,.3,.1]), RE([.38,.42,.85]), RE([.45,.8,.9]), RE([.5,.86,.15]), RE([.52,.9,.0])]},
+  {id:'sup', nombre:'Manguito superior', s:'Culata → radiador (caliente)', color:'ro', t:1, sec:10, en:'hot', ruta:[RE([.52,.9,.0]), RE([.6,.95,-.12]), RR([.8,.92,1.6]), RR([.8,.92,1])]},
+  {id:'rad', nombre:'Dentro del radiador', s:'De arriba abajo: aquí se enfría', color:'gr', t:.5, sec:10, en:'hot', ruta:[RR([.8,.92,.6]), RR([.8,.5,.6]), RR([.2,.5,.6]), RR([.2,.1,.6])]},
+  {id:'inf', nombre:'Manguito inferior', s:'Radiador → termostato (enfriada)', color:'bl', t:0, sec:10, en:'hot', ruta:[RR([.2,.1,1]), RR([.2,.05,1.8]), RE([.5,.02,-.06]), 'nT']},
+  {id:'cal', nombre:'Calefacción (ida)', s:'Culata → radiador de calefacción', color:'ro', t:.9, sec:2, en:'hot cold', ruta:[RE([.45,.85,.92]), RE([.45,.95,1.05]), BA([.47,.48,.056]), 'nC']},
+  {id:'calr', nombre:'Calefacción (vuelta)', s:'Radiador de calefacción → bomba', color:'or', t:.55, sec:2, en:'hot cold', ruta:['nC', BA([.54,.42,.056]), RE([.75,.4,1.0]), RE([.78,.15,.3]), RE([.62,.06,.1]), 'nT']},
+  {id:'acei', nombre:'Enfriador de aceite', s:'Bloque ⇄ enfriador de aceite', color:'or', t:.7, sec:2, en:'hot cold', ruta:[RE([.3,.3,.3]), RE([.1,.3,.32]), 'nO', RE([.1,.36,.5]), RE([.3,.36,.52])]},
+  {id:'exp', nombre:'Purga al vaso', s:'Radiador → vaso de expansión (aire y dilatación)', color:'gr', t:.8, sec:2, en:'hot', ruta:[RR([.95,.95,1]), RR([.95,1.25,1.4]), 'nE']},
+  {id:'expr', nombre:'Vaso → bomba', s:'Vaso de expansión → entrada de la bomba', color:'bl', t:.2, sec:2, en:'hot cold', ruta:['nE', BA([.28,.3,-.08]), RE([.3,.05,.04]), 'nB']},
+  {id:'comb', nombre:'Circuito del combustible', s:'Radiador → V166 → enfriador del combustible', color:'bl', t:.1, sec:2, en:'hot', ruta:[RR([.08,.08,1]), 'nV', BA([.5,.12,-.12]), 'nF', BA([.66,.2,-.1]), RR([.95,.3,1])]} ];
+const RF_MODES={hot:{t:'Motor caliente', i:'thermo', d:'Termostato abierto: el agua pasa por el radiador y se enfría.', temp:90, v:1},
+  cold:{t:'Motor frío', i:'drop', d:'Termostato cerrado: el agua solo da vueltas por el motor y la calefacción, sin pasar por el radiador, para calentarse antes.', temp:45, v:.7},
+  rota:{t:'Bomba averiada', i:'alert', d:'La bomba no mueve el agua. Sin circulación, el calor se queda en el motor: la temperatura sube en pocos minutos y el líquido hierve en el vaso. Para el motor en cuanto la aguja pase de 90 °C.', temp:120, v:0}};
+function refriCircuit(){
+  const nodos=RF_N.map(n=>({...n, h:n.id})), cables=RF_W.map(w=>({id:w.id, nombre:w.nombre, color:w.color, seccion:w.sec, de:w.s, a:'', funcion:w.s, ruta:w.ruta}));
+  return {id:'refrigeracion', titulo:'Circuito de refrigeración', sistema:'Motor', refri:true, sinOff:true, lado:'izq', resumen:'Esquema de ElsaWin (grupo 19) sobre el modelo. El motor del modelo es genérico, así que el recorrido es orientativo. Elige un modo para ver cómo circula el agua.', nodos, cables};
+}
+const refriGuide=re=>(S.procs||[]).find(p=>re.test(p.titulo||''));
+function refriShow(){ if(WIRE.on?.refri){ wireClear(); return; } wireShow(refriCircuit()); }
+function refriSync(){ const b=$('#tRefri'); if(b) b.setAttribute('aria-pressed', String(!!WIRE.on?.refri)); }
+function refriCard(c){
+  document.querySelector('.wirecard')?.remove();
+  const cd=h2(`<div class="wirecard refricard"><div class="wch"><span>${ic('thermo')}<b>${esc(c.titulo)}</b></span><button type="button" class="wx" aria-label="Cerrar">${ic('x')}</button></div>
+    <div class="rmodes">${Object.entries(RF_MODES).map(([k,m])=>`<button type="button" data-m="${k}" class="${k===RF.mode?'on':''}">${ic(m.i)}<span>${esc(m.t)}</span></button>`).join('')}</div>
+    <div class="rtemp"><span class="rtv">90 °C</span><div class="rtbar"><i></i><em style="left:${(87-30)/100*100}%"></em></div><small class="rtd"></small></div>
+    <p class="dinfo" hidden></p><p class="rnote">${ic('info')}Recorrido orientativo según el esquema de ElsaWin: el motor del modelo es genérico.</p><div class="row3 wacts"></div><details class="wdet"><summary>Manguitos <em>${RF_W.length}</em></summary><div class="wrows rrows"></div></details></div>`);
+  const rows=cd.querySelector('.rrows');
+  for(const w of RF_W){ const r=h2(`<button type="button" class="wrow" data-w="${w.id}"><i class="dsw" style="--a:${WCOL[w.color]}"></i><span><b>${esc(w.nombre)}</b><small>${esc(w.s)}</small></span></button>`);
+    r.onclick=()=>{ uiSfx('tap'); wireHighlight(w.id); }; rows.append(r); }
+  cd.querySelectorAll('.rmodes button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); refriMode(b.dataset.m); });
+  const acts=cd.querySelector('.wacts');
+  const gb=h2(`<button type="button" class="btn2 ghost">${ic('book')}Cambiar la bomba</button>`);
+  gb.onclick=()=>{ const g=refriGuide(/bomba de agua/i); if(g) guiaRead(g); else toast('Importa «importar-guia-bomba-agua.json» (Más ▸ Importar datos) para tener la guía'); };
+  if(!refriGuide(/bomba de agua/i)) gb.classList.add('dim'); acts.append(gb);
+  const eb=h2(`<button type="button" class="btn2 ghost">${ic('file')}Esquema</button>`);
+  eb.onclick=()=>{ const g=refriGuide(/circuito de refrigeraci/i); if(g) guiaRead(g); else toast('El esquema viene en «importar-guia-bomba-agua.json» (Más ▸ Importar datos)'); };
+  if(!refriGuide(/circuito de refrigeraci/i)) eb.classList.add('dim'); acts.append(eb);
+  const fb=h2(`<button type="button" class="btn2 ghost">${ic('eye')}Centrar</button>`); fb.onclick=()=>refriFocus(WIRE.sel&&!String(WIRE.sel).startsWith('n:')?WIRE.sel:null); acts.append(fb);
+  cd.querySelector('.wx').onclick=()=>{ uiSfx('tap'); wireClear(); };
+  stopIn(cd); stage.append(cd); refriTempUI();
+}
+function refriTempUI(){ const cd=document.querySelector('.refricard'); if(!cd) return; const m=RF_MODES[RF.mode];
+  cd.querySelector('.rtd').textContent=m.d; cd.classList.toggle('rbad', RF.mode==='rota');
+  cd.querySelectorAll('.rmodes button').forEach(b=>b.classList.toggle('on', b.dataset.m===RF.mode));
+  document.querySelectorAll('.wlab.t-rbomba').forEach(l=>l.classList.toggle('alarm', RF.mode==='rota')); }
+function refriMode(m){ RF.mode=m; refriTempUI(); rfxStart(); if(m==='rota') refriInfo('n:nB'); }
+function refriInfo(id){ const p=document.querySelector('.refricard .dinfo'); if(!p) return;
+  if(!id){ p.hidden=true; return; } p.hidden=false;
+  if(String(id).startsWith('n:')){ const n=RF_N.find(x=>'n:'+x.id===id); if(!n){ p.hidden=true; return; }
+    p.innerHTML=`${ic('info')}<span><b>${esc(n.nombre)}</b> · ${esc(n.donde)} ${esc(n.nota)}</span>`;
+    if(n.id==='nB'){ const b=h2(`<button type="button" class="btn2 ghost">${ic('book')}Guía de cambio</button>`); b.onclick=()=>{ const g=refriGuide(/bomba de agua/i); if(g) guiaRead(g); else toast('Importa «importar-guia-bomba-agua.json» para tener la guía'); }; p.append(b); }
+    return; }
+  const w=RF_W.find(x=>x.id===id); if(!w){ p.hidden=true; return; }
+  const act=w.en.split(' ').includes(RF.mode);
+  p.innerHTML=`${ic('drop')}<span><b>${esc(w.nombre)}</b> · ${esc(w.s)}. ${RF.mode==='rota'?'Con la bomba averiada no circula.':act?'En este modo circula.':'En este modo no circula: el termostato está cerrado.'}</span>`;
+}
+/* --- el agua circulando: una capa brillante que corre por cada manguito, del color de su temperatura --- */
+function rfxTex(){ return RF.tex||(RF.tex=(()=>{ const c=document.createElement('canvas'); c.width=256; c.height=8; const g=c.getContext('2d'); const gr=g.createLinearGradient(0,0,256,0);
+  gr.addColorStop(0,'rgba(255,255,255,.25)'); gr.addColorStop(.4,'rgba(255,255,255,.55)'); gr.addColorStop(.55,'rgba(255,255,255,1)'); gr.addColorStop(.7,'rgba(255,255,255,.55)'); gr.addColorStop(1,'rgba(255,255,255,.25)');
+  g.fillStyle=gr; g.fillRect(0,0,256,8); const t=new THREE.CanvasTexture(c); t.wrapS=THREE.RepeatWrapping; t.colorSpace=THREE.SRGBColorSpace; return t; })()); }
+function rfxGlow(){ return RF.glow||(RF.glow=(()=>{ const c=document.createElement('canvas'); c.width=c.height=128; const g=c.getContext('2d'); const gr=g.createRadialGradient(64,64,0,64,64,62);
+  gr.addColorStop(0,'rgba(255,255,255,.95)'); gr.addColorStop(.35,'rgba(255,255,255,.5)'); gr.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=gr; g.fillRect(0,0,128,128); const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return t; })()); }
+const rfxCol=t=>new THREE.Color().setHSL((1-t)*.58, .95, .58);   /* 0 = azul (frío) … 1 = rojo (caliente) */
+function rfxClear(){ cancelAnimationFrame(RF.raf); RF.raf=0; for(const o of RF.objs){ o.removeFromParent(); o.geometry?.dispose?.(); if(o.material){ if(o.material.map && o.material.map!==RF.glow) o.material.map.dispose(); o.material.dispose(); } } RF.objs=[]; RF.on=false; if(typeof dirty!=='undefined') dirty=true; }
+function rfxStart(){
+  rfxClear(); if(!WIRE.on?.refri) return;
+  const add=o=>{ scene.add(o); RF.objs.push(o); return o; };
+  const M=RF_MODES[RF.mode], flows=[];
+  for(const t of (WIRE.grp?.children||[])){ const w=RF_W.find(x=>x.id===t.userData.wire); if(!w || !t.userData.curve) continue;
+    const act=RF.mode!=='rota' && w.en.split(' ').includes(RF.mode);
+    /* el color del agua: en frío todo va templado; con la bomba rota el motor se pone al rojo */
+    const temp=RF.mode==='cold'?Math.min(w.t,.45)*.8:RF.mode==='rota'?(w.id==='blq'?1:w.t*.6):w.t;
+    t.material.opacity=WIRE.sel&&WIRE.sel!==w.id?.1:(act||RF.mode==='rota'?.96:.35);
+    if(!act && !(RF.mode==='rota' && w.id==='blq')) continue;
+    const curve=t.userData.curve, len=curve.getLength(), seg=Math.min(300, t.userData.seg||120), radial=8;
+    const tex=rfxTex().clone(); tex.needsUpdate=true; tex.repeat.set(Math.max(1,len/.16),1);
+    const mesh=add(new THREE.Mesh(new THREE.TubeGeometry(curve, seg, (t.userData.rad||.006)*1.35, radial, false), new THREE.MeshBasicMaterial({map:tex, color:rfxCol(temp), transparent:true, opacity:.9, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending})));
+    mesh.renderOrder=1002; mesh.userData.w=w.id;
+    const n=Math.max(2, Math.round(len/.12)), blobs=[];
+    if(act) for(let k=0;k<n;k++){ const s=add(new THREE.Sprite(new THREE.SpriteMaterial({map:rfxGlow(), color:rfxCol(temp), transparent:true, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending}))); s.renderOrder=1004; s.scale.setScalar((t.userData.rad||.006)*5); s.userData.w=w.id; blobs.push({o:s, ph:k/n}); }
+    flows.push({w, tex, mesh, blobs, curve, len});
+  }
+  /* bomba rota: el motor brilla de calor y sale vapor por el vaso */
+  const heat=[], steam=[];
+  if(RF.mode==='rota'){ const b=partBox('engine'); if(b){ const c=b.getCenter(new THREE.Vector3()), sz=b.getSize(new THREE.Vector3());
+      for(let k=0;k<3;k++){ const s=add(new THREE.Sprite(new THREE.SpriteMaterial({map:rfxGlow(), color:new THREE.Color('#ff3a1a'), transparent:true, opacity:.5, depthTest:false, depthWrite:false, blending:THREE.AdditiveBlending}))); s.renderOrder=1001; s.position.copy(c).add(new THREE.Vector3((k-1)*sz.x*.25, (k%2)*sz.y*.15, 0)); s.scale.setScalar(Math.max(sz.x,sz.z)*.9); heat.push(s); } }
+    const ev=anchorWorld(RF_N.find(n=>n.id==='nE').ancla); if(ev) for(let k=0;k<8;k++){ const s=add(new THREE.Sprite(new THREE.SpriteMaterial({map:rfxGlow(), color:new THREE.Color('#e8eef5'), transparent:true, opacity:0, depthTest:false, depthWrite:false}))); s.renderOrder=1005; steam.push({o:s, ph:k/8, x:ev.x, y:ev.y, z:ev.z, dx:Math.sin(k*2.4)*.05, dz:Math.cos(k*1.7)*.05}); } }
+  const tok=RF.tok=(RF.tok||0)+1; RF.on=true; const t0=performance.now(), still=!ANIMON(), cd=document.querySelector('.refricard');
+  const tv=cd?.querySelector('.rtv'), tb=cd?.querySelector('.rtbar i'); let lastT=null;
+  const tick=now=>{ if(!RF.on || tok!==RF.tok) return;
+    if(document.hidden || UI.sec!=='coche' || UI.sub.coche!=='3d'){ RF.raf=requestAnimationFrame(tick); return; }
+    const s=still?50:(now-t0)/1000;
+    for(const f of flows){ f.tex.offset.x=-(s*.9*M.v)%1; const sel=!WIRE.sel || WIRE.sel===f.w.id || String(WIRE.sel).startsWith('n:'); f.mesh.material.opacity=sel?(RF.mode==='rota'?.55+.35*Math.sin(s*4):.9):.08;
+      for(const b of f.blobs){ const u=((s*M.v*.6/Math.max(.4,f.len))+b.ph)%1; b.o.position.copy(f.curve.getPointAt(u)); b.o.visible=sel; } }
+    for(const h of heat) h.material.opacity=.32+.22*Math.sin(s*3+h.position.x*20);
+    for(const st of steam){ const u=((s/2.2)+st.ph)%1; st.o.position.set(st.x+st.dx*u, st.y+.05+u*.45, st.z+st.dz*u); st.o.scale.setScalar(.06+u*.22); st.o.material.opacity=(u<.15?u/.15:1-u)*.5; }
+    /* termómetro: en «bomba averiada» sube de 90 a 120 °C y se queda parpadeando */
+    const T=Math.round(RF.mode==='rota'?Math.min(120, 90+s*4):M.temp);
+    if(T!==lastT && tv){ lastT=T; tv.textContent=T+' °C'+(T>=110?' ⚠':''); tb.style.width=Math.max(0,Math.min(100,(T-30)))+'%'; tb.style.background=T>=105?'#ff4433':T>=80?'#f39a1e':'#3fa9ff'; cd.classList.toggle('rhot', T>=110); }
+    dirty=true; if(!still) RF.raf=requestAnimationFrame(tick); };
+  RF.raf=requestAnimationFrame(tick);
+}
+/* encuadre del vano motor desde delante a la izquierda y un poco desde arriba */
+function refriFocus(id){
+  const T0=[...(WIRE.grp?.children||[])].filter(t=>!id || t.userData.wire===id); if(!T0.length) return;
+  const b=new THREE.Box3(); for(const t of T0){ if(!t.geometry.boundingBox) t.geometry.computeBoundingBox(); b.union(t.geometry.boundingBox.clone().applyMatrix4(t.matrixWorld)); }
+  const c=b.getCenter(new THREE.Vector3()), s=Math.max(id?1:1.2, b.getSize(new THREE.Vector3()).length()), f=carFrame();
+  const side=new THREE.Vector3(); side[f.lat.k]=-f.lat.s; const front=new THREE.Vector3(); front[f.lng.k]=-f.lng.s;
+  const T=Math.tan((camera.fov||40)*Math.PI/360), asp=Math.min(1, camera.aspect||1), dist=Math.max(id?2.1:2.4, (s*.6)/T/asp);
+  c.y-=dist*T*.3;   /* deja el motor en la mitad de arriba: abajo va la ficha */
+  const pos=c.clone().add(side.multiplyScalar(dist*.62)).add(front.multiplyScalar(dist*.62)).add(new THREE.Vector3(0, dist*.5, 0));
+  leaveCabin?.(); flyTo(c, pos);
+}
+/* ---- enganches en el sistema de cableado (07): misma ficha, etiquetas y selección ---- */
+{ const _c=wireCard; wireCard=function(c){ if(c?.refri) return refriCard(c); return _c(c); }; }
+{ const _f=wireFocus; wireFocus=function(){ if(WIRE.on?.refri) return refriFocus(null); return _f(); }; }
+{ const _n=wireNodeInfo; wireNodeInfo=function(c,n){ if(!c?.refri) return _n(c,n);
+    const id='n:'+n.id; WIRE.sel=WIRE.sel===id?null:id; const ids=new Set(RF_W.filter(w=>w.ruta.includes(n.id)).map(w=>w.id));
+    for(const t of (WIRE.grp?.children||[])) t.material.opacity=!WIRE.sel||ids.has(t.userData.wire)?.96:.1;
+    document.querySelectorAll('.wlab').forEach(l=>l.classList.toggle('on', WIRE.sel && WIRE.labels.find(x=>x.el===l)?.n.id===n.id));
+    refriInfo(WIRE.sel); dirty=true; }; }
+{ const _h=wireHighlight; wireHighlight=function(id){ if(!WIRE.on?.refri) return _h(id);
+    WIRE.sel=WIRE.sel===id?null:id; document.querySelectorAll('.wlab.on').forEach(l=>l.classList.remove('on'));
+    document.querySelectorAll('.wirecard .wrow').forEach(r=>r.classList.toggle('on', r.dataset.w===WIRE.sel));
+    rfxStart(); refriInfo(WIRE.sel); refriFocus(WIRE.sel); }; }
+{ const _b=wireBuild; wireBuild=function(c){ const r=_b(c); if(c?.refri){ RF.keep=new Set([pid('engine'), pid('radiator')].filter(Boolean)); applyVisibility(); refriSync(); setTimeout(()=>{ if(WIRE.on?.refri){ rfxStart(); refriTempUI(); } },80); } return r; }; }
+{ const _x=wireClear; wireClear=function(k){ rfxClear(); const had=RF.keep.size; RF.keep=new Set(); _x(k); if(had && k) applyVisibility(); refriSync(); }; }
+/* con el circuito abierto se ven el motor y el radiador aunque el resto de la mecánica esté oculto */
+{ const _pv=partVisible; partVisible=function(p){ if(S.ghostOnly && RF.keep.has(p.id)){ S.ghostOnly=false; try{ return _pv(p); } finally{ S.ghostOnly=true; } } return _pv(p); }; }
+/* tocar un manguito en el propio modelo */
+{ let pd=null;
+  stage.addEventListener('pointerdown', e=>{ pd=(WIRE.on?.refri && e.target===renderer.domElement)?{x:e.clientX,y:e.clientY}:null; }, true);
+  stage.addEventListener('pointerup', e=>{ if(!pd || !WIRE.on?.refri) return; const d=pd; pd=null; if(Math.hypot(e.clientX-d.x,e.clientY-d.y)>6) return;
+    const rr=renderer.domElement.getBoundingClientRect(); let best=null, bd=24; camera.updateMatrixWorld();
+    for(const t of (WIRE.grp?.children||[])){ const cv=t.userData.curve; if(!cv) continue; for(let i=0;i<=60;i++){ const p=cv.getPointAt(i/60).project(camera); if(p.z>1) continue; const sx=(p.x+1)/2*rr.width+rr.left, sy=(1-p.y)/2*rr.height+rr.top, dd=Math.hypot(sx-e.clientX, sy-e.clientY); if(dd<bd){ bd=dd; best=t.userData.wire; } } }
+    if(!best) return; try{ clearTimeout(pressTimer); down=null; }catch{} uiSfx('tap'); if(WIRE.sel!==best) wireHighlight(best); }, true); }
+/* botón «Refrigeración» en el visor 3D, junto a Drenajes */
+{ const w=document.querySelector('#tDren')?.closest('.seg')||document.querySelector('#tWire')?.closest('.seg'); if(w){ const s=h2(`<div class="seg"><button id="tRefri" type="button" aria-pressed="false" title="Circuito de refrigeración">${ic('thermo','ti')}<span>Refrigeración</span></button></div>`);
+    s.querySelector('button').onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenuClose(); refriShow(); }; w.after(s); } }
+/* el motor y el radiador se ven, pero traslúcidos: el agua tiene que verse por dentro */
+{ const _av=applyVisibility; applyVisibility=function(){ _av(); if(!RF.keep.size) return; for(const id of RF.keep) for(const m of (parts[id]?.meshes||[])){ const mat=m.material; mat.transparent=true; mat.opacity=.16; mat.depthWrite=false; m.castShadow=false; mat.needsUpdate=true; } dirty=true; }; }
 
 
 connectDb();
