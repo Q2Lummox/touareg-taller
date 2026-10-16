@@ -1,5 +1,8 @@
 # Novedades
 
+## v2.1.4 · 2026-10-16
+- Compra: la referencia de cada pieza se ve en la lista y se puede editar
+
 ## v2.1.3 · 2026-10-16
 - Arreglado: en el ordenador la ficha de Cableado, Drenajes y Refrigeración no se veía
 - Nuevo en Sistemas: circuito de aceite (presiones de ElsaWin y modo presión baja) y circuito de combustible (bomba tándem, filtro y enfriador)

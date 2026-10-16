@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.3">
+<meta name="app-version" content="2.1.4">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2488,6 +2488,7 @@ body.wireon #tWire[data-k="comb"]{color:#e8dc70;border-color:#d6c84a99;box-shado
 body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="comb"] svg:first-child{animation:none}
 .wlab.t-abomba b,.wlab.t-cbomba b{color:#ffb04a}.wlab.t-aalarm b{color:#ff7a5c}.wlab.t-acomp b{color:#f0c060}.wlab.t-ccomp b,.wlab.t-cfiltro b{color:#e8dc70}
 .refricard .rtd{display:block;font-size:12px;line-height:1.4;opacity:.85;margin:0 0 8px}
+.cmpi .cref{display:block;margin:2px 0 1px;font:600 12.5px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.02em;color:var(--accent)}
 </style>
 
 </head>
@@ -2530,7 +2531,7 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.3</span>
+  <span class="spver">v2.1.4</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5944,7 +5945,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.3';
+  const APP_VERSION='2.1.4';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -6954,7 +6955,7 @@ function compraSheet(c, mode){
   const isNew=!c, d=c?{...c}:{nombre:'',cantidad:1,estado:'pendiente'};
   const buy = mode==='comprar';
   sheet(`<div><h3>${buy?'Marcar como comprado':isNew?'Añadir a la compra':'Editar compra'}</h3>
-    ${buy?`<p class="muted2" style="margin:-4px 0 10px">${esc(d.nombre)}${d.cantidad>1?' ×'+d.cantidad:''}</p>`:`<label class="wzlab">Pieza o artículo</label><input class="inp2" id="cpN" list="cpList" value="${esc(d.nombre)}" placeholder="p. ej. Bomba de agua"><label class="wzlab">Cantidad</label><input class="inp2" id="cpQ" type="number" inputmode="numeric" min="1" value="${esc(d.cantidad||1)}">`}
+    ${buy?`<p class="muted2" style="margin:-4px 0 10px">${esc(d.nombre)}${d.cantidad>1?' ×'+d.cantidad:''}</p>`:`<label class="wzlab">Pieza o artículo</label><input class="inp2" id="cpN" list="cpList" value="${esc(d.nombre)}" placeholder="p. ej. Bomba de agua"><label class="wzlab">Cantidad</label><input class="inp2" id="cpQ" type="number" inputmode="numeric" min="1" value="${esc(d.cantidad||1)}"><label class="wzlab">Referencia</label><input class="inp2" id="cpRf" value="${esc(d.ref||'')}" placeholder="p. ej. 070 121 011 D" autocomplete="off" spellcheck="false">`}
     ${buy||d.estado!=='pendiente'?`<label class="wzlab">Precio total pagado (€)</label><input class="inp2" id="cpP" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(d.precio??'')}" placeholder="0,00">
     <label class="wzlab">Tienda</label><input class="inp2" id="cpT" value="${esc(d.tienda||'')}" placeholder="Tienda o web">
     <label class="wzlab">Fecha de compra</label><input class="inp2" id="cpF" type="date" value="${esc(d.fechaCompra||todayISO())}">
@@ -6972,7 +6973,7 @@ function compraSheet(c, mode){
     if(v('cpM')) v('cpM').addEventListener('change',()=>{ v('cpMW').hidden=v('cpM').value!=='taller'; });
     v('cpOk').onclick=async()=>{
       const ok=v('cpOk'); 
-      if(v('cpN')){ d.nombre=v('cpN').value.trim(); if(!d.nombre){ v('cpN').focus(); return; } d.cantidad=Math.max(1,Number(v('cpQ').value)||1); }
+      if(v('cpN')){ d.nombre=v('cpN').value.trim(); if(!d.nombre){ v('cpN').focus(); return; } d.cantidad=Math.max(1,Number(v('cpQ').value)||1); if(v('cpRf')) d.ref=v('cpRf').value.trim(); }
       d.notas=v('cpNo').value.trim();
       if(v('cpP')){ d.precio=v('cpP').value===''?null:Number(v('cpP').value); d.tienda=v('cpT').value.trim(); d.fechaCompra=v('cpF').value||todayISO(); d.ref=v('cpR').value.trim(); d.montaje=v('cpM').value; d.manoObra = d.montaje==='taller' && v('cpMO').value!=='' ? Number(v('cpMO').value) : null; d.taller = d.montaje==='taller' ? v('cpTa').value.trim() : ''; }
       if(buy) d.estado='comprado';
@@ -7028,10 +7029,10 @@ function renderCompras(){
   wrap.append(add);
   const sec=(title,icon,list,empty,row)=>{ const c=h2(`<div class="card2" style="margin-top:14px"><h3>${ic(icon)}${title}<span class="cnt">${list.length}</span></h3><div class="l2"></div></div>`), l=c.querySelector('.l2'); if(!list.length) l.append(h2(`<div class="empty2" style="padding:10px">${empty}</div>`)); list.forEach(x=>l.append(row(x))); wrap.append(c); };
   sec('Por comprar','cart',pend,'Nada pendiente. Añade arriba lo que necesites comprar.', x=>{
-    const r=h2(`<div class="cmpi"><button type="button" class="ck" aria-label="Marcar como comprado"></button><button type="button" class="tx"><b>${esc(x.nombre)}${x.cantidad>1?` <em>×${x.cantidad}</em>`:''}</b>${x.notas?`<small>${esc(x.notas)}</small>`:''}</button></div>`);
+    const r=h2(`<div class="cmpi"><button type="button" class="ck" aria-label="Marcar como comprado"></button><button type="button" class="tx"><b>${esc(x.nombre)}${x.cantidad>1?` <em>×${x.cantidad}</em>`:''}</b>${x.ref?`<span class="cref">${esc(x.ref)}</span>`:''}${x.notas?`<small>${esc(x.notas)}</small>`:''}</button></div>`);
     r.querySelector('.ck').onclick=()=>{ uiSfx('tap'); compraSheet(x,'comprar'); }; r.querySelector('.tx').onclick=()=>compraSheet(x); r._swR={l:'Comprado',i:'check',fn:()=>compraSheet(x,'comprar')}; return r; });
   sec('Comprado · pendiente de montar','wrench',comp,'Cuando marques algo como comprado aparecerá aquí hasta que lo montes.', x=>{
-    const r=h2(`<div class="cmpi done"><span class="ck on">${ic('check')}</span><button type="button" class="tx"><b>${esc(x.nombre)}${x.cantidad>1?` <em>×${x.cantidad}</em>`:''}</b><small>${fmtDate(x.fechaCompra)}${x.tienda?' · '+esc(x.tienda):''}${x.montaje==='taller'?' · 🔧 taller'+(x.manoObra!=null?' '+eur(x.manoObra):''):''}${x.adjuntos?.length?' · 📎 '+x.adjuntos.length:''}</small></button><span class="pr">${x.precio!=null?eur(x.precio):'—'}</span><button type="button" class="btn2 mnt">${ic('wrench')}Montado</button></div>`);
+    const r=h2(`<div class="cmpi done"><span class="ck on">${ic('check')}</span><button type="button" class="tx"><b>${esc(x.nombre)}${x.cantidad>1?` <em>×${x.cantidad}</em>`:''}</b>${x.ref?`<span class="cref">${esc(x.ref)}</span>`:''}<small>${fmtDate(x.fechaCompra)}${x.tienda?' · '+esc(x.tienda):''}${x.montaje==='taller'?' · 🔧 taller'+(x.manoObra!=null?' '+eur(x.manoObra):''):''}${x.adjuntos?.length?' · 📎 '+x.adjuntos.length:''}</small></button><span class="pr">${x.precio!=null?eur(x.precio):'—'}</span><button type="button" class="btn2 mnt">${ic('wrench')}Montado</button></div>`);
     r.querySelector('.tx').onclick=()=>compraSheet(x); r.querySelector('.mnt').onclick=()=>montarCompra(x); r._swR={l:'Montado',i:'wrench',fn:()=>montarCompra(x)}; return r; });
   const hc=h2(`<div class="card2" style="margin-top:14px"><h3>${ic('history')}Historial de compras<span class="cnt">${eur(tot)}</span></h3><div class="l2"></div></div>`), hl2=hc.querySelector('.l2');
   if(!hist.length) hl2.append(h2('<div class="empty2" style="padding:10px">Aún no has registrado compras.</div>'));
