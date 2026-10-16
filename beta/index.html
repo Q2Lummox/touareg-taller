@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.4">
+<meta name="app-version" content="2.1.5">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2489,6 +2489,20 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
 .wlab.t-abomba b,.wlab.t-cbomba b{color:#ffb04a}.wlab.t-aalarm b{color:#ff7a5c}.wlab.t-acomp b{color:#f0c060}.wlab.t-ccomp b,.wlab.t-cfiltro b{color:#e8dc70}
 .refricard .rtd{display:block;font-size:12px;line-height:1.4;opacity:.85;margin:0 0 8px}
 .cmpi .cref{display:block;margin:2px 0 1px;font:600 12.5px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.02em;color:var(--accent)}
+/* ---- pares de apriete por sistema ---- */
+.parg .parhint{margin:-2px 0 8px;font-size:12.5px}
+.pcats{display:flex;flex-direction:column;gap:8px}
+.pgrp{border:1px solid var(--card-line);border-radius:12px;overflow:hidden}
+.pgrp[hidden]{display:none}
+.pgrp>summary{display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;list-style:none;font-weight:600}
+.pgrp>summary::-webkit-details-marker{display:none}
+.pgrp .pic{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent);flex:none}.pgrp .pic svg{width:16px;height:16px}
+.pgrp>summary b{flex:1;min-width:0}
+.pgrp>summary em{font-style:normal;font-size:12px;padding:2px 8px;border-radius:99px;background:color-mix(in srgb,currentColor 10%,transparent)}
+.pgrp .pchev{width:16px;height:16px;opacity:.6;transition:transform .2s}.pgrp[open] .pchev{transform:rotate(180deg)}
+.pgrp[open]>summary{border-bottom:1px solid var(--card-line);background:color-mix(in srgb,var(--accent) 6%,transparent)}
+.pgrp .ftl{padding:0 12px}
+.pgrp .pfu{grid-column:1/-1;font-size:11px;opacity:.55}
 </style>
 
 </head>
@@ -2531,7 +2545,7 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.4</span>
+  <span class="spver">v2.1.5</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5946,7 +5960,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.4';
+  const APP_VERSION='2.1.5';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -8335,27 +8349,27 @@ const SRC={
   tf:['Touareg-Freunde: tuerca del buje','https://touareg-freunde.de/forum/thread-pdf-export/17767'],
   cd:['cars-data: Touareg 2.5 TDI R5','https://cars-data.com/en/volkswagen/touareg/2007/2-5-tdi-r5-44718--44718/specs'],
   ws:['wheel-sizes: presiones Touareg','https://wheel-sizes.com/tire-pressure/volkswagen/touareg/'],
+  elsa:['ElsaWin de tu coche (páginas importadas)',''],
 };
 /* c: alta = varias fuentes coinciden · media = una fuente o no nombra el BAC · baja = dudoso · falta = no encontrado */
 const FT=[
  ['Motor 2.5 R5 TDI (BAC)','gauge',[
   {k:'aceite_norma', l:'Aceite: norma', v:'VW 505.01 (cambio fijo) o VW 506.01 (LongLife)', c:'media', s:['gd','cwk'], n:'Es un motor bomba-inyector (PD): usa aceite con una de estas normas VW.'},
   {k:'aceite_visc', l:'Aceite: viscosidad', v:'5W-40 (505.01) · 5W-30 / 0W-30 (506.01)', c:'media', s:['gd','cwk']},
-  {k:'aceite_cap', l:'Aceite: capacidad con filtro', v:'≈ 8,9 L', c:'baja', s:['croil'], n:'Echa medio litro menos, arranca, espera y completa hasta MAX en la varilla.'},
+  {k:'aceite_cap', l:'Aceite: capacidad con filtro', v:'8,9 L (8,5 L sin filtro)', c:'alta', s:['elsa','croil'], n:'Echa medio litro menos, arranca, espera y completa hasta MAX en la varilla.'},
   {k:'aceite_int', l:'Cambio de aceite', v:'15.000 km / 1 año (fijo) · hasta 30.000 km / 2 años (LongLife)', c:'media', s:['hay','croil']},
-  {k:'filtro_aceite', l:'Filtro de aceite', v:'Cartucho de papel (en carcasa)', c:'baja', s:[]},
+  {k:'filtro_aceite', l:'Filtro de aceite', v:'Cartucho de papel en carcasa, tapa roscada 25 Nm con junta nueva', c:'alta', s:['elsa']},
   {k:'distribucion', l:'Distribución', v:'Por engranajes: no lleva correa de distribución', c:'media', s:['dd'], n:'No hay cambio de correa de distribución. Sí hay correa poli-V de accesorios.'},
   {k:'deposito', l:'Depósito de combustible', v:'100 L', c:'alta', s:['cd']},
  ]],
  ['Refrigeración y clima','thermo',[
-  {k:'refrig_tipo', l:'Refrigerante', v:'G12+ (rosa / violeta) · mezcla 50 %', c:'alta', s:['crcool','vwfl'], n:'Mínimo 40 % de anticongelante. No mezclar con G11 azul/verde.'},
-  {k:'refrig_cap', l:'Refrigerante: capacidad', v:'≈ 9 L', c:'media', s:['crcool']},
+  {k:'refrig_tipo', l:'Refrigerante', v:'G12++ (TL VW 774 G) con agua destilada · 40–60 %', c:'alta', s:['elsa','crcool'], n:'Mínimo 40 % de anticongelante, también en verano. No mezclar con G11 azul/verde.'},
+  {k:'refrig_cap', l:'Refrigerante: capacidad', v:'≈ 9 L (40 %: 4,0 L G12++ + 5,0 L agua · 50 %: 4,5 + 4,5)', c:'alta', s:['elsa','crcool']},
   {k:'clima_gas', l:'Aire acondicionado', v:'R134a · 700 ± 50 g (2 zonas) · 1.050 ± 50 g (4 zonas)', c:'alta', s:['vwfl']},
   {k:'clima_aceite', l:'Aceite del compresor', v:'PAG G 052 300 A2 · 200 cc (2 zonas) · 300 cc (4 zonas)', c:'alta', s:['vwfl']},
  ]],
  ['Transmisión','layers',[
-  {k:'atf', na:true, l:'Cambio automático 09D (6 vel.)', v:'ATF G 055 025 A2 · 9,0 L llenado total', c:'alta', s:['idatf','vwfl'], n:'El cambio parcial (cárter) es bastante menos; mide lo que sale.'},
-  {k:'manual', l:'Cambio manual 6 vel. (el tuyo)', v:'08D · código FEA · 6 velocidades con 4Motion', c:'media', s:[], n:'Código confirmado con la identificación de tu coche en ElsaWin. El aceite exacto y la cantidad están en ElsaWin ▸ Cambio manual 08D (grupo 34): cuando los importes se rellenan aquí.'},
+  {k:'manual', l:'Cambio manual 6 vel.', v:'08D · código FEA · 6 velocidades con 4Motion', c:'media', s:[], n:'Código confirmado con la identificación de tu coche en ElsaWin. El aceite exacto y la cantidad están en ElsaWin ▸ Cambio manual 08D (grupo 34): cuando los importes se rellenan aquí.'},
   {k:'transfer', l:'Caja transfer 0AD', v:'G 052 515 A2 / G 055 515 A2 · 0,85 L', c:'alta', s:['idtc','vwfl']},
   {k:'dif_del', l:'Diferencial delantero', v:'1,0 L · aceite de engranajes G 052 145 S2', c:'media', s:['iddif','vwfl']},
   {k:'dif_tras', l:'Diferencial trasero', v:'1,25 L (1,6 L con bloqueo trasero) · G 052 145 S2', c:'media', s:['iddif','vwfl']},
@@ -8363,13 +8377,12 @@ const FT=[
  ]],
  ['Frenos','alert',[
   {k:'frenos', l:'Líquido de frenos', v:'DOT 4 · VW 501 14 (B 000 750) · cambio cada 2 años', c:'alta', s:['hay','vwfl11']},
-  {k:'pinzas', l:'Par de los soportes de pinza', v:'', c:'falta', s:[], n:'Consúltalo en ElsaWin y apúntalo aquí.'},
  ]],
  ['Pares de apriete','wrench',[
-  {k:'par_rueda', l:'Tornillos de rueda', v:'180 Nm', c:'alta', s:['bf']},
-  {k:'par_buje', l:'Tuerca del buje / palier', v:'200 Nm (frenos 16", M20) · 500 Nm (frenos 17-18", M24) · siempre nueva', c:'media', s:['tf']},
-  {k:'par_atf', l:'Cárter del automático', v:'Tapón 20 Nm · tornillos del cárter 8 Nm', c:'media', s:['bf']},
-  {k:'par_carter', l:'Tapón del cárter de aceite', v:'', c:'falta', s:[], n:'Falta el dato del BAC. Usa siempre arandela/tapón nuevo.'},
+  {k:'par_rueda', par:'ruedas', l:'Tornillos de rueda', v:'180 Nm', c:'alta', s:['bf']},
+  {k:'par_buje', par:'ruedas', l:'Tuerca del buje / palier', v:'200 Nm (frenos 16", M20) · 500 Nm (frenos 17-18", M24) · siempre nueva', c:'media', s:['tf']},
+  {k:'pinzas', par:'ruedas', l:'Soportes de pinza de freno', v:'', c:'falta', s:[], n:'Consúltalo en ElsaWin (grupo 46, frenos) y apúntalo aquí.'},
+  {k:'par_carter', par:'lubri', l:'Tapón del cárter de aceite', v:'30 Nm · tapón nuevo', c:'alta', s:['elsa']},
  ]],
  ['Neumáticos','tyre',[
   {k:'medidas', l:'Medidas habituales', v:'235/65 R17 · 255/55 R18 · 275/45 R19', c:'media', s:['ws']},
@@ -8381,7 +8394,7 @@ const FT=[
   {k:'int_polen', l:'Filtro de habitáculo', v:'60.000 km / 2 años', c:'media', s:['hay']},
   {k:'int_frenos', l:'Líquido de frenos', v:'Cada 2 años', c:'alta', s:['hay','vwfl11']},
   {k:'int_refrig', l:'Refrigerante', v:'Solo comprobar; sin cambio programado', c:'media', s:['hay']},
-  {k:'int_cajas', l:'ATF, transfer y diferenciales', v:'Sin intervalo oficial (llenado «de por vida»)', c:'media', s:['vwfl']},
+  {k:'int_cajas', l:'Cambio manual, transfer y diferenciales', v:'Sin intervalo oficial (llenado «de por vida»)', c:'media', s:['vwfl']},
   {k:'int_gasoil', l:'Filtro de gasóleo', v:'', c:'falta', s:[], n:'No encontrado para el BAC. Apunta el que te diga tu taller.'},
   {k:'bateria', l:'Batería', v:'', c:'falta', s:[], n:'Apunta la que lleves montada (Ah, A y tipo).'},
  ]],
@@ -8393,7 +8406,7 @@ function fichaEdit(e){
   const box=h2(`<div><h3>${esc(e.l)}</h3>
     ${e.v?`<p class="muted2" style="margin:-4px 0 8px">Dato recopilado: <b style="color:var(--txt)">${esc(e.v)}</b> · ${FTC[e.c][0].toLowerCase()}</p>`:''}
     ${e.n?`<p class="muted2">${esc(e.n)}</p>`:''}
-    ${e.s.length?`<p class="muted2">Fuentes: ${e.s.map(s=>`<a href="${SRC[s][1]}" target="_blank" rel="noopener">${esc(SRC[s][0])}</a>`).join(' · ')}</p>`:''}
+    ${e.s.length?`<p class="muted2">Fuentes: ${e.s.map(s=>SRC[s][1]?`<a href="${SRC[s][1]}" target="_blank" rel="noopener">${esc(SRC[s][0])}</a>`:esc(SRC[s][0])).join(' · ')}</p>`:''}
     <label class="wzlab">Tu dato (comprobado en tu coche, ELSA o el taller)</label><input class="inp2" id="ftv" value="${esc(o?.v||'')}" placeholder="${esc(e.v||'Escribe el valor')}">
     <label class="wzlab">De dónde lo sacas (opcional)</label><input class="inp2" id="ftn" value="${esc(o?.n||'')}" placeholder="Etiqueta del depósito, ELSA, factura…">
     <div class="row3">${o?`<button class="btn2 ghost" type="button" id="ftR" style="margin-right:auto">Quitar mi dato</button>`:''}<button class="btn2 ghost" type="button" id="ftNo">Cancelar</button><button class="btn2" type="button" id="ftOk">${ic('check')}Guardar</button></div></div>`);
@@ -8409,7 +8422,7 @@ function renderFichaTec(w){
   const q=(UI.ftQ||'');
   const sr=h2(`<input class="inp2 ftq" type="search" placeholder="Buscar: aceite, par, presión…" value="${esc(q)}">`); sr.oninput=()=>{ UI.ftQ=sr.value; const qq=norm(sr.value); w.querySelectorAll('.ftr').forEach(r=>r.hidden=qq && !norm(r.dataset.s).includes(qq)); w.querySelectorAll('.ftg').forEach(g=>g.hidden=![...g.querySelectorAll('.ftr')].some(r=>!r.hidden)); };
   w.append(sr);
-  for(const [t,i,L] of FT){
+  for(const [t,i,L] of FT){ if(L.every(e=>e.par||e.na)) continue;
     const c=h2(`<div class="card2 ftg"><h3>${ic(i)}${esc(t)}</h3><div class="ftl"></div></div>`), l=c.querySelector('.ftl');
     for(const e of L){ if(e.na) continue; const o=own[e.k], val=o?.v||e.v, cc=o?.v?'tuyo':e.c;
       const r=h2(`<button type="button" class="ftr" data-s="${esc(t+' '+e.l+' '+val)}"><span class="ftk">${esc(e.l)}</span><b class="ftv${val?'':' miss'}">${esc(val||'Sin dato · toca para añadirlo')}</b><span class="ftc" style="--c:${FTC[cc][1]}">${FTC[cc][0]}</span></button>`);
@@ -8741,7 +8754,7 @@ function shareSnapshot(o){
   const c=S.cfg||{};
   const mant=[...S.mant].sort((a,b)=>(a.orden??99)-(b.orden??99)).map(it=>{ const s=itemStatus(it); return {n:it.nombre, st:s.st, u:s.last?{f:s.last.fecha, k:num(s.last.km)}:null, p:{k:s.nextKm??null, f:s.nextDate||null}, i:[it.intervaloKm||null, it.intervaloMeses||null]}; });
   const ints=[...S.int].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||'')).map(x=>({f:x.fecha, k:num(x.km), t:x.tipo||'', q:itemName(x.mant)||partName(x.pieza)||'', d:x.descripcion||'', r:x.ref||'', w:x.taller||'', ...(o.precios&&num(x.coste)!=null?{e:num(x.coste)}:{})}));
-  const fic={}; for(const k of ['aceite_norma','aceite_visc','aceite_cap','refrig_tipo','atf','transfer','dif_del','dif_tras','dir','frenos','par_rueda','par_buje','pres_del','pres_tras']) { const v=fichaVal(k); if(v) fic[FT.flatMap(g=>g[2]).find(e=>e.k===k).l]=v; }
+  const fic={}; for(const k of ['aceite_norma','aceite_visc','aceite_cap','refrig_tipo','manual','transfer','dif_del','dif_tras','dir','frenos','par_rueda','par_buje','pres_del','pres_tras']) { const v=fichaVal(k); if(v) fic[FT.flatMap(g=>g[2]).find(e=>e.k===k).l]=v; }
   const mont=S.v2.neumaticos.find(n=>n.montado);
   return {v:1, creado:new Date().toISOString(), caduca:o.caduca, nota:o.nota||'',
     coche:{modelo:'Volkswagen Touareg 7L', motor:'2.5 R5 TDI · '+(c.motor||'BAC'), anio:c.anoModelo||'2004', vin:c.vin||'', matricula:'9905 CMY', pintura:c.pintura||'C9Z', km:num(c.kmActual)},
@@ -9986,12 +9999,39 @@ MAS2.procs=['Guías y manuales', renderGuias]; MAS_T.procs='Guías y manuales';
 MAS_T.pend='Piezas del 3D sin referencia';
 try{ Object.assign(ORD.origMasT,{procs:'Guías y manuales', fichas:'Piezas', catalogo:'Piezas', pend:'Piezas del 3D sin referencia'}); }catch{}
 
-/* ---------- Ficha técnica: los pares de apriete importados viven aquí ---------- */
-{ const _ft=MAS2.ficha[1]; MAS2.ficha[1]=function(w){ _ft(w); const P=S.v2.pares.flatMap(x=>(x.items||[]).map(i=>({...i, g:x.grupo}))); if(!P.length) return;
-    const c=card2('Pares de apriete oficiales','wrench',P.length); c.classList.add('ftg');
-    for(const g of [...new Set(P.map(p=>p.g))].sort()){ c.querySelector('.l2').append(h2(`<h5 class="ftsub">${esc(grpName(g))}</h5>`));
-      for(const p of P.filter(x=>x.g===g).sort((a,b)=>COLL.compare(a.componente,b.componente))) c.querySelector('.l2').append(h2(`<div class="ftr static" data-s="${esc('par apriete '+p.componente+' '+p.valor)}"><span class="ftk">${esc(p.componente)}</span><b class="ftv">${esc(p.valor)}</b>${p.nota||p.fuente?`<small class="muted2">${esc([p.nota,p.fuente].filter(Boolean).join(' · '))}</small>`:''}</div>`)); }
-    const last=[...w.children].pop(); w.insertBefore(c, last); }; }
+/* ---------- Ficha técnica: pares de apriete ordenados por sistema, cada uno en su desplegable ---------- */
+const PCAT=[
+  ['motor','Motor y culata','gauge',/^1[0-5]$/, /culata|bloque|cigüeñal|biela|árbol de levas|volante|tapa de balancines/i],
+  ['lubri','Lubricación','drop',/^17$/, /aceite|cárter|carter|manocontacto/i],
+  ['refri','Refrigeración','thermo',/^19$/, /bomba de agua|termostato|refrigerante|radiador|portacerraduras|vaso de expansión|t10225/i],
+  ['comb','Combustible e inyección','fuel',/^2[034]$/, /gasoil|gasóleo|combustible|inyector|tándem/i],
+  ['turbo','Turbo y admisión','zap',/^21$/, /turbo|intercooler|admisión/i],
+  ['escape','Escape','cloud',/^26$/, /escape|catalizador|silencioso/i],
+  ['trans','Embrague, cambio y transmisión','layers',/^3\d$/, /embrague|cambio|transfer|diferencial|palier|cardán/i],
+  ['susp','Suspensión y dirección','tyre',/^4[0238]$/, /suspensión|amortiguador|muelle|brazo|dirección|rótula|estabilizadora/i],
+  ['ruedas','Ruedas y frenos','alert',/^4[4-7]$/, /rueda|buje|pinza|freno|disco/i],
+  ['carro','Carrocería','car',/^[5-8]\d$/, /puerta|capó|portón|carrocería/i],
+  ['elec','Electricidad','zap',/^9\d$/, /batería|alternador|motor de arranque/i],
+  ['otros','Otros','wrench',null,null]];
+function parCat(p){ const g=String(p.g||p.grupo||''); for(const c of PCAT){ if(c[3] && c[3].test(g)) return c[0]; } for(const c of PCAT){ if(c[4] && c[4].test(p.componente||p.l||'')) return c[0]; } return 'otros'; }
+{ const _ft=MAS2.ficha[1]; MAS2.ficha[1]=function(w){ _ft(w);
+    const own=S.cfgX.fichatec||{}, imp=S.v2.pares.flatMap(x=>(x.items||[]).map(i=>({...i, g:i.grupo||x.grupo})));
+    const base=FT.flatMap(g=>g[2]).filter(e=>e.par && !(e.k==='par_carter' && imp.some(p=>/tapón de vaciado del cárter/i.test(p.componente))));
+    const rows=[...base.map(e=>({fe:e, cat:e.par, l:e.l, v:own[e.k]?.v||e.v, c:own[e.k]?.v?'tuyo':e.c})), ...imp.map(p=>({p, cat:parCat(p), l:p.componente, v:p.valor}))];
+    const c=h2(`<div class="card2 ftg parg"><h3>${ic('wrench')}Pares de apriete<span class="cnt">${rows.length}</span></h3><p class="muted2 parhint">Agrupados por sistema. Toca un grupo para desplegarlo; usa el buscador de arriba para encontrar uno concreto.</p><div class="pcats"></div></div>`), box=c.querySelector('.pcats');
+    UI.parOpen=UI.parOpen||new Set();
+    for(const [k,t,i] of PCAT){ const R=rows.filter(r=>r.cat===k).sort((a,b)=>COLL.compare(a.l,b.l)); if(!R.length) continue;
+      const d=h2(`<details class="pgrp" data-k="${k}"${UI.parOpen.has(k)?' open':''}><summary><span class="pic">${ic(i)}</span><b>${esc(t)}</b><em>${R.length}</em>${ic('chevD','pchev')}</summary><div class="ftl"></div></details>`), l=d.querySelector('.ftl');
+      d.addEventListener('toggle',()=>{ d.open?UI.parOpen.add(k):UI.parOpen.delete(k); if(d.open) uiSfx('tap'); });
+      for(const r of R){
+        if(r.fe){ const b=h2(`<button type="button" class="ftr" data-s="${esc('par apriete '+t+' '+r.l+' '+r.v)}"><span class="ftk">${esc(r.l)}</span><b class="ftv${r.v?'':' miss'}">${esc(r.v||'Sin dato · toca para añadirlo')}</b><span class="ftc" style="--c:${FTC[r.c][1]}">${FTC[r.c][0]}</span></button>`); b.onclick=()=>{ uiSfx('tap'); fichaEdit(r.fe); }; l.append(b); }
+        else { const p=r.p; l.append(h2(`<div class="ftr static" data-s="${esc('par apriete '+t+' '+p.componente+' '+p.valor)}"><span class="ftk">${esc(p.componente)}</span><b class="ftv">${esc(p.valor)}</b>${p.nota?`<small class="muted2">${esc(p.nota)}</small>`:''}${p.fuente?`<small class="pfu">${esc(String(p.fuente).split('·').slice(0,2).join('·').trim())}</small>`:''}</div>`)); } }
+      box.append(d); }
+    const last=[...w.children].pop(); w.insertBefore(c, last);
+    /* el buscador de la ficha abre los grupos donde hay coincidencias */
+    const q=w.querySelector('.ftq'); if(q){ const sync=()=>{ const on=!!q.value.trim(); c.querySelectorAll('.pgrp').forEach(d=>{ const any=[...d.querySelectorAll('.ftr')].some(r=>!r.hidden); d.hidden=on && !any; if(on) d.open=any; else d.open=UI.parOpen.has(d.dataset.k); }); };
+      q.addEventListener('input', ()=>setTimeout(sync)); if(q.value) setTimeout(sync); }
+  }; }
 
 /* ====================== PAPELES: una tarjeta por documento, sin duplicados ====================== */
 const DOCX=[

@@ -1,10 +1,19 @@
 {
- "version": "2.1.4",
+ "version": "2.1.5",
  "fecha": "2026-10-16",
  "notas": [
-  "Compra: la referencia de cada pieza se ve en la lista y se puede editar"
+  "Ficha técnica: fuera lo del cambio automático; refrigerante, aceite y tapón del cárter con datos de ElsaWin",
+  "Pares de apriete ordenados por sistema (motor, lubricación, refrigeración, combustible, ruedas y frenos…), cada uno en su desplegable"
  ],
  "historial": [
+  {
+   "version": "2.1.5",
+   "fecha": "2026-10-16",
+   "notas": [
+    "Ficha técnica: fuera lo del cambio automático; refrigerante, aceite y tapón del cárter con datos de ElsaWin",
+    "Pares de apriete ordenados por sistema (motor, lubricación, refrigeración, combustible, ruedas y frenos…), cada uno en su desplegable"
+   ]
+  },
   {
    "version": "2.1.4",
    "fecha": "2026-10-16",

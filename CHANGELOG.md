@@ -1,5 +1,9 @@
 # Novedades
 
+## v2.1.5 · 2026-10-16
+- Ficha técnica: fuera lo del cambio automático; refrigerante, aceite y tapón del cárter con datos de ElsaWin
+- Pares de apriete ordenados por sistema (motor, lubricación, refrigeración, combustible, ruedas y frenos…), cada uno en su desplegable
+
 ## v2.1.4 · 2026-10-16
 - Compra: la referencia de cada pieza se ve en la lista y se puede editar
 
