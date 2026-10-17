@@ -1,5 +1,8 @@
 # Novedades
 
+## v2.1.8 · 2026-10-17
+- Gastos: al tocar un movimiento se abre su ficha (compra, intervención o repostaje)
+
 ## v2.1.7 · 2026-10-17
 - Gastos: nueva tarjeta «El coche» con el precio de compra, lo gastado después y la inversión total
 

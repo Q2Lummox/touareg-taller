@@ -1,10 +1,17 @@
 {
- "version": "2.1.7",
+ "version": "2.1.8",
  "fecha": "2026-10-17",
  "notas": [
-  "Gastos: nueva tarjeta «El coche» con el precio de compra, lo gastado después y la inversión total"
+  "Gastos: al tocar un movimiento se abre su ficha (compra, intervención o repostaje)"
  ],
  "historial": [
+  {
+   "version": "2.1.8",
+   "fecha": "2026-10-17",
+   "notas": [
+    "Gastos: al tocar un movimiento se abre su ficha (compra, intervención o repostaje)"
+   ]
+  },
   {
    "version": "2.1.7",
    "fecha": "2026-10-17",
