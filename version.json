@@ -1,11 +1,17 @@
 {
- "version": "2.1.5",
- "fecha": "2026-10-16",
+ "version": "2.1.6",
+ "fecha": "2026-10-17",
  "notas": [
-  "Ficha técnica: fuera lo del cambio automático; refrigerante, aceite y tapón del cárter con datos de ElsaWin",
-  "Pares de apriete ordenados por sistema (motor, lubricación, refrigeración, combustible, ruedas y frenos…), cada uno en su desplegable"
+  "Pantalla de carga en el ordenador: se ve el coche entero (antes salía muy ampliado)"
  ],
  "historial": [
+  {
+   "version": "2.1.6",
+   "fecha": "2026-10-17",
+   "notas": [
+    "Pantalla de carga en el ordenador: se ve el coche entero (antes salía muy ampliado)"
+   ]
+  },
   {
    "version": "2.1.5",
    "fecha": "2026-10-16",

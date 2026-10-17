@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.5">
+<meta name="app-version" content="2.1.6">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2503,6 +2503,13 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
 .pgrp[open]>summary{border-bottom:1px solid var(--card-line);background:color-mix(in srgb,var(--accent) 6%,transparent)}
 .pgrp .ftl{padding:0 12px}
 .pgrp .pfu{grid-column:1/-1;font-size:11px;opacity:.55}
+/* pantalla de carga en pantallas apaisadas (ordenador): la foto vertical entera a la altura de la ventana, centrada,
+   y a los lados la misma foto muy desenfocada y oscura para que no queden bandas negras */
+@media (min-aspect-ratio: 4/5){
+  .spimg{width:calc(100vh * 1284 / 2778)!important;height:100vh;bottom:0!important}
+  .spbg::before{content:"";position:absolute;inset:-6%;background:url(splash/touareg-noche.webp) center 70%/cover no-repeat;filter:blur(38px) brightness(.28) saturate(.7);transform:scale(1.1)}
+  .spimg::after{content:"";position:absolute;inset:0 -1px;pointer-events:none;background:linear-gradient(90deg,#030405 0%,transparent 14%,transparent 86%,#030405 100%);opacity:.85}
+}
 </style>
 
 </head>
@@ -2545,7 +2552,7 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.5</span>
+  <span class="spver">v2.1.6</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5960,7 +5967,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.5';
+  const APP_VERSION='2.1.6';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
