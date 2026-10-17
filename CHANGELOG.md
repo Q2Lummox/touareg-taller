@@ -1,5 +1,8 @@
 # Novedades
 
+## v2.1.9 · 2026-10-17
+- Gastos: movimientos sin la flecha, más compactos
+
 ## v2.1.8 · 2026-10-17
 - Gastos: al tocar un movimiento se abre su ficha (compra, intervención o repostaje)
 

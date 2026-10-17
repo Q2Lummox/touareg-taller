@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.8">
+<meta name="app-version" content="2.1.9">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2513,7 +2513,6 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
 .cochecost .ccrow{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--card-line)}
 .cochecost .ccrow small{opacity:.65}.cochecost .ccrow.tot{border-bottom:0;font-size:1.05em}.cochecost .ccrow.tot b{color:var(--accent)}
 .cochecost .btn2{margin-top:8px}
-.r2 .rch{width:14px;height:14px;opacity:.45;flex:none;margin-left:4px}
 </style>
 
 </head>
@@ -2556,7 +2555,7 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.8</span>
+  <span class="spver">v2.1.9</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5971,7 +5970,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.8';
+  const APP_VERSION='2.1.9';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -8482,7 +8481,7 @@ renderGastos2=function(){
     const lc=card2('Movimientos','receipt'); lc.insertBefore(chips([['*','Todos'],...cats.map(c=>[c,CAT[c][0]])], f, k=>{ UI.gcat=k; v2Rerender(); }), lc.querySelector('.l2'));
     const L=mov.filter(x=>f==='*'||x.cat===f), ll=lc.querySelector('.l2');
     for(const x of L.slice(0,60)){ const fn=x.k==='compra'?()=>compraSheet(x.o):x.k==='int'?()=>intSheet(x.o):x.k==='rep'?()=>recForm(MOD.repostajes, x.o):null;
-      const r=h2(`<${fn?'button type="button"':'div'} class="r2" style="--c:${CAT[x.cat][2]}${fn?'':';cursor:default'}"><span class="ic">${ic(CAT[x.cat][1])}</span><span class="tx"><b>${esc(x.t)}</b><small>${fmtDate(x.fecha)} · ${esc(x.s)}</small></span><span class="rt">${eur(x.eur)}</span>${fn?ic('chevR','rch'):''}</${fn?'button':'div'}>`);
+      const r=h2(`<${fn?'button type="button"':'div'} class="r2" style="--c:${CAT[x.cat][2]}${fn?'':';cursor:default'}"><span class="ic">${ic(CAT[x.cat][1])}</span><span class="tx"><b>${esc(x.t)}</b><small>${fmtDate(x.fecha)} · ${esc(x.s)}</small></span><span class="rt">${eur(x.eur)}</span></${fn?'button':'div'}>`);
       if(fn) r.onclick=()=>{ uiSfx('tap'); fn(); }; ll.append(r); }
     if(L.length>60) ll.append(h2(`<div class="empty2" style="padding:8px">Y ${L.length-60} más. En Estadísticas tienes el detalle por año.</div>`));
     w.append(lc);

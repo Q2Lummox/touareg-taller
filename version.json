@@ -1,10 +1,17 @@
 {
- "version": "2.1.8",
+ "version": "2.1.9",
  "fecha": "2026-10-17",
  "notas": [
-  "Gastos: al tocar un movimiento se abre su ficha (compra, intervención o repostaje)"
+  "Gastos: movimientos sin la flecha, más compactos"
  ],
  "historial": [
+  {
+   "version": "2.1.9",
+   "fecha": "2026-10-17",
+   "notas": [
+    "Gastos: movimientos sin la flecha, más compactos"
+   ]
+  },
   {
    "version": "2.1.8",
    "fecha": "2026-10-17",
