@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.6">
+<meta name="app-version" content="2.1.7">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2510,6 +2510,9 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
   .spbg::before{content:"";position:absolute;inset:-6%;background:url(splash/touareg-noche.webp) center 70%/cover no-repeat;filter:blur(38px) brightness(.28) saturate(.7);transform:scale(1.1)}
   .spimg::after{content:"";position:absolute;inset:0 -1px;pointer-events:none;background:linear-gradient(90deg,#030405 0%,transparent 14%,transparent 86%,#030405 100%);opacity:.85}
 }
+.cochecost .ccrow{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--card-line)}
+.cochecost .ccrow small{opacity:.65}.cochecost .ccrow.tot{border-bottom:0;font-size:1.05em}.cochecost .ccrow.tot b{color:var(--accent)}
+.cochecost .btn2{margin-top:8px}
 </style>
 
 </head>
@@ -2552,7 +2555,7 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.6</span>
+  <span class="spver">v2.1.7</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5966,7 +5969,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.6';
+  const APP_VERSION='2.1.7';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -8966,6 +8969,7 @@ async function importRun(d, st){
   for(const a of (d.averias||[])){ if((S.ave||[]).some(x=>x.estado!=='resuelta' && x.sintoma===a.sintoma)) continue; const r=await S.db.collection('averias').add({codigo:String(a.codigo||'').toUpperCase(), sintoma:a.sintoma||'', notas:a.notas||'', estado:'abierta', piezas:(a.piezas||[]).map(x=>pid(x)||'Touareg2008_'+x), fecha:a.fecha||todayISO(), km:S.cfg?.kmActual??null, lote:id}); rec.docs.push('averias/'+r.id); }
   for(const c of (d.compras||[])){ if(c.sustituye){ const old=(S.compras||[]).find(x=>x.estado!=='montado' && x.nombre===c.sustituye); if(old){ const {_id,...od}=old; rec.prev['compras/'+_id]=od; await S.db.collection('compras').doc(_id).set({...od, nombre:c.nombre||od.nombre, ref:c.ref||od.ref||'', notas:c.notas||od.notas||'', cantidad:Math.max(1,Number(c.cantidad)||od.cantidad||1)}); rec.docs.push('compras/'+_id); continue; } }
     if(c.ref && (S.compras||[]).some(x=>x.estado==='pendiente' && refKey(x.ref)===refKey(c.ref))) continue; const r=await S.db.collection('compras').add({nombre:c.nombre||c.ref||'', ref:c.ref||'', cantidad:Math.max(1,Number(c.cantidad)||1), estado:'pendiente', notas:c.notas||'', creado:now, lote:id}); rec.docs.push('compras/'+r.id); }
+  if(d.coche && typeof d.coche==='object'){ rec.cochePrev={precioCompra:S.cfg?.precioCompra??null, fechaCompra:S.cfg?.fechaCompra??null}; await S.db.doc('config/coche').set({...(S.cfg||{}), ...d.coche}); }
   const fk=new Set(FT.flatMap(g=>g[2]).map(e=>e.k)), F=(d.ficha||[]).filter(f=>fk.has(f.k) && f.v);
   if(F.length){ const ft={...(S.cfgX.fichatec||{})}; for(const f of F){ rec.fichaPrev[f.k]=ft[f.k]||null; ft[f.k]={v:String(f.v), n:f.fuente||fuente||'Importado', fecha:todayISO(), lote:id}; } await S.db.doc('config/fichatec').set(ft); }
   st.textContent='Guardando el registro del lote…';
@@ -8977,13 +8981,14 @@ async function importUndo(l, st){
   for(const p of (l.docs||[])){ const [col,did]=p.split('/'); const prev=l.prev?.[p]; if(prev) await S.db.collection(col).doc(did).set(prev); else await S.db.collection(col).doc(did).delete(); }
   if(l.fichaPrev && Object.keys(l.fichaPrev).length){ const ft={...(S.cfgX.fichatec||{})}; for(const [k,v] of Object.entries(l.fichaPrev)){ if(ft[k]?.lote!==l._id) continue; if(v) ft[k]=v; else delete ft[k]; } await S.db.doc('config/fichatec').set(ft); }
   for(const b of (l.blobs||[])){ const still=S.v2.catalogo.some(c=>c.img?.id===b && c.lote!==l._id) || S.v2.circuitos.some(c=>c.lote!==l._id && (c.esquemas||[]).some(e=>e.id===b)) || (S.v2.electrico||[]).some(c=>c.img?.id===b && c.lote!==l._id); if(!still) try{ await S.assets?.delete(b); }catch{} }
+  if(l.cochePrev) await S.db.doc('config/coche').set({...(S.cfg||{}), ...l.cochePrev});
   await S.db.collection('lotes').doc(l._id).delete();
 }
 function importPreview(d, nombreArchivo){
   const c=importCheck(d), body=h2('<div></div>');
   body.append(h2(`<p class="muted2" style="margin:0 0 10px">${esc(nombreArchivo)} · ${esc(d.lote?.fuente||'fuente sin indicar')}</p>`));
   body.append(h2(`<div class="stchips">${stat(c.n.laminas,'Láminas','var(--accent)')}${stat(nf.format(c.n.piezas),'Piezas','var(--info)')}${stat(c.n.pares,'Pares de apriete','var(--soon)')}${stat(c.n.guias,'Guías','var(--ok)')}</div>`));
-  if(c.n.ficha||c.n.manuales||c.n.imgs||c.n.circuitos||c.n.cajas||c.n.averias||c.n.compras) body.append(h2(`<p class="muted2">${[c.n.cajas?`${c.n.cajas} cajas con ${c.n.fusibles} fusibles y ${c.n.reles} relés`:'', c.n.circuitos?c.n.circuitos+' circuito(s) eléctrico(s) para el 3D':'', c.n.imgs?c.n.imgs+' ilustraciones':'', c.n.ficha?c.n.ficha+' datos de ficha técnica':'', c.n.manuales?c.n.manuales+' enlaces a manuales':'', c.n.averias?c.n.averias+' avería(s)':'', c.n.compras?c.n.compras+' piezas para la compra':''].filter(Boolean).join(' · ')}</p>`));
+  if(c.n.ficha||c.n.manuales||c.n.imgs||c.n.circuitos||c.n.cajas||c.n.averias||c.n.compras||d.coche) body.append(h2(`<p class="muted2">${[c.n.cajas?`${c.n.cajas} cajas con ${c.n.fusibles} fusibles y ${c.n.reles} relés`:'', c.n.circuitos?c.n.circuitos+' circuito(s) eléctrico(s) para el 3D':'', c.n.imgs?c.n.imgs+' ilustraciones':'', c.n.ficha?c.n.ficha+' datos de ficha técnica':'', c.n.manuales?c.n.manuales+' enlaces a manuales':'', c.n.averias?c.n.averias+' avería(s)':'', c.n.compras?c.n.compras+' piezas para la compra':'', d.coche?.precioCompra?'precio del coche: '+eur(d.coche.precioCompra):''].filter(Boolean).join(' · ')}</p>`));
   for(const e of c.err) body.append(h2(`<div class="alr due">${ic('alert')}<span>${esc(e)}</span></div>`));
   for(const w of c.warn) body.append(h2(`<div class="alr soon">${ic('alert')}<span>${esc(w)}</span></div>`));
   const L=(d.laminas||[]).slice(0,4); if(L.length){ const cc=card2('Muestra','layers'); for(const l of L) cc.querySelector('.l2').append(row2({c:'var(--accent)', i:'layers', t:`${l.id} · ${l.titulo||''}`, s:`${grpName(l.grupo??String(l.id).charAt(0))} · ${(l.piezas||[]).length} piezas${(l.piezas||[])[0]?' · p. ej. '+l.piezas[0].ref+' '+l.piezas[0].nombre:''}`})); body.append(cc); }
@@ -11147,6 +11152,29 @@ NAVMENU.coche.push(['search','Diagnóstico por síntomas',()=>{ go('mas'); masOp
 { const _ra=renderAve; renderAve=function(...a){ const r=_ra(...a); const body=$('#ovlBody'); if(body && !body.querySelector('.ddiag')){ const b=h2(`<button type="button" class="btn2 ghost ddiag">${ic('search')}¿No sabes qué es? Diagnóstico por síntomas</button>`); b.onclick=()=>{ uiSfx('tap'); go('mas'); masOpen('diag'); }; body.prepend(b); } return r; }; }
 IC.fan=IC.fan||'<path d="M12 12c0-4 1-8 4-8s2 5-4 8Zm0 0c4 0 8 1 8 4s-5 2-8-4Zm0 0c0 4-1 8-4 8s-2-5 4-8Zm0 0c-4 0-8-1-8-4s5-2 8 4Z"/>';
 IC.cloud=IC.cloud||'<path d="M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 9a4.5 4.5 0 0 0 1 9Z"/>';
+
+/* ====================== PRECIO DEL COCHE E INVERSIÓN TOTAL ======================
+   config/coche.precioCompra (+ fechaCompra): lo que costó el coche. En Gastos ▸ Resumen se ve
+   precio + todo lo gastado después = inversión total. */
+function cocheEdit(){
+  const c=S.cfg||{};
+  const box=h2(`<div><h3>Precio de compra del coche</h3><p class="muted2" style="margin:-4px 0 10px">Se suma a lo que llevas gastado para ver la inversión total.</p>
+    <label class="wzlab">Precio pagado (€)</label><input class="inp2" id="ccP" type="number" inputmode="decimal" min="0" step="1" value="${esc(c.precioCompra??'')}" placeholder="0">
+    <label class="wzlab">Fecha de compra</label><input class="inp2" id="ccF" type="date" value="${esc(c.fechaCompra||'')}">
+    <div class="row3"><button class="btn2 ghost" type="button" id="ccNo">Cancelar</button><button class="btn2" type="button" id="ccOk">${ic('check')}Guardar</button></div></div>`);
+  box.querySelector('#ccNo').onclick=closeSheet;
+  box.querySelector('#ccOk').onclick=async()=>{ const v=box.querySelector('#ccP').value; await S.db.doc('config/coche').set({...(S.cfg||{}), precioCompra:v===''?null:Number(v), fechaCompra:box.querySelector('#ccF').value||null}); closeSheet(); uiSfx('save'); toast('Precio del coche guardado'); };
+  sheet(box, b=>b.classList.add('v2f'));
+}
+{ const _rg=renderGastos2; renderGastos2=function(...a){ const r=_rg(...a); const w=$('#pbMant')?.querySelector('.wrap'); if(!w || !S.cfg) return r;
+    const pc=Number(S.cfg.precioCompra)||0, gast=gastosMov().reduce((s,x)=>s+x.eur,0);
+    const c=h2(`<div class="card2 cochecost"><h3>${ic('car')}El coche<span class="cnt">${pc?eur(pc+gast):'—'}</span></h3>
+      <div class="ccrow"><span>Precio de compra${S.cfg.fechaCompra?` <small>(${fmtDate(S.cfg.fechaCompra)})</small>`:''}</span><b>${pc?eur(pc):'Sin apuntar'}</b></div>
+      <div class="ccrow"><span>Gastado desde entonces</span><b>${eur(gast)}</b></div>
+      <div class="ccrow tot"><span>Inversión total</span><b>${eur(pc+gast)}</b></div>
+      <button type="button" class="btn2 ghost sm">${ic('edit')}${pc?'Cambiar precio':'Apuntar lo que costó'}</button></div>`);
+    c.querySelector('button').onclick=()=>{ uiSfx('tap'); cocheEdit(); };
+    const st=w.querySelector('.stchips'); if(st) st.after(c); else w.prepend(c); return r; }; }
 
 
 connectDb();

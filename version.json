@@ -1,10 +1,17 @@
 {
- "version": "2.1.6",
+ "version": "2.1.7",
  "fecha": "2026-10-17",
  "notas": [
-  "Pantalla de carga en el ordenador: se ve el coche entero (antes salía muy ampliado)"
+  "Gastos: nueva tarjeta «El coche» con el precio de compra, lo gastado después y la inversión total"
  ],
  "historial": [
+  {
+   "version": "2.1.7",
+   "fecha": "2026-10-17",
+   "notas": [
+    "Gastos: nueva tarjeta «El coche» con el precio de compra, lo gastado después y la inversión total"
+   ]
+  },
   {
    "version": "2.1.6",
    "fecha": "2026-10-17",

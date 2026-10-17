@@ -1,5 +1,8 @@
 # Novedades
 
+## v2.1.7 · 2026-10-17
+- Gastos: nueva tarjeta «El coche» con el precio de compra, lo gastado después y la inversión total
+
 ## v2.1.6 · 2026-10-17
 - Pantalla de carga en el ordenador: se ve el coche entero (antes salía muy ampliado)
 
