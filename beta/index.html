@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.3.2">
+<meta name="app-version" content="3.0.0-beta.1">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2614,6 +2614,308 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
 .rpsh{display:flex;align-items:center;gap:6px;margin:14px 0 6px;font-size:13px}.rpsh svg{width:15px;height:15px;color:var(--soon)}
 .pdsheet>.pdrow{margin-bottom:6px}
 @media (max-width:420px){.rphero{grid-template-columns:48px minmax(0,1fr)}.rphi{width:48px;height:48px}.tshort{grid-template-columns:repeat(3,1fr)!important}}
+/* ====================== TALLER 7L · 3.0 ====================== */
+body.v3{
+  --v-font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue","IBM Plex Sans",system-ui,sans-serif;
+  --v-bg:#000; --v-bg2:#0c0c0e; --v-cell:#1c1c1e; --v-cell2:#2c2c2e; --v-cell3:#3a3a3c; --v-sep:rgba(84,84,88,.55);
+  --v-txt:#fff; --v-txt2:rgba(235,235,245,.62); --v-txt3:rgba(235,235,245,.32);
+  --v-red:#ff453a; --v-orange:#ff9f0a; --v-yellow:#ffd60a; --v-green:#30d158; --v-teal:#40c8e0; --v-blue:#0a84ff; --v-indigo:#5e5ce6; --v-purple:#bf5af2; --v-pink:#ff375f; --v-gray:#8e8e93;
+  --v-bar:rgba(18,18,20,.78); --v-glass:saturate(180%) blur(22px);
+  --accent:#ff9f0a; --accent-2:#ff8a00; --accent-ink:#1d1100;
+  --card:var(--v-cell); --card-2:var(--v-cell2); --card-line:var(--v-sep); --txt:var(--v-txt); --txt-2:var(--v-txt2); --txt-3:var(--v-txt3);
+  --ok:var(--v-green); --soon:var(--v-orange); --due:var(--v-red); --info:var(--v-blue);
+  --f-body:var(--v-font); --f-display:var(--v-font);
+  --t2h:50px; --navh:58px; --railw:0px;
+  background:var(--v-bg); color:var(--v-txt); font-family:var(--v-font); -webkit-font-smoothing:antialiased; letter-spacing:-.01em;
+}
+body.v3.light{
+  --v-bg:#f2f2f7; --v-bg2:#e9e9ef; --v-cell:#fff; --v-cell2:#f2f2f7; --v-cell3:#e5e5ea; --v-sep:rgba(60,60,67,.22);
+  --v-txt:#000; --v-txt2:rgba(60,60,67,.62); --v-txt3:rgba(60,60,67,.3);
+  --v-red:#ff3b30; --v-orange:#ff9500; --v-yellow:#ffcc00; --v-green:#34c759; --v-teal:#30b0c7; --v-blue:#007aff; --v-indigo:#5856d6; --v-purple:#af52de; --v-pink:#ff2d55; --v-gray:#8e8e93;
+  --v-bar:rgba(249,249,251,.8); --accent:#ff9500; --accent-2:#f08400; --accent-ink:#fff;
+}
+@media (min-width:901px){ body.v3{ --navh:0px; --railw:250px; --t2h:56px; } }
+
+/* ---------- sin los estilos de etiqueta de la versión antigua ---------- */
+:where(.v3stack,.v3bar,.v3tabs,.v3menu) :is(section,header,h1,h2,p){padding:0;margin:0;border:0;box-shadow:none;background:none;gap:0;grid-column:auto;min-width:0;position:static;z-index:auto;flex-wrap:nowrap;flex-direction:row;align-items:normal;display:block;text-transform:none;letter-spacing:normal;color:inherit;font-family:var(--v-font)}
+:where(.v3stack) section{border-top:0!important}
+:where(.v3stack,.v3bar) h2::before,:where(.v3stack,.v3bar) h2::after{display:none!important;content:none}
+header.v3bar{display:grid;flex-wrap:nowrap;box-shadow:none;z-index:9300;position:fixed}
+/* ---------- fuera lo de antes ---------- */
+body.v3 :is(#top2,#nav2,#fab2,.subtabs#stMant,.subtabs#stPap,.subtabs#stCoche,.ctabs,.gedge.r,.navpill){display:none!important}
+body.v3 .pages{background:var(--v-bg)!important;background-image:none!important}
+body.v3:not(.v3leaf) .pages:not(.v3keep){visibility:hidden}
+body.v3:not(.v3leaf) .app:not(.v3keep){visibility:hidden!important}
+body.v3.v3anim .pages{z-index:40}
+body.v3 .pages.v3keep,body.v3 .app.v3keep{visibility:visible!important}
+body.v3 .page.on{animation:none}
+
+/* ---------- pila de pantallas nuevas ---------- */
+.v3stack{position:fixed;z-index:30;top:0;left:var(--railw);right:0;bottom:calc(var(--navh) + var(--sa-b));pointer-events:none}
+body.v3.v3leaf .v3stack{visibility:hidden}
+.v3pg{position:absolute;inset:0;display:none;background:var(--v-bg);pointer-events:auto;will-change:transform}
+.v3pg.on,.v3pg.v3keep{display:block;visibility:visible}
+.v3pg.v3in-top{box-shadow:-20px 0 40px #0006}
+.v3sc{position:absolute;inset:0;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;padding:calc(var(--t2h) + var(--sa-t)) 0 40px}
+.v3in{max-width:720px;margin:0 auto;padding:0 16px}
+@media (min-width:901px){ .v3in{max-width:980px;padding:0 32px} }
+.v3lt{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:2px 2px 14px}
+.v3lt h1{margin:0;font:700 34px/1.12 var(--v-font);letter-spacing:-.025em;color:var(--v-txt)}
+.v3lt p{margin:3px 0 0;color:var(--v-txt2);font-size:14.5px}
+.v3lt p::first-letter{text-transform:uppercase}
+.v3av{flex:none;width:38px;height:38px;border-radius:50%;border:0;padding:0;overflow:hidden;background:linear-gradient(140deg,#ffb340,#ff7a00);color:#fff;font:700 16px var(--v-font);cursor:pointer;display:grid;place-items:center;position:relative;box-shadow:0 0 0 2px var(--v-bg),0 0 0 3.5px var(--v-green)}
+body.v3off .v3av{box-shadow:0 0 0 2px var(--v-bg),0 0 0 3.5px var(--v-gray)}
+.v3av img{width:100%;height:100%;object-fit:cover}.v3av.big{width:64px;height:64px;font-size:26px;box-shadow:none}
+@media (min-width:901px){ .v3lt .v3av{display:none} }
+
+/* ---------- barra superior ---------- */
+.v3bar{position:fixed;z-index:9300;top:0;left:var(--railw);right:0;height:calc(var(--t2h) + var(--sa-t));padding:var(--sa-t) 8px 0;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;background:transparent;transition:background .2s,border-color .2s;border-bottom:.5px solid transparent;font-family:var(--v-font)}
+.v3bar.lined,.v3bar.leaf{background:var(--v-bar);-webkit-backdrop-filter:var(--v-glass);backdrop-filter:var(--v-glass);border-bottom-color:var(--v-sep)}
+.v3back{grid-column:1;justify-self:start;display:flex;align-items:center;gap:0;border:0;background:none;color:var(--accent);font:400 17px var(--v-font);cursor:pointer;padding:6px 8px 6px 2px;max-width:100%;visibility:hidden;opacity:0;transition:opacity .2s}
+.v3back svg{width:26px;height:26px;flex:none;stroke-width:2.4}.v3back span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v3bar.hasback .v3back{visibility:visible;opacity:1}
+.v3bt{grid-column:2;text-align:center;min-width:0;max-width:56vw;opacity:0;transform:translateY(4px);transition:opacity .2s,transform .2s;pointer-events:none}
+.v3bar.scrolled .v3bt,.v3bar.leaf .v3bt{opacity:1;transform:none}
+.v3bt b{display:block;font:600 17px/1.2 var(--v-font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--v-txt)}
+.v3bt small{display:block;font-size:11.5px;color:var(--v-txt2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.v3bt small:empty{display:none}
+.v3act{grid-column:3;justify-self:end;display:flex;gap:8px;align-items:center}
+.v3ib{width:34px;height:34px;border-radius:50%;border:0;display:grid;place-items:center;background:var(--v-cell2);color:var(--accent);cursor:pointer;padding:0}
+.v3ib svg{width:19px;height:19px;stroke-width:2.2}.v3ib.pri{background:var(--accent);color:var(--accent-ink)}
+.v3bar:not(.lined):not(.leaf) .v3ib:not(.pri){background:color-mix(in srgb,var(--v-cell2) 80%,transparent)}
+.v3act .mb .mbtn svg{width:16px;height:16px}.v3act .mb .mbtn{display:flex!important;flex-direction:row!important;align-items:center;gap:6px;height:34px;border-radius:17px;background:var(--v-cell2)!important;border:0!important;color:var(--v-txt)!important;font:600 13px var(--v-font)!important;padding:0 12px}
+@media (min-width:901px){ .v3bar{padding:var(--sa-t) 20px 0} }
+
+/* ---------- barra de pestañas (móvil) / barra lateral (ordenador) ---------- */
+.v3tabs{position:fixed;z-index:9400;left:0;right:0;bottom:0;height:calc(var(--navh) + var(--sa-b));padding:0 6px var(--sa-b);display:flex;background:var(--v-bar);-webkit-backdrop-filter:var(--v-glass);backdrop-filter:var(--v-glass);border-top:.5px solid var(--v-sep);font-family:var(--v-font)}
+.v3tabs button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:0;background:none;color:var(--v-gray);font:500 10.5px var(--v-font);cursor:pointer;padding:5px 0 3px;-webkit-touch-callout:none;user-select:none}
+.v3tabs button i{position:relative;display:grid;place-items:center;width:30px;height:28px;transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.v3tabs button svg{width:26px;height:26px;stroke-width:1.9}
+.v3tabs button[aria-current="true"]{color:var(--accent)}
+.v3tabs button[aria-current="true"] svg{stroke-width:2.2}
+.v3tabs button:active i{transform:scale(.86)}
+.v3badge{position:absolute;top:-3px;left:19px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--v-red);color:#fff;font:600 11px/18px var(--v-font);text-align:center;font-style:normal}
+.v3badge.soon{background:var(--v-orange)}.v3badge.info{background:var(--v-gray)}
+.v3brand,.v3tabs .v3me{display:none}
+@media (min-width:901px){
+  .v3tabs{top:0;right:auto;width:var(--railw);height:auto;flex-direction:column;padding:calc(var(--sa-t) + 14px) 12px 16px;border-top:0;border-right:.5px solid var(--v-sep);gap:2px;background:var(--v-bg2)}
+  .v3brand{display:flex;align-items:center;gap:10px;padding:4px 10px 18px}.v3brand b{font:700 19px var(--v-font);letter-spacing:-.02em}
+  .v3tabs button{flex:none;flex-direction:row;justify-content:flex-start;gap:12px;padding:9px 10px;border-radius:10px;font:500 15px var(--v-font);color:var(--v-txt)}
+  .v3tabs button svg{width:22px;height:22px;color:var(--accent)}
+  .v3tabs button i{width:26px;height:24px}
+  .v3tabs button:hover{background:var(--v-cell)}
+  .v3tabs button[aria-current="true"]{background:var(--accent);color:var(--accent-ink)}
+  .v3tabs button[aria-current="true"] svg{color:var(--accent-ink)}
+  .v3badge{left:auto;right:-150px;top:3px}
+  .v3tabs button[aria-current="true"] .v3badge{background:#fff3;color:inherit}
+  .v3tabs .v3me{display:flex;margin-top:auto}
+}
+
+/* ---------- menú contextual ---------- */
+.v3menubg{position:fixed;inset:0;z-index:9800;background:#0004;animation:vfade .2s}
+.v3menu{position:fixed;z-index:9810;background:color-mix(in srgb,var(--v-cell) 88%,transparent);-webkit-backdrop-filter:var(--v-glass);backdrop-filter:var(--v-glass);border-radius:14px;overflow:hidden;box-shadow:0 20px 60px #0008,0 0 0 .5px var(--v-sep);animation:vpop .28s cubic-bezier(.3,1.4,.5,1);font-family:var(--v-font)}
+.v3menu button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border:0;background:none;color:var(--v-txt);font:400 16px var(--v-font);cursor:pointer;text-align:left}
+.v3menu button+button{border-top:.5px solid var(--v-sep)}
+.v3menu button:active{background:var(--v-cell3)}
+.v3menu i{color:var(--c);display:grid}.v3menu svg{width:21px;height:21px}
+@keyframes vpop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+@keyframes vfade{from{opacity:0}}
+
+/* ---------- piezas comunes ---------- */
+.vgrp{margin:0 0 26px}
+.vgh{display:flex;align-items:baseline;justify-content:space-between;margin:0 4px 8px;font:700 21px var(--v-font);letter-spacing:-.02em;color:var(--v-txt)}
+.vgh button{border:0;background:none;color:var(--accent);font:400 16px var(--v-font);cursor:pointer;padding:0}
+.vgrp.tight{margin:0}.vgrp.tight .vgh{margin-bottom:8px}
+.vlist{background:var(--v-cell);border-radius:14px;overflow:hidden}
+.vrow{width:100%;display:flex;align-items:center;gap:13px;padding:10px 14px 10px 14px;border:0;background:none;color:var(--v-txt);text-align:left;font:inherit;cursor:pointer;position:relative;min-height:52px}
+.vrow:disabled{cursor:default;opacity:1}
+.vrow+.vrow::before,.vrow+.vseg2::before{content:'';position:absolute;top:0;right:0;left:58px;border-top:.5px solid var(--v-sep)}
+.vrow:active:not(:disabled){background:var(--v-cell3)}
+.vsq{flex:none;width:30px;height:30px;border-radius:8px;background:var(--c);color:#fff;display:grid;place-items:center;font-style:normal}
+.vsq svg{width:18px;height:18px;stroke-width:2.1}
+.vtx{flex:1;min-width:0}.vtx b{display:block;font:400 16.5px/1.25 var(--v-font);color:var(--v-txt);overflow-wrap:anywhere}.vtx small{display:block;color:var(--v-txt2);font-size:13.5px;line-height:1.3;margin-top:1px}
+.vr{flex:none;color:var(--v-txt2);font-size:15.5px;font-variant-numeric:tabular-nums}
+.vch{flex:none;color:var(--v-txt3);display:grid}.vch svg{width:17px;height:17px;stroke-width:2.6}
+.vbadge{flex:none;font-style:normal;min-width:22px;height:22px;padding:0 7px;border-radius:11px;background:var(--c);color:#fff;font:600 13px/22px var(--v-font);text-align:center}
+.vgo{flex:none;padding:6px 14px;border-radius:16px;background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent);font:600 14px var(--v-font)}
+.vlead{flex:none}
+.vfoot{margin:8px 16px 0;color:var(--v-txt2);font-size:13px}
+.vadd .vtx b{color:var(--accent)}
+.vgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 26px}
+@media (min-width:901px){ .vgrid{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.vtile{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:14px;border:0;border-radius:16px;background:var(--v-cell);color:var(--v-txt);text-align:left;font:inherit;cursor:pointer;min-height:118px;transition:transform .2s}
+.vtile:active{transform:scale(.97)}
+.vtile .vsq{width:36px;height:36px;border-radius:10px}.vtile .vsq svg{width:21px;height:21px}
+.vtile .vtx{margin-top:auto}.vtile .vtx b{font-weight:600;font-size:16px}.vtile .vtx small{font-size:12.5px}
+.vtile .vn{position:absolute;top:14px;right:14px;font:700 22px var(--v-font);font-style:normal;color:var(--v-txt3)}
+.vtile .vimg{position:absolute;inset:0;background:center/cover no-repeat;opacity:0;transition:opacity .4s}
+.vtile.hasimg .vimg{opacity:1}.vtile.hasimg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#0000 20%,#000c)}
+.vtile.hasimg>*:not(.vimg){position:relative;z-index:1}.vtile.hasimg .vtx b,.vtile.hasimg .vtx small,.vtile.hasimg .vn{color:#fff}
+.vring{--p:0;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--c) calc(var(--p)*1%),var(--v-cell3) 0)}
+.vring b{width:34px;height:34px;border-radius:50%;background:var(--v-cell);display:grid;place-items:center;font:600 11px var(--v-font);font-variant-numeric:tabular-nums;color:var(--v-txt)}
+.vbar{display:block;height:5px;border-radius:3px;background:var(--v-cell3);margin-top:7px;overflow:hidden}.vbar i{display:block;height:100%;border-radius:3px}
+.vcalm{display:flex;gap:14px;align-items:center;padding:18px 16px;color:var(--v-green)}
+.vcalm>svg{width:34px;height:34px;flex:none}.vcalm b{display:block;color:var(--v-txt);font-weight:600}.vcalm small{display:block;color:var(--v-txt2);font-size:13.5px;margin-top:2px}
+.vcalm.sm{padding:14px}.vcalm.sm>svg{width:26px;height:26px}
+.vskel{border-radius:16px;background:linear-gradient(90deg,var(--v-cell) 30%,var(--v-cell2) 50%,var(--v-cell) 70%);background-size:300% 100%;animation:vsk 1.4s infinite;margin-bottom:14px}
+@keyframes vsk{from{background-position:100% 0}to{background-position:0 0}}
+.vseg{display:flex;padding:2px;border-radius:10px;background:var(--v-cell2);margin:0 0 18px}
+.vseg button{flex:1;border:0;background:none;color:var(--v-txt);font:500 14px var(--v-font);padding:7px 6px;border-radius:8px;cursor:pointer;transition:background .2s}
+.vseg button[aria-pressed="true"]{background:var(--v-cell3);box-shadow:0 2px 8px #0003;font-weight:600}
+body.v3.light .vseg button[aria-pressed="true"]{background:#fff}
+.vseg em{font-style:normal;color:var(--v-txt2);font-size:12.5px}
+.vseg2{display:flex;gap:8px;padding:10px 14px 14px;position:relative}
+.vseg2 button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:10px;padding:10px;background:var(--v-cell2);color:var(--accent);font:600 14.5px var(--v-font);cursor:pointer}
+.vseg2 svg{width:17px;height:17px}
+
+/* ---------- HOY ---------- */
+.vhero{position:relative;border-radius:22px;overflow:hidden;min-height:300px;margin:0 0 16px;background:#0b0d10;color:#fff;isolation:isolate}
+.vhimg{position:absolute;inset:0;background:url("splash/touareg-noche.webp") 50% 70%/cover no-repeat;transform:scale(1.04);z-index:-1;animation:vken 22s ease-in-out infinite alternate}
+@keyframes vken{to{transform:scale(1.14) translateX(-2%)}}
+.vhero::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#000a 0%,#0000 38%,#0000 52%,#000d 100%)}
+.vhin{position:relative;display:flex;flex-direction:column;min-height:300px;padding:14px}
+.vhtop{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.vplate{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#111;border-radius:5px;padding:2px 8px 2px 0;font:700 13px var(--v-font);letter-spacing:.06em;overflow:hidden}
+.vplate i{background:#1f4fbf;color:#fff;font-style:normal;font-size:10px;padding:4px 5px;letter-spacing:0}
+.vstat{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:14px;font:600 12.5px var(--v-font);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);background:#0006}
+.vstat svg{width:15px;height:15px}.vstat.ok{color:#5df08b}.vstat.warn{color:#ffc04d}
+.vhname{margin-top:auto}
+.vhname small{display:block;font:600 11px var(--v-font);letter-spacing:.18em;text-transform:uppercase;opacity:.75}
+.vhname b{display:block;font:800 30px/1.05 var(--v-font);letter-spacing:-.02em}.vhname b span{color:var(--accent)}
+.vhname em{display:block;font-style:normal;font-size:13px;opacity:.8;margin-top:2px}
+.vkm{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin-top:14px;padding:10px 10px 10px 14px;border:0;border-radius:16px;background:#ffffff1c;-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);color:#fff;cursor:pointer;text-align:left;font-family:var(--v-font)}
+.vkm span small{display:block;font:500 11.5px var(--v-font);opacity:.7;letter-spacing:.02em}
+.vkm span b{display:block;font:700 26px/1.1 var(--v-font);font-variant-numeric:tabular-nums;letter-spacing:-.02em}.vkm span b i{font-style:normal;font-size:14px;font-weight:500;opacity:.75;margin-left:4px}
+.vkm em{display:inline-flex;align-items:center;gap:5px;font-style:normal;font:600 13px var(--v-font);padding:8px 12px;border-radius:12px;background:var(--accent);color:var(--accent-ink)}
+.vkm em svg{width:14px;height:14px}
+.vquick{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0 0 26px}
+.vquick button{display:flex;flex-direction:column;align-items:center;gap:7px;border:0;background:none;color:var(--v-txt);font:500 12px var(--v-font);cursor:pointer;padding:0}
+.vquick i{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:var(--v-cell);color:var(--c);transition:transform .2s}
+.vquick button:active i{transform:scale(.9)}.vquick svg{width:24px;height:24px;stroke-width:2}
+.vnowl{display:flex;flex-direction:column;gap:8px}
+.vnow{width:100%;display:flex;align-items:center;gap:13px;padding:13px 14px;border:0;border-radius:16px;background:var(--v-cell);color:var(--v-txt);text-align:left;font:inherit;cursor:pointer;transition:transform .15s}
+.vnow:active{transform:scale(.98)}
+.vnow .vsq{width:38px;height:38px;border-radius:11px}.vnow .vsq svg{width:21px;height:21px}
+.vnow .vtx em{display:block;font-style:normal;font:600 12px var(--v-font);text-transform:uppercase;letter-spacing:.04em;margin-bottom:1px}
+.vnow .vtx b{font-weight:600}
+.vnow.rep{background:linear-gradient(120deg,color-mix(in srgb,var(--v-orange) 22%,var(--v-cell)),var(--v-cell) 70%)}
+.vnow.rep .vtx em{color:var(--v-orange)}
+.vnowl .vcalm{background:var(--v-cell);border-radius:16px}
+.vmoney{width:100%;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:16px;border:0;border-radius:16px;background:var(--v-cell);color:var(--v-txt);text-align:left;cursor:pointer;font:inherit}
+.vmt b{display:block;font:700 28px var(--v-font);letter-spacing:-.02em;font-variant-numeric:tabular-nums}.vmt small{color:var(--v-txt2);font-size:13px}
+.vbars{display:flex;align-items:flex-end;gap:4px;height:64px;flex:1;max-width:240px}
+.vbars i{flex:1;height:var(--h);min-height:3px;border-radius:3px;background:color-mix(in srgb,var(--accent) 45%,var(--v-cell3));position:relative}
+.vbars i.cur{background:var(--accent)}.vbars i b{position:absolute;bottom:-17px;left:50%;transform:translateX(-50%);font:500 9.5px var(--v-font);color:var(--v-txt3)}
+.vmoney{padding-bottom:26px}
+.vnext .vtx{padding-right:6px}
+
+/* ---------- COCHE ---------- */
+.v3d{position:relative;width:100%;min-height:210px;border:0;border-radius:22px;overflow:hidden;display:flex;align-items:flex-end;padding:18px;margin:0 0 26px;color:#fff;text-align:left;cursor:pointer;font:inherit;background:radial-gradient(120% 90% at 70% 10%,#3b3f8f 0%,#14152e 55%,#06060c 100%);isolation:isolate}
+.v3dimg{position:absolute;inset:-10% -5% 18% 20%;background:url("splash/touareg-noche.webp") 60% 55%/cover no-repeat;z-index:-1;-webkit-mask-image:radial-gradient(70% 70% at 55% 50%,#000 30%,transparent 72%);mask-image:radial-gradient(70% 70% at 55% 50%,#000 30%,transparent 72%);opacity:.95;filter:saturate(1.2) hue-rotate(-10deg)}
+.v3d::before{content:'';position:absolute;inset:0;z-index:-1;background-image:linear-gradient(#ffffff0c 1px,transparent 1px),linear-gradient(90deg,#ffffff0c 1px,transparent 1px);background-size:26px 26px;-webkit-mask-image:linear-gradient(180deg,transparent,#000 60%);mask-image:linear-gradient(180deg,transparent,#000 60%)}
+.v3dtx em{display:inline-flex;align-items:center;gap:6px;font-style:normal;font:600 12px var(--v-font);letter-spacing:.08em;text-transform:uppercase;color:#a9a8ff}.v3dtx em svg{width:15px;height:15px}
+.v3dtx b{display:block;font:700 24px/1.15 var(--v-font);letter-spacing:-.02em;margin:4px 0 3px}.v3dtx small{color:#fffb;font-size:13.5px}
+.v3dgo{position:absolute;right:16px;bottom:18px;width:40px;height:40px;border-radius:50%;background:#fff;color:#14152e;display:grid;place-items:center}.v3dgo svg{width:20px;height:20px;stroke-width:2.6}
+
+/* ---------- TALLER ---------- */
+.vstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 26px}
+.vstats button{border:0;border-radius:16px;background:var(--v-cell);padding:12px 14px;text-align:left;cursor:pointer;color:var(--v-txt);font:inherit}
+.vstats b{display:block;font:700 28px var(--v-font);color:var(--c);font-variant-numeric:tabular-nums}.vstats span{font-size:13px;color:var(--v-txt2);font-weight:500}
+.vdiag{width:100%;display:flex;align-items:center;gap:13px;padding:14px;border:0;border-radius:16px;margin:0 0 22px;background:linear-gradient(120deg,color-mix(in srgb,var(--v-red) 20%,var(--v-cell)),var(--v-cell) 75%);color:var(--v-txt);text-align:left;cursor:pointer;font:inherit}
+.vdiag .vsq{width:40px;height:40px;border-radius:11px}.vdiag .vtx b{font-weight:600}
+.vpd{display:flex;flex-direction:column;gap:0}
+.vpd .pdrow{border-radius:0;border:0;border-left:0;background:none}
+.vpd .pdrow+.pdrow{border-top:.5px solid var(--v-sep)}
+
+/* ---------- GASTOS ---------- */
+.vbig{background:var(--v-cell);border-radius:20px;padding:18px 18px 14px;margin:0 0 26px}
+.vbig>small{color:var(--v-txt2);font-size:14px}.vbig>b{display:block;font:700 40px/1.1 var(--v-font);letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin:2px 0 14px}
+.vbigs{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px 16px;padding:12px 0;border-top:.5px solid var(--v-sep);border-bottom:.5px solid var(--v-sep)}
+.vbigs span{font:600 16px var(--v-font);font-variant-numeric:tabular-nums}.vbigs em{display:block;font-style:normal;font-weight:400;font-size:12.5px;color:var(--v-txt2)}
+.vlink{display:inline-flex;align-items:center;gap:6px;border:0;background:none;color:var(--accent);font:400 15.5px var(--v-font);padding:12px 0 0;cursor:pointer}.vlink svg{width:16px;height:16px}
+.vcard{background:var(--v-cell);border-radius:16px;padding:12px}
+
+/* ---------- PAPELES ---------- */
+.vstate{display:flex;gap:14px;align-items:center;padding:16px;border-radius:18px;margin:0 0 26px;background:var(--v-cell)}
+.vstate>i{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;flex:none;color:#fff}.vstate>i svg{width:24px;height:24px}
+.vstate.ok>i{background:var(--v-green)}.vstate.soon>i{background:var(--v-orange)}.vstate.bad>i{background:var(--v-red)}
+.vstate b{display:block;font:600 17px var(--v-font)}.vstate small{color:var(--v-txt2);font-size:13.5px}
+
+/* ---------- AJUSTES ---------- */
+.vacc{display:flex;gap:14px;align-items:center;padding:16px;border-radius:18px;background:var(--v-cell);margin:0 0 22px}
+.vacc b{display:block;font:600 19px var(--v-font)}.vacc small{display:block;color:var(--v-txt2)}
+.vacc em{display:inline-block;font-style:normal;font-size:12.5px;margin-top:4px}.vacc em.ok{color:var(--v-green)}.vacc em.off{color:var(--v-gray)}
+.vdanger{justify-content:center}.vdanger .vtx{flex:none}.vdanger b{color:var(--v-red)!important;text-align:center}
+.vsign{text-align:center;color:var(--v-txt3);font-size:12.5px;line-height:1.5;margin:10px 0 0}
+.vtheme{margin:0}
+
+/* ====================== las pantallas de detalle, con el aspecto nuevo ====================== */
+body.v3 :is(.pin2,.pbody) .wrap{padding-top:16px!important}
+body.v3 .card2{background:var(--v-cell)!important;border:0!important;border-radius:16px;box-shadow:none!important;background-image:none!important}
+body.v3 .card2 h3{font:600 13px var(--v-font);letter-spacing:.02em;text-transform:uppercase;color:var(--v-txt2)}
+body.v3 .card2 h3 svg{color:var(--accent)}
+body.v3 .card2 h3 .cnt{background:var(--v-cell2);color:var(--v-txt2)}
+body.v3 .card2 .l2{gap:0}
+body.v3 .card2 .l2>.r2{border-radius:0}
+body.v3 .r2{background:transparent!important;border:0!important;border-left:0!important;border-radius:12px;box-shadow:none!important;padding:10px 4px;min-height:52px}
+body.v3 .card2 .l2>.r2+.r2,body.v3 .l2>.r2+.r2{border-top:.5px solid var(--v-sep)!important;border-radius:0}
+body.v3 .r2 .ic{width:30px;height:30px;border-radius:8px;background:var(--c,var(--v-gray))!important;color:#fff!important}
+body.v3 .r2 .ic svg{width:17px;height:17px;stroke-width:2.1}
+body.v3 .r2 .ic.thm{background-size:cover!important}
+body.v3 .r2 .tx b{font-weight:500;font-size:16px}body.v3 .r2 .tx small{font-size:13px;color:var(--v-txt2)}
+body.v3 .r2:active{background:var(--v-cell3)!important}
+body.v3 .btn2{border-radius:12px;font:600 15px var(--v-font);background:var(--accent);color:var(--accent-ink);border:0;box-shadow:none}
+body.v3 .btn2.ghost{background:var(--v-cell2)!important;color:var(--accent)!important;border:0!important}
+body.v3 .btn2.pri{background:var(--accent)!important;color:var(--accent-ink)!important}
+body.v3 :is(.inp2,select.inp2,textarea.inp2){background:var(--v-cell2)!important;border:0!important;border-radius:10px;color:var(--v-txt)!important;font-family:var(--v-font)}
+body.v3 :is(.inp2,select,textarea):focus{outline:2px solid color-mix(in srgb,var(--accent) 70%,transparent);outline-offset:0}
+body.v3 .wzlab{font:500 13px var(--v-font);color:var(--v-txt2);text-transform:none;letter-spacing:0}
+body.v3 :is(.chips2,.subtabs.v2chips){gap:0;padding:2px;border-radius:10px;background:var(--v-cell2);border:0;display:inline-flex;max-width:100%}
+body.v3 :is(.chips2,.v2chips) button{border:0!important;background:none!important;border-radius:8px!important;color:var(--v-txt)!important;font:500 14px var(--v-font)!important;padding:6px 12px!important;box-shadow:none!important}
+body.v3 :is(.chips2,.v2chips) button[aria-selected="true"]{background:var(--v-cell3)!important;font-weight:600!important;box-shadow:0 2px 8px #0003!important}
+body.v3.light :is(.chips2,.v2chips) button[aria-selected="true"]{background:#fff!important}
+body.v3 .empty2{color:var(--v-txt2)}body.v3 .empty2 svg{color:var(--v-txt3)}
+body.v3 .pintro{background:var(--v-cell)!important;border:0!important;border-radius:14px;color:var(--v-txt2)}
+body.v3 .alr{border-radius:12px}
+body.v3 .kv2{background:var(--v-cell2);border-radius:12px}
+body.v3 .stc{background:var(--v-cell)!important;border:0!important;border-radius:14px;border-top:0!important}
+body.v3 .stc b{color:var(--c)}
+body.v3 .mt{background:var(--v-cell)!important;border:0!important}
+/* hojas que suben desde abajo */
+body.v3 .sheet2{background:#0007;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+body.v3 .shbox{background:var(--v-cell)!important;background-image:none!important;border:0!important;border-radius:14px 14px 0 0;color:var(--v-txt);font-family:var(--v-font);box-shadow:0 -10px 40px #0007}
+body.v3.light .shbox{background:var(--v-bg)!important}
+body.v3 .shbox::before{background:var(--v-txt3)!important}
+body.v3 .dsh h3,body.v3 .shbox h3{font:700 22px var(--v-font)!important;letter-spacing:-.02em!important;text-transform:none!important;color:var(--v-txt)}
+@media (min-width:901px){ body.v3 .shbox{border-radius:16px} }
+/* el panel antiguo encajado (Plan, Documentos, Averías…) */
+body.v3 .ovl.docked{background:var(--v-bg)!important;background-image:none!important;border:0!important;box-shadow:none!important}
+body.v3 .ovl.docked .ovl-head{display:none!important}
+body.v3 .ovl{font-family:var(--v-font)}
+body.v3 .ovl .acts button{border-radius:12px}
+/* el buscador */
+body.v3 .srch{background:#0009;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+body.v3 .srbox{background:var(--v-cell);border:0;border-radius:16px;font-family:var(--v-font)}
+body.v3 .srin{background:var(--v-cell2);border-radius:12px;margin:10px;border:0}
+body.v3 .toasts .toast,body.v3 .toast{border-radius:14px;font-family:var(--v-font)}
+body.v3 .hyear span{font-family:var(--v-font)}
+body.v3 .tshort{display:none!important}
+/* Hoy en pantallas anchas: el coche a la izquierda, lo de ahora a la derecha */
+@media (min-width:1180px){
+  .v3in.vhoy{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);column-gap:28px;align-items:start;grid-template-areas:"lt lt" "hero now" "quick now" "money next" "money ."}
+  .vhoy>.v3lt{grid-area:lt}.vhoy>.vh-hero{grid-area:hero;min-height:360px}.vhoy>.vh-hero .vhin{min-height:360px}.vhoy>.vh-quick{grid-area:quick}.vhoy>.vh-now{grid-area:now}.vhoy>.vh-next{grid-area:next}.vhoy>.vh-money{grid-area:money}
+}
+/* bienvenida */
+.vintro .vihead{text-align:center;padding:6px 0 16px}
+.vintro .vihead .t2mark{margin:0 auto 10px;transform:scale(1.5)}
+.vintro .vihead b{display:block;font:800 26px var(--v-font);letter-spacing:-.02em}.vintro .vihead small{color:var(--v-txt2);font-size:14.5px}
+.vimap{display:flex;flex-direction:column;gap:14px;margin:6px 0 16px}
+.vimi{display:flex;gap:14px;align-items:flex-start;animation:vup .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d)}
+.vimi .vsq{width:40px;height:40px;border-radius:11px}.vimi .vsq svg{width:22px;height:22px}
+.vimi b{display:block;font:600 16px var(--v-font)}.vimi small{display:block;color:var(--v-txt2);font-size:13.5px;line-height:1.35}
+.vitips{display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:12px;background:var(--v-cell2);font-size:13px;color:var(--v-txt2)}
+.vitips span{display:flex;gap:8px;align-items:center}.vitips svg{width:15px;height:15px;color:var(--accent);flex:none}
+@keyframes vup{from{opacity:0;transform:translateY(14px)}}
+.dsh:has(.vintro)>h3{display:none}
 </style>
 
 </head>
@@ -2656,7 +2958,7 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.3.2</span>
+  <span class="spver">v3.0.0-beta.1</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6038,7 +6340,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='2.3.2';
+window.APP_VERSION='3.0.0-beta.1';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6072,7 +6374,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.3.2';
+  const APP_VERSION='3.0.0-beta.1';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -7637,7 +7939,7 @@ document.addEventListener('touchmove',e=>{
     else if(G.edgeL && dx>0 && Math.abs(dx)>Math.abs(dy)) G.mode='back';
     else if(G.row && Math.abs(dx)>Math.abs(dy)*1.3 && ((dx<0&&G.row._swL)||(dx>0&&G.row._swR))) G.mode='row';
     else if(G.edgeR && dx<0 && Math.abs(dx)>Math.abs(dy) && NAVH.fwd.length) G.mode='fwd';
-    else if(UI.sec==='inicio' && dy>0 && Math.abs(dy)>Math.abs(dx)*1.5 && ($('#pgInicio')?.scrollTop||0)<=0 && !G.sheet) G.mode='pull';
+    else if(UI.sec==='inicio' && dy>0 && Math.abs(dy)>Math.abs(dx)*1.5 && (typeof V3!=='undefined' ? V3.canPull() : ($('#pgInicio')?.scrollTop||0)<=0) && !G.sheet) G.mode='pull';
     else { G.mode='none'; return; }
   }
   if(G.mode==='sheet'){ const box=G.sheet.closest('.shbox')||G.sheet; box.style.transition='none'; box.style.transform=`translateY(${Math.max(0,dy)}px)`; }
@@ -7658,7 +7960,7 @@ document.addEventListener('touchend',()=>{
   if(g.mode==='fwd'){ const ok = -dx>110 || (fast && -dx>50); gReset(); if(ok) gFwd(); return; }
   if(g.mode==='tab'){ const ok = Math.abs(dx)>90 || (fast && Math.abs(dx)>45); const pg=g.page; gReset();
     if(ok && gTab(dx<0?1:-1)){ const np=document.querySelector('.page.on .pbody, .page.on .pin2, .page.on'); if(np && !RM){ np.animate([{transform:`translateX(${dx<0?40:-40}px)`,opacity:.4},{transform:'none',opacity:1}],{duration:240,easing:'cubic-bezier(.2,.8,.2,1)'}); } } return; }
-  if(g.mode==='pull'){ const go2=gPull.classList.contains('go'); gReset(); if(go2){ uiSfx('ratchet'); renderInicio(true); try{ window.__pwa?.check?.(true); }catch{} toast('Inicio actualizado'); } return; }
+  if(g.mode==='pull'){ const go2=gPull.classList.contains('go'); gReset(); if(go2 && typeof V3!=='undefined'){ V3.pull(); return; } if(go2){ uiSfx('ratchet'); renderInicio(true); try{ window.__pwa?.check?.(true); }catch{} toast('Inicio actualizado'); } return; }
 },{passive:true});
 document.addEventListener('touchcancel',()=>{ if(G){ G=null; gReset(); } },{passive:true});
 
@@ -11719,6 +12021,492 @@ NAVMENU.mant=[['wrench','Empezar una reparación',repPick], ...NAVMENU.mant];
 { const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); const c=$('#pgInicio')?.querySelector('.repcard'); if(c && !c.querySelector('.rpall')){ const m=h2(`<div class="row3 pdhacts rpall"><button type="button" class="btn2 ghost sm">${ic('wrench')}Reparaciones${ic('chevR')}</button></div>`); m.querySelector('button').onclick=()=>{ uiSfx('tap'); go('mant','rep'); }; c.append(m); } return r; }; }
 /* el tablero del Taller: acceso directo */
 { const _rm=renderMant; renderMant=function(){ _rm(); const s=$('#ovlBody')?.querySelector('.tshort'); if(s && !s.querySelector('[data-k="rep"]')){ const b=h2(`<button type="button" data-k="rep">${ic('wrench')}<span>Reparar</span></button>`); b.onclick=()=>{ uiSfx('tap'); go('mant','rep'); }; s.prepend(b); s.style.gridTemplateColumns='repeat(5,1fr)'; } }; }
+
+
+/* ====================== TALLER 7L · 3.0 — NÚCLEO DE NAVEGACIÓN ======================
+   Cinco pestañas como en el iPhone (Hoy · Coche · Taller · Gastos · Papeles). Cada pestaña tiene su propia
+   pila de pantallas: entras con un toque, vuelves con «‹» o deslizando desde el borde izquierdo, y al cambiar
+   de pestaña y volver sigues donde estabas. Las pantallas principales (hubs) son nuevas; las de detalle
+   reutilizan las de la 2.x por dentro, pero con la barra, el título y el aspecto nuevos.
+   Pilas: V3.st[tab] = [{k:'hub'|'page'|'leaf', id, title, el?, y?}]  */
+document.body.classList.add('v3');
+Object.assign(IC,{
+  today:'<rect x="3.5" y="4.5" width="17" height="16" rx="3.5"/><path d="M3.5 9.5h17M8 3v3M16 3v3"/><circle cx="12" cy="15" r="2.2" fill="currentColor" stroke="none"/>',
+  wallet:'<path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3"/><rect x="3.5" y="7.5" width="17" height="12" rx="3"/><path d="M16 13.5h2.5"/>',
+  doc2:'<path d="M7 3.5h7l4.5 4.5v11a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5z"/><path d="M14 3.5V8h4.5M8.5 12.5h7M8.5 16h5"/>',
+  car2:'<path d="M5 16.5v2M19 16.5v2M3.5 13.5l1.7-4.6A2.5 2.5 0 0 1 7.5 7.2h9a2.5 2.5 0 0 1 2.3 1.7l1.7 4.6v3H3.5z"/><circle cx="7.5" cy="13.5" r="1" fill="currentColor"/><circle cx="16.5" cy="13.5" r="1" fill="currentColor"/>',
+  wrench2:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5l-5.6 5.6a1.8 1.8 0 0 0 2.5 2.5l5.6-5.6a4 4 0 0 0 5-5.4l-2.3 2.3-2.2-.6-.6-2.2z"/>',
+  dots:'<circle cx="6" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="18" cy="12" r="1.6" fill="currentColor"/>',
+  bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M4.2 7.5l2.1 1.2M17.7 15.3l2.1 1.2M4.2 16.5l2.1-1.2M17.7 8.7l2.1-1.2"/><circle cx="12" cy="12" r="7"/>',
+  steth:'<path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M10 13v2a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="11" r="2"/>',
+});
+const V3TABS=[['hoy','Hoy','today'],['coche','Coche','car2'],['taller','Taller','wrench2'],['gastos','Gastos','wallet'],['papeles','Papeles','doc2']];
+const V3={tab:'hoy', st:{}, int:0, busy:false, hubs:{}, pages:{}, leaves:{}, dirtyT:null};
+for(const [k] of V3TABS) V3.st[k]=[{k:'hub', id:k}];
+
+/* ---------- esqueleto: pila, barra superior y barra de pestañas ---------- */
+const v3root=h2(`<main class="v3stack" id="v3"></main>`);
+const v3bar=h2(`<header class="v3bar" id="v3bar"><button type="button" class="v3back" aria-label="Volver">${ic('chevL')}<span></span></button><div class="v3bt"><b></b><small></small></div><div class="v3act"></div></header>`);
+const v3tabs=h2(`<nav class="v3tabs" id="v3tabs" aria-label="Secciones"><div class="v3brand"><span class="t2mark"><span>7L</span></span><b>Taller 7L</b></div>${V3TABS.map(([k,l,i])=>`<button type="button" data-t="${k}"><i>${ic(i)}<b class="v3badge" hidden></b></i><span>${l}</span></button>`).join('')}<button type="button" class="v3me" data-t="me" aria-label="Ajustes y cuenta"><i>${ic('gear')}</i><span>Ajustes</span></button></nav>`);
+document.body.append(v3root, v3bar, v3tabs);
+
+const v3top=()=>{ const s=V3.st[V3.tab]; return s[s.length-1]; };
+const v3prev=()=>{ const s=V3.st[V3.tab]; return s[s.length-2]; };
+const v3title=e=>e.k==='hub'?V3.hubs[e.id]?.title:e.k==='page'?(V3.pages[e.id]?.title||e.title):(e.title||V3.leaves[e.id]?.title||'');
+
+/* ---------- capas: un hub/página es una <section> propia; una hoja es la pantalla antigua ---------- */
+function v3el(e){
+  if(e.k==='leaf') return (UI.sec==='coche' && UI.sub.coche==='3d') ? $('.app') : $('#pages');
+  if(e.el) return e.el;
+  const s=h2(`<section class="v3pg" data-id="${e.id}"><div class="v3sc"><div class="v3in"></div></div></section>`); e.el=s; v3root.append(s);
+  const sc=s.querySelector('.v3sc'); sc.addEventListener('scroll',()=>{ if(v3top()===e) v3barScroll(sc.scrollTop); },{passive:true});
+  v3render(e); return s;
+}
+function v3render(e){
+  const def=e.k==='hub'?V3.hubs[e.id]:V3.pages[e.id]; if(!def || !e.el) return;
+  const sc=e.el.querySelector('.v3sc'), y=sc.scrollTop, inn=h2('<div class="v3in"></div>');
+  const lt=h2(`<header class="v3lt"><div><h1>${esc(v3title(e))}</h1>${def.sub?`<p>${def.sub()}</p>`:''}</div>${e.k==='hub'?`<button type="button" class="v3av" aria-label="Ajustes y cuenta">${v3avatar()}</button>`:''}</header>`);
+  lt.querySelector('.v3av')?.addEventListener('click',()=>{ uiSfx('tap'); v3go('ajustes'); });
+  inn.append(lt);
+  try{ def.render(inn, e); }catch(err){ console.error(err); inn.append(h2(`<div class="empty2">${ic('alert')}<div>No se pudo mostrar.<br><small>${esc(err.message)}</small></div></div>`)); }
+  sc.querySelector('.v3in').replaceWith(inn); sc.scrollTop=y;
+}
+function v3avatar(){ const u=window.FB?.user?.(); const ph=u?.photoURL; const n=(u?.displayName||u?.email||'S').trim()[0].toUpperCase();
+  return ph?`<img src="${esc(ph)}" alt="" referrerpolicy="no-referrer">`:`<span>${esc(n)}</span>`; }
+
+/* ---------- mostrar lo de arriba de la pila ---------- */
+function v3apply(e){
+  const leaf=e.k==='leaf';
+  document.body.classList.toggle('v3leaf', leaf); document.body.dataset.v3tab=V3.tab;
+  for(const s of v3root.children) s.classList.toggle('on', !leaf && s===e.el);
+  v3tabs.querySelectorAll('button[data-t]').forEach(b=>b.setAttribute('aria-current', String(b.dataset.t===V3.tab)));
+  v3barSet(e);
+  if(!leaf){ const sc=e.el.querySelector('.v3sc'); v3barScroll(sc.scrollTop); }
+}
+function v3show(e, how){                          /* how: 'push' | 'pop' | 'none' */
+  const prevEl=V3.cur?(V3.cur.k==='leaf'?v3el(V3.cur):V3.cur.el):null;
+  V3.int++;
+  try{
+    if(e.k==='leaf'){ const L=V3.leaves[e.id]; if(L && !e.adopted) L.open(); e.adopted=false; }
+    else { if(UI.sec!=='inicio' || ovl.classList.contains('docked')){ go('inicio', null, {silent:true}); } v3el(e); if(e.stale){ e.stale=false; v3render(e); } }
+  } finally { V3.int--; }
+  const curEl=v3el(e);
+  V3.cur=e; v3apply(e);
+  if(how && how!=='none' && !RM && prevEl && curEl && prevEl!==curEl){
+    const W=innerWidth>900?Math.min(innerWidth,520):innerWidth, ease='cubic-bezier(.32,.72,0,1)', d=420;
+    prevEl.classList.add('v3keep'); document.body.classList.add('v3anim');
+    const a1=curEl.animate(how==='push'?[{transform:`translateX(${W}px)`},{transform:'none'}]:[{transform:`translateX(${-W*.3}px)`,filter:'brightness(.7)'},{transform:'none',filter:'none'}],{duration:d,easing:ease});
+    const a2=prevEl.animate(how==='push'?[{transform:'none'},{transform:`translateX(${-W*.3}px)`,filter:'brightness(.7)'}]:[{transform:'none'},{transform:`translateX(${W}px)`}],{duration:d,easing:ease});
+    curEl.classList.add(how==='push'?'v3in-top':'v3in-under');
+    const done=()=>{ prevEl.classList.remove('v3keep'); curEl.classList.remove('v3in-top','v3in-under'); document.body.classList.remove('v3anim'); };
+    a1.onfinish=done; a2.oncancel=done;
+  } else if(how==='tab' && !RM && curEl){ curEl.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'}); }
+  closeV3Menu();
+}
+/* abrir algo: un id de hoja (pantalla antigua), de página nueva o una pestaña */
+function v3go(id, opts={}){
+  if(V3.hubs[id]) return v3tab(id);
+  const P=V3.pages[id], L=V3.leaves[id]; if(!P && !L) return;
+  const tab=opts.tab || (P?.tab==='*'||L?.tab==='*' ? V3.tab : (P||L).tab);
+  const e={k:P?'page':'leaf', id, title:(P||L).title, data:opts.data};
+  uiSfx('tap');
+  if(tab!==V3.tab){ V3.tab=tab; V3.st[tab]=[V3.st[tab][0], e]; v3show(e,'tab'); }
+  else { const s=V3.st[tab]; if(v3top().id===id && v3top().k===e.k){ v3show(v3top(),'none'); return; } s.push(e); v3show(e,'push'); }
+}
+function v3tab(t){
+  if(t==='me') return v3go('ajustes');
+  if(t===V3.tab){ /* tocar la pestaña en la que estás: vuelve arriba y, si ya estás arriba, a su inicio */
+    const s=V3.st[t], top=v3top();
+    if(s.length>1){ const root=s[0]; s.splice(1); v3show(root,'pop'); return; }
+    top.el?.querySelector('.v3sc')?.scrollTo({top:0, behavior:RM?'auto':'smooth'}); return; }
+  uiSfx('tap'); haptic?.('tick'); V3.tab=t; v3show(v3top(),'tab');
+}
+function v3back(opts={}){
+  if(document.body.classList.contains('formopen')){ $('#t2Back').click(); return true; }
+  const s=V3.st[V3.tab]; if(s.length<2) return false;
+  const gone=s.pop(); const e=v3top();
+  if(gone.el){ const el=gone.el; if(opts.anim===false || RM) el.remove(); else setTimeout(()=>el.remove(), 460); }
+  e.stale=true; v3show(e, opts.anim===false?'none':'pop'); uiSfx('tap'); return true;
+}
+
+/* ---------- barra superior ---------- */
+function v3barSet(e){
+  const p=v3prev(), leaf=e.k==='leaf';
+  v3bar.classList.toggle('hasback', !!p); v3bar.classList.toggle('leaf', leaf || e.k==='page');
+  v3bar.querySelector('.v3back span').textContent=p?v3title(p):'';
+  v3bar.querySelector('.v3bt b').textContent=v3title(e);
+  v3bar.querySelector('.v3bt small').textContent=leaf?(V3.leaves[e.id]?.sub?.()||''):'';
+  const A=v3bar.querySelector('.v3act'); [...A.children].forEach(c=>{ if(c.classList.contains('mb')) $('#t2r').prepend(c); else c.remove(); });
+  const btn=(i,l,fn,cls='')=>{ const b=h2(`<button type="button" class="v3ib ${cls}" aria-label="${l}" title="${l}">${ic(i)}</button>`); b.onclick=ev=>{ uiSfx('tap'); fn(ev,b); }; A.append(b); return b; };
+  if(leaf && e.id==='3d'){ const mb=$('#t2r .mb'); if(mb) A.append(mb); }
+  if(!leaf){ btn('search','Buscar',()=>openSearch()); if(V3ACT[V3.tab]) btn('plus','Añadir',(ev,b)=>v3menu(b, V3ACT[V3.tab]),'pri'); }
+  else { const L=V3.leaves[e.id]; if(L?.act) btn(L.act[0], L.act[1], L.act[2], 'pri'); }
+}
+function v3barScroll(y){ v3bar.classList.toggle('scrolled', y>34); v3bar.classList.toggle('lined', y>4); }
+v3bar.querySelector('.v3back').onclick=()=>v3back();
+v3tabs.querySelectorAll('button').forEach(b=>{ b.onclick=()=>v3tab(b.dataset.t);
+  let lt=null; b.addEventListener('touchstart',()=>{ clearTimeout(lt); lt=setTimeout(()=>{ if(V3ACT[b.dataset.t]){ haptic?.('tap'); try{ navigator.vibrate?.(15); }catch{} v3menu(b, V3ACT[b.dataset.t], true); b._lp=true; } },430); },{passive:true});
+  b.addEventListener('touchend',e=>{ clearTimeout(lt); if(b._lp){ b._lp=false; e.preventDefault(); } },{passive:false}); b.addEventListener('touchmove',()=>clearTimeout(lt),{passive:true});
+  b.addEventListener('contextmenu',e=>{ if(V3ACT[b.dataset.t]){ e.preventDefault(); v3menu(b, V3ACT[b.dataset.t], true); } }); });
+
+/* ---------- menú contextual (el «+» y la pulsación larga en las pestañas) ---------- */
+const V3ACT={};
+function closeV3Menu(){ document.querySelector('.v3menu')?.remove(); document.querySelector('.v3menubg')?.remove(); }
+function v3menu(anchor, items, fromTab){
+  closeV3Menu(); const bg=h2('<div class="v3menubg"></div>'), m=h2('<div class="v3menu" role="menu"></div>');
+  for(const [i,l,fn,col] of items){ const it=h2(`<button type="button" role="menuitem"><span>${esc(l)}</span><i style="--c:${col||'var(--accent)'}">${ic(i)}</i></button>`); it.onclick=()=>{ uiSfx('tap'); closeV3Menu(); fn(); }; m.append(it); }
+  const t0=performance.now(); bg.onclick=()=>{ if(performance.now()-t0>300) closeV3Menu(); }; document.body.append(bg, m);
+  const r=anchor.getBoundingClientRect(), w=Math.min(270, innerWidth-24); m.style.width=w+'px';
+  if(fromTab && innerWidth<=900){ m.style.left=Math.max(12, Math.min(innerWidth-w-12, r.left+r.width/2-w/2))+'px'; m.style.bottom=(innerHeight-r.top+8)+'px'; m.style.transformOrigin='50% 100%'; }
+  else if(fromTab){ m.style.left=(r.right+8)+'px'; m.style.top=r.top+'px'; m.style.transformOrigin='0 0'; }
+  else { m.style.left=Math.max(12, Math.min(innerWidth-w-12, r.right-w))+'px'; m.style.top=(r.bottom+8)+'px'; m.style.transformOrigin='100% 0'; }
+  uiSfx('open');
+}
+
+/* ---------- la app antigua navega sola (buscador, enlaces dentro de pantallas…): adoptarlo ---------- */
+function v3legacyId(){
+  const sec=UI.sec, sub=UI.sub?.[sec];
+  if(sec==='inicio') return 'hub:hoy';
+  if(sec==='mas') return UI.mas ? (V3.byMas[UI.mas]||'m_'+UI.mas) : 'ajustes';
+  return V3.bySub[sec+'/'+sub] || null;
+}
+function v3adopt(){
+  if(V3.int) return; const id=v3legacyId(); if(!id) return;
+  if(id==='hub:hoy'){ const top=v3top(); if(top.k==='leaf'){ V3.tab='hoy'; V3.st.hoy.splice(1); v3show(V3.st.hoy[0],'tab'); } return; }
+  const top=v3top(); if(top.id===id){ v3barSet(top); return; }
+  if(V3.pages[id]){ v3go(id); return; }
+  if(id.startsWith('m_') && !V3.leaves[id]) V3.leaves[id]={tab:'*', title:MAS_T[UI.mas]||'Más', open:()=>{ go('mas',null,{silent:true}); masOpen(UI.mas); }};
+  const L=V3.leaves[id]; if(!L) return;
+  const tab=L.tab==='*'?V3.tab:L.tab, e={k:'leaf', id, title:L.title, adopted:true};
+  if(tab!==V3.tab){ V3.tab=tab; V3.st[tab]=[V3.st[tab][0], e]; v3show(e,'tab'); }
+  else { V3.st[tab].push(e); v3show(e,'push'); }
+}
+{ const _go=go; go=function(...a){ const r=_go(...a); if(!V3.int) queueMicrotask(v3adopt); return r; }; }
+{ const _os=openSub; openSub=function(...a){ const r=_os(...a); if(!V3.int) queueMicrotask(v3adopt); return r; }; }
+{ const _mo=masOpen; masOpen=function(...a){ const r=_mo(...a); if(!V3.int) queueMicrotask(v3adopt); return r; }; }
+{ const _rm=renderMas; renderMas=function(...a){ const r=_rm(...a); if(!V3.int && UI.sec==='mas') queueMicrotask(v3adopt); return r; }; }
+/* el título pequeño de la hoja sigue al antiguo (p. ej. la pieza elegida en el 3D) */
+{ const _st=setTop; setTop=function(...a){ const r=_st(...a); const e=V3.cur; if(e?.k==='leaf') v3bar.querySelector('.v3bt small').textContent=V3.leaves[e.id]?.sub?.()||''; return r; }; }
+
+/* ---------- gestos: atrás desde el borde con la pantalla siguiendo al dedo ---------- */
+gBack=function(){
+  if(!$('#sheet2').hidden){ $('#sheet2').hidden=true; return true; }
+  if(document.querySelector('.csw')){ closeCsel(); return true; }
+  if(!$('#srch').hidden){ closeSearch(); return true; }
+  if(document.querySelector('.v3menu')){ closeV3Menu(); return true; }
+  return v3back({anim:!BKDONE});
+};
+let BKDONE=false;
+backLabel=function(){ if(!$('#sheet2').hidden || document.querySelector('.csw') || !$('#srch').hidden) return null; const p=v3prev(); return p?v3title(p):null; };
+backTarget=function(){ const e=v3top(); return e.k==='leaf'?v3el(e):e.el; };
+{ const _be=backEnd; backEnd=function(ok){ BKDONE=true; const p=v3prev(); const pel=p?(p.k==='leaf'?null:p.el):null; if(pel && ok){ pel.classList.add('v3keep'); setTimeout(()=>pel.classList.remove('v3keep'),400); } try{ return _be(ok); } finally { setTimeout(()=>{ BKDONE=false; },260); } }; }
+{ const _bd=backDrag; backDrag=function(dx){ const p=v3prev(); if(p?.el){ p.el.classList.add('v3keep'); p.el.style.transform=`translateX(${-innerWidth*.3+Math.max(0,dx)*.3}px)`; p.el.style.filter=`brightness(${.7+Math.min(.3,dx/innerWidth*.3)})`; } return _bd(dx); }; }
+{ const _gr=gReset; gReset=function(){ const p=v3prev(); if(p?.el){ p.el.style.transform=''; p.el.style.filter=''; if(!BKDONE) p.el.classList.remove('v3keep'); } return _gr(); }; }
+gTab=()=>false;                                     /* nada de cambiar de pestaña deslizando: como en iOS */
+/* deslizar hacia abajo en Hoy abre el buscador (como Spotlight) */
+V3.pull=()=>{ openSearch(); };
+V3.canPull=()=>{ const e=V3.cur; return !!(e && e.k==='hub' && e.id==='hoy' && (e.el?.querySelector('.v3sc')?.scrollTop||0)<=0); };
+
+/* ---------- datos que cambian: refrescar lo que se ve ---------- */
+renderInicio=function(f){ v3dirty(f); };
+/* no se redibuja nada con el dedo encima (si no, el gesto se pierde) ni si los datos no han cambiado */
+document.addEventListener('touchstart',()=>{ V3.touch=true; },{passive:true,capture:true});
+for(const t of ['touchend','touchcancel']) document.addEventListener(t,e=>{ if(!e.touches.length){ V3.touch=false; if(V3.pend){ V3.pend=false; v3dirty(); } } },{passive:true,capture:true});
+function v3sig(){ try{ return sigOf()+'|'+JSON.stringify([(S.ave||[]).map(a=>a.estado+a.sintoma), (S.compras||[]).map(c=>c.estado+c.nombre), (S.docs||[]).map(d=>d.caduca), UI.prefs.theme, UI.v3pf]); }catch{ return Math.random()+''; } }
+function v3dirty(force){ if(V3.touch){ V3.pend=true; return; } clearTimeout(V3.dirtyT); V3.dirtyT=setTimeout(()=>{ if(V3.touch){ V3.pend=true; return; } const sg=v3sig(); if(sg===V3.sig && force!==true) { v3badges(); return; } V3.sig=sg; for(const [k] of V3TABS){ const r=V3.st[k][0]; if(r.el){ if(V3.cur===r) v3render(r); else r.stale=true; } }
+    const e=V3.cur; if(e && e.k==='page') v3render(e); v3badges(); }, 160); }
+function v3badges(){ let c; try{ c=counts(); }catch{ return; }
+  const set=(t,n,cls)=>{ const b=v3tabs.querySelector(`button[data-t="${t}"] .v3badge`); if(!b) return; b.hidden=!n; b.textContent=n>99?'99+':n; b.className='v3badge '+(cls||''); };
+  const urg=(typeof pdOpen==='function'?pdOpen().filter(p=>p.prio==='ya').length:0)+(S.ave||[]).filter(a=>a.estado!=='resuelta').length;
+  set('taller', c.due+urg || c.soon, c.due+urg?'':'soon'); set('papeles', c.ddue||c.dsoon, c.ddue?'':'soon');
+  const pc=(S.compras||[]).filter(x=>x.estado==='pendiente').length; set('gastos', pc, 'info'); }
+{ const _ub=updateBadges; updateBadges=function(...a){ const r=_ub(...a); try{ v3badges(); }catch{} return r; }; }
+/* el estado de la sincronización, en el avatar */
+{ const s=$('#t2Sync'); if(s) new MutationObserver(()=>{ document.body.classList.toggle('v3off', s.classList.contains('off')); }).observe(s,{attributes:true}); }
+addEventListener('keydown',e=>{ if(e.key==='Escape' && document.querySelector('.v3menu')) closeV3Menu(); });
+
+/* ====================== 3.0 — MAPA Y PANTALLAS PRINCIPALES ======================
+   HOY      lo que importa ahora: el coche, lo que toca, accesos rápidos y el gasto del año
+   COCHE    conocer el coche: 3D, datos, ficha técnica y pares, piezas, electricidad, guías, galería, mejoras
+   TALLER   hacer cosas: reparaciones, problemas (averías + pendientes + diagnóstico), mantenimiento, hechos…
+   GASTOS   el dinero: invertido, compra, movimientos, repostajes, estadísticas, valor del coche
+   PAPELES  documentación: estado, documentos, ITV, garantías, siniestros, impuesto, facturas
+   AJUSTES  (rueda / avatar) cuenta, apariencia, avisos, tus datos, compartir, acerca de */
+
+/* ---------- hojas: pantallas de detalle de la 2.x ---------- */
+const LF=(tab,title,open,extra={})=>({tab,title,open,...extra});
+const viaMas=k=>()=>{ go('mas',null,{silent:true}); masOpen(k); };
+Object.assign(V3.leaves,{
+  '3d':LF('coche','Modelo 3D',()=>go('coche','3d'),{sub:()=>S.sel&&parts[S.sel]?parts[S.sel].name:'Toca una pieza'}),
+  datos:LF('coche','Datos del coche',()=>go('coche','ficha')),
+  tecnica:LF('coche','Ficha técnica y pares',viaMas('ficha')),
+  piezas:LF('coche','Piezas',viaMas('fichas')),
+  elec:LF('coche','Electricidad',()=>go('coche','fus')),
+  guias:LF('coche','Guías y manuales',viaMas('procs')),
+  galeria:LF('coche','Galería',()=>go('coche','galeria')),
+  mejoras:LF('coche','Mejoras',()=>go('coche','mejoras')),
+  averias:LF('taller','Averías',()=>go('coche','ave')),
+  pendientes:LF('taller','Pendientes',()=>go('mant','pend'),{act:['plus','Anotar',()=>pdForm(null)]}),
+  diag:LF('taller','Diagnóstico',viaMas('diag')),
+  reparaciones:LF('taller','Reparaciones',()=>go('mant','rep'),{act:['plus','Empezar una reparación',()=>repPick()]}),
+  plan:LF('taller','Mantenimiento',()=>go('mant','plan'),{act:['plus','Registrar intervención',()=>openIntForm({back:'mant'})]}),
+  hechos:LF('taller','Trabajos hechos',()=>go('mant','hist'),{same:['plan'],act:['plus','Registrar intervención',()=>openIntForm({back:'mant'})]}),
+  ruedas:LF('taller','Ruedas',()=>go('mant','ruedas')),
+  listas:LF('taller','Listas de comprobación',viaMas('listas')),
+  talleres:LF('taller','Talleres y proveedores',viaMas('talleres')),
+  compra:LF('gastos','Lista de la compra',()=>go('mant','compra'),{same:['resumen','repost'],act:['plus','Añadir a la compra',()=>compraSheet(null)]}),
+  resumen:LF('gastos','Movimientos',()=>go('mant','gastos'),{same:['compra','repost']}),
+  repost:LF('gastos','Repostajes',()=>go('mant','repost'),{same:['compra','resumen'],act:['plus','Repostaje',()=>recForm(MOD.repostajes)]}),
+  stats:LF('gastos','Estadísticas',viaMas('stats')),
+  p_docs:LF('papeles','Documentos',()=>go('papeles','docs')),
+  p_itv:LF('papeles','ITV',()=>go('papeles','itv')),
+  p_garant:LF('papeles','Garantías',()=>go('papeles','garant')),
+  p_sinies:LF('papeles','Siniestros y multas',()=>go('papeles','sinies')),
+  p_ivtm:LF('papeles','Impuesto de circulación',()=>go('papeles','ivtm')),
+  p_fotos:LF('papeles','Facturas y fotos',()=>go('papeles','fotos'),{act:['camera','Fotografiar factura',()=>$('#camIn').click()]}),
+});
+for(const k of ['ajustes','avisos','datos','backup','importar','exportar','dossier','compartir','keys','about','pines','pend','catalogo']) V3.leaves['m_'+k]=LF('*',null,viaMas(k));
+Object.defineProperty(V3.leaves.m_pend,'title',{get:()=>'Piezas del 3D sin referencia'});
+for(const k of Object.keys(V3.leaves)) if(k.startsWith('m_') && !V3.leaves[k].title) Object.defineProperty(V3.leaves[k],'title',{get:()=>MAS_T[k.slice(2)]||'Más', configurable:true});
+V3.bySub={'coche/3d':'3d','coche/ficha':'datos','coche/fus':'elec','coche/galeria':'galeria','coche/mejoras':'mejoras','coche/ave':'averias',
+  'mant/plan':'plan','mant/hist':'hechos','mant/rep':'reparaciones','mant/pend':'pendientes','mant/ruedas':'ruedas','mant/gastos':'resumen','mant/compra':'compra','mant/repost':'repost',
+  'papeles/docs':'p_docs','papeles/itv':'p_itv','papeles/garant':'p_garant','papeles/sinies':'p_sinies','papeles/ivtm':'p_ivtm','papeles/fotos':'p_fotos'};
+V3.byMas={ficha:'tecnica',fichas:'piezas',catalogo:'piezas',procs:'guias',diag:'diag',listas:'listas',talleres:'talleres',stats:'stats'};
+{ const _ad=v3adopt; v3adopt=function(){ const top=v3top(), id=v3legacyId(); if(top?.k==='leaf' && V3.leaves[top.id]?.same?.includes(id)){ v3barSet(top); return; } return _ad(); }; }
+/* el «+» de cada pestaña y la pulsación larga sobre ella */
+Object.assign(V3ACT,{
+  hoy:[['gauge','Actualizar kilómetros',()=>quickKm(),'var(--v-blue)'],['fuel','Repostaje',()=>recForm(MOD.repostajes),'var(--v-green)'],['flag','Anotar algo por arreglar',()=>pdForm(null),'var(--v-orange)'],['camera','Fotografiar una factura',()=>$('#camIn').click(),'var(--v-purple)'],['wrench','Registrar intervención',()=>openIntForm({}),'var(--v-gray)']],
+  coche:[['cube','Abrir el modelo 3D',()=>v3go('3d'),'var(--v-indigo)'],['image','Añadir fotos a la galería',()=>recForm(MOD.galeria),'var(--v-pink)'],['sparkle','Nueva mejora',()=>recForm(MOD.mejoras),'var(--v-purple)']],
+  taller:[['wrench','Empezar una reparación',()=>repPick(),'var(--v-orange)'],['flag','Anotar algo por arreglar',()=>pdForm(null),'var(--v-yellow)'],['alert','Registrar una avería',()=>{ S.aveEdit=null; UI.addAve=true; v3go('averias'); },'var(--v-red)'],['plus','Registrar intervención',()=>openIntForm({}),'var(--v-blue)']],
+  gastos:[['cart','Añadir a la compra',()=>compraSheet(null),'var(--v-teal)'],['fuel','Repostaje',()=>recForm(MOD.repostajes),'var(--v-green)'],['camera','Fotografiar una factura',()=>$('#camIn').click(),'var(--v-purple)']],
+  papeles:[['shield','Añadir documento',()=>recForm(MOD.docs),'var(--v-blue)'],['checkc','Registrar una ITV',()=>recForm(MOD.itv),'var(--v-green)'],['camera','Fotografiar una factura',()=>$('#camIn').click(),'var(--v-purple)']],
+});
+
+/* ---------- piezas de interfaz ---------- */
+const V3C={red:'var(--v-red)',orange:'var(--v-orange)',yellow:'var(--v-yellow)',green:'var(--v-green)',teal:'var(--v-teal)',blue:'var(--v-blue)',indigo:'var(--v-indigo)',purple:'var(--v-purple)',pink:'var(--v-pink)',gray:'var(--v-gray)'};
+function vRow(o){ /* {i, c, t, s, r, rc, fn, badge, sq} */
+  const b=h2(`<button type="button" class="vrow${o.cls?' '+o.cls:''}"><i class="vsq" style="--c:${o.c||V3C.gray}">${ic(o.i||'file')}</i><span class="vtx"><b>${esc(o.t)}</b>${o.s?`<small>${esc(o.s)}</small>`:''}</span>${o.badge?`<em class="vbadge" style="--c:${o.bc||V3C.red}">${esc(o.badge)}</em>`:''}${o.r!=null?`<span class="vr" style="${o.rc?'color:'+o.rc:''}">${esc(o.r)}</span>`:''}${o.fn?`<span class="vch">${ic('chevR')}</span>`:''}</button>`);
+  if(o.fn) b.onclick=()=>{ uiSfx('tap'); o.fn(); }; else b.disabled=true; return b; }
+function vGroup(title, rows, opts={}){ const g=h2(`<section class="vgrp${opts.cls?' '+opts.cls:''}">${title?`<h2 class="vgh"><span>${esc(title)}</span>${opts.more?`<button type="button">${esc(opts.more[0])}</button>`:''}</h2>`:''}<div class="vlist"></div>${opts.foot?`<p class="vfoot">${opts.foot}</p>`:''}</section>`);
+  const L=g.querySelector('.vlist'); for(const r of rows) if(r) L.append(r); if(opts.more) g.querySelector('.vgh button').onclick=()=>{ uiSfx('tap'); opts.more[1](); }; return g; }
+function vTile(o){ /* {i, c, t, s, fn, big, img} */
+  const b=h2(`<button type="button" class="vtile${o.big?' big':''}" style="--c:${o.c||V3C.blue}">${o.img?'<span class="vimg"></span>':''}<i class="vsq">${ic(o.i)}</i><span class="vtx"><b>${esc(o.t)}</b>${o.s?`<small>${esc(o.s)}</small>`:''}</span>${o.n!=null?`<em class="vn">${esc(o.n)}</em>`:''}</button>`);
+  if(o.img) Promise.resolve(o.img).then(u=>{ if(u){ b.querySelector('.vimg').style.backgroundImage=`url("${u}")`; b.classList.add('hasimg'); } }).catch(()=>{});
+  b.onclick=()=>{ uiSfx('tap'); o.fn(); }; return b; }
+const vGrid=(...t)=>{ const g=h2('<div class="vgrid"></div>'); g.append(...t.filter(Boolean)); return g; };
+const vRing=(p,c,lab)=>`<span class="vring" style="--p:${Math.round(Math.max(0,Math.min(1,p))*100)};--c:${c||'var(--accent)'}"><b>${lab||''}</b></span>`;
+const yr=()=>todayISO().slice(0,4);
+const kmFmt=v=>v==null?'—':nf.format(Math.round(v));
+
+/* ====================== HOY ====================== */
+function v3now(){ /* lo que pide atención, ordenado por urgencia */
+  const L=[], hoy=todayISO();
+  for(const r of (typeof repActiva==='function'?repActiva():[])){ const n=(r.hechos||[]).length, t=repGuia(r)?.pasos?.length||0; L.push({w:0, el:()=>{ const b=h2(`<button type="button" class="vnow rep"><span class="vnl">${vRing(t?n/t:0,'var(--v-orange)',`${n}/${t}`)}</span><span class="vtx"><em>Reparación en curso</em><b>${esc(r.titulo)}</b><small>Empezada ${pdAgo(r.inicio)}</small></span><span class="vgo">Seguir</span></button>`); b.onclick=()=>{ uiSfx('tap'); repRun(r); }; return b; }}); }
+  for(const s of (typeof segList==='function'?segList():[])){ const nx=segNext(s); if(!nx) continue; const d=daysTo(nx.fecha); if(d>1) continue;
+    L.push({w:d<=0?1:5, el:()=>vNow('eye', d<=0?V3C.red:V3C.blue, 'Revisión', s.titulo, d<0?`Tocaba hace ${pl(-d,'día')}`:d===0?'Hoy':'Mañana', ()=>segCheck(s,nx.k), d<=0?'Apuntar':'')}); }
+  for(const a of (S.ave||[]).filter(a=>a.estado!=='resuelta')) L.push({w:2, el:()=>vNow('alert', V3C.red, 'Avería abierta', a.sintoma||a.codigo||'Avería', a.fecha?'Desde el '+fmtDate(a.fecha):'', ()=>{ S.aveEdit=a; v3go('averias'); })});
+  for(const p of (typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya')) L.push({w:2, el:()=>vNow('flag', V3C.red, 'Antes de circular', p.titulo, p.zona||'', ()=>pdSheet(p))});
+  for(const {it,s} of mantList().filter(x=>x.s.st==='due'||x.s.st==='soon').slice(0,4)) L.push({w:s.st==='due'?3:6, el:()=>vNow('wrench', s.st==='due'?V3C.red:V3C.orange, s.st==='due'?'Mantenimiento vencido':'Mantenimiento próximo', it.nombre, mantLine(it,s), ()=>v3go('plan'))});
+  for(const d of docsVig()){ const st=docStatus(d); if(st.st!=='due' && st.st!=='soon') continue; L.push({w:st.st==='due'?3:7, el:()=>vNow('shield', st.st==='due'?V3C.red:V3C.orange, st.st==='due'?'Documento caducado':'Caduca pronto', d.tipo+(d.nombre?' · '+d.nombre:''), st.days<0?`Caducó hace ${pl(-st.days,'día')}`:st.days===0?'Caduca hoy':`En ${pl(st.days,'día')}`, ()=>recForm(MOD.docs, d))}); }
+  for(const c of (S.compras||[]).filter(c=>c.estado==='comprado').slice(0,3)) L.push({w:8, el:()=>vNow('cart', V3C.teal, 'Comprado, sin montar', c.nombre, c.fechaCompra?'Desde el '+fmtDate(c.fechaCompra):'', ()=>montarCompra(c), 'Montar')});
+  return L.sort((a,b)=>a.w-b.w);
+}
+function vNow(i,c,k,t,s,fn,go2){ const b=h2(`<button type="button" class="vnow"><i class="vsq" style="--c:${c}">${ic(i)}</i><span class="vtx"><em style="color:${c}">${esc(k)}</em><b>${esc(t)}</b>${s?`<small>${esc(s)}</small>`:''}</span>${go2?`<span class="vgo">${esc(go2)}</span>`:`<span class="vch">${ic('chevR')}</span>`}</button>`); b.onclick=()=>{ uiSfx('tap'); fn(); }; return b; }
+V3.hubs.hoy={title:'Hoy', sub:()=>{ const h=new Date().getHours(), n=(window.FB?.user?.()?.displayName||'').split(' ')[0]; return `${h<6?'Buenas noches':h<14?'Buenos días':h<21?'Buenas tardes':'Buenas noches'}${n?', '+esc(n):''} · ${new Date().toLocaleDateString('es-ES',{weekday:'long', day:'numeric', month:'long'})}`; }, render(w){
+  if(!S.cfg){ w.append(h2('<div class="vskel" style="height:230px"></div><div class="vskel" style="height:90px"></div><div class="vskel" style="height:160px"></div>')); return; }
+  const c=S.cfg, km=c.kmActual, now=v3now();
+  w.classList.add('vhoy');
+  /* el coche */
+  const hero=h2(`<section class="vhero"><div class="vhimg"></div><div class="vhin">
+    <div class="vhtop"><span class="vplate"><i>E</i>9905 CMY</span><span class="vstat ${now.length?'warn':'ok'}">${ic(now.length?'alert':'checkc')}${now.length?pl(now.length,'cosa','cosas')+' para hoy':'Todo en orden'}</span></div>
+    <div class="vhname"><small>Volkswagen</small><b>Touareg <span>7L</span></b><em>2.5 R5 TDI · BAC · ${esc(c.anoModelo||'2004')}</em></div>
+    <button type="button" class="vkm"><span><small>Cuentakilómetros</small><b>${kmFmt(km)}<i>km</i></b></span><em>${ic('edit')}Actualizar</em></button></div></section>`);
+  hero.classList.add('vh-hero'); hero.querySelector('.vkm').onclick=()=>{ uiSfx('tap'); quickKm(); }; w.append(hero);
+  /* accesos rápidos */
+  const qa=h2('<div class="vquick vh-quick"></div>');
+  for(const [i,t,col,fn] of [['gauge','Km',V3C.blue,quickKm],['fuel','Repostaje',V3C.green,()=>recForm(MOD.repostajes)],['flag','Anotar',V3C.orange,()=>pdForm(null)],['camera','Factura',V3C.purple,()=>$('#camIn').click()],['search','Buscar',V3C.gray,openSearch]]){
+    const b=h2(`<button type="button"><i style="--c:${col}">${ic(i)}</i><span>${t}</span></button>`); b.onclick=()=>{ uiSfx('tap'); fn(); }; qa.append(b); }
+  w.append(qa);
+  /* ahora */
+  const ah=h2(`<section class="vgrp vh-now"><h2 class="vgh"><span>Ahora</span></h2><div class="vnowl"></div></section>`), L=ah.querySelector('.vnowl');
+  if(now.length){ for(const x of now.slice(0,7)) L.append(x.el()); if(now.length>7) L.append(h2(`<p class="vfoot">Y ${pl(now.length-7,'cosa más','cosas más')} en Taller y Papeles.</p>`)); }
+  else L.append(h2(`<div class="vcalm">${ic('checkc')}<div><b>Nada pendiente para hoy</b><small>Ni averías, ni mantenimientos vencidos, ni papeles por caducar.</small></div></div>`));
+  w.append(ah);
+  /* lo siguiente del plan */
+  const nx=mantList().filter(x=>x.s.st==='ok').slice(0,3);
+  if(nx.length){ const g=h2(`<section class="vgrp vh-next"><h2 class="vgh"><span>Lo siguiente</span><button type="button">Plan</button></h2><div class="vlist vnext"></div></section>`); g.querySelector('.vgh button').onclick=()=>v3go('plan');
+    for(const {it,s} of nx){ const p=mantPct(it,s); const r=h2(`<button type="button" class="vrow"><span class="vtx"><b>${esc(it.nombre)}</b><small>${esc(mantLine(it,s))}</small><span class="vbar"><i style="width:${Math.round(p*100)}%;background:${p>.85?V3C.orange:V3C.green}"></i></span></span><span class="vch">${ic('chevR')}</span></button>`); r.onclick=()=>v3go('plan'); g.querySelector('.vlist').append(r); }
+    w.append(g); }
+  /* el año en dinero */
+  const mov=gastosMov(), y=yr(), tot=mov.filter(x=>(x.fecha||'').startsWith(y)).reduce((s,x)=>s+x.eur,0), M=[]; const nw=new Date();
+  for(let i=11;i>=0;i--){ const d=new Date(nw.getFullYear(), nw.getMonth()-i, 1); const k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); M.push([k, mov.filter(x=>(x.fecha||'').startsWith(k)).reduce((s,x)=>s+x.eur,0)]); }
+  const mx=Math.max(1,...M.map(m=>m[1])), MS='EFMAMJJASOND';
+  const money=h2(`<section class="vgrp vh-money"><h2 class="vgh"><span>Gastos ${y}</span><button type="button">Ver</button></h2><button type="button" class="vmoney"><span class="vmt"><b>${eur(tot)}</b><small>${pl(S.int.filter(x=>(x.fecha||'').startsWith(y)).length,'trabajo','trabajos')} · ${pl((S.v2.repostajes||[]).filter(x=>(x.fecha||'').startsWith(y)).length,'repostaje')}</small></span><span class="vbars">${M.map(([k,v],i)=>`<i style="--h:${Math.max(v?8:3, Math.round(v/mx*100))}%" class="${i===11?'cur':''}" title="${k}: ${eur(v)}"><b>${MS[+k.slice(5)-1]}</b></i>`).join('')}</span></button></section>`);
+  money.querySelector('.vgh button').onclick=()=>v3tab('gastos'); money.querySelector('.vmoney').onclick=()=>{ uiSfx('tap'); v3tab('gastos'); }; w.append(money);
+}};
+
+/* ====================== COCHE ====================== */
+V3.hubs.coche={title:'Coche', sub:()=>'Touareg 7L · 2.5 R5 TDI · 9905 CMY', render(w){
+  const hero=h2(`<button type="button" class="v3d"><span class="v3dimg"></span><span class="v3dtx"><em>${ic('cube')}Modelo 3D</em><b>Explora el coche pieza a pieza</b><small>Rayos X · sistemas · cableado · circuitos</small></span><span class="v3dgo">${ic('chevR')}</span></button>`);
+  hero.onclick=()=>{ uiSfx('tap'); v3go('3d'); }; w.append(hero);
+  const nPar=(S.v2.pares||[]).reduce((s,x)=>s+(x.items||[]).length,0), nPz=Object.keys(S.fichas||{}).length, nG=(S.procs||[]).length, gal=S.v2.galeria||[], nF=gal.reduce((s,g)=>s+(g.fotos||[]).length,0), mj=S.v2.mejoras||[];
+  const lastF=[...gal].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||'')).find(g=>g.fotos?.length)?.fotos[0];
+  w.append(vGroup('Conocerlo',[], {cls:'tight'}), vGrid(
+    vTile({i:'tag', c:V3C.gray, t:'Datos del coche', s:'Bastidor, pintura, equipamiento', fn:()=>v3go('datos')}),
+    vTile({i:'gauge', c:V3C.orange, t:'Ficha técnica', s:nPar?`Aceites, capacidades y ${nPar} pares`:'Aceites, capacidades y pares', fn:()=>v3go('tecnica')}),
+    vTile({i:'cube', c:V3C.teal, t:'Piezas', s:nPz?pl(nPz,'pieza')+' con referencia':'Referencias y despiece', fn:()=>v3go('piezas')}),
+    vTile({i:'zap', c:V3C.yellow, t:'Electricidad', s:'Fusibles, relés y esquemas', fn:()=>v3go('elec')}),
+    vTile({i:'book', c:V3C.green, t:'Guías y manuales', s:nG?pl(nG,'guía')+' paso a paso':'Paso a paso', fn:()=>v3go('guias')}),
+    vTile({i:'steth', c:V3C.red, t:'Diagnóstico', s:'¿Qué le pasa? Por síntomas', fn:()=>v3go('diag')})));
+  w.append(vGroup('Su historia',[], {cls:'tight'}), vGrid(
+    vTile({i:'image', c:V3C.pink, t:'Galería', s:nF?pl(nF,'foto'):'Fotos del coche', n:nF||null, img:lastF?.id?window.FB?.blobThumb?.(lastF.id):null, fn:()=>v3go('galeria')}),
+    vTile({i:'sparkle', c:V3C.purple, t:'Mejoras', s:mj.length?pl(mj.length,'proyecto'):'Proyectos y presupuestos', n:mj.length||null, fn:()=>v3go('mejoras')})));
+}};
+
+/* ====================== TALLER ====================== */
+V3.hubs.taller={title:'Taller', sub:()=>S.cfg?.kmActual?nf.format(S.cfg.kmActual)+' km':'', render(w){
+  let c; try{ c=counts(); }catch{ c={due:0,soon:0,ok:0}; }
+  const st=h2(`<div class="vstats"><button type="button" style="--c:${V3C.red}"><b>${c.due}</b><span>Vencido</span></button><button type="button" style="--c:${V3C.orange}"><b>${c.soon}</b><span>Próximo</span></button><button type="button" style="--c:${V3C.green}"><b>${c.ok}</b><span>Al día</span></button></div>`);
+  st.querySelectorAll('button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); v3go('plan'); }); w.append(st);
+  /* en marcha */
+  const A=typeof repActiva==='function'?repActiva():[];
+  const rg=vGroup('En marcha',[], {more:['Todas',()=>v3go('reparaciones')]}); const rl=rg.querySelector('.vlist');
+  for(const r of A){ const n=(r.hechos||[]).length, t=repGuia(r)?.pasos?.length||0; const b=h2(`<button type="button" class="vrow"><span class="vlead">${vRing(t?n/t:0,V3C.orange,`${n}/${t}`)}</span><span class="vtx"><b>${esc(r.titulo)}</b><small>${r.libre?'Sin guía':'Con guía'} · empezada ${pdAgo(r.inicio)}</small></span><span class="vgo">Seguir</span></button>`); b.onclick=()=>{ uiSfx('tap'); repRun(r); }; rl.append(b); }
+  rl.append(vRow({i:'plus', c:V3C.orange, t:A.length?'Empezar otra reparación':'Empezar una reparación', s:A.length?'':'Con una guía paso a paso o escribiendo tú los pasos', fn:()=>repPick(), cls:'vadd'}));
+  w.append(rg);
+  /* problemas */
+  const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta'), pds=typeof pdOpen==='function'?pdOpen():[], np=aves.length+pds.length;
+  const pg=vGroup('Problemas',[], {more:['Ver todos',()=>v3go('problemas')]}); const pl2=pg.querySelector('.vlist');
+  for(const a of aves.slice(0,2)) pl2.append(vRow({i:'alert', c:V3C.red, t:a.sintoma||a.codigo||'Avería', s:'Avería'+(a.fecha?' · desde el '+fmtDate(a.fecha):''), fn:()=>{ S.aveEdit=a; v3go('averias'); }}));
+  for(const p of pds.slice(0,Math.max(0,3-Math.min(2,aves.length)))) pl2.append(vRow({i:'flag', c:(PD_PRIO[p.prio]||PD_PRIO.pronto).c, t:p.titulo, s:(PD_PRIO[p.prio]||PD_PRIO.pronto).t+(p.zona?' · '+p.zona:''), fn:()=>pdSheet(p)}));
+  if(!np) pl2.append(h2(`<div class="vcalm sm">${ic('checkc')}<div><b>Sin problemas apuntados</b><small>Si ves algo raro, apúntalo o usa el diagnóstico.</small></div></div>`));
+  const pa=h2(`<div class="vseg2"><button type="button">${ic('flag')}Anotar</button><button type="button">${ic('steth')}¿Qué le pasa?</button></div>`); const [b1,b2]=pa.querySelectorAll('button'); b1.onclick=()=>{ uiSfx('tap'); pdForm(null); }; b2.onclick=()=>v3go('diag'); pl2.append(pa);
+  w.append(pg);
+  /* todo lo demás */
+  const hechos=S.int.length;
+  w.append(vGroup('Taller',[
+    vRow({i:'list', c:V3C.blue, t:'Mantenimiento', s:'Lo que toca por km y por fecha', badge:c.due?String(c.due):(c.soon?String(c.soon):null), bc:c.due?V3C.red:V3C.orange, fn:()=>v3go('plan')}),
+    vRow({i:'wrench', c:V3C.orange, t:'Reparaciones', s:'En curso y terminadas, con fotos', r:A.length?String(A.length):null, fn:()=>v3go('reparaciones')}),
+    vRow({i:'history', c:V3C.indigo, t:'Trabajos hechos', s:'Todo lo que se le ha hecho', r:hechos?nf.format(hechos):null, fn:()=>v3go('hechos')}),
+    vRow({i:'tyre', c:V3C.gray, t:'Ruedas', s:'Juegos, presiones y desgaste', fn:()=>v3go('ruedas')}),
+  ]));
+  w.append(vGroup('Herramientas',[
+    vRow({i:'steth', c:V3C.red, t:'Diagnóstico por síntomas', s:'Qué puede ser y por dónde empezar', fn:()=>v3go('diag')}),
+    vRow({i:'checkc', c:V3C.green, t:'Listas de comprobación', s:'ITV, viaje largo, invierno…', fn:()=>v3go('listas')}),
+    vRow({i:'phonec', c:V3C.teal, t:'Talleres y proveedores', s:'Teléfonos y trabajos hechos', fn:()=>v3go('talleres')}),
+  ]));
+}};
+
+/* ====================== PROBLEMAS (averías + pendientes en un solo sitio) ====================== */
+V3.pages.problemas={tab:'taller', title:'Problemas', sub:()=>'Lo que falla y lo que hay que arreglar', render(w){
+  const f=UI.v3pf||'todo', aves=(S.ave||[]).filter(a=>a.estado!=='resuelta'), pds=typeof pdOpen==='function'?pdOpen():[];
+  const seg=h2(`<div class="vseg">${[['todo','Todo',aves.length+pds.length],['ave','Averías',aves.length],['pend','Pendientes',pds.length]].map(([k,l,n])=>`<button type="button" data-k="${k}" aria-pressed="${f===k}">${l}${n?` <em>${n}</em>`:''}</button>`).join('')}</div>`);
+  seg.querySelectorAll('button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); UI.v3pf=b.dataset.k; v3render(v3top()); }); w.append(seg);
+  const dg=h2(`<button type="button" class="vdiag"><i class="vsq" style="--c:${V3C.red}">${ic('steth')}</i><span class="vtx"><b>¿Qué le pasa al coche?</b><small>Elige los síntomas y te digo qué puede ser y qué mirar primero</small></span><span class="vch">${ic('chevR')}</span></button>`); dg.onclick=()=>v3go('diag'); w.append(dg);
+  if(f!=='pend'){ const g=vGroup('Averías',[], {more:['Nueva',()=>{ S.aveEdit=null; UI.addAve=true; v3go('averias'); }]}); const L=g.querySelector('.vlist');
+    for(const a of aves) L.append(vRow({i:'alert', c:V3C.red, t:a.sintoma||a.codigo||'Avería', s:[a.codigo, a.fecha?'desde el '+fmtDate(a.fecha):'', (a.piezas||[]).length?pl(a.piezas.length,'pieza'):''].filter(Boolean).join(' · '), fn:()=>{ S.aveEdit=a; v3go('averias'); }}));
+    if(!aves.length) L.append(h2(`<div class="vcalm sm">${ic('checkc')}<div><b>Ninguna avería abierta</b><small>Algo que falla o un código de error del VCDS.</small></div></div>`));
+    L.append(vRow({i:'history', c:V3C.gray, t:'Historial de averías', s:'También las resueltas', fn:()=>{ S.aveEdit=null; v3go('averias'); }}));
+    w.append(g); }
+  if(f!=='ave'){ const g=vGroup('Pendientes',[], {more:['Anotar',()=>pdForm(null)]}); const L=g.querySelector('.vlist'); L.classList.add('vpd');
+    for(const p of pds) L.append(pdRow(p));
+    if(!pds.length) L.append(h2(`<div class="vcalm sm">${ic('checkc')}<div><b>Nada pendiente</b><small>Un tornillo que falta, una grapa rota… lo que ves mientras trabajas.</small></div></div>`));
+    L.append(vRow({i:'history', c:V3C.gray, t:'Subsanados', s:'Lo que ya arreglaste', fn:()=>{ UI.pdF='hechos'; v3go('pendientes'); }}));
+    w.append(g); }
+}};
+/* atajo «Problemas» también desde Taller ▸ Averías y Pendientes */
+
+/* ====================== GASTOS ====================== */
+V3.hubs.gastos={title:'Gastos', sub:()=>'Lo invertido en el Touareg', render(w){
+  const N=typeof cocheNums==='function'?cocheNums():{inv:0,pc:0,gast:0}, mov=gastosMov(), y=yr(), ty=mov.filter(x=>(x.fecha||'').startsWith(y)).reduce((s,x)=>s+x.eur,0);
+  const big=h2(`<section class="vbig"><small>Llevas invertido</small><b>${eur(N.inv)}</b><div class="vbigs"><span><em>Compra</em>${eur(N.pc)}</span><span><em>Desde entonces</em>${eur(N.gast)}</span><span><em>En ${y}</em>${eur(ty)}</span>${N.ckm!=null?`<span><em>Por km</em>${N.ckm.toLocaleString('es-ES',{maximumFractionDigits:2})} €</span>`:''}</div><button type="button" class="vlink">${ic('edit')}${S.cfg?.precioCompra?'Compra y valor del coche':'Apunta lo que costó el coche'}</button></section>`);
+  big.querySelector('.vlink').onclick=()=>{ uiSfx('tap'); cocheEdit(); }; w.append(big);
+  const g=typeof accChart==='function'?accChart():null; if(g){ const s=h2('<section class="vgrp"><h2 class="vgh"><span>Gasto acumulado</span></h2><div class="vcard vchart"></div></section>'); s.querySelector('.vchart').append(g); w.append(s); }
+  const pend=(S.compras||[]).filter(c=>c.estado==='pendiente'), sinM=(S.compras||[]).filter(c=>c.estado==='comprado'), rp=S.v2.repostajes||[];
+  w.append(vGroup('',[
+    vRow({i:'cart', c:V3C.teal, t:'Lista de la compra', s:[pend.length?pl(pend.length,'por comprar','por comprar'):'Nada por comprar', sinM.length?pl(sinM.length,'sin montar','sin montar'):''].filter(Boolean).join(' · '), badge:pend.length?String(pend.length):null, bc:V3C.teal, fn:()=>v3go('compra')}),
+    vRow({i:'receipt', c:V3C.blue, t:'Movimientos', s:'Cada gasto, con su factura', r:mov.length?nf.format(mov.length):null, fn:()=>v3go('resumen')}),
+    vRow({i:'fuel', c:V3C.green, t:'Repostajes', s:'Litros, precio y consumo', r:rp.length?nf.format(rp.length):null, fn:()=>v3go('repost')}),
+    vRow({i:'chart', c:V3C.purple, t:'Estadísticas', s:'Por año, por km y por categoría', fn:()=>v3go('stats')}),
+  ]));
+  if(mov.length){ const rg=vGroup('Últimos movimientos',[], {more:['Todos',()=>v3go('resumen')]}); const L=rg.querySelector('.vlist');
+    for(const x of mov.slice(0,5)){ const o=x.k==='compra'?(S.compras||[]).find(c=>c.nombre && x.t.startsWith(c.nombre) && c.fechaCompra===x.fecha):S.int.find(i=>i.fecha===x.fecha && Number(i.coste)===x.eur);
+      L.append(vRow({i:x.k==='compra'?'cart':'wrench', c:x.k==='compra'?V3C.teal:V3C.indigo, t:x.t, s:[x.s, x.fecha?fmtDate(x.fecha):''].filter(Boolean).join(' · '), r:eur(x.eur), fn:o?()=>x.k==='compra'?compraSheet(o):intSheet(o):null})); }
+    w.append(rg); }
+}};
+
+/* ====================== PAPELES ====================== */
+V3.hubs.papeles={title:'Papeles', sub:()=>'Documentación del coche', render(w){
+  const D=docsVig().map(d=>({d, s:docStatus(d)})), bad=D.filter(x=>x.s.st==='due').length, soon=D.filter(x=>x.s.st==='soon').length;
+  const st=h2(`<section class="vstate ${bad?'bad':soon?'soon':'ok'}"><i>${ic(bad||soon?'alert':'shield')}</i><div><b>${bad?pl(bad,'documento caducado','documentos caducados'):soon?pl(soon,'documento caduca pronto','documentos caducan pronto'):D.length?'Todo en regla':'Sin documentos'}</b><small>${D.length?`${pl(D.length,'documento')} con fecha de caducidad vigilada`:'Añade la ITV, el seguro y el impuesto para que te avise.'}</small></div></section>`); w.append(st);
+  if(D.length){ const g=vGroup('Caducidades',[]), L=g.querySelector('.vlist');
+    for(const {d,s} of D.sort((a,b)=>(a.d.caduca||'9').localeCompare(b.d.caduca||'9'))){ const col=s.st==='due'?V3C.red:s.st==='soon'?V3C.orange:s.st==='ok'?V3C.green:V3C.gray;
+      L.append(vRow({i:/itv|inspec/i.test(d.tipo)?'checkc':/seguro/i.test(d.tipo)?'shield':/impuesto|ivtm/i.test(d.tipo)?'euro':'file', c:col, t:d.tipo+(d.nombre?' · '+d.nombre:''), s:d.caduca?(s.days<0?'Caducó el ':'Hasta el ')+fmtDate(d.caduca):'Sin fecha', r:d.caduca?(s.days<0?'Caducado':s.days<=60?pl(s.days,'día'):Math.round(s.days/30.4)+' meses'):null, rc:col, fn:()=>recForm(MOD.docs, d)})); }
+    w.append(g); }
+  const G=S.v2;
+  w.append(vGroup('',[
+    vRow({i:'shield', c:V3C.blue, t:'Documentos', s:'Permiso, ficha técnica, seguro…', fn:()=>v3go('p_docs')}),
+    vRow({i:'checkc', c:V3C.green, t:'ITV', s:'Inspecciones y defectos', r:(G.itv||[]).length?String(G.itv.length):null, fn:()=>v3go('p_itv')}),
+    vRow({i:'shield', c:V3C.indigo, t:'Garantías', s:'De piezas y trabajos', r:(G.garantias||[]).length?String(G.garantias.length):null, fn:()=>v3go('p_garant')}),
+    vRow({i:'alert', c:V3C.red, t:'Siniestros y multas', s:'Partes, plazos y recursos', r:(G.siniestros||[]).length?String(G.siniestros.length):null, fn:()=>v3go('p_sinies')}),
+    vRow({i:'euro', c:V3C.orange, t:'Impuesto de circulación', s:'Pagos del IVTM', fn:()=>v3go('p_ivtm')}),
+    vRow({i:'image', c:V3C.pink, t:'Facturas y fotos', s:'Todo lo que has fotografiado', fn:()=>v3go('p_fotos')}),
+  ]));
+}};
+
+/* ====================== AJUSTES (rueda / avatar) ====================== */
+V3.pages.ajustes={tab:'*', title:'Ajustes', render(w){
+  const u=window.FB?.user?.()||{}, on=navigator.onLine;
+  const acc=h2(`<section class="vacc"><span class="v3av big">${v3avatar()}</span><div><b>${esc(u.displayName||'Tu cuenta')}</b><small>${esc(u.email||'Cuenta de Google')}</small><em class="${on?'ok':'off'}">${on?'Sincronizado en la nube':'Sin conexión: se guarda y se sube luego'}</em></div></section>`); w.append(acc);
+  const th=UI.prefs.theme||'auto';
+  const tg=h2(`<section class="vgrp"><h2 class="vgh"><span>Apariencia</span></h2><div class="vseg vtheme">${[['auto','Automático'],['dark','Oscuro'],['light','Claro']].map(([k,l])=>`<button type="button" data-k="${k}" aria-pressed="${th===k}">${l}</button>`).join('')}</div></section>`);
+  tg.querySelectorAll('button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); UI.prefs.theme=b.dataset.k; savePrefsUI(); applyTheme(); v3render(v3top()); }); w.append(tg);
+  w.append(vGroup('',[
+    vRow({i:'sliders', c:V3C.gray, t:'Ajustes generales', s:'Sonidos, gráficos del 3D y avanzado', fn:()=>v3go('m_ajustes')}),
+    vRow({i:'bell', c:V3C.red, t:'Avisos y notificaciones', s:'Push, correo y Telegram', fn:()=>v3go('m_avisos')}),
+  ]));
+  w.append(vGroup('Tus datos',[
+    vRow({i:'cloud', c:V3C.blue, t:'Copia de seguridad', s:'Semanal automática, exportar y restaurar', fn:()=>v3go('m_backup')}),
+    vRow({i:'upload', c:V3C.teal, t:'Importar datos', s:'Lotes de ElsaWin y ETKA, con deshacer', fn:()=>v3go('m_importar')}),
+    vRow({i:'download', c:V3C.green, t:'Usar sin conexión', s:'Descarga dibujos y esquemas al dispositivo', fn:()=>v3go('m_datos')}),
+    vRow({i:'sparkle', c:V3C.purple, t:'Asistente inicial', s:'Km, últimos cambios y papeles', fn:()=>{ go('mas',null,{silent:true}); masOpen('wiz'); }}),
+  ]));
+  w.append(vGroup('Compartir',[
+    vRow({i:'file', c:V3C.orange, t:'Dossier de venta', s:'PDF con historial, ITV y fotos', fn:()=>v3go('m_dossier')}),
+    vRow({i:'receipt', c:V3C.indigo, t:'Historial en PDF', s:'Resumen corto para imprimir', fn:()=>{ go('mas',null,{silent:true}); masOpen('pdf'); }}),
+    vRow({i:'link', c:V3C.blue, t:'Enlace para el taller', s:'Solo lectura y con caducidad', fn:()=>v3go('m_compartir')}),
+  ]));
+  w.append(vGroup('',[
+    ...(matchMedia('(hover: none)').matches?[]:[vRow({i:'keyboard', c:V3C.gray, t:'Atajos de teclado', fn:()=>v3go('m_keys')})]),
+    vRow({i:'map', c:V3C.orange, t:'Dónde está cada cosa', s:'El mapa de la 3.0', fn:()=>v3intro(true)}),
+    vRow({i:'info', c:V3C.gray, t:'Acerca de', s:'Versión '+(window.APP_VERSION||'')+' · novedades', fn:()=>v3go('m_about')}),
+  ]));
+  const lo=h2(`<section class="vgrp"><div class="vlist"><button type="button" class="vrow vdanger"><span class="vtx"><b>Cerrar sesión</b></span></button></div></section>`); lo.querySelector('button').onclick=()=>{ go('mas',null,{silent:true}); masOpen('logout'); }; w.append(lo);
+  w.append(h2(`<p class="vsign">Taller 7L ${esc(window.APP_VERSION||'')}<br>Autor y diseño: Sergio Ruiz Felices</p>`));
+}};
+
+/* ---------- bienvenida: el mapa de la 3.0 (una vez, y desde Ajustes) ---------- */
+function v3intro(force){
+  let seen=false; try{ seen=localStorage.getItem('taller7l-v3intro')==='1'; }catch{}
+  if(seen && !force) return;
+  const M=[['today','Hoy',V3C.orange,'Lo que importa ahora: el coche y sus km, lo que toca, la reparación en curso y el gasto del año. Tira hacia abajo para buscar.'],
+    ['car2','Coche',V3C.indigo,'Conocerlo: modelo 3D, datos, ficha técnica y pares, piezas, electricidad, guías, galería y mejoras.'],
+    ['wrench2','Taller',V3C.blue,'Hacerle cosas: reparaciones, problemas (averías + pendientes + diagnóstico), mantenimiento y trabajos hechos.'],
+    ['wallet','Gastos',V3C.green,'El dinero: lo invertido, la lista de la compra, movimientos, repostajes y estadísticas.'],
+    ['doc2','Papeles',V3C.red,'Documentación: caducidades, ITV, garantías, siniestros, impuesto y facturas.'],
+    ['gear','Ajustes',V3C.gray,'Tu foto (arriba a la derecha): apariencia, avisos, copias, importar y compartir.']];
+  const body=h2(`<div class="vintro"><div class="vihead"><span class="t2mark"><span>7L</span></span><b>Taller 7L 3.0</b><small>Todo está reordenado para que llegues sin pensar.</small></div>
+    <div class="vimap">${M.map(([i,t,c,d],k)=>`<div class="vimi" style="--c:${c};--d:${k*70}ms"><i class="vsq">${ic(i)}</i><div><b>${t}</b><small>${d}</small></div></div>`).join('')}</div>
+    <div class="vitips"><span>${ic('chevL')}Desliza desde el borde para volver</span><span>${ic('plus')}El + de arriba: añadir lo de esa sección</span><span>${ic('dots')}Mantén pulsada una pestaña: atajos</span></div></div>`);
+  detailSheet('', '', body, [['Empezar','check',()=>{ try{ localStorage.setItem('taller7l-v3intro','1'); }catch{} closeSheet(); },'pri']]);
+  try{ localStorage.setItem('taller7l-v3intro','1'); }catch{}
+}
+{ let t=setInterval(()=>{ if(S.cfg && !document.getElementById('splash') && $('#sheet2').hidden && $('#wiz').hidden){ clearInterval(t); setTimeout(()=>v3intro(false), 600); } }, 800); }
+
+/* ---------- arranque: se muestra Hoy (o lo que pida el enlace) ---------- */
+requestAnimationFrame(()=>{ if(!V3.cur) v3show(v3top(),'none'); v3badges(); });
+window.__v3={go:(...a)=>v3go(...a), back:(...a)=>v3back(...a), tab:t=>v3tab(t), V3, closeMenu:()=>closeV3Menu(), openSearch:()=>openSearch()};
 
 
 connectDb();
