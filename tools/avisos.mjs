@@ -63,6 +63,11 @@ for (const sg of res.seguimientos || []) {
   const txt = `${sg.titulo}: revisión ${sg.n} de ${sg.de} ${d === 0 ? 'hoy' : `(tocaba el ${fmt(sg.fecha)})`}`;
   resumen.push('🔧 ' + txt); if (PRUEBA || d === 0 || (-d) % 2 === 0) segA.push('🔧 ' + txt);
 }
+const pdA = [];
+if (res.pendientes?.total) {
+  for (const p of res.pendientes.ya || []) { const d = p.fecha ? -days(p.fecha) : 0; const txt = `${p.titulo} (antes de circular)`; resumen.push('🚩 ' + txt); if (PRUEBA || d % 3 === 0) pdA.push('🚩 ' + txt); }
+  const resto = res.pendientes.total - (res.pendientes.ya || []).length; if (resto > 0) resumen.push(`🚩 ${resto} cosa(s) más en Pendientes del taller`);
+}
 if (res.porComprar) resumen.push(`📝 ${res.porComprar} artículo(s) en la lista de la compra`);
 
 /* mensajes por canal */
@@ -72,6 +77,7 @@ add('mant', 'Mantenimiento', mant, APP + '#mant');
 add('docs', 'Documentación', docsA, APP + '#papeles');
 add('mant', 'Seguimiento', segA, APP);
 add('compras', 'Compras sin montar', compras, APP + '#mant');
+add('mant', 'Pendientes del taller', pdA, APP + '#mant');
 if (semanal) add('semanal', 'Resumen semanal', resumen.length ? resumen : ['✅ Todo al día. Nada vencido ni próximo.'], APP);
 if (PRUEBA) for (const ch of Object.keys(out)) if (!out[ch].length) out[ch].push({ titulo: 'Aviso de prueba', lineas: ['✅ Este canal funciona. Todo al día.'], url: APP });
 /* v2.1: un solo mensaje por canal (antes llegaba uno por cada tipo de aviso) */

@@ -1,5 +1,10 @@
 # Novedades
 
+## v2.3.0 · 2026-10-17
+- Taller ▸ Pendientes: apunta con foto lo que ves roto o que falta mientras trabajas, mándalo a la compra y táchalo al arreglarlo
+- Botón «Anotar algo que he visto» dentro de la reparación en curso
+- Pendientes en Inicio, en el buscador y en los avisos
+
 ## v2.2.0 · 2026-10-17
 - Trabajos repetidos: aviso y borrado con un toque
 - Gastos: valor actual del coche, lo que te cuesta de verdad, coste por km y gráfico de gasto acumulado

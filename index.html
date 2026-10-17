@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="2.2.0">
+<meta name="app-version" content="2.3.0">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2525,6 +2525,77 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
 .tshort svg{width:20px;height:20px;color:var(--accent)}
 .rpfrow{display:flex;gap:8px;margin-top:8px}.rpfrow .btn2{cursor:pointer}.rpfst{margin:6px 0 0!important;font-size:12px}
 .ocrbtn{display:flex;justify-content:center;margin:4px 0 6px;cursor:pointer}.ocrst{margin:0 0 6px!important;font-size:12.5px}
+/* ===== 2.3.0 · Pendientes del taller ===== */
+#stMant button[data-sub="pend"]{position:relative}
+.pdcnt{font-style:normal;min-width:18px;height:18px;border-radius:9px;background:var(--soon);color:#1a1003;font:700 10.5px/18px var(--f-body);padding:0 5px;text-align:center;margin-left:2px}
+.pdcnt.ya{background:var(--due);color:#fff}
+.pdhero{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:14px;align-items:center;margin-bottom:12px}
+.pdring{width:64px;height:64px;transform:rotate(-90deg)}
+.pdring circle{fill:none;stroke:var(--card-line);stroke-width:7}
+.pdring .v{stroke:var(--ok);stroke-linecap:round;transition:stroke-dashoffset .9s var(--ease)}
+.pdhx b{display:block;font:700 17px var(--f-body)}.pdhx small{display:block;color:var(--txt-2);font-size:12.5px;line-height:1.4;margin-top:2px}.pdhx em{font-style:normal;color:var(--due);font-weight:700}
+.pdadd{white-space:nowrap}
+@media (max-width:420px){.pdhero{grid-template-columns:56px minmax(0,1fr)}.pdring{width:56px;height:56px}.pdadd{grid-column:1/-1;justify-content:center}}
+.pdcard h3 svg{color:var(--c,var(--txt-2))}
+.pdcard .l2{display:flex;flex-direction:column;gap:7px}
+.pdrow{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:stretch;border-radius:12px;background:var(--card-2);border:1px solid var(--card-line);border-left:3px solid var(--c);overflow:hidden;transition:opacity .3s,transform .3s var(--ease)}
+.pdchk{width:52px;border:0;background:transparent;display:grid;place-items:center;cursor:pointer;color:var(--c);padding:0}
+.pdchk svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2}
+.pdchk svg path{stroke-dasharray:16;stroke-dashoffset:16;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke-dashoffset .3s var(--ease)}
+.pdchk:hover svg path{stroke-dashoffset:9;opacity:.6}
+.pdrow.done{border-left-color:var(--ok);opacity:.72}
+.pdrow.done .pdchk{color:var(--ok)}.pdrow.done .pdchk svg circle{fill:var(--ok)}.pdrow.done .pdchk svg path{stroke:#fff;stroke-dashoffset:0;opacity:1}
+.pdrow.done .tx b{text-decoration:line-through;text-decoration-color:var(--txt-3)}
+.pdrow.pdpop .pdchk svg{animation:pdPop .45s var(--ease)}.pdrow.pdpop .pdchk svg circle{fill:var(--ok);stroke:var(--ok);transition:fill .2s}.pdrow.pdpop .pdchk svg path{stroke:#fff;stroke-dashoffset:0}
+.pdrow.pdpop{border-left-color:var(--ok)}.pdrow.pdpop .tx b{text-decoration:line-through}
+@keyframes pdPop{0%{transform:scale(1)}40%{transform:scale(1.28)}100%{transform:scale(1)}}
+.pdbody{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:center;padding:9px 12px 9px 0;border:0;background:transparent;color:var(--txt);text-align:left;font:inherit;cursor:pointer;min-width:0}
+.pdthm{width:46px;height:46px;border-radius:10px;background:#ffffff0a center/cover no-repeat;display:grid;place-items:center;color:var(--c)}
+.pdthm.ic0 svg{width:22px;height:22px}
+.pdbody .tx{min-width:0}.pdbody .tx b{display:block;font-weight:650;line-height:1.3;overflow-wrap:anywhere}
+.pdbody .tx small{display:block;color:var(--txt-2);font-size:12px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pdtags{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.pdtags i{font-style:normal;font-size:11px;font-weight:600;padding:2px 7px;border-radius:20px;background:#ffffff0d;color:var(--txt-2);display:inline-flex;align-items:center;gap:4px}
+.pdtags i svg{width:12px;height:12px}.pdtags i.cs{color:var(--t);background:color-mix(in srgb,var(--t) 14%,transparent)}
+.pdzero{color:var(--ok)}
+.pdform .pdtipos{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px}
+.pdtipos button,.pdzonas button,.pdseg button{border:1px solid var(--card-line);background:var(--card-2);color:var(--txt-2);border-radius:11px;cursor:pointer;font:600 11.5px var(--f-body);transition:all .15s}
+.pdtipos button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 3px;line-height:1.15;text-align:center}
+.pdtipos svg{width:19px;height:19px}
+.pdtipos button[aria-pressed="true"]{border-color:var(--accent);color:var(--txt);background:color-mix(in srgb,var(--accent) 16%,var(--card-2))}
+.pdtipos button[aria-pressed="true"] svg{color:var(--accent)}
+.pdseg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.pdseg button{display:flex;align-items:center;justify-content:center;gap:5px;padding:10px 4px;font-size:12.5px}.pdseg svg{width:15px;height:15px;color:var(--c)}
+.pdseg button[aria-pressed="true"]{border-color:var(--c);color:var(--txt);background:color-mix(in srgb,var(--c) 18%,var(--card-2))}
+.pdzonas{display:flex;flex-wrap:wrap;gap:6px}.pdzonas button{padding:6px 11px;border-radius:20px;font-size:12.5px}
+.pdzonas button[aria-pressed="true"]{border-color:var(--accent);color:var(--txt);background:color-mix(in srgb,var(--accent) 16%,var(--card-2))}
+.pdfotos{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pdcam{width:74px;height:74px;border-radius:12px;border:1.5px dashed var(--card-line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--accent);font:600 12px var(--f-body)}
+.pdcam svg{width:22px;height:22px}
+.pdf{position:relative;width:74px;height:74px;border-radius:12px;overflow:hidden;background:var(--card-2)}
+.pdf img{width:100%;height:100%;object-fit:cover;display:block}
+.pdf button{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;border:0;background:#000a;color:#fff;display:grid;place-items:center;cursor:pointer;padding:0}.pdf button svg{width:13px;height:13px}
+.pdf.nw::after{content:'';position:absolute;inset:0;border:2px solid var(--accent);border-radius:12px;pointer-events:none}
+.pdbuy span{display:flex;align-items:center;gap:7px}.pdbuy svg{width:16px;height:16px;color:var(--accent)}
+.pdbuyf{padding:2px 0 4px}.pd2{display:grid;grid-template-columns:minmax(0,1fr) 92px;gap:8px}
+.pdform textarea{width:100%;box-sizing:border-box}
+.pdhead{display:flex;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--c) 13%,var(--card-2));border:1px solid color-mix(in srgb,var(--c) 35%,transparent);margin-bottom:10px}
+.pdhi{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#fff;flex:none}.pdhi svg{width:20px;height:20px}
+.pdhead b{display:block}.pdhead small{display:block;color:var(--txt-2);font-size:12.5px}
+.pdgal{display:flex;gap:8px;overflow-x:auto;margin-bottom:10px;scroll-snap-type:x mandatory}
+.pdgal button{flex:none;width:min(62%,220px);aspect-ratio:4/3;border-radius:12px;overflow:hidden;border:1px solid var(--card-line);padding:0;cursor:zoom-in;background:var(--card-2);scroll-snap-align:start}
+.pdgal button:only-child{width:100%;aspect-ratio:16/10}
+.pdgal img{width:100%;height:100%;object-fit:cover;display:block}
+.pdcrow{margin-top:10px}
+.pdinrep{margin:4px 0 10px}
+.pdquick{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:11px 14px;border-radius:12px;background:color-mix(in srgb,var(--soon) 14%,var(--card-2));border:1px dashed color-mix(in srgb,var(--soon) 60%,transparent);color:var(--txt)}
+.pdquick>svg{width:22px;height:22px;color:var(--soon);flex:none}
+.pdquick b{display:block;font-weight:700}.pdquick small{display:block;font-weight:400;font-size:12px;color:var(--txt-2);margin-top:1px}
+.pdmine h5{display:flex;align-items:center;gap:6px;margin:12px 0 6px;font-size:13px}.pdmine h5 svg{width:15px;height:15px;color:var(--soon)}.pdmine h5 em{margin-left:auto;font-style:normal;font-weight:400;opacity:.7;font-size:12px}
+.pdmine .pdrow{margin-bottom:6px}
+.pdhacts{margin-top:10px;justify-content:flex-end;gap:8px}
+.pdfin{margin-bottom:6px}
+@media (prefers-reduced-motion:reduce){.pdrow.pdpop .pdchk svg{animation:none}}
 </style>
 
 </head>
@@ -2567,7 +2638,7 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.2.0</span>
+  <span class="spver">v2.3.0</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5948,7 +6019,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='2.2.0';
+window.APP_VERSION='2.3.0';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -5982,7 +6053,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.2.0';
+  const APP_VERSION='2.3.0';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -6080,7 +6151,7 @@ function publishAvisos(){
       ...(S.v2?.garantias||[]).filter(g=>g.fin && g.fin>=ayer).map(g=>({tipo:'Garantía', nombre:g.articulo||'', caduca:g.fin})),
       ...(S.v2?.siniestros||[]).filter(x=>x.plazo && x.estado!=='cerrado' && x.plazo>=ayer).map(x=>({tipo:x.tipo==='multa'?'Plazo de multa':'Plazo de siniestro', nombre:x.titulo||'', caduca:x.plazo}))];
     const comp=(S.compras||[]).filter(c=>c.estado==='comprado').map(c=>({nombre:c.nombre, fechaCompra:c.fechaCompra||null}));
-    const data={kmActual:S.cfg.kmActual??null, mantenimiento:mant, documentos:docs, compras:comp, porComprar:(S.compras||[]).filter(c=>c.estado==='pendiente').length, seguimientos:(typeof segAvisos==='function'?segAvisos():[])};
+    const data={kmActual:S.cfg.kmActual??null, mantenimiento:mant, documentos:docs, compras:comp, porComprar:(S.compras||[]).filter(c=>c.estado==='pendiente').length, seguimientos:(typeof segAvisos==='function'?segAvisos():[]), pendientes:(typeof pdAvisos==='function'?pdAvisos():null)};
     const j=JSON.stringify(data); if(j===avisosLast) return; avisosLast=j;
     S.db.collection('avisos').doc('resumen').set({...data, actualizado:new Date().toISOString()});
   }, 4000);
@@ -11338,6 +11409,208 @@ function ticketParse(txt){ const L=txt.split(/\n+/).map(s=>s.trim()).filter(Bool
         st.textContent=`Leído: ${t.total!=null?eur(t.total):'sin importe'}${t.fecha?' · '+fmtDate(t.fecha):''}${t.tienda?' · '+t.tienda:''}. Revísalo antes de guardar; la foto se adjunta.`; uiSfx('tick');
       }catch(err){ st.textContent='No se pudo leer el ticket (hace falta conexión la primera vez). Rellénalo a mano.'; } };
     (p.previousElementSibling||p).before(bt, st); return r; }; }
+
+/* ====================== PENDIENTES DEL TALLER (2.3.0) ======================
+   Lo que te encuentras mientras trabajas y no tiene que ver con la reparación: un tornillo que falta,
+   una grapa rota, un manguito cuarteado… Se apunta en diez segundos (con foto), se puede mandar a la
+   compra y se tacha cuando está arreglado.
+   Firestore: pendientes/{id} {titulo, tipo, zona, prio:'ya'|'pronto'|'luego', nota, fotos:[{id,tipo,nombre}],
+              estado:'abierto'|'hecho', fecha, km, reparacion, compra, hechoEl, comoSeHizo, intervencion, creado} */
+C2.push('pendientes'); S.v2.pendientes=S.v2.pendientes||[];
+Object.assign(IC,{
+  bolt:'<path d="M9 3h6l1.5 3-1.5 3H9L7.5 6z"/><path d="M10.5 9v11.5M13.5 9v11.5M10.5 12l3-1M10.5 15l3-1M10.5 18l3-1"/>',
+  flag:'<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
+});
+const PD_PRIO={ya:{t:'Antes de circular',c:'var(--due)',i:'alert',o:0}, pronto:{t:'Pronto',c:'var(--soon)',i:'clock',o:1}, luego:{t:'Cuando pueda',c:'var(--info)',i:'calendar',o:2}};
+const PD_TIPO=[['tornillo','Falta un tornillo','bolt'],['grapa','Grapa o clip roto','link'],['roto','Pieza rota','x'],['fuga','Fuga o goteo','drop'],['oxido','Óxido','sparkle'],['cable','Cable o conector','zap'],['goma','Goma, junta o manguito','layers'],['otro','Otra cosa','note']];
+const PD_ZONA=['Motor','Bajos','Carrocería','Interior','Electricidad','Frenos y suspensión','Ruedas','Escape','Portón'];
+const pdList=()=>(S.v2.pendientes||[]);
+const pdOpen=()=>pdList().filter(p=>p.estado!=='hecho').sort((a,b)=>(PD_PRIO[a.prio]?.o??1)-(PD_PRIO[b.prio]?.o??1) || (b.creado||'').localeCompare(a.creado||''));
+const pdDoneL=()=>pdList().filter(p=>p.estado==='hecho').sort((a,b)=>(b.hechoEl||'').localeCompare(a.hechoEl||''));
+const pdCompra=p=>p.compra?(S.compras||[]).find(c=>c._id===p.compra):null;
+const pdRep=p=>p.reparacion?repList().find(r=>r._id===p.reparacion):null;
+const pdTipo=k=>PD_TIPO.find(t=>t[0]===k)||PD_TIPO[PD_TIPO.length-1];
+const pdAgo=iso=>{ if(!iso) return ''; const d=-daysTo(iso.slice(0,10)); return d<=0?'hoy':d===1?'ayer':d<31?`hace ${d} días`:'el '+fmtDate(iso.slice(0,10)); };
+const CST={pendiente:['En la compra','var(--soon)'], comprado:['Pieza comprada','var(--info)'], montado:['Pieza montada','var(--ok)']};
+
+/* ---------- anotar / editar ---------- */
+function pdForm(p0, opts={}){
+  const isNew=!p0, d=p0?{...p0}:{titulo:'', tipo:'', zona:opts.zona||'', prio:'pronto', nota:'', fotos:[], reparacion:opts.reparacion??(repActiva()[0]?._id||null)};
+  let fotos=[...(d.fotos||[])]; const nuevas=[];
+  const reps=[...repActiva(), ...repList().filter(r=>r.estado==='terminada').sort((a,b)=>(b.fin||'').localeCompare(a.fin||'')).slice(0,4)];
+  const c=pdCompra(d);
+  const body=h2(`<div class="repnew pdform">
+    <label class="wzlab">¿Qué has visto?</label>
+    <div class="pdtipos">${PD_TIPO.map(([k,t,i])=>`<button type="button" data-k="${k}" aria-pressed="${d.tipo===k}">${ic(i)}<span>${t}</span></button>`).join('')}</div>
+    <input class="inp2" id="pdT" value="${esc(d.titulo)}" placeholder="p. ej. Falta un tornillo del cubrecárter, lado izquierdo" autocomplete="off">
+    <div class="pdfotos"><label class="pdcam">${ic('camera')}<span>Foto</span><input type="file" accept="image/*" capture="environment" multiple hidden></label></div>
+    <label class="wzlab">¿Corre prisa?</label>
+    <div class="pdseg">${Object.entries(PD_PRIO).map(([k,v])=>`<button type="button" data-k="${k}" aria-pressed="${d.prio===k}" style="--c:${v.c}">${ic(v.i)}<span>${v.t}</span></button>`).join('')}</div>
+    <label class="wzlab">Zona</label>
+    <div class="pdzonas">${PD_ZONA.map(z=>`<button type="button" aria-pressed="${d.zona===z}">${z}</button>`).join('')}</div>
+    ${reps.length?`<label class="wzlab">Lo viste durante</label><select class="inp2" id="pdR" data-nosort><option value="">Nada en concreto</option>${reps.map(r=>`<option value="${r._id}"${d.reparacion===r._id?' selected':''}>${esc(r.titulo)}${r.estado==='en_curso'?' (en curso)':''}</option>`).join('')}</select>`:''}
+    ${c?`<div class="alr ok pdcl">${ic('cart')}<span>En la compra: <b>${esc(c.nombre)}</b> · ${CST[c.estado]?.[0]||c.estado}</span></div>`:`
+    <label class="chk pdbuy"><input type="checkbox" id="pdB"${opts.comprar?' checked':''}><span>${ic('cart')}Hay que comprar algo para arreglarlo</span></label>
+    <div class="pdbuyf"${opts.comprar?'':' hidden'}><label class="wzlab">Pieza</label><input class="inp2" id="pdBN" placeholder="Lo que pondrá en la lista de la compra">
+      <div class="pd2"><div><label class="wzlab">Referencia</label><input class="inp2" id="pdBR" placeholder="Si la sabes" autocomplete="off" spellcheck="false"></div><div><label class="wzlab">Cantidad</label><input class="inp2" id="pdBQ" type="number" inputmode="numeric" min="1" value="1"></div></div></div>`}
+    <label class="wzlab">Nota</label><textarea class="inp2" id="pdN" rows="2" placeholder="Dónde está exactamente, medidas, qué hace falta…">${esc(d.nota||'')}</textarea>
+  </div>`);
+  const $b=s=>body.querySelector(s), T=$b('#pdT');
+  body.querySelectorAll('.pdtipos button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); const was=d.tipo; d.tipo=b.dataset.k; body.querySelectorAll('.pdtipos button').forEach(x=>x.setAttribute('aria-pressed', String(x===b)));
+    const prev=pdTipo(was)[1]; if(!T.value.trim() || (was && T.value.trim()===prev)){ T.value=pdTipo(d.tipo)[1]+(d.tipo==='otro'?'':' '); } if(d.tipo==='otro' && T.value.trim()==='Otra cosa') T.value='';
+    T.focus(); T.setSelectionRange(T.value.length, T.value.length); if(d.tipo==='fuga' && d.prio!=='ya') pickPrio('ya'); syncBuy(); });
+  const pickPrio=k=>{ d.prio=k; body.querySelectorAll('.pdseg button').forEach(x=>x.setAttribute('aria-pressed', String(x.dataset.k===k))); };
+  body.querySelectorAll('.pdseg button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); pickPrio(b.dataset.k); });
+  body.querySelectorAll('.pdzonas button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); const on=d.zona!==b.textContent; d.zona=on?b.textContent:''; body.querySelectorAll('.pdzonas button').forEach(x=>x.setAttribute('aria-pressed', String(on && x===b))); });
+  /* fotos: las que ya tenía (se pueden quitar) y las nuevas (se suben al guardar) */
+  const FB0=$b('.pdfotos'), cam=$b('.pdcam');
+  const drawF=()=>{ FB0.querySelectorAll('.pdf').forEach(x=>x.remove());
+    fotos.forEach((f,k)=>{ const t=h2(`<span class="pdf"><img alt=""><button type="button" aria-label="Quitar la foto">${ic('x')}</button></span>`); window.FB?.blobThumb?.(f.id).then(u=>t.querySelector('img').src=u).catch(()=>{}); t.querySelector('button').onclick=()=>{ fotos.splice(k,1); drawF(); }; cam.before(t); });
+    nuevas.forEach((f,k)=>{ const t=h2(`<span class="pdf nw"><img alt=""><button type="button" aria-label="Quitar la foto">${ic('x')}</button></span>`); t.querySelector('img').src=URL.createObjectURL(f); t.querySelector('button').onclick=()=>{ nuevas.splice(k,1); drawF(); }; cam.before(t); }); };
+  cam.querySelector('input').onchange=e=>{ nuevas.push(...e.target.files); e.target.value=''; uiSfx('tick'); drawF(); }; drawF();
+  /* compra */
+  const syncBuy=()=>{ const n=$b('#pdBN'); if(n && !n.dataset.t) n.value=T.value.trim().replace(/^Falta (un|una)\s+/i,'').replace(/^./,m=>m.toUpperCase()); };
+  if($b('#pdB')){ $b('#pdB').onchange=()=>{ $b('.pdbuyf').hidden=!$b('#pdB').checked; syncBuy(); }; $b('#pdBN').oninput=()=>{ $b('#pdBN').dataset.t='1'; }; T.addEventListener('input', syncBuy); }
+  if(opts.comprar) syncBuy();
+  const save=async()=>{
+    d.titulo=T.value.trim(); if(!d.titulo){ T.focus(); toast('Escribe qué has visto'); return; }
+    d.nota=$b('#pdN').value.trim(); d.reparacion=$b('#pdR')?($b('#pdR').value||null):(d.reparacion||null);
+    const st=h2('<p class="muted2"></p>'); body.append(st);
+    try{
+      const up=nuevas.length?await uploadFiles(nuevas, st):[]; d.fotos=[...fotos, ...up];
+      const now=new Date().toISOString(); let cur;
+      if(isNew){ const data={...d, tipo:d.tipo||'otro', estado:'abierto', fecha:todayISO(), km:S.cfg?.kmActual??null, compra:null, creado:now, actualizado:now}; const r=await S.db.collection('pendientes').add(data); cur={...data, _id:r.id}; }
+      else { const patch={titulo:d.titulo, tipo:d.tipo||'otro', zona:d.zona, prio:d.prio, nota:d.nota, fotos:d.fotos, reparacion:d.reparacion}; await v2Upd('pendientes', p0, patch); cur={...p0, ...patch}; }
+      if($b('#pdB')?.checked){ const nombre=$b('#pdBN').value.trim()||d.titulo;
+        const cr=await S.db.collection('compras').add({nombre, cantidad:Math.max(1,Number($b('#pdBQ').value)||1), ref:$b('#pdBR').value.trim(), estado:'pendiente', notas:'Pendiente del taller: '+d.titulo, pendiente:cur._id, creado:now, actualizado:now});
+        await v2Upd('pendientes', cur, {compra:cr.id}); }
+      closeSheet(); uiSfx('save'); toast(isNew?($b('#pdB')?.checked?'Apuntado y añadido a la compra':'Apuntado en Pendientes'):'Guardado');
+    }catch(e){ console.error(e); st.textContent=''; toast('No se pudo guardar','err'); }
+  };
+  detailSheet(isNew?'Anotar un pendiente':'Editar pendiente', isNew?'Lo que te encuentras mientras trabajas. Lo tachas cuando lo arregles.':'', body, [[isNew?'Apuntar':'Guardar','check',save,'pri']]);
+  if(isNew) setTimeout(()=>{ if(!matchMedia('(hover: none)').matches) T.focus(); },120);
+}
+
+/* ---------- tachar / reabrir ---------- */
+async function pdToggle(p, el){
+  const done=p.estado!=='hecho';
+  if(done){ uiSfx('tick'); el?.classList.add('pdpop'); }
+  await v2Upd('pendientes', p, done?{estado:'hecho', hechoEl:todayISO()}:{estado:'abierto', hechoEl:null});
+  if(done){ const quedan=pdOpen().filter(x=>x._id!==p._id).length; if(!quedan) celebrate();
+    v2toast(quedan?`Subsanado · quedan ${quedan}`:'Subsanado · ¡no queda nada pendiente!', ()=>v2Upd('pendientes', {...p}, {estado:'abierto', hechoEl:null})); }
+}
+function pdResolve(p){
+  const c=pdCompra(p);
+  const body=h2(`<div class="repnew">
+    <label class="wzlab">¿Cómo lo arreglaste? (opcional)</label><input class="inp2" id="pdH" placeholder="p. ej. Tornillo nuevo M6 con tuerca de chapa">
+    <label class="wzlab">Fecha</label><input class="inp2" id="pdHF" type="date" value="${todayISO()}">
+    ${c && c.estado!=='montado'?`<label class="chk"><input type="checkbox" id="pdHM" checked><span>Marcar «${esc(c.nombre)}» como montada${c.estado==='pendiente'?' (aún sale como por comprar)':''}</span></label>`:''}
+    <label class="chk"><input type="checkbox" id="pdHI"${c||p.prio==='ya'?' checked':''}><span>Apuntarlo también en «Trabajos hechos»</span></label></div>`);
+  detailSheet('Subsanado', p.titulo, body, [['Dar por arreglado','check',async()=>{
+    const como=body.querySelector('#pdH').value.trim(), f=body.querySelector('#pdHF').value||todayISO(); let inter=null;
+    try{
+      if(body.querySelector('#pdHI').checked){ const r=await S.db.collection('intervenciones').add({fecha:f, km:S.cfg?.kmActual??null, tipo:'Reparación', mant:null, pieza:null, descripcion:p.titulo+(como?' · '+como:'')+(p.zona?' ('+p.zona+')':''), ref:c?.ref||'', coste:null, pendiente:p._id, creado:new Date().toISOString(), ...(p.fotos?.length?{adjuntos:p.fotos}:{})}); inter=r.id; }
+      if(c && body.querySelector('#pdHM')?.checked){ const {_id,...data}=c; await S.db.collection('compras').doc(_id).set({...data, estado:'montado', fechaMontaje:f, montaje:'yo', ...(inter?{intervencion:inter}:{})}); }
+      await v2Upd('pendientes', p, {estado:'hecho', hechoEl:f, comoSeHizo:como, intervencion:inter});
+      closeSheet(); uiSfx('tick'); if(!pdOpen().filter(x=>x._id!==p._id).length) celebrate(); toast('Subsanado');
+    }catch{ toast('No se pudo guardar','err'); } },'pri']]);
+}
+
+/* ---------- ficha ---------- */
+function pdSheet(p0){
+  const p=pdList().find(x=>x._id===p0._id)||p0, c=pdCompra(p), rp=pdRep(p), pr=PD_PRIO[p.prio]||PD_PRIO.pronto, done=p.estado==='hecho';
+  const body=h2(`<div class="pdsheet">
+    <div class="pdhead" style="--c:${done?'var(--ok)':pr.c}"><span class="pdhi">${ic(done?'check':pdTipo(p.tipo)[2])}</span><span><b>${done?'Subsanado'+(p.hechoEl?' el '+fmtDate(p.hechoEl):''):pr.t}</b><small>${esc([pdTipo(p.tipo)[1], p.zona].filter(Boolean).join(' · '))}</small></span></div>
+    ${p.fotos?.length?`<div class="pdgal">${p.fotos.map((f,k)=>`<button type="button" data-k="${k}" aria-label="Ver la foto ${k+1}"><img alt=""></button>`).join('')}</div>`:''}
+  </div>`);
+  body.querySelectorAll('.pdgal button').forEach(b=>{ const f=p.fotos[+b.dataset.k]; window.FB?.blobThumb?.(f.id).then(u=>b.querySelector('img').src=u).catch(()=>{}); b.onclick=()=>openViewer({id:f.id, tipo:f.tipo||'image/jpeg', nombre:p.titulo}); });
+  body.append(kv([['Visto', esc([pdAgo(p.creado||p.fecha), p.km!=null?kmT(p.km):''].filter(Boolean).join(' · '))], rp?['Durante', esc(rp.titulo)]:null, p.nota?['Nota', esc(p.nota).replace(/\n/g,'<br>')]:null, done&&p.comoSeHizo?['Cómo se arregló', esc(p.comoSeHizo)]:null]));
+  if(c){ const r=row2({c:CST[c.estado]?.[1], i:'cart', t:c.nombre, s:[CST[c.estado]?.[0]||c.estado, c.ref, c.precio!=null?eur(c.precio):''].filter(Boolean).join(' · '), fn:()=>{ closeSheet(); setTimeout(()=>compraSheet(c, c.estado==='pendiente'?'comprar':undefined),60); }}); r.classList.add('pdcrow'); body.append(r);
+    if(!done && c.estado==='montado') body.append(h2(`<div class="alr ok">${ic('check')}<span>La pieza ya está montada. Si con eso queda arreglado, dale a «Subsanado».</span></div>`)); }
+  const acts=done?[['Volver a abrir','history',async()=>{ await pdToggle(p); closeSheet(); }]]
+    :[['Subsanado','check',()=>pdResolve(p),'pri'], ['Editar','edit',()=>pdForm(p)], ...(c?[]:[['A la compra','cart',()=>pdForm(p,{comprar:true})]]), ['Pasar a avería','alert',async()=>{
+        if(!confirm('¿Registrarlo como avería? Seguirá también en Pendientes.')) return;
+        await S.db.collection('averias').add({codigo:'', sintoma:p.titulo, notas:[p.nota, p.zona?'Zona: '+p.zona:''].filter(Boolean).join('\n'), estado:'abierta', piezas:[], fecha:todayISO(), km:S.cfg?.kmActual??null}); closeSheet(); toast('Avería registrada'); }]];
+  acts.push(['Borrar','trash',()=>{ closeSheet(); v2Del('pendientes', p, 'Pendiente borrado'); }]);
+  detailSheet(p.titulo, '', body, acts);
+}
+
+/* ---------- fila con check grande ---------- */
+function pdRow(p, o={}){
+  const pr=PD_PRIO[p.prio]||PD_PRIO.pronto, done=p.estado==='hecho', c=pdCompra(p), rp=pdRep(p);
+  const tags=[p.zona?`<i>${esc(p.zona)}</i>`:'', c?`<i class="cs" style="--t:${CST[c.estado]?.[1]}">${ic('cart')}${CST[c.estado]?.[0]||''}</i>`:'', p.fotos?.length>1?`<i>${ic('camera')}${p.fotos.length}</i>`:''].join('');
+  const sub=done?`Arreglado ${pdAgo(p.hechoEl)}${p.comoSeHizo?' · '+p.comoSeHizo:''}`:[pdAgo(p.creado||p.fecha), rp&&!o.noRep?'durante «'+rp.titulo+'»':''].filter(Boolean).join(' · ');
+  const r=h2(`<div class="pdrow${done?' done':''}" style="--c:${pr.c}">
+    <button type="button" class="pdchk" aria-pressed="${done}" aria-label="${done?'Volver a abrir':'Marcar como subsanado'}: ${esc(p.titulo)}"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.5 3 3 6-6.5"/></svg></button>
+    <button type="button" class="pdbody">${p.fotos?.length?'<span class="pdthm"></span>':`<span class="pdthm ic0">${ic(pdTipo(p.tipo)[2])}</span>`}<span class="tx"><b>${esc(p.titulo)}</b><small>${esc(sub)}</small>${tags?`<span class="pdtags">${tags}</span>`:''}</span></button></div>`);
+  if(p.fotos?.length){ const t=r.querySelector('.pdthm'); window.FB?.blobThumb?.(p.fotos[0].id).then(u=>t.style.backgroundImage=`url("${u}")`).catch(()=>{ t.classList.add('ic0'); t.innerHTML=ic(pdTipo(p.tipo)[2]); }); }
+  r.querySelector('.pdchk').onclick=e=>{ e.stopPropagation(); pdToggle(p, r); };
+  r.querySelector('.pdbody').onclick=()=>{ uiSfx('tap'); pdSheet(p); };
+  return r;
+}
+
+/* ---------- la página: Taller ▸ Pendientes ---------- */
+function renderPendientes(w){
+  const A=pdOpen(), D=pdDoneL(), all=A.length+D.length, f=UI.pdF||'abiertos';
+  const ya=A.filter(p=>p.prio==='ya').length, pct=all?Math.round(D.length/all*100):0, R=26, L=2*Math.PI*R;
+  const hero=h2(`<div class="card2 pdhero c12">
+    <svg class="pdring" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="${R}"/><circle class="v" cx="32" cy="32" r="${R}" stroke-dasharray="${L.toFixed(1)}" stroke-dashoffset="${(L*(1-pct/100)).toFixed(1)}"/></svg>
+    <div class="pdhx"><b>${A.length?pl(A.length,'cosa por arreglar','cosas por arreglar'):all?'Todo arreglado':'Nada apuntado'}</b>
+      <small>${all?`${D.length} de ${all} subsanadas${ya?` · <em>${ya} antes de circular</em>`:''}`:'El tornillo que falta, la grapa rota, el manguito cuarteado… apúntalo aquí con una foto en cuanto lo veas.'}</small></div>
+    <button type="button" class="btn2 pri pdadd">${ic('plus')}Anotar</button></div>`);
+  hero.querySelector('.pdadd').onclick=()=>{ uiSfx('tap'); pdForm(null); };
+  w.append(hero);
+  if(!all){ w.append(emptyCard('flag','Mientras haces una reparación seguro que ves cosas que no tienen nada que ver: un tornillo que falta, una grapa partida, una goma cuarteada. Apúntalas aquí para no olvidarlas: con foto, la pieza a la lista de la compra y un check para tacharlas cuando las arregles.','Anotar el primero',()=>pdForm(null))); return; }
+  w.append(chips([['abiertos',`Por hacer · ${A.length}`],['hechos',`Subsanados · ${D.length}`],['todos','Todos']], f, k=>{ UI.pdF=k; v2Rerender(); }));
+  if(f!=='hechos'){
+    if(!A.length) w.append(h2(`<div class="empty2 big2 pdzero">${ic('checkc')}<div><b>Nada pendiente</b><br>Todo lo que habías apuntado está arreglado.</div></div>`));
+    for(const [k,v] of Object.entries(PD_PRIO)){ const L=A.filter(p=>(p.prio||'pronto')===k); if(!L.length) continue;
+      const c=card2(v.t, v.i, L.length); c.classList.add('pdcard'); c.style.setProperty('--c', v.c); const l=c.querySelector('.l2'); for(const p of L) l.append(pdRow(p)); w.append(c); } }
+  if(f!=='abiertos' && D.length){ const c=card2('Subsanados','checkc',D.length); c.classList.add('pdcard','pddone'); const l=c.querySelector('.l2'); for(const p of D.slice(0, f==='hechos'?999:12)) l.append(pdRow(p)); w.append(c); }
+}
+V2SUBS.mant.pend=renderPendientes;
+/* pestaña nueva en Taller, justo después del Plan, con el número de cosas abiertas */
+{ SECS.mant.subs.splice(1,0,['pend','Pendientes','flag']); const st=$('#stMant');
+  if(st){ const b=h2(`<button type="button" role="tab" data-sub="pend">${ic('flag')}<span>Pendientes</span><b class="pdcnt" hidden></b></button>`); b.onclick=()=>{ uiSfx('tap'); openSub('mant','pend'); setTop(); };
+    const plan=st.querySelector('button[data-sub="plan"]'); if(plan) plan.after(b); else st.append(b); } }
+function pdBadge(){ const b=document.querySelector('#stMant button[data-sub="pend"] .pdcnt'); if(!b) return; const A=pdOpen(), ya=A.some(p=>p.prio==='ya'); b.hidden=!A.length; b.textContent=A.length; b.classList.toggle('ya', ya); }
+{ const _ub=updateBadges; updateBadges=function(...a){ const r=_ub(...a); try{ pdBadge(); }catch{} return r; }; }
+NAVMENU.mant=[['flag','Anotar un pendiente',()=>pdForm(null)], ...NAVMENU.mant];
+
+/* ---------- en la reparación en curso: botón grande y lo apuntado en ella ---------- */
+{ const _rr=repRun; repRun=function(rep0){ _rr(rep0); const box=document.querySelector('#shBox .reprun'); if(!box) return;
+    const mine=()=>pdList().filter(p=>p.reparacion===rep0._id);
+    const d=h2(`<div class="pdinrep"><button type="button" class="btn2 pdquick">${ic('flag')}<span><b>Anotar algo que he visto</b><small>Un tornillo que falta, algo roto… aunque no tenga que ver con esta reparación</small></span></button><div class="pdmine"></div></div>`);
+    const drawM=()=>{ const M=mine(), l=d.querySelector('.pdmine'); l.innerHTML=''; if(!M.length) return; l.append(h2(`<h5>${ic('flag')}Apuntado en esta reparación <em>${M.filter(p=>p.estado!=='hecho').length} por hacer</em></h5>`)); for(const p of M){ const r=pdRow(p,{noRep:true}); r.querySelector('.pdchk').onclick=async e=>{ e.stopPropagation(); await pdToggle(p, r); setTimeout(drawM,250); };
+        r.querySelector('.pdbody').onclick=()=>{ uiSfx('tap'); pdSheet(p); pdBack(()=>repRun(repList().find(x=>x._id===rep0._id)||rep0)); }; l.append(r); } };
+    d.querySelector('.pdquick').onclick=()=>{ uiSfx('tap'); const back=repList().find(x=>x._id===rep0._id)||rep0; pdForm(null,{reparacion:rep0._id}); pdBack(()=>repRun(repList().find(x=>x._id===rep0._id)||back)); };
+    drawM(); const nav=box.querySelector('.rpdots'); if(nav) nav.after(d); else box.append(d); }; }
+/* al guardar o cerrar el formulario abierto desde la reparación, se vuelve a ella */
+let PD_BACK=null; function pdBack(fn){ PD_BACK=fn; }
+new MutationObserver(()=>{ if(PD_BACK && $('#sheet2').hidden){ const f=PD_BACK; PD_BACK=null; setTimeout(()=>{ if($('#sheet2').hidden) f(); }, 260); } }).observe($('#sheet2'),{attributes:true,attributeFilter:['hidden']});
+/* al terminar la reparación, recordar lo que se apuntó (no se cierra con ella) */
+{ const _rf=repFinish; repFinish=function(rep){ const r=_rf(rep); const b=document.querySelector('#shBox .repnew'); const M=pdList().filter(p=>p.reparacion===rep._id && p.estado!=='hecho');
+    if(b && M.length){ const a=h2(`<div class="alr soon pdfin">${ic('flag')}<span>Durante esta reparación apuntaste ${pl(M.length,'cosa','cosas')} por arreglar: ${M.map(p=>'<b>'+esc(p.titulo)+'</b>').join(', ')}. Siguen en <b>Taller ▸ Pendientes</b>; no se cierran con la reparación.</span></div>`); b.prepend(a); }
+    return r; }; }
+
+/* ---------- Inicio: tarjeta con lo pendiente ---------- */
+{ const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); const box=$('#pgInicio'); if(!box || !S.cfg) return r;
+    box.querySelector('.pdhome')?.remove(); const A=pdOpen(); if(!A.length) return r;
+    const c=card2('Pendientes del taller','flag', A.length); c.classList.add('c12','pdhome','pdcard'); const l=c.querySelector('.l2');
+    for(const p of A.slice(0,3)) l.append(pdRow(p));
+    const m=h2(`<div class="row3 pdhacts"><button type="button" class="btn2 ghost sm">${ic('plus')}Anotar</button>${A.length>3?`<button type="button" class="btn2 ghost sm">Ver los ${A.length}${ic('chevR')}</button>`:''}</div>`);
+    const [b1,b2]=m.querySelectorAll('button'); b1.onclick=()=>{ uiSfx('tap'); pdForm(null); }; if(b2) b2.onclick=()=>{ uiSfx('tap'); go('mant','pend'); };
+    c.append(m); const after=box.querySelector('.repcard')||box.querySelector('.qadd'); if(after) after.after(c); else box.querySelector('.grid2')?.prepend(c); return r; }; }
+
+/* ---------- buscador ---------- */
+{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<2) return; const out=$('#srRes'); if(!out) return;
+    const P=pdList().filter(p=>norm([p.titulo,p.nota,p.zona,p.comoSeHizo,'pendiente'].join(' ')).includes(q)).slice(0,6); if(!P.length) return;
+    out.querySelector(':scope > .empty2')?.remove(); out.append(h2('<h5>Pendientes del taller</h5>'));
+    for(const p of P){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic(p.estado==='hecho'?'checkc':'flag')}</span><span class="tx"><b>${hl(p.titulo,q)}</b><small>${p.estado==='hecho'?'Subsanado':(PD_PRIO[p.prio]||PD_PRIO.pronto).t}${p.zona?' · '+esc(p.zona):''}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); pdSheet(p); }; out.append(r); }
+    const a=out.querySelector(':scope > .sracts'); if(a) out.append(a); }; }
+
+/* ---------- avisos (push / Telegram): lo que hay que arreglar antes de circular ---------- */
+function pdAvisos(){ const A=pdOpen(); return {total:A.length, ya:A.filter(p=>p.prio==='ya').map(p=>({titulo:p.titulo, fecha:p.fecha||null}))}; }
 
 
 connectDb();
