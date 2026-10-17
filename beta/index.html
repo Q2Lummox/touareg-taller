@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.3.1">
+<meta name="app-version" content="2.3.2">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2596,6 +2596,24 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
 .pdhacts{margin-top:10px;justify-content:flex-end;gap:8px}
 .pdfin{margin-bottom:6px}
 @media (prefers-reduced-motion:reduce){.pdrow.pdpop .pdchk svg{animation:none}}
+/* ===== 2.3.2 · Taller ▸ Reparaciones ===== */
+.pdcnt.rpcnt{background:var(--accent);color:#1a1003}
+.rphi{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 16%,var(--card-2));color:var(--accent)}.rphi svg{width:26px;height:26px}
+.rphero{grid-template-columns:56px minmax(0,1fr) auto}
+.rpcur .l2{display:flex;flex-direction:column;gap:8px}
+.rpitem{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;width:100%;padding:12px;border-radius:12px;background:var(--card-2);border:1px solid var(--card-line);border-left:3px solid var(--accent);color:var(--txt);text-align:left;font:inherit;cursor:pointer}
+.rpitem .tx b{display:block;font-weight:650}.rpitem .tx small{display:block;color:var(--txt-2);font-size:12px;margin-top:2px}
+.rpring{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--accent) calc(var(--p)*1%),var(--card-line) 0)}
+.rpring b{width:38px;height:38px;border-radius:50%;background:var(--card-2);display:grid;place-items:center;font:700 11.5px var(--f-body);font-variant-numeric:tabular-nums}
+.rpgo{display:flex;align-items:center;gap:2px;color:var(--accent);font-weight:700;font-size:13px}.rpgo svg{width:16px;height:16px}
+.rplibre{width:100%;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;border-radius:12px;border:1px dashed color-mix(in srgb,var(--accent) 60%,transparent);background:color-mix(in srgb,var(--accent) 10%,var(--card-2));color:var(--txt);text-align:left;font:inherit;cursor:pointer}
+.rplibre>svg:first-child{width:22px;height:22px;color:var(--accent)}.rplibre b{display:block}.rplibre small{display:block;color:var(--txt-2);font-size:12px}
+.rppick .rpgl{display:flex;flex-direction:column;gap:6px;margin-top:8px;max-height:46vh;overflow:auto}
+.rpadd{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin:2px 0 10px}
+.pdgal button{position:relative}.rpfk{position:absolute;left:6px;bottom:6px;font-style:normal;font:700 11px var(--f-body);padding:2px 7px;border-radius:12px;background:#000a;color:#fff}
+.rpsh{display:flex;align-items:center;gap:6px;margin:14px 0 6px;font-size:13px}.rpsh svg{width:15px;height:15px;color:var(--soon)}
+.pdsheet>.pdrow{margin-bottom:6px}
+@media (max-width:420px){.rphero{grid-template-columns:48px minmax(0,1fr)}.rphi{width:48px;height:48px}.tshort{grid-template-columns:repeat(3,1fr)!important}}
 </style>
 
 </head>
@@ -2638,7 +2656,7 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.3.1</span>
+  <span class="spver">v2.3.2</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6020,7 +6038,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='2.3.1';
+window.APP_VERSION='2.3.2';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6054,7 +6072,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.3.1';
+  const APP_VERSION='2.3.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -10993,7 +11011,7 @@ $('#fsBtn')?.addEventListener('click', ()=>setTimeout(wcFit,120));
 C2.push('reparaciones','seguimientos'); for(const c of ['reparaciones','seguimientos']) S.v2[c]=S.v2[c]||[];
 const repList=()=>(S.v2.reparaciones||[]);
 const repActiva=()=>repList().filter(r=>r.estado==='en_curso').sort((a,b)=>(b.inicio||'').localeCompare(a.inicio||''));
-const repGuia=r=>(S.procs||[]).find(p=>p._id===r.guia);
+const repGuia=r=>r.libre?{_id:null, titulo:r.titulo, pasos:(r.pasos&&r.pasos.length)?r.pasos:[{titulo:'Trabajo', texto:'Reparación sin guía: añade abajo los pasos que vayas haciendo y márcalos.'}], libre:true}:(S.procs||[]).find(p=>p._id===r.guia);
 const fmtD=iso=>iso?iso.split('-').reverse().join('/'):'';
 
 /* ---------- empezar ---------- */
@@ -11043,7 +11061,7 @@ function repRun(rep0){
     if(h.length===P.length){ celebrate(); toast('Todos los pasos hechos. Cuando quieras, pulsa «Terminar».'); } };
   const ta=box.querySelector('textarea'); ta.value=rep.notas||''; ta.onblur=()=>{ if(ta.value!==(rep.notas||'')) save({notas:ta.value}); };
   draw();
-  detailSheet(rep.titulo, 'Reparación en curso', box, [['Terminar','check',()=>repFinish(rep),'pri'],['Ver la guía entera','book',()=>guiaRead(pr)]]);
+  detailSheet(rep.titulo, 'Reparación en curso', box, [['Terminar','check',()=>repFinish(rep),'pri'], ...(pr.libre?[]:[['Ver la guía entera','book',()=>guiaRead(pr)]])]);
 }
 /* ---------- terminar ---------- */
 function repFinish(rep){
@@ -11612,6 +11630,95 @@ new MutationObserver(()=>{ if(PD_BACK && $('#sheet2').hidden){ const f=PD_BACK; 
 
 /* ---------- avisos (push / Telegram): lo que hay que arreglar antes de circular ---------- */
 function pdAvisos(){ const A=pdOpen(); return {total:A.length, ya:A.filter(p=>p.prio==='ya').map(p=>({titulo:p.titulo, fecha:p.fecha||null}))}; }
+
+/* ====================== TALLER ▸ REPARACIONES (2.3.2) ======================
+   Una pestaña propia: las reparaciones en curso (seguir), empezar una nueva (con una guía o sin guía,
+   escribiendo tú los pasos) y las terminadas, con fotos, lo apuntado en Pendientes y su intervención.
+   Reparación sin guía: reparaciones/{… libre:true, pasos:[{titulo, texto}]} */
+const repDone=()=>repList().filter(r=>r.estado==='terminada').sort((a,b)=>(b.fin||'').localeCompare(a.fin||''));
+const repPasos=r=>repGuia(r)?.pasos?.length||0;
+
+/* ---------- empezar: elegir guía o «sin guía» ---------- */
+function repPick(){
+  const G=(S.procs||[]).filter(p=>(p.pasos||[]).length>2).sort((a,b)=>COLL.compare(a.titulo||'', b.titulo||''));
+  const body=h2(`<div class="repnew rppick">
+    <button type="button" class="rplibre">${ic('edit')}<span><b>Sin guía</b><small>Le pones nombre y vas apuntando los pasos tú mismo</small></span>${ic('chevR')}</button>
+    ${G.length?`<label class="wzlab">O sigue una guía</label><input class="inp2 rpq" placeholder="Buscar guía…" autocomplete="off"><div class="l2 rpgl"></div>`:''}</div>`);
+  const L=body.querySelector('.rpgl');
+  const draw=q=>{ if(!L) return; L.innerHTML=''; const n=norm(q||''); const F=G.filter(p=>!n || norm(p.titulo||'').includes(n));
+    for(const p of F){ const ya=repActiva().find(r=>r.guia===p._id); L.append(row2({c:ya?'var(--accent)':'var(--info)', i:'book', t:p.titulo, s:ya?'Ya en curso · '+(ya.hechos||[]).length+' de '+p.pasos.length+' pasos':pl(p.pasos.length,'paso'), r:ya?'Seguir':'', fn:()=>ya?repRun(ya):repStart(p)})); }
+    if(!F.length) L.append(h2('<p class="muted2">Ninguna guía con ese nombre. Prueba «Sin guía».</p>')); };
+  draw(''); body.querySelector('.rpq')?.addEventListener('input', e=>draw(e.target.value));
+  body.querySelector('.rplibre').onclick=()=>{ uiSfx('tap'); repLibreStart(); };
+  detailSheet('Empezar una reparación', 'Elige cómo quieres hacerla', body, []);
+}
+function repLibreStart(){
+  const cands=(S.compras||[]).filter(c=>c.estado==='pendiente'||c.estado==='comprado'), aves=(S.ave||[]).filter(a=>a.estado!=='resuelta');
+  const body=h2(`<div class="repnew">
+    <label class="wzlab">¿Qué vas a hacer?</label><input class="inp2" id="rlT" placeholder="p. ej. Cambiar el cubrecárter" autocomplete="off">
+    <label class="wzlab">Pasos (uno por línea, opcional)</label><textarea class="inp2" id="rlP" rows="4" placeholder="Quitar los tornillos&#10;Bajar el cubrecárter&#10;Montar el nuevo"></textarea>
+    <p class="muted2" style="margin:4px 0 0;font-size:12px">Luego puedes añadir más pasos mientras trabajas.</p>
+    <label class="wzlab">Km del coche</label><input class="inp2" id="rlK" inputmode="numeric" value="${S.cfg?.kmActual??''}">
+    ${aves.length?`<label class="wzlab">Avería que arregla</label><select class="inp2" id="rlA" data-nosort><option value="">Ninguna</option>${aves.map(a=>`<option value="${a._id}">${esc(a.sintoma||a.codigo||'Avería')}</option>`).join('')}</select>`:''}
+    ${cands.length?`<label class="wzlab">Piezas que vas a montar</label><div class="rpcomp">${cands.map(c=>`<label class="chk"><input type="checkbox" value="${c._id}"><span>${esc(c.nombre)}${c.ref?` <small>${esc(c.ref)}</small>`:''}${c.estado==='comprado'?' <em>comprada</em>':''}</span></label>`).join('')}</div>`:''}</div>`);
+  detailSheet('Reparación sin guía', '', body, [['Empezar','wrench',async()=>{
+    const t=body.querySelector('#rlT').value.trim(); if(!t){ body.querySelector('#rlT').focus(); toast('Ponle un nombre'); return; }
+    const pasos=body.querySelector('#rlP').value.split('\n').map(x=>x.trim()).filter(Boolean).map(x=>({titulo:x, texto:''})), kv=body.querySelector('#rlK').value.trim();
+    const d={titulo:t, guia:null, libre:true, pasos, inicio:new Date().toISOString(), estado:'en_curso', hechos:[], paso:0, compras:[...body.querySelectorAll('.rpcomp input:checked')].map(x=>x.value), montadas:[], averia:body.querySelector('#rlA')?.value||null, km:kv===''?null:Number(kv), notas:''};
+    try{ const r=await S.db.collection('reparaciones').add(d); toast('Reparación empezada'); repRun({...d, _id:r.id}); }catch{ toast('No se pudo guardar','err'); } },'pri']]);
+  setTimeout(()=>{ if(!matchMedia('(hover: none)').matches) body.querySelector('#rlT')?.focus(); },120);
+}
+/* en una reparación sin guía: añadir pasos sobre la marcha */
+{ const _rr=repRun; repRun=function(rep0){ _rr(rep0); const box=document.querySelector('#shBox .reprun'); if(!box) return;
+    const rep=repList().find(x=>x._id===rep0._id)||rep0;
+    if(rep.libre){ const a=h2(`<div class="rpadd"><input class="inp2" placeholder="Añadir un paso…" autocomplete="off"><button type="button" class="btn2 ghost">${ic('plus')}Añadir</button></div>`);
+      const go2=async()=>{ const v=a.querySelector('input').value.trim(); if(!v) return; const cur=repList().find(x=>x._id===rep._id)||rep; const base=(cur.pasos&&cur.pasos.length)?cur.pasos:[];
+        const pasos=[...base, {titulo:v, texto:''}]; await v2Upd('reparaciones', cur, {pasos, paso:pasos.length-1}); uiSfx('tick'); repRun({...cur, pasos, paso:pasos.length-1}); };
+      a.querySelector('button').onclick=go2; a.querySelector('input').onkeydown=e=>{ if(e.key==='Enter') go2(); };
+      box.querySelector('.rpdots')?.after(a); }
+    const acts=document.querySelector('#shBox .dacts'); if(acts && !acts.querySelector('.rpaband')){ const b=h2(`<button type="button" class="btn2 ghost rpaband">${ic('x')}Abandonar</button>`);
+      b.onclick=async()=>{ if(!confirm('¿Abandonar esta reparación? No se apunta en el historial; lo marcado se pierde.')) return; const cur=repList().find(x=>x._id===rep._id)||rep; await v2Upd('reparaciones', cur, {estado:'cancelada', fin:new Date().toISOString()}); closeSheet(); v2toast('Reparación abandonada', ()=>v2Upd('reparaciones', {...cur}, {estado:'en_curso'})); };
+      acts.querySelector('.btn2:last-child')?.before(b); } }; }
+
+/* ---------- ficha de una reparación terminada ---------- */
+function repSheet(r){
+  const it=(S.int||[]).find(x=>x._id===r.intervencion), P=pdList().filter(p=>p.reparacion===r._id), cs=(r.compras||[]).map(id=>(S.compras||[]).find(c=>c._id===id)).filter(Boolean);
+  const fotos=[...(r.antes||[]).map(f=>({...f, k:'Antes'})), ...(r.despues||[]).map(f=>({...f, k:'Después'}))];
+  const dur=r.inicio&&r.fin?Math.max(0, Math.round((new Date(r.fin)-new Date(r.inicio))/864e5)):null;
+  const body=h2('<div class="pdsheet"></div>');
+  if(fotos.length){ const g=h2(`<div class="pdgal">${fotos.map((f,k)=>`<button type="button" data-k="${k}" aria-label="${f.k}"><img alt=""><i class="rpfk">${f.k}</i></button>`).join('')}</div>`);
+    g.querySelectorAll('button').forEach(b=>{ const f=fotos[+b.dataset.k]; window.FB?.blobThumb?.(f.id).then(u=>b.querySelector('img').src=u).catch(()=>{}); b.onclick=()=>openViewer({id:f.id, tipo:f.tipo||'image/jpeg', nombre:r.titulo+' · '+f.k}); }); body.append(g); }
+  body.append(kv([['Empezada', fmtDate((r.inicio||'').slice(0,10))], ['Terminada', fmtDate((r.fin||'').slice(0,10))+(dur!=null?` · ${dur===0?'el mismo día':pl(dur,'día')}`:'')], r.km!=null?['Km', kmT(r.km)]:null, ['Pasos', `${(r.hechos||[]).length} de ${repPasos(r)}${r.libre?' (sin guía)':''}`], cs.length?['Piezas', esc(cs.map(c=>c.nombre).join(', '))]:null, r.notas?['Notas', esc(r.notas).replace(/\n/g,'<br>')]:null]));
+  if(P.length){ body.append(h2(`<h5 class="rpsh">${ic('flag')}Apuntado en Pendientes</h5>`)); for(const p of P) body.append(pdRow(p,{noRep:true})); }
+  detailSheet(r.titulo, 'Reparación terminada', body, it?[['Ver en Trabajos hechos','history',()=>intSheet(it)]]:[]);
+}
+
+/* ---------- la pestaña ---------- */
+function renderReparaciones(w){
+  const A=repActiva(), D=repDone();
+  const top=h2(`<div class="card2 pdhero rphero c12"><span class="rphi">${ic('wrench')}</span><div class="pdhx"><b>${A.length?pl(A.length,'reparación en curso','reparaciones en curso'):'Ninguna reparación en curso'}</b><small>${A.length?'Toca una para seguir donde lo dejaste.':'Empieza una con una guía paso a paso o sin guía, escribiendo tú los pasos.'}${D.length?` · ${pl(D.length,'terminada')}`:''}</small></div><button type="button" class="btn2 pri pdadd">${ic('plus')}Empezar</button></div>`);
+  top.querySelector('.pdadd').onclick=()=>{ uiSfx('tap'); repPick(); }; w.append(top);
+  if(A.length){ const c=card2('En curso','wrench',A.length); c.classList.add('rpcur'); const L=c.querySelector('.l2');
+    for(const r of A){ const n=(r.hechos||[]).length, t=repPasos(r), pd=pdList().filter(p=>p.reparacion===r._id && p.estado!=='hecho').length;
+      const b=h2(`<button type="button" class="rpitem"><span class="rpring" style="--p:${t?Math.round(n/t*100):0}"><b>${n}/${t}</b></span><span class="tx"><b>${esc(r.titulo)}</b><small>${[r.libre?'Sin guía':'Con guía', 'empezada '+pdAgo(r.inicio), pd?pl(pd,'pendiente apuntado','pendientes apuntados'):''].filter(Boolean).join(' · ')}</small></span><span class="rpgo">Seguir${ic('chevR')}</span></button>`);
+      b.onclick=()=>{ uiSfx('tap'); repRun(r); }; L.append(b); }
+    w.append(c); }
+  if(D.length){ const c=card2('Terminadas','checkc',D.length); const L=c.querySelector('.l2');
+    for(const r of D.slice(0,40)){ const nf2=(r.antes||[]).length+(r.despues||[]).length, pd=pdList().filter(p=>p.reparacion===r._id).length, th=(r.despues||[])[0]||(r.antes||[])[0];
+      L.append(row2({c:'var(--ok)', i:'check', t:r.titulo, s:[fmtDate((r.fin||'').slice(0,10)), r.km!=null?kmT(r.km):'', nf2?pl(nf2,'foto'):'', pd?pl(pd,'pendiente'):''].filter(Boolean).join(' · '), thumb:th?.id, fn:()=>repSheet(r)})); }
+    w.append(c); }
+  if(!A.length && !D.length) w.append(emptyCard('wrench','Aquí verás las reparaciones que hagas paso a paso: las que tienes a medias y las terminadas, con sus fotos de antes y después y lo que apuntaste mientras trabajabas.','Empezar una reparación',repPick));
+}
+V2SUBS.mant.rep=renderReparaciones;
+{ SECS.mant.subs.splice(1,0,['rep','Reparaciones','wrench']); const st=$('#stMant');
+  if(st){ const b=h2(`<button type="button" role="tab" data-sub="rep">${ic('wrench')}<span>Reparaciones</span><b class="pdcnt rpcnt" hidden></b></button>`); b.onclick=()=>{ uiSfx('tap'); openSub('mant','rep'); setTop(); };
+    const plan=st.querySelector('button[data-sub="plan"]'); if(plan) plan.after(b); else st.append(b); } }
+{ const _ub=updateBadges; updateBadges=function(...a){ const r=_ub(...a); const b=document.querySelector('#stMant .rpcnt'); if(b){ const n=repActiva().length; b.hidden=!n; b.textContent=n; b.classList.add('on'); } return r; }; }
+NAVMENU.mant=[['wrench','Empezar una reparación',repPick], ...NAVMENU.mant];
+/* Inicio: «Taller en marcha» con botón para ver todas */
+{ const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); const c=$('#pgInicio')?.querySelector('.repcard'); if(c && !c.querySelector('.rpall')){ const m=h2(`<div class="row3 pdhacts rpall"><button type="button" class="btn2 ghost sm">${ic('wrench')}Reparaciones${ic('chevR')}</button></div>`); m.querySelector('button').onclick=()=>{ uiSfx('tap'); go('mant','rep'); }; c.append(m); } return r; }; }
+/* el tablero del Taller: acceso directo */
+{ const _rm=renderMant; renderMant=function(){ _rm(); const s=$('#ovlBody')?.querySelector('.tshort'); if(s && !s.querySelector('[data-k="rep"]')){ const b=h2(`<button type="button" data-k="rep">${ic('wrench')}<span>Reparar</span></button>`); b.onclick=()=>{ uiSfx('tap'); go('mant','rep'); }; s.prepend(b); s.style.gridTemplateColumns='repeat(5,1fr)'; } }; }
 
 
 connectDb();

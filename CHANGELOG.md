@@ -1,5 +1,10 @@
 # Novedades
 
+## v2.3.2 · 2026-10-17
+- Taller ▸ Reparaciones: las que tienes en curso, empezar una nueva (con guía o sin guía) y las terminadas con sus fotos
+- Reparaciones sin guía: escribes tú los pasos y puedes añadir más mientras trabajas
+- Botón «Abandonar» para una reparación empezada por error
+
 ## v2.3.1 · 2026-10-17
 - Fotos: ahora puedes elegirlas de la galería además de hacerlas con la cámara (Pendientes, antes/después y ticket)
 
