@@ -1,12 +1,17 @@
 {
- "version": "2.3.0",
+ "version": "2.3.1",
  "fecha": "2026-10-17",
  "notas": [
-  "Taller ▸ Pendientes: apunta con foto lo que ves roto o que falta mientras trabajas, mándalo a la compra y táchalo al arreglarlo",
-  "Botón «Anotar algo que he visto» dentro de la reparación en curso",
-  "Pendientes en Inicio, en el buscador y en los avisos"
+  "Fotos: ahora puedes elegirlas de la galería además de hacerlas con la cámara (Pendientes, antes/después y ticket)"
  ],
  "historial": [
+  {
+   "version": "2.3.1",
+   "fecha": "2026-10-17",
+   "notas": [
+    "Fotos: ahora puedes elegirlas de la galería además de hacerlas con la cámara (Pendientes, antes/después y ticket)"
+   ]
+  },
   {
    "version": "2.3.0",
    "fecha": "2026-10-17",

@@ -1,5 +1,8 @@
 # Novedades
 
+## v2.3.1 · 2026-10-17
+- Fotos: ahora puedes elegirlas de la galería además de hacerlas con la cámara (Pendientes, antes/después y ticket)
+
 ## v2.3.0 · 2026-10-17
 - Taller ▸ Pendientes: apunta con foto lo que ves roto o que falta mientras trabajas, mándalo a la compra y táchalo al arreglarlo
 - Botón «Anotar algo que he visto» dentro de la reparación en curso

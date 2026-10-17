@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.3.0">
+<meta name="app-version" content="2.3.1">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2638,7 +2638,7 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.3.0</span>
+  <span class="spver">v2.3.1</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6020,7 +6020,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='2.3.0';
+window.APP_VERSION='2.3.1';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6054,7 +6054,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.3.0';
+  const APP_VERSION='2.3.1';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -11378,7 +11378,7 @@ IC.download=IC.download||'<path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/>';
 /* ---------- 14 · fotos de antes y después en la reparación ---------- */
 { const _rr=repRun; repRun=function(rep0){ _rr(rep0); const box=document.querySelector('#shBox .reprun'); if(!box) return;
     const rep=repList().find(x=>x._id===rep0._id)||rep0;
-    const d=h2(`<details class="rpparts rpfotos"><summary>${ic('camera')}Fotos de antes y después <em>${(rep.antes||[]).length} · ${(rep.despues||[]).length}</em></summary><div class="rpfrow"><label class="btn2 ghost sm">${ic('camera')}Antes<input type="file" accept="image/*" capture="environment" multiple hidden data-k="antes"></label><label class="btn2 ghost sm">${ic('camera')}Después<input type="file" accept="image/*" capture="environment" multiple hidden data-k="despues"></label></div><p class="muted2 rpfst"></p></details>`);
+    const d=h2(`<details class="rpparts rpfotos"><summary>${ic('camera')}Fotos de antes y después <em>${(rep.antes||[]).length} · ${(rep.despues||[]).length}</em></summary><div class="rpfrow"><label class="btn2 ghost sm">${ic('camera')}Antes<input type="file" accept="image/*" multiple hidden data-k="antes"></label><label class="btn2 ghost sm">${ic('camera')}Después<input type="file" accept="image/*" multiple hidden data-k="despues"></label></div><p class="muted2 rpfst"></p></details>`);
     d.querySelectorAll('input').forEach(i=>i.onchange=async()=>{ const k=i.dataset.k, st=d.querySelector('.rpfst'); const up=await uploadFiles([...i.files], st); const cur=repList().find(x=>x._id===rep._id)||rep;
       await v2Upd('reparaciones', cur, {[k]:[...(cur[k]||[]), ...up]}); st.textContent=`${pl(up.length,'foto guardada','fotos guardadas')} (${k}).`; uiSfx('save'); });
     box.querySelector('.rpnotes')?.before(d); }; }
@@ -11402,7 +11402,7 @@ function ticketParse(txt){ const L=txt.split(/\n+/).map(s=>s.trim()).filter(Bool
   const tienda=L.find(l=>/[a-záéíóúñ]{3}/i.test(l) && !/factura|ticket|fecha|cif|nif|tel|www|calle|c\/|avda/i.test(l) && l.length<=40)||'';
   return {total, fecha, tienda}; }
 { const _cs=compraSheet; compraSheet=function(c, mode){ const r=_cs(c, mode); const b=document.querySelector('#shBox'); const p=b?.querySelector('#cpP'); if(!p || b.querySelector('.ocrbtn')) return r;
-    const bt=h2(`<label class="btn2 ghost ocrbtn">${ic('camera')}<span>Leer el ticket con la cámara</span><input type="file" accept="image/*" capture="environment" hidden></label>`), st=h2('<p class="muted2 ocrst" hidden></p>');
+    const bt=h2(`<label class="btn2 ghost ocrbtn">${ic('camera')}<span>Leer el ticket (foto o galería)</span><input type="file" accept="image/*" hidden></label>`), st=h2('<p class="muted2 ocrst" hidden></p>');
     bt.querySelector('input').onchange=async e=>{ const f=e.target.files?.[0]; if(!f) return; st.hidden=false; st.textContent='Leyendo el ticket… (la primera vez tarda un poco)';
       try{ const w=await ocrLoad(); const {data}=await w.recognize(f); const t=ticketParse(data.text||'');
         if(t.total!=null) p.value=t.total.toFixed(2); if(t.fecha && b.querySelector('#cpF')) b.querySelector('#cpF').value=t.fecha; if(t.tienda && b.querySelector('#cpT') && !b.querySelector('#cpT').value) b.querySelector('#cpT').value=t.tienda;
@@ -11444,7 +11444,7 @@ function pdForm(p0, opts={}){
     <label class="wzlab">¿Qué has visto?</label>
     <div class="pdtipos">${PD_TIPO.map(([k,t,i])=>`<button type="button" data-k="${k}" aria-pressed="${d.tipo===k}">${ic(i)}<span>${t}</span></button>`).join('')}</div>
     <input class="inp2" id="pdT" value="${esc(d.titulo)}" placeholder="p. ej. Falta un tornillo del cubrecárter, lado izquierdo" autocomplete="off">
-    <div class="pdfotos"><label class="pdcam">${ic('camera')}<span>Foto</span><input type="file" accept="image/*" capture="environment" multiple hidden></label></div>
+    <div class="pdfotos"><label class="pdcam">${ic('image')}<span>Añadir foto</span><input type="file" accept="image/*" multiple hidden></label></div>
     <label class="wzlab">¿Corre prisa?</label>
     <div class="pdseg">${Object.entries(PD_PRIO).map(([k,v])=>`<button type="button" data-k="${k}" aria-pressed="${d.prio===k}" style="--c:${v.c}">${ic(v.i)}<span>${v.t}</span></button>`).join('')}</div>
     <label class="wzlab">Zona</label>
