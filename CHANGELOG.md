@@ -1,5 +1,15 @@
 # Novedades
 
+## v2.2.0 · 2026-10-17
+- Trabajos repetidos: aviso y borrado con un toque
+- Gastos: valor actual del coche, lo que te cuesta de verdad, coste por km y gráfico de gasto acumulado
+- Leer el ticket con la cámara al marcar una compra
+- Usar sin conexión: descarga dibujos y láminas al móvil
+- Reparaciones con fotos de antes y después (van a la galería)
+- Inicio con averías abiertas y lo siguiente del plan; accesos rápidos en Taller
+- Buscador: pares de apriete y pasos de guías; aviso de km al actualizar el cuentakilómetros
+- Importación: avisa de lo que la versión no entiende y admite mejoras
+
 ## v2.1.9 · 2026-10-17
 - Gastos: movimientos sin la flecha, más compactos
 

@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="2.1.9">
+<meta name="app-version" content="2.2.0">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2513,6 +2513,18 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
 .cochecost .ccrow{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--card-line)}
 .cochecost .ccrow small{opacity:.65}.cochecost .ccrow.tot{border-bottom:0;font-size:1.05em}.cochecost .ccrow.tot b{color:var(--accent)}
 .cochecost .btn2{margin-top:8px}
+/* ---- 2.2 ---- */
+.dupban{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 10px}.dupban span{flex:1;min-width:180px}
+.cchint{margin:6px 0 0!important;font-size:12px}
+.accw{padding:2px 0}.accsvg{width:100%;height:150px;display:block}
+.accl{fill:none;stroke:var(--accent);stroke-width:2.2;vector-effect:non-scaling-stroke}.acca{fill:color-mix(in srgb,var(--accent) 16%,transparent)}
+.accb{stroke:var(--txt-3);stroke-dasharray:4 4;stroke-width:1;vector-effect:non-scaling-stroke}
+.accleg{display:flex;justify-content:space-between;font-size:12.5px;opacity:.85;margin-top:4px}.accleg b{color:var(--accent);font-size:14px}
+.tshort{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 12px}
+.tshort button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:12px;border:1px solid var(--card-line);background:var(--card);color:inherit;font:600 12px var(--f-body);cursor:pointer}
+.tshort svg{width:20px;height:20px;color:var(--accent)}
+.rpfrow{display:flex;gap:8px;margin-top:8px}.rpfrow .btn2{cursor:pointer}.rpfst{margin:6px 0 0!important;font-size:12px}
+.ocrbtn{display:flex;justify-content:center;margin:4px 0 6px;cursor:pointer}.ocrst{margin:0 0 6px!important;font-size:12.5px}
 </style>
 
 </head>
@@ -2555,7 +2567,7 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v2.1.9</span>
+  <span class="spver">v2.2.0</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5937,6 +5949,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
+window.APP_VERSION='2.2.0';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -5970,7 +5983,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='2.1.9';
+  const APP_VERSION='2.2.0';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -11170,7 +11183,7 @@ function cocheEdit(){
   sheet(box, b=>b.classList.add('v2f'));
 }
 { const _rg=renderGastos2; renderGastos2=function(...a){ const r=_rg(...a); const w=$('#pbMant')?.querySelector('.wrap'); if(!w || !S.cfg) return r;
-    const pc=Number(S.cfg.precioCompra)||0, gast=gastosMov().reduce((s,x)=>s+x.eur,0);
+    const pc=Number(S.cfg.precioCompra)||0, gast=gastosMov().filter(x=>!S.cfg.fechaCompra || !x.fecha || x.fecha>=S.cfg.fechaCompra).reduce((s,x)=>s+x.eur,0);
     const c=h2(`<div class="card2 cochecost"><h3>${ic('car')}El coche<span class="cnt">${pc?eur(pc+gast):'—'}</span></h3>
       <div class="ccrow"><span>Precio de compra${S.cfg.fechaCompra?` <small>(${fmtDate(S.cfg.fechaCompra)})</small>`:''}</span><b>${pc?eur(pc):'Sin apuntar'}</b></div>
       <div class="ccrow"><span>Gastado desde entonces</span><b>${eur(gast)}</b></div>
@@ -11178,6 +11191,154 @@ function cocheEdit(){
       <button type="button" class="btn2 ghost sm">${ic('edit')}${pc?'Cambiar precio':'Apuntar lo que costó'}</button></div>`);
     c.querySelector('button').onclick=()=>{ uiSfx('tap'); cocheEdit(); };
     const st=w.querySelector('.stchips'); if(st) st.after(c); else w.prepend(c); return r; }; }
+
+/* ====================== 2.2: PAQUETE DE MEJORAS ======================
+   Duplicados en Trabajos hechos · avisos al importar · valor del coche y coste por km real · aviso de km ·
+   uso sin conexión · Inicio con lo urgente · buscador con pares y pasos · accesos rápidos en Taller ·
+   gráfico de gasto acumulado · fotos de antes y después en las reparaciones · ticket leído con la cámara */
+
+/* ---------- 1 · trabajos repetidos ---------- */
+function intDupes(){ const seen=new Map(), dup=[];
+  for(const x of [...S.int].sort((a,b)=>(a.creado||'').localeCompare(b.creado||''))){ const k=[x.fecha, x.mant||'', x.pieza||'', norm(x.descripcion||''), x.km??'', x.tipo||''].join('|'); if(seen.has(k)) dup.push(x); else seen.set(k,x); }
+  return dup; }
+{ const _rm=renderMant; renderMant=function(){ _rm(); const sec=$('#ovlBody')?.querySelector('.mhecho'); if(!sec || sec.querySelector('.dupban')) return; const D=intDupes(); if(!D.length) return;
+    const b=h2(`<div class="dupban alr soon">${ic('alert')}<span>Hay <b>${pl(D.length,'trabajo repetido','trabajos repetidos')}</b> (misma fecha, km y descripción).</span><button type="button" class="btn2 sm">Quitar repetidos</button></div>`);
+    b.querySelector('button').onclick=async()=>{ if(!confirm(`¿Borrar ${pl(D.length,'trabajo repetido','trabajos repetidos')}? Se deja uno de cada.`)) return; const bk=D.map(x=>({id:x._id, d:stripId2(x)}));
+      for(const x of D) await S.db.collection('intervenciones').doc(x._id).delete();
+      toast(`${pl(D.length,'repetido borrado','repetidos borrados')}`, null, {label:'Deshacer', fn:async()=>{ for(const x of bk) await S.db.collection('intervenciones').doc(x.id).set(x.d); }}); };
+    sec.querySelector('h4').after(b); }; }
+
+/* ---------- 3 · importación: avisar de lo que esta versión no entiende ---------- */
+const IMP_KEYS=new Set(['formato','version','lote','laminas','pares','guias','ficha','manuales','circuitos','electrico','averias','compras','coche','mejoras','minApp']);
+{ const _ic=importCheck; importCheck=function(d){ const r=_ic(d);
+    const unk=Object.keys(d||{}).filter(k=>!IMP_KEYS.has(k)); if(unk.length) r.warn.push(`Este archivo trae datos que esta versión no sabe importar (${unk.join(', ')}): se ignorarán. Actualiza la app y vuelve a importarlo.`);
+    if(d?.minApp && window.APP_VERSION && vCmp(window.APP_VERSION, d.minApp)<0) r.err.push(`Este archivo necesita la versión ${d.minApp} o posterior (tienes la ${window.APP_VERSION}). Actualiza la app primero.`);
+    r.n.mejoras=(d?.mejoras||[]).length; return r; }; }
+const vCmp=(a,b)=>{ const x=String(a).split(/[.-]/).map(n=>parseInt(n)||0), y=String(b).split(/[.-]/).map(n=>parseInt(n)||0); for(let i=0;i<3;i++){ const k=(x[i]||0)-(y[i]||0); if(k) return k; } return 0; };
+/* mejoras en el archivo: se crean y se enlazan con las compras por nombre */
+{ const _ir=importRun; importRun=async function(d, st){ const res=await _ir(d, st); if(!(d.mejoras||[]).length) return res;
+    const rec=res.rec, docs=[...(rec.docs||[])];
+    for(const m of d.mejoras){ const ex=S.v2.mejoras.find(x=>x.titulo===m.titulo); const ids=(S.compras||[]).filter(c=>(m.compras||[]).some(n=>norm(n)===norm(c.nombre))).map(c=>c._id);
+      const data={titulo:m.titulo, categoria:m.categoria||'', estado:m.estado||'curso', presupuesto:m.presupuesto??null, piezas:m.piezas||'', notas:m.notas||'', inicio:m.inicio||todayISO(), compras:[...new Set([...(ex?.compras||[]), ...ids])], antes:ex?.antes||[], despues:ex?.despues||[], actualizado:new Date().toISOString(), lote:res.id};
+      if(ex){ rec.prev['mejoras/'+ex._id]=stripId2(ex); await S.db.collection('mejoras').doc(ex._id).set({...stripId2(ex), ...data}); docs.push('mejoras/'+ex._id); }
+      else { const r=await S.db.collection('mejoras').add(data); docs.push('mejoras/'+r.id); } }
+    await S.db.collection('lotes').doc(res.id).set({...rec, docs}); return res; }; }
+
+/* ---------- 6 y 7 · valor del coche y coste por km real ---------- */
+cocheEdit=function(){
+  const c=S.cfg||{};
+  const box=h2(`<div><h3>El coche: compra y valor</h3><p class="muted2" style="margin:-4px 0 10px">Con esto la app calcula la inversión total, lo que te cuesta de verdad y el coste por kilómetro.</p>
+    <label class="wzlab">Precio pagado (€)</label><input class="inp2" id="ccP" type="number" inputmode="decimal" min="0" step="1" value="${esc(c.precioCompra??'')}" placeholder="0">
+    <label class="wzlab">Fecha de compra</label><input class="inp2" id="ccF" type="date" value="${esc(c.fechaCompra||'')}">
+    <label class="wzlab">Km al comprarlo</label><input class="inp2" id="ccK" type="number" inputmode="numeric" min="0" step="1" value="${esc(c.kmCompra??'')}" placeholder="p. ej. 265000">
+    <label class="wzlab">Lo que vale hoy (€, estimado)</label><input class="inp2" id="ccV" type="number" inputmode="decimal" min="0" step="50" value="${esc(c.valorActual??'')}" placeholder="Mira anuncios de Touareg 2.5 TDI parecidos">
+    <div class="row3"><button class="btn2 ghost" type="button" id="ccNo">Cancelar</button><button class="btn2" type="button" id="ccOk">${ic('check')}Guardar</button></div></div>`);
+  const n=id=>{ const v=box.querySelector(id).value; return v===''?null:Number(v); };
+  box.querySelector('#ccNo').onclick=closeSheet;
+  box.querySelector('#ccOk').onclick=async()=>{ await S.db.doc('config/coche').set({...(S.cfg||{}), precioCompra:n('#ccP'), fechaCompra:box.querySelector('#ccF').value||null, kmCompra:n('#ccK'), valorActual:n('#ccV'), valorFecha:n('#ccV')!=null?todayISO():null}); closeSheet(); uiSfx('save'); toast('Datos del coche guardados'); };
+  sheet(box, b=>b.classList.add('v2f'));
+};
+function cocheNums(){ const c=S.cfg||{}, pc=Number(c.precioCompra)||0, mov=gastosMov(), desde=c.fechaCompra||'', gast=mov.filter(x=>!desde || !x.fecha || x.fecha>=desde).reduce((s,x)=>s+x.eur,0);
+  const val=c.valorActual!=null&&c.valorActual!==''?Number(c.valorActual):null, km=num(c.kmActual), k0=num(c.kmCompra), rec=km!=null&&k0!=null?km-k0:null;
+  const real=pc+gast-(val??0); return {pc, gast, inv:pc+gast, val, real, rec, ckm:rec>0?(val!=null?real:pc+gast)/rec:null}; }
+{ const _rg=renderGastos2; renderGastos2=function(...a){ const r=_rg(...a); const c=$('#pbMant')?.querySelector('.cochecost'); if(!c) return r; const N=cocheNums();
+    const extra=h2(`<div>${N.val!=null?`<div class="ccrow"><span>Lo que vale hoy${S.cfg.valorFecha?` <small>(${fmtDate(S.cfg.valorFecha)})</small>`:''}</span><b>${eur(N.val)}</b></div><div class="ccrow tot"><span>Lo que te cuesta de verdad</span><b>${eur(N.real)}</b></div>`:''}
+      ${N.ckm!=null?`<div class="ccrow"><span>Coste por km, todo incluido <small>(${nf.format(N.rec)} km desde la compra)</small></span><b>${N.ckm.toLocaleString('es-ES',{maximumFractionDigits:2})} €/km</b></div>`:''}</div>`);
+    c.querySelector('.ccrow.tot').after(...extra.children); const bt=c.querySelector('button'); bt.innerHTML=ic('edit')+(S.cfg.precioCompra?'Editar compra y valor':'Apuntar lo que costó');
+    if(!S.cfg.kmCompra || S.cfg.valorActual==null) c.append(h2(`<p class="muted2 cchint">${!S.cfg.kmCompra?'Apunta los km al comprarlo para ver el coste por km. ':''}${S.cfg.valorActual==null?'Pon lo que vale hoy para ver lo que te cuesta de verdad.':''}</p>`));
+    /* 13 · gráfico de gasto acumulado */
+    const g=accChart(); if(g){ const k=card2('Gasto acumulado','chart'); k.querySelector('.l2').replaceWith(g); c.after(k); }
+    return r; }; }
+function accChart(){ const c=S.cfg||{}, pc=Number(c.precioCompra)||0, mov=[...gastosMov()].map(x=>x.fecha?x:{...x, fecha:todayISO()}).sort((a,b)=>a.fecha.localeCompare(b.fecha)); if(!mov.length && !pc) return null;
+  const t0=c.fechaCompra||mov[0]?.fecha, pts=[[t0, pc]]; let acc=pc; for(const x of mov){ if(x.fecha<t0) continue; acc+=x.eur; pts.push([x.fecha, acc]); } pts.push([todayISO(), acc]); if(pts.length<2) return null;
+  const T=s=>new Date(s+'T12:00:00').getTime(), a=T(pts[0][0]), b=Math.max(a+864e5, T(pts[pts.length-1][0])), mx=Math.max(...pts.map(p=>p[1]))||1, W=600, H=180, P=8;
+  const X=t=>P+(T(t)-a)/(b-a)*(W-2*P), Y=v=>H-P-(v/mx)*(H-2*P-14);
+  let d=`M${X(pts[0][0]).toFixed(1)},${Y(pts[0][1]).toFixed(1)}`; for(let i=1;i<pts.length;i++){ d+=` H${X(pts[i][0]).toFixed(1)} V${Y(pts[i][1]).toFixed(1)}`; }
+  const area=d+` V${H-P} H${P} Z`, base=pc?Y(pc):null;
+  return h2(`<div class="accw"><svg viewBox="0 0 ${W} ${H}" class="accsvg" preserveAspectRatio="none" role="img" aria-label="Gasto acumulado"><path d="${area}" class="acca"/><path d="${d}" class="accl"/>${base!=null?`<line x1="${P}" x2="${W-P}" y1="${base}" y2="${base}" class="accb"/>`:''}</svg>
+    <div class="accleg"><span>${fmtDate(pts[0][0])}${pc?' · coche '+eur(pc):''}</span><b>${eur(acc)}</b></div></div>`); }
+
+/* ---------- 8 · al actualizar los km, avisar de lo que toca por kilómetros ---------- */
+{ let last=null; const chk=()=>{ const km=num(S.cfg?.kmActual); if(km==null || km===last) return; const first=last==null; last=km; if(first) return;
+    const L=mantList().filter(({s})=>s.kmLeft!=null && s.kmLeft<=1500); if(!L.length) return;
+    const t=L.slice(0,3).map(({it,s})=>`${it.nombre}: ${s.kmLeft<=0?'pasado '+nf.format(-s.kmLeft)+' km':'faltan '+nf.format(s.kmLeft)+' km'}`).join(' · ');
+    toast(`${ic('wrench')} ${L.length===1?'Toca pronto':'Tocan pronto'}: ${t}`, null, {label:'Ver plan', fn:()=>go('mant','plan')}); };
+  { const _k=kmHook; kmHook=function(km){ const r=_k(km); setTimeout(chk,300); return r; }; } }
+
+/* ---------- 9 · preparar para usar sin conexión ---------- */
+function offlineIds(){ const ids=new Set(); const add=o=>{ if(o?.id) ids.add(o.id); };
+  for(const p of (S.procs||[])) for(const s of (p.pasos||[])) add(s.img);
+  for(const c of S.v2.catalogo||[]) add(c.img); for(const c of S.v2.electrico||[]) add(c.img); for(const c of S.v2.circuitos||[]) (c.esquemas||[]).forEach(add);
+  return [...ids]; }
+async function offlinePrep(st){ const ids=offlineIds(); let ok=0, i=0;
+  for(const id of ids){ i++; st.textContent=`Descargando dibujos e imágenes ${i} de ${ids.length}…`; try{ await window.FB.blobURL(id); ok++; }catch{} }
+  try{ localStorage.setItem('t7-offline', JSON.stringify({fecha:new Date().toISOString(), n:ok})); }catch{}
+  return {ok, total:ids.length}; }
+{ const _d=MAS2.datos[1]; MAS2.datos[1]=function(w){ _d(w); let info=null; try{ info=JSON.parse(localStorage.getItem('t7-offline')||'null'); }catch{}
+    const c=card2('Usar sin conexión','cloud'); const l=c.querySelector('.l2');
+    l.append(h2(`<p class="muted2" style="margin:0 0 8px">Descarga al móvil los dibujos de las guías, las láminas de ETKA y los esquemas, para tenerlos en el taller aunque no haya cobertura. Hazlo con wifi.${info?`<br><small>Última vez: ${fmtDate(info.fecha.slice(0,10))} · ${pl(info.n,'archivo')}</small>`:''}</p>`));
+    const st=h2('<p class="muted2" style="margin:0 0 8px"></p>'), b=h2(`<button type="button" class="btn2 pri">${ic('download')}Preparar para usar sin conexión</button>`);
+    b.onclick=async()=>{ b.disabled=true; const r=await offlinePrep(st); st.textContent=`Listo: ${r.ok} de ${r.total} archivos guardados en este dispositivo.`; b.disabled=false; uiSfx('save'); };
+    l.append(st, b); w.append(c); }; }
+IC.download=IC.download||'<path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/>';
+
+/* ---------- 10 · Inicio: lo urgente arriba ---------- */
+{ const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); const box=$('#pgInicio'); if(!box || !S.cfg) return r;
+    const aves=(S.ave||[]).filter(x=>x.estado!=='resuelta'); let c=box.querySelector('.repcard');
+    if(aves.length){ if(!c){ c=card2('Taller en marcha','wrench'); c.classList.add('c12','repcard'); const q=box.querySelector('.qadd'); if(q) q.after(c); else box.querySelector('.grid2')?.prepend(c); }
+      const L=c.querySelector('.l2'); for(const x of aves.slice(0,3)) L.prepend(row2({c:'var(--due)', i:'alert', t:x.sintoma||x.codigo||'Avería', s:`Avería abierta${x.fecha?' desde el '+fmtDate(x.fecha):''}`, r:'Ver', fn:()=>{ S.aveEdit=x; go('coche','ave'); }})); }
+    if(c){ const nx=mantList().find(({s})=>s.st!=='ok'); if(nx && !c.querySelector('.rnext')){ const rr=row2({c:nx.s.st==='due'?'var(--due)':'var(--soon)', i:'calendar', t:nx.it.nombre, s:'Siguiente del plan · '+ST_LABEL[nx.s.st], fn:()=>go('mant','plan')}); rr.classList.add('rnext'); c.querySelector('.l2').append(rr); } }
+    return r; }; }
+
+/* ---------- 11 · buscador: pares de apriete y pasos de guías ---------- */
+{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<2) return; const out=$('#srRes'); if(!out) return;
+    const P=S.v2.pares.flatMap(x=>(x.items||[]).map(i=>({...i, g:i.grupo||x.grupo}))).filter(p=>norm(p.componente+' '+p.valor+' par apriete nm '+(p.nota||'')).includes(q)).slice(0,6);
+    const G=[]; for(const p of (S.procs||[])) (p.pasos||[]).forEach((s,i)=>{ if(G.length<6 && norm([s.titulo,s.texto,s.par,s.herr].join(' ')).includes(q)) G.push({p, s, i}); });
+    if(!P.length && !G.length) return; out.querySelector(':scope > .empty2')?.remove();
+    if(P.length){ out.append(h2('<h5>Pares de apriete</h5>')); for(const p of P){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic('wrench')}</span><span class="tx"><b>${hl(p.componente,q)}</b><small>${hl(p.valor,q)}${p.nota?' · '+esc(p.nota):''}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); go('mas'); masOpen('ficha'); setTimeout(()=>{ const f=$('#pbMas .ftq')||document.querySelector('.ftq'); if(f){ f.value=p.componente; f.dispatchEvent(new Event('input')); } },300); }; out.append(r); } }
+    if(G.length){ out.append(h2('<h5>Pasos de guías</h5>')); for(const {p,s,i} of G){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic('book')}</span><span class="tx"><b>${hl(s.titulo||('Paso '+(i+1)),q)}</b><small>${esc(p.titulo)}${s.par?' · '+esc(s.par):''}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); guiaRead(p, i); }; out.append(r); } }
+    const a=out.querySelector(':scope > .sracts'); if(a) out.append(a); }; }
+
+/* ---------- 12 · Taller: accesos directos a guías, piezas y ficha técnica ---------- */
+{ const _rm=renderMant; renderMant=function(){ _rm(); const body=$('#ovlBody'); if(!body || popMode!=='mant' || S.mantTab==='hist' || body.querySelector('.tshort')) return;
+    const s=h2(`<div class="tshort">${[['procs','book','Guías'],['fichas','tag','Piezas'],['ficha','gauge','Ficha y pares'],['diag','search','Diagnóstico']].map(([k,i,t])=>`<button type="button" data-k="${k}">${ic(i)}<span>${t}</span></button>`).join('')}</div>`);
+    s.querySelectorAll('button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); go('mas'); masOpen(b.dataset.k); }); body.prepend(s); }; }
+
+/* ---------- 14 · fotos de antes y después en la reparación ---------- */
+{ const _rr=repRun; repRun=function(rep0){ _rr(rep0); const box=document.querySelector('#shBox .reprun'); if(!box) return;
+    const rep=repList().find(x=>x._id===rep0._id)||rep0;
+    const d=h2(`<details class="rpparts rpfotos"><summary>${ic('camera')}Fotos de antes y después <em>${(rep.antes||[]).length} · ${(rep.despues||[]).length}</em></summary><div class="rpfrow"><label class="btn2 ghost sm">${ic('camera')}Antes<input type="file" accept="image/*" capture="environment" multiple hidden data-k="antes"></label><label class="btn2 ghost sm">${ic('camera')}Después<input type="file" accept="image/*" capture="environment" multiple hidden data-k="despues"></label></div><p class="muted2 rpfst"></p></details>`);
+    d.querySelectorAll('input').forEach(i=>i.onchange=async()=>{ const k=i.dataset.k, st=d.querySelector('.rpfst'); const up=await uploadFiles([...i.files], st); const cur=repList().find(x=>x._id===rep._id)||rep;
+      await v2Upd('reparaciones', cur, {[k]:[...(cur[k]||[]), ...up]}); st.textContent=`${pl(up.length,'foto guardada','fotos guardadas')} (${k}).`; uiSfx('save'); });
+    box.querySelector('.rpnotes')?.before(d); }; }
+/* al terminar, las fotos pasan a la galería (álbum Reparaciones) y a la intervención */
+{ let pend=null; const _rf=repFinish; repFinish=function(rep){ pend=rep._id; return _rf(rep); };
+  const tryGal=async()=>{ if(!pend) return; const rep=repList().find(x=>x._id===pend); if(!rep || rep.estado!=='terminada' || rep.galeria) return; pend=null;
+    const fotos=[...(rep.antes||[]).map(f=>({...f, nombre:'Antes · '+(f.nombre||'')})), ...(rep.despues||[]).map(f=>({...f, nombre:'Después · '+(f.nombre||'')}))]; if(!fotos.length) return;
+    const g=await S.db.collection('galeria').add({album:'Reparaciones', fecha:todayISO(), titulo:rep.titulo, km:rep.km??null, fotos, notas:'Antes y después de la reparación', actualizado:new Date().toISOString()});
+    const it=S.int.find(x=>x._id===rep.intervencion); if(it){ await S.db.collection('intervenciones').doc(it._id).set({...stripId2(it), adjuntos:[...(it.adjuntos||[]), ...fotos]}); }
+    await v2Upd('reparaciones', rep, {galeria:g.id}); };
+  setInterval(tryGal, 2500); }
+
+/* ---------- 5 · leer el ticket con la cámara (OCR en el propio móvil) ---------- */
+let OCR=null;
+async function ocrLoad(){ if(OCR) return OCR; await new Promise((ok,ko)=>{ const s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js'; s.onload=ok; s.onerror=ko; document.head.append(s); });
+  OCR=await window.Tesseract.createWorker('spa'); return OCR; }
+function ticketParse(txt){ const L=txt.split(/\n+/).map(s=>s.trim()).filter(Boolean), amt=s=>{ const m=[...s.matchAll(/(\d{1,5}(?:[.\s]\d{3})*[.,]\d{2})(?!\d)/g)].map(x=>Number(x[1].replace(/[.\s](?=\d{3}\b)/g,'').replace(',','.'))); return m; };
+  let total=null; for(const l of L){ if(/total|importe|a pagar|tarjeta|efectivo/i.test(l) && !/sub\s*total|base|iva\s*\d/i.test(l)){ const a=amt(l); if(a.length) total=Math.max(total??0, ...a); } }
+  if(total==null){ const all=L.flatMap(amt); if(all.length) total=Math.max(...all); }
+  let fecha=null; for(const l of L){ const m=l.match(/(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{2,4})/); if(m){ let y=+m[3]; if(y<100) y+=2000; const d=`${y}-${String(+m[2]).padStart(2,'0')}-${String(+m[1]).padStart(2,'0')}`; if(!isNaN(new Date(d))){ fecha=d; break; } } }
+  const tienda=L.find(l=>/[a-záéíóúñ]{3}/i.test(l) && !/factura|ticket|fecha|cif|nif|tel|www|calle|c\/|avda/i.test(l) && l.length<=40)||'';
+  return {total, fecha, tienda}; }
+{ const _cs=compraSheet; compraSheet=function(c, mode){ const r=_cs(c, mode); const b=document.querySelector('#shBox'); const p=b?.querySelector('#cpP'); if(!p || b.querySelector('.ocrbtn')) return r;
+    const bt=h2(`<label class="btn2 ghost ocrbtn">${ic('camera')}<span>Leer el ticket con la cámara</span><input type="file" accept="image/*" capture="environment" hidden></label>`), st=h2('<p class="muted2 ocrst" hidden></p>');
+    bt.querySelector('input').onchange=async e=>{ const f=e.target.files?.[0]; if(!f) return; st.hidden=false; st.textContent='Leyendo el ticket… (la primera vez tarda un poco)';
+      try{ const w=await ocrLoad(); const {data}=await w.recognize(f); const t=ticketParse(data.text||'');
+        if(t.total!=null) p.value=t.total.toFixed(2); if(t.fecha && b.querySelector('#cpF')) b.querySelector('#cpF').value=t.fecha; if(t.tienda && b.querySelector('#cpT') && !b.querySelector('#cpT').value) b.querySelector('#cpT').value=t.tienda;
+        const a=b.querySelector('#cpA'); if(a){ try{ const dt=new DataTransfer(); for(const x of a.files) dt.items.add(x); dt.items.add(f); a.files=dt.files; }catch{} }
+        st.textContent=`Leído: ${t.total!=null?eur(t.total):'sin importe'}${t.fecha?' · '+fmtDate(t.fecha):''}${t.tienda?' · '+t.tienda:''}. Revísalo antes de guardar; la foto se adjunta.`; uiSfx('tick');
+      }catch(err){ st.textContent='No se pudo leer el ticket (hace falta conexión la primera vez). Rellénalo a mano.'; } };
+    (p.previousElementSibling||p).before(bt, st); return r; }; }
 
 
 connectDb();

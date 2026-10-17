@@ -2,14 +2,14 @@
    y almacén de archivos (fotos, facturas, escaneos) troceado dentro de Firestore. */
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut as fbSignOut, browserLocalPersistence, setPersistence } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, doc, onSnapshot, setDoc, deleteDoc, getDoc, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { initializeFirestore, CACHE_SIZE_UNLIMITED, persistentLocalCache, persistentMultipleTabManager, collection, doc, onSnapshot, setDoc, deleteDoc, getDoc, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { firebaseConfig } from './firebase-config.js';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 setPersistence(auth, browserLocalPersistence).catch(()=>{});
 let fs;
-try{ fs = initializeFirestore(app, {ignoreUndefinedProperties:true, localCache: persistentLocalCache({tabManager: persistentMultipleTabManager()})}); }
+try{ fs = initializeFirestore(app, {ignoreUndefinedProperties:true, localCache: persistentLocalCache({tabManager: persistentMultipleTabManager(), cacheSizeBytes: CACHE_SIZE_UNLIMITED})}); }
 catch(e){ console.warn('Sin caché persistente', e); fs = initializeFirestore(app, {ignoreUndefinedProperties:true}); }
 
 const logErr = e => console.error('Base de datos: '+(e?.code||e?.message||e));
