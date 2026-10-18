@@ -1,15 +1,15 @@
 {
- "version": "3.0.0-beta.3",
+ "version": "3.0.0-beta.4",
  "fecha": "2026-10-18",
  "notas": [
-  "Deslizar para volver como en el iPhone: la pantalla sigue al dedo, la de debajo asoma desde la izquierda y al soltar termina sin saltos"
+  "Deslizar para volver: la pantalla anterior queda debajo y entra poco a poco con un fundido; la de delante va encima, empujada por el dedo"
  ],
  "historial": [
   {
-   "version": "3.0.0-beta.3",
+   "version": "3.0.0-beta.4",
    "fecha": "2026-10-18",
    "notas": [
-    "Deslizar para volver como en el iPhone: la pantalla sigue al dedo, la de debajo asoma desde la izquierda y al soltar termina sin saltos"
+    "Deslizar para volver: la pantalla anterior queda debajo y entra poco a poco con un fundido; la de delante va encima, empujada por el dedo"
    ]
   }
  ]
