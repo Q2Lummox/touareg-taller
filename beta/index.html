@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="3.0.0-beta.7">
+<meta name="app-version" content="3.0.0-beta.8">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2970,7 +2970,7 @@ body.v3drag .pages,body.v3drag .app{will-change:transform}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v3.0.0-beta.7</span>
+  <span class="spver">v3.0.0-beta.8</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6352,7 +6352,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='3.0.0-beta.7';
+window.APP_VERSION='3.0.0-beta.8';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6386,7 +6386,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='3.0.0-beta.7';
+  const APP_VERSION='3.0.0-beta.8';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -7164,7 +7164,7 @@ function makeEngine(){
   return E;
 }
 let ENGX=null;
-{ const _nr=needleRun; needleRun=function(){ _nr(); if(needleRun.hooked) return; needleRun.hooked=true; const tick=()=>{ if(!document.getElementById('spGauge')) return; const off=NDL.idle&&NDL.offT?.035*Math.min(1,(performance.now()-NDL.offT)/350):0; ENGX?.setRpm((NDL.v-off)*8000); requestAnimationFrame(tick); }; requestAnimationFrame(tick); }; }
+{ const _nr=needleRun; needleRun=function(){ _nr(); if(needleRun.hooked) return; needleRun.hooked=true; const tick=()=>{ if(!document.getElementById('spGauge')) return; const n=NDL.v*8000, snd=n<=1300 ? n*1000/1300 : 1000+(n-1300)*.25; ENGX?.setRpm(snd);   /* el sonido acelera mucho menos que la aguja: ralentí ~1.000 y como mucho ~1.800 rpm al arrancar */ requestAnimationFrame(tick); }; requestAnimationFrame(tick); }; }
 /* sacudida de la pantalla con desenfoque de movimiento */
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function shake(amp, dur){

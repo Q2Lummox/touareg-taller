@@ -1,15 +1,15 @@
 {
- "version": "3.0.0-beta.7",
+ "version": "3.0.0-beta.8",
  "fecha": "2026-10-18",
  "notas": [
-  "Arranque: el sonido del motor vuelve a ser el de antes; solo la aguja marca un ralentí algo más alto"
+  "Arranque: el sonido apenas acelera al arrancar y se queda en el ralentí de siempre; la aguja sí sube"
  ],
  "historial": [
   {
-   "version": "3.0.0-beta.7",
+   "version": "3.0.0-beta.8",
    "fecha": "2026-10-18",
    "notas": [
-    "Arranque: el sonido del motor vuelve a ser el de antes; solo la aguja marca un ralentí algo más alto"
+    "Arranque: el sonido apenas acelera al arrancar y se queda en el ralentí de siempre; la aguja sí sube"
    ]
   }
  ]
