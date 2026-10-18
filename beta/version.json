@@ -1,15 +1,21 @@
 {
- "version": "3.0.0-beta.13",
+ "version": "3.0.0",
  "fecha": "2026-10-18",
  "notas": [
-  "Teclado: sugerencias y autocorrector en todas las casillas de texto (no en referencias ni códigos)"
+  "Taller 7L 3.0: navegación nueva como en el iPhone, con cinco pestañas (Hoy · Coche · Taller · Gastos · Papeles)",
+  "Pantallas principales y aspecto nuevos; deslizar para volver, tirar abajo para buscar, pulsación larga en las pestañas",
+  "Problemas: averías, pendientes y diagnóstico juntos; reparaciones con y sin guía",
+  "Compras ya hechas, edición de intervenciones, gastos más claros y arranque directo con START"
  ],
  "historial": [
   {
-   "version": "3.0.0-beta.13",
+   "version": "3.0.0",
    "fecha": "2026-10-18",
    "notas": [
-    "Teclado: sugerencias y autocorrector en todas las casillas de texto (no en referencias ni códigos)"
+    "Taller 7L 3.0: navegación nueva como en el iPhone, con cinco pestañas (Hoy · Coche · Taller · Gastos · Papeles)",
+    "Pantallas principales y aspecto nuevos; deslizar para volver, tirar abajo para buscar, pulsación larga en las pestañas",
+    "Problemas: averías, pendientes y diagnóstico juntos; reparaciones con y sin guía",
+    "Compras ya hechas, edición de intervenciones, gastos más claros y arranque directo con START"
    ]
   }
  ]

@@ -1,12 +1,23 @@
 {
- "version": "2.3.2",
- "fecha": "2026-10-17",
+ "version": "3.0.0",
+ "fecha": "2026-10-18",
  "notas": [
-  "Taller ▸ Reparaciones: las que tienes en curso, empezar una nueva (con guía o sin guía) y las terminadas con sus fotos",
-  "Reparaciones sin guía: escribes tú los pasos y puedes añadir más mientras trabajas",
-  "Botón «Abandonar» para una reparación empezada por error"
+  "Taller 7L 3.0: navegación nueva como en el iPhone, con cinco pestañas (Hoy · Coche · Taller · Gastos · Papeles)",
+  "Pantallas principales y aspecto nuevos; deslizar para volver, tirar abajo para buscar, pulsación larga en las pestañas",
+  "Problemas: averías, pendientes y diagnóstico juntos; reparaciones con y sin guía",
+  "Compras ya hechas, edición de intervenciones, gastos más claros y arranque directo con START"
  ],
  "historial": [
+  {
+   "version": "3.0.0",
+   "fecha": "2026-10-18",
+   "notas": [
+    "Taller 7L 3.0: navegación nueva como en el iPhone, con cinco pestañas (Hoy · Coche · Taller · Gastos · Papeles)",
+    "Pantallas principales y aspecto nuevos; deslizar para volver, tirar abajo para buscar, pulsación larga en las pestañas",
+    "Problemas: averías, pendientes y diagnóstico juntos; reparaciones con y sin guía",
+    "Compras ya hechas, edición de intervenciones, gastos más claros y arranque directo con START"
+   ]
+  },
   {
    "version": "2.3.2",
    "fecha": "2026-10-17",

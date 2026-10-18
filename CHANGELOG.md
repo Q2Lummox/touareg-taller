@@ -1,5 +1,11 @@
 # Novedades
 
+## v3.0.0 · 2026-10-18
+- Taller 7L 3.0: navegación nueva como en el iPhone, con cinco pestañas (Hoy · Coche · Taller · Gastos · Papeles)
+- Pantallas principales y aspecto nuevos; deslizar para volver, tirar abajo para buscar, pulsación larga en las pestañas
+- Problemas: averías, pendientes y diagnóstico juntos; reparaciones con y sin guía
+- Compras ya hechas, edición de intervenciones, gastos más claros y arranque directo con START
+
 ## v2.3.2 · 2026-10-17
 - Taller ▸ Reparaciones: las que tienes en curso, empezar una nueva (con guía o sin guía) y las terminadas con sus fotos
 - Reparaciones sin guía: escribes tú los pasos y puedes añadir más mientras trabajas
