@@ -1,21 +1,21 @@
 {
- "version": "3.0.0",
+ "version": "3.1.0-beta.1",
  "fecha": "2026-10-18",
  "notas": [
-  "Taller 7L 3.0: navegación nueva como en el iPhone, con cinco pestañas (Hoy · Coche · Taller · Gastos · Papeles)",
-  "Pantallas principales y aspecto nuevos; deslizar para volver, tirar abajo para buscar, pulsación larga en las pestañas",
-  "Problemas: averías, pendientes y diagnóstico juntos; reparaciones con y sin guía",
-  "Compras ya hechas, edición de intervenciones, gastos más claros y arranque directo con START"
+  "Efectos: números de pestañas que saltan y laten, avisos con brillo, chispas al tachar, iconos animados, salud del coche y foto con movimiento",
+  "Gráficos: en qué se va el dinero, consumo y los próximos 30.000 km",
+  "Buscador con recientes, deslizar pendientes, caducidades al calendario, modo taller, dictado, tema noche y 3D en horizontal",
+  "Pantallas de detalle con el estilo 3.0 y sonidos de taller"
  ],
  "historial": [
   {
-   "version": "3.0.0",
+   "version": "3.1.0-beta.1",
    "fecha": "2026-10-18",
    "notas": [
-    "Taller 7L 3.0: navegación nueva como en el iPhone, con cinco pestañas (Hoy · Coche · Taller · Gastos · Papeles)",
-    "Pantallas principales y aspecto nuevos; deslizar para volver, tirar abajo para buscar, pulsación larga en las pestañas",
-    "Problemas: averías, pendientes y diagnóstico juntos; reparaciones con y sin guía",
-    "Compras ya hechas, edición de intervenciones, gastos más claros y arranque directo con START"
+    "Efectos: números de pestañas que saltan y laten, avisos con brillo, chispas al tachar, iconos animados, salud del coche y foto con movimiento",
+    "Gráficos: en qué se va el dinero, consumo y los próximos 30.000 km",
+    "Buscador con recientes, deslizar pendientes, caducidades al calendario, modo taller, dictado, tema noche y 3D en horizontal",
+    "Pantallas de detalle con el estilo 3.0 y sonidos de taller"
    ]
   }
  ]
