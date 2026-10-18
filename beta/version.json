@@ -1,17 +1,15 @@
 {
- "version": "3.0.0-beta.11",
+ "version": "3.0.0-beta.12",
  "fecha": "2026-10-18",
  "notas": [
-  "Gastos: solo dos cantidades (el coche y piezas y trabajos) y se actualiza al cambiar una fecha o un precio",
-  "Ficha de intervención: botones alineados (Editar · Adjuntar · Borrar y Cerrar debajo)"
+  "Los cortes de red puntuales («Load failed») ya no salen como error"
  ],
  "historial": [
   {
-   "version": "3.0.0-beta.11",
+   "version": "3.0.0-beta.12",
    "fecha": "2026-10-18",
    "notas": [
-    "Gastos: solo dos cantidades (el coche y piezas y trabajos) y se actualiza al cambiar una fecha o un precio",
-    "Ficha de intervención: botones alineados (Editar · Adjuntar · Borrar y Cerrar debajo)"
+    "Los cortes de red puntuales («Load failed») ya no salen como error"
    ]
   }
  ]

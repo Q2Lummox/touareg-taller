@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="3.0.0-beta.11">
+<meta name="app-version" content="3.0.0-beta.12">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2984,7 +2984,7 @@ body.v3 .kv2:has(>span)>span{color:var(--v-txt2);font-size:14px}body.v3 .kv2:has
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v3.0.0-beta.11</span>
+  <span class="spver">v3.0.0-beta.12</span>
 </div>
 
 <header class="top2" id="top2">
@@ -3256,7 +3256,7 @@ window.__errs=[];
 (function(){
   function show(){ var b=document.getElementById('errBox'); if(!b) return; var n=window.__errs.length; b.hidden=!n; if(!n) return;
     b.querySelector('b').textContent='⚠ '+n+(n===1?' error':' errores'); b.querySelector('pre').textContent=window.__errs.slice(-15).join('\n\n'); }
-  window.__showErr=function(m){ window.__errs.push(String(m).slice(0,600)); show(); };
+  window.__showErr=function(m){ var t=String(m); if(/(^|: )(Load failed|Failed to fetch|NetworkError when attempting to fetch resource|Network request failed|The network connection was lost|cancelled|cancelado)\.?$/i.test(t.trim())){ (window.__netErrs=window.__netErrs||[]).push(t); return; } window.__errs.push(t.slice(0,600)); show(); };
   addEventListener('error',function(e){ window.__showErr((e.message||e.error)+(e.filename?' @ '+e.filename.split('/').pop()+':'+e.lineno:'')); });
   addEventListener('unhandledrejection',function(e){ var r=e.reason; window.__showErr('Promesa: '+(r&&r.message||r)); });
   var ce=console.error.bind(console); console.error=function(){ ce.apply(null,arguments); try{ window.__showErr([].map.call(arguments,function(x){return x&&x.message||String(x);}).join(' ')); }catch(_){} };
@@ -6366,7 +6366,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='3.0.0-beta.11';
+window.APP_VERSION='3.0.0-beta.12';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6400,7 +6400,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='3.0.0-beta.11';
+  const APP_VERSION='3.0.0-beta.12';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
