@@ -1,15 +1,15 @@
 {
- "version": "3.0.0-beta.5",
+ "version": "3.0.0-beta.6",
  "fecha": "2026-10-18",
  "notas": [
-  "Pulsación larga en las pestañas: desliza el dedo por las opciones (se resaltan) y suelta para entrar"
+  "Arranque: al pulsar START suena directamente el motor de arranque (sin el barrido del cuadro) y el ralentí queda algo más alto"
  ],
  "historial": [
   {
-   "version": "3.0.0-beta.5",
+   "version": "3.0.0-beta.6",
    "fecha": "2026-10-18",
    "notas": [
-    "Pulsación larga en las pestañas: desliza el dedo por las opciones (se resaltan) y suelta para entrar"
+    "Arranque: al pulsar START suena directamente el motor de arranque (sin el barrido del cuadro) y el ralentí queda algo más alto"
    ]
   }
  ]
