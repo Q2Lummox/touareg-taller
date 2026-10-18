@@ -1,19 +1,19 @@
 {
- "version": "3.0.0-beta.1",
+ "version": "3.0.0-beta.2",
  "fecha": "2026-10-18",
  "notas": [
-  "Taller 7L 3.0: navegación nueva como en el iPhone, cinco pestañas (Hoy · Coche · Taller · Gastos · Papeles)",
-  "Pantallas principales nuevas, aspecto nuevo, gestos para volver y buscar",
-  "Problemas: averías, pendientes y diagnóstico en un solo sitio"
+  "Arreglo: al cambiar de pantalla a veces se quedaba la anterior encima y no se podía entrar en nada (ni en el 3D)",
+  "El 3D entra sin animación; las transiciones se terminan siempre",
+  "La app se corrige sola si la pantalla visible no coincide con donde estás"
  ],
  "historial": [
   {
-   "version": "3.0.0-beta.1",
+   "version": "3.0.0-beta.2",
    "fecha": "2026-10-18",
    "notas": [
-    "Taller 7L 3.0: navegación nueva como en el iPhone, cinco pestañas (Hoy · Coche · Taller · Gastos · Papeles)",
-    "Pantallas principales nuevas, aspecto nuevo, gestos para volver y buscar",
-    "Problemas: averías, pendientes y diagnóstico en un solo sitio"
+    "Arreglo: al cambiar de pantalla a veces se quedaba la anterior encima y no se podía entrar en nada (ni en el 3D)",
+    "El 3D entra sin animación; las transiciones se terminan siempre",
+    "La app se corrige sola si la pantalla visible no coincide con donde estás"
    ]
   }
  ]

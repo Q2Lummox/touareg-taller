@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="3.0.0-beta.1">
+<meta name="app-version" content="3.0.0-beta.2">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2916,6 +2916,7 @@ body.v3 .tshort{display:none!important}
 .vitips span{display:flex;gap:8px;align-items:center}.vitips svg{width:15px;height:15px;color:var(--accent);flex:none}
 @keyframes vup{from{opacity:0;transform:translateY(14px)}}
 .dsh:has(.vintro)>h3{display:none}
+body.v3 :is(button,a,label,.vrow,.vtile,.vnow){touch-action:manipulation}
 </style>
 
 </head>
@@ -2958,7 +2959,7 @@ body.v3 .tshort{display:none!important}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v3.0.0-beta.1</span>
+  <span class="spver">v3.0.0-beta.2</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6340,7 +6341,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='3.0.0-beta.1';
+window.APP_VERSION='3.0.0-beta.2';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6374,7 +6375,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='3.0.0-beta.1';
+  const APP_VERSION='3.0.0-beta.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -12084,24 +12085,38 @@ function v3apply(e){
   v3barSet(e);
   if(!leaf){ const sc=e.el.querySelector('.v3sc'); v3barScroll(sc.scrollTop); }
 }
-function v3show(e, how){                          /* how: 'push' | 'pop' | 'none' */
+/* transición en curso: se termina SIEMPRE (por evento o por reloj) y antes de empezar otra; nunca se queda
+   una pantalla vieja «enganchada» encima de la nueva */
+function v3endTr(){
+  const t=V3.tr; V3.tr=null; if(t){ clearTimeout(t.t); for(const a of t.anims){ try{ a.cancel(); }catch{} } }
+  if(BKON) return;
+  document.querySelectorAll('.v3keep,.v3in-top,.v3in-under').forEach(el=>{ el.classList.remove('v3keep','v3in-top','v3in-under'); });
+  for(const el of [$('#pages'), $('.app'), ...v3root.children]){ if(el && !BKON){ el.style.transform=''; el.style.filter=''; } }
+  document.body.classList.remove('v3anim');
+}
+function v3show(e, how){                          /* how: 'push' | 'pop' | 'tab' | 'none' */
+  v3endTr();
   const prevEl=V3.cur?(V3.cur.k==='leaf'?v3el(V3.cur):V3.cur.el):null;
   V3.int++;
   try{
     if(e.k==='leaf'){ const L=V3.leaves[e.id]; if(L && !e.adopted) L.open(); e.adopted=false; }
     else { if(UI.sec!=='inicio' || ovl.classList.contains('docked')){ go('inicio', null, {silent:true}); } v3el(e); if(e.stale){ e.stale=false; v3render(e); } }
-  } finally { V3.int--; }
+  } catch(err){ console.error(err); } finally { V3.int--; }
   const curEl=v3el(e);
   V3.cur=e; v3apply(e);
-  if(how && how!=='none' && !RM && prevEl && curEl && prevEl!==curEl){
-    const W=innerWidth>900?Math.min(innerWidth,520):innerWidth, ease='cubic-bezier(.32,.72,0,1)', d=420;
-    prevEl.classList.add('v3keep'); document.body.classList.add('v3anim');
-    const a1=curEl.animate(how==='push'?[{transform:`translateX(${W}px)`},{transform:'none'}]:[{transform:`translateX(${-W*.3}px)`,filter:'brightness(.7)'},{transform:'none',filter:'none'}],{duration:d,easing:ease});
-    const a2=prevEl.animate(how==='push'?[{transform:'none'},{transform:`translateX(${-W*.3}px)`,filter:'brightness(.7)'}]:[{transform:'none'},{transform:`translateX(${W}px)`}],{duration:d,easing:ease});
-    curEl.classList.add(how==='push'?'v3in-top':'v3in-under');
-    const done=()=>{ prevEl.classList.remove('v3keep'); curEl.classList.remove('v3in-top','v3in-under'); document.body.classList.remove('v3anim'); };
-    a1.onfinish=done; a2.oncancel=done;
-  } else if(how==='tab' && !RM && curEl){ curEl.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'}); }
+  const heavy=el=>el && el.classList.contains('app');      /* el 3D (WebGL) entra sin animar: en el iPhone se atascaba */
+  if((how==='push'||how==='pop') && !RM && prevEl && curEl && prevEl!==curEl && !heavy(prevEl) && !heavy(curEl)){
+    const W=innerWidth>900?Math.min(innerWidth,520):innerWidth, ease='cubic-bezier(.32,.72,0,1)', d=380;
+    prevEl.classList.add('v3keep'); document.body.classList.add('v3anim'); curEl.classList.add(how==='push'?'v3in-top':'v3in-under');
+    const tr={anims:[]}; V3.tr=tr;
+    try{
+      tr.anims.push(curEl.animate(how==='push'?[{transform:`translateX(${W}px)`},{transform:'none'}]:[{transform:`translateX(${-W*.3}px)`,filter:'brightness(.7)'},{transform:'none',filter:'none'}],{duration:d,easing:ease}));
+      tr.anims.push(prevEl.animate(how==='push'?[{transform:'none'},{transform:`translateX(${-W*.3}px)`,filter:'brightness(.7)'}]:[{transform:'none'},{transform:`translateX(${W}px)`}],{duration:d,easing:ease}));
+    }catch{}
+    const fin=()=>{ if(V3.tr===tr) v3endTr(); };
+    for(const a of tr.anims){ a.onfinish=fin; a.oncancel=fin; }
+    tr.t=setTimeout(fin, d+120);
+  } else if(how==='tab' && !RM && curEl && !heavy(curEl)){ try{ curEl.animate([{opacity:.3},{opacity:1}],{duration:160,easing:'ease-out'}); }catch{} }
   closeV3Menu();
 }
 /* abrir algo: un id de hoja (pantalla antigua), de página nueva o una pestaña */
@@ -12197,11 +12212,11 @@ gBack=function(){
   if(document.querySelector('.v3menu')){ closeV3Menu(); return true; }
   return v3back({anim:!BKDONE});
 };
-let BKDONE=false;
+let BKDONE=false, BKON=false;
 backLabel=function(){ if(!$('#sheet2').hidden || document.querySelector('.csw') || !$('#srch').hidden) return null; const p=v3prev(); return p?v3title(p):null; };
 backTarget=function(){ const e=v3top(); return e.k==='leaf'?v3el(e):e.el; };
-{ const _be=backEnd; backEnd=function(ok){ BKDONE=true; const p=v3prev(); const pel=p?(p.k==='leaf'?null:p.el):null; if(pel && ok){ pel.classList.add('v3keep'); setTimeout(()=>pel.classList.remove('v3keep'),400); } try{ return _be(ok); } finally { setTimeout(()=>{ BKDONE=false; },260); } }; }
-{ const _bd=backDrag; backDrag=function(dx){ const p=v3prev(); if(p?.el){ p.el.classList.add('v3keep'); p.el.style.transform=`translateX(${-innerWidth*.3+Math.max(0,dx)*.3}px)`; p.el.style.filter=`brightness(${.7+Math.min(.3,dx/innerWidth*.3)})`; } return _bd(dx); }; }
+{ const _be=backEnd; backEnd=function(ok){ BKDONE=true; const p=v3prev(); const pel=p?(p.k==='leaf'?null:p.el):null; if(pel && ok){ pel.classList.add('v3keep'); setTimeout(()=>pel.classList.remove('v3keep'),400); } try{ return _be(ok); } finally { setTimeout(()=>{ BKDONE=false; BKON=false; v3endTr(); },420); } }; }
+{ const _bd=backDrag; backDrag=function(dx){ BKON=true; const p=v3prev(); if(p?.el){ p.el.classList.add('v3keep'); p.el.style.transform=`translateX(${-innerWidth*.3+Math.max(0,dx)*.3}px)`; p.el.style.filter=`brightness(${.7+Math.min(.3,dx/innerWidth*.3)})`; } return _bd(dx); }; }
 { const _gr=gReset; gReset=function(){ const p=v3prev(); if(p?.el){ p.el.style.transform=''; p.el.style.filter=''; if(!BKDONE) p.el.classList.remove('v3keep'); } return _gr(); }; }
 gTab=()=>false;                                     /* nada de cambiar de pestaña deslizando: como en iOS */
 /* deslizar hacia abajo en Hoy abre el buscador (como Spotlight) */
@@ -12225,6 +12240,22 @@ function v3badges(){ let c; try{ c=counts(); }catch{ return; }
 /* el estado de la sincronización, en el avatar */
 { const s=$('#t2Sync'); if(s) new MutationObserver(()=>{ document.body.classList.toggle('v3off', s.classList.contains('off')); }).observe(s,{attributes:true}); }
 addEventListener('keydown',e=>{ if(e.key==='Escape' && document.querySelector('.v3menu')) closeV3Menu(); });
+
+snapPage=()=>null;
+/* red de seguridad: si lo que se ve no coincide con la pantalla de arriba de la pila, se corrige solo */
+function v3heal(){
+  if(V3.tr || BKON || !V3.cur || V3.touch) return;
+  if(document.querySelector('.v3keep,.v3in-top,.v3in-under') || document.body.classList.contains('v3anim')) v3endTr();
+  const e=V3.cur, leaf=e.k==='leaf';
+  if(document.body.classList.contains('v3leaf')!==leaf) v3apply(e);
+  if(!leaf){ for(const s of v3root.children){ const want=s===e.el; if(s.classList.contains('on')!==want) s.classList.toggle('on', want); }
+    if(UI.sec!=='inicio'){ V3.int++; try{ go('inicio',null,{silent:true}); }catch{} finally{ V3.int--; } } }
+  else { const id=v3legacyId(); const L=V3.leaves[e.id]; if(id && id!==e.id && !(L?.same||[]).includes(id) && id!=='hub:hoy'){ v3adopt(); } }
+  if(e.id==='3d' && UI.sec!=='coche'){ V3.int++; try{ V3.leaves['3d'].open(); }catch{} finally{ V3.int--; } }
+}
+setInterval(v3heal, 700);
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) setTimeout(v3heal, 50); });
+addEventListener('pageshow',()=>setTimeout(v3heal, 50));
 
 /* ====================== 3.0 — MAPA Y PANTALLAS PRINCIPALES ======================
    HOY      lo que importa ahora: el coche, lo que toca, accesos rápidos y el gasto del año
