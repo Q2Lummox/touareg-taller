@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="3.0.0-beta.4">
+<meta name="app-version" content="3.0.0-beta.5">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2718,7 +2718,9 @@ body.v3drag .v3bar::before,body.v3drag .v3bt,body.v3drag .v3back span{transition
 .v3menu{position:fixed;z-index:9810;background:color-mix(in srgb,var(--v-cell) 88%,transparent);-webkit-backdrop-filter:var(--v-glass);backdrop-filter:var(--v-glass);border-radius:14px;overflow:hidden;box-shadow:0 20px 60px #0008,0 0 0 .5px var(--v-sep);animation:vpop .28s cubic-bezier(.3,1.4,.5,1);font-family:var(--v-font)}
 .v3menu button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border:0;background:none;color:var(--v-txt);font:400 16px var(--v-font);cursor:pointer;text-align:left}
 .v3menu button+button{border-top:.5px solid var(--v-sep)}
-.v3menu button:active{background:var(--v-cell3)}
+.v3menu button:active,.v3menu button.hov{background:var(--v-cell3)}
+.v3menu button.hov{transform:scale(1.02);transition:transform .12s,background .12s}
+.v3tabs button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .v3menu i{color:var(--c);display:grid}.v3menu svg{width:21px;height:21px}
 @keyframes vpop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
 @keyframes vfade{from{opacity:0}}
@@ -2968,7 +2970,7 @@ body.v3drag .pages,body.v3drag .app{will-change:transform}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v3.0.0-beta.4</span>
+  <span class="spver">v3.0.0-beta.5</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6350,7 +6352,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='3.0.0-beta.4';
+window.APP_VERSION='3.0.0-beta.5';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6384,7 +6386,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='3.0.0-beta.4';
+  const APP_VERSION='3.0.0-beta.5';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -12169,10 +12171,25 @@ function v3barSet(e){
 }
 function v3barScroll(y){ v3bar.classList.toggle('scrolled', y>34); v3bar.classList.toggle('lined', y>4); }
 v3bar.querySelector('.v3back').onclick=()=>v3back();
-v3tabs.querySelectorAll('button').forEach(b=>{ b.onclick=()=>v3tab(b.dataset.t);
-  let lt=null; b.addEventListener('touchstart',()=>{ clearTimeout(lt); lt=setTimeout(()=>{ if(V3ACT[b.dataset.t]){ haptic?.('tap'); try{ navigator.vibrate?.(15); }catch{} v3menu(b, V3ACT[b.dataset.t], true); b._lp=true; } },430); },{passive:true});
-  b.addEventListener('touchend',e=>{ clearTimeout(lt); if(b._lp){ b._lp=false; e.preventDefault(); } },{passive:false}); b.addEventListener('touchmove',()=>clearTimeout(lt),{passive:true});
-  b.addEventListener('contextmenu',e=>{ if(V3ACT[b.dataset.t]){ e.preventDefault(); v3menu(b, V3ACT[b.dataset.t], true); } }); });
+/* pulsación larga en una pestaña: sale su menú y, SIN levantar el dedo, al deslizarlo por las opciones se
+   resaltan (con un toque de vibración) y al soltar se entra en la resaltada. Si sueltas fuera, el menú se queda abierto. */
+const LP={b:null, t:null, x0:0, y0:0, open:false, hov:null};
+function lpHover(x, y){
+  const m=document.querySelector('.v3menu'); if(!m) return; const el=document.elementFromPoint(x, y), it=el?.closest?.('.v3menu button');
+  if(it===LP.hov) return; LP.hov?.classList.remove('hov'); LP.hov=it||null;
+  if(it){ it.classList.add('hov'); uiSfx('tick'); haptic?.('tick'); try{ navigator.vibrate?.(8); }catch{} }
+}
+v3tabs.querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>{ if(b._lp){ b._lp=false; return; } v3tab(b.dataset.t); };
+  b.addEventListener('touchstart',e=>{ const t=e.touches[0]; clearTimeout(LP.t); LP.b=b; LP.x0=t.clientX; LP.y0=t.clientY; LP.open=false; LP.hov=null;
+    LP.t=setTimeout(()=>{ if(LP.b!==b || !V3ACT[b.dataset.t]) return; haptic?.('tap'); try{ navigator.vibrate?.(15); }catch{} v3menu(b, V3ACT[b.dataset.t], true); LP.open=true; b._lp=true; },420); },{passive:true});
+  b.addEventListener('touchmove',e=>{ const t=e.touches[0];
+    if(!LP.open){ if(Math.hypot(t.clientX-LP.x0, t.clientY-LP.y0)>10) clearTimeout(LP.t); return; }
+    e.preventDefault(); lpHover(t.clientX, t.clientY); },{passive:false});
+  b.addEventListener('touchend',e=>{ clearTimeout(LP.t);
+    if(LP.open){ e.preventDefault(); const it=LP.hov; LP.open=false; LP.hov=null; if(it){ it.classList.remove('hov'); it.click(); } setTimeout(()=>{ b._lp=false; },400); } },{passive:false});
+  b.addEventListener('touchcancel',()=>{ clearTimeout(LP.t); LP.open=false; LP.hov?.classList.remove('hov'); LP.hov=null; },{passive:true});
+  b.addEventListener('contextmenu',e=>{ e.preventDefault(); if(V3ACT[b.dataset.t] && !LP.open && !document.querySelector('.v3menu')) v3menu(b, V3ACT[b.dataset.t], true); }); });
 
 /* ---------- menú contextual (el «+» y la pulsación larga en las pestañas) ---------- */
 const V3ACT={};
