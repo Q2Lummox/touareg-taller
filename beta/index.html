@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="3.0.0-beta.6">
+<meta name="app-version" content="3.0.0-beta.7">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2970,7 +2970,7 @@ body.v3drag .pages,body.v3drag .app{will-change:transform}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v3.0.0-beta.6</span>
+  <span class="spver">v3.0.0-beta.7</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6352,7 +6352,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='3.0.0-beta.6';
+window.APP_VERSION='3.0.0-beta.7';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6386,7 +6386,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='3.0.0-beta.6';
+  const APP_VERSION='3.0.0-beta.7';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -7164,7 +7164,7 @@ function makeEngine(){
   return E;
 }
 let ENGX=null;
-{ const _nr=needleRun; needleRun=function(){ _nr(); if(needleRun.hooked) return; needleRun.hooked=true; const tick=()=>{ if(!document.getElementById('spGauge')) return; ENGX?.setRpm(NDL.v*8000); requestAnimationFrame(tick); }; requestAnimationFrame(tick); }; }
+{ const _nr=needleRun; needleRun=function(){ _nr(); if(needleRun.hooked) return; needleRun.hooked=true; const tick=()=>{ if(!document.getElementById('spGauge')) return; const off=NDL.idle&&NDL.offT?.035*Math.min(1,(performance.now()-NDL.offT)/350):0; ENGX?.setRpm((NDL.v-off)*8000); requestAnimationFrame(tick); }; requestAnimationFrame(tick); }; }
 /* sacudida de la pantalla con desenfoque de movimiento */
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function shake(amp, dur){
@@ -7190,10 +7190,10 @@ function ignition(){
   sp.classList.add('lights'); ENGX?.pump();
   (document.getElementById('spTxt')||{}).textContent='Arrancando'; ENGX?.starter(.62);
   { let k=0; const w=setInterval(()=>{ NDL.tgt = (k++%2)?.05:.022; },105); SEQ.t.push(w); at(620,()=>clearInterval(w)); } shake(2.2,600);
-  at(640,()=>{ ENGX?.boom(); NDL.tgt=.5; sp.classList.remove('lights','glowonly'); sp.classList.add('fire'); sp.classList.add('shaking'); shake(16,900); setTimeout(()=>sp.classList.remove('shaking'),900);
+  at(640,()=>{ ENGX?.boom(); NDL.tgt=.47; sp.classList.remove('lights','glowonly'); sp.classList.add('fire'); sp.classList.add('shaking'); shake(16,900); setTimeout(()=>sp.classList.remove('shaking'),900);
     try{ navigator.vibrate?.([70,40,140]); }catch{} (document.getElementById('spTxt')||{}).textContent='Motor en marcha'; });
-  at(1150,()=>{ NDL.tgt=.21; });
-  at(1600,()=>{ NDL.tgt=.16; NDL.idle=true; idleJitter(); });            /* ralentí algo más alto: ~1.300 rpm */
+  at(1150,()=>{ NDL.tgt=.17; });
+  at(1600,()=>{ NDL.tgt=.16; NDL.idle=true; NDL.offT=performance.now(); idleJitter(); });   /* la aguja marca un ralentí algo más alto (~1.300 rpm); el sonido sigue como antes (~1.000) */
   at(2900,()=>exitSplash());
   sp.addEventListener('pointerdown',()=>{ if(sp.classList.contains('fire')) exitSplash(); });
 }

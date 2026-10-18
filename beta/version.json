@@ -1,15 +1,15 @@
 {
- "version": "3.0.0-beta.6",
+ "version": "3.0.0-beta.7",
  "fecha": "2026-10-18",
  "notas": [
-  "Arranque: al pulsar START suena directamente el motor de arranque (sin el barrido del cuadro) y el ralentí queda algo más alto"
+  "Arranque: el sonido del motor vuelve a ser el de antes; solo la aguja marca un ralentí algo más alto"
  ],
  "historial": [
   {
-   "version": "3.0.0-beta.6",
+   "version": "3.0.0-beta.7",
    "fecha": "2026-10-18",
    "notas": [
-    "Arranque: al pulsar START suena directamente el motor de arranque (sin el barrido del cuadro) y el ralentí queda algo más alto"
+    "Arranque: el sonido del motor vuelve a ser el de antes; solo la aguja marca un ralentí algo más alto"
    ]
   }
  ]
