@@ -1,15 +1,17 @@
 {
- "version": "3.0.0-beta.10",
+ "version": "3.0.0-beta.11",
  "fecha": "2026-10-18",
  "notas": [
-  "Intervenciones: botón Editar (fecha, km, tipo, descripción, referencia y coste) con deshacer; ficha ordenada en dos columnas"
+  "Gastos: solo dos cantidades (el coche y piezas y trabajos) y se actualiza al cambiar una fecha o un precio",
+  "Ficha de intervención: botones alineados (Editar · Adjuntar · Borrar y Cerrar debajo)"
  ],
  "historial": [
   {
-   "version": "3.0.0-beta.10",
+   "version": "3.0.0-beta.11",
    "fecha": "2026-10-18",
    "notas": [
-    "Intervenciones: botón Editar (fecha, km, tipo, descripción, referencia y coste) con deshacer; ficha ordenada en dos columnas"
+    "Gastos: solo dos cantidades (el coche y piezas y trabajos) y se actualiza al cambiar una fecha o un precio",
+    "Ficha de intervención: botones alineados (Editar · Adjuntar · Borrar y Cerrar debajo)"
    ]
   }
  ]

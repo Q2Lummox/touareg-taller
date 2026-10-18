@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="3.0.0-beta.10">
+<meta name="app-version" content="3.0.0-beta.11">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2618,6 +2618,13 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
 .kv2:has(>span){display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;gap:8px 16px;align-items:baseline}
 .kv2:has(>span)>b{text-align:right}
 .shbox .row3{align-items:center}
+
+/* ficha de intervención: tres acciones iguales y «Cerrar» debajo, siempre alineados (con o sin fotos) */
+.isth:not(:empty){margin-top:12px}
+.isacts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px}
+.isacts .btn2{justify-content:center;width:100%;min-width:0;padding-left:6px;padding-right:6px}
+.isacts .isdel{color:var(--due)!important}
+.btn2.isok{width:100%;justify-content:center;margin-top:8px}
 /* ====================== TALLER 7L · 3.0 ====================== */
 body.v3{
   --v-font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue","IBM Plex Sans",system-ui,sans-serif;
@@ -2977,7 +2984,7 @@ body.v3 .kv2:has(>span)>span{color:var(--v-txt2);font-size:14px}body.v3 .kv2:has
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v3.0.0-beta.10</span>
+  <span class="spver">v3.0.0-beta.11</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6359,7 +6366,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='3.0.0-beta.10';
+window.APP_VERSION='3.0.0-beta.11';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6393,7 +6400,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='3.0.0-beta.10';
+  const APP_VERSION='3.0.0-beta.11';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -7853,7 +7860,7 @@ function intSheet(x){
   sheet(`<div><h3>${esc(itemName(x.mant)||partName(x.pieza)||x.tipo||'Intervención')}</h3>
     <div class="kv2"><span>Fecha</span><b>${fmtDate(x.fecha)}</b><span>Kilómetros</span><b>${x.km!=null?nf.format(x.km)+' km':'—'}</b><span>Tipo</span><b>${esc(x.tipo||'—')}</b>${x.ref?`<span>Referencia</span><b>${esc(x.ref)}</b>`:''}${x.coste!=null&&x.coste!==''?`<span>Coste</span><b>${eur(x.coste)}</b>`:''}</div>
     ${x.descripcion?`<p class="muted2" style="margin:10px 0 0">${esc(x.descripcion)}</p>`:''}<div class="isth"></div>
-    <div class="row3" style="justify-content:space-between;margin-top:14px"><button class="btn2 ghost" type="button" id="isDel">${ic('x')}Borrar</button><span style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="btn2 ghost" type="button" id="isEd">${ic('edit')}Editar</button><button class="btn2 ghost" type="button" id="isAdj">${ic('camera')}Adjuntar</button><button class="btn2" type="button" id="isOk">Cerrar</button></span></div></div>`, b=>{
+    <div class="isacts"><button class="btn2 ghost" type="button" id="isEd">${ic('edit')}Editar</button><button class="btn2 ghost" type="button" id="isAdj">${ic('camera')}Adjuntar</button><button class="btn2 ghost isdel" type="button" id="isDel">${ic('trash')}Borrar</button></div><button class="btn2 isok" type="button" id="isOk">Cerrar</button></div>`, b=>{
     if(ad) b.querySelector('.isth').append(attachThumbs(x.adjuntos));
     b.querySelector('#isOk').onclick=()=>$('#sheet2').hidden=true;
     b.querySelector('#isEd').onclick=()=>intEdit(x);
@@ -11680,7 +11687,7 @@ function cocheNums(){ const c=S.cfg||{}, pc=Number(c.precioCompra)||0, mov=gasto
     const g=accChart(); if(g){ const k=card2('Gasto acumulado','chart'); k.querySelector('.l2').replaceWith(g); c.after(k); }
     return r; }; }
 function accChart(){ const c=S.cfg||{}, pc=Number(c.precioCompra)||0, mov=[...gastosMov()].map(x=>x.fecha?x:{...x, fecha:todayISO()}).sort((a,b)=>a.fecha.localeCompare(b.fecha)); if(!mov.length && !pc) return null;
-  const t0=c.fechaCompra||mov[0]?.fecha, pts=[[t0, pc]]; let acc=pc; for(const x of mov){ if(x.fecha<t0) continue; acc+=x.eur; pts.push([x.fecha, acc]); } pts.push([todayISO(), acc]); if(pts.length<2) return null;
+  const t0=c.fechaCompra||mov[0]?.fecha, pts=[[t0, pc]]; let acc=pc; for(const x of mov){ acc+=x.eur; pts.push([x.fecha<t0?t0:x.fecha, acc]); }   /* todo cuenta; lo fechado antes de la compra se pone el día de la compra */ pts.push([todayISO(), acc]); if(pts.length<2) return null;
   const T=s=>new Date(s+'T12:00:00').getTime(), a=T(pts[0][0]), b=Math.max(a+864e5, T(pts[pts.length-1][0])), mx=Math.max(...pts.map(p=>p[1]))||1, W=600, H=180, P=8;
   const X=t=>P+(T(t)-a)/(b-a)*(W-2*P), Y=v=>H-P-(v/mx)*(H-2*P-14);
   let d=`M${X(pts[0][0]).toFixed(1)},${Y(pts[0][1]).toFixed(1)}`; for(let i=1;i<pts.length;i++){ d+=` H${X(pts[i][0]).toFixed(1)} V${Y(pts[i][1]).toFixed(1)}`; }
@@ -12321,7 +12328,7 @@ renderInicio=function(f){ v3dirty(f); };
 /* no se redibuja nada con el dedo encima (si no, el gesto se pierde) ni si los datos no han cambiado */
 document.addEventListener('touchstart',()=>{ V3.touch=true; },{passive:true,capture:true});
 for(const t of ['touchend','touchcancel']) document.addEventListener(t,e=>{ if(!e.touches.length){ V3.touch=false; if(V3.pend){ V3.pend=false; v3dirty(); } } },{passive:true,capture:true});
-function v3sig(){ try{ return sigOf()+'|'+JSON.stringify([(S.ave||[]).map(a=>a.estado+a.sintoma), (S.compras||[]).map(c=>c.estado+c.nombre), (S.docs||[]).map(d=>d.caduca), UI.prefs.theme, UI.v3pf]); }catch{ return Math.random()+''; } }
+function v3sig(){ try{ return sigOf()+'|'+JSON.stringify([(S.ave||[]).map(a=>a.estado+a.sintoma), (S.compras||[]).map(c=>c.estado+c.nombre+c.fechaCompra+c.precio), S.int.map(x=>x.fecha+'|'+x.coste+'|'+x.km), S.cfg?.precioCompra, S.cfg?.fechaCompra, (S.docs||[]).map(d=>d.caduca), UI.prefs.theme, UI.v3pf]); }catch{ return Math.random()+''; } }
 function v3dirty(force){ if(V3.touch){ V3.pend=true; return; } clearTimeout(V3.dirtyT); V3.dirtyT=setTimeout(()=>{ if(V3.touch){ V3.pend=true; return; } const sg=v3sig(); if(sg===V3.sig && force!==true) { v3badges(); return; } V3.sig=sg; for(const [k] of V3TABS){ const r=V3.st[k][0]; if(r.el){ if(V3.cur===r) v3render(r); else r.stale=true; } }
     const e=V3.cur; if(e && e.k==='page') v3render(e); v3badges(); }, 160); }
 function v3badges(){ let c; try{ c=counts(); }catch{ return; }
@@ -12543,8 +12550,8 @@ V3.pages.problemas={tab:'taller', title:'Problemas', sub:()=>'Lo que falla y lo 
 
 /* ====================== GASTOS ====================== */
 V3.hubs.gastos={title:'Gastos', sub:()=>'Lo invertido en el Touareg', render(w){
-  const N=typeof cocheNums==='function'?cocheNums():{inv:0,pc:0,gast:0}, mov=gastosMov(), y=yr(), ty=mov.filter(x=>(x.fecha||'').startsWith(y)).reduce((s,x)=>s+x.eur,0);
-  const big=h2(`<section class="vbig"><small>Llevas invertido</small><b>${eur(N.inv)}</b><div class="vbigs"><span><em>Compra</em>${eur(N.pc)}</span><span><em>Desde entonces</em>${eur(N.gast)}</span><span><em>En ${y}</em>${eur(ty)}</span>${N.ckm!=null?`<span><em>Por km</em>${N.ckm.toLocaleString('es-ES',{maximumFractionDigits:2})} €</span>`:''}</div><button type="button" class="vlink">${ic('edit')}${S.cfg?.precioCompra?'Compra y valor del coche':'Apunta lo que costó el coche'}</button></section>`);
+  const mov=gastosMov(), pc=Number(S.cfg?.precioCompra)||0, gast=mov.reduce((t,x)=>t+x.eur,0);
+  const big=h2(`<section class="vbig"><small>Llevas invertido</small><b>${eur(pc+gast)}</b><div class="vbigs"><span><em>El coche</em>${eur(pc)}</span><span><em>Piezas y trabajos</em>${eur(gast)}</span></div><button type="button" class="vlink">${ic('edit')}${S.cfg?.precioCompra?'Compra y valor del coche':'Apunta lo que costó el coche'}</button></section>`);
   big.querySelector('.vlink').onclick=()=>{ uiSfx('tap'); cocheEdit(); }; w.append(big);
   const g=typeof accChart==='function'?accChart():null; if(g){ const s=h2('<section class="vgrp"><h2 class="vgh"><span>Gasto acumulado</span></h2><div class="vcard vchart"></div></section>'); s.querySelector('.vchart').append(g); w.append(s); }
   const pend=(S.compras||[]).filter(c=>c.estado==='pendiente'), sinM=(S.compras||[]).filter(c=>c.estado==='comprado'), rp=S.v2.repostajes||[];
