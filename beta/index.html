@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="3.0.0-beta.9">
+<meta name="app-version" content="3.0.0-beta.10">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2614,6 +2614,10 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
 .rpsh{display:flex;align-items:center;gap:6px;margin:14px 0 6px;font-size:13px}.rpsh svg{width:15px;height:15px;color:var(--soon)}
 .pdsheet>.pdrow{margin-bottom:6px}
 @media (max-width:420px){.rphero{grid-template-columns:48px minmax(0,1fr)}.rphi{width:48px;height:48px}.tshort{grid-template-columns:repeat(3,1fr)!important}}
+/* fichas con «etiqueta valor» en span/b (intervención): en dos columnas */
+.kv2:has(>span){display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;gap:8px 16px;align-items:baseline}
+.kv2:has(>span)>b{text-align:right}
+.shbox .row3{align-items:center}
 /* ====================== TALLER 7L · 3.0 ====================== */
 body.v3{
   --v-font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue","IBM Plex Sans",system-ui,sans-serif;
@@ -2928,6 +2932,9 @@ body.v3 :is(button,a,label,.vrow,.vtile,.vnow){touch-action:manipulation}
 .v3shade.in{position:absolute;inset:0;left:0;z-index:2}
 body.v3.light .v3shade{background:#1c1c1e}
 body.v3drag .pages,body.v3drag .app{will-change:transform}
+/* fichas con pares «etiqueta valor» en span/b (intervención…) */
+body.v3 .kv2:has(>span){display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;gap:8px 16px;padding:12px 14px;align-items:baseline}
+body.v3 .kv2:has(>span)>span{color:var(--v-txt2);font-size:14px}body.v3 .kv2:has(>span)>b{text-align:right;font-weight:600}
 </style>
 
 </head>
@@ -2970,7 +2977,7 @@ body.v3drag .pages,body.v3drag .app{will-change:transform}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v3.0.0-beta.9</span>
+  <span class="spver">v3.0.0-beta.10</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6352,7 +6359,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='3.0.0-beta.9';
+window.APP_VERSION='3.0.0-beta.10';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6386,7 +6393,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='3.0.0-beta.9';
+  const APP_VERSION='3.0.0-beta.10';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -7846,15 +7853,36 @@ function intSheet(x){
   sheet(`<div><h3>${esc(itemName(x.mant)||partName(x.pieza)||x.tipo||'Intervención')}</h3>
     <div class="kv2"><span>Fecha</span><b>${fmtDate(x.fecha)}</b><span>Kilómetros</span><b>${x.km!=null?nf.format(x.km)+' km':'—'}</b><span>Tipo</span><b>${esc(x.tipo||'—')}</b>${x.ref?`<span>Referencia</span><b>${esc(x.ref)}</b>`:''}${x.coste!=null&&x.coste!==''?`<span>Coste</span><b>${eur(x.coste)}</b>`:''}</div>
     ${x.descripcion?`<p class="muted2" style="margin:10px 0 0">${esc(x.descripcion)}</p>`:''}<div class="isth"></div>
-    <div class="row3" style="justify-content:space-between;margin-top:14px"><button class="btn2 ghost" type="button" id="isDel">${ic('x')}Borrar</button><span style="display:flex;gap:8px"><button class="btn2 ghost" type="button" id="isAdj">${ic('camera')}Adjuntar</button><button class="btn2" type="button" id="isOk">Cerrar</button></span></div></div>`, b=>{
+    <div class="row3" style="justify-content:space-between;margin-top:14px"><button class="btn2 ghost" type="button" id="isDel">${ic('x')}Borrar</button><span style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="btn2 ghost" type="button" id="isEd">${ic('edit')}Editar</button><button class="btn2 ghost" type="button" id="isAdj">${ic('camera')}Adjuntar</button><button class="btn2" type="button" id="isOk">Cerrar</button></span></div></div>`, b=>{
     if(ad) b.querySelector('.isth').append(attachThumbs(x.adjuntos));
     b.querySelector('#isOk').onclick=()=>$('#sheet2').hidden=true;
+    b.querySelector('#isEd').onclick=()=>intEdit(x);
     b.querySelector('#isDel').onclick=()=>{ if(!confirm('¿Borrar esta intervención? Podrás deshacerlo justo después.')) return; $('#sheet2').hidden=true; delDoc('intervenciones', x._id, stripId2(x), 'Intervención borrada'); };
     const fi=document.createElement('input'); fi.type='file'; fi.multiple=true; fi.accept='image/*,application/pdf'; fi.hidden=true; fi._fx=true; b.append(fi);
     b.querySelector('#isAdj').onclick=()=>fi.click();
     fi.onchange=async()=>{ if(!fi.files.length) return; const bt=b.querySelector('#isAdj'); bt.disabled=true; bt.textContent='Subiendo…';
       const up=await uploadFiles([...fi.files]); if(up.length){ try{ await S.db.collection('intervenciones').doc(x._id).set({...stripId2(x), adjuntos:[...(x.adjuntos||[]), ...up]}); toast(up.length+' adjunto(s) añadido(s)'); }catch{ toast('No se pudo guardar el adjunto','err'); } }
       $('#sheet2').hidden=true; };
+  });
+}
+/* editar una intervención ya registrada (fecha, km, tipo, descripción, referencia y coste) */
+function intEdit(x){
+  const tipos=[...new Set([...(typeof TIPOS_MANT!=='undefined'?TIPOS_MANT:[]), x.tipo].filter(Boolean))];
+  sheet(`<div><h3>Editar intervención</h3><p class="muted2" style="margin:-4px 0 10px">${esc(itemName(x.mant)||partName(x.pieza)||x.tipo||'Intervención')}</p>
+    <label class="wzlab">Fecha</label><input class="inp2" id="ieF" type="date" value="${esc(x.fecha||'')}">
+    <label class="wzlab">Kilómetros</label><input class="inp2" id="ieK" type="number" inputmode="numeric" min="0" value="${esc(x.km??'')}">
+    <label class="wzlab">Tipo</label><select class="inp2" id="ieT">${tipos.map(t=>`<option${t===x.tipo?' selected':''}>${esc(t)}</option>`).join('')}</select>
+    <label class="wzlab">Qué se ha hecho</label><textarea class="inp2" id="ieD" rows="3">${esc(x.descripcion||'')}</textarea>
+    <label class="wzlab">Referencia / marca</label><input class="inp2" id="ieR" value="${esc(x.ref||'')}" autocomplete="off">
+    <label class="wzlab">Coste (€)</label><input class="inp2" id="ieC" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(x.coste??'')}">
+    <div class="row3" style="margin-top:14px"><button class="btn2 ghost" type="button" id="ieNo">Cancelar</button><button class="btn2" type="button" id="ieOk">${ic('check')}Guardar</button></div></div>`, b=>{
+    const v=id=>b.querySelector('#'+id);
+    v('ieNo').onclick=()=>intSheet(x);
+    v('ieOk').onclick=async()=>{ const km=v('ieK').value, c=v('ieC').value;
+      const d={...stripId2(x), fecha:v('ieF').value||x.fecha, km:km===''?null:Number(km), tipo:v('ieT').value, descripcion:v('ieD').value.trim(), ref:v('ieR').value.trim(), coste:c===''?null:Number(c), actualizado:new Date().toISOString()};
+      v('ieOk').disabled=true;
+      try{ await S.db.collection('intervenciones').doc(x._id).set(d); $('#sheet2').hidden=true; toast('Intervención guardada', null, {label:'Deshacer', fn:()=>S.db.collection('intervenciones').doc(x._id).set(stripId2(x))}); }
+      catch{ v('ieOk').disabled=false; toast('No se pudo guardar','err'); } };
   });
 }
 { const _hl=histList; histList=function(list, withDelete){

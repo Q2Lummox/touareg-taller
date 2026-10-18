@@ -1,15 +1,15 @@
 {
- "version": "3.0.0-beta.9",
+ "version": "3.0.0-beta.10",
  "fecha": "2026-10-18",
  "notas": [
-  "Gastos: «Registrar una compra ya hecha», directamente como comprada (precio, tienda, fecha, factura), con «Añadir otra» de la misma tienda"
+  "Intervenciones: botón Editar (fecha, km, tipo, descripción, referencia y coste) con deshacer; ficha ordenada en dos columnas"
  ],
  "historial": [
   {
-   "version": "3.0.0-beta.9",
+   "version": "3.0.0-beta.10",
    "fecha": "2026-10-18",
    "notas": [
-    "Gastos: «Registrar una compra ya hecha», directamente como comprada (precio, tienda, fecha, factura), con «Añadir otra» de la misma tienda"
+    "Intervenciones: botón Editar (fecha, km, tipo, descripción, referencia y coste) con deshacer; ficha ordenada en dos columnas"
    ]
   }
  ]
