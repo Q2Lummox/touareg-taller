@@ -1,15 +1,15 @@
 {
- "version": "3.1.0-beta.4",
+ "version": "3.1.0-beta.5",
  "fecha": "2026-10-18",
  "notas": [
-  "Mapa actualizado"
+  "Quitado el paralaje de la foto de Hoy (y su interruptor en Ajustes)"
  ],
  "historial": [
   {
-   "version": "3.1.0-beta.4",
+   "version": "3.1.0-beta.5",
    "fecha": "2026-10-18",
    "notas": [
-    "Mapa actualizado"
+    "Quitado el paralaje de la foto de Hoy (y su interruptor en Ajustes)"
    ]
   }
  ]
