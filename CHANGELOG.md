@@ -1,5 +1,11 @@
 # Novedades
 
+## v3.1.0 · 2026-10-18
+- Avisos de la barra: solo lo no visto, todos en rojo y señalados dentro de cada pestaña
+- Gráficos: en qué se va el dinero, consumo y próximos 30.000 km
+- Herramientas: buscador con recientes, deslizar pendientes, caducidades al calendario, modo taller, dictado y noche de taller
+- Arreglos: interruptores de Ajustes, desplegables del 3D por encima de la barra, franjas en modo claro
+
 ## v3.0.0 · 2026-10-18
 - Taller 7L 3.0: navegación nueva como en el iPhone, con cinco pestañas (Hoy · Coche · Taller · Gastos · Papeles)
 - Pantallas principales y aspecto nuevos; deslizar para volver, tirar abajo para buscar, pulsación larga en las pestañas

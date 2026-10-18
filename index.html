@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="3.0.0">
+<meta name="app-version" content="3.1.0">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2942,6 +2942,229 @@ body.v3drag .pages,body.v3drag .app{will-change:transform}
 /* fichas con pares «etiqueta valor» en span/b (intervención…) */
 body.v3 .kv2:has(>span){display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;gap:8px 16px;padding:12px 14px;align-items:baseline}
 body.v3 .kv2:has(>span)>span{color:var(--v-txt2);font-size:14px}body.v3 .kv2:has(>span)>b{text-align:right;font-weight:600}
+/* fondos y rayas heredados de la 2.x en las pantallas de detalle */
+body.v3 :is(.page,.pbody,.pin2,.page>.pbody::before){background-image:none!important}
+body.v3 .pages,body.v3 .page{border:0!important;box-shadow:none!important}
+body.v3 :is(.pbody,.pin2){background:transparent!important}
+body.v3 .pages::before,body.v3 .pages::after,body.v3 .page::before,body.v3 .page::after{display:none!important}
+body.v3.ui2 .pages,body.v3.ui2.light .pages,html body.v3 .pages{background:var(--v-bg)!important;background-image:none!important}
+/* 3D: sin el hueco negro de las antiguas pestañas de Coche */
+body.v3{--ctabh:0px}
+/* 3D: el panel de abajo se desplaza con el dedo sin rebotar */
+body.v3 .app>aside{overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+/* 3D: las listas desplegables (sección, pieza, capas) suben como una hoja por encima de la barra de pestañas */
+@media (max-width:900px){
+  body.v3 .app .ddmenu{position:fixed!important;left:10px!important;right:10px!important;top:auto!important;bottom:calc(var(--navh) + var(--sa-b) + 10px)!important;max-height:min(58vh,480px)!important;z-index:9450!important;border-radius:16px!important;
+    background:var(--v-cell)!important;border:0!important;box-shadow:0 -10px 40px #000a,0 0 0 .5px var(--v-sep)!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding:8px!important}
+  body.v3 .app .ddmenu .opt{padding:12px 12px!important;font-size:15px!important;border-radius:10px!important;font-family:var(--v-font)}
+}
+/* ====================== 3.1 (beta) · EFECTOS ====================== */
+/* números de las pestañas: rebote al subir y latido si es urgente */
+.v3badge.fxpop{animation:fxPop .7s cubic-bezier(.3,1.8,.4,1)}
+@keyframes fxPop{0%{transform:scale(.3)}45%{transform:scale(1.35)}70%{transform:scale(.92)}100%{transform:scale(1)}}
+.v3badge.fxurg{box-shadow:0 0 0 0 color-mix(in srgb,var(--v-red) 70%,transparent);animation:fxRing 2.4s ease-out infinite}
+.v3badge.fxurg.fxpop{animation:fxPop .7s cubic-bezier(.3,1.8,.4,1),fxRing 2.4s ease-out .7s infinite}
+@keyframes fxRing{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--v-red) 65%,transparent)}70%{box-shadow:0 0 0 9px color-mix(in srgb,var(--v-red) 0%,transparent)}100%{box-shadow:0 0 0 0 transparent}}
+/* iconos de las pestañas al elegirlas */
+.v3tabs button i.fxbump{animation:fxBump .55s cubic-bezier(.3,1.6,.5,1)}
+.v3tabs button[data-t="taller"] i.fxbump svg{animation:fxWrench .6s cubic-bezier(.3,1.5,.5,1)}
+.v3tabs button[data-t="hoy"] i.fxbump svg{animation:fxFlip .6s cubic-bezier(.3,1.4,.5,1)}
+.v3tabs button[data-t="gastos"] i.fxbump svg{animation:fxWallet .6s cubic-bezier(.3,1.6,.5,1)}
+.v3tabs button[data-t="papeles"] i.fxbump svg{animation:fxTilt .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes fxBump{0%{transform:scale(1)}35%{transform:scale(.8) translateY(2px)}70%{transform:scale(1.14) translateY(-2px)}100%{transform:none}}
+@keyframes fxWrench{0%{transform:rotate(0)}40%{transform:rotate(-38deg)}75%{transform:rotate(10deg)}100%{transform:none}}
+@keyframes fxFlip{0%{transform:rotateX(0)}50%{transform:rotateX(180deg)}100%{transform:rotateX(360deg)}}
+@keyframes fxWallet{0%{transform:scaleX(1)}40%{transform:scaleX(1.25)}100%{transform:none}}
+@keyframes fxTilt{0%{transform:rotate(0)}40%{transform:rotate(-12deg)}75%{transform:rotate(6deg)}100%{transform:none}}
+/* avisos: rojo con halo que respira y destello al aparecer; naranja con destello */
+.vnow{position:relative;overflow:hidden;isolation:isolate}
+.vnow.fxhot{box-shadow:0 0 0 1px color-mix(in srgb,var(--v-red) 45%,transparent);animation:fxBreath 3.2s ease-in-out infinite}
+@keyframes fxBreath{0%,100%{box-shadow:0 0 0 1px color-mix(in srgb,var(--v-red) 35%,transparent),0 0 0 0 transparent}50%{box-shadow:0 0 0 1px color-mix(in srgb,var(--v-red) 70%,transparent),0 0 22px -2px color-mix(in srgb,var(--v-red) 55%,transparent)}}
+.vnow.fxhot .vsq{animation:fxIco 3.2s ease-in-out infinite}
+@keyframes fxIco{0%,100%{filter:none}50%{filter:drop-shadow(0 0 8px var(--v-red)) brightness(1.15)}}
+.vnow.fxhot::after,.vnow.fxwarm::after,.vnow.rep::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.16) 50%,transparent 65%);transform:translateX(-120%);animation:fxSheen 1.4s .35s cubic-bezier(.3,.6,.3,1) 1 both}
+@keyframes fxSheen{to{transform:translateX(120%)}}
+/* reparación en curso: borde vivo que recorre la tarjeta */
+.vnow.rep{background:var(--v-cell)}
+.vnow.rep::before{content:'';position:absolute;inset:-1px;z-index:-1;border-radius:inherit;padding:1.5px;background:conic-gradient(from var(--fxa,0deg),transparent 0 70%,var(--v-orange) 85%,transparent 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:fxSpin 3.6s linear infinite}
+@property --fxa{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes fxSpin{to{--fxa:360deg}}
+/* «todo en orden»: el check verde con un reflejo que pasa de vez en cuando */
+.vcalm>svg{animation:fxCalm 5s ease-in-out infinite}
+@keyframes fxCalm{0%,80%,100%{filter:none;transform:none}88%{filter:drop-shadow(0 0 10px var(--v-green)) brightness(1.3);transform:scale(1.08)}}
+/* chispas */
+.fxsp{position:fixed;inset:0;width:100vw;height:100vh;z-index:9990;pointer-events:none}
+/* Hoy: reflejo y salud */
+.fxsheen{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.13) 50%,transparent 60%);transform:translateX(-130%);animation:fxHero 9s 1.5s ease-in-out infinite}
+@keyframes fxHero{0%,72%{transform:translateX(-130%)}88%,100%{transform:translateX(130%)}}
+.fxhealth{display:flex;align-items:center;gap:10px;width:100%;margin-top:12px;border:0;background:none;color:#fff;padding:0;cursor:pointer;font-family:var(--v-font)}
+.fxhealth span{flex:none;font-size:12.5px;opacity:.9}.fxhealth span b{font-size:14px;color:var(--c)}
+.fxhealth i{flex:1;height:6px;border-radius:3px;background:#ffffff26;overflow:hidden}
+.fxhealth em{display:block;height:100%;width:calc(var(--p)*1%);border-radius:3px;background:linear-gradient(90deg,var(--c),color-mix(in srgb,var(--c) 60%,#fff));box-shadow:0 0 12px var(--c);animation:fxGrow 1.2s .3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes fxGrow{from{width:0}}
+.vkm.fxglow b{animation:fxKm 1.4s ease-out}
+@keyframes fxKm{0%{text-shadow:0 0 0 transparent}30%{text-shadow:0 0 18px var(--accent),0 0 2px #fff}100%{text-shadow:none}}
+/* aterrizaje en Hoy al salir de la pantalla de carga */
+body.fxland .v3pg.on .vhero{animation:fxLand 1.1s cubic-bezier(.2,.8,.2,1) both}
+body.fxland .v3pg.on .v3in>*:not(.vhero):not(.v3lt){animation:fxUp .8s cubic-bezier(.2,.8,.2,1) both}
+body.fxland .v3pg.on .v3in>*:nth-child(3){animation-delay:.12s}body.fxland .v3pg.on .v3in>*:nth-child(4){animation-delay:.2s}body.fxland .v3pg.on .v3in>*:nth-child(5){animation-delay:.28s}
+@keyframes fxLand{0%{transform:scale(1.14);filter:blur(10px) brightness(1.6);opacity:.2}100%{transform:none;filter:none;opacity:1}}
+@keyframes fxUp{0%{transform:translateY(26px);opacity:0}100%{transform:none;opacity:1}}
+.fxsweep{position:absolute;inset:0;z-index:5;pointer-events:none;background:linear-gradient(100deg,transparent 30%,rgba(255,236,200,.35) 48%,rgba(255,255,255,.6) 50%,rgba(255,236,200,.35) 52%,transparent 70%);transform:translateX(-110%);animation:fxSweep .9s .25s cubic-bezier(.5,0,.3,1) forwards}
+@keyframes fxSweep{to{transform:translateX(110%)}}
+/* fondos con el color de cada sección detrás de los títulos grandes */
+.v3pg .v3sc{background:radial-gradient(120% 340px at 15% -60px,var(--sec-c,transparent),transparent 70%) no-repeat}
+.v3pg[data-id="hoy"]{--sec-c:color-mix(in srgb,var(--v-orange) 22%,transparent)}
+.v3pg[data-id="coche"]{--sec-c:color-mix(in srgb,var(--v-indigo) 26%,transparent)}
+.v3pg[data-id="taller"],.v3pg[data-id="problemas"]{--sec-c:color-mix(in srgb,var(--v-blue) 22%,transparent)}
+.v3pg[data-id="gastos"]{--sec-c:color-mix(in srgb,var(--v-green) 22%,transparent)}
+.v3pg[data-id="papeles"]{--sec-c:color-mix(in srgb,var(--v-red) 18%,transparent)}
+.v3pg[data-id="ajustes"]{--sec-c:color-mix(in srgb,var(--v-gray) 22%,transparent)}
+body.v3.light .v3pg .v3sc{background-size:100% 420px}
+
+/* ====================== GRÁFICOS ====================== */
+.g3dc{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:center}
+@media (max-width:380px){.g3dc{grid-template-columns:120px minmax(0,1fr)}}
+.g3ring{width:100%;height:auto;transform:rotate(-90deg)}
+.g3s{fill:none;stroke:var(--c);stroke-width:17;stroke-dasharray:0 999;stroke-dashoffset:var(--off);animation:g3draw .9s var(--d) cubic-bezier(.2,.8,.2,1) forwards;cursor:pointer;transition:stroke-width .2s}
+.g3s:hover{stroke-width:21}
+@keyframes g3draw{to{stroke-dasharray:var(--len) var(--gap)}}
+.g3t,.g3u{transform:rotate(90deg);transform-origin:70px 70px;text-anchor:middle;fill:var(--v-txt)}
+.g3t{font:700 17px var(--v-font)}.g3u{font:500 10px var(--v-font);fill:var(--v-txt2)}
+.g3leg{display:flex;flex-direction:column;gap:2px}
+.g3leg button{display:flex;align-items:center;gap:9px;border:0;background:none;color:var(--v-txt);text-align:left;padding:7px 2px;cursor:pointer;font:inherit;border-radius:8px}
+.g3leg button:active{background:var(--v-cell2)}
+.g3leg i{width:10px;height:10px;border-radius:3px;background:var(--c);flex:none;box-shadow:0 0 8px var(--c)}
+.g3leg span{flex:1;min-width:0}.g3leg b{display:block;font-weight:600;font-size:14px}.g3leg small{color:var(--v-txt2);font-size:12px}
+.g3leg svg{width:14px;height:14px;color:var(--v-txt3)}
+.g3cn{display:flex;gap:24px;margin:2px 4px 8px}.g3cn span{font-size:12.5px;color:var(--v-txt2)}.g3cn b{font:700 24px var(--v-font);color:var(--v-txt)}.g3cn small{display:block}
+.g3cons .lch{width:100%;height:auto}
+.g3road{padding:16px 14px 10px}
+.g3rd{position:relative;height:96px;margin:0 6px;background:linear-gradient(var(--v-cell3),var(--v-cell3)) 0 50%/100% 6px no-repeat}
+.g3rd::before{content:'';position:absolute;left:0;right:0;top:calc(50% - 1px);border-top:2px dashed color-mix(in srgb,var(--v-txt3) 70%,transparent);opacity:.6}
+.g3car{position:absolute;left:-6px;top:50%;transform:translateY(-55%);color:var(--accent);filter:drop-shadow(0 0 6px var(--accent));animation:g3drive 2.4s ease-in-out infinite alternate}
+.g3car svg{width:26px;height:26px}
+@keyframes g3drive{to{transform:translate(4px,-55%)}}
+.g3mk{position:absolute;left:var(--x);top:calc(var(--row)*58px);transform:translateX(-50%);border:0;background:none;color:var(--v-txt);text-align:center;padding:0;cursor:pointer;font:inherit;max-width:110px}
+.g3mk b{display:block;font:600 11.5px var(--v-font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px}.g3mk small{display:block;font-size:10.5px;color:var(--v-txt2)}
+.g3mk::after{content:'';position:absolute;left:50%;width:12px;height:12px;border-radius:50%;background:var(--v-green);box-shadow:0 0 0 3px var(--v-cell),0 0 10px var(--v-green);transform:translateX(-50%)}
+.g3mk:not([style*="--row:1"])::after{top:41px}.g3mk[style*="--row:1"]::after{top:-15px}
+.g3mk.soon::after{background:var(--v-orange);box-shadow:0 0 0 3px var(--v-cell),0 0 10px var(--v-orange)}.g3mk.due::after{background:var(--v-red);box-shadow:0 0 0 3px var(--v-cell),0 0 12px var(--v-red);animation:fxBreath2 1.6s ease-in-out infinite}
+@keyframes fxBreath2{50%{transform:translateX(-50%) scale(1.3)}}
+.g3sc{display:flex;justify-content:space-between;font-size:11px;color:var(--v-txt3);margin-top:6px;font-variant-numeric:tabular-nums}
+
+/* ====================== HERRAMIENTAS ====================== */
+.srx h5{display:flex;justify-content:space-between;align-items:center}.srx h5 button{border:0;background:none;color:var(--accent);font:inherit;cursor:pointer}
+.srrec{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.srrec button{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:16px;padding:6px 12px;background:var(--v-cell2);color:var(--v-txt);font:500 13.5px var(--v-font);cursor:pointer}.srrec svg{width:14px;height:14px;color:var(--v-txt3)}
+.srgo{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:8px}
+.srgo button{display:flex;flex-direction:column;align-items:center;gap:6px;border:0;border-radius:14px;padding:12px 4px;background:var(--v-cell2);color:var(--v-txt);font:500 12.5px var(--v-font);cursor:pointer}
+/* deslizar pendientes */
+.pdrow{position:relative}
+.swbg{position:absolute;inset:0;display:flex;justify-content:space-between;align-items:center;padding:0 18px;pointer-events:none;opacity:0;transition:opacity .15s}
+.pdrow.swr .swbg,.pdrow.swl .swbg{opacity:1}
+.pdrow.swr .swbg{background:color-mix(in srgb,var(--v-green) 30%,var(--v-cell))}.pdrow.swl .swbg{background:color-mix(in srgb,var(--v-red) 30%,var(--v-cell))}
+.swbg em{display:flex;align-items:center;gap:6px;font:600 14px var(--v-font);font-style:normal;color:#fff;opacity:.55;transition:opacity .15s,transform .2s}.swbg svg{width:18px;height:18px}
+.pdrow.swr .swbg .r,.pdrow.swl .swbg .l{visibility:hidden}
+.pdrow.swgo .swbg em{opacity:1;transform:scale(1.08)}
+.pdrow>.pdchk,.pdrow>.pdbody{position:relative;z-index:1;background:inherit}
+.pdrow{background:var(--v-cell2)}.vpd .pdrow{background:var(--v-cell)}
+/* modo taller */
+.mtbtn{display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:center;width:100%;margin:8px 0 6px;padding:10px 12px;border:0;border-radius:12px;background:var(--v-cell2);color:var(--v-txt);text-align:left;cursor:pointer;font:inherit}
+.mtbtn svg{grid-row:span 2;width:22px;height:22px;color:var(--accent)}.mtbtn span{font-weight:600}.mtbtn small{color:var(--v-txt2);font-size:12px}
+.mtbtn[aria-pressed="true"]{background:color-mix(in srgb,var(--accent) 22%,var(--v-cell2));box-shadow:inset 0 0 0 1.5px var(--accent)}
+body.modotaller .reprun .rpstep h4{font-size:24px!important;line-height:1.25}
+body.modotaller .reprun .rpstep p{font-size:20px!important;line-height:1.5}
+body.modotaller .reprun .rppar b{font-size:26px!important}
+body.modotaller .reprun .rpnav .btn2{min-height:64px;font-size:18px!important}
+body.modotaller .reprun .rpnav .rpok{flex:2}
+body.modotaller .reprun .rpdots button{width:40px;height:40px;font-size:15px}
+/* dictado */
+.micw{position:relative;display:block}.micw>.inp2,.micw>textarea{padding-right:46px!important;width:100%;box-sizing:border-box}
+.micb{position:absolute;right:6px;top:6px;width:34px;height:34px;border-radius:50%;border:0;background:var(--v-cell3);color:var(--accent);display:grid;place-items:center;cursor:pointer}
+.micb svg{width:18px;height:18px}.micb.on{background:var(--v-red);color:#fff;animation:fxRing 1.2s ease-out infinite}
+/* interruptores en Ajustes */
+.vsw{cursor:pointer}.vtog{appearance:none;-webkit-appearance:none;flex:none;width:51px;height:31px;border-radius:16px;background:var(--v-cell3);position:relative;transition:background .25s;cursor:pointer;margin:0}
+.vtog::after{content:'';position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 6px #0004;transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
+.vtog:checked{background:var(--v-green)}.vtog:checked::after{transform:translateX(20px)}
+/* noche de taller */
+body.v3.v3night{--v-bg:#000;--v-bg2:#050000;--v-cell:#140303;--v-cell2:#1e0505;--v-cell3:#2c0808;--v-sep:rgba(120,20,20,.5);--v-txt:#ff5a4a;--v-txt2:rgba(255,90,74,.65);--v-txt3:rgba(255,90,74,.35);
+  --v-red:#ff3b30;--v-orange:#ff4d2e;--v-yellow:#ff5a3a;--v-green:#d8402f;--v-teal:#c83a2c;--v-blue:#b83a30;--v-indigo:#a83228;--v-purple:#a02c2c;--v-pink:#c43030;--v-gray:#7a2a2a;--accent:#ff3b30;--accent-ink:#000;--v-bar:rgba(0,0,0,.85)}
+body.v3night img,body.v3night .vhimg,body.v3night .v3dimg,body.v3night canvas{filter:sepia(1) hue-rotate(-50deg) saturate(3) brightness(.55)}
+body.v3night .vsq,body.v3night .r2 .ic{color:#000!important}
+/* 3D a pantalla completa en horizontal */
+.v3fsback{display:none}
+@media (orientation:landscape) and (max-height:520px){
+  body.v3[data-v3leaf="3d"]{--navh:0px;--t2h:0px}
+  body.v3[data-v3leaf="3d"] .v3tabs,body.v3[data-v3leaf="3d"] .v3bar{display:none}
+  body.v3[data-v3leaf="3d"] .v3fsback{display:grid;place-items:center;position:fixed;z-index:9500;left:calc(10px + env(safe-area-inset-left));top:10px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(20,20,22,.7);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#fff}
+  body.v3[data-v3leaf="3d"] .v3fsback svg{width:22px;height:22px}
+}
+@media (prefers-reduced-motion:reduce){ .v3badge.fxurg,.vnow.fxhot,.vnow.fxhot .vsq,.vnow.rep::before,.vcalm>svg,.fxsheen,.g3car,.g3mk.due::after{animation:none!important} }
+body.an-off :is(.v3badge.fxurg,.vnow.fxhot,.vnow.fxhot .vsq,.vnow.rep::before,.vcalm>svg,.fxsheen,.g3car,.g3mk.due::after,.g3s,.fxhealth em){animation:none!important}
+body.an-off .g3s{stroke-dasharray:var(--len) var(--gap)}
+
+/* ====================== PANTALLAS DE DETALLE CON EL ESTILO 3.0 ====================== */
+/* fuera los filos naranjas y reflejos de la 2.x */
+body.v3 .card2::before,body.v3 .card2::after,body.v3 :is(.mrow,.hist .h)::before{display:none!important}
+body.v3 .card2{border-radius:18px!important;padding:14px 14px 10px!important}
+body.v3 .card2 h3{margin:0 2px 10px!important;gap:8px}
+body.v3 .card2 h3 .cnt{border-radius:10px;padding:1px 8px;font-weight:600}
+/* filas del plan e historial: celdas limpias */
+body.v3 :is(.mrow,.hist .h){background:var(--v-cell)!important;border:0!important;border-radius:16px!important;box-shadow:none!important;padding:14px!important}
+body.v3 :is(.mrow,.hist .h) :is(.nm b,.t b){font:600 16px var(--v-font)!important;letter-spacing:-.01em}
+body.v3 .mrow .c,body.v3 .mrow .nm small{color:var(--v-txt2)!important}
+body.v3 .mrow .c b{color:var(--v-txt)!important}
+body.v3 .mrow .bar,body.v3 .mrow .bar2{height:6px!important;border-radius:3px!important;background:var(--v-cell3)!important}
+/* etiquetas de estado: cápsulas suaves, sin mayúsculas */
+body.v3 .pill{border:0!important;border-radius:9px!important;text-transform:none!important;letter-spacing:0!important;font:600 12.5px var(--v-font)!important;padding:3px 9px!important}
+body.v3 :is(.legend,.mleg,.stchips2) *{text-transform:none!important;letter-spacing:0!important}
+/* botones dentro de los paneles: los de iOS */
+body.v3 .ovl :is(.acts button,.mrow .bt button,.mcfg button,.fusform button,.hist button.del){background:var(--v-cell2)!important;color:var(--accent)!important;border:0!important;border-radius:11px!important;box-shadow:none!important;font:600 14px var(--v-font)!important;text-transform:none!important;letter-spacing:0!important}
+body.v3 .ovl :is(.acts button.pri,.mrow .bt button.pri,.mcfg button.pri,.mcfg button[type=submit],.fusform button[type=submit]){background:var(--accent)!important;color:var(--accent-ink)!important}
+body.v3 .ovl :is(input,select,textarea,.field input,.field textarea),body.v3 .fusq{background:var(--v-cell2)!important;border:0!important;border-radius:11px!important;color:var(--v-txt)!important;font-family:var(--v-font)!important}
+body.v3 .ovl :is(h2,h3,.lab,label.f){font-family:var(--v-font)!important;text-transform:none!important;letter-spacing:0!important}
+body.v3 .ovl label.f{color:var(--v-txt2)!important;font-size:13px!important}
+/* compra: filas con el check redondo */
+body.v3 .cmpi{background:var(--v-cell2)!important;border:0!important;border-radius:14px!important;padding:12px!important}
+body.v3 .cmpi .ck{border-radius:50%!important;border-color:var(--v-txt3)!important;width:28px;height:28px}
+body.v3 .cmpi .ck.on{background:var(--v-green)!important;border-color:var(--v-green)!important}
+body.v3 .cmpi .pr{color:var(--v-txt)!important;font:600 15px var(--v-font)!important}
+/* documentos: tarjetas sin degradados de la 2.x */
+body.v3 .doc2{background:var(--v-cell)!important;border:0!important;border-radius:18px!important}
+body.v3 .doc2::after{opacity:.5}
+body.v3 .doc2.st-ok{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--v-green) 45%,transparent)}
+body.v3 .doc2.st-soon{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--v-orange) 55%,transparent)}
+body.v3 .doc2.empty{background:transparent!important;box-shadow:inset 0 0 0 1.5px var(--v-sep);border-style:none!important}
+/* resúmenes de cifras */
+body.v3 .stc{padding:12px 14px!important;border-radius:16px!important}
+body.v3 .stc b{font:700 24px var(--v-font)!important;letter-spacing:-.02em}
+body.v3 .stc span{color:var(--v-txt2)!important;text-transform:none!important;letter-spacing:0!important}
+/* vacíos: el dibujo en gris suave y el texto centrado y respirado */
+body.v3 .empty2>svg{color:var(--v-txt3)!important;stroke-width:1.4}
+body.v3 .empty2{line-height:1.5}
+body.v3 .empty2.big2>svg{width:64px!important;height:64px!important;margin-bottom:6px}
+/* barras de los gráficos antiguos con el color de la app */
+body.v3 :is(.yb2 .st i,.ybars2 i){background:var(--accent)!important;border-radius:5px 5px 2px 2px!important}
+/* que nada quede estrecho en el móvil */
+@media (max-width:700px){ body.v3 .pbody .wrap :is(.card2,.mtlcard,.grid2>*){max-width:none!important;width:auto!important;grid-column:1/-1!important} }
+body.v3 .pbody .wrap{max-width:860px}
+/* los títulos de sección de las pantallas antiguas */
+body.v3 :is(.mhecho h4,.hyear span){font-family:var(--v-font)!important;text-transform:none!important;letter-spacing:-.01em!important}
+body.v3 .mhecho h4{font-size:20px!important;font-weight:700!important}
+body.v3 .mtlcard{display:block!important;width:auto!important;max-width:none!important;box-sizing:border-box}
+body.v3 .fusq{width:100%!important;box-sizing:border-box}
+body.v3 .mtop{flex-wrap:wrap!important;gap:10px!important}
+body.v3 .mtop>.mtlcard{flex:1 1 100%!important}
+@media (min-width:901px){ body.v3 .mtop>.mtlcard{flex:1 1 380px!important} }
+/* los interruptores no se salen: la fila mide lo que su caja (el label no traía border-box) */
+.vrow,label.vrow{box-sizing:border-box}
+.vsw .vtog{margin-left:8px}
+/* barra inferior sin animaciones (a petición de Sergio) */
+.v3tabs button i.fxbump,.v3tabs button i.fxbump svg,.v3badge.fxpop,.v3badge.fxurg{animation:none!important;box-shadow:none!important}
+/* todos los números de aviso en rojo */
+.v3badge,.v3badge.soon,.v3badge.info{background:var(--v-red)!important;color:#fff!important}
+.vgh .avb{display:inline-block;vertical-align:middle;margin-left:6px;font-size:12.5px;min-width:22px;height:22px;line-height:22px}
 </style>
 
 </head>
@@ -2984,7 +3207,7 @@ body.v3 .kv2:has(>span)>span{color:var(--v-txt2);font-size:14px}body.v3 .kv2:has
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v3.0.0</span>
+  <span class="spver">v3.1.0</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6365,7 +6588,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='3.0.0';
+window.APP_VERSION='3.1.0';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6399,7 +6622,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='3.0.0';
+  const APP_VERSION='3.1.0';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -12655,6 +12878,288 @@ function v3intro(force){
 /* ---------- arranque: se muestra Hoy (o lo que pida el enlace) ---------- */
 requestAnimationFrame(()=>{ if(!V3.cur) v3show(v3top(),'none'); v3badges(); });
 window.__v3={go:(...a)=>v3go(...a), back:(...a)=>v3back(...a), tab:t=>v3tab(t), V3, closeMenu:()=>closeV3Menu(), openSearch:()=>openSearch()};
+
+/* ---------- si el modelo 3D no llega a cargar (cobertura floja), botón para reintentar ---------- */
+{ const ld=document.getElementById('loader'); if(ld) new MutationObserver(()=>{ if(/No se pudo cargar el modelo/i.test(ld.textContent) && !ld.querySelector('.v3retry')){
+    const b=h2(`<button type="button" class="btn2 v3retry" style="margin-top:14px">${ic('history')}Reintentar</button>`); b.onclick=()=>{ uiSfx('tap'); location.reload(); };
+    (ld.querySelector('.lbox')||ld).append(b); const t=h2('<p class="muted2 v3rtx" style="margin-top:8px;text-transform:none;letter-spacing:0">Suele ser la cobertura: el modelo pesa bastante. Con wifi carga a la primera y luego queda guardado en el móvil.</p>'); b.after(t); } }).observe(ld,{childList:true, subtree:true, characterData:true}); }
+
+/* ====================== 3.1 (beta) · EFECTOS Y SONIDOS ======================
+   Números de las pestañas que saltan y laten si hay algo urgente, avisos con halo y destello, chispas al
+   tachar, iconos de pestaña que se animan, reflejo en «todo en orden», foto del coche que se mueve con el
+   dedo o al inclinar el móvil, cuentakilómetros que rueda y sonidos «de taller». Todo respeta «reducir movimiento». */
+const FX={prev:{}, km:null};
+const fxOK=()=>ANIMON();
+
+/* ---------- sonidos de taller (sintetizados, sin archivos) ---------- */
+function fxSfx(kind){
+  if(!UI.prefs.sound) return;
+  try{
+    if(!UAC){ const C=window.AudioContext||window.webkitAudioContext; if(!C) return; UAC=new C(); }
+    if(UAC.state==='suspended') UAC.resume();
+    const ac=UAC, t=ac.currentTime, out=ac.createGain(); out.gain.value=.22; out.connect(ac.destination);
+    const ping=(f,dl,dur,vol,type='sine')=>{ const o=ac.createOscillator(), g=ac.createGain(); o.type=type; o.frequency.setValueAtTime(f,t+dl); g.gain.setValueAtTime(.0001,t+dl); g.gain.exponentialRampToValueAtTime(vol,t+dl+.004); g.gain.exponentialRampToValueAtTime(.0001,t+dl+dur); o.connect(g).connect(out); o.start(t+dl); o.stop(t+dl+dur+.05); };
+    const hiss=(dl,dur,vol,f)=>{ const n=ac.createBuffer(1,Math.ceil(ac.sampleRate*dur),ac.sampleRate), d=n.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2);
+      const s=ac.createBufferSource(), bp=ac.createBiquadFilter(), g=ac.createGain(); bp.type='bandpass'; bp.frequency.value=f; bp.Q.value=3; g.gain.value=vol; s.buffer=n; s.connect(bp).connect(g).connect(out); s.start(t+dl); };
+    if(kind==='clink'){ /* llave que cae en la bandeja: parciales metálicos inarmónicos */
+      for(const [f,v,d] of [[2093,.5,.5],[3271,.32,.35],[4810,.2,.22],[6120,.12,.16]]) ping(f,0,d,v); hiss(0,.03,1.1,5200); ping(2350,.11,.28,.18); }
+    else if(kind==='register'){ /* caja registradora suave: cajón y campanilla */
+      hiss(0,.06,1.4,1800); ping(520,.0,.06,.25,'square'); hiss(.07,.05,.9,2600); ping(1568,.12,.9,.42); ping(2349,.12,.7,.2); }
+    else if(kind==='spark'){ for(let i=0;i<5;i++) ping(2400+Math.random()*2600, i*.035, .08, .12); }
+    else if(kind==='whoosh'){ hiss(0,.32,.9,900); }
+  }catch{}
+}
+/* que el toast no suene dos veces: estos mensajes llevan su propio sonido */
+FX.mute=0;
+{ const _u=uiSfx; uiSfx=function(k){ if(FX.mute>0 && (k==='save'||k==='ratchet')){ FX.mute--; return; } return _u(k); }; }
+{ const _t=toast; toast=function(msg,kind,action){ const m=String(msg||'');
+    if(!kind && /^Compra (guardada|registrada)/.test(m)){ FX.mute=1; fxSfx('register'); }
+    else if(!kind && /^Subsanado/.test(m)){ FX.mute=1; fxSfx('clink'); }
+    else if(!kind && /Reparación registrada/.test(m)){ setTimeout(()=>fxSparks(innerWidth/2, innerHeight*.45, 'var(--v-orange)', 40), 120); }
+    return _t(msg,kind,action); }; }
+
+/* ---------- chispas ---------- */
+function fxSparks(x, y, color, n=26){
+  if(!fxOK()) return; const cv=document.createElement('canvas'), dpr=Math.min(2,devicePixelRatio||1); cv.className='fxsp'; cv.width=innerWidth*dpr; cv.height=innerHeight*dpr; document.body.append(cv);
+  const c=cv.getContext('2d'); c.scale(dpr,dpr); const col=getComputedStyle(document.body).getPropertyValue(String(color).replace(/var\((--[^)]+)\)/,'$1')).trim()||color||'#ffb340';
+  const P=Array.from({length:n},()=>{ const a=Math.random()*Math.PI*2, v=2+Math.random()*5.5; return {x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-2.2,l:1,s:1+Math.random()*2.2,w:Math.random()<.35}; });
+  let t0=performance.now(); const step=now=>{ const dt=Math.min(2,(now-t0)/16.7); t0=now; c.clearRect(0,0,innerWidth,innerHeight); let alive=0;
+    for(const p of P){ if(p.l<=0) continue; alive++; p.vy+=.22*dt; p.vx*=.985; p.x+=p.vx*dt; p.y+=p.vy*dt; p.l-=.022*dt;
+      c.globalAlpha=Math.max(0,p.l); c.fillStyle=p.w?'#fff':col; c.shadowColor=col; c.shadowBlur=8; c.beginPath(); c.arc(p.x,p.y,p.s*(.5+p.l*.5),0,Math.PI*2); c.fill(); }
+    if(alive) requestAnimationFrame(step); else cv.remove(); };
+  requestAnimationFrame(step);
+}
+/* tachar un pendiente: chispas desde el círculo y la llave en la bandeja */
+{ const _pt=pdToggle; pdToggle=async function(p, el){ const done=p.estado!=='hecho';
+    if(done && el){ const r=el.querySelector('.pdchk')?.getBoundingClientRect(); if(r) fxSparks(r.left+r.width/2, r.top+r.height/2, 'var(--v-green)'); FX.mute=1; fxSfx('clink'); }
+    return _pt(p, el); }; }
+
+/* ---------- números de las pestañas: rebote al cambiar y latido si es urgente ---------- */
+{ const _b=v3badges; v3badges=function(...a){ const r=_b(...a);
+    v3tabs.querySelectorAll('button[data-t] .v3badge').forEach(b=>{ const t=b.closest('button').dataset.t, n=b.hidden?0:parseInt(b.textContent)||0, was=FX.prev[t]??n;
+      
+      FX.prev[t]=n; });
+    return r; }; }
+
+/* ---------- avisos: los rojos con halo y destello, la reparación en curso con borde vivo ---------- */
+{ const _vn=vNow; vNow=function(i,c,...a){ const b=_vn(i,c,...a); if(c===V3C.red) b.classList.add('fxhot'); else if(c===V3C.orange) b.classList.add('fxwarm'); return b; }; }
+
+/* ---------- iconos de las pestañas que se animan al elegirlas ---------- */
+/* (quitado: la barra inferior va sin animaciones) */ false && new MutationObserver(ms=>{ for(const m of ms){ const b=m.target; if(m.attributeName==='aria-current' && b.getAttribute('aria-current')==='true' && fxOK()){ const i=b.querySelector('i'); i.classList.remove('fxbump'); void i.offsetWidth; i.classList.add('fxbump'); } } })
+  .observe(v3tabs,{subtree:true, attributes:true, attributeFilter:['aria-current']});
+
+/* ---------- Hoy: foto que se mueve, reflejo, cuentakilómetros que rueda y salud del coche ---------- */
+function fxHealth(){ let c; try{ c=counts(); }catch{ return null; }
+  const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta').length, ya=(typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya').length;
+  let s=100-c.due*22-c.soon*6-c.ddue*25-c.dsoon*6-aves*15-ya*10; s=Math.max(5,Math.min(100,Math.round(s)));
+  return {s, col:s>=85?V3C.green:s>=60?V3C.orange:V3C.red, txt:s>=85?'En forma':s>=60?'Necesita atención':'Revisar cuanto antes'}; }
+{ const _r=V3.hubs.hoy.render; V3.hubs.hoy.render=function(w, e){ _r(w, e); const hero=w.querySelector('.vhero'); if(!hero) return;
+    /* salud */
+    const H=fxHealth(); if(H){ const h=h2(`<button type="button" class="fxhealth" style="--c:${H.col};--p:${H.s}"><span><b>${H.s}%</b> ${H.txt}</span><i><em></em></i></button>`); h.onclick=()=>{ uiSfx('tap'); v3tab('taller'); }; hero.querySelector('.vhname')?.after(h); }
+    /* reflejo que cruza la foto de vez en cuando */
+    hero.insertAdjacentHTML('beforeend','<i class="fxsheen" aria-hidden="true"></i>');
+    /* cuentakilómetros: si ha cambiado desde la última vez, rueda hasta la cifra nueva */
+    const kb=hero.querySelector('.vkm b'), km=Number(S.cfg?.kmActual)||null;
+    if(kb && km!=null){ if(FX.km!=null && FX.km!==km && fxOK()){ const from=FX.km, t0=performance.now(), D=1300; const u=kb.querySelector('i')?.outerHTML||'';
+        const step=t=>{ const k=Math.min(1,(t-t0)/D), ee=1-Math.pow(1-k,4); kb.innerHTML=nf.format(Math.round(from+(km-from)*ee))+u; if(k<1) requestAnimationFrame(step); else hero.querySelector('.vkm')?.classList.add('fxglow'); };
+        requestAnimationFrame(step); fxSfx('spark'); } FX.km=km; }
+    }; }
+/* ---------- al salir de la pantalla de carga: el coche «aterriza» en Hoy ---------- */
+{ let was=!!document.getElementById('splash'); new MutationObserver(()=>{ const now=!!document.getElementById('splash');
+    if(was && !now && fxOK()){ document.body.classList.add('fxland'); setTimeout(()=>document.body.classList.remove('fxland'), 1400); }
+    was=now; }).observe(document.body,{childList:true}); }
+/* barrido de luz al apagar la pantalla de carga */
+{ const _e=exitSplash; exitSplash=function(...a){ const sp=$('#splash'); if(sp && fxOK() && !sp.querySelector('.fxsweep')) sp.insertAdjacentHTML('beforeend','<i class="fxsweep" aria-hidden="true"></i>'); return _e(...a); }; }
+
+/* ====================== 3.1 (beta) · GRÁFICOS ======================
+   Gastos: anillo «en qué se va el dinero» (se dibuja al entrar; al tocar un trozo, lo que hay dentro) y
+   consumo en l/100 km entre llenados. Taller: la carretera de los próximos 30.000 km con tu coche al principio. */
+const G3={};
+/* ---------- en qué se va el dinero ---------- */
+function g3Cats(){
+  const C=[
+    {k:'piezas', t:'Piezas y compras', c:V3C.teal, L:(S.compras||[]).filter(c=>c.estado!=='pendiente' && Number(c.precio)).map(c=>({t:c.nombre, s:[c.tienda, c.fechaCompra?fmtDate(c.fechaCompra):''].filter(Boolean).join(' · '), e:Number(c.precio), fn:()=>compraSheet(c)}))},
+    {k:'taller', t:'Trabajos y taller', c:V3C.indigo, L:S.int.filter(x=>Number(x.coste)).map(x=>({t:itemName(x.mant)||partName(x.pieza)||x.descripcion||x.tipo, s:[x.tipo, x.fecha?fmtDate(x.fecha):''].filter(Boolean).join(' · '), e:Number(x.coste), fn:()=>intSheet(x)}))},
+    {k:'fuel', t:'Combustible', c:V3C.green, L:(S.v2.repostajes||[]).map(r=>({t:(r.litros?nf1(r.litros)+' l':'Repostaje')+(r.gasolinera?' · '+r.gasolinera:''), s:r.fecha?fmtDate(r.fecha):'', e:Number(r.total)||(Number(r.litros)*Number(r.precioL))||0, fn:()=>recForm(MOD.repostajes, r)})).filter(x=>x.e)},
+    {k:'papeles', t:'Papeles e impuestos', c:V3C.orange, L:[...(S.v2.itv||[]).map(x=>({t:'ITV', s:x.fecha?fmtDate(x.fecha):'', e:Number(x.coste)||0, fn:()=>recForm(MOD.itv, x)})), ...(S.v2.ivtm||[]).map(x=>({t:'Impuesto de circulación', s:x.fecha?fmtDate(x.fecha):(x.anio||''), e:Number(x.importe)||0, fn:()=>recForm(MOD.ivtm, x)})), ...(S.v2.siniestros||[]).map(x=>({t:x.titulo||'Siniestro o multa', s:x.fecha?fmtDate(x.fecha):'', e:Number(x.importe??x.coste)||0, fn:()=>recForm(MOD.siniestros, x)}))].filter(x=>x.e)},
+  ];
+  for(const c of C){ c.v=c.L.reduce((s,x)=>s+x.e,0); c.L.sort((a,b)=>b.e-a.e); } return C.filter(c=>c.v>0);
+}
+function g3Donut(){
+  const C=g3Cats(), tot=C.reduce((s,c)=>s+c.v,0); if(!tot) return null;
+  const R=52, L=2*Math.PI*R; let off=0;
+  const segs=C.map(c=>{ const len=c.v/tot*L, s={...c, len, off}; off+=len; return s; });
+  const box=h2(`<section class="vgrp g3d"><h2 class="vgh"><span>En qué se va el dinero</span></h2><div class="vcard g3dc">
+    <svg viewBox="0 0 140 140" class="g3ring" aria-label="Gasto por categorías">${segs.map((s,i)=>`<circle cx="70" cy="70" r="${R}" class="g3s" data-i="${i}" style="--c:${s.c};--len:${s.len.toFixed(2)};--gap:${(L-s.len).toFixed(2)};--off:${(-s.off).toFixed(2)};--d:${i*120}ms"/>`).join('')}
+      <text x="70" y="66" class="g3t">${esc(eur(tot).replace(/,00/,''))}</text><text x="70" y="84" class="g3u">en total</text></svg>
+    <div class="g3leg">${segs.map((s,i)=>`<button type="button" data-i="${i}" style="--c:${s.c}"><i></i><span><b>${esc(s.t)}</b><small>${eur(s.v)} · ${Math.round(s.v/tot*100)} %</small></span>${ic('chevR')}</button>`).join('')}</div></div>
+    <p class="vfoot">Incluye combustible y papeles; «Llevas invertido» solo cuenta el coche, las piezas y los trabajos.</p></section>`);
+  const open=i=>{ const s=segs[i]; uiSfx('tap'); const body=h2('<div class="g3list"></div>'); for(const x of s.L.slice(0,60)) body.append(vRow({i:'receipt', c:s.c, t:x.t, s:x.s, r:eur(x.e), fn:()=>{ closeSheet(); setTimeout(x.fn,80); }}));
+    detailSheet(s.t, `${eur(s.v)} · ${pl(s.L.length,'movimiento')}`, body, []); };
+  box.querySelectorAll('[data-i]').forEach(el=>el.addEventListener('click',()=>open(+el.dataset.i)));
+  return box;
+}
+/* ---------- consumo entre llenados ---------- */
+function g3Consumo(){
+  const R=[...(S.v2.repostajes||[])].filter(r=>r.km!=null && Number(r.litros)).sort((a,b)=>Number(a.km)-Number(b.km)); const P=[]; let last=null, acc=0;
+  for(const r of R){ if(last!=null) acc+=Number(r.litros); if(r.lleno!==false){ if(last!=null){ const d=Number(r.km)-Number(last.km); if(d>50 && acc>0){ const v=acc/d*100; if(v>3 && v<30) P.push({x:new Date((r.fecha||todayISO())+'T12:00:00').getTime(), y:v}); } } last=r; acc=0; } }
+  if(P.length<2) return null; const avg=P.reduce((s,p)=>s+p.y,0)/P.length, lastV=P[P.length-1].y;
+  const s=h2(`<section class="vgrp"><h2 class="vgh"><span>Consumo</span><button type="button">Repostajes</button></h2><div class="vcard g3cons"><div class="g3cn"><span><b>${nf1(avg)}</b> l/100 km<small>de media</small></span><span><b>${nf1(lastV)}</b> l/100 km<small>último llenado</small></span></div></div></section>`);
+  s.querySelector('.vgh button').onclick=()=>v3go('repost'); s.querySelector('.g3cons').append(lineChart(P,{c:'var(--v-green)', fmt:v=>nf1(v), label:'Consumo'})); return s;
+}
+{ const _r=V3.hubs.gastos.render; V3.hubs.gastos.render=function(w,e){ _r(w,e); const after=w.querySelector('.vchart')?.closest('.vgrp')||w.querySelector('.vbig'); const d=g3Donut(), c=g3Consumo(); if(after){ if(c) after.after(c); if(d) after.after(d); } }; }
+
+/* ---------- Taller: la carretera de los próximos km ---------- */
+function g3Road(){
+  const km=Number(S.cfg?.kmActual); if(!km) return null; const SPAN=30000;
+  const L=mantList().filter(({s})=>s.kmLeft!=null && s.kmLeft<=SPAN).sort((a,b)=>a.s.kmLeft-b.s.kmLeft); if(!L.length) return null;
+  const pos=k=>Math.max(0,Math.min(100, k/SPAN*100));
+  const box=h2(`<section class="vgrp"><h2 class="vgh"><span>Próximos ${nf.format(SPAN)} km</span><button type="button">Plan</button></h2><div class="vcard g3road">
+    <div class="g3rd"><i class="g3car">${ic('car2')}</i>${L.map(({it,s},i)=>`<button type="button" class="g3mk ${s.kmLeft<=0?'due':s.kmLeft<=1500?'soon':''}" style="--x:${pos(s.kmLeft)}%;--row:${i%2}" title="${esc(it.nombre)}"><b>${esc(it.nombre)}</b><small>${s.kmLeft<=0?'pasado':nf.format(Math.round(km+s.kmLeft))+' km'}</small></button>`).join('')}</div>
+    <div class="g3sc"><span>${nf.format(km)} km</span><span>${nf.format(km+SPAN/2)}</span><span>${nf.format(km+SPAN)}</span></div></div></section>`);
+  box.querySelector('.vgh button').onclick=()=>v3go('plan'); box.querySelectorAll('.g3mk').forEach(b=>b.onclick=()=>v3go('plan')); return box;
+}
+{ const _r=V3.hubs.taller.render; V3.hubs.taller.render=function(w,e){ _r(w,e); const r=g3Road(); if(r){ const st=w.querySelector('.vstats'); if(st) st.after(r); else w.append(r); } }; }
+
+/* ====================== 3.1 (beta) · HERRAMIENTAS ======================
+   Buscador con recientes y atajos · deslizar pendientes · caducidades al calendario (.ics) · modo taller con
+   la pantalla siempre encendida · dictado · tema «noche de taller» · 3D a pantalla completa en horizontal ·
+   arranque en frío (en invierno arranca un pelín más tarde y el ralentí sale algo más alto). */
+
+/* ---------- buscador: recientes y atajos cuando aún no has escrito ---------- */
+const SRK='taller7l-srch';
+const srGet=()=>{ try{ return JSON.parse(localStorage.getItem(SRK)||'[]'); }catch{ return []; } };
+function srSave(q){ q=(q||'').trim(); if(q.length<2) return; const L=[q, ...srGet().filter(x=>x.toLowerCase()!==q.toLowerCase())].slice(0,8); try{ localStorage.setItem(SRK, JSON.stringify(L)); }catch{} }
+{ const _cs=closeSearch; closeSearch=function(...a){ srSave($('#srQ')?.value); return _cs(...a); }; }
+$('#srRes')?.addEventListener('click',e=>{ if(e.target.closest('.r2,button')) srSave($('#srQ')?.value); }, true);
+{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); if((raw||'').trim()) return; const out=$('#srRes'); if(!out) return;
+    const R=srGet(); const box=h2(`<div class="srx">${R.length?`<h5>Recientes <button type="button" class="srclr">Borrar</button></h5><div class="srrec">${R.map(q=>`<button type="button">${ic('history')}<span>${esc(q)}</span></button>`).join('')}</div>`:''}
+      <h5>Ir directamente a</h5><div class="srgo">${[['plan','list','Mantenimiento',V3C.blue],['problemas','alert','Problemas',V3C.red],['compra','cart','Compra',V3C.teal],['tecnica','gauge','Ficha técnica',V3C.orange],['3d','cube','Modelo 3D',V3C.indigo],['guias','book','Guías',V3C.green]].map(([id,i,t,c])=>`<button type="button" data-id="${id}" style="--c:${c}"><i class="vsq">${ic(i)}</i><span>${t}</span></button>`).join('')}</div></div>`);
+    box.querySelectorAll('.srrec button').forEach(b=>b.onclick=()=>{ const q=$('#srQ'); q.value=b.textContent.trim(); q.dispatchEvent(new Event('input')); runSearch(q.value); });
+    box.querySelector('.srclr')?.addEventListener('click',()=>{ try{ localStorage.removeItem(SRK); }catch{} runSearch(''); });
+    box.querySelectorAll('.srgo button').forEach(b=>b.onclick=()=>{ closeSearch(); v3go(b.dataset.id); });
+    out.prepend(box); }; }
+
+/* ---------- deslizar un pendiente: a la derecha lo tachas, a la izquierda lo borras ---------- */
+function swBind(row){ if(row._sw) return; row._sw=true; let x0=0,y0=0,dx=0,on=false,lock=null;
+  const mv=v=>{ for(const el of [row.querySelector('.pdchk'), row.querySelector('.pdbody')]) if(el){ el.style.transition=v==null?'transform .3s cubic-bezier(.2,1.2,.4,1)':'none'; el.style.transform=v==null?'':`translateX(${v}px)`; } };
+  row.addEventListener('touchstart',e=>{ const t=e.touches[0]; x0=t.clientX; y0=t.clientY; dx=0; on=true; lock=null; },{passive:true});
+  row.addEventListener('touchmove',e=>{ if(!on) return; const t=e.touches[0], ddx=t.clientX-x0, ddy=t.clientY-y0;
+    if(lock==null && (Math.abs(ddx)>9 || Math.abs(ddy)>9)) lock=Math.abs(ddx)>Math.abs(ddy)*1.3?'x':'y'; if(lock!=='x') return;
+    if(x0<26) return;  /* desde el borde es el gesto de volver */
+    dx=ddx; mv(Math.max(-140,Math.min(140,dx))); row.classList.toggle('swr', dx>0); row.classList.toggle('swl', dx<0); row.classList.toggle('swgo', Math.abs(dx)>=80); },{passive:true});
+  const end=()=>{ if(!on) return; on=false; const go2=Math.abs(dx)>=80 && lock==='x'; mv(null); setTimeout(()=>row.classList.remove('swr','swl','swgo'),300);
+    if(!go2) return; const p=pdList().find(x=>x._id===row.dataset.pd); if(!p) return; uiSfx('tick');
+    if(dx>0) pdToggle(p, row); else v2Del('pendientes', p, 'Pendiente borrado'); };
+  row.addEventListener('touchend',end,{passive:true}); row.addEventListener('touchcancel',()=>{ on=false; mv(null); row.classList.remove('swr','swl','swgo'); },{passive:true}); }
+{ const _pr=pdRow; pdRow=function(p,o){ const r=_pr(p,o); r.dataset.pd=p._id; r.insertAdjacentHTML('afterbegin',`<span class="swbg" aria-hidden="true"><em class="l">${ic('check')}${p.estado==='hecho'?'Reabrir':'Hecho'}</em><em class="r">${ic('trash')}Borrar</em></span>`); swBind(r); return r; }; }
+
+/* ---------- caducidades al calendario del iPhone (.ics con avisos 30 y 7 días antes) ---------- */
+function icsCad(){
+  const D=docsVig().filter(d=>d.caduca && d.caduca>=todayISO()); if(!D.length){ toast('No hay fechas de caducidad por venir'); return; }
+  const z=s=>s.replace(/-/g,''), nx=s=>{ const d=new Date(s+'T12:00:00'); d.setDate(d.getDate()+1); return d.toISOString().slice(0,10).replace(/-/g,''); }, e=s=>String(s).replace(/[,;\\]/g,m=>'\\'+m);
+  const ev=D.map((d,i)=>['BEGIN:VEVENT',`UID:taller7l-${d._id||i}-${z(d.caduca)}@taller7l`,`DTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').slice(0,15)}Z`,`DTSTART;VALUE=DATE:${z(d.caduca)}`,`DTEND;VALUE=DATE:${nx(d.caduca)}`,
+    `SUMMARY:${e('Touareg · caduca: '+d.tipo+(d.nombre?' ('+d.nombre+')':''))}`,'DESCRIPTION:Aviso de Taller 7L',
+    'BEGIN:VALARM','TRIGGER:-P30D','ACTION:DISPLAY','DESCRIPTION:Caduca en 30 días','END:VALARM','BEGIN:VALARM','TRIGGER:-P7D','ACTION:DISPLAY','DESCRIPTION:Caduca en 7 días','END:VALARM','END:VEVENT'].join('\r\n'));
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Taller 7L//ES','CALSCALE:GREGORIAN',...ev,'END:VCALENDAR'].join('\r\n');
+  const f=new File([ics],'touareg-caducidades.ics',{type:'text/calendar'});
+  if(navigator.canShare?.({files:[f]})){ navigator.share({files:[f], title:'Caducidades del Touareg'}).catch(()=>{}); return; }
+  const a=document.createElement('a'); a.href=URL.createObjectURL(f); a.download=f.name; document.body.append(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },2000);
+  toast(`${pl(D.length,'fecha')} para el calendario, con aviso 30 y 7 días antes`); }
+{ const _r=V3.hubs.papeles.render; V3.hubs.papeles.render=function(w,e){ _r(w,e); const g=[...w.querySelectorAll('.vgrp')].find(x=>/Caducidades/.test(x.querySelector('.vgh')?.textContent||'')); if(g) g.querySelector('.vlist').append(vRow({i:'calendar', c:V3C.red, t:'Añadir al calendario del iPhone', s:'Con aviso 30 y 7 días antes de cada fecha', fn:icsCad, cls:'vadd'})); }; }
+
+/* ---------- modo taller: letra grande y pantalla siempre encendida mientras reparas ---------- */
+let WAKE=null;
+async function wakeOn(){ try{ WAKE=await navigator.wakeLock?.request('screen'); }catch{ WAKE=null; } }
+function wakeOff(){ try{ WAKE?.release(); }catch{} WAKE=null; }
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden && document.body.classList.contains('modotaller')) wakeOn(); });
+new MutationObserver(()=>{ if($('#sheet2').hidden && document.body.classList.contains('modotaller')){ document.body.classList.remove('modotaller'); wakeOff(); } }).observe($('#sheet2'),{attributes:true, attributeFilter:['hidden']});
+{ const _rr=repRun; repRun=function(rep0){ _rr(rep0); const box=document.querySelector('#shBox .reprun'); if(!box || box.querySelector('.mtbtn')) return;
+    const on=UI.prefs.modoTaller; const b=h2(`<button type="button" class="mtbtn" aria-pressed="${!!on}">${ic('maximize')}<span>Modo taller</span><small>Letra grande y pantalla siempre encendida</small></button>`);
+    const apply=v=>{ document.body.classList.toggle('modotaller', v); b.setAttribute('aria-pressed', String(v)); if(v) wakeOn(); else wakeOff(); };
+    b.onclick=()=>{ UI.prefs.modoTaller=!UI.prefs.modoTaller; savePrefsUI(); uiSfx('tap'); apply(UI.prefs.modoTaller); if(UI.prefs.modoTaller) toast(navigator.wakeLock?'Modo taller: la pantalla no se apagará':'Modo taller activado (este navegador no deja mantener la pantalla encendida)'); };
+    box.querySelector('.rphead')?.after(b); if(on) apply(true); }; }
+
+/* ---------- dictado: un micrófono junto a las casillas de texto largo ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+function micFor(el){ if(!SR || !el || el._mic) return; el._mic=true; const b=h2(`<button type="button" class="micb" aria-label="Dictar">${ic('mic')}</button>`); let rec=null;
+  b.onclick=()=>{ if(rec){ rec.stop(); return; } rec=new SR(); rec.lang='es-ES'; rec.interimResults=true; rec.continuous=false; const base=el.value?el.value.replace(/\s*$/,' '):'';
+    rec.onresult=ev=>{ let t=''; for(const r of ev.results) t+=r[0].transcript; el.value=base+t.charAt(0).toUpperCase()+t.slice(1); el.dispatchEvent(new Event('input',{bubbles:true})); };
+    rec.onend=()=>{ rec=null; b.classList.remove('on'); }; rec.onerror=()=>{ rec=null; b.classList.remove('on'); toast('No se pudo usar el micrófono'); };
+    try{ rec.start(); b.classList.add('on'); uiSfx('open'); }catch{ rec=null; } };
+  const w=h2('<span class="micw"></span>'); el.before(w); w.append(el, b); }
+IC.mic=IC.mic||'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/>';
+IC.maximize=IC.maximize||'<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>';
+new MutationObserver(()=>{ const b=$('#shBox'); if(!b) return; b.querySelectorAll('#pdT,#pdN,#cpNo,#ieD,#rlT,#rlP,.rpnotes textarea').forEach(micFor); }).observe($('#shBox'),{childList:true, subtree:true});
+
+/* ---------- tema «noche de taller»: rojo tenue para no deslumbrarte a oscuras ---------- */
+function nightApply(){ document.body.classList.toggle('v3night', !!UI.prefs.night); document.querySelector('meta[name="theme-color"]')?.setAttribute('content', UI.prefs.night?'#000000':(document.body.classList.contains('light')?'#eef1f4':'#121418')); }
+nightApply();
+{ const _r=V3.pages.ajustes.render; V3.pages.ajustes.render=function(w,e){ _r(w,e); const ap=[...w.querySelectorAll('.vgrp')].find(x=>/Apariencia/.test(x.querySelector('.vgh')?.textContent||'')); if(!ap) return;
+    const L=h2('<div class="vlist" style="margin-top:12px"></div>');
+    const sw=(t,s,i,c,get,set)=>{ const r=h2(`<label class="vrow vsw"><i class="vsq" style="--c:${c}">${ic(i)}</i><span class="vtx"><b>${t}</b><small>${s}</small></span><input type="checkbox" class="vtog"${get()?' checked':''}></label>`); r.querySelector('input').onchange=e2=>{ uiSfx('tap'); set(e2.target.checked); }; return r; };
+    L.append(sw('Noche de taller','Rojo tenue para mirar el móvil a oscuras','sun',V3C.red,()=>UI.prefs.night,v=>{ UI.prefs.night=v; savePrefsUI(); nightApply(); }));
+    ap.append(L); }; }
+
+/* ---------- 3D a pantalla completa con el móvil en horizontal ---------- */
+{ const _a=v3apply; v3apply=function(e){ const r=_a(e); document.body.dataset.v3leaf=e.k==='leaf'?e.id:''; return r; }; }
+{ const b=h2(`<button type="button" class="v3fsback" aria-label="Volver">${ic('chevL')}</button>`); b.onclick=()=>v3back(); document.body.append(b);
+  matchMedia('(orientation: landscape) and (max-height: 520px)').addEventListener?.('change',()=>setTimeout(()=>{ try{ _rsz=''; resize(); dirty=true; }catch{} },250)); }
+
+/* ---------- arranque en frío: de diciembre a febrero tarda un pelín más y el ralentí sale algo más alto ---------- */
+{ const m=new Date().getMonth(); if(m===11 || m<=1){ const _ig=ignition; ignition=function(){ const first=!SEQ; _ig(); if(!first || !SEQ) return;
+      SEQ.t.forEach(x=>{ clearTimeout(x); clearInterval(x); }); SEQ.t=[]; const sp=$('#splash'); if(!sp) return; const at=(ms,fn)=>SEQ.t.push(setTimeout(fn,ms));
+      at(600,()=>ENGX?.starter(.4)); { let k=0; const w=setInterval(()=>{ NDL.tgt=(k++%2)?.045:.02; },115); SEQ.t.push(w); at(1000,()=>clearInterval(w)); } at(600,()=>shake(2.2,420));
+      at(1020,()=>{ ENGX?.boom(); NDL.tgt=.47; sp.classList.remove('lights','glowonly'); sp.classList.add('fire','shaking'); shake(16,900); setTimeout(()=>sp.classList.remove('shaking'),900); try{ navigator.vibrate?.([70,40,140]); }catch{} (document.getElementById('spTxt')||{}).textContent='Motor en marcha · en frío'; });
+      at(1520,()=>{ NDL.tgt=.19; });
+      at(1970,()=>{ NDL.tgt=.18; NDL.idle=true; NDL.offT=performance.now(); idleJitter(); });
+      at(3270,()=>exitSplash()); }; } }
+
+/* ====================== 3.1 (beta) · AVISOS «NO VISTOS» EN LA BARRA ======================
+   El número de cada pestaña cuenta solo lo que aún no has visto. Al salir de donde se ven, se borra:
+     Taller  → averías abiertas, pendientes «antes de circular» y mantenimiento vencido o próximo (se ven en Taller)
+     Gastos  → piezas por comprar (se ven en la Lista de la compra)
+     Papeles → documentos caducados o por caducar (se ven en Papeles)
+   Todos los números en rojo, y dentro de cada pestaña la fila de la que viene el aviso lleva el suyo. */
+const SEENK='taller7l-vistos';
+let SEEN=(()=>{ try{ return JSON.parse(localStorage.getItem(SEENK)||'{}'); }catch{ return {}; } })();
+const seenSave=()=>{ try{ localStorage.setItem(SEENK, JSON.stringify(SEEN)); }catch{} };
+function avItems(){
+  let ml=[]; try{ ml=mantList(); }catch{}
+  const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta').map(a=>'a:'+a._id), ya=(typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya').map(p=>'p:'+p._id);
+  const mant=ml.filter(x=>x.s.st==='due'||x.s.st==='soon').map(x=>'m:'+(x.it.id||x.it._id||x.it.nombre)+':'+x.s.st);
+  const compra=(S.compras||[]).filter(c=>c.estado==='pendiente').map(c=>'c:'+c._id);
+  let docs=[]; try{ docs=docsVig().filter(d=>{ const s=docStatus(d).st; return s==='due'||s==='soon'; }).map(d=>'d:'+(d._id||d.tipo)+':'+d.caduca); }catch{}
+  return {taller:[...aves, ...ya, ...mant], gastos:compra, papeles:docs};
+}
+const unseen=(t,I)=>(I||avItems())[t].filter(x=>!(SEEN[t]||[]).includes(x));
+/* dónde se «ven» los avisos de cada pestaña */
+function avCtx(e){ if(!e) return null;
+  if(e.k==='hub' && (e.id==='taller'||e.id==='papeles')) return e.id;
+  if(['problemas','averias','pendientes','plan','hechos'].includes(e.id)) return 'taller';
+  if(e.id==='compra') return 'gastos';
+  if(e.id==='p_docs') return 'papeles';
+  return null; }
+function avMarkSeen(ctx){ if(!ctx) return; SEEN[ctx]=avItems()[ctx]; seenSave(); }
+let AVCTX=null;
+{ const _a=v3apply; v3apply=function(e){ const r=_a(e); const c=avCtx(e); if(AVCTX && AVCTX!==c){ avMarkSeen(AVCTX); } AVCTX=c; setTimeout(v3badges,0); return r; }; }
+document.addEventListener('visibilitychange',()=>{ if(document.hidden && AVCTX) avMarkSeen(AVCTX); });
+
+/* la barra: solo lo no visto, siempre en rojo */
+v3badges=function(){ const I=avItems();
+  for(const t of ['taller','gastos','papeles']){ const b=v3tabs.querySelector(`button[data-t="${t}"] .v3badge`); if(!b) continue; const n=unseen(t,I).length; b.hidden=!n; b.textContent=n>99?'99+':n; b.className='v3badge'; }
+  const h=v3tabs.querySelector('button[data-t="hoy"] .v3badge'); if(h) h.hidden=true; };
+
+/* dentro de cada pestaña, el número en la fila de la que viene */
+const avBadge=n=>n?`<em class="vbadge avb" style="--c:var(--v-red)">${n}</em>`:'';
+{ const _r=V3.hubs.taller.render; V3.hubs.taller.render=function(w,e){ _r(w,e); const U=unseen('taller');
+    const np=U.filter(x=>/^[ap]:/.test(x)).length, nm=U.filter(x=>/^m:/.test(x)).length;
+    const pg=[...w.querySelectorAll('.vgrp')].find(g=>/^Problemas/.test(g.querySelector('.vgh span')?.textContent||'')); if(pg && np) pg.querySelector('.vgh span').insertAdjacentHTML('beforeend', ' '+avBadge(np));
+    const mr=[...w.querySelectorAll('.vrow')].find(r=>/^Mantenimiento/.test(r.querySelector('.vtx b')?.textContent||'')); if(mr){ mr.querySelector('.vbadge')?.remove(); if(nm) mr.querySelector('.vtx').insertAdjacentHTML('afterend', avBadge(nm)); } }; }
+{ const _r=V3.hubs.gastos.render; V3.hubs.gastos.render=function(w,e){ _r(w,e); const n=unseen('gastos').length;
+    const cr=[...w.querySelectorAll('.vrow')].find(r=>/^Lista de la compra/.test(r.querySelector('.vtx b')?.textContent||'')); if(cr){ cr.querySelector('.vbadge')?.remove(); if(n) cr.querySelector('.vtx').insertAdjacentHTML('afterend', avBadge(n)); } }; }
+{ const _r=V3.hubs.papeles.render; V3.hubs.papeles.render=function(w,e){ _r(w,e); const n=unseen('papeles').length;
+    const g=[...w.querySelectorAll('.vgrp')].find(x=>/^Caducidades/.test(x.querySelector('.vgh span')?.textContent||'')); if(g && n) g.querySelector('.vgh span').insertAdjacentHTML('beforeend', ' '+avBadge(n)); }; }
 
 
 connectDb();
