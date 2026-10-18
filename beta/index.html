@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="3.1.0-beta.1">
+<meta name="app-version" content="3.1.0-beta.2">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3148,6 +3148,11 @@ body.v3 .fusq{width:100%!important;box-sizing:border-box}
 body.v3 .mtop{flex-wrap:wrap!important;gap:10px!important}
 body.v3 .mtop>.mtlcard{flex:1 1 100%!important}
 @media (min-width:901px){ body.v3 .mtop>.mtlcard{flex:1 1 380px!important} }
+/* los interruptores no se salen: la fila mide lo que su caja (el label no traía border-box) */
+.vrow,label.vrow{box-sizing:border-box}
+.vsw .vtog{margin-left:8px}
+/* barra inferior sin animaciones (a petición de Sergio) */
+.v3tabs button i.fxbump,.v3tabs button i.fxbump svg,.v3badge.fxpop,.v3badge.fxurg{animation:none!important;box-shadow:none!important}
 </style>
 
 </head>
@@ -3190,7 +3195,7 @@ body.v3 .mtop>.mtlcard{flex:1 1 100%!important}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v3.1.0-beta.1</span>
+  <span class="spver">v3.1.0-beta.2</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6572,7 +6577,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='3.1.0-beta.1';
+window.APP_VERSION='3.1.0-beta.2';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6606,7 +6611,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='3.1.0-beta.1';
+  const APP_VERSION='3.1.0-beta.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -12916,15 +12921,15 @@ function fxSparks(x, y, color, n=26){
 /* ---------- números de las pestañas: rebote al cambiar y latido si es urgente ---------- */
 { const _b=v3badges; v3badges=function(...a){ const r=_b(...a);
     v3tabs.querySelectorAll('button[data-t] .v3badge').forEach(b=>{ const t=b.closest('button').dataset.t, n=b.hidden?0:parseInt(b.textContent)||0, was=FX.prev[t]??n;
-      if(n>was && fxOK()){ b.classList.remove('fxpop'); void b.offsetWidth; b.classList.add('fxpop'); fxSfx('spark'); }
-      FX.prev[t]=n; b.classList.toggle('fxurg', n>0 && !b.classList.contains('soon') && !b.classList.contains('info')); });
+      
+      FX.prev[t]=n; });
     return r; }; }
 
 /* ---------- avisos: los rojos con halo y destello, la reparación en curso con borde vivo ---------- */
 { const _vn=vNow; vNow=function(i,c,...a){ const b=_vn(i,c,...a); if(c===V3C.red) b.classList.add('fxhot'); else if(c===V3C.orange) b.classList.add('fxwarm'); return b; }; }
 
 /* ---------- iconos de las pestañas que se animan al elegirlas ---------- */
-new MutationObserver(ms=>{ for(const m of ms){ const b=m.target; if(m.attributeName==='aria-current' && b.getAttribute('aria-current')==='true' && fxOK()){ const i=b.querySelector('i'); i.classList.remove('fxbump'); void i.offsetWidth; i.classList.add('fxbump'); } } })
+/* (quitado: la barra inferior va sin animaciones) */ false && new MutationObserver(ms=>{ for(const m of ms){ const b=m.target; if(m.attributeName==='aria-current' && b.getAttribute('aria-current')==='true' && fxOK()){ const i=b.querySelector('i'); i.classList.remove('fxbump'); void i.offsetWidth; i.classList.add('fxbump'); } } })
   .observe(v3tabs,{subtree:true, attributes:true, attributeFilter:['aria-current']});
 
 /* ---------- Hoy: foto que se mueve, reflejo, cuentakilómetros que rueda y salud del coche ---------- */

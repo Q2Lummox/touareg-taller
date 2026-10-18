@@ -1,21 +1,15 @@
 {
- "version": "3.1.0-beta.1",
+ "version": "3.1.0-beta.2",
  "fecha": "2026-10-18",
  "notas": [
-  "Efectos: números de pestañas que saltan y laten, avisos con brillo, chispas al tachar, iconos animados, salud del coche y foto con movimiento",
-  "Gráficos: en qué se va el dinero, consumo y los próximos 30.000 km",
-  "Buscador con recientes, deslizar pendientes, caducidades al calendario, modo taller, dictado, tema noche y 3D en horizontal",
-  "Pantallas de detalle con el estilo 3.0 y sonidos de taller"
+  "Interruptores de Ajustes dentro de la pantalla; barra inferior sin animaciones"
  ],
  "historial": [
   {
-   "version": "3.1.0-beta.1",
+   "version": "3.1.0-beta.2",
    "fecha": "2026-10-18",
    "notas": [
-    "Efectos: números de pestañas que saltan y laten, avisos con brillo, chispas al tachar, iconos animados, salud del coche y foto con movimiento",
-    "Gráficos: en qué se va el dinero, consumo y los próximos 30.000 km",
-    "Buscador con recientes, deslizar pendientes, caducidades al calendario, modo taller, dictado, tema noche y 3D en horizontal",
-    "Pantallas de detalle con el estilo 3.0 y sonidos de taller"
+    "Interruptores de Ajustes dentro de la pantalla; barra inferior sin animaciones"
    ]
   }
  ]
