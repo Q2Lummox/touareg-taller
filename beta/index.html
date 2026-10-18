@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="3.1.0">
+<meta name="app-version" content="4.0.0-beta.1">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2958,6 +2958,8 @@ body.v3 .app>aside{overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
     background:var(--v-cell)!important;border:0!important;box-shadow:0 -10px 40px #000a,0 0 0 .5px var(--v-sep)!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding:8px!important}
   body.v3 .app .ddmenu .opt{padding:12px 12px!important;font-size:15px!important;border-radius:10px!important;font-family:var(--v-font)}
 }
+
+/* ====================== 3.1: efectos, gráficos, herramientas y avisos ====================== */
 /* ====================== 3.1 (beta) · EFECTOS ====================== */
 /* números de las pestañas: rebote al subir y latido si es urgente */
 .v3badge.fxpop{animation:fxPop .7s cubic-bezier(.3,1.8,.4,1)}
@@ -3165,6 +3167,9 @@ body.v3 .mtop>.mtlcard{flex:1 1 100%!important}
 /* todos los números de aviso en rojo */
 .v3badge,.v3badge.soon,.v3badge.info{background:var(--v-red)!important;color:#fff!important}
 .vgh .avb{display:inline-block;vertical-align:middle;margin-left:6px;font-size:12.5px;min-width:22px;height:22px;line-height:22px}
+
+/* 4.0: nota de preferencias sincronizadas */
+.vsyncf{display:flex;align-items:center;gap:8px;margin:-4px 4px 18px}.vsyncf svg{width:16px;height:16px;flex:none;color:var(--v-blue)}
 </style>
 
 </head>
@@ -3207,12 +3212,11 @@ body.v3 .mtop>.mtlcard{flex:1 1 100%!important}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v3.1.0</span>
+  <span class="spver">v4.0.0-beta.1</span>
 </div>
 
 <header class="top2" id="top2">
   <div class="t2l">
-    <button class="t2back" id="t2Back" type="button" hidden aria-label="Volver"></button>
     <span class="t2mark" aria-hidden="true"><span>7L</span></span>
     <div class="t2t"><b id="t2Title">Inicio</b><small id="t2Sub">Touareg 7L · 9905 CMY</small></div>
     <span class="t2beta" title="Versión de prueba del nuevo diseño">Beta</span>
@@ -3223,13 +3227,6 @@ body.v3 .mtop>.mtlcard{flex:1 1 100%!important}
   </div>
 </header>
 
-<nav class="nav2" id="nav2" aria-label="Secciones">
-  <button type="button" data-sec="inicio"><i></i><span>Inicio</span></button>
-  <button type="button" data-sec="coche"><i></i><span>Coche</span><em class="navprog" id="navProg"></em></button>
-  <button type="button" data-sec="mant"><i></i><span>Mantenim.</span><b class="nbadge" id="nbMant" hidden></b></button>
-  <button type="button" data-sec="papeles"><i></i><span>Papeles</span><b class="nbadge" id="nbDocs" hidden></b></button>
-  <button type="button" data-sec="mas"><i></i><span>Más</span></button>
-</nav>
 
 <div class="subtabs ctabs" id="stCoche" role="tablist"></div>
 <main class="pages" id="pages">
@@ -6589,7 +6586,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='3.1.0';
+window.APP_VERSION='4.0.0-beta.1';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6623,7 +6620,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='3.1.0';
+  const APP_VERSION='4.0.0-beta.1';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -6813,7 +6810,9 @@ const PERF={m:{}, fr:[], autoQ:null};
 const UI={nums:{}, introDone:false, sec:'inicio', sub:{mant:'plan', papeles:'docs', coche:'3d'}, mas:null, papFilter:'todo', sig:{}, carIntro:false, modelReady:false,
   prefs:{sound:true, haptics:true, theme:'dark'}};
 try{ Object.assign(UI.prefs, JSON.parse(localStorage.getItem('taller7l-ui')||'{}')); }catch{}
-const savePrefsUI=()=>{ try{ localStorage.setItem('taller7l-ui', JSON.stringify(UI.prefs)); }catch{} };
+const savePrefsUI=()=>{ try{ localStorage.setItem('taller7l-ui', JSON.stringify(UI.prefs)); }catch{} PREFSYNC?.push(); };
+/* enganches que rellena la 4.0 (navegación y preferencias en la cuenta); aquí solo se declaran */
+let NAVUI=null, PREFSYNC=null;
 
 /* ---------- sonido de interfaz (sintetizado) y vibración ---------- */
 let UAC=null;
@@ -6860,21 +6859,7 @@ function applyTheme(){
 }
 matchMedia('(prefers-color-scheme: light)').addEventListener?.('change', applyTheme);
 
-/* barra inferior: con el dedo apoyado, al deslizar se va resaltando la sección de debajo y al soltar se entra */
-const NSCRUB={skip:false, on:false, hov:null, x0:0};
-{ const nav=document.getElementById('nav2');
-  const under=x=>{ const r=nav.getBoundingClientRect(); const el=document.elementFromPoint(Math.max(r.left+2,Math.min(r.right-2,x)), r.top+Math.min(30,r.height/2)); return el?.closest?.('#nav2 button')||null; };
-  const setHov=b=>{ if(b===NSCRUB.hov) return; NSCRUB.hov?.classList.remove('hov'); NSCRUB.hov=b; if(b){ b.classList.add('hov'); if(NSCRUB.on){ uiSfx('tick'); haptic?.('tick'); } } };
-  nav.addEventListener('touchstart',e=>{ const t=e.touches[0]; NSCRUB.x0=t.clientX; NSCRUB.on=false; setHov(under(t.clientX)); },{passive:true});
-  nav.addEventListener('touchmove',e=>{ const t=e.touches[0]; if(!NSCRUB.on && Math.abs(t.clientX-NSCRUB.x0)>8){ NSCRUB.on=true; nav.classList.add('scrub'); } if(NSCRUB.on){ e.preventDefault(); setHov(under(t.clientX)); } },{passive:false});
-  const end=()=>{ const b=NSCRUB.hov, was=NSCRUB.on; nav.classList.remove('scrub'); setHov(null); NSCRUB.on=false;
-    if(was){ NSCRUB.skip=true; setTimeout(()=>NSCRUB.skip=false,450); if(b){ uiSfx('tap'); go(b.dataset.sec); } } };
-  nav.addEventListener('touchend',end,{passive:true}); nav.addEventListener('touchcancel',()=>{ nav.classList.remove('scrub'); setHov(null); NSCRUB.on=false; },{passive:true});
-}
-/* historial de navegación para los gestos de atrás y adelante */
-const NAVH=window.__navh={back:[], fwd:[], cur:null, lock:false,
-  push(sec, sub){ if(this.lock) return; const s2=sub || (UI.sub&&UI.sub[sec]) || null, k=sec+'/'+(s2||''); if(this.cur===k) return; if(this.cur) this.back.push(this.cur); if(this.back.length>40) this.back.shift(); this.cur=k; this.fwd=[]; },
-  jump(k){ const [sec,sub]=k.split('/'); this.lock=true; try{ go(sec, sub||undefined); } finally { this.lock=false; } this.cur=k; } };
+
 /* ---------- estructura ---------- */
 document.body.classList.add('ui2');
 applyTheme();
@@ -6886,8 +6871,7 @@ const SECS={
   mas:{t:'Más', icon:'grid'},
 };
 const MAS_T={avisos:'Avisos', procs:'Guías', pines:'Notas en el modelo', pend:'Fichas pendientes', backup:'Copia de seguridad', keys:'Atajos de teclado', about:'Acerca de', ajustes:'Ajustes'};
-document.querySelectorAll('#nav2 button').forEach(b=>{ b.querySelector('i').innerHTML=ic(SECS[b.dataset.sec].icon); b.onclick=()=>{ if(NSCRUB.skip) return; uiSfx('tap'); if(b.dataset.sec===UI.sec){ retap(); return; } go(b.dataset.sec); }; });
-$('#t2Search').innerHTML=ic('search'); $('#t2Back').innerHTML=ic('chevL'); $('#srIco').innerHTML=ic('search');
+$('#t2Search').innerHTML=ic('search'); $('#srIco').innerHTML=ic('search');
 const SUBBOX={mant:'#stMant',papeles:'#stPap',coche:'#stCoche'}, SUBPB={mant:'#pbMant',papeles:'#pbPap',coche:'#pbCoche'};
 for(const [sec,box] of Object.entries(SUBBOX)){
   const st=$(box);
@@ -6942,8 +6926,6 @@ function restoreSub(){
 function markSub(sec){ document.querySelectorAll(SUBBOX[sec]+' button').forEach(b=>b.setAttribute('aria-selected', b.dataset.sub===UI.sub[sec])); if(sec==='coche') document.body.dataset.csub=UI.sub.coche; }
 function clearCoche(){ const pb=$('#pbCoche'); $('#holdCoche').append($('#secCoche')); [...pb.children].forEach(c=>{ if(c!==ovl) c.remove(); }); }
 function openSub(sec,sub){
-  document.body.classList.remove('fabhide');
-  NAVH.push(sec, sub);
   UI.sub[sec]=sub; markSub(sec);
   const pb=$(SUBPB[sec]);
   if(sec==='coche'){
@@ -6967,26 +6949,15 @@ function openSub(sec,sub){
   }
 }
 function setTop(){
-  const s=SECS[UI.sec]; let t=s.t, sub='Touareg 7L · 9905 CMY', back=false;
-  const subL=k=>(s.subs||[]).find(x=>x[0]===k)?.[1]||'';
   const formOpen = !ovl.hidden && ovl.classList.contains('docked') && popMode==='int';
   document.body.classList.toggle('formopen', formOpen);
-  if(formOpen){ t='Nueva intervención'; sub=subL(UI.sub[UI.sec])||s.t; back=true; }
-  else if(UI.sec==='mas' && UI.mas){ t=MAS_T[UI.mas]||'Más'; sub='Más'; back=true; }
-  else if(UI.sec==='coche') sub = UI.sub.coche!=='3d' ? subL(UI.sub.coche) : (S.sel && parts[S.sel] ? parts[S.sel].name : 'Modelo 3D · toca una pieza');
-  else if(UI.sec==='mant') sub = subL(UI.sub.mant) + (S.cfg?.kmActual ? ' · '+nf.format(S.cfg.kmActual)+' km' : '');
-  else if(UI.sec==='papeles') sub = subL(UI.sub.papeles);
-  $('#t2Title').textContent=t; $('#t2Sub').textContent=sub; $('#t2Back').hidden=!back;
+  NAVUI?.top();
 }
-$('#t2Back').onclick=()=>{ uiSfx('tap'); document.body.classList.remove('fabhide');
-  if(document.body.classList.contains('formopen')){ const c=[...document.querySelectorAll('#ovlBody .acts button')].find(b=>b.textContent==='Cancelar'); if(c) c.click(); else closePop(); setTop(); return; }
-  if(UI.sec==='mas'){ UI.mas=null; if(ovl.classList.contains('docked')) _closePop(); renderMas(); setTop(); } };
+/* «Cancelar» del formulario a pantalla completa (nueva intervención) */
+function formCancel(){ const c=[...document.querySelectorAll('#ovlBody .acts button')].find(b=>b.textContent==='Cancelar'); if(c) c.click(); else closePop(); setTop(); }
 
 function go(sec, sub, opts={}){
-  document.body.classList.remove('fabhide');
-  NAVH.push(sec, sub);
   const prev=UI.sec; UI.sec=sec; document.body.dataset.sec=sec;
-  document.querySelectorAll('#nav2 button').forEach(b=>b.setAttribute('aria-current', b.dataset.sec===sec?'page':'false'));
   document.querySelectorAll('.page').forEach(p=>p.classList.toggle('on', p.dataset.sec===sec));
   closeMenus();
   if(sec==='coche'){ startModel(); if(sub) UI.sub.coche=sub; markSub('coche'); if((sub||UI.sub.coche)==='3d'){ if(ovl.classList.contains('docked')) undock(); requestAnimationFrame(()=>{ resize(); dirty=true; carIntro(); }); } else if(prev!==sec && ovl.classList.contains('docked')) undock(); }
@@ -7000,7 +6971,6 @@ function go(sec, sub, opts={}){
   else if(sec==='papeles') openSub('papeles', sub||UI.sub.papeles);
   else if(sec==='mas'){ UI.mas=null; renderMas(); setTop(); }
   setTop();
-  try{ history.replaceState(null,'','#'+sec); }catch{}
 }
 
 /* ---------- entrada del coche al abrir el visor ---------- */
@@ -7036,11 +7006,7 @@ function mantPct(it,s){
   if(s.daysLeft!=null && it.intervaloMeses) fr.push(1 - s.daysLeft/(Number(it.intervaloMeses)*30.4));
   return Math.max(0,Math.min(1, fr.length?Math.max(...fr):0));
 }
-function updateBadges(){
-  const c=counts(); const m=$('#nbMant'), d=$('#nbDocs');
-  m.hidden=!(c.due||c.soon); m.textContent=c.due||c.soon; m.className='nbadge'+(c.due?'':' soon');
-  d.hidden=!(c.ddue||c.dsoon); d.textContent=c.ddue||c.dsoon; d.className='nbadge'+(c.ddue?'':' soon');
-}
+function updateBadges(){ NAVUI?.badges(); }
 /* las cifras solo se animan la primera vez (o cuando cambian, desde el valor anterior) */
 function animNum(elx, to, fmt=v=>nf.format(Math.round(v)), key){
   const prev = key ? UI.nums[key] : undefined; if(key) UI.nums[key]=to;
@@ -7062,69 +7028,10 @@ function heroCard(cls, anim){
   return el2;
 }
 
-/* ---------- INICIO ---------- */
+/* ---------- INICIO (la pantalla es la de Hoy, en v3/02-pantallas) ---------- */
 function sigOf(){ return JSON.stringify([(S.compras||[]).map(x=>x.estado+x.precio).join(), Object.keys(parts).length, !!S.cfg, S.cfg?.kmActual, S.int.length, S.mant.length, S.docs.length, Object.keys(S.fichas).length, S.ave.length, todayISO(), S.int.reduce((a,x)=>a+(x.adjuntos?.length||0),0)]); }
-function renderInicio(force){
-  const box=$('#pgInicio'), sg=sigOf(); if(!force && UI.sig.inicio===sg) return; UI.sig.inicio=sg;
-  box.innerHTML='';
-  if(!S.cfg){ box.append(h2(`<div class="grid2"><div class="skel" style="height:170px;border-radius:14px"></div><div class="skel" style="height:80px"></div><div class="skel c6" style="height:200px"></div><div class="skel c6" style="height:200px"></div></div>`)); return; }
-  const c=counts(), km=S.cfg.kmActual;
-  const g=h2('<div class="grid2"></div>'); box.append(g);
-  /* coche en una línea: matrícula y kilómetros */
-  g.append(heroMini());
-  /* lo que requiere atención */
-  const noMant0=!mantList().length, noDocs0=!S.docs.some(d=>d.caduca);
-  const setup0=!km || noDocs0;
-  { const ac=attentionCard(km, setup0); if(!(setup0 && !ac.querySelector('.r2'))) g.append(ac); }
-  /* con la app aún vacía, una sola tarjeta de primeros pasos en lugar de varias tarjetas vacías */
-  const noMant=!mantList().length, noDocs=!S.docs.some(d=>d.caduca), noInts=!S.int.length;
-  if(!km || noDocs){
-    const pp=h2(`<div class="card2 c12 firsts"><h3>${ic('sparkle')}Primeros pasos</h3><div class="l2"></div></div>`), pl=pp.querySelector('.l2');
-    for(const [ok,i,t,d,fn] of [[!!km,'gauge','Kilómetros actuales','Para los avisos por kilometraje',quickKm],[!noDocs,'shield','ITV, seguro e impuesto','Con su fecha de caducidad',()=>openWizard(2)]]){
-      const r=h2(`<button type="button" class="r2 step${ok?' done':''}" style="--c:${ok?'var(--ok)':'var(--accent)'}"><span class="ic">${ic(ok?'checkc':i)}</span><span class="tx"><b>${t}</b><small>${ok?'Hecho':d}</small></span>${ok?'':ic('chevR')}</button>`); if(!ok) r.onclick=()=>{ uiSfx('tap'); fn(); }; pl.append(r); }
-    g.append(pp); }
-  /* próximo mantenimiento */
-  const ml=mantList(), mc=h2(`<div class="card2 c6"><h3>${ic('wrench')}Mantenimiento<button class="more" type="button">Plan${ic('chevR')}</button></h3><div class="l2"></div></div>`);
-  mc.querySelector('.more').onclick=()=>go('mant','plan');
-  const l=mc.querySelector('.l2');
-  if(!ml.length){ const e=h2(`<div class="empty2">${ic('wrench')}<div>Para calcular cuándo toca cada cambio necesito el último que se hizo y cada cuánto se hace.</div><button type="button">${ic('sparkle')}Registrar los últimos cambios</button></div>`); e.querySelector('button').onclick=()=>openWizard(1); l.append(e); }
-  const mlx=ml.filter(x=>x.s.st!=='due'&&x.s.st!=='soon');
-  for(const {it,s} of mlx.slice(0,5)){
-    const r=h2(`<button type="button" class="r2" style="--c:${stColor(s.st)}"><span class="ic">${ic('wrench')}</span><span class="tx"><b>${esc(it.nombre)}</b><small>${esc(mantLine(it,s))}</small><div class="bar2"><i></i></div></span><span class="rt">${ST_LABEL[s.st]}</span></button>`);
-    r.onclick=()=>go('mant','plan'); l.append(r);
-    { const bi=r.querySelector('.bar2 i'), w=Math.round(mantPct(it,s)*100)+'%'; if(UI.introDone){ bi.style.transition='none'; bi.style.setProperty('--w',w); } else requestAnimationFrame(()=>requestAnimationFrame(()=>bi.style.setProperty('--w',w))); }
-  }
-  if(!noMant && mlx.length) g.append(mc);
-  /* documentos */
-  const dc=h2(`<div class="card2 c6"><h3>${ic('shield')}Papeles<button class="more" type="button">Todo${ic('chevR')}</button></h3><div class="l2"></div></div>`);
-  dc.querySelector('.more').onclick=()=>go('papeles','docs');
-  const dl=dc.querySelector('.l2'), docs=[...docsVig()].filter(d=>d.caduca && !['due','soon'].includes(docStatus(d).st)).sort((a,b)=>a.caduca.localeCompare(b.caduca));
-  if(!docs.length){ const e=h2(`<div class="empty2">${ic('shield')}<div>Añade la ITV, el seguro y el impuesto y te avisaré antes de que caduquen.</div><button type="button">${ic('plus')}Añadir documentos</button></div>`); e.querySelector('button').onclick=()=>openWizard(2); dl.append(e); }
-  for(const d of docs.slice(0,4)){ const s=docStatus(d);
-    const r=h2(`<button type="button" class="r2" style="--c:${stColor(s.st)}"><span class="ic">${ic(d.tipo==='ITV'?'shield':d.tipo==='Seguro'?'file':'receipt')}</span><span class="tx"><b>${esc(d.tipo)}${d.nombre?' · '+esc(d.nombre):''}</b><small>Caduca el ${fmtDate(d.caduca)}</small></span><span class="rt">${s.days<0?'Caducado':s.days===0?'Hoy':s.days+' días'}</span></button>`);
-    r.onclick=()=>{ S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); }; dl.append(r); }
-  if(!noDocs && docs.length) g.append(dc);
-  /* últimas intervenciones */
-  const ic2=h2(`<div class="card2 c6"><h3>${ic('history')}Intervenciones<button class="more" type="button">Todas${ic('chevR')}</button></h3><div class="l2"></div></div>`);
-  ic2.querySelector('.more').onclick=()=>go('mant','hist');
-  const il=ic2.querySelector('.l2'), ints=[...S.int].sort(byDateDesc);
-  if(!ints.length){ const e=h2(`<div class="empty2">${ic('history')}<div>Aún no hay intervenciones.</div><button type="button">${ic('plus')}Registrar la primera</button></div>`); e.querySelector('button').onclick=()=>openIntForm({}); il.append(e); }
-  for(const x of ints.slice(0,4)){
-    const r=h2(`<button type="button" class="r2"><span class="ic">${ic('wrench')}</span><span class="tx"><b>${esc(itemName(x.mant)||partName(x.pieza)||x.descripcion||x.tipo)}</b><small>${fmtDate(x.fecha)}${x.km!=null?' · '+nf.format(x.km)+' km':''}${x.adjuntos?.length?' · 📎 '+x.adjuntos.length:''}</small></span><span class="rt">${x.coste!=null?eur(x.coste):''}</span></button>`);
-    r.onclick=()=>go('mant','hist'); il.append(r); }
-  if(!noInts) g.append(ic2);
-  /* gastos del año */
-  const yr=String(new Date().getFullYear()), mov=gastosMov(), yi=mov.filter(x=>(x.fecha||'').startsWith(yr)), tot=yi.reduce((a,x)=>a+x.eur,0), totAll=mov.reduce((a,x)=>a+x.eur,0);
-  const gc=h2(`<div class="card2 c6"><h3>${ic('euro')}Gastos ${yr}<button class="more" type="button">Detalle${ic('chevR')}</button></h3><div class="big2" id="gTot">0 €</div><div class="muted2">${yi.length} gasto(s) este año · ${eur(totAll)} en total</div></div>`);
-  setTimeout(()=>{ UI.introDone=true; },900);
-  gc.querySelector('.more').onclick=()=>go('mant','gastos'); if(mov.length) g.append(gc); odo(gc.querySelector('#gTot'), eur(tot), 'gtot');
-  /* fichas documentadas */
-  const all=Object.keys(parts).filter(id=>!parts[id].scan), done=all.filter(id=>S.fichas[id]?.ref).length, pct=all.length?Math.round(done/all.length*100):0;
-  const fc=h2(`<div class="card2 c4"><h3>${ic('cube')}Fichas de piezas</h3><div class="prog2"><div class="ring" style="--p:0" data-v="${pct} %"></div><div><div class="big2">${done}<small class="muted2"> / ${all.length||'—'}</small></div><div class="muted2">piezas con referencia guardada</div></div></div><div class="row3" style="justify-content:flex-start"><button class="btn2 ghost" type="button">${ic('list')}Ver pendientes</button></div></div>`);
-  fc.querySelector('button').onclick=()=>openGlobal('pend'); 
-  { const rg=fc.querySelector('.ring'); if(UI.introDone) rg.style.setProperty('--p',pct); else requestAnimationFrame(()=>requestAnimationFrame(()=>rg.style.setProperty('--p',pct))); }
-  fc.classList.remove('c4'); fc.classList.add('c6'); g.append(fc);
-}
+/* los datos han cambiado: el navegador vuelve a pintar lo que se ve (ver v3/01-nucleo: v3dirty) */
+function renderInicio(force){ NAVUI?.refresh(force); }
 
 /* ---------- km rápido ---------- */
 function sheet(html, onOpen){ const s=$('#sheet2'), b=$('#shBox'); b.innerHTML=''; b.append(typeof html==='string'?h2(html):html); s.hidden=false; s.onclick=e=>{ if(e.target===s) s.hidden=true; }; onOpen?.(b); }
@@ -7333,7 +7240,7 @@ const SP_TIPS=['Todo está en 5 secciones: Inicio, Coche, Mantenimiento, Papeles
 let spTipI=0; const spTip=$('#spTip'); spTip.textContent=SP_TIPS[0];
 const spTipT=setInterval(()=>{ spTip.style.opacity=0; setTimeout(()=>{ spTipI=(spTipI+1)%SP_TIPS.length; spTip.textContent=SP_TIPS[spTipI]; spTip.style.opacity=1; },300); },3200);
 const spT0=performance.now(); let spDone=false, spF=0;
-{ const bi=$('#lbarI'); if(bi) new MutationObserver(()=>{ const f=(parseFloat(bi.style.width)||0)/100; spF=f; stSet(f);  const np=$('#navProg'); np.style.setProperty('--p',Math.round(f*100)+'%'); }).observe(bi,{attributes:true,attributeFilter:['style']}); }
+{ const bi=$('#lbarI'); if(bi) new MutationObserver(()=>{ const f=(parseFloat(bi.style.width)||0)/100; spF=f; stSet(f); }).observe(bi,{attributes:true,attributeFilter:['style']}); }
 { const lt=$('#ltxt'); if(lt) new MutationObserver(()=>{ if(!spDone) (document.getElementById('spTxt')||{}).textContent=lt.textContent; }).observe(lt,{childList:true,characterData:true,subtree:true}); }
 spSet(.12); (document.getElementById('spTxt')||{}).textContent='Arrancando…';
 function splashOut(wait){ setTimeout(()=>{ $('#splash')?.classList.add('out'); setTimeout(()=>$('#splash')?.remove(),1700); }, wait); }
@@ -7464,7 +7371,7 @@ function hideSplash(){ if(spDone) return; spDone=true; PERF.m.ui=performance.now
     if(gate || (S.cfg && el2>1400) || UI.modelReady || el2>9000){ clearInterval(chk); hideSplash(); }
     else { spSet(S.cfg?.9: window.FB?.user?.() ? .55 : .3); (document.getElementById('spTxt')||{}).textContent= window.FB?.user?.() ? 'Cargando tus datos…' : 'Conectando…'; }
   },150); }
-new MutationObserver((m,o)=>{ if(!document.getElementById('loader')){ o.disconnect(); UI.modelReady=true; PERF.m.model=performance.now(); $('#navProg').classList.add('done'); if(UI.sec==='coche') carIntro(); } }).observe($('#stage'),{childList:true});
+new MutationObserver((m,o)=>{ if(!document.getElementById('loader')){ o.disconnect(); UI.modelReady=true; PERF.m.model=performance.now(); if(UI.sec==='coche') carIntro(); } }).observe($('#stage'),{childList:true});
 
 /* ---------- hoja inferior arrastrable (móvil) ---------- */
 { const app=$('.app'), tabs=$('.tabs'); let drag=null;
@@ -7924,11 +7831,6 @@ new MutationObserver(muts=>{ for(const m of muts) for(const n of m.addedNodes){ 
 { const tf=document.querySelector('.tabs [data-tab="ficha"]'); if(tf) tf.textContent='Pieza'; }
 /* el escenario «Taller mecánico» antiguo ya no existe: quien lo tuviera pasa al clásico */
 if(R.scene==='taller' || !SCENES[R.scene]){ R.scene='clasico'; try{ savePrefs(); applyScene(); renderMenus?.(); }catch{} }
-/* 12: rayita de carga bajo «Coche» solo mientras carga */
-{ const np=$('#navProg'), bi=$('#lbarI'); if(np && bi) new MutationObserver(()=>{ const f=(parseFloat(bi.style.width)||0)/100; np.classList.toggle('ld', f>0 && f<1); }).observe(bi,{attributes:true,attributeFilter:['style']}); }
-/* 13: el botón + se esconde al bajar por una lista y vuelve al subir */
-{ const last=new WeakMap(); document.addEventListener('scroll',e=>{ const t=e.target; if(!(t instanceof Element) || !t.matches('.pin2,.pbody')) return; const y=t.scrollTop, p=last.get(t)??0; last.set(t,y);
-    if(y>p+6 && y>40) document.body.classList.add('fabhide'); else if(y<p-6 || y<20) document.body.classList.remove('fabhide'); }, true); }
 /* --- Coche ▸ Ficha: datos de fábrica y códigos PR --- */
 function renderFichaCoche(pb){
   const wrap=h2('<div class="wrap pg-ficha" style="padding:14px 16px 28px"></div>'); pb.append(wrap);
@@ -7960,13 +7862,6 @@ function attentionCard(km, skipKm){
   for(const x of rows){ const r=h2(`<button type="button" class="r2" style="--c:${x.c}"><span class="ic">${ic(x.i)}</span><span class="tx"><b>${esc(x.t)}</b><small>${esc(x.s)}</small></span><span class="rt">${esc(x.r)}</span></button>`); r.onclick=()=>{ uiSfx('tap'); x.fn(); }; l.append(r); }
   return card;
 }
-/* --- botón + siempre visible --- */
-const FABX=[['plus','Intervención','Trabajo hecho o cambio',()=>openIntForm({back:'mant'})],['gauge','Kilómetros','Lo que marca el cuentakilómetros',quickKm],['camera','Foto de factura','Se adjunta a una intervención',()=>$('#camIn').click()],
-  ['cart','A la compra','Pieza o artículo que necesitas',()=>compraSheet(null)],['shield','Documento','ITV, seguro, impuesto…',()=>{ S.docEdit=null; UI.docForm=true; go('papeles','docs'); }],['alert','Avería','Código o síntoma',()=>{ S.aveEdit=null; S.aveDraftParts=null; UI.addAve=true; go('coche','ave'); setTimeout(()=>$('#pbCoche input')?.focus(),250); }]];
-{ const f=h2(`<button type="button" class="fab2" id="fab2" aria-label="Añadir">${ic('plus')}</button>`); document.body.append(f);
-  f.onclick=()=>{ uiSfx('open'); const box=h2(`<div><h3>Añadir</h3><div class="fabg"></div></div>`), gr=box.querySelector('.fabg');
-    for(const [i,l,d,fn] of FABX){ const b=h2(`<button type="button"><i>${ic(i)}</i><b>${l}</b><small>${d}</small></button>`); b.onclick=()=>{ uiSfx('tap'); $('#sheet2').hidden=true; fn(); }; gr.append(b); }
-    sheet(box); }; }
 /* --- formulario de intervención: listas dentro del desplegable y «Más detalles» --- */
 function listAsk(kind, onName){
   sheet(`<div><h3>${kind==='mant'?'Nuevo elemento de mantenimiento':'Nueva pieza'}</h3><p class="muted2">Se añade a la lista y queda elegido.</p><input class="inp2" id="laN" placeholder="${kind==='mant'?'p. ej. Correa de distribución':'p. ej. Bomba de agua'}"><div class="row3"><button class="btn2 ghost" type="button" id="laNo">Cancelar</button><button class="btn2" type="button" id="laOk">${ic('plus')}Añadir</button></div></div>`, b=>{
@@ -8051,13 +7946,11 @@ $('#t2Sync').style.cursor='pointer'; $('#t2Sync').onclick=()=>toast(navigator.on
 /* --- atajos de teclado solo en el modelo 3D --- */
 addEventListener('keydown',e=>{ if(e.ctrlKey||e.metaKey||e.altKey||e.key.length!==1) return; if(/input|textarea|select/i.test(e.target.tagName||'')||e.target.isContentEditable) return;
   if(UI.sec!=='coche' || UI.sub.coche!=='3d' || !$('#srch').hidden || !$('#sheet2').hidden) e.stopImmediatePropagation(); }, true);
-/* --- buscador: acciones directas y búsquedas recientes --- */
-const RECENT_K='t7-recientes'; const recents=()=>{ try{ return JSON.parse(localStorage.getItem(RECENT_K)||'[]'); }catch{ return []; } };
-function pushRecent(q){ q=q.trim(); if(q.length<2) return; try{ localStorage.setItem(RECENT_K, JSON.stringify([q,...recents().filter(x=>norm(x)!==norm(q))].slice(0,6))); }catch{} }
+/* --- buscador: acciones directas (las búsquedas recientes están en v3/05-herramientas, guardadas en tu cuenta) --- */
 { const _rs=runSearch; runSearch=function(raw){
     _rs(raw);
     const out=$('#srRes'), q=norm(raw.trim());
-    if(!q){ const rc=recents(); if(rc.length){ const box=h2(`<div class="srrec"><h5>Búsquedas recientes</h5><div class="chips2 subtabs" style="border:0;background:none;justify-content:center"></div></div>`), c=box.querySelector('.chips2'); for(const r of rc){ const b=h2(`<button type="button">${ic('history')}${esc(r)}</button>`); b.onclick=()=>{ $('#srQ').value=r; runSearch(r); }; c.append(b); } out.append(box); } return; }
+    if(!q) return;
     const acts=[];
     const A=(i,t,fn)=>acts.push({i,t,fn});
     if(/^(itv|segur|impuest|ivtm|document|permiso|ficha tec)/.test(q)) A('shield',`Añadir documento${/itv|segur|impuest/.test(q)?' ('+raw.trim().toUpperCase().slice(0,12)+')':''}`,()=>{ S.docEdit=null; UI.docForm=true; go('papeles','docs'); });
@@ -8070,10 +7963,9 @@ function pushRecent(q){ q=q.trim(); if(q.length<2) return; try{ localStorage.set
     if(!acts.length) return;
     out.querySelector('.empty2')?.remove();
     const box=h2('<div class="sracts"><h5>Acciones</h5></div>');
-    for(const x of acts){ const r=h2(`<button type="button" class="r2 act"><span class="ic">${ic(x.i)}</span><span class="tx"><b>${esc(x.t)}</b></span>${ic('chevR')}</button>`); r.onclick=()=>{ uiSfx('tap'); pushRecent(raw); closeSearch(); x.fn(); }; box.append(r); }
+    for(const x of acts){ const r=h2(`<button type="button" class="r2 act"><span class="ic">${ic(x.i)}</span><span class="tx"><b>${esc(x.t)}</b></span>${ic('chevR')}</button>`); r.onclick=()=>{ uiSfx('tap'); srSave(raw); closeSearch(); x.fn(); }; box.append(r); }
     out.prepend(box);
   }; }
-$('#srRes').addEventListener('click',e=>{ if(e.target.closest('.r2')) pushRecent($('#srQ').value); }, true);
 
 
 /* ====================== v1.3.1 ====================== */
@@ -8138,50 +8030,11 @@ function foldForm(form, label, key){
     return r; }; }
 
 
-/* ====================== v1.5: gestos ====================== */
-const GEST={};
-function gBack(){
-  if(!$('#sheet2').hidden){ $('#sheet2').hidden=true; return true; }
-  if(document.querySelector('.csw')){ closeCsel(); return true; }
-  if(!$('#srch').hidden){ closeSearch(); return true; }
-  if(!$('#t2Back').hidden){ $('#t2Back').click(); return true; }
-  if(NAVH.back.length){ const k=NAVH.back.pop(); NAVH.fwd.push(NAVH.cur); NAVH.jump(k); uiSfx('tap'); return true; }
-  return false;
-}
-function gFwd(){ if(!NAVH.fwd.length) return false; const k=NAVH.fwd.pop(); NAVH.back.push(NAVH.cur); NAVH.jump(k); uiSfx('tap'); return true; }
-/* pestaña siguiente / anterior; al llegar al final, pasa a la sección de al lado */
-const SEC_ORDER=['inicio','coche','mant','papeles','mas'];
-function gTab(dir){
-  const sec=UI.sec, subs=SECS[sec].subs;
-  if(subs && !(sec==='mas' && UI.mas)){ const i=subs.findIndex(x=>x[0]===UI.sub[sec]), j=i+dir; if(j>=0 && j<subs.length){ openSub(sec, subs[j][0]); setTop(); return true; } }
-  if(sec==='mas' && UI.mas) return false;
-  const si=SEC_ORDER.indexOf(sec)+dir; if(si<0 || si>=SEC_ORDER.length) return false;
-  const ns=SEC_ORDER[si], nsubs=SECS[ns].subs; go(ns, nsubs ? (dir>0 ? nsubs[0][0] : nsubs[nsubs.length-1][0]) : undefined); return true;
-}
-/* indicador lateral (flecha que asoma al deslizar desde el borde) */
-const gEdge=h2(`<div class="gedge" aria-hidden="true">${ic('chevL')}</div>`); document.body.append(gEdge);
+/* ====================== GESTOS ======================
+   Deslizar desde el borde izquierdo: volver (lo dibuja el navegador, ver v3/01-nucleo: backDrag/backEnd).
+   Tirar hacia abajo en Hoy: buscador. Deslizar una fila: su acción. Bajar una hoja: cerrarla. */
 const gPull=h2(`<div class="gpull" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15"/><path d="M20 20 L20 8"/></svg></div>`); document.body.append(gPull);
-/* C: gesto atrás como en iOS: la pantalla sigue al dedo y debajo asoma adónde vas */
-const gUnder=h2('<div class="gunder" aria-hidden="true"><span></span></div>'); document.body.append(gUnder);
-function backTarget(){ return UI.sec==='coche' && UI.sub.coche==='3d' ? $('.app') : $('#pages'); }
-function backLabel(){
-  if(!$('#sheet2').hidden || document.querySelector('.csw') || !$('#srch').hidden) return null;
-  if(!$('#t2Back').hidden) return SECS[UI.sec].t;
-  const k=NAVH.back[NAVH.back.length-1]; if(!k) return null; const [s2,sub]=k.split('/'); const sl=(SECS[s2]?.subs||[]).find(x=>x[0]===sub)?.[1]; return SECS[s2]?.t+(sl?' · '+sl:'');
-}
-let BK=null;
-function backDrag(dx){
-  if(!BK){ const lab=backLabel(); BK={el:(lab==null?null:backTarget()), lab}; gUnder.querySelector('span').textContent = lab ? '‹ '+lab : ''; if(BK.el){ gUnder.classList.add('on'); BK.el.classList.add('bkdrag'); } }
-  if(!BK.el){ const p=Math.min(1,dx/120); gEdge.classList.remove('r'); gEdge.style.opacity=p; gEdge.style.transform=`translateY(-50%) translateX(${Math.min(dx,120)*.5}px) scale(${.7+p*.3})`; gEdge.classList.toggle('go',p>=1); return; }
-  const x=Math.max(0,dx); BK.el.style.transition='none'; BK.el.style.transform=`translateX(${x}px)`; gUnder.style.opacity=String(1-Math.min(.6,x/innerWidth)); gUnder.querySelector('span').style.transform=`translateX(${-40+x*.15}px)`; }
-function backEnd(ok){
-  const bk=BK; BK=null; gReset(); if(!bk) return; if(!bk.el){ if(ok && !gBack()) toast('No hay nada atrás'); return; }
-  const el=bk.el, done=()=>{ el.style.transition=''; el.style.transform=''; el.classList.remove('bkdrag'); gUnder.classList.remove('on'); gUnder.style.opacity=''; };
-  if(!ok){ el.style.transition='transform .32s cubic-bezier(.2,1.25,.4,1)'; el.style.transform='translateX(0)'; setTimeout(done,330); return; }
-  el.style.transition='transform .2s cubic-bezier(.4,0,1,1)'; el.style.transform=`translateX(${innerWidth}px)`;
-  setTimeout(()=>{ done(); gBack(); const n=backTarget(); if(n && !RM) n.animate([{transform:`translateX(${-innerWidth*.25}px)`,opacity:.6},{transform:'none',opacity:1}],{duration:260,easing:'cubic-bezier(.2,.8,.2,1)'}); }, 190);
-}
-/* F: deslizar una fila para actuar (compras a la derecha, intervenciones a la izquierda) */
+/* deslizar una fila para actuar (compras a la derecha, intervenciones a la izquierda) */
 function rowDrag(g, dx){
   const r=g.row; if(!g.act){ const a=dx<0?r._swL:r._swR; g.act=a; g.sw=h2(`<span class="swact ${dx<0?'l':'r'}${a.danger?' danger':''}">${ic(a.i)}<b>${esc(a.l)}</b></span>`); r.classList.add('swiping'); r.append(g.sw); }
   const lim=dx<0?-150:150, x=dx<0?Math.max(lim,dx):Math.min(lim,dx); r.style.transition='none'; r.style.transform=`translateX(${x}px)`; g.sw.classList.toggle('go', Math.abs(x)>=90);
@@ -8189,16 +8042,14 @@ function rowDrag(g, dx){
 function rowEnd(g, dx){ const r=g.row; if(!r) return; const go2=Math.abs(dx)>=90 && g.act;
   r.style.transition='transform .3s cubic-bezier(.2,1.2,.4,1)'; r.style.transform=''; setTimeout(()=>{ r.style.transition=''; r.classList.remove('swiping'); g.sw?.remove(); }, 320);
   if(go2) setTimeout(()=>g.act.fn(), 120); }
-const NOSWIPE='input,textarea,select,.subtabs,.chips2,.hchips,.app,.stage,.csw,.cspop,.gal,.lbx,[data-noswipe],.srch,.wiz,.splash,.ybars2,.avm';
+function pullReset(){ gPull.style.opacity=0; gPull.style.transform='translate(-50%,0)'; gPull.classList.remove('go'); }
 let G=null;
 document.addEventListener('touchstart',e=>{
-  if(e.touches.length!==1 || document.getElementById('splash') || e.target.closest?.('#nav2')){ G=null; return; }
-  const t=e.touches[0], W=innerWidth, tgt=e.target;
+  if(e.touches.length!==1 || document.getElementById('splash')){ G=null; return; }
+  const t=e.touches[0], tgt=e.target;
   const inSheet=tgt.closest?.('.shbox, .csw.m .cspop');
   let row=tgt.closest?.('.cmpi, .hist2 .h'); if(row && !(row._swL||row._swR)) row=null;
-  G={x0:t.clientX, y0:t.clientY, x:t.clientX, y:t.clientY, t0:performance.now(), mode:null, tgt,
-     edgeL: t.clientX<26, edgeR: t.clientX>W-26, sheet: inSheet, scroller: tgt.closest?.('.pin2,.pbody'),
-     row, canTab: !tgt.closest?.(NOSWIPE) && !inSheet && !(UI.sec==='coche' && UI.sub.coche==='3d'), page: document.querySelector('.page.on .pbody, .page.on .pin2, .page.on')};
+  G={x0:t.clientX, y0:t.clientY, x:t.clientX, y:t.clientY, t0:performance.now(), mode:null, tgt, edgeL: t.clientX<26, sheet: inSheet, row};
 },{passive:true});
 document.addEventListener('touchmove',e=>{
   if(!G) return; const t=e.touches[0]; G.x=t.clientX; G.y=t.clientY; const dx=G.x-G.x0, dy=G.y-G.y0;
@@ -8207,101 +8058,28 @@ document.addEventListener('touchmove',e=>{
     if(G.sheet && dy>0 && Math.abs(dy)>Math.abs(dx) && (G.sheet.scrollTop||0)<=0 && !G.tgt.closest('.csl, textarea')) G.mode='sheet';
     else if(G.edgeL && dx>0 && Math.abs(dx)>Math.abs(dy)) G.mode='back';
     else if(G.row && Math.abs(dx)>Math.abs(dy)*1.3 && ((dx<0&&G.row._swL)||(dx>0&&G.row._swR))) G.mode='row';
-    else if(G.edgeR && dx<0 && Math.abs(dx)>Math.abs(dy) && NAVH.fwd.length) G.mode='fwd';
-    else if(UI.sec==='inicio' && dy>0 && Math.abs(dy)>Math.abs(dx)*1.5 && (typeof V3!=='undefined' ? V3.canPull() : ($('#pgInicio')?.scrollTop||0)<=0) && !G.sheet) G.mode='pull';
+    else if(dy>0 && Math.abs(dy)>Math.abs(dx)*1.5 && !G.sheet && NAVUI?.canPull()) G.mode='pull';
     else { G.mode='none'; return; }
   }
   if(G.mode==='sheet'){ const box=G.sheet.closest('.shbox')||G.sheet; box.style.transition='none'; box.style.transform=`translateY(${Math.max(0,dy)}px)`; }
-  else if(G.mode==='back'){ backDrag(dx); }
-  else if(G.mode==='row'){ rowDrag(G, dx); }
-  else if(G.mode==='fwd'){ const p=Math.min(1,Math.abs(dx)/120); gEdge.classList.toggle('r',G.mode==='fwd'); gEdge.style.opacity=p; gEdge.style.transform=`translateY(-50%) translateX(${G.mode==='back'?Math.min(dx,120)*.5:Math.max(dx,-120)*.5}px) scale(${.7+p*.3})`; gEdge.classList.toggle('go',p>=1);
-    const pg=document.querySelector('.page.on'); if(pg && G.mode==='back'){ pg.style.transition='none'; pg.style.transform=`translateX(${Math.min(dx,140)*.35}px)`; } }
-  else if(G.mode==='tab'){ const pg=G.page; if(pg){ pg.style.transition='none'; pg.style.transform=`translateX(${dx*.28}px)`; pg.style.opacity=String(1-Math.min(.35,Math.abs(dx)/600)); } }
-  else if(G.mode==='pull'){ const d=Math.min(110, dy*.5); gPull.style.opacity=Math.min(1,d/70); gPull.style.transform=`translate(-50%, ${d}px)`; gPull.querySelector('path').style.transform=`rotate(${-90+Math.min(1,d/70)*180}deg)`; gPull.classList.toggle('go', d>=70); const pi=$('#pgInicio'); if(pi){ pi.style.transition='none'; pi.style.transform=`translateY(${d*.6}px)`; } }
+  else if(G.mode==='back') backDrag(dx);
+  else if(G.mode==='row') rowDrag(G, dx);
+  else if(G.mode==='pull'){ const d=Math.min(110, dy*.5); gPull.style.opacity=Math.min(1,d/70); gPull.style.transform=`translate(-50%, ${d}px)`; gPull.querySelector('path').style.transform=`rotate(${-90+Math.min(1,d/70)*180}deg)`; gPull.classList.toggle('go', d>=70); }
 },{passive:true});
-function gReset(){ const pg=document.querySelector('.page.on'); for(const el2 of [pg, G?.page, $('#pgInicio')]) if(el2){ el2.style.transition='transform .28s cubic-bezier(.2,.8,.2,1), opacity .28s'; el2.style.transform=''; el2.style.opacity=''; }
-  gEdge.style.opacity=0; gEdge.classList.remove('go'); gPull.style.opacity=0; gPull.style.transform='translate(-50%,0)'; gPull.classList.remove('go'); }
 document.addEventListener('touchend',()=>{
-  if(!G) return; const g=G; G=null; const dx=g.x-g.x0, dy=g.y-g.y0, dt=performance.now()-g.t0, fast=dt<280;
+  if(!G) return; const g=G; G=null; const dx=g.x-g.x0, dy=g.y-g.y0, fast=performance.now()-g.t0<280;
   if(g.mode==='sheet'){ const box=g.sheet.closest('.shbox')||g.sheet; box.style.transition='transform .25s ease'; if(dy>110 || (fast && dy>40)){ box.style.transform='translateY(100%)'; setTimeout(()=>{ box.style.transform=''; box.style.transition=''; if(box.closest('.csw')) closeCsel(); else $('#sheet2').hidden=true; },220); } else box.style.transform=''; return; }
   if(g.mode==='back'){ backEnd(dx>innerWidth*.33 || (fast && dx>50)); return; }
   if(g.mode==='row'){ rowEnd(g, dx); return; }
-  if(g.mode==='fwd'){ const ok = -dx>110 || (fast && -dx>50); gReset(); if(ok) gFwd(); return; }
-  if(g.mode==='tab'){ const ok = Math.abs(dx)>90 || (fast && Math.abs(dx)>45); const pg=g.page; gReset();
-    if(ok && gTab(dx<0?1:-1)){ const np=document.querySelector('.page.on .pbody, .page.on .pin2, .page.on'); if(np && !RM){ np.animate([{transform:`translateX(${dx<0?40:-40}px)`,opacity:.4},{transform:'none',opacity:1}],{duration:240,easing:'cubic-bezier(.2,.8,.2,1)'}); } } return; }
-  if(g.mode==='pull'){ const go2=gPull.classList.contains('go'); gReset(); if(go2 && typeof V3!=='undefined'){ V3.pull(); return; } if(go2){ uiSfx('ratchet'); renderInicio(true); try{ window.__pwa?.check?.(true); }catch{} toast('Inicio actualizado'); } return; }
+  if(g.mode==='pull'){ const go2=gPull.classList.contains('go'); pullReset(); if(go2) NAVUI?.pull(); return; }
 },{passive:true});
-document.addEventListener('touchcancel',()=>{ if(G){ G=null; gReset(); } },{passive:true});
-
-
-/* ====================== v1.6: movimiento ====================== */
-/* A: píldora naranja que viaja entre botones (barra inferior y pestañas) */
-const navPill=h2('<span class="navpill" aria-hidden="true"></span>'); $('#nav2').prepend(navPill);
-function placePill(pill, btn, instant){ if(!btn || !pill.parentNode){ pill.style.opacity=0; return; } const i=btn.querySelector('i')||btn, host=pill.parentNode;
-  const hr=host.getBoundingClientRect(), r=i.getBoundingClientRect();
-  if(instant) pill.style.transition='none';
-  pill.style.opacity=1; pill.style.width=r.width+'px'; pill.style.height=r.height+'px'; pill.style.transform=`translate(${r.left-hr.left+host.scrollLeft}px,${r.top-hr.top+host.scrollTop}px)`;
-  if(instant){ pill.offsetWidth; pill.style.transition=''; } }
-function syncNavPill(instant){ placePill(navPill, NSCRUB.on && NSCRUB.hov ? NSCRUB.hov : document.querySelector('#nav2 button[aria-current="page"]'), instant); }
-for(const box of Object.values(SUBBOX)){ const st=$(box); if(st && !st.querySelector('.stpill')) st.prepend(h2('<span class="stpill" aria-hidden="true"></span>')); }
-function syncSubPills(instant){ for(const box of Object.values(SUBBOX)){ const st=$(box); if(!st || !st.offsetParent) continue; placePill(st.querySelector('.stpill'), st.querySelector('button[aria-selected="true"]'), instant); } }
-addEventListener('resize',()=>{ syncNavPill(true); syncSubPills(true); });
-new MutationObserver(()=>{ if(NSCRUB.on) syncNavPill(); }).observe($('#nav2'),{subtree:true,attributes:true,attributeFilter:['class']});
-/* B: transiciones con dirección entre secciones y pestañas  ·  H: cada pestaña recuerda su posición */
-const SCROLLMEM={};
-const pageBody=sec=>document.querySelector(`.page[data-sec="${sec}"] .pbody, .page[data-sec="${sec}"] .pin2`);
-function slideIn(el, dir){ if(!el || RM || !dir) return; el.animate([{transform:`translateX(${dir*34}px)`,opacity:.35},{transform:'none',opacity:1}],{duration:280,easing:'cubic-bezier(.2,.8,.2,1)'}); }
-{ const _go=go; go=function(sec, sub, opts={}){
-    const prev=UI.sec, pb=pageBody(prev); if(pb) SCROLLMEM[prev+'/'+(UI.sub[prev]||'')]=pb.scrollTop;
-    const r=_go(sec, sub, opts);
-    requestAnimationFrame(()=>{ syncNavPill(); syncSubPills(prev!==sec);
-      if(prev!==sec && !opts.silent){ const d=Math.sign(SEC_ORDER.indexOf(sec)-SEC_ORDER.indexOf(prev)); slideIn(document.querySelector(`.page[data-sec="${sec}"]`), d); } });
-    return r; }; }
-{ const _os=openSub; openSub=function(sec, sub){
-    const prevSub=UI.sub[sec], pb=pageBody(sec); if(pb && UI.sec===sec) SCROLLMEM[sec+'/'+(prevSub||'')]=pb.scrollTop;
-    const subs=SECS[sec].subs||[], d=Math.sign(subs.findIndex(x=>x[0]===sub)-subs.findIndex(x=>x[0]===prevSub));
-    const r=_os(sec, sub);
-    requestAnimationFrame(()=>{ syncSubPills(); const nb=pageBody(sec); if(nb){ const y=SCROLLMEM[sec+'/'+sub]; if(y) requestAnimationFrame(()=>{ nb.scrollTop=y; }); if(prevSub!==sub && UI.sec===sec) slideIn(nb, d); } });
-    return r; }; }
-requestAnimationFrame(()=>{ syncNavPill(true); syncSubPills(true); });
-setTimeout(()=>{ syncNavPill(true); syncSubPills(true); }, 600);
-/* D: volver a pulsar la sección en la que estás: arriba del todo, y si ya estás arriba, a su primera pestaña */
-function retap(){
-  const sec=UI.sec, pb=pageBody(sec);
-  if(sec==='mas' && UI.mas){ $('#t2Back').click(); return; }
-  if(document.body.classList.contains('formopen')){ $('#t2Back').click(); return; }
-  if(pb && pb.scrollTop>6 && !(sec==='coche' && UI.sub.coche==='3d')){ pb.scrollTo({top:0, behavior: RM?'auto':'smooth'}); return; }
-  const subs=SECS[sec].subs; if(subs && UI.sub[sec]!==subs[0][0]){ openSub(sec, subs[0][0]); setTop(); }
-}
-/* E: mantener pulsado un botón de la barra: atajos de esa sección */
-const NAVMENU={
-  inicio:[['gauge','Actualizar kilómetros',quickKm],['search','Buscar',openSearch]],
-  coche:[['cube','Modelo 3D',()=>go('coche','3d')],['tag','Datos del coche',()=>go('coche','ficha')],['zap','Fusibles',()=>go('coche','fus')],['alert','Registrar avería',()=>{ S.aveEdit=null; UI.addAve=true; go('coche','ave'); }]],
-  mant:[['plus','Registrar intervención',()=>openIntForm({back:'mant'})],['cart','Añadir a la compra',()=>compraSheet(null)],['list','Plan',()=>go('mant','plan')],['history','Historial',()=>go('mant','hist')]],
-  papeles:[['shield','Añadir documento',()=>{ S.docEdit=null; UI.docForm=true; go('papeles','docs'); }],['camera','Fotografiar factura',()=>$('#camIn').click()],['image','Facturas y fotos',()=>go('papeles','fotos')]],
-  mas:[['sliders','Ajustes',()=>{ go('mas'); masOpen('ajustes'); }],['alert','Avisos',()=>{ go('mas'); masOpen('avisos'); }],['download','Copia de seguridad',()=>{ go('mas'); masOpen('backup'); }]],
-};
-function closeNavMenu(){ document.querySelector('.navmenu')?.remove(); document.querySelector('.navmenubg')?.remove(); }
-function openNavMenu(btn){
-  closeNavMenu(); const items=NAVMENU[btn.dataset.sec]; if(!items) return;
-  const bg=h2('<div class="navmenubg"></div>'), m=h2(`<div class="navmenu" role="menu"><b>${esc(SECS[btn.dataset.sec].t)}</b></div>`);
-  for(const [i,l,fn] of items){ const it=h2(`<button type="button" role="menuitem">${ic(i)}<span>${esc(l)}</span></button>`); it.onclick=()=>{ uiSfx('tap'); closeNavMenu(); fn(); }; m.append(it); }
-  const t0=performance.now(); bg.onclick=()=>{ if(performance.now()-t0<500) return; closeNavMenu(); }; m.addEventListener('click',e=>{ if(performance.now()-t0<350) e.stopPropagation(); },true); document.body.append(bg, m);
-  const r=btn.getBoundingClientRect(), w=Math.min(250, innerWidth-24); m.style.width=w+'px';
-  m.style.left=Math.max(12, Math.min(innerWidth-w-12, r.left+r.width/2-w/2))+'px'; m.style.bottom=(innerHeight-r.top+10)+'px';
-  m.style.transformOrigin=`${r.left+r.width/2-parseFloat(m.style.left)}px 100%`;
-  uiSfx('open'); haptic?.('tap'); try{ navigator.vibrate?.(18); }catch{}
-}
-{ const nav=$('#nav2'); let lt=null, lx=0;
-  nav.addEventListener('touchstart',e=>{ const b=e.target.closest('button'); lx=e.touches[0].clientX; clearTimeout(lt); if(!b) return; lt=setTimeout(()=>{ if(NSCRUB.on) return; NSCRUB.skip=true; setTimeout(()=>NSCRUB.skip=false,600); openNavMenu(b); },460); },{passive:true});
-  nav.addEventListener('touchmove',e=>{ if(Math.abs(e.touches[0].clientX-lx)>8) clearTimeout(lt); },{passive:true});
-  nav.addEventListener('touchend',()=>clearTimeout(lt),{passive:true});
-  nav.addEventListener('contextmenu',e=>{ const b=e.target.closest('button'); if(!b) return; e.preventDefault(); openNavMenu(b); });
-}
-/* G: el botón + gira y se convierte en ✕ mientras su hoja está abierta */
-new MutationObserver(()=>{ const open=!$('#sheet2').hidden && !!$('#shBox .fabg'); document.body.classList.toggle('fabopen', open); }).observe($('#sheet2'),{attributes:true,attributeFilter:['hidden']});
-{ const f=$('#fab2'), _fc=f.onclick; f.onclick=e=>{ if(document.body.classList.contains('fabopen')){ $('#sheet2').hidden=true; uiSfx('tap'); return; } _fc(e); document.body.classList.toggle('fabopen', !!$('#shBox .fabg')); }; }
-
+document.addEventListener('touchcancel',()=>{ if(!G) return; const g=G; G=null; if(g.mode==='back') backEnd(false); pullReset(); },{passive:true});
+/* hojas que se estiran hacia arriba (y rebotan al soltar) */
+let SU=null;
+document.addEventListener('touchstart',e=>{ const hb=e.target.closest?.('.shbox'); if(!hb || e.touches.length!==1) { SU=null; return; } const r=hb.getBoundingClientRect(); SU = (e.touches[0].clientY-r.top<70) ? {hb, y0:e.touches[0].clientY, on:false} : null; },{passive:true});
+document.addEventListener('touchmove',e=>{ if(!SU) return; const dy=e.touches[0].clientY-SU.y0; if(dy>=0){ return; } SU.on=true; SU.hb.style.transition='none'; SU.hb.style.transform=`translateY(${Math.max(-60, dy*.35)}px)`; SU.dy=dy; },{passive:true});
+document.addEventListener('touchend',()=>{ if(!SU) return; const s2=SU; SU=null; if(!s2.on) return; s2.hb.style.transition='transform .45s cubic-bezier(.2,1.5,.4,1)'; s2.hb.style.transform=''; if(s2.dy<-70){ s2.hb.classList.add('full'); uiSfx('open'); } },{passive:true});
+new MutationObserver(()=>{ if($('#sheet2').hidden) $('#shBox').classList.remove('full'); }).observe($('#sheet2'),{attributes:true,attributeFilter:['hidden']});
 
 /* ====================== v1.7: detalles vivos ====================== */
 /* 1: cifras que ruedan como un cuentakilómetros mecánico */
@@ -8333,15 +8111,6 @@ document.addEventListener('pointerdown',e=>{ if(RM) return; const t=e.target.clo
 /* 9: las tarjetas de una sección entran escalonadas */
 function stagger(root){ if(RM || !root) return; const els=[...root.querySelectorAll('.grid2>*, .wrap>.card2, .wrap>.row3, .mgroup>.mrow, .doclist>.mrow, .mtiles>.mt, .hist>.h, .mgrp>.card2')].filter(x=>x.offsetParent).slice(0,12);
   els.forEach((x,i)=>x.animate([{opacity:0,transform:'translateY(14px) scale(.985)'},{opacity:1,transform:'none'}],{duration:340,delay:i*38,easing:'cubic-bezier(.2,.9,.25,1)',fill:'backwards'})); }
-{ const _go2=go; go=function(sec, sub, opts={}){ const prev=UI.sec; const r=_go2(sec, sub, opts); if(prev!==sec && !opts.silent) requestAnimationFrame(()=>requestAnimationFrame(()=>stagger(document.querySelector(`.page[data-sec="${sec}"]`)))); return r; }; }
-{ const _os2=openSub; openSub=function(sec, sub){ const prev=UI.sub[sec]; const r=_os2(sec, sub); if(prev!==sub) requestAnimationFrame(()=>requestAnimationFrame(()=>stagger(pageBody(sec)))); return r; }; }
-/* 5: hojas que se estiran hacia arriba (y rebotan al soltar) */
-let SU=null;
-document.addEventListener('touchstart',e=>{ const hb=e.target.closest?.('.shbox'); if(!hb || e.touches.length!==1) { SU=null; return; } const r=hb.getBoundingClientRect(); SU = (e.touches[0].clientY-r.top<70) ? {hb, y0:e.touches[0].clientY, on:false} : null; },{passive:true});
-document.addEventListener('touchmove',e=>{ if(!SU) return; const dy=e.touches[0].clientY-SU.y0; if(dy>=0){ return; } SU.on=true; SU.hb.style.transition='none'; SU.hb.style.transform=`translateY(${Math.max(-60, dy*.35)}px)`; SU.dy=dy; },{passive:true});
-document.addEventListener('touchend',()=>{ if(!SU) return; const s2=SU; SU=null; if(!s2.on) return; s2.hb.style.transition='transform .45s cubic-bezier(.2,1.5,.4,1)'; s2.hb.style.transform=''; if(s2.dy<-70){ s2.hb.classList.add('full'); uiSfx('open'); } },{passive:true});
-new MutationObserver(()=>{ if($('#sheet2').hidden) $('#shBox').classList.remove('full'); }).observe($('#sheet2'),{attributes:true,attributeFilter:['hidden']});
-
 /* ---------- pantalla: zonas seguras del iPhone ----------
    En algunas versiones de iOS la app instalada recibe una ventana más baja que la pantalla y deja una franja
    negra abajo. Si pasa, la barra inferior se estira hasta el borde y no se suma dos veces el margen inferior. */
@@ -8406,6 +8175,7 @@ function v2Init(){
   for(const c of C2) S.db.collection(c).onSnapshot(s=>{ S.v2[c]=s.docs.map(d=>({...d.data(), _id:d.id})); S.v2ok[c]=true; v2Changed(c); }, ()=>{});
   for(const k of ['app','fichatec','listas','prinfo','ui']) S.db.doc('config/'+k).onSnapshot(d=>{ S.cfgX[k]=d.exists?(d.data()||{}):{}; v2Changed('cfg:'+k); }, ()=>{});
   S.db.doc('avisos/config').onSnapshot(d=>{ S.cfgX.avisos=d.exists?d.data():null; }, ()=>{});
+  S.db.doc('config/preferencias').onSnapshot(d=>{ prefRemote(d.exists?d.data():null); }, ()=>{});   /* 4.0: preferencias en la cuenta */
   S.db.collection('copias').onSnapshot(s=>{ S.copias=s.docs.map(d=>({...d.data(), _id:d.id})).sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||'')); S.v2ok.copias=true; v2Changed('copias'); }, ()=>{});
   S.db.doc('config/coche').onSnapshot(d=>{ if(d.exists) kmHook(d.data()?.kmActual); }, ()=>{});
   S.db.collection('compras').onSnapshot(()=>setTimeout(()=>v2Changed('compras'),30), ()=>{});
@@ -8459,16 +8229,12 @@ for(const [sec,list] of Object.entries(SUB2)){
 { const _os=openSub; openSub=function(sec,sub){
     const fn=V2SUBS[sec]?.[sub];
     if(!fn){ V2.cur=null; return _os(sec,sub); }
-    const prevSub=UI.sub[sec], subs=SECS[sec].subs||[], dir=Math.sign(subs.findIndex(x=>x[0]===sub)-subs.findIndex(x=>x[0]===prevSub));
-    document.body.classList.remove('fabhide'); NAVH.push(sec,sub); UI.sub[sec]=sub; markSub(sec);
+    UI.sub[sec]=sub; markSub(sec);
     const pb=$(SUBPB[sec]);
-    requestAnimationFrame(()=>{ syncSubPills(); if(prevSub!==sub && UI.sec===sec) slideIn(pb, dir); });
     if(ovl.classList.contains('docked') && ovl.parentNode===pb) _closePop();
     if(sec==='coche') clearCoche(); else if(sec==='papeles') clearPap(); else clearPb(pb);
     v2Page(pb, fn); setTop();
-    document.querySelector(SUBBOX[sec]+' button[data-sub="'+sub+'"]')?.scrollIntoView({inline:'nearest', block:'nearest', behavior:RM?'auto':'smooth'});
   }; }
-{ const _mk=markSub; markSub=function(sec){ _mk(sec); const b=document.querySelector(SUBBOX[sec]+' button[aria-selected="true"]'); if(b){ const st=b.parentNode; if(b.offsetLeft<st.scrollLeft || b.offsetLeft+b.offsetWidth>st.scrollLeft+st.clientWidth) st.scrollTo({left:b.offsetLeft-24, behavior:'auto'}); } }; }
 
 /* ---------- MÁS: páginas nuevas ---------- */
 const MAS2={};
@@ -8479,7 +8245,7 @@ const MAS2={};
     if(UI.mas) return _rm();
     v2MasHome(pb);
   }; }
-{ const _mo=masOpen; masOpen=function(k){ if(MAS2[k]){ UI.mas=k; NAVH.push('mas',k); renderMas(); setTop(); $('#pbMas').scrollTop=0; return; } return _mo(k); }; }
+{ const _mo=masOpen; masOpen=function(k){ if(MAS2[k]){ UI.mas=k; renderMas(); setTop(); $('#pbMas').scrollTop=0; return; } return _mo(k); }; }
 function v2MasHome(pb){
   if(pb.contains(ovl)){ ovl.classList.remove('docked'); ovlHome.append(ovl); } pb.innerHTML='';
   const touch=matchMedia('(hover: none)').matches;
@@ -8496,11 +8262,6 @@ function v2MasHome(pb){
   }
   pb.append(h2('<div style="height:24px"></div>'));
 }
-NAVMENU.mas=[['cloud','Copia de seguridad',()=>{ go('mas'); masOpen('backup'); }],['gauge','Ficha técnica',()=>{ go('mas'); masOpen('ficha'); }],['chart','Estadísticas',()=>{ go('mas'); masOpen('stats'); }],['sliders','Ajustes',()=>{ go('mas'); masOpen('ajustes'); }]];
-NAVMENU.coche=[['cube','Modelo 3D',()=>go('coche','3d')],['image','Galería',()=>go('coche','galeria')],['sparkle','Mejoras',()=>go('coche','mejoras')],['alert','Registrar avería',()=>{ S.aveEdit=null; UI.addAve=true; go('coche','ave'); }]];
-NAVMENU.mant=[['plus','Registrar intervención',()=>openIntForm({back:'mant'})],['fuel','Repostaje',()=>recForm(MOD.repostajes)],['cart','Añadir a la compra',()=>compraSheet(null)],['history','Historial',()=>go('mant','hist')]];
-NAVMENU.papeles=[['shield','Añadir documento',()=>{ S.docEdit=null; UI.docForm=true; go('papeles','docs'); }],['checkc','Registrar ITV',()=>recForm(MOD.itv)],['camera','Fotografiar factura',()=>$('#camIn').click()]];
-FABX.splice(2,0,['fuel','Repostaje','Litros, precio y km',()=>recForm(MOD.repostajes)],['image','Fotos del coche','A la galería, por álbum',()=>galAdd()]);
 
 /* ---------- formularios genéricos ---------- */
 const MOD={};
@@ -9548,20 +9309,6 @@ async function readInvoiceInto(file){
     h.innerHTML=`${ic('alert')}Requiere atención<span class="cnt${l.querySelector('.r2[style*="--due"]')?' due':''}">${n}</span>`;
     return card;
   }; }
-{ const _ri=renderInicio; renderInicio=function(force){
-    const before=UI.sig.inicio; _ri(force); if(UI.sig.inicio===before && !force) return;
-    const g=$('#pgInicio .grid2'); if(!g || !S.cfg) return;
-    const app=S.cfgX.app||{}, le=app.ultimaExport, snooze=(()=>{ try{ return localStorage.getItem('t7-bk-snooze')||''; }catch{ return ''; } })();
-    const due=(S.int.length||S.docs.length) && (!le || Date.now()-new Date(le)>7*864e5) && snooze<todayISO();
-    if(due){ const c=h2(`<div class="card2 c12 bkcard"><h3>${ic('cloud')}Copia de la semana</h3><p class="muted2">${app.ultimaCopia?`Tu copia automática en la nube es del ${new Date(app.ultimaCopia).toLocaleDateString('es-ES')}. `:''}Guárdala también fuera, en Archivos (iCloud) o por correo.</p><div class="row3" style="justify-content:flex-start"><button class="btn2" type="button">${ic('download')}Guardar copia</button><button class="btn2 ghost" type="button">Ahora no</button></div></div>`);
-      const [a,b]=c.querySelectorAll('button');
-      a.onclick=async()=>{ const ok=await shareOrSave('copia-taller7l-'+todayISO()+'.json', JSON.stringify(backupAll())); if(ok){ await S.db.doc('config/app').set({...(S.cfgX.app||{}), ultimaExport:new Date().toISOString()}); toast('Copia guardada'); } };
-      b.onclick=()=>{ try{ localStorage.setItem('t7-bk-snooze', addDays(3)); }catch{} c.remove(); };
-      g.insertBefore(c, g.children[2]||null); }
-    /* consumo y ritmo */
-    const fc=fuelCalc(), pace=kmPace();
-    if(fc.avg || pace){ const c=h2(`<div class="card2 c6 minist"><h3>${ic('fuel')}Uso</h3><div class="stchips">${fc.avg?stat(nf1(fc.avg),'L/100 km','var(--accent)'):''}${pace?stat(nf.format(Math.round(pace.perYear)),'km al año','var(--info)'):''}</div></div>`); c.onclick=()=>go('mant','repost'); g.append(c); }
-  }; }
 
 /* ---------- BUSCADOR: secciones nuevas ---------- */
 { const _rs=runSearch; runSearch=function(raw){
@@ -9770,14 +9517,13 @@ function applyAll(){ for(const g of allGroups()) try{ applyGroup(g); }catch(e){ 
 function syncSubsFromDom(sec){
   const st=$(SUBBOX[sec]); if(!st) return; const byK=Object.fromEntries(SECS[sec].subs.map(s=>[s[0],s]));
   SECS[sec].subs=[...st.querySelectorAll(':scope>button[data-sub]')].map(b=>{ const s=byK[b.dataset.sub]; if(s) s[1]=getLab(b.querySelector('span')); return s; }).filter(Boolean);
-  try{ syncSubPills(true); setTop(); }catch{}
+  try{ setTop(); }catch{}
 }
 function masTitles(){ const nmAll=Object.entries(UIC().nombres||{}).filter(([k])=>k.startsWith('mas:')).reduce((a,[,v])=>Object.assign(a,v),{});
   for(const k of Object.keys(ORD.origMasT)) MAS_T[k]=nmAll[k]||ORD.origMasT[k];
   for(const k of Object.keys(MAS2)){ if(!(k in ORD.origMasT)) ORD.origMasT[k]=MAS_T[k]; MAS_T[k]=nmAll[k]||ORD.origMasT[k]; } }
 function saveUI(patch){ const cur=UIC(); const d={...cur, ...patch, actualizado:new Date().toISOString()}; S.cfgX.ui=d; return S.db?.doc('config/ui').set(d); }
 /* engancharse a los repintados */
-{ const _ri=renderInicio; renderInicio=function(force){ if(ORD.edit?.g.key==='inicio') return; _ri(force); applyGroup(OGS[0]); }; }
 { const _rm=renderMas; renderMas=function(){ if(ORD.edit?.g.key.startsWith('mas:')) exitEdit(true); _rm(); if(!UI.mas) for(const g of masGroups()) applyGroup(g); }; }
 { const _vc=v2Changed; v2Changed=function(c){ _vc(c); if(c==='cfg:ui' && !ORD.edit) applyAll(); }; }
 requestAnimationFrame(applyAll);
@@ -9864,7 +9610,7 @@ function dragMove(d, x, y){
   const first=new Map(items.map(z=>[z,z.getBoundingClientRect()]));
   b.insertBefore(d.it, before?target:target.nextSibling);
   for(const z of items){ if(z===d.it) continue; const a=first.get(z), n=z.getBoundingClientRect(), dx=a.left-n.left, dy=a.top-n.top; if((dx||dy) && !RM) z.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:'none'}],{duration:200,easing:'cubic-bezier(.2,.8,.2,1)'}); }
-  d.tsw=performance.now(); dragPlace(d); uiSfx('swap'); if(g.key.startsWith('sub:')) syncSubPills(true);
+  d.tsw=performance.now(); dragPlace(d); uiSfx('swap');
 }
 function dragTick(d){
   d.raf=0; if(ORD.drag!==d || !d.on || !ORD.edit) return;
@@ -10132,8 +9878,6 @@ IC.fuse=IC.fuse||'<rect x="3" y="8" width="18" height="8" rx="2"/><path d="M7 8V
 { const b=$('#tWire'); if(b){ b.innerHTML=ic('zap','ti')+'<span>Electricidad</span>'+ic('chevD','ti chev'); b.setAttribute('aria-haspopup','menu'); b.title='Cableado de los circuitos y cajas de fusibles'; b.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); elecMenu(); }; } }
 IC.chevD=IC.chevD||'<path d="m6 9 6 6 6-6"/>';
 /* «Fusibles» ya no es pestaña: al entrar se muestra con «atrás» que vuelve al 3D */
-{ const _st=setTop; setTop=function(){ _st(); if(UI.sec==='coche' && UI.sub.coche==='fus'){ $('#t2Title').textContent='Fusibles y relés'; $('#t2Sub').textContent='Coche · Electricidad'; $('#t2Back').hidden=false; } }; }
-$('#t2Back').addEventListener('click', e=>{ if(UI.sec==='coche' && UI.sub.coche==='fus'){ e.stopImmediatePropagation(); uiSfx('tap'); go('coche','3d'); } }, true);
 /* ---------- la corriente recorre el cable elegido ---------- */
 /* ---------- cableado: la corriente recorre el cable elegido ---------- */
 const WFX={on:false, items:[], raf:0, t0:0, sweep:0};
@@ -10897,13 +10641,9 @@ function renderArchivos(w){
 V2SUBS.papeles.fotos=renderArchivos;
 
 /* ---------- Nueva intervención: sin pestañas debajo (parecía que estabas en «Plan») ---------- */
-{ const _st=setTop; setTop=function(){ _st(); if(document.body.classList.contains('formopen')) $('#t2Sub').textContent='Mantenimiento'+(S.cfg?.kmActual?' · '+nf.format(S.cfg.kmActual)+' km':''); }; }
 /* la página antigua de Archivos se refrescaba sola y tapaba la nueva */
 { const _rp=renderPapeles; renderPapeles=function(sub){ if(sub==='fotos'){ if(V2.cur?.fn===renderArchivos && document.body.contains(V2.cur.root)) return v2Rerender(); if(UI.sec==='papeles') return openSub('papeles','fotos'); return; } return _rp(sub); }; }
 
-/* barra inferior: cada icono centrado en su píldora (algunos dibujos no están centrados en su cuadro de 24) */
-function navIconsCenter(){ document.querySelectorAll('#nav2 button i svg').forEach(sv=>{ if(sv.dataset.ctr) return; try{ const b=sv.getBBox(); if(!b.width) return; const cx=b.x+b.width/2, cy=b.y+b.height/2; sv.setAttribute('viewBox', `${(cx-12).toFixed(2)} ${(cy-12).toFixed(2)} 24 24`); sv.dataset.ctr='1'; }catch{} }); }
-setTimeout(navIconsCenter, 300); setTimeout(navIconsCenter, 2000);
 
 /* ====================== v2.1: CAPA VISUAL — colección de arte, animaciones y movimiento ====================== */
 /* Ajuste «Animaciones»: todas · discretas · ninguna (además de «reducir movimiento» del sistema) */
@@ -10946,7 +10686,6 @@ function art(k, cls){ const a=ARTS[k]; return a?`<svg class="art ${cls||''}" vie
 { const _ec=emptyCard; emptyCard=function(icon, txt, btn, fn){ const e=_ec(icon, txt, btn, fn); const sv=e.querySelector(':scope > svg'); if(ARTS[icon] && sv){ sv.outerHTML=art(icon); } return e; }; }
 /* ---------- Inicio: el coche se dibuja en la tarjeta principal ---------- */
 function heroArt(){ document.querySelectorAll('.card2.hmini').forEach(c=>{ if(c.querySelector('.hart')) return; c.insertAdjacentHTML('afterbegin', `<span class="hart">${art('car','hero')}</span>`); }); }
-{ const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); try{ heroArt(); progBars(); }catch{} return r; }; }
 
 /* ---------- Mantenimiento: barra de vida de cada elemento (cuánto del intervalo se ha gastado) ---------- */
 function lifePct(it){ const s=itemStatus(it); if(!s || !['ok','soon','due'].includes(s.st)) return null; let p=0;
@@ -10975,7 +10714,6 @@ const ioLit=('IntersectionObserver' in window)?new IntersectionObserver(es=>{ fo
 new MutationObserver(ms=>{ if(!ioLit) return; for(const m of ms) for(const n of m.addedNodes){ if(n.nodeType!==1) continue; (n.matches?.('.stc, .doc2, .life, .gcard')?[n]:[]).concat([...(n.querySelectorAll?.('.stc, .doc2, .life, .gcard')||[])]).forEach(x=>ioLit.observe(x)); } }).observe(document.body,{childList:true, subtree:true});
 
 /* ---------- el botón + late una vez al arrancar, para que se vea ---------- */
-setTimeout(()=>{ if(ANIMON()) $('#fab2')?.classList.add('hello'); }, 2600);
 /* respaldo: lo que ya está a la vista se enciende aunque el observador no haya avisado */
 setInterval(()=>{ if(document.hidden) return; document.querySelectorAll('.page.on .stc:not(.lit), .page.on .doc2:not(.lit), .page.on .life:not(.lit), #shBox .stc:not(.lit)').forEach(e=>{ const r=e.getBoundingClientRect(); if(r.height && r.top<innerHeight && r.bottom>0) e.classList.add('lit'); }); }, 900);
 
@@ -11004,7 +10742,6 @@ new MutationObserver(()=>{ const s=$('#sheet2'); if(!s || s.hidden) return; cons
 /* buscador: los resultados aparecen escalonados */
 { const _rs=runSearch; runSearch=function(raw){ _rs(raw); if(!ANIMON()) return; [...($('#srRes')?.querySelectorAll(':scope > .r2, :scope > button, :scope > h5')||[])].slice(0,16).forEach((e,i)=>{ e.style.setProperty('--si',i); e.classList.add('srin'); }); }; }
 /* tarjeta de Inicio: un brillo cruza la tarjeta del coche al entrar */
-{ const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); if(ANIMON()) document.querySelectorAll('.card2.hmini').forEach(c=>{ if(c.dataset.sh) return; c.dataset.sh='1'; c.classList.add('sheen'); setTimeout(()=>c.classList.remove('sheen'),1600); }); return r; }; }
 
 /* al guardar: el botón «respira» un momento (confirmación visual además del aviso) */
 document.addEventListener('click', e=>{ const b=e.target.closest?.('.recacts [data-a="ok"], .btn2.pri'); if(!b || !ANIMON()) return; b.classList.remove('pressok'); void b.offsetWidth; b.classList.add('pressok'); }, true);
@@ -11037,14 +10774,6 @@ function mantTimeline(){
     const k=body.querySelector('.mkm2'); if(k) k.after(c); else body.prepend(c); }; }
 
 /* ====================== INICIO: ATAJOS Y GASTO DEL AÑO EN BARRAS ====================== */
-{ const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); const box=$('#pgInicio'); if(!box || !S.cfg) return r;
-    if(!box.querySelector('.qadd')){ const q=h2(`<div class="qadd c12" role="group" aria-label="Atajos"></div>`);
-      for(const [i,t,fn] of [['gauge','Km',quickKm],['fuel','Repostaje',()=>recForm(MOD.repostajes)],['camera','Factura',()=>$('#camIn')?.click()],['wrench','Intervención',()=>openIntForm({})]]){ const b=h2(`<button type="button">${ic(i)}<span>${t}</span></button>`); b.onclick=()=>{ uiSfx('tap'); fn(); }; q.append(b); }
-      const hero=box.querySelector('.hmini'); if(hero) hero.after(q); else box.querySelector('.grid2')?.prepend(q); }
-    const gc=box.querySelector('#gTot')?.closest('.card2'); if(gc && !gc.querySelector('.gspark')){ const mov=gastosMov(), now=new Date(), M=[]; for(let i=11;i>=0;i--){ const d=new Date(now.getFullYear(), now.getMonth()-i, 1); M.push(d.toISOString().slice(0,7)); }
-      const v=M.map(m=>mov.filter(x=>(x.fecha||'').startsWith(m)).reduce((s,x)=>s+x.eur,0)), mx=Math.max(...v); if(mx>0){ const MS='EFMAMJJASOND';
-        const sp=h2(`<div class="gspark" aria-label="Gasto de los últimos 12 meses">${v.map((x,i)=>`<i style="--h:${Math.max(x?6:2, Math.round(x/mx*100))}%;--d:${i*30}ms" title="${M[i]}: ${eur(x)}" class="${i===11?'cur':''}"><b>${MS[+M[i].slice(5)-1]}</b></i>`).join('')}</div>`);
-        sp.onclick=()=>{ go('mas'); masOpen('stats'); }; gc.append(sp); } } return r; }; }
 
 /* ====================== TEXTOS DE AYUDA LARGOS: dos líneas y «más» ====================== */
 function pintroFix(root){ for(const p of (root||document).querySelectorAll?.('.pintro:not([data-cl])')||[]){ p.dataset.cl='1'; const s=p.querySelector('span'); if(!s) continue;
@@ -11104,11 +10833,10 @@ if(matchMedia('(pointer:coarse)').matches){ controls.dampingFactor=.16; }
 /* inventario del modelo (para pruebas y para la lista de piezas) */
 if(window.__wire) window.__wire.inv=()=>Object.entries(parts).map(([id,p])=>{ let t=0; for(const m of p.meshes){ const g=m.geometry; t+=(g.index?g.index.count:g.attributes.position.count)/3; } const b=partBox(id), s=b?b.getSize(new THREE.Vector3()):null; return {id:id.replace(/^Touareg2008_/,''), n:p.name, l:p.layer, m:p.meshes.length, t:Math.round(t), s:s?[s.x,s.y,s.z].map(v=>+v.toFixed(2)):null}; });
 
-/* ====================== TRANSICIONES Y SONIDOS AL CAMBIAR DE PANTALLA (2.1.1) ======================
-   Secciones: la pantalla entra deslizándose y enfocándose, con un barrido de luz arriba y un «fsss» con dirección.
-   Apartados (Más ▸ Piezas, Fusibles…): entran con zoom suave; al volver, desde la izquierda.
-   Hojas: un soplo corto al abrir y al cerrar. Todo con «Sonidos de la interfaz» y sin animación si el sistema pide menos movimiento. */
-const NAV={t:0, busy:false};
+/* ====================== SONIDOS DE HOJAS Y FORMULARIOS (2.1.1) ======================
+   Un soplo corto al abrir y cerrar las hojas y los formularios a pantalla completa. Con «Sonidos de la
+   interfaz». (Las transiciones entre pantallas de la 2.x se fueron con la 4.0: las hace el navegador.) */
+const NAV={t:0};
 function navSfx(kind, dir){
   if(!UI.prefs.sound) return; const now=performance.now(); if(now-NAV.t<140 && kind!=='back') return; NAV.t=now;
   try{
@@ -11120,64 +10848,16 @@ function navSfx(kind, dir){
       const s=ac.createBufferSource(); s.buffer=b; const fl=ac.createBiquadFilter(); fl.type='bandpass'; fl.Q.value=q; fl.frequency.setValueAtTime(f0,t0); fl.frequency.exponentialRampToValueAtTime(f1,t0+dur);
       const g=ac.createGain(); g.gain.setValueAtTime(.0001,t0); g.gain.exponentialRampToValueAtTime(vol,t0+dur*.4); g.gain.exponentialRampToValueAtTime(.0001,t0+dur); s.connect(fl); fl.connect(g); g.connect(out); s.start(t0); s.stop(t0+dur+.05); };
     const tone=(f0,f1,dur,vol,dl=0)=>{ const t0=t+dl, o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.setValueAtTime(f0,t0); o.frequency.exponentialRampToValueAtTime(f1,t0+dur); g.gain.setValueAtTime(.0001,t0); g.gain.exponentialRampToValueAtTime(vol,t0+.01); g.gain.exponentialRampToValueAtTime(.0001,t0+dur); o.connect(g); g.connect(out); o.start(t0); o.stop(t0+dur+.03); };
-    if(kind==='sec'){ air(.28,450,1900,.9); tone(330,495,.13,.05,.05); }
-    else if(kind==='sub'){ air(.17,900,2300,.55,1.6); }
-    else if(kind==='in'){ air(.2,700,2600,.6,1.4); tone(520,780,.1,.06,.05); }
+    if(kind==='in'){ air(.2,700,2600,.6,1.4); tone(520,780,.1,.06,.05); }
     else if(kind==='back'){ air(.2,2300,650,.55,1.4); tone(700,470,.1,.05,.03); }
     else if(kind==='sheet'){ air(.14,1100,2600,.35,1.8); }
     else if(kind==='sheetx'){ air(.12,2400,1000,.25,1.8); }
   }catch{}
 }
-/* ---------- cambio de pantalla de verdad: la pantalla vieja se va y la nueva entra a la vez ----------
-   (antes la vieja desaparecía de golpe y la nueva solo se movía 34 px: casi no se notaba) */
-const curPage=()=>document.querySelector('.page.on:not(.pgghost)');
-function snapPage(page){
-  if(!page || RM) return null;
-  const all=[...page.querySelectorAll('*')], sc=[]; all.forEach((e,i)=>{ if(e.scrollTop>0) sc.push([i,e.scrollTop]); }); const top0=page.scrollTop;
-  const c=page.cloneNode(true); c.removeAttribute('id'); c.removeAttribute('data-sec'); c.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));
-  c.querySelectorAll('canvas').forEach(cv=>{ const d=document.createElement('div'); d.style.cssText='position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,#2b3036,#0d0f12 70%)'; cv.replaceWith(d); });
-  c.classList.remove('page','on'); c.classList.add('pgghost');   /* sin la clase «page»: go() no la apaga */ c.setAttribute('aria-hidden','true'); c.style.zIndex='0'; c.style.pointerEvents='none';
-  page.parentNode.insertBefore(c, page.parentNode.firstChild);
-  const cl=c.querySelectorAll('*'); for(const [i,y] of sc) if(cl[i]) cl[i].scrollTop=y; c.scrollTop=top0;
-  return c;
-}
-const PGE='cubic-bezier(.22,.8,.2,1)';
-function swapPages(old, neu, mode, dir){
-  if(!old) return; if(!neu || old===neu){ old.remove(); return; }
-  const D=440; neu.style.zIndex='1'; NAV.until=performance.now()+D+250;
-  const K={ slide:[[{transform:'none',opacity:1},{transform:`translateX(${-dir*30}%) scale(.94)`,opacity:0}], [{transform:`translateX(${dir*38}%)`,opacity:0},{transform:'none',opacity:1}]],
-            in:   [[{transform:'none',opacity:1},{transform:'scale(.9)',opacity:0}], [{transform:'scale(1.08)',opacity:0},{transform:'none',opacity:1}]],
-            back: [[{transform:'none',opacity:1},{transform:'scale(1.08)',opacity:0}], [{transform:'scale(.9)',opacity:0},{transform:'none',opacity:1}]] }[mode]||null;
-  if(!K){ old.remove(); neu.style.zIndex=''; return; }
-  const a1=old.animate(K[0],{duration:D, easing:PGE, fill:'forwards'}), a2=neu.animate(K[1],{duration:D, easing:PGE});
-  const end=()=>{ old.remove(); neu.style.zIndex=''; }; a2.onfinish=end; a2.oncancel=end; setTimeout(end, D+200);
-}
-/* las animaciones antiguas (1.6) se apagan: ahora lo hace swapPages */
-slideIn=function(){};
-/* secciones de la barra inferior */
-{ const _go=go; go=function(sec, sub, opts={}){
-    const prev=UI.sec, old=(prev!==sec && !opts?.silent)?snapPage(curPage()):null; NAV.busy=true;
-    let r; try{ r=_go(sec, sub, opts); } finally { NAV.busy=false; }
-    if(prev!==sec && !opts?.silent){ const d=Math.sign(SEC_ORDER.indexOf(sec)-SEC_ORDER.indexOf(prev))||1; navSfx('sec', d); swapPages(old, curPage(), 'slide', d); }
-    return r; }; }
-/* pestañas dentro de una sección y apartados que no son pestaña (Fusibles, Archivos…) */
-{ const _os=openSub; openSub=function(sec, sub){
-    const prevSub=UI.sub[sec]; let old=null, mode=null, dir=0;
-    if(!NAV.busy && UI.sec===sec && prevSub!==sub){ const subs=SECS[sec]?.subs||[], a=subs.findIndex(x=>x[0]===prevSub), b=subs.findIndex(x=>x[0]===sub);
-      if(a>=0 && b>=0){ mode='slide'; dir=Math.sign(b-a)||1; } else mode=b<0?'in':'back'; old=snapPage(curPage()); }
-    NAV.busy=true; let r; try{ r=_os(sec, sub); } finally { NAV.busy=false; }
-    if(mode){ navSfx(mode==='slide'?'sub':mode, dir); swapPages(old, curPage(), mode, dir); }
-    return r; }; }
-/* Más ▸ un apartado (Piezas, Guías, Copia…) y vuelta */
-{ let last=UI.mas; const _rm=renderMas; renderMas=function(...a){
-    const changed=last!==UI.mas && UI.sec==='mas' && !NAV.busy, mode=UI.mas?'in':'back', old=changed?snapPage(curPage()):null; last=UI.mas;
-    const r=_rm(...a); if(changed){ navSfx(mode); swapPages(old, curPage(), mode, 0); } return r; }; }
 /* hojas que se abren desde abajo */
 { const sh=$('#sheet2'); if(sh){ let was=!sh.hidden; new MutationObserver(()=>{ const on=!sh.hidden; if(on!==was){ was=on; navSfx(on?'sheet':'sheetx'); } }).observe(sh,{attributes:true, attributeFilter:['hidden']}); } }
 /* formularios a pantalla completa (nueva intervención…) */
 { let fo=false; new MutationObserver(()=>{ const on=document.body.classList.contains('formopen'); if(on!==fo){ fo=on; navSfx(on?'in':'back'); } }).observe(document.body,{attributes:true, attributeFilter:['class']}); }
-/* durante el cambio, las tarjetas no hacen su entrada escalonada (se quedaba la pantalla vacía un instante) */
-{ const _st=stagger; stagger=function(root){ if(performance.now()<(NAV.until||0)) return; return _st(root); }; }
 
 /* ====================== INTERFAZ SIMPLIFICADA (2.1.1, elegido por Sergio el 15-10-2026) ======================
    1 · Cuatro secciones abajo (Inicio · Coche · Taller · Papeles); «Más» pasa a un botón de la cabecera.
@@ -11185,14 +10865,8 @@ slideIn=function(){};
    5 · Más solo con lo esencial; copia e importación en «Tus datos»; dossier, PDF y enlace en «Compartir»;
        notas en el modelo y piezas sin referencia, en el propio 3D. */
 
-/* ---------- 1 · barra inferior de cuatro y botón «Más» arriba ---------- */
-{ const nb=document.querySelector('#nav2 button[data-sec="mas"]'); if(nb) nb.hidden=true;
-  const mb=document.querySelector('#nav2 button[data-sec="mant"] span'); if(mb) mb.textContent='Taller';
-  SECS.mant.t='Taller';
-  const s=$('#t2Search'); if(s){ const b=h2(`<button class="t2b" id="t2Mas" type="button" title="Más: piezas, guías, ajustes…" aria-label="Más">${ic('grid')}</button>`);
-    b.onclick=()=>{ uiSfx('tap'); if(UI.sec==='mas' && !UI.mas) return; if(UI.sec==='mas'){ UI.mas=null; renderMas(); setTop(); } else go('mas'); }; s.before(b); } }
-{ const _st=setTop; setTop=function(){ _st(); $('#t2Mas')?.classList.toggle('on', UI.sec==='mas');
-    if(UI.sec==='mant'){ const k=UI.sub.mant, L={repost:'Repostajes', compra:'Compra'}[k]; if(L){ const km=S.cfg?.kmActual?' · '+nf.format(S.cfg.kmActual)+' km':''; $('#t2Sub').textContent=`Gastos · ${L}${km}`; } } }; }
+/* ---------- 1 · «Taller» en vez de «Mantenimiento» ---------- */
+SECS.mant.t='Taller';
 
 /* ---------- 2 · Taller con tres pestañas: Plan (con lo hecho debajo), Ruedas y Gastos ---------- */
 const TALLER_GASTOS=['gastos','repost','compra'];
@@ -11200,8 +10874,6 @@ const TALLER_GASTOS=['gastos','repost','compra'];
 /* ir al historial = ir al plan y bajar hasta «Trabajos hechos» */
 { const _os=openSub; openSub=function(sec, sub){ if(sec==='mant' && sub==='hist'){ UI.toHist=true; sub='plan'; } const r=_os(sec, sub);
     if(UI.toHist && sec==='mant'){ setTimeout(()=>{ const h=document.querySelector('#ovlBody .mhecho'); if(h){ UI.toHist=false; h.scrollIntoView({block:'start', behavior:RM?'auto':'smooth'}); } }, 380); } return r; }; }
-/* la pestaña «Gastos» queda marcada también en Repostajes y Compra */
-{ const _mk=markSub; markSub=function(sec){ _mk(sec); if(sec==='mant' && TALLER_GASTOS.includes(UI.sub.mant)) document.querySelectorAll('#stMant button[data-sub]').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.sub==='gastos'))); }; }
 /* Plan: lo que toca arriba y lo ya hecho debajo, por años */
 function histYears(hist){ let y=''; for(const h of hist.querySelectorAll(':scope > .h')){ const d=h.querySelector('.d')?.firstChild?.textContent||''; const yy=(d.match(/\d{4}/)||[''])[0];
     if(yy && yy!==y){ y=yy; const n=[...hist.querySelectorAll(':scope > .h')].filter(x=>(x.querySelector('.d')?.firstChild?.textContent||'').includes(yy)).length; h.before(h2(`<h5 class="hyear"><span>${yy}</span><em>${n===1?'1 trabajo':n+' trabajos'}</em></h5>`)); }
@@ -11216,9 +10888,7 @@ function histYears(hist){ let y=''; for(const h of hist.querySelectorAll(':scope
 function gastosChips(){ const pb=$('#pbMant'), w=pb?.querySelector(':scope > .wrap'); if(!w || UI.sec!=='mant' || !TALLER_GASTOS.includes(UI.sub.mant) || w.querySelector(':scope > .gchips')) return;
   const c=chips([['gastos','Resumen'],['repost','Repostajes'],['compra','Compra']], UI.sub.mant, k=>{ if(k!==UI.sub.mant){ openSub('mant',k); setTop(); } }); c.classList.add('gchips'); w.prepend(c); }
 new MutationObserver(gastosChips).observe($('#pbMant'),{childList:true, subtree:false});
-{ const _os=openSub; openSub=function(sec, sub){ const r=_os(sec, sub); if(sec==='mant') requestAnimationFrame(()=>{ gastosChips(); syncSubPills(true); }); return r; }; }
-setTimeout(()=>syncSubPills(true), 700);
-NAVMENU.mant=[['plus','Registrar intervención',()=>openIntForm({back:'mant'})],['fuel','Repostaje',()=>recForm(MOD.repostajes)],['cart','Añadir a la compra',()=>compraSheet(null)],['history','Trabajos hechos',()=>go('mant','hist')]];
+{ const _os=openSub; openSub=function(sec, sub){ const r=_os(sec, sub); if(sec==='mant') requestAnimationFrame(gastosChips); return r; }; }
 
 /* ---------- 5 · Más con lo esencial ---------- */
 MAS2.datos=['Tus datos', w=>{ w.append(h2(`<p class="pintro">${ic('cloud')}<span>Tu copia de seguridad, los archivos de importación de ElsaWin y ETKA y el asistente para empezar.</span></p>`));
@@ -11562,7 +11232,7 @@ sysSync();
 /* la ficha de abajo (cableado, drenajes, refrigeración) no puede quedar tapada por la barra de navegación del móvil */
 function wcFit(){ const cd=document.querySelector('.wirecard'); if(!cd) return; cd.style.bottom=''; cd.style.maxHeight='';
   const sr=stage.getBoundingClientRect(); let lim=Math.min(sr.bottom, innerHeight);
-  for(const el of [$('#nav2')]){ if(!el) continue; const cs=getComputedStyle(el), r=el.getBoundingClientRect(); if(r.width<r.height*2 || r.top<sr.top+sr.height*.5) continue; /* solo una barra horizontal abajo (en el ordenador la navegación va a la izquierda) */ if(!r.height || cs.display==='none' || cs.visibility==='hidden' || +cs.opacity===0) continue; const hit=document.elementFromPoint(r.left+r.width/2, Math.min(innerHeight-2, r.top+r.height/2)); if(!hit || !el.contains(hit)) continue; /* solo si la barra queda por encima del visor */ if(r.top<lim && r.bottom>sr.top) lim=Math.min(lim, r.top); }
+  for(const el of [$('#v3tabs')]){ if(!el) continue; const cs=getComputedStyle(el), r=el.getBoundingClientRect(); if(r.width<r.height*2 || r.top<sr.top+sr.height*.5) continue; /* solo una barra horizontal abajo (en el ordenador la navegación va a la izquierda) */ if(!r.height || cs.display==='none' || cs.visibility==='hidden' || +cs.opacity===0) continue; const hit=document.elementFromPoint(r.left+r.width/2, Math.min(innerHeight-2, r.top+r.height/2)); if(!hit || !el.contains(hit)) continue; /* solo si la barra queda por encima del visor */ if(r.top<lim && r.bottom>sr.top) lim=Math.min(lim, r.top); }
   const extra=sr.bottom-lim; if(extra>1){ cd.style.bottom=(10+extra)+'px'; cd.style.maxHeight=Math.max(170, (lim-sr.top)*.48)+'px'; } }
 { const _c=wireCard; wireCard=function(c){ const r=_c(c); requestAnimationFrame(wcFit); return r; }; }
 addEventListener('resize', ()=>requestAnimationFrame(wcFit));
@@ -11691,13 +11361,6 @@ function segCheck(s, k){
 /* para los avisos (push / Telegram): la próxima revisión de cada seguimiento */
 function segAvisos(){ return segList().map(s=>{ const c=segNext(s); return c?{titulo:s.titulo, fecha:c.fecha, n:c.k+1, de:s.checks.length}:null; }).filter(Boolean); }
 /* ---------- Inicio ---------- */
-{ const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); const box=$('#pgInicio'); if(!box || !S.cfg) return r;
-    box.querySelector('.repcard')?.remove(); const reps=repActiva(), segs=segList(); if(!reps.length && !segs.length) return r;
-    const c=card2('Taller en marcha','wrench'); c.classList.add('c12','repcard'); const L=c.querySelector('.l2'), hoy=todayISO();
-    for(const rp of reps){ const pr=repGuia(rp), n=(rp.hechos||[]).length, t=pr?.pasos?.length||0; L.append(row2({c:'var(--accent)', i:'wrench', t:rp.titulo, s:`Reparación en curso · ${n} de ${t} pasos`, r:'Seguir', fn:()=>repRun(rp)})); }
-    for(const s of segs){ const nx=segNext(s); if(!nx) continue; const d=Math.round((new Date(nx.fecha+'T12:00:00Z')-new Date(hoy+'T12:00:00Z'))/864e5);
-      L.append(row2({c:d<=0?'var(--due)':'var(--info)', i:'eye', t:s.titulo, s:d<0?`Revisión ${nx.k+1} de ${s.checks.length}: tocaba hace ${pl(-d,'día')}`:d===0?`Revisión ${nx.k+1} de ${s.checks.length}: hoy`:`Revisión ${nx.k+1} de ${s.checks.length}: ${d===1?'mañana':'el '+fmtD(nx.fecha)}`, r:d<=0?'Apuntar':'', fn:()=>segCheck(s, nx.k)})); }
-    const q=box.querySelector('.qadd'); if(q) q.after(c); else box.querySelector('.grid2')?.prepend(c); return r; }; }
 /* ---------- botón en la guía ---------- */
 { const _g=guiaRead; guiaRead=function(pr, at){ const r=_g(pr, at); const b=document.querySelector('#shBox .gread'); if(b && (pr.pasos||[]).length>2 && S.db){ const ya=repActiva().find(x=>x.guia===pr._id);
     const bt=h2(`<button type="button" class="btn2 ${ya?'pri':'ghost'} grep">${ic('wrench')}${ya?`Seguir la reparación (${(ya.hechos||[]).length} de ${pr.pasos.length})`:'Empezar la reparación paso a paso'}</button>`);
@@ -11824,7 +11487,6 @@ function renderDiag(w){
 }
 MAS2.diag=['Diagnóstico por síntomas', renderDiag]; MAS_T.diag='Diagnóstico por síntomas';
 { const _m=v2MasHome; v2MasHome=function(pb){ _m(pb); const t=pb.querySelector('.mgrp .mtiles'); if(t && !t.querySelector('[data-k="diag"]')){ const b=h2(`<button type="button" class="mt" data-k="diag"><i>${ic('search')}</i><span><b>Diagnóstico por síntomas</b><small>Marca lo que notas y te digo las causas probables</small></span>${ic('chevR')}</button>`); b.onclick=()=>{ uiSfx('tap'); masOpen('diag'); }; t.prepend(b); } }; }
-NAVMENU.coche.push(['search','Diagnóstico por síntomas',()=>{ go('mas'); masOpen('diag'); }]);
 { const _ra=renderAve; renderAve=function(...a){ const r=_ra(...a); const body=$('#ovlBody'); if(body && !body.querySelector('.ddiag')){ const b=h2(`<button type="button" class="btn2 ghost ddiag">${ic('search')}¿No sabes qué es? Diagnóstico por síntomas</button>`); b.onclick=()=>{ uiSfx('tap'); go('mas'); masOpen('diag'); }; body.prepend(b); } return r; }; }
 IC.fan=IC.fan||'<path d="M12 12c0-4 1-8 4-8s2 5-4 8Zm0 0c4 0 8 1 8 4s-5 2-8-4Zm0 0c0 4-1 8-4 8s-2-5 4-8Zm0 0c-4 0-8-1-8-4s5-2 8 4Z"/>';
 IC.cloud=IC.cloud||'<path d="M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 9a4.5 4.5 0 0 0 1 9Z"/>';
@@ -11943,12 +11605,6 @@ async function offlinePrep(st){ const ids=offlineIds(); let ok=0, i=0;
 IC.download=IC.download||'<path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/>';
 
 /* ---------- 10 · Inicio: lo urgente arriba ---------- */
-{ const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); const box=$('#pgInicio'); if(!box || !S.cfg) return r;
-    const aves=(S.ave||[]).filter(x=>x.estado!=='resuelta'); let c=box.querySelector('.repcard');
-    if(aves.length){ if(!c){ c=card2('Taller en marcha','wrench'); c.classList.add('c12','repcard'); const q=box.querySelector('.qadd'); if(q) q.after(c); else box.querySelector('.grid2')?.prepend(c); }
-      const L=c.querySelector('.l2'); for(const x of aves.slice(0,3)) L.prepend(row2({c:'var(--due)', i:'alert', t:x.sintoma||x.codigo||'Avería', s:`Avería abierta${x.fecha?' desde el '+fmtDate(x.fecha):''}`, r:'Ver', fn:()=>{ S.aveEdit=x; go('coche','ave'); }})); }
-    if(c){ const nx=mantList().find(({s})=>s.st!=='ok'); if(nx && !c.querySelector('.rnext')){ const rr=row2({c:nx.s.st==='due'?'var(--due)':'var(--soon)', i:'calendar', t:nx.it.nombre, s:'Siguiente del plan · '+ST_LABEL[nx.s.st], fn:()=>go('mant','plan')}); rr.classList.add('rnext'); c.querySelector('.l2').append(rr); } }
-    return r; }; }
 
 /* ---------- 11 · buscador: pares de apriete y pasos de guías ---------- */
 { const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<2) return; const out=$('#srRes'); if(!out) return;
@@ -12165,7 +11821,6 @@ V2SUBS.mant.pend=renderPendientes;
     const plan=st.querySelector('button[data-sub="plan"]'); if(plan) plan.after(b); else st.append(b); } }
 function pdBadge(){ const b=document.querySelector('#stMant button[data-sub="pend"] .pdcnt'); if(!b) return; const A=pdOpen(), ya=A.some(p=>p.prio==='ya'); b.hidden=!A.length; b.textContent=A.length; b.classList.toggle('ya', ya); }
 { const _ub=updateBadges; updateBadges=function(...a){ const r=_ub(...a); try{ pdBadge(); }catch{} return r; }; }
-NAVMENU.mant=[['flag','Anotar un pendiente',()=>pdForm(null)], ...NAVMENU.mant];
 
 /* ---------- en la reparación en curso: botón grande y lo apuntado en ella ---------- */
 { const _rr=repRun; repRun=function(rep0){ _rr(rep0); const box=document.querySelector('#shBox .reprun'); if(!box) return;
@@ -12184,13 +11839,6 @@ new MutationObserver(()=>{ if(PD_BACK && $('#sheet2').hidden){ const f=PD_BACK; 
     return r; }; }
 
 /* ---------- Inicio: tarjeta con lo pendiente ---------- */
-{ const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); const box=$('#pgInicio'); if(!box || !S.cfg) return r;
-    box.querySelector('.pdhome')?.remove(); const A=pdOpen(); if(!A.length) return r;
-    const c=card2('Pendientes del taller','flag', A.length); c.classList.add('c12','pdhome','pdcard'); const l=c.querySelector('.l2');
-    for(const p of A.slice(0,3)) l.append(pdRow(p));
-    const m=h2(`<div class="row3 pdhacts"><button type="button" class="btn2 ghost sm">${ic('plus')}Anotar</button>${A.length>3?`<button type="button" class="btn2 ghost sm">Ver los ${A.length}${ic('chevR')}</button>`:''}</div>`);
-    const [b1,b2]=m.querySelectorAll('button'); b1.onclick=()=>{ uiSfx('tap'); pdForm(null); }; if(b2) b2.onclick=()=>{ uiSfx('tap'); go('mant','pend'); };
-    c.append(m); const after=box.querySelector('.repcard')||box.querySelector('.qadd'); if(after) after.after(c); else box.querySelector('.grid2')?.prepend(c); return r; }; }
 
 /* ---------- buscador ---------- */
 { const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<2) return; const out=$('#srRes'); if(!out) return;
@@ -12285,9 +11933,7 @@ V2SUBS.mant.rep=renderReparaciones;
   if(st){ const b=h2(`<button type="button" role="tab" data-sub="rep">${ic('wrench')}<span>Reparaciones</span><b class="pdcnt rpcnt" hidden></b></button>`); b.onclick=()=>{ uiSfx('tap'); openSub('mant','rep'); setTop(); };
     const plan=st.querySelector('button[data-sub="plan"]'); if(plan) plan.after(b); else st.append(b); } }
 { const _ub=updateBadges; updateBadges=function(...a){ const r=_ub(...a); const b=document.querySelector('#stMant .rpcnt'); if(b){ const n=repActiva().length; b.hidden=!n; b.textContent=n; b.classList.add('on'); } return r; }; }
-NAVMENU.mant=[['wrench','Empezar una reparación',repPick], ...NAVMENU.mant];
 /* Inicio: «Taller en marcha» con botón para ver todas */
-{ const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); const c=$('#pgInicio')?.querySelector('.repcard'); if(c && !c.querySelector('.rpall')){ const m=h2(`<div class="row3 pdhacts rpall"><button type="button" class="btn2 ghost sm">${ic('wrench')}Reparaciones${ic('chevR')}</button></div>`); m.querySelector('button').onclick=()=>{ uiSfx('tap'); go('mant','rep'); }; c.append(m); } return r; }; }
 /* el tablero del Taller: acceso directo */
 { const _rm=renderMant; renderMant=function(){ _rm(); const s=$('#ovlBody')?.querySelector('.tshort'); if(s && !s.querySelector('[data-k="rep"]')){ const b=h2(`<button type="button" data-k="rep">${ic('wrench')}<span>Reparar</span></button>`); b.onclick=()=>{ uiSfx('tap'); go('mant','rep'); }; s.prepend(b); s.style.gridTemplateColumns='repeat(5,1fr)'; } }; }
 
@@ -12309,12 +11955,73 @@ kbScan(document.body);
 document.addEventListener('focusin',e=>{ if(e.target.matches?.('input,textarea')) kbFix(e.target); });
 
 
-/* ====================== TALLER 7L · 3.0 — NÚCLEO DE NAVEGACIÓN ======================
+/* ====================== 4.0 · PREFERENCIAS EN TU CUENTA ======================
+   Lo que eliges en un aparato se ve igual en los demás, al momento: tema, noche de taller, sonidos, vibración,
+   animaciones, pantalla de arranque, avisos ya vistos (los números rojos), búsquedas recientes y la bienvenida.
+   Todo va en un documento de tu Firestore (config/preferencias) y, para que la app arranque al instante y sin
+   conexión, también se guarda una copia en el aparato.
+   Se quedan SOLO en cada aparato, porque son de ese aparato: el modo taller (mantiene encendida SU pantalla),
+   la calidad gráfica del 3D (depende de lo que aguante cada uno), el paquete para usar sin conexión y los
+   permisos que da el sistema (notificaciones, micrófono, cámara). */
+const PREF={
+  doc:'config/preferencias',
+  keys:{vistos:'taller7l-vistos', recientes:'taller7l-srch', bienvenida:'taller7l-v3intro'},  /* además de UI.prefs */
+  local:new Set(['modoTaller']),                                                               /* de UI.prefs, solo aquí */
+  t:null, applying:false, ready:false };
+
+function prefGet(k, def){
+  let v=null; try{ v=localStorage.getItem(PREF.keys[k]); }catch{}
+  if(v==null) return def;
+  try{ return JSON.parse(v); }catch{ return v; }
+}
+function prefSet(k, v){
+  try{ if(v==null) localStorage.removeItem(PREF.keys[k]); else localStorage.setItem(PREF.keys[k], JSON.stringify(v)); }catch{}
+  prefPush();
+}
+const prefShared=()=>Object.fromEntries(Object.entries(UI.prefs).filter(([k,v])=>!PREF.local.has(k) && v!==undefined));
+function prefDoc(){
+  const d={prefs:prefShared(), actualizado:new Date().toISOString()};
+  for(const k of Object.keys(PREF.keys)) d[k]=prefGet(k, null);
+  return d;
+}
+/* subir (agrupando los cambios seguidos); no se sube nada hasta haber leído lo que hay en la cuenta */
+function prefPush(){
+  if(PREF.applying) return; clearTimeout(PREF.t);
+  PREF.t=setTimeout(()=>{ if(!S.db || !PREF.ready) return; S.db.doc(PREF.doc).set(prefDoc()); }, 350);
+}
+/* llega de la cuenta (lo ha cambiado este aparato u otro) */
+async function prefRemote(d){
+  if(!d || !Object.keys(d).length){
+    /* aún no hay nada en la cuenta: antes de subir lo de este aparato, se pregunta al servidor
+       (la caché local puede no tenerlo todavía y se pisarían las preferencias de otro aparato) */
+    let srv=null; try{ const g=await S.db.doc(PREF.doc).get(); srv=g.exists?g.data():null; }catch{}
+    if(srv && Object.keys(srv).length) return prefRemote(srv);
+    PREF.ready=true; prefPush(); return;
+  }
+  PREF.ready=true; PREF.applying=true;
+  try{
+    const before=JSON.stringify(prefShared());
+    for(const [k,v] of Object.entries(d.prefs||{})) if(!PREF.local.has(k)) UI.prefs[k]=v;
+    try{ localStorage.setItem('taller7l-ui', JSON.stringify(UI.prefs)); }catch{}
+    for(const k of Object.keys(PREF.keys)) if(k in d){ try{ if(d[k]==null) localStorage.removeItem(PREF.keys[k]); else localStorage.setItem(PREF.keys[k], JSON.stringify(d[k])); }catch{} }
+    NAVUI?.prefsChanged(before!==JSON.stringify(prefShared()));
+  } finally { PREF.applying=false; }
+}
+PREFSYNC={push:prefPush};
+
+/* ====================== TALLER 7L · NÚCLEO DE NAVEGACIÓN (4.0) ======================
    Cinco pestañas como en el iPhone (Hoy · Coche · Taller · Gastos · Papeles). Cada pestaña tiene su propia
    pila de pantallas: entras con un toque, vuelves con «‹» o deslizando desde el borde izquierdo, y al cambiar
-   de pestaña y volver sigues donde estabas. Las pantallas principales (hubs) son nuevas; las de detalle
-   reutilizan las de la 2.x por dentro, pero con la barra, el título y el aspecto nuevos.
-   Pilas: V3.st[tab] = [{k:'hub'|'page'|'leaf', id, title, el?, y?}]  */
+   de pestaña y volver sigues donde estabas.
+
+   UNA sola fuente de verdad: la pila (V3.st). Nada más decide qué pantalla se ve.
+     · hub  : pantalla principal de cada pestaña (nueva, en v3/02-pantallas)
+     · page : pantalla nueva de detalle (Problemas, Ajustes)
+     · leaf : pantalla de detalle de la 2.x; la pinta su código de siempre, pero la abre y la cierra el navegador
+   Las pantallas de la 2.x todavía piden ir a otras (enlaces dentro de una ficha, el buscador…) con go(),
+   openSub(), masOpen() u openPanel(). Esas peticiones entran por el «enrutador» de más abajo, que apila la
+   pantalla y la manda pintar. Así no hace falta «adoptar» nada después ni vigilar si algo se ha desincronizado.
+   Pilas: V3.st[tab] = [{k:'hub'|'page'|'leaf', id, title, el?, render?}]  */
 document.body.classList.add('v3');
 Object.assign(IC,{
   today:'<rect x="3.5" y="4.5" width="17" height="16" rx="3.5"/><path d="M3.5 9.5h17M8 3v3M16 3v3"/><circle cx="12" cy="15" r="2.2" fill="currentColor" stroke="none"/>',
@@ -12328,7 +12035,7 @@ Object.assign(IC,{
   steth:'<path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M10 13v2a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="11" r="2"/>',
 });
 const V3TABS=[['hoy','Hoy','today'],['coche','Coche','car2'],['taller','Taller','wrench2'],['gastos','Gastos','wallet'],['papeles','Papeles','doc2']];
-const V3={tab:'hoy', st:{}, int:0, busy:false, hubs:{}, pages:{}, leaves:{}, dirtyT:null};
+const V3={tab:'hoy', st:{}, int:0, hubs:{}, pages:{}, leaves:{}, dirtyT:null};
 for(const [k] of V3TABS) V3.st[k]=[{k:'hub', id:k}];
 
 /* ---------- esqueleto: pila, barra superior y barra de pestañas ---------- */
@@ -12364,29 +12071,31 @@ function v3avatar(){ const u=window.FB?.user?.(); const ph=u?.photoURL; const n=
 /* ---------- mostrar lo de arriba de la pila ---------- */
 function v3apply(e){
   const leaf=e.k==='leaf';
-  document.body.classList.toggle('v3leaf', leaf); document.body.dataset.v3tab=V3.tab;
+  document.body.classList.toggle('v3leaf', leaf); document.body.dataset.v3tab=V3.tab; document.body.dataset.v3leaf=leaf?e.id:'';
   for(const s of v3root.children) s.classList.toggle('on', !leaf && s===e.el);
   v3tabs.querySelectorAll('button[data-t]').forEach(b=>b.setAttribute('aria-current', String(b.dataset.t===V3.tab)));
   v3barSet(e);
   if(!leaf){ const sc=e.el.querySelector('.v3sc'); v3barScroll(sc.scrollTop); }
+  avEnter(e);
 }
+/* pintar algo de la 2.x sin que cuente como navegación (lo pide el propio navegador) */
+function v3paint(fn){ V3.int++; try{ return fn(); } catch(err){ console.error(err); } finally { V3.int--; } }
 /* transición en curso: se termina SIEMPRE (por evento o por reloj) y antes de empezar otra; nunca se queda
    una pantalla vieja «enganchada» encima de la nueva */
 function v3endTr(){
   const t=V3.tr; V3.tr=null; if(t){ clearTimeout(t.t); for(const a of t.anims){ try{ a.cancel(); }catch{} } }
   if(BKON) return;
   document.querySelectorAll('.v3keep,.v3in-top,.v3in-under').forEach(el=>{ el.classList.remove('v3keep','v3in-top','v3in-under'); });
-  for(const el of [$('#pages'), $('.app'), ...v3root.children]){ if(el && !BKON){ el.style.transform=''; el.style.filter=''; } }
+  for(const el of [$('#pages'), $('.app'), ...v3root.children]){ if(el){ el.style.transform=''; el.style.filter=''; } }
   document.body.classList.remove('v3anim');
 }
 function v3show(e, how){                          /* how: 'push' | 'pop' | 'tab' | 'none' */
   v3endTr();
   const prevEl=V3.cur?(V3.cur.k==='leaf'?v3el(V3.cur):V3.cur.el):null;
-  V3.int++;
-  try{
-    if(e.k==='leaf'){ const L=V3.leaves[e.id]; if(L && !e.adopted) L.open(); e.adopted=false; }
-    else { if(UI.sec!=='inicio' || ovl.classList.contains('docked')){ go('inicio', null, {silent:true}); } v3el(e); if(e.stale){ e.stale=false; v3render(e); } }
-  } catch(err){ console.error(err); } finally { V3.int--; }
+  v3paint(()=>{
+    if(e.k==='leaf'){ const r=e.render; e.render=null; if(r) r(); else V3.leaves[e.id]?.open(); }
+    else { if(UI.sec!=='inicio' || ovl.classList.contains('docked')) go('inicio', null, {silent:true}); v3el(e); if(e.stale){ e.stale=false; v3render(e); } }
+  });
   const curEl=v3el(e);
   V3.cur=e; v3apply(e);
   const heavy=el=>el && el.classList.contains('app');      /* el 3D (WebGL) entra sin animar: en el iPhone se atascaba */
@@ -12404,15 +12113,16 @@ function v3show(e, how){                          /* how: 'push' | 'pop' | 'tab'
   } else if(how==='tab' && !RM && curEl && !heavy(curEl)){ try{ curEl.animate([{opacity:.3},{opacity:1}],{duration:160,easing:'ease-out'}); }catch{} }
   closeV3Menu();
 }
-/* abrir algo: un id de hoja (pantalla antigua), de página nueva o una pestaña */
+/* abrir algo: un id de hoja (pantalla antigua), de página nueva o una pestaña.
+   opts.render: cómo pintarla esta vez (cuando la petición viene de la 2.x con sus propios datos) */
 function v3go(id, opts={}){
   if(V3.hubs[id]) return v3tab(id);
   const P=V3.pages[id], L=V3.leaves[id]; if(!P && !L) return;
   const tab=opts.tab || (P?.tab==='*'||L?.tab==='*' ? V3.tab : (P||L).tab);
-  const e={k:P?'page':'leaf', id, title:(P||L).title, data:opts.data};
+  const e={k:P?'page':'leaf', id, title:(P||L).title, data:opts.data, render:opts.render};
   uiSfx('tap');
   if(tab!==V3.tab){ V3.tab=tab; V3.st[tab]=[V3.st[tab][0], e]; v3show(e,'tab'); }
-  else { const s=V3.st[tab]; if(v3top().id===id && v3top().k===e.k){ v3show(v3top(),'none'); return; } s.push(e); v3show(e,'push'); }
+  else { const s=V3.st[tab], top=v3top(); if(top.id===id && top.k===e.k){ top.render=opts.render; v3show(top,'none'); return; } s.push(e); v3show(e,'push'); }
 }
 function v3tab(t){
   if(t==='me') return v3go('ajustes');
@@ -12423,12 +12133,62 @@ function v3tab(t){
   uiSfx('tap'); haptic?.('tick'); V3.tab=t; v3show(v3top(),'tab');
 }
 function v3back(opts={}){
-  if(document.body.classList.contains('formopen')){ $('#t2Back').click(); return true; }
+  if(document.body.classList.contains('formopen')){ uiSfx('tap'); formCancel(); return true; }
   const s=V3.st[V3.tab]; if(s.length<2) return false;
   const gone=s.pop(); const e=v3top();
   if(gone.el){ const el=gone.el; if(opts.anim===false || RM) el.remove(); else setTimeout(()=>el.remove(), 460); }
   e.stale=true; v3show(e, opts.anim===false?'none':'pop'); uiSfx('tap'); return true;
 }
+
+/* ---------- el enrutador: las peticiones de la 2.x pasan por la pila ---------- */
+const paint={go, openSub, masOpen, openPanel};                 /* cómo pinta cada cosa la 2.x */
+const MAS_ACT=new Set(['pdf','glb','wiz','logout']);             /* de «Más» que no son pantallas sino acciones */
+function v3idFor(sec, sub){
+  if(sec==='inicio') return 'hub:hoy';
+  sub=sub||UI.sub?.[sec];
+  const id=V3.bySub[sec+'/'+sub]; if(id) return id;
+  const k='s_'+sec+'_'+sub;                                      /* una pantalla 2.x sin sitio en el mapa: se le da uno */
+  if(!V3.leaves[k]) V3.leaves[k]={tab:'*', title:(SECS[sec]?.subs||[]).find(x=>x[0]===sub)?.[1]||SECS[sec]?.t||'', open:()=>go(sec,sub)};
+  return k;
+}
+function v3masId(k){
+  const id=V3.byMas[k]||'m_'+k;
+  if(!V3.leaves[id]) V3.leaves[id]={tab:'*', get title(){ return MAS_T[k]||'Más'; }, open:()=>{ go('mas',null,{silent:true}); masOpen(k); }};
+  return id;
+}
+function v3want(id, render){
+  if(!id) return v3paint(render);
+  if(id==='hub:hoy'){ V3.st.hoy.splice(1); if(V3.tab!=='hoy' || V3.cur!==V3.st.hoy[0]){ V3.tab='hoy'; v3show(V3.st.hoy[0],'tab'); } return; }
+  if(V3.pages[id]) return v3go(id);
+  if(!V3.leaves[id]) return v3paint(render);
+  const top=v3top();
+  /* ya estás en esa pantalla, o en una hermana que se cambia desde dentro (Compra · Movimientos · Repostajes) */
+  if(top.k==='leaf' && (top.id===id || V3.leaves[top.id]?.same?.includes(id))){
+    if(top.id!==id){ top.id=id; top.title=V3.leaves[id].title; }
+    v3paint(render); v3barSet(top); return; }
+  v3go(id, {render});
+}
+go=function(sec, sub, opts={}){
+  if(V3.int) return paint.go(sec, sub, opts);
+  if(sec==='mas') return;                                       /* «Más» ya no es una pantalla: decide lo que se abra después */
+  return v3want(v3idFor(sec, sub), ()=>paint.go(sec, sub, opts));
+};
+openSub=function(sec, sub){
+  if(V3.int) return paint.openSub(sec, sub);
+  return v3want(v3idFor(sec, sub), ()=>{ paint.go(sec, null, {silent:true}); paint.openSub(sec, sub); });
+};
+masOpen=function(k){
+  if(V3.int || MAS_ACT.has(k)) return paint.masOpen(k);
+  return v3want(v3masId(k), ()=>{ paint.go('mas', null, {silent:true}); paint.masOpen(k); });
+};
+openPanel=function(id, mode){
+  if(V3.int) return paint.openPanel(id, mode);
+  const global=typeof id==='string' && id.startsWith('__') && mode!=='vista' && mode!=='pin';
+  let target='3d';
+  if(global && ROUTE[mode]){ const [sec,sub]=ROUTE[mode](); target = sec==='mas' ? v3masId(sub) : v3idFor(sec, String(sub||'').replace('!','')); }
+  else if(global && mode==='int') target='plan';
+  return v3want(target, ()=>paint.openPanel(id, mode));
+};
 
 /* ---------- barra superior ---------- */
 function v3barSet(e){
@@ -12445,8 +12205,12 @@ function v3barSet(e){
 }
 function v3barScroll(y){ v3bar.classList.toggle('scrolled', y>34); v3bar.classList.toggle('lined', y>4); }
 v3bar.querySelector('.v3back').onclick=()=>v3back();
-/* pulsación larga en una pestaña: sale su menú y, SIN levantar el dedo, al deslizarlo por las opciones se
-   resaltan (con un toque de vibración) y al soltar se entra en la resaltada. Si sueltas fuera, el menú se queda abierto. */
+/* con el 3D a pantalla completa (móvil en horizontal) la barra se esconde: botón propio para volver */
+{ const b=h2(`<button type="button" class="v3fsback" aria-label="Volver">${ic('chevL')}</button>`); b.onclick=()=>v3back(); document.body.append(b); }
+
+/* ---------- pulsación larga en una pestaña: sale su menú y, SIN levantar el dedo, al deslizarlo por las
+   opciones se resaltan (con un toque de vibración) y al soltar se entra en la resaltada. Si sueltas fuera,
+   el menú se queda abierto. ---------- */
 const LP={b:null, t:null, x0:0, y0:0, open:false, hov:null};
 function lpHover(x, y){
   const m=document.querySelector('.v3menu'); if(!m) return; const el=document.elementFromPoint(x, y), it=el?.closest?.('.v3menu button');
@@ -12478,46 +12242,20 @@ function v3menu(anchor, items, fromTab){
   else { m.style.left=Math.max(12, Math.min(innerWidth-w-12, r.right-w))+'px'; m.style.top=(r.bottom+8)+'px'; m.style.transformOrigin='100% 0'; }
   uiSfx('open');
 }
+addEventListener('keydown',e=>{ if(e.key==='Escape' && document.querySelector('.v3menu')) closeV3Menu(); });
 
-/* ---------- la app antigua navega sola (buscador, enlaces dentro de pantallas…): adoptarlo ---------- */
-function v3legacyId(){
-  const sec=UI.sec, sub=UI.sub?.[sec];
-  if(sec==='inicio') return 'hub:hoy';
-  if(sec==='mas') return UI.mas ? (V3.byMas[UI.mas]||'m_'+UI.mas) : 'ajustes';
-  return V3.bySub[sec+'/'+sub] || null;
-}
-function v3adopt(){
-  if(V3.int) return; const id=v3legacyId(); if(!id) return;
-  if(id==='hub:hoy'){ const top=v3top(); if(top.k==='leaf'){ V3.tab='hoy'; V3.st.hoy.splice(1); v3show(V3.st.hoy[0],'tab'); } return; }
-  const top=v3top(); if(top.id===id){ v3barSet(top); return; }
-  if(V3.pages[id]){ v3go(id); return; }
-  if(id.startsWith('m_') && !V3.leaves[id]) V3.leaves[id]={tab:'*', title:MAS_T[UI.mas]||'Más', open:()=>{ go('mas',null,{silent:true}); masOpen(UI.mas); }};
-  const L=V3.leaves[id]; if(!L) return;
-  const tab=L.tab==='*'?V3.tab:L.tab, e={k:'leaf', id, title:L.title, adopted:true};
-  if(tab!==V3.tab){ V3.tab=tab; V3.st[tab]=[V3.st[tab][0], e]; v3show(e,'tab'); }
-  else { V3.st[tab].push(e); v3show(e,'push'); }
-}
-{ const _go=go; go=function(...a){ const r=_go(...a); if(!V3.int) queueMicrotask(v3adopt); return r; }; }
-{ const _os=openSub; openSub=function(...a){ const r=_os(...a); if(!V3.int) queueMicrotask(v3adopt); return r; }; }
-{ const _mo=masOpen; masOpen=function(...a){ const r=_mo(...a); if(!V3.int) queueMicrotask(v3adopt); return r; }; }
-{ const _rm=renderMas; renderMas=function(...a){ const r=_rm(...a); if(!V3.int && UI.sec==='mas') queueMicrotask(v3adopt); return r; }; }
-/* el título pequeño de la hoja sigue al antiguo (p. ej. la pieza elegida en el 3D) */
-{ const _st=setTop; setTop=function(...a){ const r=_st(...a); const e=V3.cur; if(e?.k==='leaf') v3bar.querySelector('.v3bt small').textContent=V3.leaves[e.id]?.sub?.()||''; return r; }; }
-
-/* ---------- gestos: atrás desde el borde con la pantalla siguiendo al dedo ---------- */
-gBack=function(){
+/* ---------- volver: lo que esté abierto encima (hoja, buscador, menú) y, si no, la pantalla anterior ---------- */
+function gBack(){
   if(!$('#sheet2').hidden){ $('#sheet2').hidden=true; return true; }
   if(document.querySelector('.csw')){ closeCsel(); return true; }
   if(!$('#srch').hidden){ closeSearch(); return true; }
   if(document.querySelector('.v3menu')){ closeV3Menu(); return true; }
   return v3back({anim:!BKDONE});
-};
-let BKDONE=false, BKON=false, BK3=null;
-backLabel=function(){ if(!$('#sheet2').hidden || document.querySelector('.csw') || !$('#srch').hidden) return null; const p=v3prev(); return p?v3title(p):null; };
-backTarget=function(){ const e=v3top(); return e.k==='leaf'?v3el(e):e.el; };
+}
+function backLabel(){ if(!$('#sheet2').hidden || document.querySelector('.csw') || !$('#srch').hidden) return null; const p=v3prev(); return p?v3title(p):null; }
 /* gesto de volver como en iOS: la pantalla de arriba sigue al dedo; la de debajo asoma desde la izquierda,
    oscurecida, y se va aclarando; el título se funde. Al soltar, el movimiento sigue desde donde está, sin saltos. */
-const BKE='cubic-bezier(.2,.9,.25,1)';
+let BKDONE=false, BKON=false, BK3=null;
 const v3shade=h2('<div class="v3shade" aria-hidden="true"></div>');
 function bkSet(b, x){
   const k=Math.max(0,Math.min(1,x/b.W)), e=1-Math.pow(1-k,1.6);          /* la anterior entra con suavidad */
@@ -12527,7 +12265,7 @@ function bkSet(b, x){
   b.top.style.boxShadow=`-10px 0 28px rgba(0,0,0,${(.35*(1-k)).toFixed(3)})`;
   v3bar.style.setProperty('--bk', (1-k).toFixed(3)); if(b.fadeBar) v3bar.style.setProperty('--bga', (1-k).toFixed(3));
 }
-backDrag=function(dx){
+function backDrag(dx){
   if(!BK3){
     if(backLabel()==null){ BK3={none:true}; return; }
     v3endTr(); const e=v3top(), p=v3prev(), top=e.k==='leaf'?v3el(e):e.el;
@@ -12542,9 +12280,9 @@ backDrag=function(dx){
     BK3={top, under, e, p, W:innerWidth>900?Math.min(innerWidth-(parseFloat(getComputedStyle(document.body).getPropertyValue('--railw'))||0), 1000):innerWidth, fadeBar:usc<=34};
   }
   if(BK3.none) return; bkSet(BK3, Math.max(0, dx));
-};
-backEnd=function(ok){
-  const b=BK3; BK3=null; try{ _gReset0(); }catch{}
+}
+function backEnd(ok){
+  const b=BK3; BK3=null;
   if(!b || b.none){ if(ok && !b?.none && !gBack()) toast('No hay nada atrás'); return; }
   const from=b.x||0, to=ok?b.W:0, k0=from/b.W, dur=Math.round(ok?Math.max(170, 320*(1-k0)):Math.max(160, 260*k0));
   const clear=()=>{ for(const el of [b.top, b.under]) if(el){ el.style.transform=''; el.style.filter=''; el.style.boxShadow=''; el.style.transition=''; el.style.willChange=''; el.style.visibility=''; el.style.zIndex=''; el.classList.remove('v3keep'); }
@@ -12555,49 +12293,64 @@ backEnd=function(ok){
     if(ok){ b.top.style.visibility='hidden'; BKON=false; BKDONE=true; try{ v3back({anim:false}); } finally { BKDONE=false; } requestAnimationFrame(clear); uiSfx('tap'); }
     else clear(); };
   if(RM){ bkSet(b,to); step(performance.now()+dur); } else requestAnimationFrame(step);
-};
-const _gReset0=gReset;
-gReset=function(){ if(BK3) return; return _gReset0(); };
-gTab=()=>false;                                     /* nada de cambiar de pestaña deslizando: como en iOS */
-/* deslizar hacia abajo en Hoy abre el buscador (como Spotlight) */
-V3.pull=()=>{ openSearch(); };
-V3.canPull=()=>{ const e=V3.cur; return !!(e && e.k==='hub' && e.id==='hoy' && (e.el?.querySelector('.v3sc')?.scrollTop||0)<=0); };
+}
+
+/* ---------- avisos de la barra: solo lo que aún no has visto (y se borra en todos tus aparatos) ----------
+     Taller  → averías abiertas, pendientes «antes de circular» y mantenimiento vencido o próximo (se ven en Taller)
+     Gastos  → piezas por comprar (se ven en la Lista de la compra)
+     Papeles → documentos caducados o por caducar (se ven en Papeles)
+   Todos en rojo; dentro de cada pestaña, la fila de la que viene el aviso lleva su número. */
+let SEEN=prefGet('vistos', {}) || {};
+function avItems(){
+  let ml=[]; try{ ml=mantList(); }catch{}
+  const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta').map(a=>'a:'+a._id), ya=(typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya').map(p=>'p:'+p._id);
+  const mant=ml.filter(x=>x.s.st==='due'||x.s.st==='soon').map(x=>'m:'+(x.it.id||x.it._id||x.it.nombre)+':'+x.s.st);
+  const compra=(S.compras||[]).filter(c=>c.estado==='pendiente').map(c=>'c:'+c._id);
+  let docs=[]; try{ docs=docsVig().filter(d=>{ const s=docStatus(d).st; return s==='due'||s==='soon'; }).map(d=>'d:'+(d._id||d.tipo)+':'+d.caduca); }catch{}
+  return {taller:[...aves, ...ya, ...mant], gastos:compra, papeles:docs};
+}
+const unseen=(t,I)=>(I||avItems())[t].filter(x=>!(SEEN[t]||[]).includes(x));
+/* dónde se «ven» los avisos de cada pestaña */
+function avCtx(e){ if(!e) return null;
+  if(e.k==='hub' && (e.id==='taller'||e.id==='papeles')) return e.id;
+  if(['problemas','averias','pendientes','plan','hechos'].includes(e.id)) return 'taller';
+  if(e.id==='compra') return 'gastos';
+  if(e.id==='p_docs') return 'papeles';
+  return null; }
+function avMarkSeen(ctx){ if(!ctx) return; SEEN[ctx]=avItems()[ctx]; prefSet('vistos', SEEN); }
+let AVCTX=null;
+function avEnter(e){ const c=avCtx(e); if(AVCTX && AVCTX!==c) avMarkSeen(AVCTX); AVCTX=c; setTimeout(v3badges,0); }
+document.addEventListener('visibilitychange',()=>{ if(document.hidden && AVCTX) avMarkSeen(AVCTX); });
+function v3badges(){ const I=avItems();
+  for(const t of ['taller','gastos','papeles']){ const b=v3tabs.querySelector(`button[data-t="${t}"] .v3badge`); if(!b) continue; const n=unseen(t,I).length; b.hidden=!n; b.textContent=n>99?'99+':n; }
+  v3tabs.querySelector('button[data-t="hoy"] .v3badge').hidden=true; }
 
 /* ---------- datos que cambian: refrescar lo que se ve ---------- */
-renderInicio=function(f){ v3dirty(f); };
 /* no se redibuja nada con el dedo encima (si no, el gesto se pierde) ni si los datos no han cambiado */
 document.addEventListener('touchstart',()=>{ V3.touch=true; },{passive:true,capture:true});
 for(const t of ['touchend','touchcancel']) document.addEventListener(t,e=>{ if(!e.touches.length){ V3.touch=false; if(V3.pend){ V3.pend=false; v3dirty(); } } },{passive:true,capture:true});
-function v3sig(){ try{ return sigOf()+'|'+JSON.stringify([(S.ave||[]).map(a=>a.estado+a.sintoma), (S.compras||[]).map(c=>c.estado+c.nombre+c.fechaCompra+c.precio), S.int.map(x=>x.fecha+'|'+x.coste+'|'+x.km), S.cfg?.precioCompra, S.cfg?.fechaCompra, (S.docs||[]).map(d=>d.caduca), UI.prefs.theme, UI.v3pf]); }catch{ return Math.random()+''; } }
+function v3sig(){ try{ return sigOf()+'|'+JSON.stringify([(S.ave||[]).map(a=>a.estado+a.sintoma), (S.compras||[]).map(c=>c.estado+c.nombre+c.fechaCompra+c.precio), S.int.map(x=>x.fecha+'|'+x.coste+'|'+x.km), S.cfg?.precioCompra, S.cfg?.fechaCompra, (S.docs||[]).map(d=>d.caduca), UI.prefs.theme, UI.v3pf, SEEN]); }catch{ return Math.random()+''; } }
 function v3dirty(force){ if(V3.touch){ V3.pend=true; return; } clearTimeout(V3.dirtyT); V3.dirtyT=setTimeout(()=>{ if(V3.touch){ V3.pend=true; return; } const sg=v3sig(); if(sg===V3.sig && force!==true) { v3badges(); return; } V3.sig=sg; for(const [k] of V3TABS){ const r=V3.st[k][0]; if(r.el){ if(V3.cur===r) v3render(r); else r.stale=true; } }
     const e=V3.cur; if(e && e.k==='page') v3render(e); v3badges(); }, 160); }
-function v3badges(){ let c; try{ c=counts(); }catch{ return; }
-  const set=(t,n,cls)=>{ const b=v3tabs.querySelector(`button[data-t="${t}"] .v3badge`); if(!b) return; b.hidden=!n; b.textContent=n>99?'99+':n; b.className='v3badge '+(cls||''); };
-  const urg=(typeof pdOpen==='function'?pdOpen().filter(p=>p.prio==='ya').length:0)+(S.ave||[]).filter(a=>a.estado!=='resuelta').length;
-  set('taller', c.due+urg || c.soon, c.due+urg?'':'soon'); set('papeles', c.ddue||c.dsoon, c.ddue?'':'soon');
-  const pc=(S.compras||[]).filter(x=>x.estado==='pendiente').length; set('gastos', pc, 'info'); }
-{ const _ub=updateBadges; updateBadges=function(...a){ const r=_ub(...a); try{ v3badges(); }catch{} return r; }; }
 /* el estado de la sincronización, en el avatar */
 { const s=$('#t2Sync'); if(s) new MutationObserver(()=>{ document.body.classList.toggle('v3off', s.classList.contains('off')); }).observe(s,{attributes:true}); }
-addEventListener('keydown',e=>{ if(e.key==='Escape' && document.querySelector('.v3menu')) closeV3Menu(); });
 
-snapPage=()=>null;
-/* red de seguridad: si lo que se ve no coincide con la pantalla de arriba de la pila, se corrige solo */
-function v3heal(){
-  if(V3.tr || BKON || !V3.cur || V3.touch) return;
-  if(document.querySelector('.v3keep,.v3in-top,.v3in-under') || document.body.classList.contains('v3anim')) v3endTr();
-  const e=V3.cur, leaf=e.k==='leaf';
-  if(document.body.classList.contains('v3leaf')!==leaf) v3apply(e);
-  if(!leaf){ for(const s of v3root.children){ const want=s===e.el; if(s.classList.contains('on')!==want) s.classList.toggle('on', want); }
-    if(UI.sec!=='inicio'){ V3.int++; try{ go('inicio',null,{silent:true}); }catch{} finally{ V3.int--; } } }
-  else { const id=v3legacyId(); const L=V3.leaves[e.id]; if(id && id!==e.id && !(L?.same||[]).includes(id) && id!=='hub:hoy'){ v3adopt(); } }
-  if(e.id==='3d' && UI.sec!=='coche'){ V3.int++; try{ V3.leaves['3d'].open(); }catch{} finally{ V3.int--; } }
-}
-setInterval(v3heal, 700);
-document.addEventListener('visibilitychange',()=>{ if(!document.hidden) setTimeout(v3heal, 50); });
-addEventListener('pageshow',()=>setTimeout(v3heal, 50));
+/* ---------- lo que la 2.x y los gestos le piden al navegador (enganches declarados en ui/01-base) ---------- */
+NAVUI={
+  top(){ const e=V3.cur; if(e?.k==='leaf') v3bar.querySelector('.v3bt small').textContent=V3.leaves[e.id]?.sub?.()||''; },   /* p. ej. la pieza elegida en el 3D */
+  badges(){ v3badges(); },
+  refresh(force){ v3dirty(force); },
+  canPull(){ const e=V3.cur; return !!(e && e.k==='hub' && e.id==='hoy' && (e.el?.querySelector('.v3sc')?.scrollTop||0)<=0); },
+  pull(){ openSearch(); },                                       /* tirar hacia abajo en Hoy: el buscador (como Spotlight) */
+  prefsChanged(prefs){ SEEN=prefGet('vistos', {}) || {}; if(prefs){ applyTheme(); nightApply(); } v3dirty(true); },
+};
 
-/* ====================== 3.0 — MAPA Y PANTALLAS PRINCIPALES ======================
+/* ---------- al volver a la app (el iPhone congela las animaciones en segundo plano): nada a medias ---------- */
+function v3settle(){ if(BKON || V3.touch || !V3.cur) return; v3endTr(); v3apply(V3.cur); }
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) setTimeout(v3settle, 50); });
+addEventListener('pageshow',()=>setTimeout(v3settle, 50));
+
+/* ====================== MAPA Y PANTALLAS PRINCIPALES (3.0, en la 4.0 sin envoltorios) ======================
    HOY      lo que importa ahora: el coche, lo que toca, accesos rápidos y el gasto del año
    COCHE    conocer el coche: 3D, datos, ficha técnica y pares, piezas, electricidad, guías, galería, mejoras
    TALLER   hacer cosas: reparaciones, problemas (averías + pendientes + diagnóstico), mantenimiento, hechos…
@@ -12644,7 +12397,6 @@ V3.bySub={'coche/3d':'3d','coche/ficha':'datos','coche/fus':'elec','coche/galeri
   'mant/plan':'plan','mant/hist':'hechos','mant/rep':'reparaciones','mant/pend':'pendientes','mant/ruedas':'ruedas','mant/gastos':'resumen','mant/compra':'compra','mant/repost':'repost',
   'papeles/docs':'p_docs','papeles/itv':'p_itv','papeles/garant':'p_garant','papeles/sinies':'p_sinies','papeles/ivtm':'p_ivtm','papeles/fotos':'p_fotos'};
 V3.byMas={ficha:'tecnica',fichas:'piezas',catalogo:'piezas',procs:'guias',diag:'diag',listas:'listas',talleres:'talleres',stats:'stats'};
-{ const _ad=v3adopt; v3adopt=function(){ const top=v3top(), id=v3legacyId(); if(top?.k==='leaf' && V3.leaves[top.id]?.same?.includes(id)){ v3barSet(top); return; } return _ad(); }; }
 /* el «+» de cada pestaña y la pulsación larga sobre ella */
 Object.assign(V3ACT,{
   hoy:[['gauge','Actualizar kilómetros',()=>quickKm(),'var(--v-blue)'],['fuel','Repostaje',()=>recForm(MOD.repostajes),'var(--v-green)'],['flag','Anotar algo por arreglar',()=>pdForm(null),'var(--v-orange)'],['camera','Fotografiar una factura',()=>$('#camIn').click(),'var(--v-purple)'],['wrench','Registrar intervención',()=>openIntForm({}),'var(--v-gray)']],
@@ -12665,6 +12417,7 @@ function vTile(o){ /* {i, c, t, s, fn, big, img} */
   const b=h2(`<button type="button" class="vtile${o.big?' big':''}" style="--c:${o.c||V3C.blue}">${o.img?'<span class="vimg"></span>':''}<i class="vsq">${ic(o.i)}</i><span class="vtx"><b>${esc(o.t)}</b>${o.s?`<small>${esc(o.s)}</small>`:''}</span>${o.n!=null?`<em class="vn">${esc(o.n)}</em>`:''}</button>`);
   if(o.img) Promise.resolve(o.img).then(u=>{ if(u){ b.querySelector('.vimg').style.backgroundImage=`url("${u}")`; b.classList.add('hasimg'); } }).catch(()=>{});
   b.onclick=()=>{ uiSfx('tap'); o.fn(); }; return b; }
+const avBadge=n=>n?`<em class="vbadge avb" style="--c:var(--v-red)">${n}</em>`:'';
 const vGrid=(...t)=>{ const g=h2('<div class="vgrid"></div>'); g.append(...t.filter(Boolean)); return g; };
 const vRing=(p,c,lab)=>`<span class="vring" style="--p:${Math.round(Math.max(0,Math.min(1,p))*100)};--c:${c||'var(--accent)'}"><b>${lab||''}</b></span>`;
 const yr=()=>todayISO().slice(0,4);
@@ -12683,7 +12436,7 @@ function v3now(){ /* lo que pide atención, ordenado por urgencia */
   for(const c of (S.compras||[]).filter(c=>c.estado==='comprado').slice(0,3)) L.push({w:8, el:()=>vNow('cart', V3C.teal, 'Comprado, sin montar', c.nombre, c.fechaCompra?'Desde el '+fmtDate(c.fechaCompra):'', ()=>montarCompra(c), 'Montar')});
   return L.sort((a,b)=>a.w-b.w);
 }
-function vNow(i,c,k,t,s,fn,go2){ const b=h2(`<button type="button" class="vnow"><i class="vsq" style="--c:${c}">${ic(i)}</i><span class="vtx"><em style="color:${c}">${esc(k)}</em><b>${esc(t)}</b>${s?`<small>${esc(s)}</small>`:''}</span>${go2?`<span class="vgo">${esc(go2)}</span>`:`<span class="vch">${ic('chevR')}</span>`}</button>`); b.onclick=()=>{ uiSfx('tap'); fn(); }; return b; }
+function vNow(i,c,k,t,s,fn,go2){ const b=h2(`<button type="button" class="vnow${c===V3C.red?' fxhot':c===V3C.orange?' fxwarm':''}"><i class="vsq" style="--c:${c}">${ic(i)}</i><span class="vtx"><em style="color:${c}">${esc(k)}</em><b>${esc(t)}</b>${s?`<small>${esc(s)}</small>`:''}</span>${go2?`<span class="vgo">${esc(go2)}</span>`:`<span class="vch">${ic('chevR')}</span>`}</button>`); b.onclick=()=>{ uiSfx('tap'); fn(); }; return b; }
 V3.hubs.hoy={title:'Hoy', sub:()=>{ const h=new Date().getHours(), n=(window.FB?.user?.()?.displayName||'').split(' ')[0]; return `${h<6?'Buenas noches':h<14?'Buenos días':h<21?'Buenas tardes':'Buenas noches'}${n?', '+esc(n):''} · ${new Date().toLocaleDateString('es-ES',{weekday:'long', day:'numeric', month:'long'})}`; }, render(w){
   if(!S.cfg){ w.append(h2('<div class="vskel" style="height:230px"></div><div class="vskel" style="height:90px"></div><div class="vskel" style="height:160px"></div>')); return; }
   const c=S.cfg, km=c.kmActual, now=v3now();
@@ -12694,6 +12447,7 @@ V3.hubs.hoy={title:'Hoy', sub:()=>{ const h=new Date().getHours(), n=(window.FB?
     <div class="vhname"><small>Volkswagen</small><b>Touareg <span>7L</span></b><em>2.5 R5 TDI · BAC · ${esc(c.anoModelo||'2004')}</em></div>
     <button type="button" class="vkm"><span><small>Cuentakilómetros</small><b>${kmFmt(km)}<i>km</i></b></span><em>${ic('edit')}Actualizar</em></button></div></section>`);
   hero.classList.add('vh-hero'); hero.querySelector('.vkm').onclick=()=>{ uiSfx('tap'); quickKm(); }; w.append(hero);
+  fxHero(hero);
   /* accesos rápidos */
   const qa=h2('<div class="vquick vh-quick"></div>');
   for(const [i,t,col,fn] of [['gauge','Km',V3C.blue,quickKm],['fuel','Repostaje',V3C.green,()=>recForm(MOD.repostajes)],['flag','Anotar',V3C.orange,()=>pdForm(null)],['camera','Factura',V3C.purple,()=>$('#camIn').click()],['search','Buscar',V3C.gray,openSearch]]){
@@ -12740,6 +12494,8 @@ V3.hubs.taller={title:'Taller', sub:()=>S.cfg?.kmActual?nf.format(S.cfg.kmActual
   let c; try{ c=counts(); }catch{ c={due:0,soon:0,ok:0}; }
   const st=h2(`<div class="vstats"><button type="button" style="--c:${V3C.red}"><b>${c.due}</b><span>Vencido</span></button><button type="button" style="--c:${V3C.orange}"><b>${c.soon}</b><span>Próximo</span></button><button type="button" style="--c:${V3C.green}"><b>${c.ok}</b><span>Al día</span></button></div>`);
   st.querySelectorAll('button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); v3go('plan'); }); w.append(st);
+  const road=g3Road(); if(road) w.append(road);
+  const U=unseen('taller'), nProb=U.filter(x=>/^[ap]:/.test(x)).length, nMant=U.filter(x=>/^m:/.test(x)).length;
   /* en marcha */
   const A=typeof repActiva==='function'?repActiva():[];
   const rg=vGroup('En marcha',[], {more:['Todas',()=>v3go('reparaciones')]}); const rl=rg.querySelector('.vlist');
@@ -12748,7 +12504,7 @@ V3.hubs.taller={title:'Taller', sub:()=>S.cfg?.kmActual?nf.format(S.cfg.kmActual
   w.append(rg);
   /* problemas */
   const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta'), pds=typeof pdOpen==='function'?pdOpen():[], np=aves.length+pds.length;
-  const pg=vGroup('Problemas',[], {more:['Ver todos',()=>v3go('problemas')]}); const pl2=pg.querySelector('.vlist');
+  const pg=vGroup('Problemas',[], {more:['Ver todos',()=>v3go('problemas')]}); const pl2=pg.querySelector('.vlist'); if(nProb) pg.querySelector('.vgh span').insertAdjacentHTML('beforeend', ' '+avBadge(nProb));
   for(const a of aves.slice(0,2)) pl2.append(vRow({i:'alert', c:V3C.red, t:a.sintoma||a.codigo||'Avería', s:'Avería'+(a.fecha?' · desde el '+fmtDate(a.fecha):''), fn:()=>{ S.aveEdit=a; v3go('averias'); }}));
   for(const p of pds.slice(0,Math.max(0,3-Math.min(2,aves.length)))) pl2.append(vRow({i:'flag', c:(PD_PRIO[p.prio]||PD_PRIO.pronto).c, t:p.titulo, s:(PD_PRIO[p.prio]||PD_PRIO.pronto).t+(p.zona?' · '+p.zona:''), fn:()=>pdSheet(p)}));
   if(!np) pl2.append(h2(`<div class="vcalm sm">${ic('checkc')}<div><b>Sin problemas apuntados</b><small>Si ves algo raro, apúntalo o usa el diagnóstico.</small></div></div>`));
@@ -12757,7 +12513,7 @@ V3.hubs.taller={title:'Taller', sub:()=>S.cfg?.kmActual?nf.format(S.cfg.kmActual
   /* todo lo demás */
   const hechos=S.int.length;
   w.append(vGroup('Taller',[
-    vRow({i:'list', c:V3C.blue, t:'Mantenimiento', s:'Lo que toca por km y por fecha', badge:c.due?String(c.due):(c.soon?String(c.soon):null), bc:c.due?V3C.red:V3C.orange, fn:()=>v3go('plan')}),
+    vRow({i:'list', c:V3C.blue, t:'Mantenimiento', s:'Lo que toca por km y por fecha', badge:nMant?String(nMant):null, fn:()=>v3go('plan')}),
     vRow({i:'wrench', c:V3C.orange, t:'Reparaciones', s:'En curso y terminadas, con fotos', r:A.length?String(A.length):null, fn:()=>v3go('reparaciones')}),
     vRow({i:'history', c:V3C.indigo, t:'Trabajos hechos', s:'Todo lo que se le ha hecho', r:hechos?nf.format(hechos):null, fn:()=>v3go('hechos')}),
     vRow({i:'tyre', c:V3C.gray, t:'Ruedas', s:'Juegos, presiones y desgaste', fn:()=>v3go('ruedas')}),
@@ -12794,10 +12550,12 @@ V3.hubs.gastos={title:'Gastos', sub:()=>'Lo invertido en el Touareg', render(w){
   const big=h2(`<section class="vbig"><small>Llevas invertido</small><b>${eur(pc+gast)}</b><div class="vbigs"><span><em>El coche</em>${eur(pc)}</span><span><em>Piezas y trabajos</em>${eur(gast)}</span></div><button type="button" class="vlink">${ic('edit')}${S.cfg?.precioCompra?'Compra y valor del coche':'Apunta lo que costó el coche'}</button></section>`);
   big.querySelector('.vlink').onclick=()=>{ uiSfx('tap'); cocheEdit(); }; w.append(big);
   const g=typeof accChart==='function'?accChart():null; if(g){ const s=h2('<section class="vgrp"><h2 class="vgh"><span>Gasto acumulado</span></h2><div class="vcard vchart"></div></section>'); s.querySelector('.vchart').append(g); w.append(s); }
+  const dn=g3Donut(), cs=g3Consumo(); if(dn) w.append(dn); if(cs) w.append(cs);
+  const nCompra=unseen('gastos').length;
   const pend=(S.compras||[]).filter(c=>c.estado==='pendiente'), sinM=(S.compras||[]).filter(c=>c.estado==='comprado'), rp=S.v2.repostajes||[];
   w.append(vGroup('',[
     vRow({i:'receipt', c:V3C.green, t:'Registrar una compra ya hecha', s:'Algo que ya compraste: precio, tienda, fecha y factura', fn:()=>compraSheet(null,'hecha'), cls:'vadd'}),
-    vRow({i:'cart', c:V3C.teal, t:'Lista de la compra', s:[pend.length?pl(pend.length,'por comprar','por comprar'):'Nada por comprar', sinM.length?pl(sinM.length,'sin montar','sin montar'):''].filter(Boolean).join(' · '), badge:pend.length?String(pend.length):null, bc:V3C.teal, fn:()=>v3go('compra')}),
+    vRow({i:'cart', c:V3C.teal, t:'Lista de la compra', s:[pend.length?pl(pend.length,'por comprar','por comprar'):'Nada por comprar', sinM.length?pl(sinM.length,'sin montar','sin montar'):''].filter(Boolean).join(' · '), badge:nCompra?String(nCompra):null, fn:()=>v3go('compra')}),
     vRow({i:'receipt', c:V3C.blue, t:'Movimientos', s:'Cada gasto, con su factura', r:mov.length?nf.format(mov.length):null, fn:()=>v3go('resumen')}),
     vRow({i:'fuel', c:V3C.green, t:'Repostajes', s:'Litros, precio y consumo', r:rp.length?nf.format(rp.length):null, fn:()=>v3go('repost')}),
     vRow({i:'chart', c:V3C.purple, t:'Estadísticas', s:'Por año, por km y por categoría', fn:()=>v3go('stats')}),
@@ -12812,9 +12570,10 @@ V3.hubs.gastos={title:'Gastos', sub:()=>'Lo invertido en el Touareg', render(w){
 V3.hubs.papeles={title:'Papeles', sub:()=>'Documentación del coche', render(w){
   const D=docsVig().map(d=>({d, s:docStatus(d)})), bad=D.filter(x=>x.s.st==='due').length, soon=D.filter(x=>x.s.st==='soon').length;
   const st=h2(`<section class="vstate ${bad?'bad':soon?'soon':'ok'}"><i>${ic(bad||soon?'alert':'shield')}</i><div><b>${bad?pl(bad,'documento caducado','documentos caducados'):soon?pl(soon,'documento caduca pronto','documentos caducan pronto'):D.length?'Todo en regla':'Sin documentos'}</b><small>${D.length?`${pl(D.length,'documento')} con fecha de caducidad vigilada`:'Añade la ITV, el seguro y el impuesto para que te avise.'}</small></div></section>`); w.append(st);
-  if(D.length){ const g=vGroup('Caducidades',[]), L=g.querySelector('.vlist');
+  if(D.length){ const g=vGroup('Caducidades',[]), L=g.querySelector('.vlist'); const nDoc=unseen('papeles').length; if(nDoc) g.querySelector('.vgh span').insertAdjacentHTML('beforeend', ' '+avBadge(nDoc));
     for(const {d,s} of D.sort((a,b)=>(a.d.caduca||'9').localeCompare(b.d.caduca||'9'))){ const col=s.st==='due'?V3C.red:s.st==='soon'?V3C.orange:s.st==='ok'?V3C.green:V3C.gray;
       L.append(vRow({i:/itv|inspec/i.test(d.tipo)?'checkc':/seguro/i.test(d.tipo)?'shield':/impuesto|ivtm/i.test(d.tipo)?'euro':'file', c:col, t:d.tipo+(d.nombre?' · '+d.nombre:''), s:d.caduca?(s.days<0?'Caducó el ':'Hasta el ')+fmtDate(d.caduca):'Sin fecha', r:d.caduca?(s.days<0?'Caducado':s.days<=60?pl(s.days,'día'):Math.round(s.days/30.4)+' meses'):null, rc:col, fn:()=>recForm(MOD.docs, d)})); }
+    if(D.some(x=>x.d.caduca && x.d.caduca>=todayISO())) L.append(vRow({i:'calendar', c:V3C.red, t:'Añadir al calendario del iPhone', s:'Con aviso 30 y 7 días antes de cada caducidad', fn:icsCad}));
     w.append(g); }
   const G=S.v2;
   w.append(vGroup('',[
@@ -12833,7 +12592,11 @@ V3.pages.ajustes={tab:'*', title:'Ajustes', render(w){
   const acc=h2(`<section class="vacc"><span class="v3av big">${v3avatar()}</span><div><b>${esc(u.displayName||'Tu cuenta')}</b><small>${esc(u.email||'Cuenta de Google')}</small><em class="${on?'ok':'off'}">${on?'Sincronizado en la nube':'Sin conexión: se guarda y se sube luego'}</em></div></section>`); w.append(acc);
   const th=UI.prefs.theme||'auto';
   const tg=h2(`<section class="vgrp"><h2 class="vgh"><span>Apariencia</span></h2><div class="vseg vtheme">${[['auto','Automático'],['dark','Oscuro'],['light','Claro']].map(([k,l])=>`<button type="button" data-k="${k}" aria-pressed="${th===k}">${l}</button>`).join('')}</div></section>`);
-  tg.querySelectorAll('button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); UI.prefs.theme=b.dataset.k; savePrefsUI(); applyTheme(); v3render(v3top()); }); w.append(tg);
+  tg.querySelectorAll('button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); UI.prefs.theme=b.dataset.k; savePrefsUI(); applyTheme(); v3render(v3top()); });
+  const nt=h2(`<div class="vlist" style="margin-top:12px"><label class="vrow vsw"><i class="vsq" style="--c:${V3C.red}">${ic('sun')}</i><span class="vtx"><b>Noche de taller</b><small>Rojo tenue para mirar el móvil a oscuras</small></span><input type="checkbox" class="vtog"${UI.prefs.night?' checked':''}></label></div>`);
+  nt.querySelector('input').onchange=e2=>{ uiSfx('tap'); UI.prefs.night=e2.target.checked; savePrefsUI(); nightApply(); };
+  tg.append(nt); w.append(tg);
+  w.append(h2(`<p class="vfoot vsyncf">${ic('cloud')}Tus preferencias se guardan en tu cuenta: las ves igual en el móvil y en el ordenador.</p>`));
   w.append(vGroup('',[
     vRow({i:'sliders', c:V3C.gray, t:'Ajustes generales', s:'Sonidos, gráficos del 3D y avanzado', fn:()=>v3go('m_ajustes')}),
     vRow({i:'bell', c:V3C.red, t:'Avisos y notificaciones', s:'Push, correo y Telegram', fn:()=>v3go('m_avisos')}),
@@ -12851,44 +12614,45 @@ V3.pages.ajustes={tab:'*', title:'Ajustes', render(w){
   ]));
   w.append(vGroup('',[
     ...(matchMedia('(hover: none)').matches?[]:[vRow({i:'keyboard', c:V3C.gray, t:'Atajos de teclado', fn:()=>v3go('m_keys')})]),
-    vRow({i:'map', c:V3C.orange, t:'Dónde está cada cosa', s:'El mapa de la 3.0', fn:()=>v3intro(true)}),
+    vRow({i:'map', c:V3C.orange, t:'Dónde está cada cosa', s:'El mapa de la app', fn:()=>v3intro(true)}),
     vRow({i:'info', c:V3C.gray, t:'Acerca de', s:'Versión '+(window.APP_VERSION||'')+' · novedades', fn:()=>v3go('m_about')}),
   ]));
   const lo=h2(`<section class="vgrp"><div class="vlist"><button type="button" class="vrow vdanger"><span class="vtx"><b>Cerrar sesión</b></span></button></div></section>`); lo.querySelector('button').onclick=()=>{ go('mas',null,{silent:true}); masOpen('logout'); }; w.append(lo);
   w.append(h2(`<p class="vsign">Taller 7L ${esc(window.APP_VERSION||'')}<br>Autor y diseño: Sergio Ruiz Felices</p>`));
 }};
 
-/* ---------- bienvenida: el mapa de la 3.0 (una vez, y desde Ajustes) ---------- */
+/* ---------- bienvenida: el mapa de la app (una vez, y desde Ajustes) ---------- */
 function v3intro(force){
-  let seen=false; try{ seen=localStorage.getItem('taller7l-v3intro')==='1'; }catch{}
-  if(seen && !force) return;
+  if(prefGet('bienvenida', false) && !force) return;
   const M=[['today','Hoy',V3C.orange,'Lo que importa ahora: el coche y sus km, lo que toca, la reparación en curso y el gasto del año. Tira hacia abajo para buscar.'],
     ['car2','Coche',V3C.indigo,'Conocerlo: modelo 3D, datos, ficha técnica y pares, piezas, electricidad, guías, galería y mejoras.'],
     ['wrench2','Taller',V3C.blue,'Hacerle cosas: reparaciones, problemas (averías + pendientes + diagnóstico), mantenimiento y trabajos hechos.'],
     ['wallet','Gastos',V3C.green,'El dinero: lo invertido, la lista de la compra, movimientos, repostajes y estadísticas.'],
     ['doc2','Papeles',V3C.red,'Documentación: caducidades, ITV, garantías, siniestros, impuesto y facturas.'],
     ['gear','Ajustes',V3C.gray,'Tu foto (arriba a la derecha): apariencia, avisos, copias, importar y compartir.']];
-  const body=h2(`<div class="vintro"><div class="vihead"><span class="t2mark"><span>7L</span></span><b>Taller 7L 3.0</b><small>Todo está reordenado para que llegues sin pensar.</small></div>
+  const body=h2(`<div class="vintro"><div class="vihead"><span class="t2mark"><span>7L</span></span><b>Taller 7L</b><small>Todo está reordenado para que llegues sin pensar.</small></div>
     <div class="vimap">${M.map(([i,t,c,d],k)=>`<div class="vimi" style="--c:${c};--d:${k*70}ms"><i class="vsq">${ic(i)}</i><div><b>${t}</b><small>${d}</small></div></div>`).join('')}</div>
     <div class="vitips"><span>${ic('chevL')}Desliza desde el borde para volver</span><span>${ic('plus')}El + de arriba: añadir lo de esa sección</span><span>${ic('dots')}Mantén pulsada una pestaña: atajos</span></div></div>`);
-  detailSheet('', '', body, [['Empezar','check',()=>{ try{ localStorage.setItem('taller7l-v3intro','1'); }catch{} closeSheet(); },'pri']]);
-  try{ localStorage.setItem('taller7l-v3intro','1'); }catch{}
+  detailSheet('', '', body, [['Empezar','check',()=>closeSheet(),'pri']]);
+  prefSet('bienvenida', true);
 }
 { let t=setInterval(()=>{ if(S.cfg && !document.getElementById('splash') && $('#sheet2').hidden && $('#wiz').hidden){ clearInterval(t); setTimeout(()=>v3intro(false), 600); } }, 800); }
 
 /* ---------- arranque: se muestra Hoy (o lo que pida el enlace) ---------- */
 requestAnimationFrame(()=>{ if(!V3.cur) v3show(v3top(),'none'); v3badges(); });
-window.__v3={go:(...a)=>v3go(...a), back:(...a)=>v3back(...a), tab:t=>v3tab(t), V3, closeMenu:()=>closeV3Menu(), openSearch:()=>openSearch()};
+window.__v3={go:(...a)=>v3go(...a), back:(...a)=>v3back(...a), tab:t=>v3tab(t), V3, closeMenu:()=>closeV3Menu(), openSearch:()=>openSearch(),
+  /* para las pruebas: lo que usa la 2.x para pedir pantallas, y su estado */
+  x:{go:(...a)=>go(...a), openSub:(...a)=>openSub(...a), masOpen:k=>masOpen(k), openPanel:(...a)=>openPanel(...a), runSearch:q=>runSearch(q), get UI(){ return UI; }, get S(){ return S; }, parts:()=>Object.keys(parts), prefGet:(k,d)=>prefGet(k,d)}};
 
 /* ---------- si el modelo 3D no llega a cargar (cobertura floja), botón para reintentar ---------- */
 { const ld=document.getElementById('loader'); if(ld) new MutationObserver(()=>{ if(/No se pudo cargar el modelo/i.test(ld.textContent) && !ld.querySelector('.v3retry')){
     const b=h2(`<button type="button" class="btn2 v3retry" style="margin-top:14px">${ic('history')}Reintentar</button>`); b.onclick=()=>{ uiSfx('tap'); location.reload(); };
     (ld.querySelector('.lbox')||ld).append(b); const t=h2('<p class="muted2 v3rtx" style="margin-top:8px;text-transform:none;letter-spacing:0">Suele ser la cobertura: el modelo pesa bastante. Con wifi carga a la primera y luego queda guardado en el móvil.</p>'); b.after(t); } }).observe(ld,{childList:true, subtree:true, characterData:true}); }
 
-/* ====================== 3.1 (beta) · EFECTOS Y SONIDOS ======================
-   Números de las pestañas que saltan y laten si hay algo urgente, avisos con halo y destello, chispas al
-   tachar, iconos de pestaña que se animan, reflejo en «todo en orden», foto del coche que se mueve con el
-   dedo o al inclinar el móvil, cuentakilómetros que rueda y sonidos «de taller». Todo respeta «reducir movimiento». */
+/* ====================== EFECTOS Y SONIDOS (3.1) ======================
+   Avisos con halo (clases fxhot/fxwarm, puestas en vNow), chispas al tachar, reflejo en la foto de Hoy,
+   salud del coche, cuentakilómetros que rueda, aterrizaje tras el arranque y sonidos «de taller».
+   Todo respeta «reducir movimiento». */
 const FX={prev:{}, km:null};
 const fxOK=()=>ANIMON();
 
@@ -12935,26 +12699,12 @@ function fxSparks(x, y, color, n=26){
     if(done && el){ const r=el.querySelector('.pdchk')?.getBoundingClientRect(); if(r) fxSparks(r.left+r.width/2, r.top+r.height/2, 'var(--v-green)'); FX.mute=1; fxSfx('clink'); }
     return _pt(p, el); }; }
 
-/* ---------- números de las pestañas: rebote al cambiar y latido si es urgente ---------- */
-{ const _b=v3badges; v3badges=function(...a){ const r=_b(...a);
-    v3tabs.querySelectorAll('button[data-t] .v3badge').forEach(b=>{ const t=b.closest('button').dataset.t, n=b.hidden?0:parseInt(b.textContent)||0, was=FX.prev[t]??n;
-      
-      FX.prev[t]=n; });
-    return r; }; }
-
-/* ---------- avisos: los rojos con halo y destello, la reparación en curso con borde vivo ---------- */
-{ const _vn=vNow; vNow=function(i,c,...a){ const b=_vn(i,c,...a); if(c===V3C.red) b.classList.add('fxhot'); else if(c===V3C.orange) b.classList.add('fxwarm'); return b; }; }
-
-/* ---------- iconos de las pestañas que se animan al elegirlas ---------- */
-/* (quitado: la barra inferior va sin animaciones) */ false && new MutationObserver(ms=>{ for(const m of ms){ const b=m.target; if(m.attributeName==='aria-current' && b.getAttribute('aria-current')==='true' && fxOK()){ const i=b.querySelector('i'); i.classList.remove('fxbump'); void i.offsetWidth; i.classList.add('fxbump'); } } })
-  .observe(v3tabs,{subtree:true, attributes:true, attributeFilter:['aria-current']});
-
-/* ---------- Hoy: foto que se mueve, reflejo, cuentakilómetros que rueda y salud del coche ---------- */
+/* ---------- Hoy: salud del coche, reflejo y cuentakilómetros que rueda (lo llama la pantalla de Hoy) ---------- */
 function fxHealth(){ let c; try{ c=counts(); }catch{ return null; }
   const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta').length, ya=(typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya').length;
   let s=100-c.due*22-c.soon*6-c.ddue*25-c.dsoon*6-aves*15-ya*10; s=Math.max(5,Math.min(100,Math.round(s)));
   return {s, col:s>=85?V3C.green:s>=60?V3C.orange:V3C.red, txt:s>=85?'En forma':s>=60?'Necesita atención':'Revisar cuanto antes'}; }
-{ const _r=V3.hubs.hoy.render; V3.hubs.hoy.render=function(w, e){ _r(w, e); const hero=w.querySelector('.vhero'); if(!hero) return;
+function fxHero(hero){
     /* salud */
     const H=fxHealth(); if(H){ const h=h2(`<button type="button" class="fxhealth" style="--c:${H.col};--p:${H.s}"><span><b>${H.s}%</b> ${H.txt}</span><i><em></em></i></button>`); h.onclick=()=>{ uiSfx('tap'); v3tab('taller'); }; hero.querySelector('.vhname')?.after(h); }
     /* reflejo que cruza la foto de vez en cuando */
@@ -12964,7 +12714,7 @@ function fxHealth(){ let c; try{ c=counts(); }catch{ return null; }
     if(kb && km!=null){ if(FX.km!=null && FX.km!==km && fxOK()){ const from=FX.km, t0=performance.now(), D=1300; const u=kb.querySelector('i')?.outerHTML||'';
         const step=t=>{ const k=Math.min(1,(t-t0)/D), ee=1-Math.pow(1-k,4); kb.innerHTML=nf.format(Math.round(from+(km-from)*ee))+u; if(k<1) requestAnimationFrame(step); else hero.querySelector('.vkm')?.classList.add('fxglow'); };
         requestAnimationFrame(step); fxSfx('spark'); } FX.km=km; }
-    }; }
+}
 /* ---------- al salir de la pantalla de carga: el coche «aterriza» en Hoy ---------- */
 { let was=!!document.getElementById('splash'); new MutationObserver(()=>{ const now=!!document.getElementById('splash');
     if(was && !now && fxOK()){ document.body.classList.add('fxland'); setTimeout(()=>document.body.classList.remove('fxland'), 1400); }
@@ -12972,7 +12722,7 @@ function fxHealth(){ let c; try{ c=counts(); }catch{ return null; }
 /* barrido de luz al apagar la pantalla de carga */
 { const _e=exitSplash; exitSplash=function(...a){ const sp=$('#splash'); if(sp && fxOK() && !sp.querySelector('.fxsweep')) sp.insertAdjacentHTML('beforeend','<i class="fxsweep" aria-hidden="true"></i>'); return _e(...a); }; }
 
-/* ====================== 3.1 (beta) · GRÁFICOS ======================
+/* ====================== GRÁFICOS (3.1) — los usan las pantallas de Gastos y Taller ======================
    Gastos: anillo «en qué se va el dinero» (se dibuja al entrar; al tocar un trozo, lo que hay dentro) y
    consumo en l/100 km entre llenados. Taller: la carretera de los próximos 30.000 km con tu coche al principio. */
 const G3={};
@@ -13008,7 +12758,6 @@ function g3Consumo(){
   const s=h2(`<section class="vgrp"><h2 class="vgh"><span>Consumo</span><button type="button">Repostajes</button></h2><div class="vcard g3cons"><div class="g3cn"><span><b>${nf1(avg)}</b> l/100 km<small>de media</small></span><span><b>${nf1(lastV)}</b> l/100 km<small>último llenado</small></span></div></div></section>`);
   s.querySelector('.vgh button').onclick=()=>v3go('repost'); s.querySelector('.g3cons').append(lineChart(P,{c:'var(--v-green)', fmt:v=>nf1(v), label:'Consumo'})); return s;
 }
-{ const _r=V3.hubs.gastos.render; V3.hubs.gastos.render=function(w,e){ _r(w,e); const after=w.querySelector('.vchart')?.closest('.vgrp')||w.querySelector('.vbig'); const d=g3Donut(), c=g3Consumo(); if(after){ if(c) after.after(c); if(d) after.after(d); } }; }
 
 /* ---------- Taller: la carretera de los próximos km ---------- */
 function g3Road(){
@@ -13020,24 +12769,22 @@ function g3Road(){
     <div class="g3sc"><span>${nf.format(km)} km</span><span>${nf.format(km+SPAN/2)}</span><span>${nf.format(km+SPAN)}</span></div></div></section>`);
   box.querySelector('.vgh button').onclick=()=>v3go('plan'); box.querySelectorAll('.g3mk').forEach(b=>b.onclick=()=>v3go('plan')); return box;
 }
-{ const _r=V3.hubs.taller.render; V3.hubs.taller.render=function(w,e){ _r(w,e); const r=g3Road(); if(r){ const st=w.querySelector('.vstats'); if(st) st.after(r); else w.append(r); } }; }
 
-/* ====================== 3.1 (beta) · HERRAMIENTAS ======================
+/* ====================== HERRAMIENTAS (3.1) ======================
    Buscador con recientes y atajos · deslizar pendientes · caducidades al calendario (.ics) · modo taller con
    la pantalla siempre encendida · dictado · tema «noche de taller» · 3D a pantalla completa en horizontal ·
    arranque en frío (en invierno arranca un pelín más tarde y el ralentí sale algo más alto). */
 
 /* ---------- buscador: recientes y atajos cuando aún no has escrito ---------- */
-const SRK='taller7l-srch';
-const srGet=()=>{ try{ return JSON.parse(localStorage.getItem(SRK)||'[]'); }catch{ return []; } };
-function srSave(q){ q=(q||'').trim(); if(q.length<2) return; const L=[q, ...srGet().filter(x=>x.toLowerCase()!==q.toLowerCase())].slice(0,8); try{ localStorage.setItem(SRK, JSON.stringify(L)); }catch{} }
+const srGet=()=>{ const L=prefGet('recientes', []); return Array.isArray(L)?L:[]; };                 /* guardadas en tu cuenta */
+function srSave(q){ q=(q||'').trim(); if(q.length<2) return; const L=[q, ...srGet().filter(x=>x.toLowerCase()!==q.toLowerCase())].slice(0,8); if(JSON.stringify(L)!==JSON.stringify(srGet())) prefSet('recientes', L); }
 { const _cs=closeSearch; closeSearch=function(...a){ srSave($('#srQ')?.value); return _cs(...a); }; }
 $('#srRes')?.addEventListener('click',e=>{ if(e.target.closest('.r2,button')) srSave($('#srQ')?.value); }, true);
 { const _rs=runSearch; runSearch=function(raw){ _rs(raw); if((raw||'').trim()) return; const out=$('#srRes'); if(!out) return;
     const R=srGet(); const box=h2(`<div class="srx">${R.length?`<h5>Recientes <button type="button" class="srclr">Borrar</button></h5><div class="srrec">${R.map(q=>`<button type="button">${ic('history')}<span>${esc(q)}</span></button>`).join('')}</div>`:''}
       <h5>Ir directamente a</h5><div class="srgo">${[['plan','list','Mantenimiento',V3C.blue],['problemas','alert','Problemas',V3C.red],['compra','cart','Compra',V3C.teal],['tecnica','gauge','Ficha técnica',V3C.orange],['3d','cube','Modelo 3D',V3C.indigo],['guias','book','Guías',V3C.green]].map(([id,i,t,c])=>`<button type="button" data-id="${id}" style="--c:${c}"><i class="vsq">${ic(i)}</i><span>${t}</span></button>`).join('')}</div></div>`);
     box.querySelectorAll('.srrec button').forEach(b=>b.onclick=()=>{ const q=$('#srQ'); q.value=b.textContent.trim(); q.dispatchEvent(new Event('input')); runSearch(q.value); });
-    box.querySelector('.srclr')?.addEventListener('click',()=>{ try{ localStorage.removeItem(SRK); }catch{} runSearch(''); });
+    box.querySelector('.srclr')?.addEventListener('click',()=>{ prefSet('recientes', []); runSearch(''); });
     box.querySelectorAll('.srgo button').forEach(b=>b.onclick=()=>{ closeSearch(); v3go(b.dataset.id); });
     out.prepend(box); }; }
 
@@ -13067,7 +12814,6 @@ function icsCad(){
   if(navigator.canShare?.({files:[f]})){ navigator.share({files:[f], title:'Caducidades del Touareg'}).catch(()=>{}); return; }
   const a=document.createElement('a'); a.href=URL.createObjectURL(f); a.download=f.name; document.body.append(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },2000);
   toast(`${pl(D.length,'fecha')} para el calendario, con aviso 30 y 7 días antes`); }
-{ const _r=V3.hubs.papeles.render; V3.hubs.papeles.render=function(w,e){ _r(w,e); const g=[...w.querySelectorAll('.vgrp')].find(x=>/Caducidades/.test(x.querySelector('.vgh')?.textContent||'')); if(g) g.querySelector('.vlist').append(vRow({i:'calendar', c:V3C.red, t:'Añadir al calendario del iPhone', s:'Con aviso 30 y 7 días antes de cada fecha', fn:icsCad, cls:'vadd'})); }; }
 
 /* ---------- modo taller: letra grande y pantalla siempre encendida mientras reparas ---------- */
 let WAKE=null;
@@ -13096,16 +12842,9 @@ new MutationObserver(()=>{ const b=$('#shBox'); if(!b) return; b.querySelectorAl
 /* ---------- tema «noche de taller»: rojo tenue para no deslumbrarte a oscuras ---------- */
 function nightApply(){ document.body.classList.toggle('v3night', !!UI.prefs.night); document.querySelector('meta[name="theme-color"]')?.setAttribute('content', UI.prefs.night?'#000000':(document.body.classList.contains('light')?'#eef1f4':'#121418')); }
 nightApply();
-{ const _r=V3.pages.ajustes.render; V3.pages.ajustes.render=function(w,e){ _r(w,e); const ap=[...w.querySelectorAll('.vgrp')].find(x=>/Apariencia/.test(x.querySelector('.vgh')?.textContent||'')); if(!ap) return;
-    const L=h2('<div class="vlist" style="margin-top:12px"></div>');
-    const sw=(t,s,i,c,get,set)=>{ const r=h2(`<label class="vrow vsw"><i class="vsq" style="--c:${c}">${ic(i)}</i><span class="vtx"><b>${t}</b><small>${s}</small></span><input type="checkbox" class="vtog"${get()?' checked':''}></label>`); r.querySelector('input').onchange=e2=>{ uiSfx('tap'); set(e2.target.checked); }; return r; };
-    L.append(sw('Noche de taller','Rojo tenue para mirar el móvil a oscuras','sun',V3C.red,()=>UI.prefs.night,v=>{ UI.prefs.night=v; savePrefsUI(); nightApply(); }));
-    ap.append(L); }; }
 
 /* ---------- 3D a pantalla completa con el móvil en horizontal ---------- */
-{ const _a=v3apply; v3apply=function(e){ const r=_a(e); document.body.dataset.v3leaf=e.k==='leaf'?e.id:''; return r; }; }
-{ const b=h2(`<button type="button" class="v3fsback" aria-label="Volver">${ic('chevL')}</button>`); b.onclick=()=>v3back(); document.body.append(b);
-  matchMedia('(orientation: landscape) and (max-height: 520px)').addEventListener?.('change',()=>setTimeout(()=>{ try{ _rsz=''; resize(); dirty=true; }catch{} },250)); }
+matchMedia('(orientation: landscape) and (max-height: 520px)').addEventListener?.('change',()=>setTimeout(()=>{ try{ _rsz=''; resize(); dirty=true; }catch{} },250));
 
 /* ---------- arranque en frío: de diciembre a febrero tarda un pelín más y el ralentí sale algo más alto ---------- */
 { const m=new Date().getMonth(); if(m===11 || m<=1){ const _ig=ignition; ignition=function(){ const first=!SEQ; _ig(); if(!first || !SEQ) return;
@@ -13115,52 +12854,6 @@ nightApply();
       at(1520,()=>{ NDL.tgt=.19; });
       at(1970,()=>{ NDL.tgt=.18; NDL.idle=true; NDL.offT=performance.now(); idleJitter(); });
       at(3270,()=>exitSplash()); }; } }
-
-/* ====================== 3.1 (beta) · AVISOS «NO VISTOS» EN LA BARRA ======================
-   El número de cada pestaña cuenta solo lo que aún no has visto. Al salir de donde se ven, se borra:
-     Taller  → averías abiertas, pendientes «antes de circular» y mantenimiento vencido o próximo (se ven en Taller)
-     Gastos  → piezas por comprar (se ven en la Lista de la compra)
-     Papeles → documentos caducados o por caducar (se ven en Papeles)
-   Todos los números en rojo, y dentro de cada pestaña la fila de la que viene el aviso lleva el suyo. */
-const SEENK='taller7l-vistos';
-let SEEN=(()=>{ try{ return JSON.parse(localStorage.getItem(SEENK)||'{}'); }catch{ return {}; } })();
-const seenSave=()=>{ try{ localStorage.setItem(SEENK, JSON.stringify(SEEN)); }catch{} };
-function avItems(){
-  let ml=[]; try{ ml=mantList(); }catch{}
-  const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta').map(a=>'a:'+a._id), ya=(typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya').map(p=>'p:'+p._id);
-  const mant=ml.filter(x=>x.s.st==='due'||x.s.st==='soon').map(x=>'m:'+(x.it.id||x.it._id||x.it.nombre)+':'+x.s.st);
-  const compra=(S.compras||[]).filter(c=>c.estado==='pendiente').map(c=>'c:'+c._id);
-  let docs=[]; try{ docs=docsVig().filter(d=>{ const s=docStatus(d).st; return s==='due'||s==='soon'; }).map(d=>'d:'+(d._id||d.tipo)+':'+d.caduca); }catch{}
-  return {taller:[...aves, ...ya, ...mant], gastos:compra, papeles:docs};
-}
-const unseen=(t,I)=>(I||avItems())[t].filter(x=>!(SEEN[t]||[]).includes(x));
-/* dónde se «ven» los avisos de cada pestaña */
-function avCtx(e){ if(!e) return null;
-  if(e.k==='hub' && (e.id==='taller'||e.id==='papeles')) return e.id;
-  if(['problemas','averias','pendientes','plan','hechos'].includes(e.id)) return 'taller';
-  if(e.id==='compra') return 'gastos';
-  if(e.id==='p_docs') return 'papeles';
-  return null; }
-function avMarkSeen(ctx){ if(!ctx) return; SEEN[ctx]=avItems()[ctx]; seenSave(); }
-let AVCTX=null;
-{ const _a=v3apply; v3apply=function(e){ const r=_a(e); const c=avCtx(e); if(AVCTX && AVCTX!==c){ avMarkSeen(AVCTX); } AVCTX=c; setTimeout(v3badges,0); return r; }; }
-document.addEventListener('visibilitychange',()=>{ if(document.hidden && AVCTX) avMarkSeen(AVCTX); });
-
-/* la barra: solo lo no visto, siempre en rojo */
-v3badges=function(){ const I=avItems();
-  for(const t of ['taller','gastos','papeles']){ const b=v3tabs.querySelector(`button[data-t="${t}"] .v3badge`); if(!b) continue; const n=unseen(t,I).length; b.hidden=!n; b.textContent=n>99?'99+':n; b.className='v3badge'; }
-  const h=v3tabs.querySelector('button[data-t="hoy"] .v3badge'); if(h) h.hidden=true; };
-
-/* dentro de cada pestaña, el número en la fila de la que viene */
-const avBadge=n=>n?`<em class="vbadge avb" style="--c:var(--v-red)">${n}</em>`:'';
-{ const _r=V3.hubs.taller.render; V3.hubs.taller.render=function(w,e){ _r(w,e); const U=unseen('taller');
-    const np=U.filter(x=>/^[ap]:/.test(x)).length, nm=U.filter(x=>/^m:/.test(x)).length;
-    const pg=[...w.querySelectorAll('.vgrp')].find(g=>/^Problemas/.test(g.querySelector('.vgh span')?.textContent||'')); if(pg && np) pg.querySelector('.vgh span').insertAdjacentHTML('beforeend', ' '+avBadge(np));
-    const mr=[...w.querySelectorAll('.vrow')].find(r=>/^Mantenimiento/.test(r.querySelector('.vtx b')?.textContent||'')); if(mr){ mr.querySelector('.vbadge')?.remove(); if(nm) mr.querySelector('.vtx').insertAdjacentHTML('afterend', avBadge(nm)); } }; }
-{ const _r=V3.hubs.gastos.render; V3.hubs.gastos.render=function(w,e){ _r(w,e); const n=unseen('gastos').length;
-    const cr=[...w.querySelectorAll('.vrow')].find(r=>/^Lista de la compra/.test(r.querySelector('.vtx b')?.textContent||'')); if(cr){ cr.querySelector('.vbadge')?.remove(); if(n) cr.querySelector('.vtx').insertAdjacentHTML('afterend', avBadge(n)); } }; }
-{ const _r=V3.hubs.papeles.render; V3.hubs.papeles.render=function(w,e){ _r(w,e); const n=unseen('papeles').length;
-    const g=[...w.querySelectorAll('.vgrp')].find(x=>/^Caducidades/.test(x.querySelector('.vgh span')?.textContent||'')); if(g && n) g.querySelector('.vgh span').insertAdjacentHTML('beforeend', ' '+avBadge(n)); }; }
 
 
 connectDb();

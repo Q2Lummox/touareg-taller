@@ -1,21 +1,19 @@
 {
- "version": "3.1.0",
- "fecha": "2026-10-18",
+ "version": "4.0.0-beta.1",
+ "fecha": "2026-10-19",
  "notas": [
-  "Avisos de la barra: solo lo no visto, todos en rojo y señalados dentro de cada pestaña",
-  "Gráficos: en qué se va el dinero, consumo y próximos 30.000 km",
-  "Herramientas: buscador con recientes, deslizar pendientes, caducidades al calendario, modo taller, dictado y noche de taller",
-  "Arreglos: interruptores de Ajustes, desplegables del 3D por encima de la barra, franjas en modo claro"
+  "Fase 1 de la reconstrucción: navegación nueva y limpia, una sola pila de pantallas, sin parches ni vigilante",
+  "Preferencias en tu cuenta: tema, noche de taller, sonidos, avisos vistos y búsquedas recientes iguales en todos tus aparatos",
+  "Fuera el código de la barra, transiciones y botón + de la 2.x"
  ],
  "historial": [
   {
-   "version": "3.1.0",
-   "fecha": "2026-10-18",
+   "version": "4.0.0-beta.1",
+   "fecha": "2026-10-19",
    "notas": [
-    "Avisos de la barra: solo lo no visto, todos en rojo y señalados dentro de cada pestaña",
-    "Gráficos: en qué se va el dinero, consumo y próximos 30.000 km",
-    "Herramientas: buscador con recientes, deslizar pendientes, caducidades al calendario, modo taller, dictado y noche de taller",
-    "Arreglos: interruptores de Ajustes, desplegables del 3D por encima de la barra, franjas en modo claro"
+    "Fase 1 de la reconstrucción: navegación nueva y limpia, una sola pila de pantallas, sin parches ni vigilante",
+    "Preferencias en tu cuenta: tema, noche de taller, sonidos, avisos vistos y búsquedas recientes iguales en todos tus aparatos",
+    "Fuera el código de la barra, transiciones y botón + de la 2.x"
    ]
   }
  ]
