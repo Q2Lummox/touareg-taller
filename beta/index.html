@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="3.1.0-beta.3">
+<meta name="app-version" content="3.1.0-beta.4">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3163,6 +3163,9 @@ body.v3 .mtop>.mtlcard{flex:1 1 100%!important}
 .vsw .vtog{margin-left:8px}
 /* barra inferior sin animaciones (a petición de Sergio) */
 .v3tabs button i.fxbump,.v3tabs button i.fxbump svg,.v3badge.fxpop,.v3badge.fxurg{animation:none!important;box-shadow:none!important}
+/* todos los números de aviso en rojo */
+.v3badge,.v3badge.soon,.v3badge.info{background:var(--v-red)!important;color:#fff!important}
+.vgh .avb{display:inline-block;vertical-align:middle;margin-left:6px;font-size:12.5px;min-width:22px;height:22px;line-height:22px}
 </style>
 
 </head>
@@ -3205,7 +3208,7 @@ body.v3 .mtop>.mtlcard{flex:1 1 100%!important}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v3.1.0-beta.3</span>
+  <span class="spver">v3.1.0-beta.4</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6587,7 +6590,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='3.1.0-beta.3';
+window.APP_VERSION='3.1.0-beta.4';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6621,7 +6624,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='3.1.0-beta.3';
+  const APP_VERSION='3.1.0-beta.4';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -13129,6 +13132,52 @@ nightApply();
       at(1520,()=>{ NDL.tgt=.19; });
       at(1970,()=>{ NDL.tgt=.18; NDL.idle=true; NDL.offT=performance.now(); idleJitter(); });
       at(3270,()=>exitSplash()); }; } }
+
+/* ====================== 3.1 (beta) · AVISOS «NO VISTOS» EN LA BARRA ======================
+   El número de cada pestaña cuenta solo lo que aún no has visto. Al salir de donde se ven, se borra:
+     Taller  → averías abiertas, pendientes «antes de circular» y mantenimiento vencido o próximo (se ven en Taller)
+     Gastos  → piezas por comprar (se ven en la Lista de la compra)
+     Papeles → documentos caducados o por caducar (se ven en Papeles)
+   Todos los números en rojo, y dentro de cada pestaña la fila de la que viene el aviso lleva el suyo. */
+const SEENK='taller7l-vistos';
+let SEEN=(()=>{ try{ return JSON.parse(localStorage.getItem(SEENK)||'{}'); }catch{ return {}; } })();
+const seenSave=()=>{ try{ localStorage.setItem(SEENK, JSON.stringify(SEEN)); }catch{} };
+function avItems(){
+  let ml=[]; try{ ml=mantList(); }catch{}
+  const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta').map(a=>'a:'+a._id), ya=(typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya').map(p=>'p:'+p._id);
+  const mant=ml.filter(x=>x.s.st==='due'||x.s.st==='soon').map(x=>'m:'+(x.it.id||x.it._id||x.it.nombre)+':'+x.s.st);
+  const compra=(S.compras||[]).filter(c=>c.estado==='pendiente').map(c=>'c:'+c._id);
+  let docs=[]; try{ docs=docsVig().filter(d=>{ const s=docStatus(d).st; return s==='due'||s==='soon'; }).map(d=>'d:'+(d._id||d.tipo)+':'+d.caduca); }catch{}
+  return {taller:[...aves, ...ya, ...mant], gastos:compra, papeles:docs};
+}
+const unseen=(t,I)=>(I||avItems())[t].filter(x=>!(SEEN[t]||[]).includes(x));
+/* dónde se «ven» los avisos de cada pestaña */
+function avCtx(e){ if(!e) return null;
+  if(e.k==='hub' && (e.id==='taller'||e.id==='papeles')) return e.id;
+  if(['problemas','averias','pendientes','plan','hechos'].includes(e.id)) return 'taller';
+  if(e.id==='compra') return 'gastos';
+  if(e.id==='p_docs') return 'papeles';
+  return null; }
+function avMarkSeen(ctx){ if(!ctx) return; SEEN[ctx]=avItems()[ctx]; seenSave(); }
+let AVCTX=null;
+{ const _a=v3apply; v3apply=function(e){ const r=_a(e); const c=avCtx(e); if(AVCTX && AVCTX!==c){ avMarkSeen(AVCTX); } AVCTX=c; setTimeout(v3badges,0); return r; }; }
+document.addEventListener('visibilitychange',()=>{ if(document.hidden && AVCTX) avMarkSeen(AVCTX); });
+
+/* la barra: solo lo no visto, siempre en rojo */
+v3badges=function(){ const I=avItems();
+  for(const t of ['taller','gastos','papeles']){ const b=v3tabs.querySelector(`button[data-t="${t}"] .v3badge`); if(!b) continue; const n=unseen(t,I).length; b.hidden=!n; b.textContent=n>99?'99+':n; b.className='v3badge'; }
+  const h=v3tabs.querySelector('button[data-t="hoy"] .v3badge'); if(h) h.hidden=true; };
+
+/* dentro de cada pestaña, el número en la fila de la que viene */
+const avBadge=n=>n?`<em class="vbadge avb" style="--c:var(--v-red)">${n}</em>`:'';
+{ const _r=V3.hubs.taller.render; V3.hubs.taller.render=function(w,e){ _r(w,e); const U=unseen('taller');
+    const np=U.filter(x=>/^[ap]:/.test(x)).length, nm=U.filter(x=>/^m:/.test(x)).length;
+    const pg=[...w.querySelectorAll('.vgrp')].find(g=>/^Problemas/.test(g.querySelector('.vgh span')?.textContent||'')); if(pg && np) pg.querySelector('.vgh span').insertAdjacentHTML('beforeend', ' '+avBadge(np));
+    const mr=[...w.querySelectorAll('.vrow')].find(r=>/^Mantenimiento/.test(r.querySelector('.vtx b')?.textContent||'')); if(mr){ mr.querySelector('.vbadge')?.remove(); if(nm) mr.querySelector('.vtx').insertAdjacentHTML('afterend', avBadge(nm)); } }; }
+{ const _r=V3.hubs.gastos.render; V3.hubs.gastos.render=function(w,e){ _r(w,e); const n=unseen('gastos').length;
+    const cr=[...w.querySelectorAll('.vrow')].find(r=>/^Lista de la compra/.test(r.querySelector('.vtx b')?.textContent||'')); if(cr){ cr.querySelector('.vbadge')?.remove(); if(n) cr.querySelector('.vtx').insertAdjacentHTML('afterend', avBadge(n)); } }; }
+{ const _r=V3.hubs.papeles.render; V3.hubs.papeles.render=function(w,e){ _r(w,e); const n=unseen('papeles').length;
+    const g=[...w.querySelectorAll('.vgrp')].find(x=>/^Caducidades/.test(x.querySelector('.vgh span')?.textContent||'')); if(g && n) g.querySelector('.vgh span').insertAdjacentHTML('beforeend', ' '+avBadge(n)); }; }
 
 
 connectDb();
