@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="3.0.0-beta.2">
+<meta name="app-version" content="3.0.0-beta.3">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2670,12 +2670,15 @@ body.v3off .v3av{box-shadow:0 0 0 2px var(--v-bg),0 0 0 3.5px var(--v-gray)}
 
 /* ---------- barra superior ---------- */
 .v3bar{position:fixed;z-index:9300;top:0;left:var(--railw);right:0;height:calc(var(--t2h) + var(--sa-t));padding:var(--sa-t) 8px 0;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;background:transparent;transition:background .2s,border-color .2s;border-bottom:.5px solid transparent;font-family:var(--v-font)}
-.v3bar.lined,.v3bar.leaf{background:var(--v-bar);-webkit-backdrop-filter:var(--v-glass);backdrop-filter:var(--v-glass);border-bottom-color:var(--v-sep)}
+.v3bar::before{content:'';position:absolute;inset:0;z-index:-1;background:var(--v-bar);-webkit-backdrop-filter:var(--v-glass);backdrop-filter:var(--v-glass);border-bottom:.5px solid var(--v-sep);opacity:0;transition:opacity .2s}
+.v3bar{isolation:isolate}
+.v3bar.lined::before,.v3bar.leaf::before{opacity:var(--bga,1)}
+body.v3drag .v3bar::before,body.v3drag .v3bt,body.v3drag .v3back span{transition:none}
 .v3back{grid-column:1;justify-self:start;display:flex;align-items:center;gap:0;border:0;background:none;color:var(--accent);font:400 17px var(--v-font);cursor:pointer;padding:6px 8px 6px 2px;max-width:100%;visibility:hidden;opacity:0;transition:opacity .2s}
 .v3back svg{width:26px;height:26px;flex:none;stroke-width:2.4}.v3back span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.v3bar.hasback .v3back{visibility:visible;opacity:1}
+.v3bar.hasback .v3back{visibility:visible;opacity:1}.v3bar.hasback .v3back span{opacity:var(--bk,1)}
 .v3bt{grid-column:2;text-align:center;min-width:0;max-width:56vw;opacity:0;transform:translateY(4px);transition:opacity .2s,transform .2s;pointer-events:none}
-.v3bar.scrolled .v3bt,.v3bar.leaf .v3bt{opacity:1;transform:none}
+.v3bar.scrolled .v3bt,.v3bar.leaf .v3bt{opacity:var(--bk,1);transform:none}
 .v3bt b{display:block;font:600 17px/1.2 var(--v-font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--v-txt)}
 .v3bt small{display:block;font-size:11.5px;color:var(--v-txt2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.v3bt small:empty{display:none}
 .v3act{grid-column:3;justify-self:end;display:flex;gap:8px;align-items:center}
@@ -2959,7 +2962,7 @@ body.v3 :is(button,a,label,.vrow,.vtile,.vnow){touch-action:manipulation}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v3.0.0-beta.2</span>
+  <span class="spver">v3.0.0-beta.3</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6341,7 +6344,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='3.0.0-beta.2';
+window.APP_VERSION='3.0.0-beta.3';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6375,7 +6378,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='3.0.0-beta.2';
+  const APP_VERSION='3.0.0-beta.3';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -12212,12 +12215,45 @@ gBack=function(){
   if(document.querySelector('.v3menu')){ closeV3Menu(); return true; }
   return v3back({anim:!BKDONE});
 };
-let BKDONE=false, BKON=false;
+let BKDONE=false, BKON=false, BK3=null;
 backLabel=function(){ if(!$('#sheet2').hidden || document.querySelector('.csw') || !$('#srch').hidden) return null; const p=v3prev(); return p?v3title(p):null; };
 backTarget=function(){ const e=v3top(); return e.k==='leaf'?v3el(e):e.el; };
-{ const _be=backEnd; backEnd=function(ok){ BKDONE=true; const p=v3prev(); const pel=p?(p.k==='leaf'?null:p.el):null; if(pel && ok){ pel.classList.add('v3keep'); setTimeout(()=>pel.classList.remove('v3keep'),400); } try{ return _be(ok); } finally { setTimeout(()=>{ BKDONE=false; BKON=false; v3endTr(); },420); } }; }
-{ const _bd=backDrag; backDrag=function(dx){ BKON=true; const p=v3prev(); if(p?.el){ p.el.classList.add('v3keep'); p.el.style.transform=`translateX(${-innerWidth*.3+Math.max(0,dx)*.3}px)`; p.el.style.filter=`brightness(${.7+Math.min(.3,dx/innerWidth*.3)})`; } return _bd(dx); }; }
-{ const _gr=gReset; gReset=function(){ const p=v3prev(); if(p?.el){ p.el.style.transform=''; p.el.style.filter=''; if(!BKDONE) p.el.classList.remove('v3keep'); } return _gr(); }; }
+/* gesto de volver como en iOS: la pantalla de arriba sigue al dedo; la de debajo asoma desde la izquierda,
+   oscurecida, y se va aclarando; el título se funde. Al soltar, el movimiento sigue desde donde está, sin saltos. */
+const BKE='cubic-bezier(.2,.9,.25,1)';
+function bkSet(b, x){
+  const k=Math.max(0,Math.min(1,x/b.W));
+  b.x=x; b.top.style.transform=`translate3d(${x}px,0,0)`;
+  if(b.under){ b.under.style.transform=`translate3d(${(-b.W*.3*(1-k)).toFixed(1)}px,0,0)`; b.under.style.filter=`brightness(${(.72+.28*k).toFixed(3)})`; }
+  b.top.style.boxShadow=`-12px 0 32px rgba(0,0,0,${(.45*(1-k)).toFixed(3)})`;
+  v3bar.style.setProperty('--bk', (1-k).toFixed(3)); if(b.fadeBar) v3bar.style.setProperty('--bga', (1-k).toFixed(3));
+}
+backDrag=function(dx){
+  if(!BK3){
+    if(backLabel()==null){ BK3={none:true}; return; }
+    v3endTr(); const e=v3top(), p=v3prev(), top=e.k==='leaf'?v3el(e):e.el;
+    let under=null; if(p){ if(p.k!=='leaf'){ v3el(p); if(p.stale){ p.stale=false; v3render(p); } under=p.el; } else under=v3el(p); }
+    BKON=true; under?.classList.add('v3keep'); document.body.classList.add('v3drag');
+    for(const el of [top, under]) if(el){ el.style.transition='none'; el.style.willChange='transform'; }
+    const usc=p&&p.k!=='leaf'?(p.el.querySelector('.v3sc')?.scrollTop||0):99;
+    BK3={top, under, e, p, W:innerWidth>900?Math.min(innerWidth-(parseFloat(getComputedStyle(document.body).getPropertyValue('--railw'))||0), 1000):innerWidth, fadeBar:usc<=34};
+  }
+  if(BK3.none) return; bkSet(BK3, Math.max(0, dx));
+};
+backEnd=function(ok){
+  const b=BK3; BK3=null; try{ _gReset0(); }catch{}
+  if(!b || b.none){ if(ok && !b?.none && !gBack()) toast('No hay nada atrás'); return; }
+  const from=b.x||0, to=ok?b.W:0, k0=from/b.W, dur=Math.round(ok?Math.max(170, 320*(1-k0)):Math.max(160, 260*k0));
+  const clear=()=>{ for(const el of [b.top, b.under]) if(el){ el.style.transform=''; el.style.filter=''; el.style.boxShadow=''; el.style.transition=''; el.style.willChange=''; el.style.visibility=''; el.classList.remove('v3keep'); }
+    v3bar.style.removeProperty('--bk'); v3bar.style.removeProperty('--bga'); document.body.classList.remove('v3drag'); BKON=false; };
+  let t0=null; const step=ts=>{ if(t0==null) t0=ts; const q=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-q,3); bkSet(b, from+(to-from)*e);
+    if(q<1) return requestAnimationFrame(step);
+    if(ok){ b.top.style.visibility='hidden'; BKON=false; BKDONE=true; try{ v3back({anim:false}); } finally { BKDONE=false; } requestAnimationFrame(clear); uiSfx('tap'); }
+    else clear(); };
+  if(RM){ bkSet(b,to); step(performance.now()+dur); } else requestAnimationFrame(step);
+};
+const _gReset0=gReset;
+gReset=function(){ if(BK3) return; return _gReset0(); };
 gTab=()=>false;                                     /* nada de cambiar de pestaña deslizando: como en iOS */
 /* deslizar hacia abajo en Hoy abre el buscador (como Spotlight) */
 V3.pull=()=>{ openSearch(); };
