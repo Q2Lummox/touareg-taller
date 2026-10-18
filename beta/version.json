@@ -1,15 +1,15 @@
 {
- "version": "3.0.0-beta.12",
+ "version": "3.0.0-beta.13",
  "fecha": "2026-10-18",
  "notas": [
-  "Los cortes de red puntuales («Load failed») ya no salen como error"
+  "Teclado: sugerencias y autocorrector en todas las casillas de texto (no en referencias ni códigos)"
  ],
  "historial": [
   {
-   "version": "3.0.0-beta.12",
+   "version": "3.0.0-beta.13",
    "fecha": "2026-10-18",
    "notas": [
-    "Los cortes de red puntuales («Load failed») ya no salen como error"
+    "Teclado: sugerencias y autocorrector en todas las casillas de texto (no en referencias ni códigos)"
    ]
   }
  ]

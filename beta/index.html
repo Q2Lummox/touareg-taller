@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="3.0.0-beta.12">
+<meta name="app-version" content="3.0.0-beta.13">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2984,7 +2984,7 @@ body.v3 .kv2:has(>span)>span{color:var(--v-txt2);font-size:14px}body.v3 .kv2:has
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v3.0.0-beta.12</span>
+  <span class="spver">v3.0.0-beta.13</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6366,7 +6366,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='3.0.0-beta.12';
+window.APP_VERSION='3.0.0-beta.13';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6400,7 +6400,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='3.0.0-beta.12';
+  const APP_VERSION='3.0.0-beta.13';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -12067,6 +12067,23 @@ NAVMENU.mant=[['wrench','Empezar una reparación',repPick], ...NAVMENU.mant];
 { const _ri=renderInicio; renderInicio=function(...a){ const r=_ri(...a); const c=$('#pgInicio')?.querySelector('.repcard'); if(c && !c.querySelector('.rpall')){ const m=h2(`<div class="row3 pdhacts rpall"><button type="button" class="btn2 ghost sm">${ic('wrench')}Reparaciones${ic('chevR')}</button></div>`); m.querySelector('button').onclick=()=>{ uiSfx('tap'); go('mant','rep'); }; c.append(m); } return r; }; }
 /* el tablero del Taller: acceso directo */
 { const _rm=renderMant; renderMant=function(){ _rm(); const s=$('#ovlBody')?.querySelector('.tshort'); if(s && !s.querySelector('[data-k="rep"]')){ const b=h2(`<button type="button" data-k="rep">${ic('wrench')}<span>Reparar</span></button>`); b.onclick=()=>{ uiSfx('tap'); go('mant','rep'); }; s.prepend(b); s.style.gridTemplateColumns='repeat(5,1fr)'; } }; }
+
+/* ====================== TECLADO: sugerencias y autocorrector donde se escribe texto ======================
+   En casillas de texto normal (nombres, notas, descripciones…) el teclado del móvil sugiere y corrige.
+   En referencias, códigos, matrícula, bastidor, correo o enlaces, no (para que no «arregle» un 070 121 011 D). */
+const KB_CODE=/(^|[^a-z])(ref|referencia|c[oó]digo|codigo|vin|bastidor|matr[ií]cula|pr-?|url|enlace|e-?mail|correo|token|chat ?id|clave|n[ºo°] ?serie)([^a-z]|$)/i;
+function kbFix(el){
+  if(el.dataset.kb) return; el.dataset.kb='1';
+  const t=(el.getAttribute('type')||'text').toLowerCase(); if(!['text','search',''].includes(t) && el.tagName!=='TEXTAREA') return;
+  const hint=[el.id, el.name, el.placeholder, el.getAttribute('aria-label'), el.closest('label')?.textContent, el.previousElementSibling?.textContent].filter(Boolean).join(' ');
+  if(KB_CODE.test(hint) || /^(cpRf|cpR|pdBR|ieR|rpRef|iRef)$/.test(el.id||'')){ el.setAttribute('autocorrect','off'); el.setAttribute('autocapitalize','characters'); el.spellcheck=false; return; }
+  if(el.getAttribute('autocomplete')==='off') el.removeAttribute('autocomplete');
+  el.setAttribute('autocorrect','on'); el.setAttribute('autocapitalize','sentences'); el.spellcheck=true;
+}
+function kbScan(root){ if(!root?.querySelectorAll) return; if(root.matches?.('input,textarea')) kbFix(root); root.querySelectorAll('input,textarea').forEach(kbFix); }
+new MutationObserver(ms=>{ for(const m of ms) for(const n of m.addedNodes) if(n.nodeType===1) kbScan(n); }).observe(document.body,{childList:true, subtree:true});
+kbScan(document.body);
+document.addEventListener('focusin',e=>{ if(e.target.matches?.('input,textarea')) kbFix(e.target); });
 
 
 /* ====================== TALLER 7L · 3.0 — NÚCLEO DE NAVEGACIÓN ======================
