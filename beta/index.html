@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="3.1.0-beta.2">
+<meta name="app-version" content="3.1.0-beta.3">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2948,6 +2948,16 @@ body.v3 .pages,body.v3 .page{border:0!important;box-shadow:none!important}
 body.v3 :is(.pbody,.pin2){background:transparent!important}
 body.v3 .pages::before,body.v3 .pages::after,body.v3 .page::before,body.v3 .page::after{display:none!important}
 body.v3.ui2 .pages,body.v3.ui2.light .pages,html body.v3 .pages{background:var(--v-bg)!important;background-image:none!important}
+/* 3D: sin el hueco negro de las antiguas pestañas de Coche */
+body.v3{--ctabh:0px}
+/* 3D: el panel de abajo se desplaza con el dedo sin rebotar */
+body.v3 .app>aside{overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+/* 3D: las listas desplegables (sección, pieza, capas) suben como una hoja por encima de la barra de pestañas */
+@media (max-width:900px){
+  body.v3 .app .ddmenu{position:fixed!important;left:10px!important;right:10px!important;top:auto!important;bottom:calc(var(--navh) + var(--sa-b) + 10px)!important;max-height:min(58vh,480px)!important;z-index:9450!important;border-radius:16px!important;
+    background:var(--v-cell)!important;border:0!important;box-shadow:0 -10px 40px #000a,0 0 0 .5px var(--v-sep)!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding:8px!important}
+  body.v3 .app .ddmenu .opt{padding:12px 12px!important;font-size:15px!important;border-radius:10px!important;font-family:var(--v-font)}
+}
 /* ====================== 3.1 (beta) · EFECTOS ====================== */
 /* números de las pestañas: rebote al subir y latido si es urgente */
 .v3badge.fxpop{animation:fxPop .7s cubic-bezier(.3,1.8,.4,1)}
@@ -3195,7 +3205,7 @@ body.v3 .mtop>.mtlcard{flex:1 1 100%!important}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v3.1.0-beta.2</span>
+  <span class="spver">v3.1.0-beta.3</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6577,7 +6587,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='3.1.0-beta.2';
+window.APP_VERSION='3.1.0-beta.3';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6611,7 +6621,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='3.1.0-beta.2';
+  const APP_VERSION='3.1.0-beta.3';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -12867,6 +12877,11 @@ function v3intro(force){
 /* ---------- arranque: se muestra Hoy (o lo que pida el enlace) ---------- */
 requestAnimationFrame(()=>{ if(!V3.cur) v3show(v3top(),'none'); v3badges(); });
 window.__v3={go:(...a)=>v3go(...a), back:(...a)=>v3back(...a), tab:t=>v3tab(t), V3, closeMenu:()=>closeV3Menu(), openSearch:()=>openSearch()};
+
+/* ---------- si el modelo 3D no llega a cargar (cobertura floja), botón para reintentar ---------- */
+{ const ld=document.getElementById('loader'); if(ld) new MutationObserver(()=>{ if(/No se pudo cargar el modelo/i.test(ld.textContent) && !ld.querySelector('.v3retry')){
+    const b=h2(`<button type="button" class="btn2 v3retry" style="margin-top:14px">${ic('history')}Reintentar</button>`); b.onclick=()=>{ uiSfx('tap'); location.reload(); };
+    (ld.querySelector('.lbox')||ld).append(b); const t=h2('<p class="muted2 v3rtx" style="margin-top:8px;text-transform:none;letter-spacing:0">Suele ser la cobertura: el modelo pesa bastante. Con wifi carga a la primera y luego queda guardado en el móvil.</p>'); b.after(t); } }).observe(ld,{childList:true, subtree:true, characterData:true}); }
 
 /* ====================== 3.1 (beta) · EFECTOS Y SONIDOS ======================
    Números de las pestañas que saltan y laten si hay algo urgente, avisos con halo y destello, chispas al
