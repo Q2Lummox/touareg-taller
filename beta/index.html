@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.0.0-beta.7">
+<meta name="app-version" content="4.0.0-beta.8">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3235,6 +3235,12 @@ body.v3 .pdquick small{color:#fff!important;opacity:.88}
 .vtots b{display:block;font:700 19px var(--v-font);color:var(--c);letter-spacing:-.01em}.vtots span{font-size:12.5px;color:var(--v-txt2)}
 .vsegs{overflow-x:auto;scrollbar-width:none}.vsegs::-webkit-scrollbar{display:none}.vsegs button{white-space:nowrap;flex:1 0 auto;padding:7px 10px}
 @media (min-width:700px){ .vtots{grid-template-columns:repeat(4,1fr)} }
+/* salud del coche en Hoy: en una cápsula oscura translúcida (como el cuentakilómetros) para que se lea sobre la foto */
+.fxhealth{gap:12px;margin-top:12px;padding:10px 14px;border-radius:14px;background:rgba(8,10,14,.62);-webkit-backdrop-filter:blur(14px) saturate(150%);backdrop-filter:blur(14px) saturate(150%);box-shadow:0 0 0 .5px #ffffff26 inset}
+.fxhealth span{font-size:14px;font-weight:600;opacity:1;color:#fff;text-shadow:0 1px 2px #000a}.fxhealth span b{font-size:16px;font-weight:700;margin-right:2px}
+.fxhealth i{height:8px;border-radius:4px;background:#ffffff38}
+.fxhealth em{border-radius:4px}
+body.v3.light .fxhealth{background:rgba(8,10,14,.62)}
 </style>
 
 </head>
@@ -3277,7 +3283,7 @@ body.v3 .pdquick small{color:#fff!important;opacity:.88}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.0.0-beta.7</span>
+  <span class="spver">v4.0.0-beta.8</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6650,7 +6656,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.0.0-beta.7';
+window.APP_VERSION='4.0.0-beta.8';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6684,7 +6690,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.0.0-beta.7';
+  const APP_VERSION='4.0.0-beta.8';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';

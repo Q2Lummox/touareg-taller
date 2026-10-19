@@ -1,19 +1,15 @@
 {
- "version": "4.0.0-beta.7",
+ "version": "4.0.0-beta.8",
  "fecha": "2026-10-19",
  "notas": [
-  "Fase 5 de la reconstrucción: limpieza final",
-  "Ajustes, avisos, copia, importar, compartir, atajos, acerca de, notas en el modelo… con pantallas propias",
-  "Buscador y avisos sin capas; fuera las pestañas, la portada de «Más» y los estilos antiguos que ya no se usaban"
+  "Hoy: la barra de salud del coche va en una cápsula oscura, con texto más grande y barra más gruesa, para que se lea sobre la foto"
  ],
  "historial": [
   {
-   "version": "4.0.0-beta.7",
+   "version": "4.0.0-beta.8",
    "fecha": "2026-10-19",
    "notas": [
-    "Fase 5 de la reconstrucción: limpieza final",
-    "Ajustes, avisos, copia, importar, compartir, atajos, acerca de, notas en el modelo… con pantallas propias",
-    "Buscador y avisos sin capas; fuera las pestañas, la portada de «Más» y los estilos antiguos que ya no se usaban"
+    "Hoy: la barra de salud del coche va en una cápsula oscura, con texto más grande y barra más gruesa, para que se lea sobre la foto"
    ]
   }
  ]
