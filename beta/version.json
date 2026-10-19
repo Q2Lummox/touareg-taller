@@ -1,21 +1,17 @@
 {
- "version": "4.0.0-beta.2",
+ "version": "4.0.0-beta.3",
  "fecha": "2026-10-19",
  "notas": [
-  "Fase 2 de la reconstrucción: Taller rehecho por dentro",
-  "Mantenimiento, trabajos hechos, registrar intervención y averías con pantallas propias, sin el panel antiguo ni sus capas",
-  "Arreglado: tocar una avería desde Hoy o desde Taller ahora abre esa avería",
-  "La reparación en curso es una sola función: al terminar, las fotos pasan a la galería en el mismo guardado"
+  "Botones de abajo de todas las ventanas en una rejilla ordenada y simétrica; Cerrar y Cancelar en gris",
+  "«Anotar algo que he visto» con naranja más oscuro y letras blancas"
  ],
  "historial": [
   {
-   "version": "4.0.0-beta.2",
+   "version": "4.0.0-beta.3",
    "fecha": "2026-10-19",
    "notas": [
-    "Fase 2 de la reconstrucción: Taller rehecho por dentro",
-    "Mantenimiento, trabajos hechos, registrar intervención y averías con pantallas propias, sin el panel antiguo ni sus capas",
-    "Arreglado: tocar una avería desde Hoy o desde Taller ahora abre esa avería",
-    "La reparación en curso es una sola función: al terminar, las fotos pasan a la galería en el mismo guardado"
+    "Botones de abajo de todas las ventanas en una rejilla ordenada y simétrica; Cerrar y Cancelar en gris",
+    "«Anotar algo que he visto» con naranja más oscuro y letras blancas"
    ]
   }
  ]

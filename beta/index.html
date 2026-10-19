@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.0.0-beta.2">
+<meta name="app-version" content="4.0.0-beta.3">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3216,6 +3216,19 @@ details.vfdet>summary span{display:flex;flex-direction:column}details.vfdet>summ
 .vchip svg{width:15px;height:15px;color:var(--accent)}.vchip i{font-style:normal;opacity:.6;margin-left:2px}
 .vave-f{padding:0}
 .v3v2{padding:0!important;max-width:none}
+
+/* ---------- botones de abajo ordenados (v3/07-botones) ---------- */
+body.v3 .vbtns{display:grid!important;grid-template-columns:1fr 1fr;gap:10px!important;align-items:stretch!important;padding-left:0!important;padding-right:0!important;width:100%;margin-left:0!important;margin-right:0!important;justify-content:stretch!important;flex-wrap:nowrap!important}
+body.v3 .vbtns>*{width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;min-height:48px;height:auto!important;align-self:stretch!important;line-height:1.2;padding:10px 12px!important;display:inline-flex;align-items:center;justify-content:center;text-align:center;box-sizing:border-box;flex:none!important}
+body.v3 .vbtns>[hidden]{display:none!important}
+body.v3 .vbtns>.span2{grid-column:1/-1}
+body.v3 .vbtns>.vfirst{order:-1}
+body.v3 .vbtns>.vclose.span2{order:9}
+body.v3 .vbtns>.vclose,body.v3 .btn2.vclose{background:var(--v-cell2)!important;color:var(--v-txt)!important;border:0!important;box-shadow:none!important}
+/* «Anotar algo que he visto»: naranja más oscuro y letras blancas */
+body.v3 .pdquick{background:color-mix(in srgb,var(--accent) 62%,#000)!important;color:#fff!important;border:0!important}
+body.v3 .pdquick>svg,body.v3 .pdquick b{color:#fff!important}
+body.v3 .pdquick small{color:#fff!important;opacity:.88}
 </style>
 
 </head>
@@ -3258,7 +3271,7 @@ details.vfdet>summary span{display:flex;flex-direction:column}details.vfdet>summ
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.0.0-beta.2</span>
+  <span class="spver">v4.0.0-beta.3</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6632,7 +6645,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.0.0-beta.2';
+window.APP_VERSION='4.0.0-beta.3';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6666,7 +6679,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.0.0-beta.2';
+  const APP_VERSION='4.0.0-beta.3';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -12553,7 +12566,7 @@ function v3intro(force){
 requestAnimationFrame(()=>{ if(!V3.cur) v3show(v3top(),'none'); v3badges(); });
 window.__v3={go:(...a)=>v3go(...a), back:(...a)=>v3back(...a), tab:t=>v3tab(t), V3, closeMenu:()=>closeV3Menu(), openSearch:()=>openSearch(),
   /* para las pruebas: lo que usa la 2.x para pedir pantallas, y su estado */
-  x:{go:(...a)=>go(...a), openSub:(...a)=>openSub(...a), masOpen:k=>masOpen(k), openPanel:(...a)=>openPanel(...a), runSearch:q=>runSearch(q), get UI(){ return UI; }, get S(){ return S; }, parts:()=>Object.keys(parts), prefGet:(k,d)=>prefGet(k,d), openIntForm:d=>openIntForm(d)}};
+  x:{go:(...a)=>go(...a), openSub:(...a)=>openSub(...a), masOpen:k=>masOpen(k), openPanel:(...a)=>openPanel(...a), runSearch:q=>runSearch(q), get UI(){ return UI; }, get S(){ return S; }, parts:()=>Object.keys(parts), prefGet:(k,d)=>prefGet(k,d), openIntForm:d=>openIntForm(d), repStart:t=>repStart((S.procs||[]).find(x=>x.titulo===t))}};
 
 /* ---------- si el modelo 3D no llega a cargar (cobertura floja), botón para reintentar ---------- */
 { const ld=document.getElementById('loader'); if(ld) new MutationObserver(()=>{ if(/No se pudo cargar el modelo/i.test(ld.textContent) && !ld.querySelector('.v3retry')){
@@ -12980,6 +12993,30 @@ Object.assign(V3.pages,{
   talleres:v2Page3('Talleres y proveedores', w=>renderTalleres(w)),
 });
 for(const k of ['plan','hechos','averias','pendientes','reparaciones','ruedas','diag','listas','talleres']) delete V3.leaves[k];
+
+/* ====================== BOTONES DE ABAJO, SIEMPRE ORDENADOS (4.0) ======================
+   En cualquier hoja, formulario o asistente, la fila final de botones se coloca sola en una rejilla:
+     · «Cerrar» / «Cancelar» (lo que sale sin hacer nada): gris, abajo y a todo lo ancho
+       (si solo hay dos botones, a la izquierda y el otro a la derecha, como en el iPhone)
+     · el resto, de dos en dos y del mismo ancho; si quedan impares, el principal va a todo lo ancho arriba
+   Mismos márgenes a izquierda y derecha, mismo hueco entre filas, texto centrado. */
+const BTN_SALIR=/^(cerrar|cancelar|listo|ahora no|volver|no)$/i;
+function btnRow(row){
+  const B=[...row.children]; if(B.length<2 || !B.every(b=>b.matches('button, label.btn2, a.btn2'))) return;
+  const sig=B.map(b=>b.textContent.trim()+(b.hidden?'h':'')).join('|'); if(row.dataset.bsig===sig) return; row.dataset.bsig=sig;
+  const vis=B.filter(b=>!b.hidden), out=vis.filter(b=>BTN_SALIR.test(b.textContent.trim()) || b.dataset.a==='no'), act=vis.filter(b=>!out.includes(b));
+  row.classList.add('vbtns'); for(const b of B) b.classList.remove('span2','vclose','vfirst');
+  for(const b of out) b.classList.add('vclose');
+  if(vis.length===2){ out.forEach(b=>b.classList.add('vfirst')); return; }        /* Cancelar | Guardar */
+  out.forEach(b=>b.classList.add('span2'));                                        /* salir: abajo, a lo ancho */
+  if(act.length%2){ const p=act.find(b=>b.classList.contains('pri'))||act[0]; p.classList.add('span2','vfirst'); }
+}
+function btnRows(root){
+  for(const b of root.querySelectorAll('button.btn2:not(.vclose)')) if(BTN_SALIR.test(b.textContent.trim()) && !b.closest('.vbtns')) b.classList.add('vclose');   /* «Cerrar» suelto: también gris */
+  for(const r of root.querySelectorAll('.dacts, .recacts, .isacts, .vfacts, .wacts, .row3')){ if(r.closest('.rpnav, .vseg, .chips2') || r.classList.contains('rpnav')) continue;
+    const last=!r.nextElementSibling || r.classList.contains('dacts') || r.classList.contains('recacts') || r.classList.contains('isacts'); if(last) btnRow(r); } }
+{ let q=false; const run=()=>{ q=false; for(const id of ['shBox','wzBox']){ const el=document.getElementById(id); if(el) btnRows(el); } const pg=document.querySelector('.v3pg.on'); if(pg) btnRows(pg); };
+  new MutationObserver(()=>{ if(!q){ q=true; requestAnimationFrame(run); } }).observe(document.body,{childList:true, subtree:true}); }
 
 
 connectDb();
