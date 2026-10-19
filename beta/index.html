@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.0.0-beta.4">
+<meta name="app-version" content="4.0.0-beta.5">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3287,7 +3287,7 @@ body.v3 .pdquick small{color:#fff!important;opacity:.88}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.0.0-beta.4</span>
+  <span class="spver">v4.0.0-beta.5</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6661,7 +6661,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.0.0-beta.4';
+window.APP_VERSION='4.0.0-beta.5';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6695,7 +6695,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.0.0-beta.4';
+  const APP_VERSION='4.0.0-beta.5';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -8826,6 +8826,8 @@ MAS2.ficha=['Ficha técnica', renderFichaTec];
 
 /* ---------- GASTOS: todas las categorías ---------- */
 const CAT={taller:['Taller y mano de obra','wrench','var(--ok)'], piezas:['Piezas','cart','var(--soon)'], combustible:['Combustible','fuel','var(--info)'], mejoras:['Mejoras','sparkle','#b77cff'], neumaticos:['Neumáticos','tyre','#8fa3b8'], itv:['ITV','checkc','#2fc4c4'], siniestros:['Siniestros y multas','alert','var(--due)'], impuestos:['Impuestos','euro','#e0a34a']};
+const INV_CATS=new Set(['piezas','taller','mejoras','neumaticos']);
+const invMov=()=>gastosMov().filter(x=>INV_CATS.has(x.cat));   /* lo que es inversión en el coche (sin gasolina ni papeles) */
 function gastosMov(){
   memoChk(); if(V2.memo.gm) return V2.memo.gm;
   const out=[], mej=new Set(S.v2.mejoras.flatMap(m=>m.compras||[])), cmap=new Map((S.compras||[]).map(c=>[c._id,c]));
@@ -11430,16 +11432,16 @@ function cocheEdit(){
   box.querySelector('#ccOk').onclick=async()=>{ await S.db.doc('config/coche').set({...(S.cfg||{}), precioCompra:n('#ccP'), fechaCompra:box.querySelector('#ccF').value||null, kmCompra:n('#ccK'), valorActual:n('#ccV'), valorFecha:n('#ccV')!=null?todayISO():null}); closeSheet(); uiSfx('save'); toast('Datos del coche guardados'); };
   sheet(box, b=>b.classList.add('v2f'));
 }
-function cocheNums(){ const c=S.cfg||{}, pc=Number(c.precioCompra)||0, mov=gastosMov(), desde=c.fechaCompra||'', gast=mov.filter(x=>!desde || !x.fecha || x.fecha>=desde).reduce((s,x)=>s+x.eur,0);
+function cocheNums(){ const c=S.cfg||{}, pc=Number(c.precioCompra)||0, mov=gastosMov(), desde=c.fechaCompra||'', gast=mov.filter(x=>!desde || !x.fecha || x.fecha>=desde).reduce((s,x)=>s+x.eur,0), pt=invMov().reduce((s,x)=>s+x.eur,0);
   const val=c.valorActual!=null&&c.valorActual!==''?Number(c.valorActual):null, km=num(c.kmActual), k0=num(c.kmCompra), rec=km!=null&&k0!=null?km-k0:null;
-  const real=pc+gast-(val??0); return {pc, gast, inv:pc+gast, val, real, rec, ckm:rec>0?(val!=null?real:pc+gast)/rec:null}; }
-function accChart(){ const c=S.cfg||{}, pc=Number(c.precioCompra)||0, mov=[...gastosMov()].map(x=>x.fecha?x:{...x, fecha:todayISO()}).sort((a,b)=>a.fecha.localeCompare(b.fecha)); if(!mov.length && !pc) return null;
+  const real=pc+gast-(val??0); return {pc, gast, pt, inv:pc+pt, val, real, rec, ckm:rec>0?(val!=null?real:pc+gast)/rec:null}; }
+function accChart(){ const c=S.cfg||{}, pc=Number(c.precioCompra)||0, mov=[...invMov()].map(x=>x.fecha?x:{...x, fecha:todayISO()}).sort((a,b)=>a.fecha.localeCompare(b.fecha)); if(!mov.length && !pc) return null;
   const t0=c.fechaCompra||mov[0]?.fecha, pts=[[t0, pc]]; let acc=pc; for(const x of mov){ acc+=x.eur; pts.push([x.fecha<t0?t0:x.fecha, acc]); }   /* todo cuenta; lo fechado antes de la compra se pone el día de la compra */ pts.push([todayISO(), acc]); if(pts.length<2) return null;
   const T=s=>new Date(s+'T12:00:00').getTime(), a=T(pts[0][0]), b=Math.max(a+864e5, T(pts[pts.length-1][0])), mx=Math.max(...pts.map(p=>p[1]))||1, W=600, H=180, P=8;
   const X=t=>P+(T(t)-a)/(b-a)*(W-2*P), Y=v=>H-P-(v/mx)*(H-2*P-14);
   let d=`M${X(pts[0][0]).toFixed(1)},${Y(pts[0][1]).toFixed(1)}`; for(let i=1;i<pts.length;i++){ d+=` H${X(pts[i][0]).toFixed(1)} V${Y(pts[i][1]).toFixed(1)}`; }
   const area=d+` V${H-P} H${P} Z`, base=pc?Y(pc):null;
-  return h2(`<div class="accw"><svg viewBox="0 0 ${W} ${H}" class="accsvg" preserveAspectRatio="none" role="img" aria-label="Gasto acumulado"><path d="${area}" class="acca"/><path d="${d}" class="accl"/>${base!=null?`<line x1="${P}" x2="${W-P}" y1="${base}" y2="${base}" class="accb"/>`:''}</svg>
+  return h2(`<div class="accw"><svg viewBox="0 0 ${W} ${H}" class="accsvg" preserveAspectRatio="none" role="img" aria-label="Inversión acumulada"><path d="${area}" class="acca"/><path d="${d}" class="accl"/>${base!=null?`<line x1="${P}" x2="${W-P}" y1="${base}" y2="${base}" class="accb"/>`:''}</svg>
     <div class="accleg"><span>${fmtDate(pts[0][0])}${pc?' · coche '+eur(pc):''}</span><b>${eur(acc)}</b></div></div>`); }
 
 /* ---------- 8 · al actualizar los km, avisar de lo que toca por kilómetros ---------- */
@@ -12353,10 +12355,10 @@ V3.pages.problemas={tab:'taller', title:'Problemas', sub:()=>'Lo que falla y lo 
 
 /* ====================== GASTOS ====================== */
 V3.hubs.gastos={title:'Gastos', sub:()=>'Lo invertido en el Touareg', render(w){
-  const mov=gastosMov(), pc=Number(S.cfg?.precioCompra)||0, gast=mov.reduce((t,x)=>t+x.eur,0);
+  const mov=gastosMov(), pc=Number(S.cfg?.precioCompra)||0, gast=invMov().reduce((t,x)=>t+x.eur,0);
   const big=h2(`<section class="vbig"><small>Llevas invertido</small><b>${eur(pc+gast)}</b><div class="vbigs"><span><em>El coche</em>${eur(pc)}</span><span><em>Piezas y trabajos</em>${eur(gast)}</span></div><button type="button" class="vlink">${ic('edit')}${S.cfg?.precioCompra?'Compra y valor del coche':'Apunta lo que costó el coche'}</button></section>`);
   big.querySelector('.vlink').onclick=()=>{ uiSfx('tap'); cocheEdit(); }; w.append(big);
-  const g=typeof accChart==='function'?accChart():null; if(g){ const s=h2('<section class="vgrp"><h2 class="vgh"><span>Gasto acumulado</span></h2><div class="vcard vchart"></div></section>'); s.querySelector('.vchart').append(g); w.append(s); }
+  const g=typeof accChart==='function'?accChart():null; if(g){ const s=h2('<section class="vgrp"><h2 class="vgh"><span>Inversión acumulada</span></h2><div class="vcard vchart"></div></section>'); s.querySelector('.vchart').append(g); w.append(s); }
   const dn=g3Donut(), cs=g3Consumo(); if(dn) w.append(dn); if(cs) w.append(cs);
   const nCompra=unseen('gastos').length;
   const pend=(S.compras||[]).filter(c=>c.estado==='pendiente'), sinM=(S.compras||[]).filter(c=>c.estado==='comprado'), rp=S.v2.repostajes||[];
@@ -12946,8 +12948,8 @@ function movOpen(x){ const o=x.o; if(!o) return; if(x.k==='compra') compraSheet(
 V3.pages.resumen={tab:'gastos', title:'Movimientos', sub:()=>pl(gastosMov().length,'gasto'), render(w){
   const mov=gastosMov(), N=cocheNums(), c=S.cfg||{}, y=String(new Date().getFullYear()), f=UI.movF||'todo';
   /* el coche */
-  const rows=[['Precio de compra'+(c.fechaCompra?` <small>${fmtDate(c.fechaCompra)}</small>`:''), N.pc?eur(N.pc):'Sin apuntar'], ['Gastado desde entonces', eur(N.gast)], ['Inversión total', eur(N.inv), 'tot']];
-  if(N.val!=null) rows.push(['Lo que vale hoy'+(c.valorFecha?` <small>${fmtDate(c.valorFecha)}</small>`:''), eur(N.val)], ['Lo que te cuesta de verdad', eur(N.real), 'tot']);
+  const rows=[['Precio de compra'+(c.fechaCompra?` <small>${fmtDate(c.fechaCompra)}</small>`:''), N.pc?eur(N.pc):'Sin apuntar'], ['Piezas y trabajos', eur(N.pt)], ['Inversión total', eur(N.inv), 'tot']];
+  if(N.val!=null) rows.push(['Lo que vale hoy'+(c.valorFecha?` <small>${fmtDate(c.valorFecha)}</small>`:''), eur(N.val)], ['Lo que te cuesta de verdad <small>con gasolina, ITV, impuestos y multas desde la compra</small>', eur(N.real), 'tot']);
   if(N.ckm!=null) rows.push([`Coste por km, todo incluido <small>${nf.format(N.rec)} km desde la compra</small>`, N.ckm.toLocaleString('es-ES',{maximumFractionDigits:2})+' €/km']);
   const car=h2(`<section class="vgrp"><h2 class="vgh"><span>El coche</span><button type="button">${N.pc?'Editar':'Apuntar'}</button></h2><div class="vcard vccost">${rows.map(([k,v,cls])=>`<div class="${cls||''}"><span>${k}</span><b>${v}</b></div>`).join('')}</div>
     ${!c.kmCompra || c.valorActual==null?`<p class="vfoot">${!c.kmCompra?'Apunta los km al comprarlo para ver el coste por km. ':''}${c.valorActual==null?'Pon lo que vale hoy para ver lo que te cuesta de verdad.':''}</p>`:''}</section>`);

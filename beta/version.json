@@ -1,21 +1,17 @@
 {
- "version": "4.0.0-beta.4",
+ "version": "4.0.0-beta.5",
  "fecha": "2026-10-19",
  "notas": [
-  "Fase 3 de la reconstrucción: Gastos rehecho por dentro",
-  "Lista de la compra y Movimientos con pantallas propias: añadir rápido, deslizar para comprar, montar o borrar, el coche con su coste real y filtro por tipo de gasto",
-  "Arreglado: con el impuesto de circulación apuntado, Estadísticas fallaba",
-  "Si vas a una pantalla que ya tienes abierta más atrás, se vuelve a ella en vez de repetirla"
+  "«Llevas invertido» es ahora solo el coche, las piezas y los trabajos (sin gasolina, ITV, impuestos ni multas)",
+  "«Lo que te cuesta de verdad» y el coste por km siguen incluyéndolo todo"
  ],
  "historial": [
   {
-   "version": "4.0.0-beta.4",
+   "version": "4.0.0-beta.5",
    "fecha": "2026-10-19",
    "notas": [
-    "Fase 3 de la reconstrucción: Gastos rehecho por dentro",
-    "Lista de la compra y Movimientos con pantallas propias: añadir rápido, deslizar para comprar, montar o borrar, el coche con su coste real y filtro por tipo de gasto",
-    "Arreglado: con el impuesto de circulación apuntado, Estadísticas fallaba",
-    "Si vas a una pantalla que ya tienes abierta más atrás, se vuelve a ella en vez de repetirla"
+    "«Llevas invertido» es ahora solo el coche, las piezas y los trabajos (sin gasolina, ITV, impuestos ni multas)",
+    "«Lo que te cuesta de verdad» y el coste por km siguen incluyéndolo todo"
    ]
   }
  ]
