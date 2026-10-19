@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.0.0-beta.3">
+<meta name="app-version" content="4.0.0-beta.4">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3229,6 +3229,22 @@ body.v3 .vbtns>.vclose,body.v3 .btn2.vclose{background:var(--v-cell2)!important;
 body.v3 .pdquick{background:color-mix(in srgb,var(--accent) 62%,#000)!important;color:#fff!important;border:0!important}
 body.v3 .pdquick>svg,body.v3 .pdquick b{color:#fff!important}
 body.v3 .pdquick small{color:#fff!important;opacity:.88}
+
+/* ====================== 4.0 · Gastos (fase 3) ====================== */
+.vqadd{display:flex;gap:8px;padding:10px}.vqadd .inp2{flex:1;min-width:0;min-height:44px;padding:10px 12px;font-size:16px}.vqadd .vqn{flex:0 0 58px;text-align:center}
+.vqadd .btn2{flex:0 0 46px;width:46px;padding:0;display:grid;place-items:center}.vqadd .btn2 svg{width:20px;height:20px;margin:0}
+.vcmp{gap:10px}.vcmp .vtx{flex:1;min-width:0;border:0;background:none;color:inherit;text-align:left;font:inherit;padding:0;cursor:pointer}
+.vcmp .vtx b em{font-style:normal;color:var(--v-txt2);font-weight:500}
+.vck{flex:none;width:28px;height:28px;border-radius:50%;border:2px solid var(--v-txt3,#8888);background:none;display:grid;place-items:center;cursor:pointer;padding:0;color:#fff}
+.vcmp.k-comp .vck{background:var(--v-green);border-color:var(--v-green)}.vcmp.k-hist .vck{border:0;color:var(--v-green)}.vck svg{width:16px;height:16px}
+.vcmp .vmnt{flex:none;width:auto;padding:7px 12px;min-height:0}
+.vccost{padding:4px 16px}.vccost>div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 0;border-top:.5px solid var(--v-sep)}
+.vccost>div:first-child{border-top:0}.vccost span{color:var(--v-txt2);font-size:14.5px}.vccost span small{display:block;font-size:12px;opacity:.8}.vccost b{font-weight:600;white-space:nowrap}
+.vccost>.tot b{font-size:17px;color:var(--v-txt)}.vccost>.tot span{color:var(--v-txt);font-weight:600}
+.vtots{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 18px}.vtots>div{background:var(--v-cell);border-radius:14px;padding:12px 14px}
+.vtots b{display:block;font:700 19px var(--v-font);color:var(--c);letter-spacing:-.01em}.vtots span{font-size:12.5px;color:var(--v-txt2)}
+.vsegs{overflow-x:auto;scrollbar-width:none}.vsegs::-webkit-scrollbar{display:none}.vsegs button{white-space:nowrap;flex:1 0 auto;padding:7px 10px}
+@media (min-width:700px){ .vtots{grid-template-columns:repeat(4,1fr)} }
 </style>
 
 </head>
@@ -3271,7 +3287,7 @@ body.v3 .pdquick small{color:#fff!important;opacity:.88}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.0.0-beta.3</span>
+  <span class="spver">v4.0.0-beta.4</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6645,7 +6661,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.0.0-beta.3';
+window.APP_VERSION='4.0.0-beta.4';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6679,7 +6695,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.0.0-beta.3';
+  const APP_VERSION='4.0.0-beta.4';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -6996,11 +7012,7 @@ function openSub(sec,sub){
     setTop(); return;
   }
   if(sec==='mant'){
-    if(sub==='plan'||sub==='hist'){ clearPb(pb); S.mantTab = sub==='hist'?'hist':'items'; dockOpen(pb,'__mant','mant'); }
-    else if(sub==='procs'){ clearPb(pb); dockOpen(pb,'__procs','procs'); }
-    else if(sub==='compra'){ if(ovl.parentNode===pb) _closePop(); renderCompras(); }
-    else if(sub==='gastos'){ if(ovl.parentNode===pb) _closePop(); renderGastos2(); }
-    else { clearPb(pb); dockOpen(pb,'__'+sub, sub); }
+    clearPb(pb); dockOpen(pb,'__'+sub, sub);          /* Taller y Gastos tienen pantallas 4.0; aquí solo llega lo que no tenga */
   } else {
     clearPap();
     if(sub==='docs'){ dockOpen(pb,'__docs','docs'); }
@@ -7514,7 +7526,7 @@ S.piezasL=[]; S.compras=[];
 partName=function(pid){ if(typeof pid==='string' && pid.startsWith('c:')) return S.piezasL.find(x=>x._id===pid.slice(2))?.nombre||''; return parts[pid]?.name||''; };
 function listsInit(){
   if(UI.plSub || !S.db) return; UI.plSub=true;
-  S.db.collection('compras').onSnapshot(snap=>{ S.compras=snap.docs.map(d=>({...d.data(), _id:d.id})); if(UI.sec==='mant' && UI.sub.mant==='compra') renderCompras(); if(UI.sec==='mant' && UI.sub.mant==='gastos') renderGastos2(); }, ()=>{});
+  S.db.collection('compras').onSnapshot(snap=>{ S.compras=snap.docs.map(d=>({...d.data(), _id:d.id})); }, ()=>{});
   S.db.collection('piezasLista').onSnapshot(snap=>{ S.piezasL=snap.docs.map(d=>({...d.data(), _id:d.id})); UI.plLoaded=true; }, ()=>{});
 }
 /* una sola vez: deja el plan con lo básico y crea la lista inicial de piezas */
@@ -7562,14 +7574,8 @@ function listManager(sel, kind){
 }
 
 
-/* ---------- COMPRA: lista de la compra real ---------- */
+/* ---------- COMPRA: hojas de añadir, comprar, compra ya hecha y montar (las pantallas están en v3/08-gastos) ---------- */
 const CEST={pendiente:'Por comprar', comprado:'Comprado · sin montar', montado:'Montado'};
-function gastosMov(){
-  const out=[];
-  for(const c of (S.compras||[])) if(c.estado!=='pendiente' && Number(c.precio)) out.push({fecha:c.fechaCompra||'', eur:Number(c.precio), t:c.nombre+(c.cantidad>1?' ×'+c.cantidad:''), s:(c.tienda||'Compra'), k:'compra'});
-  for(const x of S.int) if(x.coste!=null && x.coste!=='' && Number(x.coste)) out.push({fecha:x.fecha||'', eur:Number(x.coste), t:itemName(x.mant)||partName(x.pieza)||x.descripcion||x.tipo, s:x.tipo||'Intervención', k:'int'});
-  return out.sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
-}
 function compraSheet(c, mode){
   const hecha = mode==='hecha', isNew=!c || !c._id, d=c?{...c}:{nombre:'',cantidad:1,estado:'pendiente'};
   if(hecha) d.estado='comprado';
@@ -7591,6 +7597,8 @@ function compraSheet(c, mode){
     if(v('cpDel')) v('cpDel').onclick=async()=>{ if(!confirm(`¿Borrar «${d.nombre}» de la compra?`)) return; const bk={...c}; delete bk._id; await S.db.collection('compras').doc(c._id).delete(); $('#sheet2').hidden=true; toast('Borrado de la compra', null, {label:'Deshacer', fn:()=>S.db.collection('compras').doc(c._id).set(bk)}); };
     setTimeout(()=>(v('cpN')||v('cpP'))?.focus(),80);
     if(v('cpM')) v('cpM').addEventListener('change',()=>{ v('cpMW').hidden=v('cpM').value!=='taller'; });
+    for(const id of ['cpT','cpTa']) addProvList(v(id));          /* tiendas y talleres ya usados */
+    compraOcr(b);                                                 /* leer el ticket con la cámara */
     v('cpOk').onclick=async()=>{
       const ok=v('cpOk'); 
       if(v('cpN')){ d.nombre=v('cpN').value.trim(); if(!d.nombre){ v('cpN').focus(); return; } d.cantidad=Math.max(1,Number(v('cpQ').value)||1); if(v('cpRf')) d.ref=v('cpRf').value.trim(); }
@@ -7617,7 +7625,7 @@ function montarCompra(c){
     <label class="wzlab">Notas (opcional)</label><input class="inp2" id="mtN" placeholder="Incidencias, pares, observaciones…">
     <div class="row3"><button class="btn2 ghost" type="button" id="mtNo">Cancelar</button><button class="btn2" type="button" id="mtOk">${ic('wrench')}Montado</button></div></div>`, b=>{
     const v=id=>b.querySelector('#'+id);
-    v('mtM').addEventListener('change',()=>{ v('mtW').hidden=v('mtM').value!=='taller'; });
+    v('mtM').addEventListener('change',()=>{ v('mtW').hidden=v('mtM').value!=='taller'; }); addProvList(v('mtTa'));
     v('mtNo').onclick=()=>$('#sheet2').hidden=true;
     v('mtOk').onclick=async()=>{
       const tl=v('mtM').value==='taller', mo=tl && v('mtMO').value!=='' ? Number(v('mtMO').value) : null, ta=tl?v('mtTa').value.trim():'', km=v('mtK').value===''?null:Number(v('mtK').value), f=v('mtF').value||todayISO();
@@ -7633,58 +7641,6 @@ function montarCompra(c){
     };
   });
 }
-function renderCompras(){
-  const pb=$('#pbMant'); clearPb(pb); if(!ovl.hidden && ovl.parentNode===pb) _closePop();
-  const wrap=h2('<div class="wrap cmp" style="padding:14px 16px 28px"></div>'); pb.append(wrap);
-  const all=S.compras||[], pend=all.filter(x=>x.estado==='pendiente').sort((a,b)=>COLL.compare(a.nombre,b.nombre)),
-        comp=all.filter(x=>x.estado==='comprado').sort((a,b)=>(b.fechaCompra||'').localeCompare(a.fechaCompra||'')),
-        hist=all.filter(x=>x.estado!=='pendiente').sort((a,b)=>(b.fechaCompra||'').localeCompare(a.fechaCompra||''));
-  const tot=hist.reduce((a,x)=>a+(Number(x.precio)||0),0);
-  /* añadir rápido */
-  const add=h2(`<div class="card2 cmpadd"><h3>${ic('cart')}Añadir a la lista</h3><div class="cmprow"><input class="inp2" id="cpQuick" list="cpList2" placeholder="Pieza…"><input class="inp2" id="cpQty" type="number" inputmode="numeric" min="1" value="1" aria-label="Cantidad"><button class="btn2" type="button">${ic('plus')}Añadir</button></div><datalist id="cpList2"></datalist></div>`);
-  { const dl=add.querySelector('datalist'), names=new Set([...S.piezasL.map(x=>x.nombre), ...S.mant.map(x=>x.nombre)]); [...names].sort(COLL.compare).forEach(n=>dl.append(new Option(n)));
-    const inp=add.querySelector('#cpQuick'), qty=add.querySelector('#cpQty'), b=add.querySelector('button');
-    const go2=async()=>{ const n=inp.value.trim(); if(!n){ inp.focus(); return; } b.disabled=true; try{ await S.db.collection('compras').add({nombre:n, cantidad:Math.max(1,Number(qty.value)||1), estado:'pendiente', creado:new Date().toISOString()}); inp.value=''; qty.value=1; toast(`«${n}» añadido a la compra`); }catch{ toast('No se pudo añadir','err'); } b.disabled=false; };
-    b.onclick=go2; inp.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); go2(); } }; }
-  wrap.append(add);
-  const sec=(title,icon,list,empty,row)=>{ const c=h2(`<div class="card2" style="margin-top:14px"><h3>${ic(icon)}${title}<span class="cnt">${list.length}</span></h3><div class="l2"></div></div>`), l=c.querySelector('.l2'); if(!list.length) l.append(h2(`<div class="empty2" style="padding:10px">${empty}</div>`)); list.forEach(x=>l.append(row(x))); wrap.append(c); };
-  sec('Por comprar','cart',pend,'Nada pendiente. Añade arriba lo que necesites comprar.', x=>{
-    const r=h2(`<div class="cmpi"><button type="button" class="ck" aria-label="Marcar como comprado"></button><button type="button" class="tx"><b>${esc(x.nombre)}${x.cantidad>1?` <em>×${x.cantidad}</em>`:''}</b>${x.ref?`<span class="cref">${esc(x.ref)}</span>`:''}${x.notas?`<small>${esc(x.notas)}</small>`:''}</button></div>`);
-    r.querySelector('.ck').onclick=()=>{ uiSfx('tap'); compraSheet(x,'comprar'); }; r.querySelector('.tx').onclick=()=>compraSheet(x); r._swR={l:'Comprado',i:'check',fn:()=>compraSheet(x,'comprar')}; return r; });
-  sec('Comprado · pendiente de montar','wrench',comp,'Cuando marques algo como comprado aparecerá aquí hasta que lo montes.', x=>{
-    const r=h2(`<div class="cmpi done"><span class="ck on">${ic('check')}</span><button type="button" class="tx"><b>${esc(x.nombre)}${x.cantidad>1?` <em>×${x.cantidad}</em>`:''}</b>${x.ref?`<span class="cref">${esc(x.ref)}</span>`:''}<small>${fmtDate(x.fechaCompra)}${x.tienda?' · '+esc(x.tienda):''}${x.montaje==='taller'?' · 🔧 taller'+(x.manoObra!=null?' '+eur(x.manoObra):''):''}${x.adjuntos?.length?' · 📎 '+x.adjuntos.length:''}</small></button><span class="pr">${x.precio!=null?eur(x.precio):'—'}</span><button type="button" class="btn2 mnt">${ic('wrench')}Montado</button></div>`);
-    r.querySelector('.tx').onclick=()=>compraSheet(x); r.querySelector('.mnt').onclick=()=>montarCompra(x); r._swR={l:'Montado',i:'wrench',fn:()=>montarCompra(x)}; return r; });
-  const hc=h2(`<div class="card2" style="margin-top:14px"><h3>${ic('history')}Historial de compras<span class="cnt">${eur(tot)}</span></h3><div class="l2"></div></div>`), hl2=hc.querySelector('.l2');
-  if(!hist.length) hl2.append(h2('<div class="empty2" style="padding:10px">Aún no has registrado compras.</div>'));
-  for(const x of hist){ const r=h2(`<button type="button" class="r2" style="--c:${x.estado==='montado'?'var(--ok)':'var(--soon)'}"><span class="ic">${ic(x.estado==='montado'?'checkc':'cart')}</span><span class="tx"><b>${esc(x.nombre)}${x.cantidad>1?' ×'+x.cantidad:''}</b><small>${fmtDate(x.fechaCompra)}${x.tienda?' · '+esc(x.tienda):''} · ${x.estado==='montado'?'Montado'+(x.fechaMontaje?' el '+fmtDate(x.fechaMontaje):'')+(x.montaje==='taller'?' en taller'+(x.manoObra!=null?' ('+eur(x.manoObra)+' mano de obra)':''):' por mí'):'Sin montar'}</small></span><span class="rt">${x.precio!=null?eur(x.precio):'—'}</span></button>`); r.onclick=()=>compraSheet(x); hl2.append(r); }
-  wrap.append(hc);
-}
-
-/* ---------- GASTOS: compras + intervenciones ---------- */
-function renderGastos2(){
-  const pb=$('#pbMant'); clearPb(pb); if(!ovl.hidden && ovl.parentNode===pb) _closePop();
-  const wrap=h2('<div class="wrap" style="padding:14px 16px 28px"></div>'); pb.append(wrap);
-  const mov=gastosMov(), tot=mov.reduce((a,x)=>a+x.eur,0), tp=mov.filter(x=>x.k==='compra').reduce((a,x)=>a+x.eur,0), ti=tot-tp;
-  const yr=String(new Date().getFullYear()), ty=mov.filter(x=>x.fecha.startsWith(yr)).reduce((a,x)=>a+x.eur,0);
-  const g=h2('<div class="stchips"></div>');
-  for(const [v,l,c] of [[tot,'Gasto total','var(--accent)'],[ty,'Este año ('+yr+')','var(--info)'],[tp,'En piezas compradas','var(--soon)'],[ti,'Mano de obra e intervenciones','var(--ok)']]) g.append(h2(`<div class="stc" style="--c:${c};cursor:default"><b>${eur(v)}</b><span>${l}</span></div>`));
-  wrap.append(g);
-  const kmNow=Number(S.cfg?.kmActual)||0, kms=S.int.filter(x=>x.km).map(x=>Number(x.km)).sort((a,b)=>a-b);
-  if(kmNow && tot && kms.length && kmNow>kms[0]) wrap.append(h2(`<p class="muted2" style="margin:10px 2px 0">Coste por kilómetro desde el primer registro: <b style="color:var(--txt)">${(tot/(kmNow-kms[0])).toLocaleString('es-ES',{maximumFractionDigits:3})} €/km</b></p>`));
-  /* por año */
-  const byY={}; for(const x of mov){ const y=x.fecha.slice(0,4)||'—'; byY[y]=byY[y]||{c:0,i:0}; byY[y][x.k==='compra'?'c':'i']+=x.eur; }
-  const years=Object.keys(byY).sort(), mx=Math.max(1,...years.map(y=>byY[y].c+byY[y].i));
-  const yc=h2(`<div class="card2" style="margin-top:14px"><h3>${ic('calendar')}Gasto por año</h3><div class="ybars2"></div><div class="lgd"><span><i style="background:var(--soon)"></i>Piezas</span><span><i style="background:var(--ok)"></i>Mano de obra e intervenciones</span></div></div>`), yb=yc.querySelector('.ybars2');
-  if(!years.length) yb.replaceWith(h2('<div class="empty2">Aún no hay gastos. Se suman al marcar compras como compradas y al registrar intervenciones con coste.</div>'));
-  for(const y of years){ const v=byY[y]; yb.append(h2(`<div class="yb2"><span class="v">${eur(v.c+v.i)}</span><div class="st"><i style="height:${v.i/mx*100}%;background:var(--ok)"></i><i style="height:${v.c/mx*100}%;background:var(--soon)"></i></div><small>${y}</small></div>`)); }
-  wrap.append(yc);
-  const lc=h2(`<div class="card2" style="margin-top:14px"><h3>${ic('receipt')}Movimientos</h3><div class="l2"></div></div>`), ll=lc.querySelector('.l2');
-  if(!mov.length) ll.append(h2('<div class="empty2" style="padding:10px">Sin movimientos todavía.</div>'));
-  for(const x of mov.slice(0,40)) ll.append(h2(`<div class="r2" style="--c:${x.k==='compra'?'var(--soon)':'var(--ok)'};cursor:default"><span class="ic">${ic(x.k==='compra'?'cart':'wrench')}</span><span class="tx"><b>${esc(x.t)}</b><small>${fmtDate(x.fecha)} · ${esc(x.s)}</small></span><span class="rt">${eur(x.eur)}</span></div>`));
-  wrap.append(lc);
-  const ex=h2(`<div class="row3" style="justify-content:flex-start"><button class="btn2 ghost" type="button">${ic('file')}Historial en PDF</button></div>`); ex.querySelector('button').onclick=()=>$('#mPdf').click(); wrap.append(ex);
-}
-
 /* ---------- AVISOS: push en este dispositivo, correo y Telegram (los envía GitHub cada día) ---------- */
 const VAPID_PUBLIC='BCv5LnZwcZ5M50flqtBHcK5341-QVIl9NJ2Ye0SNW6Bf6U06G5gLHj8eYYixjFxVQagFIcEP4To-0-2p79hH5Ik';
 const REPO='https://github.com/Q2Lummox/touareg-taller';
@@ -8098,9 +8054,6 @@ function odo(el, text, key){
 function celebrate(){ if(RM) return; document.querySelector('.celeb')?.remove();
   const c=h2(`<div class="celeb" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="27"/><path d="M19 33l9 9 17-19"/></svg></div>`); document.body.append(c); setTimeout(()=>c.remove(),1100); }
 { const _t=toast; toast=function(msg,kind,action){ if(!kind && /registrad|guardad|comprad|montad|añadid a la compra|avería registrada|documento guardado/i.test(msg)) celebrate(); return _t(msg,kind,action); }; }
-/* 3: barras de gastos que crecen desde cero */
-{ const _g=renderGastos2; renderGastos2=function(){ _g(); if(RM) return; const bars=[...document.querySelectorAll('#pbMant .yb2 .st i')]; bars.forEach(b=>{ b.dataset.h=b.style.height; b.style.height='0%'; });
-    requestAnimationFrame(()=>requestAnimationFrame(()=>bars.forEach((b,i)=>{ b.style.transition=`height .7s cubic-bezier(.2,.9,.2,1) ${i*60}ms`; b.style.height=b.dataset.h; }))); }; }
 /* 8: onda naranja desde donde tocas */
 document.addEventListener('pointerdown',e=>{ if(RM) return; const t=e.target.closest?.('.btn2, .mt, .r2, .fabg button, .navmenu button, .stc, .kmedit, .spstart'); if(!t || t.disabled) return;
   const r=t.getBoundingClientRect(), d=Math.max(r.width,r.height)*2.2, w=h2('<span class="ripple"></span>'); w.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left-d/2}px;top:${e.clientY-r.top-d/2}px`;
@@ -8373,7 +8326,7 @@ function lineChart(pts, o={}){
   const area=d+` L${X(x1).toFixed(1)} ${H-P.b} L${X(x0).toFixed(1)} ${H-P.b} Z`;
   const gid='lg'+Math.random().toString(36).slice(2,7), f=o.fmt||(v=>nf.format(Math.round(v))), fx=o.fx||(t=>new Date(t).toLocaleDateString('es-ES',{month:'short',year:'2-digit'}));
   return h2(`<svg class="lch" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.label||'Gráfica')}"><defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${o.c||'var(--accent)'}" stop-opacity=".35"/><stop offset="1" stop-color="${o.c||'var(--accent)'}" stop-opacity="0"/></linearGradient></defs>
-    <path d="${area}" fill="url(#${gid})"/><path d="${d}" fill="none" stroke="${o.c||'var(--accent)'}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="${area}" fill="url(#${gid})"/><path d="${d}" fill="none" pathLength="1" class="drawln" stroke="${o.c||'var(--accent)'}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
     ${pts.length<=40?pts.map(p=>`<circle cx="${X(p.x).toFixed(1)}" cy="${Y(p.y).toFixed(1)}" r="2.6" fill="${o.c||'var(--accent)'}"/>`).join(''):''}
     <text x="${P.l}" y="${H-5}" class="ax">${esc(fx(x0))}</text><text x="${W-P.r}" y="${H-5}" class="ax" text-anchor="end">${esc(fx(x1))}</text>
     <text x="${W-P.r}" y="${Y(y1)-4}" class="ax v" text-anchor="end">${esc(f(y1))}</text>${o.y0==null?`<text x="${P.l}" y="${Y(y0)-4}" class="ax v">${esc(f(y0))}</text>`:''}</svg>`);
@@ -8468,8 +8421,6 @@ function renderTalleres(w){
 }
 MAS2.talleres=['Talleres y proveedores', renderTalleres];
 /* datalist de talleres en compras e intervenciones */
-{ const _cs=compraSheet; compraSheet=function(...a){ _cs(...a); for(const id of ['cpT','cpTa']) addProvList($('#'+id)); }; }
-{ const _mc=montarCompra; montarCompra=function(...a){ _mc(...a); addProvList($('#mtTa')); }; }
 function addProvList(inp){ if(!inp) return; let dl=$('#dlProv'); if(!dl){ dl=document.createElement('datalist'); dl.id='dlProv'; document.body.append(dl); } dl.innerHTML=provList().map(n=>`<option value="${esc(n)}">`).join(''); inp.setAttribute('list','dlProv'); }
 
 /* ---------- REPOSTAJES Y CONSUMO ---------- */
@@ -8514,7 +8465,6 @@ function renderRepost(w){
   for(const r of R.slice(0,60)){ const p=fc.per.get(r._id); const row=row2({c:p?(p.l100>(fc.avg||99)*1.12?'var(--soon)':'var(--ok)'):'var(--txt-3)', i:'fuel', t:`${nf2(r.litros)} L${r.gasolinera?' · '+r.gasolinera:''}`, s:`${fmtDate(r.fecha)} · ${kmT(r.km)}${r.lleno===false?' · parcial':''}${num(r.precioL)?' · '+num(r.precioL).toLocaleString('es-ES',{minimumFractionDigits:3})+' €/L':''}`, r:eurc(repTotal(r)), rs:p?nf1(p.l100)+' L/100':'', fn:()=>recForm(MOD.repostajes,r)}); l.append(row); }
   w.append(lc);
 }
-V2SUBS.mant.repost=renderRepost;
 
 /* ---------- NEUMÁTICOS ---------- */
 MOD.neumaticos={col:'neumaticos', newT:'Nuevo juego de neumáticos', editT:'Editar juego', delT:'Juego borrado',
@@ -8875,8 +8825,8 @@ function renderFichaTec(w){
 MAS2.ficha=['Ficha técnica', renderFichaTec];
 
 /* ---------- GASTOS: todas las categorías ---------- */
-const CAT={taller:['Taller y mano de obra','wrench','var(--ok)'], piezas:['Piezas','cart','var(--soon)'], combustible:['Combustible','fuel','var(--info)'], mejoras:['Mejoras','sparkle','#b77cff'], neumaticos:['Neumáticos','tyre','#8fa3b8'], itv:['ITV','checkc','#2fc4c4'], siniestros:['Siniestros y multas','alert','var(--due)']};
-gastosMov=function(){
+const CAT={taller:['Taller y mano de obra','wrench','var(--ok)'], piezas:['Piezas','cart','var(--soon)'], combustible:['Combustible','fuel','var(--info)'], mejoras:['Mejoras','sparkle','#b77cff'], neumaticos:['Neumáticos','tyre','#8fa3b8'], itv:['ITV','checkc','#2fc4c4'], siniestros:['Siniestros y multas','alert','var(--due)'], impuestos:['Impuestos','euro','#e0a34a']};
+function gastosMov(){
   memoChk(); if(V2.memo.gm) return V2.memo.gm;
   const out=[], mej=new Set(S.v2.mejoras.flatMap(m=>m.compras||[])), cmap=new Map((S.compras||[]).map(c=>[c._id,c]));
   const isMej=c=>c && (c.mejora || mej.has(c._id));
@@ -8887,9 +8837,10 @@ gastosMov=function(){
   for(const r of S.v2.itv) if(Number(r.coste)) out.push({fecha:r.fecha||'', eur:Number(r.coste), t:'ITV · '+(ITV_R[r.resultado]||''), s:r.estacion||'ITV', k:'itv', cat:'itv'});
   for(const x of S.v2.siniestros) if(Number(x.importe)) out.push({fecha:x.fecha||'', eur:Number(x.importe), t:x.titulo, s:SIN_E[x.estado]||'', k:'sin', cat:'siniestros'});
   for(const n of S.v2.neumaticos) if(Number(n.precio)) out.push({fecha:n.fechaCompra||(n.creado||'').slice(0,10), eur:Number(n.precio), t:'Neumáticos · '+n.nombre, s:n.tienda||'Neumáticos', k:'neu', cat:'neumaticos'});
+  for(const x of S.v2.ivtm||[]) if(Number(x.importe)) out.push({fecha:x.fechaPago||((x.anio||'')+'-01-01'), eur:Number(x.importe), t:`IVTM ${x.anio||''}`, s:x.ayuntamiento||'Impuesto de circulación', k:'ivtm', cat:'impuestos'});
   out.sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
   return V2.memo.gm=out;
-};
+}
 function kmAt(t){ const p=kmSeries(); if(!p.length) return null; if(t<=p[0].t) return p[0].k; if(t>=p[p.length-1].t) return p[p.length-1].k; for(let i=1;i<p.length;i++) if(p[i].t>=t){ const a=p[i-1], b=p[i]; return a.k+(b.k-a.k)*(t-a.t)/((b.t-a.t)||1); } return null; }
 function kmInYear(y){ const p=kmSeries(); if(p.length<2) return null; const a=Math.max(new Date(y,0,1).getTime(), p[0].t), b=Math.min(new Date(y+1,0,1).getTime(), p[p.length-1].t); if(b<=a) return null; return Math.max(0, kmAt(b)-kmAt(a)); }
 function catBars(mov){ const by={}; for(const x of mov) by[x.cat]=(by[x.cat]||0)+x.eur; const tot=Object.values(by).reduce((a,v)=>a+v,0)||1;
@@ -8898,28 +8849,6 @@ function yearStack(mov){ const byY={}; for(const x of mov){ const y=(x.fecha||''
   const ys=Object.keys(byY).sort().slice(-8); const cats=Object.keys(CAT);
   const b=barChart(ys.map(y=>({l:y, segs:cats.filter(c=>byY[y][c]).map(c=>({v:byY[y][c], c:CAT[c][2]}))}))); const used=cats.filter(c=>ys.some(y=>byY[y][c]));
   const w=h2('<div></div>'); w.append(b, h2(`<div class="lgd">${used.map(c=>`<span><i style="background:${CAT[c][2]}"></i>${CAT[c][0]}</span>`).join('')}</div>`)); return w; }
-renderGastos2=function(){
-  const pb=$('#pbMant'); clearPb(pb); if(!ovl.hidden && ovl.parentNode===pb) _closePop();
-  v2Page(pb, w=>{
-    const mov=gastosMov(), tot=mov.reduce((a,x)=>a+x.eur,0), yr=String(new Date().getFullYear()), ty=mov.filter(x=>x.fecha.startsWith(yr)).reduce((a,x)=>a+x.eur,0), sinC=mov.filter(x=>x.cat!=='combustible').reduce((a,x)=>a+x.eur,0);
-    const p=kmSeries(), span=p.length>1?p[p.length-1].k-p[0].k:0;
-    w.append(h2(`<div class="stchips">${stat(eur(tot),'Gasto total','var(--accent)')}${stat(eur(ty),'Este año ('+yr+')','var(--info)')}${stat(eur(sinC),'Sin combustible','var(--soon)')}${stat(span>0&&tot?(tot/span).toLocaleString('es-ES',{maximumFractionDigits:3})+' €':'—','Coste por km','var(--ok)')}</div>`));
-    if(!mov.length){ w.append(emptyCard('euro','Aún no hay gastos. Se suman solos al marcar compras como compradas, registrar intervenciones con coste, repostajes, ITV, neumáticos, mejoras y siniestros.')); return; }
-    const cc=card2('Por categoría','layers'); cc.querySelector('.l2').replaceWith(catBars(mov)); w.append(cc);
-    const yc=card2('Gasto por año','calendar'); yc.querySelector('.l2').replaceWith(yearStack(mov)); w.append(yc);
-    const cats=[...new Set(mov.map(x=>x.cat))], f=UI.gcat&&cats.includes(UI.gcat)?UI.gcat:'*';
-    const lc=card2('Movimientos','receipt'); lc.insertBefore(chips([['*','Todos'],...cats.map(c=>[c,CAT[c][0]])], f, k=>{ UI.gcat=k; v2Rerender(); }), lc.querySelector('.l2'));
-    const L=mov.filter(x=>f==='*'||x.cat===f), ll=lc.querySelector('.l2');
-    for(const x of L.slice(0,60)){ const fn=x.k==='compra'?()=>compraSheet(x.o):x.k==='int'?()=>intSheet(x.o):x.k==='rep'?()=>recForm(MOD.repostajes, x.o):null;
-      const r=h2(`<${fn?'button type="button"':'div'} class="r2" style="--c:${CAT[x.cat][2]}${fn?'':';cursor:default'}"><span class="ic">${ic(CAT[x.cat][1])}</span><span class="tx"><b>${esc(x.t)}</b><small>${fmtDate(x.fecha)} · ${esc(x.s)}</small></span><span class="rt">${eur(x.eur)}</span></${fn?'button':'div'}>`);
-      if(fn) r.onclick=()=>{ uiSfx('tap'); fn(); }; ll.append(r); }
-    if(L.length>60) ll.append(h2(`<div class="empty2" style="padding:8px">Y ${L.length-60} más. En Estadísticas tienes el detalle por año.</div>`));
-    w.append(lc);
-    const ex=h2(`<div class="row3" style="justify-content:flex-start;flex-wrap:wrap"><button class="btn2" type="button">${ic('chart')}Estadísticas</button><button class="btn2 ghost" type="button">${ic('file')}Historial en PDF</button></div>`);
-    ex.children[0].onclick=()=>{ go('mas'); masOpen('stats'); }; ex.children[1].onclick=()=>$('#mPdf').click(); w.append(ex);
-  });
-};
-
 /* ---------- ESTADÍSTICAS ---------- */
 function renderStats(w){
   const mov=gastosMov(), tot=mov.reduce((a,x)=>a+x.eur,0), p=kmSeries(), pace=kmPace(), fc=fuelCalc();
@@ -10559,9 +10488,6 @@ V2SUBS.papeles.ivtm=renderIVTM;
   st.querySelector('button[data-sub="itv"]')?.after(b); }
 /* el IVTM pagado cuenta como gasto */
 CAT.impuestos=CAT.impuestos||['Impuestos (IVTM)','euro','#d4a72c'];
-{ const _gm=gastosMov; gastosMov=function(){ memoChk(); if(V2.memo.gm2) return V2.memo.gm2; const out=[..._gm()];
-    for(const x of S.v2.ivtm||[]) if(Number(x.importe)) out.push({fecha:x.fechaPago||((x.anio||'')+'-01-01'), eur:Number(x.importe), t:`IVTM ${x.anio||''}`, s:x.ayuntamiento||'Impuesto de circulación', k:'ivtm', cat:'impuestos'});
-    out.sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||'')); return V2.memo.gm2=out; }; }
 /* documentos vigentes: el más reciente de cada tipo (los antiguos no avisan) */
 function docsVig(){ const out=[], used=new Set(); for(const dx of DOCX){ const L=docsOf(dx); if(L[0]) out.push(L[0]); L.forEach(d=>used.add(d._id)); } for(const d of S.docs) if(!used.has(d._id)) out.push(d); return out; }
 
@@ -10677,7 +10603,6 @@ function lifePct(it){ const s=itemStatus(it); if(!s || !['ok','soon','due'].incl
   if(it.intervaloKm && s.kmLeft!=null) p=Math.max(p, 1-s.kmLeft/it.intervaloKm); if(it.intervaloMeses && s.daysLeft!=null) p=Math.max(p, 1-s.daysLeft/(it.intervaloMeses*30.44));
   return Math.max(0, Math.min(1.08, p)); }
 /* ---------- gráficos: las líneas se dibujan y las barras crecen ---------- */
-{ const _lc=lineChart; lineChart=function(pts,o){ const el=_lc(pts,o); el.querySelectorAll?.('path').forEach(p=>{ if(p.getAttribute('fill')==='none' || /stroke/.test(p.getAttribute('class')||'') || !p.getAttribute('fill')) { p.setAttribute('pathLength','1'); p.classList.add('drawln'); } }); return el; }; }
 
 /* (la transición entre secciones vive en 14-transiciones.js; la de aquí usaba la clase «pin», que es la de las notas del 3D, y encogía la pantalla) */
 
@@ -10829,22 +10754,11 @@ function navSfx(kind, dir){
 
 /* ====================== INTERFAZ SIMPLIFICADA (2.1.1, elegido por Sergio el 15-10-2026) ======================
    1 · Cuatro secciones abajo (Inicio · Coche · Taller · Papeles); «Más» pasa a un botón de la cabecera.
-   2 · Taller: el Plan lleva debajo lo ya hecho; Repostajes y Compra van dentro de Gastos.
    5 · Más solo con lo esencial; copia e importación en «Tus datos»; dossier, PDF y enlace en «Compartir»;
        notas en el modelo y piezas sin referencia, en el propio 3D. */
 
 /* ---------- 1 · «Taller» en vez de «Mantenimiento» ---------- */
 SECS.mant.t='Taller';
-
-/* ---------- 2 · Taller con tres pestañas: Plan (con lo hecho debajo), Ruedas y Gastos ---------- */
-const TALLER_GASTOS=['gastos','repost','compra'];
-{ const st=$('#stMant'); for(const k of ['hist','repost','compra']){ st?.querySelector(`button[data-sub="${k}"]`)?.remove(); const i=SECS.mant.subs.findIndex(x=>x[0]===k); if(i>=0) SECS.mant.subs.splice(i,1); } }
-/* ir al historial = ir al plan y bajar hasta «Trabajos hechos» */
-/* Gastos ▸ Resumen · Repostajes · Compra */
-function gastosChips(){ const pb=$('#pbMant'), w=pb?.querySelector(':scope > .wrap'); if(!w || UI.sec!=='mant' || !TALLER_GASTOS.includes(UI.sub.mant) || w.querySelector(':scope > .gchips')) return;
-  const c=chips([['gastos','Resumen'],['repost','Repostajes'],['compra','Compra']], UI.sub.mant, k=>{ if(k!==UI.sub.mant){ openSub('mant',k); setTop(); } }); c.classList.add('gchips'); w.prepend(c); }
-new MutationObserver(gastosChips).observe($('#pbMant'),{childList:true, subtree:false});
-{ const _os=openSub; openSub=function(sec, sub){ const r=_os(sec, sub); if(sec==='mant') requestAnimationFrame(gastosChips); return r; }; }
 
 /* ---------- 5 · Más con lo esencial ---------- */
 MAS2.datos=['Tus datos', w=>{ w.append(h2(`<p class="pintro">${ic('cloud')}<span>Tu copia de seguridad, los archivos de importación de ElsaWin y ETKA y el asistente para empezar.</span></p>`));
@@ -11476,29 +11390,6 @@ MAS2.diag=['Diagnóstico por síntomas', renderDiag]; MAS_T.diag='Diagnóstico p
 IC.fan=IC.fan||'<path d="M12 12c0-4 1-8 4-8s2 5-4 8Zm0 0c4 0 8 1 8 4s-5 2-8-4Zm0 0c0 4-1 8-4 8s-2-5 4-8Zm0 0c-4 0-8-1-8-4s5-2 8 4Z"/>';
 IC.cloud=IC.cloud||'<path d="M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 9a4.5 4.5 0 0 0 1 9Z"/>';
 
-/* ====================== PRECIO DEL COCHE E INVERSIÓN TOTAL ======================
-   config/coche.precioCompra (+ fechaCompra): lo que costó el coche. En Gastos ▸ Resumen se ve
-   precio + todo lo gastado después = inversión total. */
-function cocheEdit(){
-  const c=S.cfg||{};
-  const box=h2(`<div><h3>Precio de compra del coche</h3><p class="muted2" style="margin:-4px 0 10px">Se suma a lo que llevas gastado para ver la inversión total.</p>
-    <label class="wzlab">Precio pagado (€)</label><input class="inp2" id="ccP" type="number" inputmode="decimal" min="0" step="1" value="${esc(c.precioCompra??'')}" placeholder="0">
-    <label class="wzlab">Fecha de compra</label><input class="inp2" id="ccF" type="date" value="${esc(c.fechaCompra||'')}">
-    <div class="row3"><button class="btn2 ghost" type="button" id="ccNo">Cancelar</button><button class="btn2" type="button" id="ccOk">${ic('check')}Guardar</button></div></div>`);
-  box.querySelector('#ccNo').onclick=closeSheet;
-  box.querySelector('#ccOk').onclick=async()=>{ const v=box.querySelector('#ccP').value; await S.db.doc('config/coche').set({...(S.cfg||{}), precioCompra:v===''?null:Number(v), fechaCompra:box.querySelector('#ccF').value||null}); closeSheet(); uiSfx('save'); toast('Precio del coche guardado'); };
-  sheet(box, b=>b.classList.add('v2f'));
-}
-{ const _rg=renderGastos2; renderGastos2=function(...a){ const r=_rg(...a); const w=$('#pbMant')?.querySelector('.wrap'); if(!w || !S.cfg) return r;
-    const pc=Number(S.cfg.precioCompra)||0, gast=gastosMov().filter(x=>!S.cfg.fechaCompra || !x.fecha || x.fecha>=S.cfg.fechaCompra).reduce((s,x)=>s+x.eur,0);
-    const c=h2(`<div class="card2 cochecost"><h3>${ic('car')}El coche<span class="cnt">${pc?eur(pc+gast):'—'}</span></h3>
-      <div class="ccrow"><span>Precio de compra${S.cfg.fechaCompra?` <small>(${fmtDate(S.cfg.fechaCompra)})</small>`:''}</span><b>${pc?eur(pc):'Sin apuntar'}</b></div>
-      <div class="ccrow"><span>Gastado desde entonces</span><b>${eur(gast)}</b></div>
-      <div class="ccrow tot"><span>Inversión total</span><b>${eur(pc+gast)}</b></div>
-      <button type="button" class="btn2 ghost sm">${ic('edit')}${pc?'Cambiar precio':'Apuntar lo que costó'}</button></div>`);
-    c.querySelector('button').onclick=()=>{ uiSfx('tap'); cocheEdit(); };
-    const st=w.querySelector('.stchips'); if(st) st.after(c); else w.prepend(c); return r; }; }
-
 /* ====================== 2.2: PAQUETE DE MEJORAS ======================
    Duplicados en Trabajos hechos · avisos al importar · valor del coche y coste por km real · aviso de km ·
    uso sin conexión · Inicio con lo urgente · buscador con pares y pasos · accesos rápidos en Taller ·
@@ -11526,7 +11417,7 @@ const vCmp=(a,b)=>{ const x=String(a).split(/[.-]/).map(n=>parseInt(n)||0), y=St
     await S.db.collection('lotes').doc(res.id).set({...rec, docs}); return res; }; }
 
 /* ---------- 6 y 7 · valor del coche y coste por km real ---------- */
-cocheEdit=function(){
+function cocheEdit(){
   const c=S.cfg||{};
   const box=h2(`<div><h3>El coche: compra y valor</h3><p class="muted2" style="margin:-4px 0 10px">Con esto la app calcula la inversión total, lo que te cuesta de verdad y el coste por kilómetro.</p>
     <label class="wzlab">Precio pagado (€)</label><input class="inp2" id="ccP" type="number" inputmode="decimal" min="0" step="1" value="${esc(c.precioCompra??'')}" placeholder="0">
@@ -11538,18 +11429,10 @@ cocheEdit=function(){
   box.querySelector('#ccNo').onclick=closeSheet;
   box.querySelector('#ccOk').onclick=async()=>{ await S.db.doc('config/coche').set({...(S.cfg||{}), precioCompra:n('#ccP'), fechaCompra:box.querySelector('#ccF').value||null, kmCompra:n('#ccK'), valorActual:n('#ccV'), valorFecha:n('#ccV')!=null?todayISO():null}); closeSheet(); uiSfx('save'); toast('Datos del coche guardados'); };
   sheet(box, b=>b.classList.add('v2f'));
-};
+}
 function cocheNums(){ const c=S.cfg||{}, pc=Number(c.precioCompra)||0, mov=gastosMov(), desde=c.fechaCompra||'', gast=mov.filter(x=>!desde || !x.fecha || x.fecha>=desde).reduce((s,x)=>s+x.eur,0);
   const val=c.valorActual!=null&&c.valorActual!==''?Number(c.valorActual):null, km=num(c.kmActual), k0=num(c.kmCompra), rec=km!=null&&k0!=null?km-k0:null;
   const real=pc+gast-(val??0); return {pc, gast, inv:pc+gast, val, real, rec, ckm:rec>0?(val!=null?real:pc+gast)/rec:null}; }
-{ const _rg=renderGastos2; renderGastos2=function(...a){ const r=_rg(...a); const c=$('#pbMant')?.querySelector('.cochecost'); if(!c) return r; const N=cocheNums();
-    const extra=h2(`<div>${N.val!=null?`<div class="ccrow"><span>Lo que vale hoy${S.cfg.valorFecha?` <small>(${fmtDate(S.cfg.valorFecha)})</small>`:''}</span><b>${eur(N.val)}</b></div><div class="ccrow tot"><span>Lo que te cuesta de verdad</span><b>${eur(N.real)}</b></div>`:''}
-      ${N.ckm!=null?`<div class="ccrow"><span>Coste por km, todo incluido <small>(${nf.format(N.rec)} km desde la compra)</small></span><b>${N.ckm.toLocaleString('es-ES',{maximumFractionDigits:2})} €/km</b></div>`:''}</div>`);
-    c.querySelector('.ccrow.tot').after(...extra.children); const bt=c.querySelector('button'); bt.innerHTML=ic('edit')+(S.cfg.precioCompra?'Editar compra y valor':'Apuntar lo que costó');
-    if(!S.cfg.kmCompra || S.cfg.valorActual==null) c.append(h2(`<p class="muted2 cchint">${!S.cfg.kmCompra?'Apunta los km al comprarlo para ver el coste por km. ':''}${S.cfg.valorActual==null?'Pon lo que vale hoy para ver lo que te cuesta de verdad.':''}</p>`));
-    /* 13 · gráfico de gasto acumulado */
-    const g=accChart(); if(g){ const k=card2('Gasto acumulado','chart'); k.querySelector('.l2').replaceWith(g); c.after(k); }
-    return r; }; }
 function accChart(){ const c=S.cfg||{}, pc=Number(c.precioCompra)||0, mov=[...gastosMov()].map(x=>x.fecha?x:{...x, fecha:todayISO()}).sort((a,b)=>a.fecha.localeCompare(b.fecha)); if(!mov.length && !pc) return null;
   const t0=c.fechaCompra||mov[0]?.fecha, pts=[[t0, pc]]; let acc=pc; for(const x of mov){ acc+=x.eur; pts.push([x.fecha<t0?t0:x.fecha, acc]); }   /* todo cuenta; lo fechado antes de la compra se pone el día de la compra */ pts.push([todayISO(), acc]); if(pts.length<2) return null;
   const T=s=>new Date(s+'T12:00:00').getTime(), a=T(pts[0][0]), b=Math.max(a+864e5, T(pts[pts.length-1][0])), mx=Math.max(...pts.map(p=>p[1]))||1, W=600, H=180, P=8;
@@ -11604,7 +11487,7 @@ function ticketParse(txt){ const L=txt.split(/\n+/).map(s=>s.trim()).filter(Bool
   let fecha=null; for(const l of L){ const m=l.match(/(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{2,4})/); if(m){ let y=+m[3]; if(y<100) y+=2000; const d=`${y}-${String(+m[2]).padStart(2,'0')}-${String(+m[1]).padStart(2,'0')}`; if(!isNaN(new Date(d))){ fecha=d; break; } } }
   const tienda=L.find(l=>/[a-záéíóúñ]{3}/i.test(l) && !/factura|ticket|fecha|cif|nif|tel|www|calle|c\/|avda/i.test(l) && l.length<=40)||'';
   return {total, fecha, tienda}; }
-{ const _cs=compraSheet; compraSheet=function(c, mode){ const r=_cs(c, mode); const b=document.querySelector('#shBox'); const p=b?.querySelector('#cpP'); if(!p || b.querySelector('.ocrbtn')) return r;
+function compraOcr(b){ const p=b?.querySelector('#cpP'); if(!p || b.querySelector('.ocrbtn')) return;
     const bt=h2(`<label class="btn2 ghost ocrbtn">${ic('camera')}<span>Leer el ticket (foto o galería)</span><input type="file" accept="image/*" hidden></label>`), st=h2('<p class="muted2 ocrst" hidden></p>');
     bt.querySelector('input').onchange=async e=>{ const f=e.target.files?.[0]; if(!f) return; st.hidden=false; st.textContent='Leyendo el ticket… (la primera vez tarda un poco)';
       try{ const w=await ocrLoad(); const {data}=await w.recognize(f); const t=ticketParse(data.text||'');
@@ -11612,7 +11495,7 @@ function ticketParse(txt){ const L=txt.split(/\n+/).map(s=>s.trim()).filter(Bool
         const a=b.querySelector('#cpA'); if(a){ try{ const dt=new DataTransfer(); for(const x of a.files) dt.items.add(x); dt.items.add(f); a.files=dt.files; }catch{} }
         st.textContent=`Leído: ${t.total!=null?eur(t.total):'sin importe'}${t.fecha?' · '+fmtDate(t.fecha):''}${t.tienda?' · '+t.tienda:''}. Revísalo antes de guardar; la foto se adjunta.`; uiSfx('tick');
       }catch(err){ st.textContent='No se pudo leer el ticket (hace falta conexión la primera vez). Rellénalo a mano.'; } };
-    (p.previousElementSibling||p).before(bt, st); return r; }; }
+    (p.previousElementSibling||p).before(bt, st); }
 
 /* ====================== PENDIENTES DEL TALLER (2.3.0) ======================
    Lo que te encuentras mientras trabajas y no tiene que ver con la reparación: un tornillo que falta,
@@ -12054,7 +11937,11 @@ function v3go(id, opts={}){
   const e={k:P?'page':'leaf', id, title:(P||L).title, data:opts.data, render:opts.render};
   uiSfx('tap');
   if(tab!==V3.tab){ V3.tab=tab; V3.st[tab]=[V3.st[tab][0], e]; v3show(e,'tab'); }
-  else { const s=V3.st[tab], top=v3top(); if(top.id===id && top.k===e.k){ top.render=opts.render; v3show(top,'none'); return; } s.push(e); v3show(e,'push'); }
+  else { const s=V3.st[tab], top=v3top(); if(top.id===id && top.k===e.k){ top.render=opts.render; v3show(top,'none'); return; }
+    /* si esa pantalla ya está más abajo en la pila, se vuelve a ella (sin repetirla: Compra › Movimientos › Compra…) */
+    const at=s.findIndex((x,i)=>i>0 && x.id===id && x.k===e.k);
+    if(at>0){ for(const g of s.splice(at+1)) if(g.el) setTimeout(()=>g.el.remove(), RM?0:460); const x=s[at]; x.render=opts.render; x.data=opts.data??x.data; x.stale=true; v3show(x,'pop'); return; }
+    s.push(e); v3show(e,'push'); }
 }
 function v3tab(t){
   if(t==='me') return v3go('ajustes');
@@ -12303,10 +12190,6 @@ Object.assign(V3.leaves,{
   guias:LF('coche','Guías y manuales',viaMas('procs')),
   galeria:LF('coche','Galería',()=>go('coche','galeria')),
   mejoras:LF('coche','Mejoras',()=>go('coche','mejoras')),
-  compra:LF('gastos','Lista de la compra',()=>go('mant','compra'),{same:['resumen','repost'],act:['plus','Añadir',(ev,b)=>v3menu(b,[['receipt','Compra ya hecha',()=>compraSheet(null,'hecha'),'var(--v-green)'],['cart','Añadir a la lista de la compra',()=>compraSheet(null),'var(--v-teal)']])]}),
-  resumen:LF('gastos','Movimientos',()=>go('mant','gastos'),{same:['compra','repost']}),
-  repost:LF('gastos','Repostajes',()=>go('mant','repost'),{same:['compra','resumen'],act:['plus','Repostaje',()=>recForm(MOD.repostajes)]}),
-  stats:LF('gastos','Estadísticas',viaMas('stats')),
   p_docs:LF('papeles','Documentos',()=>go('papeles','docs')),
   p_itv:LF('papeles','ITV',()=>go('papeles','itv')),
   p_garant:LF('papeles','Garantías',()=>go('papeles','garant')),
@@ -13017,6 +12900,80 @@ function btnRows(root){
     const last=!r.nextElementSibling || r.classList.contains('dacts') || r.classList.contains('recacts') || r.classList.contains('isacts'); if(last) btnRow(r); } }
 { let q=false; const run=()=>{ q=false; for(const id of ['shBox','wzBox']){ const el=document.getElementById(id); if(el) btnRows(el); } const pg=document.querySelector('.v3pg.on'); if(pg) btnRows(pg); };
   new MutationObserver(()=>{ if(!q){ q=true; requestAnimationFrame(run); } }).observe(document.body,{childList:true, subtree:true}); }
+
+/* ====================== GASTOS (4.0 · fase 3) ======================
+   Pantallas propias, sin la página 2.x de Taller ▸ Gastos ni sus capas:
+     Lista de la compra (compra) · por comprar, comprado sin montar e historial; añadir rápido; deslizar para actuar
+     Movimientos (resumen)       · el coche (compra, valor, coste real y por km), totales, filtro y cada gasto por años
+   Repostajes y Estadísticas son páginas que pintan con su función 2.x (renderRepost / renderStats).
+   Las hojas de siempre: compraSheet (añadir, comprar, compra ya hecha, editar), montarCompra y cocheEdit. */
+
+/* ====================== LISTA DE LA COMPRA ====================== */
+const cmpN=x=>esc(x.nombre)+(x.cantidad>1?` <em>×${x.cantidad}</em>`:'');
+function cmpRow(x, kind){
+  const r=h2(`<div class="vrow vcmp vswipe k-${kind}"><button type="button" class="vck" aria-label="${kind==='pend'?'Marcar como comprado':kind==='comp'?'Marcar como montado':'Ver'}">${kind==='pend'?'':ic(kind==='comp'?'check':'checkc')}</button>
+    <button type="button" class="vtx"><b>${cmpN(x)}</b><small>${esc([x.ref, kind==='pend'?x.notas:fmtDate(x.fechaCompra), kind!=='pend'?x.tienda:'', x.montaje==='taller'?'lo monta un taller':''].filter(Boolean).join(' · '))}</small></button>
+    ${kind==='comp'?`<button type="button" class="btn2 sm vmnt">${ic('wrench')}Montar</button>`:x.precio!=null&&kind!=='pend'?`<span class="vr">${eur(Number(x.precio))}</span>`:''}</div>`);
+  r.querySelector('.vtx').onclick=()=>{ uiSfx('tap'); compraSheet(x); };
+  if(kind==='pend'){ r.querySelector('.vck').onclick=()=>{ uiSfx('tap'); compraSheet(x,'comprar'); }; r._swR={l:'Comprado', i:'check', fn:()=>compraSheet(x,'comprar')}; }
+  else if(kind==='comp'){ const m=()=>montarCompra(x); r.querySelector('.vck').onclick=m; r.querySelector('.vmnt').onclick=m; r._swR={l:'Montado', i:'wrench', fn:m}; }
+  else r.querySelector('.vck').onclick=()=>compraSheet(x);
+  r._swL={l:'Borrar', i:'x', danger:true, fn:async()=>{ if(!confirm(`¿Borrar «${x.nombre}» de la compra?`)) return; const bk=stripId2(x); await S.db.collection('compras').doc(x._id).delete(); toast('Borrado de la compra', null, {label:'Deshacer', fn:()=>S.db.collection('compras').doc(x._id).set(bk)}); }};
+  return r;
+}
+V3.pages.compra={tab:'gastos', title:'Lista de la compra', sub:()=>{ const n=(S.compras||[]).filter(c=>c.estado==='pendiente').length; return n?pl(n,'cosa por comprar','cosas por comprar'):'Nada por comprar'; },
+  act:['plus','Añadir',(ev,b)=>v3menu(b,[['receipt','Compra ya hecha',()=>compraSheet(null,'hecha'),'var(--v-green)'],['cart','Añadir a la lista de la compra',()=>compraSheet(null),'var(--v-teal)']])], render(w){
+  const all=S.compras||[], pend=all.filter(x=>x.estado==='pendiente').sort((a,b)=>COLL.compare(a.nombre||'',b.nombre||'')),
+        comp=all.filter(x=>x.estado==='comprado').sort((a,b)=>(b.fechaCompra||'').localeCompare(a.fechaCompra||'')),
+        hist=all.filter(x=>x.estado!=='pendiente').sort((a,b)=>(b.fechaCompra||'').localeCompare(a.fechaCompra||'')), tot=hist.reduce((a,x)=>a+(Number(x.precio)||0),0);
+  /* añadir rápido */
+  const add=h2(`<section class="vgrp"><div class="vcard vqadd"><input class="inp2" list="cpList3" placeholder="Añadir a la lista: pieza o artículo…" autocomplete="off"><input class="inp2 vqn" type="number" inputmode="numeric" min="1" value="1" aria-label="Cantidad"><button type="button" class="btn2">${ic('plus')}</button><datalist id="cpList3"></datalist></div></section>`);
+  { const dl=add.querySelector('datalist'); [...new Set([...S.piezasL.map(x=>x.nombre), ...S.mant.map(x=>x.nombre)])].sort(COLL.compare).forEach(n=>dl.append(new Option(n)));
+    const [inp, qty]=add.querySelectorAll('input'), b=add.querySelector('button');
+    const go2=async()=>{ const n=inp.value.trim(); if(!n){ inp.focus(); return; } b.disabled=true; try{ await S.db.collection('compras').add({nombre:n, cantidad:Math.max(1,Number(qty.value)||1), estado:'pendiente', creado:new Date().toISOString()}); toast(`«${n}» añadido a la compra`); }catch{ toast('No se pudo añadir','err'); } b.disabled=false; };
+    b.onclick=go2; inp.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); go2(); } }; }
+  w.append(add);
+  const grp=(title, list, kind, empty, foot)=>{ const g=vGroup(title, list.map(x=>cmpRow(x,kind)), {foot}); if(!list.length) g.querySelector('.vlist').append(h2(`<div class="vcalm sm">${ic('checkc')}<div><small>${empty}</small></div></div>`)); w.append(g); };
+  grp(`Por comprar${pend.length?' · '+pend.length:''}`, pend, 'pend', 'Nada pendiente. Añade arriba lo que necesites.', pend.length?'Toca el círculo o desliza a la derecha cuando lo compres.':'');
+  grp(`Comprado, sin montar${comp.length?' · '+comp.length:''}`, comp, 'comp', 'Lo que compres aparece aquí hasta que lo montes.');
+  if(hist.length) grp('Historial de compras', hist.slice(0,60), 'hist', '', `${pl(hist.length,'compra')} · ${eur(tot)}`);
+}};
+
+/* ====================== MOVIMIENTOS ====================== */
+const MOVF=[['todo','Todo'],['piezas','Piezas'],['taller','Taller'],['combustible','Combustible'],['otros','Otros']];
+const movCat=x=>['piezas','taller','combustible'].includes(x.cat)?x.cat:'otros';
+function movOpen(x){ const o=x.o; if(!o) return; if(x.k==='compra') compraSheet(o); else if(x.k==='int') intSheet(o); else if(x.k==='rep') recForm(MOD.repostajes, o); }
+V3.pages.resumen={tab:'gastos', title:'Movimientos', sub:()=>pl(gastosMov().length,'gasto'), render(w){
+  const mov=gastosMov(), N=cocheNums(), c=S.cfg||{}, y=String(new Date().getFullYear()), f=UI.movF||'todo';
+  /* el coche */
+  const rows=[['Precio de compra'+(c.fechaCompra?` <small>${fmtDate(c.fechaCompra)}</small>`:''), N.pc?eur(N.pc):'Sin apuntar'], ['Gastado desde entonces', eur(N.gast)], ['Inversión total', eur(N.inv), 'tot']];
+  if(N.val!=null) rows.push(['Lo que vale hoy'+(c.valorFecha?` <small>${fmtDate(c.valorFecha)}</small>`:''), eur(N.val)], ['Lo que te cuesta de verdad', eur(N.real), 'tot']);
+  if(N.ckm!=null) rows.push([`Coste por km, todo incluido <small>${nf.format(N.rec)} km desde la compra</small>`, N.ckm.toLocaleString('es-ES',{maximumFractionDigits:2})+' €/km']);
+  const car=h2(`<section class="vgrp"><h2 class="vgh"><span>El coche</span><button type="button">${N.pc?'Editar':'Apuntar'}</button></h2><div class="vcard vccost">${rows.map(([k,v,cls])=>`<div class="${cls||''}"><span>${k}</span><b>${v}</b></div>`).join('')}</div>
+    ${!c.kmCompra || c.valorActual==null?`<p class="vfoot">${!c.kmCompra?'Apunta los km al comprarlo para ver el coste por km. ':''}${c.valorActual==null?'Pon lo que vale hoy para ver lo que te cuesta de verdad.':''}</p>`:''}</section>`);
+  car.querySelector('.vgh button').onclick=()=>{ uiSfx('tap'); cocheEdit(); }; w.append(car);
+  /* totales */
+  const sum=k=>mov.filter(x=>k(x)).reduce((a,x)=>a+x.eur,0);
+  w.append(h2(`<div class="vtots">${[[sum(()=>true),'Gasto total',V3C.orange],[sum(x=>(x.fecha||'').startsWith(y)),'En '+y,V3C.blue],[sum(x=>x.cat==='piezas'),'Piezas',V3C.teal],[sum(x=>x.cat==='taller'),'Taller y mano de obra',V3C.indigo]].map(([v,l,col])=>`<div style="--c:${col}"><b>${eur(v)}</b><span>${l}</span></div>`).join('')}</div>`));
+  /* filtro y lista por años */
+  const seg=h2(`<div class="vseg vsegs">${MOVF.map(([k,l])=>{ const n=k==='todo'?mov.length:mov.filter(x=>movCat(x)===k).length; return `<button type="button" data-k="${k}" aria-pressed="${f===k}">${l}${n&&k!=='todo'?` <em>${n}</em>`:''}</button>`; }).join('')}</div>`);
+  seg.querySelectorAll('button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); UI.movF=b.dataset.k; v3render(v3top()); }); w.append(seg);
+  const L=mov.filter(x=>f==='todo'||movCat(x)===f);
+  if(!L.length) w.append(h2(`<div class="vcalm">${ic('receipt')}<div><b>Sin gastos${f==='todo'?' todavía':' de este tipo'}</b><small>Se suman al marcar compras como compradas, al registrar trabajos con coste y al apuntar repostajes, ITV, neumáticos…</small></div></div>`));
+  for(const yy of [...new Set(L.map(x=>(x.fecha||'').slice(0,4)||'Sin fecha'))]){
+    const Y=L.filter(x=>((x.fecha||'').slice(0,4)||'Sin fecha')===yy);
+    w.append(vGroup(yy, Y.slice(0,80).map(x=>{ const [,i,col]=CAT[x.cat]||CAT.piezas; return vRow({i, c:col, t:x.t, s:[fmtDate(x.fecha), x.s].filter(Boolean).join(' · '), r:eur(x.eur), fn:x.o&&['compra','int','rep'].includes(x.k)?()=>movOpen(x):null}); }),
+      {foot:`${pl(Y.length,'gasto')} · ${eur(Y.reduce((a,x)=>a+x.eur,0))}`}));
+  }
+  w.append(vGroup('',[vRow({i:'chart', c:V3C.purple, t:'Estadísticas', s:'Por año, por km y por categoría', fn:()=>v3go('stats')}), vRow({i:'file', c:V3C.gray, t:'Historial en PDF', s:'Para imprimir o enviar', fn:()=>$('#mPdf').click()})]));
+}};
+
+/* ====================== REPOSTAJES Y ESTADÍSTICAS (contenido 2.x) ====================== */
+Object.assign(V3.pages,{
+  repost:v2Page3('Repostajes', w=>renderRepost(w), {tab:'gastos', act:['plus','Repostaje',()=>recForm(MOD.repostajes)]}),
+  stats:v2Page3('Estadísticas', w=>renderStats(w), {tab:'gastos'}),
+});
+for(const k of ['compra','resumen','repost','stats']) delete V3.leaves[k];
 
 
 connectDb();
