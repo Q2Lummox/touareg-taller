@@ -1,15 +1,19 @@
 {
- "version": "4.0.0-beta.8",
- "fecha": "2026-10-19",
+ "version": "4.0.0-beta.9",
+ "fecha": "2026-10-20",
  "notas": [
-  "Hoy: la barra de salud del coche va en una cápsula oscura, con texto más grande y barra más gruesa, para que se lea sobre la foto"
+  "Desplegables que no se cortan: Gráficos, Capas, Sección, Pieza, Vista y Despiece se colocan dentro de la pantalla y por encima de todo",
+  "Ordenador: la barra lateral ya no tapa el borde izquierdo de las pantallas",
+  "Móvil: el menú de Gráficos se desplaza si no cabe"
  ],
  "historial": [
   {
-   "version": "4.0.0-beta.8",
-   "fecha": "2026-10-19",
+   "version": "4.0.0-beta.9",
+   "fecha": "2026-10-20",
    "notas": [
-    "Hoy: la barra de salud del coche va en una cápsula oscura, con texto más grande y barra más gruesa, para que se lea sobre la foto"
+    "Desplegables que no se cortan: Gráficos, Capas, Sección, Pieza, Vista y Despiece se colocan dentro de la pantalla y por encima de todo",
+    "Ordenador: la barra lateral ya no tapa el borde izquierdo de las pantallas",
+    "Móvil: el menú de Gráficos se desplaza si no cabe"
    ]
   }
  ]

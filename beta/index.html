@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.0.0-beta.8">
+<meta name="app-version" content="4.0.0-beta.9">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2701,7 +2701,7 @@ body.v3drag .v3bar::before,body.v3drag .v3bt,body.v3drag .v3back span{transition
 .v3badge.soon{background:var(--v-orange)}.v3badge.info{background:var(--v-gray)}
 .v3brand,.v3tabs .v3me{display:none}
 @media (min-width:901px){
-  .v3tabs{top:0;right:auto;width:var(--railw);height:auto;flex-direction:column;padding:calc(var(--sa-t) + 14px) 12px 16px;border-top:0;border-right:.5px solid var(--v-sep);gap:2px;background:var(--v-bg2)}
+  .v3tabs{top:0;right:auto;width:var(--railw);box-sizing:border-box;height:auto;flex-direction:column;padding:calc(var(--sa-t) + 14px) 12px 16px;border-top:0;border-right:.5px solid var(--v-sep);gap:2px;background:var(--v-bg2)}
   .v3brand{display:flex;align-items:center;gap:10px;padding:4px 10px 18px}.v3brand b{font:700 19px var(--v-font);letter-spacing:-.02em}
   .v3tabs button{flex:none;flex-direction:row;justify-content:flex-start;gap:12px;padding:9px 10px;border-radius:10px;font:500 15px var(--v-font);color:var(--v-txt)}
   .v3tabs button svg{width:22px;height:22px;color:var(--accent)}
@@ -3241,6 +3241,11 @@ body.v3 .pdquick small{color:#fff!important;opacity:.88}
 .fxhealth i{height:8px;border-radius:4px;background:#ffffff38}
 .fxhealth em{border-radius:4px}
 body.v3.light .fxhealth{background:rgba(8,10,14,.62)}
+
+/* desplegables colocados por 11-emergentes.js: submenús de Gráficos hacia la izquierda si a la derecha no caben */
+.mpanel.popL .mpanel.fly{left:auto;right:calc(100% + 6px)}
+.mpanel.popL .mpanel.fly::before{left:auto;right:-14px}
+@media (max-width:900px){ body.v3 .v3act .mb>.mpanel{max-height:calc(100dvh - var(--t2h) - var(--sa-t) - var(--navh) - var(--sa-b) - 16px);overflow-y:auto;overscroll-behavior:contain} }
 </style>
 
 </head>
@@ -3283,7 +3288,7 @@ body.v3.light .fxhealth{background:rgba(8,10,14,.62)}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.0.0-beta.8</span>
+  <span class="spver">v4.0.0-beta.9</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6656,7 +6661,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.0.0-beta.8';
+window.APP_VERSION='4.0.0-beta.9';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6690,7 +6695,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.0.0-beta.8';
+  const APP_VERSION='4.0.0-beta.9';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -12862,6 +12867,55 @@ Object.assign(V3.pages,{
   m_pend:ovlPg('Piezas del 3D sin referencia','pend'),
 });
 for(const k of Object.keys(V3.leaves)) if(k.startsWith('m_')) delete V3.leaves[k];
+
+/* ====================== DESPLEGABLES QUE NO SE CORTAN (4.0) ======================
+   Los menús que cuelgan de un botón (Gráficos, Capas, Sección, Pieza, Vista, Despiece…) nacieron para la
+   pantalla del 3D a lo ancho; dentro de un panel con scroll o pegados al borde derecho se cortaban o quedaban
+   debajo de lo que venía después. Al abrirse, se colocan sobre todo lo demás (position:fixed), pegados a su
+   botón, sin salirse de la pantalla: si no caben a la derecha se alinean al otro lado, si no caben debajo se
+   abren hacia arriba, y si tampoco, se recortan con scroll. Los submenús de Gráficos se abren hacia la
+   izquierda cuando a la derecha no hay sitio.
+   En el móvil, Capas/Sección/Pieza y el menú de Gráficos ya son hojas fijas (CSS) y no se tocan. */
+const POP={sel:'.ddmenu, .mpanel:not(.fly), .vmenu, .tpop', props:['position','left','top','right','bottom','width','maxHeight','overflowY','zIndex'], M:8};
+const popSheet=m=>innerWidth<=900 && m.matches('.ddmenu, .mpanel');
+function popAnchor(m){
+  const box=m.closest('.dd, .mb, .tpopw, #vdrop') || m.parentElement;
+  return {box, btn:box.querySelector(':scope > .ddbtn, :scope > .mbtn, :scope > button') || box};
+}
+function popReset(m){ for(const k of POP.props) m.style[k]=''; m.classList.remove('popL'); }
+function popPlace(m){
+  if(!m || m.hidden || !m.isConnected) return;
+  popReset(m); if(popSheet(m)) return;
+  const {box, btn}=popAnchor(m), r=btn.getBoundingClientRect(), M=POP.M;
+  if(!r.width && !r.height) return;
+  const top0=(document.querySelector('.v3bar')?.getBoundingClientRect().bottom||0);   /* que no quede bajo la barra de arriba */
+  const bot0=innerHeight-(parseFloat(getComputedStyle(document.body).getPropertyValue('--navh'))||0);
+  Object.assign(m.style,{position:'fixed', zIndex:'9450', left:'0px', top:'0px', right:'auto', bottom:'auto'});
+  if(m.matches('.ddmenu')) m.style.width=Math.max(box.getBoundingClientRect().width, 200)+'px';
+  /* un antepasado con transform/filtro hace de referencia para «fixed»: se mide dónde ha caído (0,0) y se descuenta */
+  const o=m.getBoundingClientRect(), ox=o.left, oy=o.top, w=o.width, hNat=m.scrollHeight;
+  let x=r.left; if(x+w>innerWidth-M) x=r.right-w; x=Math.max(M, Math.min(innerWidth-w-M, x));
+  const below=bot0-r.bottom-4-M, above=r.top-4-Math.max(M, top0+M);
+  let y, room;
+  if(hNat<=below || below>=above){ y=r.bottom+4; room=below; } else { room=above; y=r.top-4-Math.min(hNat, room); }
+  m.style.left=(x-ox)+'px'; m.style.top=(y-oy)+'px';
+  if(hNat>room){ m.style.maxHeight=Math.max(120, room)+'px'; m.style.overflowY='auto'; }
+  /* submenús de Gráficos (a la derecha por defecto): si no caben, a la izquierda */
+  if(m.matches('.mpanel') && m.querySelector('.mpanel.fly')){
+    const flyW=Math.max(300, ...[...m.querySelectorAll('.mpanel.fly')].map(f=>f.offsetWidth||0));
+    if(x+w+6+flyW>innerWidth-M) m.classList.add('popL');
+  }
+}
+function popAll(){ document.querySelectorAll(POP.sel).forEach(m=>{ if(!m.hidden) popPlace(m); }); }
+new MutationObserver(muts=>{
+  for(const mu of muts){ const t=mu.target; if(t.nodeType===1 && t.matches?.(POP.sel)){ if(t.hidden) popReset(t); else popPlace(t); } }
+}).observe(document.body,{subtree:true, attributes:true, attributeFilter:['hidden']});
+/* lo que cambia el tamaño del menú (filtros, listas que se rellenan) o de la ventana lo vuelve a colocar */
+let POPT=0; const popSoon=()=>{ cancelAnimationFrame(POPT); POPT=requestAnimationFrame(popAll); };
+addEventListener('resize', popSoon);
+addEventListener('scroll', e=>{ if(!(e.target.nodeType===1 && e.target.matches?.(POP.sel))) popSoon(); }, true);
+new MutationObserver(muts=>{ if(muts.some(mu=>{ const t=mu.target.nodeType===1?mu.target:mu.target.parentElement; return t?.closest?.(POP.sel); })) popSoon(); })
+  .observe(document.body,{subtree:true, childList:true});
 
 
 connectDb();
