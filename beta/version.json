@@ -1,19 +1,19 @@
 {
- "version": "4.0.0-beta.6",
+ "version": "4.0.0-beta.7",
  "fecha": "2026-10-19",
  "notas": [
-  "Fase 4 de la reconstrucción: Papeles y Coche con pantallas propias",
-  "Documentos, ITV, garantías, siniestros, impuesto, archivos, datos del coche, ficha técnica, piezas, electricidad, guías, galería y mejoras ya no pasan por las secciones ni paneles antiguos",
-  "Botón + propio en cada pantalla (añadir documento, ITV, garantía, foto, mejora…)"
+  "Fase 5 de la reconstrucción: limpieza final",
+  "Ajustes, avisos, copia, importar, compartir, atajos, acerca de, notas en el modelo… con pantallas propias",
+  "Buscador y avisos sin capas; fuera las pestañas, la portada de «Más» y los estilos antiguos que ya no se usaban"
  ],
  "historial": [
   {
-   "version": "4.0.0-beta.6",
+   "version": "4.0.0-beta.7",
    "fecha": "2026-10-19",
    "notas": [
-    "Fase 4 de la reconstrucción: Papeles y Coche con pantallas propias",
-    "Documentos, ITV, garantías, siniestros, impuesto, archivos, datos del coche, ficha técnica, piezas, electricidad, guías, galería y mejoras ya no pasan por las secciones ni paneles antiguos",
-    "Botón + propio en cada pantalla (añadir documento, ITV, garantía, foto, mejora…)"
+    "Fase 5 de la reconstrucción: limpieza final",
+    "Ajustes, avisos, copia, importar, compartir, atajos, acerca de, notas en el modelo… con pantallas propias",
+    "Buscador y avisos sin capas; fuera las pestañas, la portada de «Más» y los estilos antiguos que ya no se usaban"
    ]
   }
  ]

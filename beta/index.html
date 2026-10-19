@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.0.0-beta.6">
+<meta name="app-version" content="4.0.0-beta.7">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -712,7 +712,7 @@ body.big .radial{scale:1.15}
 
 body.ui2{background:#0a0c0f;font:15px/1.5 var(--f-body);-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
 body.ui2 input,body.ui2 select,body.ui2 textarea{font-size:16px}
-body.ui2 :is(button,.mi,.seg button,.nav2 button):active{transform:scale(.97)}
+body.ui2 :is(button,.mi,.seg button):active{transform:scale(.97)}
 
 /* ---------- tipografía: la condensada solo en títulos ---------- */
 body.ui2 :is(.seg button,.vbtn,.ddbtn,.mbtn,.tabs button,.mi>span,.vmenu button,.ovl .acts button,.mtabs button,.dn button,.btn,.hbtn,.estseg button){font-family:var(--f-body);text-transform:none;letter-spacing:.01em;font-weight:600}
@@ -734,11 +734,11 @@ body.ui2 .ovl{background:var(--card);background-image:var(--carbon);background-s
 .t2t b{font-size:20px;letter-spacing:.05em;text-transform:uppercase;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .t2t small{font-size:12px;color:var(--txt-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .t2beta{flex:none;font:700 10px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:#1a1003;background:var(--accent);border-radius:3px;padding:2px 5px}
-.t2back{flex:none;width:36px;height:36px;border-radius:8px;border:1px solid var(--card-line);background:var(--card-2);color:var(--txt);display:grid;place-items:center;cursor:pointer}
+
 .t2r{display:flex;align-items:center;gap:8px}
 .t2b{width:40px;height:40px;border-radius:10px;border:1px solid #000;background:linear-gradient(180deg,#23282e,#181b20);color:var(--txt);display:grid;place-items:center;cursor:pointer;box-shadow:var(--bevel)}
 .t2b:hover{border-color:var(--accent)}
-.t2b svg,.t2back svg{width:20px;height:20px}
+.t2b svg{width:20px;height:20px}
 .sync{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--txt-2);padding:0 4px}
 .sync i{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
 .sync.off i{background:var(--due);box-shadow:0 0 8px var(--due)}
@@ -757,26 +757,24 @@ body.ui2:not([data-sec="coche"]) #t2r .mb{display:none}
 }
 
 /* ---------- navegación: barra inferior en móvil, raíl en escritorio ---------- */
-.nav2{position:fixed;z-index:9200;display:flex;background:var(--brushed);border:0 solid #000}
-.nav2 button{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:0;background:none;color:var(--txt-3);cursor:pointer;font:600 11px var(--f-body);letter-spacing:.01em;padding:6px 2px;transition:color .2s}
-.nav2 button i{display:grid;place-items:center;width:46px;height:30px;border-radius:15px;transition:background .25s var(--ease),color .2s}
-.nav2 button svg{width:22px;height:22px}
-.nav2 button[aria-current="page"]{color:var(--txt)}
-.nav2 button[aria-current="page"] i{background:linear-gradient(180deg,#f8b04c,var(--accent-2));color:var(--accent-ink);box-shadow:0 0 14px #f39a1e55}
-.nav2 button:hover:not([aria-current="page"]){color:var(--txt-2)}
-.nbadge{position:absolute;top:4px;left:calc(50% + 8px);min-width:17px;height:17px;border-radius:9px;background:var(--due);color:#fff;font:700 10px/17px var(--f-body);padding:0 4px;text-align:center;box-shadow:0 0 0 2px #121519}
-.nbadge.soon{background:var(--soon);color:#1a1003}
-.navprog{position:absolute;left:18%;right:18%;bottom:3px;height:2px;border-radius:2px;background:#ffffff14;overflow:hidden}
-.navprog::after{content:"";position:absolute;inset:0;width:var(--p,0%);background:var(--accent);transition:width .3s}
-.navprog.done{display:none}
-@media (max-width:860px){
-  .nav2{left:0;right:0;bottom:0;height:calc(var(--navh) + var(--sa-b));padding-bottom:var(--sa-b);border-top-width:1px;box-shadow:0 -6px 18px #0008}
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (min-width:861px){
-  .nav2{top:0;bottom:0;left:0;width:var(--railw);flex-direction:column;justify-content:flex-start;gap:6px;padding:calc(var(--sa-t) + 72px) 6px 16px;border-right-width:1px;box-shadow:6px 0 18px #0006}
-  .nav2::before{content:"";position:absolute;top:calc(var(--sa-t) + 14px);left:50%;width:34px;height:34px;margin-left:-17px;border:2px solid var(--accent);transform:rotate(45deg);border-radius:4px;box-shadow:0 0 14px #f39a1e44}
-  .nav2::after{content:"7L";position:absolute;top:calc(var(--sa-t) + 21px);left:0;right:0;text-align:center;font:700 14px var(--f-display);color:var(--accent)}
-  .nav2 button{flex:none;height:64px;font-size:12px}
+  
+  
+  
+  
   .t2mark{display:none}
 }
 
@@ -1020,10 +1018,10 @@ body.ui2.light{--bg:#eef0f3;--panel:#ffffff;--raise:#f4f6f8;--ink:#14181d;--mute
   --card:#ffffff;--card-2:#f5f7f9;--card-line:#dde2e8;--txt:#14181d;--txt-2:#55606b;--txt-3:#8a939d;
   --brushed:repeating-linear-gradient(90deg,#00000004 0 1px,transparent 1px 3px),linear-gradient(180deg,#ffffff,#eef1f4);--carbon:linear-gradient(45deg,#00000005 25%,transparent 25%,transparent 75%,#00000005 75%),linear-gradient(45deg,#00000005 25%,transparent 25%,transparent 75%,#00000005 75%);background:#e9ecf0;color:var(--ink)}
 body.ui2.light .pages{background-color:#eceff3}
-body.ui2.light :is(.top2,.nav2){border-color:#cfd5dc;box-shadow:0 2px 12px #0000001a}
+body.ui2.light :is(.top2){border-color:#cfd5dc;box-shadow:0 2px 12px #0000001a}
 body.ui2.light .t2t b,body.ui2.light .mashead h2{color:#14181d}
 body.ui2.light .t2b,body.ui2.light #t2r .mb .mbtn{background:linear-gradient(180deg,#fff,#eef1f4);border-color:#cfd5dc;color:#14181d}
-body.ui2.light .nav2 button[aria-current="page"]{color:#14181d}
+
 body.ui2.light .subtabs{background:#f6f7f9;border-color:#d7dce2}
 body.ui2.light :is(.card2,.mt,.qa button,.stc,.r2,.gi){background:#fff;border-color:#dde2e8;box-shadow:0 2px 10px #0000000d}
 body.ui2.light .hero{background:radial-gradient(600px 220px at 85% 100%,#f39a1e33,transparent 70%),linear-gradient(160deg,#ffffff,#e8ecf1 70%)}
@@ -1123,18 +1121,18 @@ body.ui2.light .lmng input{background:#f5f7f9}
 .card2 h3 .cnt{margin-left:auto;font:700 13px var(--f-body);letter-spacing:0;color:var(--txt-2);background:#ffffff0d;border-radius:12px;padding:2px 9px}
 .cmprow{display:grid;grid-template-columns:minmax(0,1fr) 58px auto;gap:8px}
 .cmprow .inp2{font-size:16px;padding:9px 11px}
-.cmpi{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;background:var(--card-2);border:1px solid var(--card-line)}
-.cmpi .ck{width:28px;height:28px;border-radius:8px;border:2px solid #4a525c;background:none;cursor:pointer;display:grid;place-items:center;color:#fff;padding:0}
-.cmpi .ck:hover{border-color:var(--accent)}
-.cmpi .ck.on{background:var(--ok);border-color:var(--ok)}
-.cmpi .ck svg{width:16px;height:16px}
-.cmpi .tx{all:unset;cursor:pointer;min-width:0;grid-column:2}
-.cmpi .tx b{display:block;font-weight:600;font-size:15px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cmpi .tx em{font-style:normal;color:var(--accent);font-weight:700}
-.cmpi .tx small{display:block;color:var(--txt-2);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cmpi .pr{font:700 14px var(--f-body);color:var(--soon)}
-.cmpi .mnt{padding:7px 11px;font-size:13px}
-@media (max-width:520px){ .cmpi.done{grid-template-columns:auto minmax(0,1fr) auto} .cmpi.done .mnt{grid-column:2/-1;justify-self:start} }
+
+
+
+
+
+
+
+
+
+
+
+
 .ybars2{display:flex;align-items:flex-end;gap:12px;height:170px;padding:8px 4px 0;overflow-x:auto}
 .yb2{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:54px;height:100%}
 .yb2 .st{flex:1;width:28px;display:flex;flex-direction:column-reverse;border-radius:6px 6px 0 0;overflow:hidden;background:#ffffff08}
@@ -1195,7 +1193,7 @@ body.ui2.light .csel.big,body.ui2.light .css input{background:#f5f7f9}
 a.btn2{text-decoration:none}
 
 /* ===== v1.1.2: barras más finas y con relieve, paneles con borde iluminado ===== */
-body.ui2 :is(.top2,.nav2,.pages){box-sizing:border-box}
+body.ui2 :is(.top2,.pages){box-sizing:border-box}
 @media (max-width:860px){ :root{ --t2h:48px; --navh:54px; } }
 /* barra superior */
 .top2{background:
@@ -1208,22 +1206,18 @@ body.ui2 :is(.top2,.nav2,.pages){box-sizing:border-box}
   .t2t small{font-size:11.5px}
   .t2b{width:36px;height:36px;border-radius:10px}
   #t2r .mb .mbtn{height:36px}
-  .t2back{width:34px;height:34px}
+  
 }
 /* barra inferior: fina, pegada abajo y despegada del contenido */
 @media (max-width:860px){
-  .nav2{height:calc(var(--navh) + var(--sa-b))!important;padding:0 6px var(--sa-b)!important;border-radius:20px 20px 0 0;border:1px solid #000;border-bottom:0;
-    background:
-     linear-gradient(90deg,transparent 10%,#f39a1e80 50%,transparent 90%) top/100% 1px no-repeat,
-     linear-gradient(180deg,#252a31 0%,#181b20 55%,#121418 100%)!important;
-    box-shadow:0 -1px 0 #ffffff12 inset,0 -12px 30px #000d,0 -2px 8px #0009,0 var(--gapb,0px) 0 0 #121418!important}
-  .nav2 button{padding:5px 2px 3px;gap:2px;font-size:10.5px}
-  .nav2 button i{height:28px}
+  
+  
+  
   .pages{bottom:calc(var(--navh) + var(--sa-b) - 14px)!important}
   .pages .pin2{padding-bottom:42px}
   .pages .pbody{padding-bottom:14px}
 }
-.nav2 button[aria-current="page"] span{color:var(--accent)}
+
 
 /* paneles: borde con degradado, brillo superior y destello que recorre el filo */
 body.ui2 .card2{position:relative;border:1px solid transparent!important;
@@ -1251,7 +1245,7 @@ body.ui2.light .card2{background:
    linear-gradient(180deg,#fff,#fafbfc) padding-box,
    linear-gradient(180deg,#f39a1e99 0%,#dde2e8 22%) border-box!important;box-shadow:0 6px 18px #0000001a!important}
 body.ui2.light .top2{background:linear-gradient(90deg,transparent 8%,#f39a1e90 50%,transparent 92%) bottom/100% 1px no-repeat,linear-gradient(180deg,#fff,#f1f3f6)!important}
-@media (max-width:860px){ body.ui2.light .nav2{background:linear-gradient(90deg,transparent 10%,#f39a1e90 50%,transparent 90%) top/100% 1px no-repeat,linear-gradient(180deg,#fff,#eef1f4)!important;box-shadow:0 -8px 24px #0000001f,0 var(--gapb,0px) 0 0 #eef1f4!important;border-color:#cfd5dc} }
+
 @media (prefers-reduced-motion:reduce){ body.ui2 .card2::after{animation:none;display:none} }
 /* filas de mantenimiento e historial: mismo filo iluminado, sin perder la franja de color del estado */
 body.ui2 :is(.mrow,.hist .h){position:relative;background:radial-gradient(130% 60px at 50% 0,#f39a1e12,transparent 75%),linear-gradient(180deg,#1d2127,#15181c)!important;border-color:#2c323a;border-top-color:#f39a1e50;border-radius:10px;box-shadow:0 1px 0 #ffffff0a inset,0 8px 20px #0008,0 2px 4px #0006}
@@ -1285,30 +1279,29 @@ html:has(body.ui2.light){background:#eef1f4}
   .subtabs:not(.chips2) button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 }
 @media (max-width:430px){ .subtabs:not(.chips2) button svg{display:none} }
-.sbadge{position:absolute;top:-5px;right:-3px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--due);color:#fff;font:700 10.5px/17px var(--f-body);text-align:center;box-shadow:0 0 0 2px #101215}
-.sbadge.soon{background:var(--soon);color:#1a1003}.sbadge.info{background:var(--info)}
+
+
 /* Coche: pestañas fijas bajo la barra superior */
-.ctabs{position:fixed;z-index:9050;top:calc(var(--t2h) + var(--sa-t));left:var(--railw);right:0;height:var(--ctabh);box-sizing:border-box;display:none;align-items:center}
-body.ui2[data-sec="coche"] .ctabs{display:flex}
+
+
 body.ui2[data-sec="coche"] .app{top:calc(var(--t2h) + var(--sa-t) + var(--ctabh))!important}
 body.ui2[data-sec="coche"] .pages{display:block;top:calc(var(--t2h) + var(--sa-t) + var(--ctabh))!important}
 body.ui2[data-sec="coche"][data-csub="3d"] .pages{display:none!important}
 body.ui2[data-sec="coche"] .page[data-sec="coche"]{display:flex}
 body.ui2[data-sec="coche"]:not([data-csub="3d"]) .app{visibility:hidden}
 /* botón + */
-.fab2{position:fixed;z-index:9150;right:16px;bottom:calc(var(--navh) + var(--sa-b) + 14px);width:56px;height:56px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;color:var(--accent-ink);
-  background:radial-gradient(circle at 35% 30%,#ffc46b,var(--accent) 55%,var(--accent-2));box-shadow:0 0 0 1px #0006,0 8px 22px #000b,0 0 22px #f39a1e55;transition:transform .15s,opacity .2s}
-.fab2 svg{width:28px;height:28px;stroke-width:2.4}
-.fab2:active{transform:scale(.92)}
-@media (min-width:861px){ .fab2{bottom:24px;right:24px} }
-body.ui2[data-sec="coche"][data-csub="3d"] .fab2, body.formopen .fab2, body:has(#srch:not([hidden])) .fab2, body:has(#wiz:not([hidden])) .fab2{opacity:0;pointer-events:none;transform:scale(.6)}
-.fabg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
-.fabg button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 6px 12px;border-radius:14px;border:1px solid var(--card-line);background:linear-gradient(180deg,#1d2127,#14171b);color:var(--txt);cursor:pointer;text-align:center}
-.fabg button i{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#f39a1e1f;color:var(--accent)}
-.fabg button i svg{width:22px;height:22px}
-.fabg button b{font:600 14px var(--f-body)}
-.fabg button small{font-size:11px;color:var(--txt-3);line-height:1.25}
-body.ui2.light .fabg button{background:#fff;border-color:#dde2e8}
+
+
+
+
+
+
+
+
+
+
+
+
 .pages .pin2{padding-bottom:96px!important}
 .pages .pbody{padding-bottom:84px!important}
 /* Inicio: tarjeta compacta y «requiere atención» */
@@ -1348,9 +1341,9 @@ body.ui2 .page[data-sec="mant"] .mrow .c b{display:inline!important;font-size:12
 body.ui2 .page[data-sec="mant"] .mrow .bt{grid-column:1/-1;justify-content:flex-end;margin-top:4px}
 body.ui2 .page[data-sec="mant"] .mrow .bt button{padding:6px 11px!important;font-size:12px!important}
 body.ui2 .page[data-sec="mant"] .mrow .mcfg{grid-column:1/-1}
-.mkm2{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.mkm2 b{font:700 18px var(--f-display);color:var(--txt)}
-.mkm2 .btn2{padding:5px 11px;font-size:12.5px}
+
+
+
 .nocfg{border:1px dashed #3a414b;border-radius:12px;padding:0 12px;margin-top:10px}
 .nocfg summary{list-style:none;cursor:pointer;display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:12px 0;font:600 14px var(--f-body);color:var(--txt-2)}
 .nocfg summary::-webkit-details-marker{display:none}
@@ -1379,11 +1372,11 @@ input[type=file].fhid{position:absolute!important;width:1px!important;height:1px
 .card2 .l2>.r2>.btn2{flex:none;justify-self:end}
 .card2 .l2>.r2:has(>.btn2){grid-template-columns:auto minmax(0,1fr) auto}
 /* 2: barra inferior con hueco para la barrita de inicio */
-@media (max-width:860px){ :root{ --navh:58px; } .nav2 button{padding-top:7px} }
+@media (max-width:860px){ :root{ --navh:58px; }  }
 /* 3: la sombra de la cabecera no cae sobre las pestañas: la llevan las pestañas */
 body.ui2:is([data-sec="coche"],[data-sec="mant"],[data-sec="papeles"]) .top2{box-shadow:0 1px 0 #ffffff08!important}
 .subtabs{position:relative;z-index:5;box-shadow:0 8px 18px #0009}
-.ctabs{border-bottom:1px solid #000}
+
 /* 6: un solo estilo de botones en las pantallas heredadas */
 body.ui2 .ovl :is(.acts button, .mrow .bt button, .mcfg button, .fusform button, .hist button.del){
   min-height:44px;border-radius:12px!important;padding:10px 16px!important;font:600 14px var(--f-body)!important;letter-spacing:0!important;text-transform:none!important;
@@ -1395,7 +1388,7 @@ body.ui2 .ovl :is(input:not([type=checkbox]):not([type=radio]):not([type=file]),
 body.ui2 .ovl textarea{min-height:88px}
 body.ui2 .ovl .fgrid{gap:12px 12px}
 /* 9: textos más grandes y filas sin cortar */
-.nav2 button{font-size:11.5px!important}
+
 .t2t small{font-size:12.5px!important}
 .attn .r2 .tx b,.attn .r2 .tx small,.firsts .r2 .tx b,.firsts .r2 .tx small{white-space:normal;overflow:visible}
 /* 11: cabeceras de tarjeta en una línea */
@@ -1405,10 +1398,10 @@ body.ui2 .ovl .fgrid{gap:12px 12px}
 .firsts .r2.done{opacity:.7;cursor:default}
 .hmkm .kmbig.nokm{font:600 18px var(--f-body);color:var(--txt-3)}
 /* 12: rayita de carga solo mientras carga */
-.navprog{opacity:0;transition:opacity .3s}
-.navprog.ld{opacity:1}
+
+
 /* 13: + se esconde al bajar */
-body.fabhide .fab2{transform:translateY(90px);opacity:0;pointer-events:none}
+
 /* cabecera: títulos sin cortar en lo posible */
 @media (max-width:860px){ .t2t b{font-size:17px!important;letter-spacing:.03em!important} }
 
@@ -1422,25 +1415,25 @@ body.ui2.light .pages{background-color:#dfe3e9!important;background-image:radial
 body.ui2.light .top2{background:linear-gradient(90deg,transparent 8%,#f39a1eaa 50%,transparent 92%) bottom/100% 1.5px no-repeat,linear-gradient(180deg,#fdfdfe,#eef1f5)!important;border-bottom:1px solid #b9c1cb!important;box-shadow:0 2px 10px #1b263318!important}
 body.ui2.light .t2t b{color:#121820}
 body.ui2.light .t2t small{color:#56606c}
-body.ui2.light .t2b,body.ui2.light #t2r .mb .mbtn,body.ui2.light .t2back{background:linear-gradient(180deg,#fff,#e9edf2)!important;border:1px solid #b9c1cb!important;color:#121820!important;box-shadow:0 1px 2px #1b26331a}
-@media (max-width:860px){ body.ui2.light .nav2{background:linear-gradient(90deg,transparent 10%,#f39a1eaa 50%,transparent 90%) top/100% 1.5px no-repeat,linear-gradient(180deg,#fdfdfe,#e9edf2)!important;border-color:#b9c1cb!important;box-shadow:0 -4px 16px #1b26331f!important} }
-body.ui2.light .nav2 button{color:#5b6570}
-body.ui2.light .nav2 button[aria-current="page"],body.ui2.light .nav2 button[aria-current="page"] span{color:var(--acc-t)}
+body.ui2.light .t2b,body.ui2.light #t2r .mb .mbtn{background:linear-gradient(180deg,#fff,#e9edf2)!important;border:1px solid #b9c1cb!important;color:#121820!important;box-shadow:0 1px 2px #1b26331a}
+
+
+
 body.ui2.light .subtabs{background:#e9edf2!important;border-bottom:1px solid #c3cad3!important;box-shadow:0 6px 14px #1b263314}
 body.ui2.light .subtabs button{background:#fff;border:1px solid #c3cad3;color:#3b4450;box-shadow:0 1px 2px #1b263314}
 body.ui2.light .subtabs button[aria-selected="true"]{background:linear-gradient(180deg,#f8b04c,var(--accent));border-color:#e08a12;color:#1a1003}
-body.ui2.light .sbadge{box-shadow:0 0 0 2px #e9edf2}
+
 /* paneles */
 body.ui2.light .card2{background:radial-gradient(130% 70px at 50% 0,#f39a1e14,transparent 75%) padding-box,linear-gradient(180deg,#fff,#fbfcfd) padding-box,linear-gradient(180deg,#f0a040 0%,#cdd4dc 18%,#c3cad3 100%) border-box!important;box-shadow:0 1px 2px #1b26330f,0 8px 20px #1b26331a!important}
 body.ui2.light .card2::after{background:linear-gradient(90deg,transparent,#fff,transparent) no-repeat;background-size:28% 100%}
 body.ui2.light .card2 h3{color:#3b4450}
 body.ui2.light .card2 h3 .more,body.ui2.light .muted2 a{color:var(--acc-t)}
 body.ui2.light .card2 h3 .cnt{background:#eef1f5;color:#46505c}
-body.ui2.light .r2,body.ui2.light .cmpi{background:#f3f5f8!important;border-color:#d3d9e0!important;color:#121820}
+body.ui2.light .r2{background:#f3f5f8!important;border-color:#d3d9e0!important;color:#121820}
 body.ui2.light .r2 .ic{background:#e6eaf0}
 body.ui2.light .r2 .tx small{color:#56606c}
 body.ui2.light :is(.mt,.stc,.gi){background:#fff!important;border:1px solid #cdd4dc!important;box-shadow:0 1px 2px #1b26330f,0 6px 16px #1b263314!important}
-body.ui2.light .mt i,body.ui2.light .fabg button i{background:#fdf0dd;color:var(--acc-t)}
+body.ui2.light .mt i{background:#fdf0dd;color:var(--acc-t)}
 body.ui2.light .mgrp h4,body.ui2.light .ajh,body.ui2.light .srres h5{color:#56606c}
 body.ui2.light .empty2{color:#56606c}
 body.ui2.light .hmname b,body.ui2.light .hero .htitle b{color:var(--acc-t)}
@@ -1470,7 +1463,7 @@ body.ui2.light .btn2:not(.ghost){box-shadow:0 2px 8px #f39a1e40}
 body.ui2.light .sheet2{background:#1b263366}
 body.ui2.light .shbox,body.ui2.light .wzbox,body.ui2.light .srbox{background:#f3f5f8!important;border-color:#c3cad3!important;color:#121820}
 body.ui2.light .shbox h3,body.ui2.light .srbox h5{color:#121820}
-body.ui2.light .fabg button{background:#fff;border-color:#cdd4dc;box-shadow:0 1px 2px #1b26330f}
+
 body.ui2.light .cspop{background:#fff!important;border-color:#c3cad3!important}
 body.ui2.light .csi{color:#121820}
 body.ui2.light .csi.on{background:#fdf0dd;color:var(--acc-t)}
@@ -1481,7 +1474,7 @@ body.ui2.light .srin input{color:#121820}
 body.ui2.light :is(aside.left,aside.right,.tabs){background:#f3f5f8!important;border-color:#c3cad3!important}
 body.ui2.light .tabs button{color:#56606c}
 body.ui2.light .tabs button[aria-selected="true"]{color:#121820}
-body.ui2.light .ctabs{background:#e9edf2!important}
+
 
 /* ===== v1.3.1 ===== */
 /* flechas de las filas: tamaño fijo (en iPhone salían gigantes) y sin desplazamiento lateral */
@@ -1576,63 +1569,60 @@ body.ui2 .doclist .mrow .c{white-space:nowrap}
 /* v1.5: foto 1284×2778 */
 .spimg{aspect-ratio:1284/2778!important;width:max(100vw, calc(100vh * 1284 / 2778))!important}
 /* gestos */
-.gedge{position:fixed;z-index:9700;left:6px;top:50%;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;opacity:0;pointer-events:none;
-  background:#14171bee;border:1px solid #3a414b;color:var(--accent);box-shadow:0 6px 18px #000a;transform:translateY(-50%) scale(.7);transition:opacity .2s,background .15s}
-.gedge svg{width:24px;height:24px}
-.gedge.r{left:auto;right:6px}
-.gedge.r svg{transform:rotate(180deg)}
-.gedge.go{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+
+
+
+
 .gpull{position:fixed;z-index:9050;left:50%;top:calc(var(--t2h) + var(--sa-t) + 6px);width:40px;height:40px;opacity:0;pointer-events:none;transform:translate(-50%,0)}
 .gpull svg{width:100%;height:100%;fill:#14171bee;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round}
 .gpull circle{stroke:#3a414b;stroke-width:2}
 .gpull path{transform-origin:20px 20px;transition:transform .05s}
 .gpull.go svg{filter:drop-shadow(0 0 8px #f39a1e)}
-body.ui2.light .gedge,body.ui2.light .gpull svg{background:#fff;fill:#fff;border-color:#c3cad3}
+body.ui2.light .gpull svg{background:#fff;fill:#fff;border-color:#c3cad3}
 .shbox{touch-action:pan-y}
 html,body.ui2{overscroll-behavior-x:none}
 body.ui2 .pages,body.ui2 .pin2,body.ui2 .pbody{touch-action:pan-y}
 body.ui2 .pages :is(.subtabs,.chips2,.hchips,.gal){touch-action:pan-x pan-y}
 /* v1.5.1: elegir sección deslizando el dedo por la barra inferior */
-.nav2{touch-action:none}
-.nav2 button i{transition:background .2s,transform .18s cubic-bezier(.2,.9,.2,1.3),box-shadow .2s}
-.nav2.scrub button.hov i{transform:translateY(-6px) scale(1.18);background:#f39a1e33;box-shadow:0 0 0 1px #f39a1e88,0 6px 16px #000a}
-.nav2.scrub button.hov,.nav2.scrub button.hov span{color:var(--accent)}
-.nav2.scrub button[aria-current="page"]:not(.hov) i{background:#f39a1e44;box-shadow:none}
+
+
+
+
+
 
 /* ===== v1.6: movimiento ===== */
 /* halo de la barra al deslizar: dentro de la barra */
-.nav2.scrub button.hov i{transform:translateY(-2px) scale(1.07)!important;box-shadow:0 0 0 1px #f39a1e77!important}
+
 /* A: píldora que viaja */
-.nav2{position:fixed}
-.navpill,.stpill{position:absolute;left:0;top:0;z-index:0;pointer-events:none;border-radius:15px;opacity:0;
-  background:linear-gradient(180deg,#f8b04c,var(--accent-2));box-shadow:0 0 14px #f39a1e55;
-  transition:transform .42s cubic-bezier(.3,1.35,.5,1),width .3s,height .3s,opacity .2s}
-.nav2 button{z-index:1}
-.nav2 button[aria-current="page"] i{background:transparent!important;box-shadow:none!important}
-.nav2.scrub button[aria-current="page"]:not(.hov) i{background:transparent!important}
-.nav2.scrub .navpill{transition:transform .22s cubic-bezier(.3,1.2,.5,1),width .2s,height .2s}
+
+
+
+
+
+
 .subtabs{position:relative}
-.stpill{border-radius:20px}
+
 .subtabs button{position:relative;z-index:1;transition:color .25s,background .25s,border-color .25s}
 .subtabs button[aria-selected="true"]{background:transparent!important;border-color:transparent!important}
 body.ui2.light .subtabs button[aria-selected="true"]{background:transparent!important;border-color:transparent!important}
 /* B: la animación de entrada la pone el código, con dirección */
 .page.on{animation:none!important}
 /* C: atrás estilo iOS */
-.gunder{position:fixed;z-index:15;left:var(--railw);right:0;top:calc(var(--t2h) + var(--sa-t));bottom:0;background:#07080a;display:none;align-items:center;justify-content:flex-start;padding-left:24px}
-.gunder.on{display:flex}
-.gunder span{font:700 15px var(--f-display);letter-spacing:.06em;text-transform:uppercase;color:#5b636d}
-.bkdrag{box-shadow:-14px 0 30px #000c}
-body.ui2.light .gunder{background:#c9d0d8} body.ui2.light .gunder span{color:#56606c}
+
+
+
+
+ 
 /* E: menú de atajos de la barra */
-.navmenubg{position:fixed;inset:0;z-index:9690;background:#0007;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:fadeIn .18s}
-.navmenu{position:fixed;z-index:9695;display:flex;flex-direction:column;gap:2px;padding:8px;border-radius:16px;background:linear-gradient(180deg,#22272e,#16191d);border:1px solid #3a414b;box-shadow:0 18px 40px #000c;animation:nmIn .26s cubic-bezier(.2,1.3,.4,1)}
-.navmenu b{font:700 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--txt-3);padding:6px 10px 4px}
-.navmenu button{display:flex;align-items:center;gap:12px;padding:12px;border:0;border-radius:10px;background:none;color:var(--txt);font:600 15px var(--f-body);text-align:left;cursor:pointer}
-.navmenu button svg{width:20px;height:20px;color:var(--accent);flex:none}
-.navmenu button:active{background:#f39a1e22}
+
+
+
+
+
+
 @keyframes nmIn{from{opacity:0;transform:scale(.6) translateY(16px)}}
-body.ui2.light .navmenu{background:#fff;border-color:#c3cad3} body.ui2.light .navmenu button{color:#121820}
+ 
 /* F: acción al deslizar una fila */
 .swiping{position:relative;overflow:visible!important;z-index:2}
 .swact{position:absolute;top:0;bottom:0;width:150px;display:flex;align-items:center;gap:8px;padding:0 18px;border-radius:12px;font:700 14px var(--f-body);color:#fff;background:#3a414b;pointer-events:none;transition:background .15s}
@@ -1642,19 +1632,19 @@ body.ui2.light .navmenu{background:#fff;border-color:#c3cad3} body.ui2.light .na
 .swact.go.r{background:var(--ok);color:#06140c}
 .swact.l.danger.go{background:var(--due)}
 /* G: el + se transforma */
-.fab2 svg{transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
-body.fabopen .fab2{z-index:9650!important;opacity:1!important;pointer-events:auto!important;transform:none!important}
-body.fabopen .fab2 svg{transform:rotate(135deg)}
-.fabg button{animation:fabIn .38s cubic-bezier(.2,1.3,.4,1) both}
-.fabg button:nth-child(2){animation-delay:.035s}.fabg button:nth-child(3){animation-delay:.07s}.fabg button:nth-child(4){animation-delay:.105s}.fabg button:nth-child(5){animation-delay:.14s}.fabg button:nth-child(6){animation-delay:.175s}
+
+
+
+
+
 @keyframes fabIn{from{opacity:0;transform:translateY(22px) scale(.85)}}
-@media (prefers-reduced-motion:reduce){ .navpill,.stpill,.fab2 svg{transition:none} .fabg button,.navmenu{animation:none} }
+
 
 /* ===== v1.7 ===== */
 /* sin selección de texto ni menú de copiar al mantener pulsado (salvo en campos) */
 body.ui2, body.ui2 *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 body.ui2 :is(input,textarea,[contenteditable="true"]){-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
-.navmenu{box-sizing:border-box;max-width:calc(100vw - 24px)}
+
 /* 1: cuentakilómetros */
 .odo{display:inline-flex;align-items:baseline}
 .odd{display:inline-block;height:1em;line-height:1em;overflow:hidden;vertical-align:baseline}
@@ -1675,8 +1665,8 @@ body.ui2.light .skel{background:#e3e7ec} body.ui2.light .skel::after{background:
 .shbox::before{content:"";display:block;width:40px;height:5px;border-radius:3px;background:#ffffff30;margin:-6px auto 12px}
 body.ui2.light .shbox::before{background:#0000002a}
 /* 7: respuesta al pulsar, con muelle */
-body.ui2 :is(.r2,.mt,.stc,.cmpi,.hist2 .h.tap,.fabg button,.hmcar,.navmenu button,.btn2){transition:transform .32s cubic-bezier(.3,1.7,.5,1),background .2s,border-color .2s}
-body.ui2 :is(.r2,.mt,.stc,.cmpi,.hist2 .h.tap,.fabg button,.hmcar):active{transform:scale(.975)}
+body.ui2 :is(.r2,.mt,.stc,.hist2 .h.tap,.hmcar,.btn2){transition:transform .32s cubic-bezier(.3,1.7,.5,1),background .2s,border-color .2s}
+body.ui2 :is(.r2,.mt,.stc,.hist2 .h.tap,.hmcar):active{transform:scale(.975)}
 body.ui2 .btn2:active{transform:scale(.95)}
 /* 8: onda */
 .rpl{overflow:hidden}
@@ -1691,7 +1681,7 @@ body.ui2 .btn2:active{transform:scale(.95)}
 .subtabs.many:not(.chips2) button{flex:none!important;min-width:auto!important;padding:7px 12px!important}
 .subtabs.many:not(.chips2) button span{overflow:visible!important}
 @media (max-width:430px){ .subtabs.many:not(.chips2) button svg{display:inline-block!important;width:15px;height:15px} .subtabs.many:not(.chips2) button{gap:5px!important;padding:7px 11px!important;font-size:13.5px!important} }
-.ctabs.many{justify-content:flex-start}
+
 .shbox.v2f{max-height:calc(100dvh - var(--sa-t) - 18px);overflow:auto;overscroll-behavior:contain}
 .wrap.v2>*+*{margin-top:14px}
 .wrap.v2>.addbar:first-child{margin-top:0}
@@ -1916,7 +1906,7 @@ body.ui2.light .v2chips button[aria-selected="true"]{background:linear-gradient(
 .ordbar b{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ordbar small{font-size:11.5px;color:var(--txt-2)}
 .ordbar .btn2{flex:none;min-height:38px;padding:7px 12px}
-body.reord .fab2{opacity:0;pointer-events:none}
+
 body.ui2.light .ordbar{background:#fff}
 @media (prefers-reduced-motion:reduce){ .reordc .rit{animation:none} }
 .reordc.compact{gap:8px!important;row-gap:8px!important}
@@ -1973,7 +1963,7 @@ body.ui2 .t2t b{line-height:1.28;padding-top:1px}
 /* pestañas: con más de las que caben, se difuminan los bordes para que se note que hay más */
 body.ui2 .subtabs.many{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 26px),transparent);mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 26px),transparent);scroll-padding-inline:24px}
 body.ui2 .subtabs button{position:relative}
-body.ui2 .subtabs button .sbadge{position:absolute;top:-7px;right:-7px;margin:0;min-width:17px;height:17px;padding:0 4px;font-size:10.5px;line-height:17px;border-radius:9px;box-shadow:0 0 0 2px var(--bg2,#0f1215)}
+
 /* enlaces de las cabeceras de tarjeta: objetivo táctil decente */
 body.ui2 .card2 h3 .more{min-height:32px;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,transparent);display:inline-flex;align-items:center;gap:2px}
 body.ui2 .card2 h3 .more:hover{background:color-mix(in srgb,var(--accent) 18%,transparent)}
@@ -2161,7 +2151,7 @@ body.ui2 .stc:not(.lit){opacity:.001;transform:translateY(8px)}
 body.ui2 .stc.lit{opacity:1;transform:none}
 body.ui2 .stc.lit b{animation:numGlow 1.4s var(--ease)}
 @keyframes numGlow{0%{text-shadow:0 0 0 transparent}30%{text-shadow:0 0 18px color-mix(in srgb,var(--c) 80%,transparent)}100%{text-shadow:0 0 0 transparent}}
-#fab2.hello{animation:fabHello 1.6s var(--ease) 2}
+
 @keyframes fabHello{0%,100%{box-shadow:0 10px 30px #f39a1e55,0 0 0 0 #f39a1e66}50%{box-shadow:0 10px 30px #f39a1e55,0 0 0 14px #f39a1e00}}
 /* botones principales con brillo que pasa al acercar el ratón */
 @media (hover:hover){ body.ui2 .btn2:not(.ghost){position:relative;overflow:hidden}
@@ -2195,9 +2185,9 @@ body.ui2.light .dring circle.v{stroke:var(--c)}
 
 /* Historial */
 .acts.histtop{margin:0 0 12px!important;justify-content:flex-start}
-.hyear{display:flex;align-items:baseline;gap:10px;margin:14px 2px 8px;font:700 22px var(--f-display);letter-spacing:.04em;color:var(--txt)}
-.hyear em{font:500 12px var(--f-body);font-style:normal;color:var(--txt-3)}
-.hyear::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--card-line),transparent)}
+
+
+
 body.ui2 .hist2 .h{display:grid!important;grid-template-columns:auto auto 1fr auto;align-items:center;gap:10px;border-radius:14px;padding:10px 12px;margin:0 0 8px;background:var(--card-2);border:1px solid var(--card-line)}
 body.ui2 .hist2 .h .hic{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:color-mix(in srgb,var(--accent) 15%,transparent);color:var(--accent)}
 body.ui2 .hist2 .h .hic svg{width:18px;height:18px}
@@ -2245,7 +2235,7 @@ body.an-full .pzt tr.lamhit td{animation:lamHit 1.4s var(--ease) 2}
 @keyframes riseIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
 .srin{animation:riseIn .32s var(--ease) both;animation-delay:calc(var(--si,0) * 22ms)}
 /* barra inferior: el icono activo da un pequeño salto */
-.nav2 button[aria-current="page"] i{animation:navPop .5s cubic-bezier(.2,.9,.25,1.4)}
+
 @keyframes navPop{0%{transform:scale(.8)}55%{transform:scale(1.12) translateY(-2px)}100%{transform:none}}
 /* pestañas: el texto activo se ilumina al cambiar */
 body.ui2 .subtabs button[aria-selected="true"]{animation:tabOn .4s var(--ease)}
@@ -2389,23 +2379,23 @@ body.ui2.light .seg3{background:#e9edf2;border-color:#d3d9e0}
 body.ui2.light .seg3 button{color:var(--txt-2)}
 /* 2.1.1: barrido de luz al cambiar de sección */
 .navsweep{position:fixed;z-index:60;left:0;top:calc(var(--t2h, 56px) + var(--sa-t, 0px) - 1px);width:45%;height:2px;pointer-events:none;background:linear-gradient(90deg,transparent,var(--accent),#fff8,var(--accent),transparent);filter:drop-shadow(0 0 6px var(--accent));opacity:0}
-.pgghost{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;will-change:transform,opacity}
+
 /* 2.1.1: interfaz simplificada */
 #t2Mas.on{background:color-mix(in srgb,var(--accent) 22%,transparent);color:var(--accent)}
 #t2Mas svg{width:20px;height:20px}
-body[data-sec="mas"] #nav2 .navpill{opacity:0}
-.mhecho{margin:22px 0 8px}
-.mhecho>h4{display:flex;align-items:center;gap:8px;margin:0 2px 10px;font:700 13px var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--txt-2)}
-.mhecho>h4 svg{width:18px;height:18px;color:var(--accent)}
-.mhecho>h4 em{font-style:normal;font-weight:600;letter-spacing:0;text-transform:none;color:var(--txt-3);font-size:12px}
-.mhecho>h4 .btn2{margin-left:auto}
+
+
+
+
+
+
 .gchips{margin:0 0 12px}
 .p3dx{display:flex;gap:6px;margin:6px 0 10px;flex-wrap:wrap}
 .p3dx button{flex:1;min-width:120px;display:flex;align-items:center;gap:6px;padding:7px 9px;border-radius:9px;border:1px solid var(--card-line);background:var(--card-2);color:var(--txt-2);font:600 12px var(--f-body);cursor:pointer}
 .p3dx button svg{width:15px;height:15px;color:var(--accent)}
-.mhecho>h4{flex-wrap:nowrap}
-.mhecho>h4 span,.mhecho>h4 em{white-space:nowrap;flex:none}
-.mhecho>h4 em{margin-left:2px}
+
+
+
 /* ---- circuito de refrigeración en 3D ---- */
 .refricard{border-color:var(--fa,#f39a1e)}
 .refricard .wrow.on{border-color:#f39a1e;box-shadow:0 0 0 2px #f39a1e44}
@@ -2488,7 +2478,7 @@ body.wireon #tWire[data-k="comb"]{color:#e8dc70;border-color:#d6c84a99;box-shado
 body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="comb"] svg:first-child{animation:none}
 .wlab.t-abomba b,.wlab.t-cbomba b{color:#ffb04a}.wlab.t-aalarm b{color:#ff7a5c}.wlab.t-acomp b{color:#f0c060}.wlab.t-ccomp b,.wlab.t-cfiltro b{color:#e8dc70}
 .refricard .rtd{display:block;font-size:12px;line-height:1.4;opacity:.85;margin:0 0 8px}
-.cmpi .cref{display:block;margin:2px 0 1px;font:600 12.5px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.02em;color:var(--accent)}
+
 /* ---- pares de apriete por sistema ---- */
 .parg .parhint{margin:-2px 0 8px;font-size:12.5px}
 .pcats{display:flex;flex-direction:column;gap:8px}
@@ -2510,25 +2500,25 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
   .spbg::before{content:"";position:absolute;inset:-6%;background:url(splash/touareg-noche.webp) center 70%/cover no-repeat;filter:blur(38px) brightness(.28) saturate(.7);transform:scale(1.1)}
   .spimg::after{content:"";position:absolute;inset:0 -1px;pointer-events:none;background:linear-gradient(90deg,#030405 0%,transparent 14%,transparent 86%,#030405 100%);opacity:.85}
 }
-.cochecost .ccrow{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--card-line)}
-.cochecost .ccrow small{opacity:.65}.cochecost .ccrow.tot{border-bottom:0;font-size:1.05em}.cochecost .ccrow.tot b{color:var(--accent)}
-.cochecost .btn2{margin-top:8px}
+
+
+
 /* ---- 2.2 ---- */
 .dupban{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 10px}.dupban span{flex:1;min-width:180px}
-.cchint{margin:6px 0 0!important;font-size:12px}
+
 .accw{padding:2px 0}.accsvg{width:100%;height:150px;display:block}
 .accl{fill:none;stroke:var(--accent);stroke-width:2.2;vector-effect:non-scaling-stroke}.acca{fill:color-mix(in srgb,var(--accent) 16%,transparent)}
 .accb{stroke:var(--txt-3);stroke-dasharray:4 4;stroke-width:1;vector-effect:non-scaling-stroke}
 .accleg{display:flex;justify-content:space-between;font-size:12.5px;opacity:.85;margin-top:4px}.accleg b{color:var(--accent);font-size:14px}
-.tshort{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 12px}
-.tshort button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:12px;border:1px solid var(--card-line);background:var(--card);color:inherit;font:600 12px var(--f-body);cursor:pointer}
-.tshort svg{width:20px;height:20px;color:var(--accent)}
+
+
+
 .rpfrow{display:flex;gap:8px;margin-top:8px}.rpfrow .btn2{cursor:pointer}.rpfst{margin:6px 0 0!important;font-size:12px}
 .ocrbtn{display:flex;justify-content:center;margin:4px 0 6px;cursor:pointer}.ocrst{margin:0 0 6px!important;font-size:12.5px}
 /* ===== 2.3.0 · Pendientes del taller ===== */
 #stMant button[data-sub="pend"]{position:relative}
-.pdcnt{font-style:normal;min-width:18px;height:18px;border-radius:9px;background:var(--soon);color:#1a1003;font:700 10.5px/18px var(--f-body);padding:0 5px;text-align:center;margin-left:2px}
-.pdcnt.ya{background:var(--due);color:#fff}
+
+
 .pdhero{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:14px;align-items:center;margin-bottom:12px}
 .pdring{width:64px;height:64px;transform:rotate(-90deg)}
 .pdring circle{fill:none;stroke:var(--card-line);stroke-width:7}
@@ -2597,7 +2587,7 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
 .pdfin{margin-bottom:6px}
 @media (prefers-reduced-motion:reduce){.pdrow.pdpop .pdchk svg{animation:none}}
 /* ===== 2.3.2 · Taller ▸ Reparaciones ===== */
-.pdcnt.rpcnt{background:var(--accent);color:#1a1003}
+
 .rphi{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 16%,var(--card-2));color:var(--accent)}.rphi svg{width:26px;height:26px}
 .rphero{grid-template-columns:56px minmax(0,1fr) auto}
 .rpcur .l2{display:flex;flex-direction:column;gap:8px}
@@ -2613,7 +2603,7 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
 .pdgal button{position:relative}.rpfk{position:absolute;left:6px;bottom:6px;font-style:normal;font:700 11px var(--f-body);padding:2px 7px;border-radius:12px;background:#000a;color:#fff}
 .rpsh{display:flex;align-items:center;gap:6px;margin:14px 0 6px;font-size:13px}.rpsh svg{width:15px;height:15px;color:var(--soon)}
 .pdsheet>.pdrow{margin-bottom:6px}
-@media (max-width:420px){.rphero{grid-template-columns:48px minmax(0,1fr)}.rphi{width:48px;height:48px}.tshort{grid-template-columns:repeat(3,1fr)!important}}
+@media (max-width:420px){.rphero{grid-template-columns:48px minmax(0,1fr)}.rphi{width:48px;height:48px}}
 /* fichas con «etiqueta valor» en span/b (intervención): en dos columnas */
 .kv2:has(>span){display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;gap:8px 16px;align-items:baseline}
 .kv2:has(>span)>b{text-align:right}
@@ -2653,7 +2643,7 @@ body.v3.light{
 :where(.v3stack,.v3bar) h2::before,:where(.v3stack,.v3bar) h2::after{display:none!important;content:none}
 header.v3bar{display:grid;flex-wrap:nowrap;box-shadow:none;z-index:9300;position:fixed}
 /* ---------- fuera lo de antes ---------- */
-body.v3 :is(#top2,#nav2,#fab2,.subtabs#stMant,.subtabs#stPap,.subtabs#stCoche,.ctabs,.gedge.r,.navpill){display:none!important}
+body.v3 :is(#top2,.subtabs#stMant,.subtabs#stPap,.subtabs#stCoche){display:none!important}
 body.v3 .pages{background:var(--v-bg)!important;background-image:none!important}
 body.v3:not(.v3leaf) .pages:not(.v3keep){visibility:hidden}
 body.v3:not(.v3leaf) .app:not(.v3keep){visibility:hidden!important}
@@ -2913,8 +2903,8 @@ body.v3 .srch{background:#0009;-webkit-backdrop-filter:blur(14px);backdrop-filte
 body.v3 .srbox{background:var(--v-cell);border:0;border-radius:16px;font-family:var(--v-font)}
 body.v3 .srin{background:var(--v-cell2);border-radius:12px;margin:10px;border:0}
 body.v3 .toasts .toast,body.v3 .toast{border-radius:14px;font-family:var(--v-font)}
-body.v3 .hyear span{font-family:var(--v-font)}
-body.v3 .tshort{display:none!important}
+
+
 /* Hoy en pantallas anchas: el coche a la izquierda, lo de ahora a la derecha */
 @media (min-width:1180px){
   .v3in.vhoy{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);column-gap:28px;align-items:start;grid-template-areas:"lt lt" "hero now" "quick now" "money next" "money ."}
@@ -3128,10 +3118,10 @@ body.v3 .ovl :is(input,select,textarea,.field input,.field textarea),body.v3 .fu
 body.v3 .ovl :is(h2,h3,.lab,label.f){font-family:var(--v-font)!important;text-transform:none!important;letter-spacing:0!important}
 body.v3 .ovl label.f{color:var(--v-txt2)!important;font-size:13px!important}
 /* compra: filas con el check redondo */
-body.v3 .cmpi{background:var(--v-cell2)!important;border:0!important;border-radius:14px!important;padding:12px!important}
-body.v3 .cmpi .ck{border-radius:50%!important;border-color:var(--v-txt3)!important;width:28px;height:28px}
-body.v3 .cmpi .ck.on{background:var(--v-green)!important;border-color:var(--v-green)!important}
-body.v3 .cmpi .pr{color:var(--v-txt)!important;font:600 15px var(--v-font)!important}
+
+
+
+
 /* documentos: tarjetas sin degradados de la 2.x */
 body.v3 .doc2{background:var(--v-cell)!important;border:0!important;border-radius:18px!important}
 body.v3 .doc2::after{opacity:.5}
@@ -3152,8 +3142,8 @@ body.v3 :is(.yb2 .st i,.ybars2 i){background:var(--accent)!important;border-radi
 @media (max-width:700px){ body.v3 .pbody .wrap :is(.card2,.mtlcard,.grid2>*){max-width:none!important;width:auto!important;grid-column:1/-1!important} }
 body.v3 .pbody .wrap{max-width:860px}
 /* los títulos de sección de las pantallas antiguas */
-body.v3 :is(.mhecho h4,.hyear span){font-family:var(--v-font)!important;text-transform:none!important;letter-spacing:-.01em!important}
-body.v3 .mhecho h4{font-size:20px!important;font-weight:700!important}
+
+
 body.v3 .mtlcard{display:block!important;width:auto!important;max-width:none!important;box-sizing:border-box}
 body.v3 .fusq{width:100%!important;box-sizing:border-box}
 body.v3 .mtop{flex-wrap:wrap!important;gap:10px!important}
@@ -3287,7 +3277,7 @@ body.v3 .pdquick small{color:#fff!important;opacity:.88}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.0.0-beta.6</span>
+  <span class="spver">v4.0.0-beta.7</span>
 </div>
 
 <header class="top2" id="top2">
@@ -3303,12 +3293,11 @@ body.v3 .pdquick small{color:#fff!important;opacity:.88}
 </header>
 
 
-<div class="subtabs ctabs" id="stCoche" role="tablist"></div>
 <main class="pages" id="pages">
   <section class="page" data-sec="inicio"><div class="pin2" id="pgInicio"></div></section>
   <section class="page" data-sec="coche"><div class="pbody" id="pbCoche"></div></section>
-  <section class="page" data-sec="mant"><div class="subtabs" id="stMant" role="tablist"></div><div class="pbody" id="pbMant"></div></section>
-  <section class="page" data-sec="papeles"><div class="subtabs" id="stPap" role="tablist"></div><div class="pbody" id="pbPap"></div></section>
+  <section class="page" data-sec="mant"><div class="pbody" id="pbMant"></div></section>
+  <section class="page" data-sec="papeles"><div class="pbody" id="pbPap"></div></section>
   <section class="page" data-sec="mas"><div class="pbody" id="pbMas"></div></section>
 </main>
 
@@ -6661,7 +6650,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.0.0-beta.6';
+window.APP_VERSION='4.0.0-beta.7';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6695,7 +6684,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.0.0-beta.6';
+  const APP_VERSION='4.0.0-beta.7';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -6924,7 +6913,9 @@ function uiSfx(kind){
     else if(kind==='open'){ noise(t0,.12,.35,900); }
   }catch{}
 }
-{ const _toast=toast; toast=function(msg,kind,action){ uiSfx(kind==='err'?'err':/intervenci/i.test(msg)?'ratchet':/guard|añad|registr|restaur|borrad|quitad|actualiz|cread/i.test(msg)?'save':null); flashSync(); return _toast(msg,kind,action); }; }
+/* avisos: una sola capa sobre el toast del núcleo 1.x; cada módulo añade lo suyo en TOAST_PRE (puede devolver el texto cambiado) */
+const TOAST_PRE=[];
+{ const _toast=toast; toast=function(msg,kind,action){ for(const f of TOAST_PRE){ try{ const r=f(msg,kind); if(typeof r==='string') msg=r; }catch(e){ console.error(e); } } uiSfx(kind==='err'?'err':/intervenci/i.test(msg)?'ratchet':/guard|añad|registr|restaur|borrad|quitad|actualiz|cread/i.test(msg)?'save':null); flashSync(); return _toast(msg,kind,action); }; }
 
 /* ---------- tema ---------- */
 function applyTheme(){
@@ -6947,11 +6938,8 @@ const SECS={
 };
 const MAS_T={avisos:'Avisos', procs:'Guías', pines:'Notas en el modelo', pend:'Fichas pendientes', backup:'Copia de seguridad', keys:'Atajos de teclado', about:'Acerca de', ajustes:'Ajustes'};
 $('#t2Search').innerHTML=ic('search'); $('#srIco').innerHTML=ic('search');
+/* secciones 2.x: ya sin pestañas visibles; quedan como lienzo para el 3D y los paneles 1.x */
 const SUBBOX={mant:'#stMant',papeles:'#stPap',coche:'#stCoche'}, SUBPB={mant:'#pbMant',papeles:'#pbPap',coche:'#pbCoche'};
-for(const [sec,box] of Object.entries(SUBBOX)){
-  const st=$(box);
-  for(const [k,l,i] of SECS[sec].subs){ const b=h2(`<button type="button" role="tab" data-sub="${k}">${ic(i)}<span>${l}</span></button>`); b.onclick=()=>{ uiSfx('tap'); if(k==='docs'){ S.docEdit=null; UI.docForm=false; } if(k==='ave'){ S.aveEdit=null; S.aveDraftParts=null; } openSub(sec,k); setTop(); }; st.append(b); }
-}
 /* «Gráficos» pasa a la barra superior (solo en Coche 3D); «Taller» se reparte en las secciones */
 { const mbs=[...document.querySelectorAll('.menubar .mb')]; const g=mbs[0];
   if(g){ const b=g.querySelector('.mbtn'); b.innerHTML=ic('sliders')+'<span>Gráficos</span>'; $('#t2r').prepend(g); }
@@ -6976,7 +6964,7 @@ openPanel=function(id,mode){
     const [sec,sub]=ROUTE[mode]();
     if(sec==='inicio'){ go('inicio'); return; }
     go(sec,null,{silent:true});
-    if(sec==='mas'){ UI.mas=sub; renderMas(); dockOpen($('#pbMas .masdock'),id,mode); setTop(); return; }
+    if(sec==='mas'){ UI.mas=sub; dockOpen($('#pbMas'),id,mode); setTop(); return; }
     if(sec==='coche'){ UI.sub.coche=sub; markSub('coche'); clearCoche(); dockOpen($('#pbCoche'),id,mode); setTop(); return; }
     if(sub.endsWith('!')){ openSub(sec, sub.slice(0,-1)); return; }
     UI.sub[sec]=sub; markSub(sec); if(sec==='mant') clearPb($('#pbMant')); dockOpen(sec==='mant'?$('#pbMant'):$('#pbPap'), id, mode); setTop(); return;
@@ -6995,7 +6983,6 @@ focusPart=function(...a){ if(UI.sec!=='coche' || UI.sub.coche!=='3d') go('coche'
 startupReminder=function(){};   // el resumen del Inicio sustituye al aviso emergente
 
 function restoreSub(){
-  if(UI.sec==='mas'){ if(UI.mas && UI.mas!=='ajustes' && UI.mas!=='avisos'){ UI.mas=null; } renderMas(); setTop(); return; }
   if(UI.sec==='mant'||UI.sec==='papeles'||UI.sec==='coche') openSub(UI.sec, UI.sub[UI.sec]);
 }
 function markSub(sec){ document.querySelectorAll(SUBBOX[sec]+' button').forEach(b=>b.setAttribute('aria-selected', b.dataset.sub===UI.sub[sec])); if(sec==='coche') document.body.dataset.csub=UI.sub.coche; }
@@ -7026,7 +7013,7 @@ function go(sec, sub, opts={}){
   else if(sec==='coche'){ if(UI.sub.coche!=='3d') openSub('coche', UI.sub.coche); }
   else if(sec==='mant') openSub('mant', sub||UI.sub.mant);
   else if(sec==='papeles') openSub('papeles', sub||UI.sub.papeles);
-  else if(sec==='mas'){ UI.mas=null; renderMas(); setTop(); }
+  else if(sec==='mas'){ UI.mas=null; setTop(); }
   setTop();
 }
 
@@ -7116,30 +7103,11 @@ $('#camIn').onchange=async e=>{
 function clearPb(pb){ [...pb.children].forEach(c=>{ if(c!==ovl) c.remove(); }); }
 function clearPap(){ const pb=$('#pbPap'); $('#holdCoche').append($('#secCoche')); [...pb.children].forEach(c=>{ if(c!==ovl) c.remove(); }); }
 /* ---------- MÁS ---------- */
-function renderMas(){
-  const pb=$('#pbMas'); if(pb.contains(ovl)){ ovl.classList.remove('docked'); ovlHome.append(ovl); } pb.innerHTML='';
-  if(UI.mas==='avisos'){ renderAvisos(pb); return; }
-  if(UI.mas && UI.mas!=='ajustes'){ pb.append(h2('<div class="masdock"></div>')); return; }
-  if(UI.mas==='ajustes'){ renderAjustes(pb); return; }
-  const touch=matchMedia('(hover: none)').matches;
-  const G=[
-    ['Taller',[['procs','book','Guías de reparación','Pasos, herramientas y pares'],['pines','pin','Notas en el modelo','Avisos clavados en las piezas'],['pend','list','Fichas pendientes','Qué piezas faltan por documentar']]],
-    ['Datos',[['backup','download','Copia de seguridad','Exportar o restaurar tus datos'],['pdf','file','Historial en PDF','Para imprimir o enviar'],['wiz','sparkle','Asistente inicial','Km, últimos cambios y papeles en 4 pasos']]],
-    ['Aplicación',[['avisos','alert','Avisos y notificaciones','Push, correo y Telegram'],['ajustes','sliders','Ajustes','Tema, sonidos, gráficos y avanzado'],...(touch?[]:[['keys','keyboard','Atajos de teclado','Teclas rápidas del visor']]),['about','info','Acerca de y actualizaciones','Versión, novedades y créditos'],['logout','logout','Cerrar sesión',(window.FB?.user?.()?.email||'Cuenta de Google')]]],
-  ];
-  for(const [gt,items] of G){
-    const sec=h2(`<div class="mgrp"><h4>${gt}</h4><div class="mtiles"></div></div>`), t=sec.querySelector('.mtiles');
-    for(const [k,i,l,d] of items){ const b=h2(`<button type="button" class="mt"><i>${ic(i)}</i><span><b>${l}</b><small>${esc(d)}</small></span>${ic('chevR')}</button>`); b.onclick=()=>{ uiSfx('tap'); masOpen(k); }; t.append(b); }
-    pb.append(sec);
-  }
-  pb.append(h2('<div style="height:24px"></div>'));
-}
 function masOpen(k){
   if(k==='pdf') return $('#mPdf').click();
   if(k==='glb'){ go('coche'); return $('#mGlb').click(); }
   if(k==='wiz') return openWizard(0);
   if(k==='logout') return $('#mLogout').click();
-  if(k==='ajustes'||k==='avisos'){ UI.mas=k; renderMas(); setTop(); return; }
   if(k==='procs') S.procEdit=null;
   openGlobal(k);
 }
@@ -7147,10 +7115,10 @@ function renderAjustes(pb){
   const g=h2('<div class="mgrp"><div class="mtiles" style="grid-template-columns:1fr"></div></div>'), t=g.querySelector('.mtiles'); pb.append(g);
   const row=(i,l,d,ctl)=>{ const r=h2(`<div class="mt aj" style="cursor:default"><i>${ic(i)}</i><span><b>${l}</b><small>${d}</small></span></div>`); if(ctl.classList.contains('seg3')) r.classList.add('wide'); r.append(ctl); t.append(r); return r; };
   const seg=h2('<div class="seg3"></div>');
-  for(const [k,l] of [['dark','Oscuro'],['light','Claro'],['auto','Auto']]){ const b=h2(`<button type="button" aria-pressed="${UI.prefs.theme===k}">${l}</button>`); b.onclick=()=>{ UI.prefs.theme=k; savePrefsUI(); applyTheme(); renderMas(); }; seg.append(b); }
+  for(const [k,l] of [['dark','Oscuro'],['light','Claro'],['auto','Auto']]){ const b=h2(`<button type="button" aria-pressed="${UI.prefs.theme===k}">${l}</button>`); b.onclick=()=>{ UI.prefs.theme=k; savePrefsUI(); applyTheme(); v2Rerender(); }; seg.append(b); }
   row('sun','Tema','Claro para usarla al sol en el taller',seg);
-  { const sg=h2('<div class="seg3"></div>'); for(const [k,l] of [['full','Espectacular'],['simple','Sencilla']]){ const b=h2(`<button type="button" aria-pressed="${(UI.prefs.intro||'full')===k}">${l}</button>`); b.onclick=()=>{ UI.prefs.intro=k; savePrefsUI(); renderMas(); }; sg.append(b); } row('zap','Pantalla de arranque','Con motor, luces y sacudida, o directa a la app',sg); }
-  const sw=(on,fn)=>{ const s=h2(`<button type="button" class="sw${on?' on':''}" role="switch" aria-checked="${on}"></button>`); s.onclick=()=>{ fn(); renderMas(); }; return s; };
+  { const sg=h2('<div class="seg3"></div>'); for(const [k,l] of [['full','Espectacular'],['simple','Sencilla']]){ const b=h2(`<button type="button" aria-pressed="${(UI.prefs.intro||'full')===k}">${l}</button>`); b.onclick=()=>{ UI.prefs.intro=k; savePrefsUI(); v2Rerender(); }; sg.append(b); } row('zap','Pantalla de arranque','Con motor, luces y sacudida, o directa a la app',sg); }
+  const sw=(on,fn)=>{ const s=h2(`<button type="button" class="sw${on?' on':''}" role="switch" aria-checked="${on}"></button>`); s.onclick=()=>{ fn(); v2Rerender(); }; return s; };
   row('volume','Sonidos de la interfaz','Clics al tocar y al recorrer listas, carraca al registrar',sw(UI.prefs.sound,()=>{ UI.prefs.sound=!UI.prefs.sound; savePrefsUI(); uiSfx('save'); }));
   row('car','Sonidos de puertas y capó','En el visor 3D',sw($('#rSnd').checked,()=>$('#rSnd').click()));
   if(navigator.vibrate) row('vibrate','Vibración','Al tocar botones, guardar y recorrer listas',sw(UI.prefs.haptics,()=>{ UI.prefs.haptics=!UI.prefs.haptics; savePrefsUI(); }));
@@ -7160,6 +7128,12 @@ function renderAjustes(pb){
   t.append(h2('<h4 class="ajh">Avanzado</h4>'));
   { const ib=h2(`<button type="button" class="btn2 ghost">${ic('cube')}Importar</button>`); ib.onclick=()=>{ go('coche','3d'); $('#mGlb').click(); }; row('cube','Importar pieza escaneada','Archivo GLB o glTF al modelo 3D',ib); }
   { const d=h2(`<p class="muted2" style="margin:14px 2px 0;font-size:11px;opacity:.6"></p>`); d.textContent=`Pantalla ${SCR.iw}×${SCR.ih} (alto real ${SCR.sh}) · zonas seguras ${SCR.t}/${SCR.b} · franja ${SCR.gap} · ${SCR.st?'instalada':'navegador'}`; (typeof g!=='undefined'&&g?.append)?g.append(d):null; }
+
+  /* Animaciones, justo después de «Pantalla de arranque» */
+  { const t=[...pb.querySelectorAll('.mt.aj')].find(r=>/Pantalla de arranque/.test(r.textContent)); if(t){ const sg=h2('<div class="seg3"></div>'); for(const [k,l] of [['full','Todas'],['lo','Discretas'],['off','Ninguna']]){ const b=h2(`<button type="button" aria-pressed="${UI.prefs.anim===k}">${l}</button>`); b.onclick=()=>{ UI.prefs.anim=k; savePrefsUI(); applyAnimPref(); v2Rerender(); }; sg.append(b); }
+    const r=h2(`<div class="mt aj wide" data-k="anim" style="cursor:default"><i>${ic('sparkle')}</i><span><b>Animaciones</b><small>Movimiento, brillos, corriente en los cables y transiciones${RM?' · tu sistema pide reducir el movimiento':''}</small></span></div>`); r.append(sg); t.after(r); } }
+  /* los datos técnicos de la pantalla, plegados */
+  { const p=[...pb.querySelectorAll('p.muted2')].find(x=>/zonas seguras/.test(x.textContent)); if(p){ const d=h2(`<details class="diag"><summary>Datos técnicos de la pantalla</summary></details>`); p.style.opacity=''; p.style.margin='6px 2px 0'; p.before(d); d.append(p); } }
 }
 { const _ab=EXTRA_POP.about; EXTRA_POP.about=function(){ _ab(); $('#ovlBody .about')?.append(h2(`<p class="credit2">Modelo 3D: «Volkswagen Touareg MK1 2002-2010» de Merc_TV · <a href="https://creativecommons.org/licenses/by/4.0/deed.es" target="_blank" rel="noopener">CC BY 4.0</a> · modificado (frontal 2003, variantes retiradas, ruedas recolocadas, pintura).</p>`)); }; }
 
@@ -7173,7 +7147,10 @@ const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''
 function hl(text,q){ const t=String(text||''); if(!q) return esc(t); const i=norm(t).indexOf(q); return i<0?esc(t):esc(t.slice(0,i))+'<mark>'+esc(t.slice(i,i+q.length))+'</mark>'+esc(t.slice(i+q.length)); }
 { let st=null; $('#srQ').oninput=e=>{ clearTimeout(st); const v=e.target.value; st=setTimeout(()=>runSearch(v),110); }; }
 $('#srQ').onkeydown=e=>{ if(e.key==='Enter'){ $('#srRes .r2')?.click(); } };
-function runSearch(raw){
+/* el buscador: lo básico aquí y lo que añade cada módulo en SEARCH_EXT (en orden), sin envolver la función */
+const SEARCH_EXT=[];
+function runSearch(raw){ searchBase(raw); for(const f of SEARCH_EXT){ try{ f(raw); }catch(e){ console.error(e); } } }
+function searchBase(raw){
   const q=norm(raw.trim()), out=$('#srRes'); out.innerHTML='';
   if(!q){ out.append(h2(`<div class="empty2">${ic('search')}<div>Escribe el nombre de una pieza, una referencia, un código PR o de avería, un documento…</div></div>`));
     const sug=h2('<div class="chips2 subtabs" style="border:0;background:none;justify-content:center"></div>'); for(const s of ['Filtro','Aceite','ITV','Freno','Fusible','C9Z']){ const b=h2(`<button type="button">${s}</button>`); b.onclick=()=>{ $('#srQ').value=s; runSearch(s); }; sug.append(b); } out.append(sug); return; }
@@ -7644,7 +7621,7 @@ async function renderAvisos(pb){
 }
 async function renderAvisos2(pb){
   if(!UI.avCfg && S.db){ pb.innerHTML=''; pb.append(h2('<div class="mgrp"><div class="skel" style="height:160px;border-radius:14px"></div></div>'));
-    const d=await withTO(S.db.doc('avisos/config').get(), 4000, null); UI.avCfg = d && d.exists ? (d.data()||{}) : {}; if(UI.sec!=='mas'||UI.mas!=='avisos') return; }
+    const d=await withTO(S.db.doc('avisos/config').get(), 4000, null); UI.avCfg = d && d.exists ? (d.data()||{}) : {}; if(!pb.isConnected) return; }
   const cfg={...AV_DEF, ...(UI.avCfg||{})}; cfg.canales={...AV_DEF.canales, ...(cfg.canales||{})}; if(!Array.isArray(cfg.antelacion)) cfg.antelacion=AV_DEF.antelacion;
   pb.innerHTML=''; const wrap=h2('<div class="mgrp" style="padding-bottom:28px"></div>'); pb.append(wrap);
   const save=async()=>{ UI.avCfg=cfg; try{ await S.db.doc('avisos/config').set({hora:cfg.hora, diaSemanal:cfg.diaSemanal, antelacion:cfg.antelacion, canales:cfg.canales, actualizado:new Date().toISOString()}); toast('Avisos guardados'); }catch{ toast('No se pudo guardar','err'); } };
@@ -7863,8 +7840,7 @@ $('#t2Sync').style.cursor='pointer'; $('#t2Sync').onclick=()=>toast(navigator.on
 addEventListener('keydown',e=>{ if(e.ctrlKey||e.metaKey||e.altKey||e.key.length!==1) return; if(/input|textarea|select/i.test(e.target.tagName||'')||e.target.isContentEditable) return;
   if(UI.sec!=='coche' || UI.sub.coche!=='3d' || !$('#srch').hidden || !$('#sheet2').hidden) e.stopImmediatePropagation(); }, true);
 /* --- buscador: acciones directas (las búsquedas recientes están en v3/05-herramientas, guardadas en tu cuenta) --- */
-{ const _rs=runSearch; runSearch=function(raw){
-    _rs(raw);
+SEARCH_EXT.push(function(raw){
     const out=$('#srRes'), q=norm(raw.trim());
     if(!q) return;
     const acts=[];
@@ -7881,7 +7857,7 @@ addEventListener('keydown',e=>{ if(e.ctrlKey||e.metaKey||e.altKey||e.key.length!
     const box=h2('<div class="sracts"><h5>Acciones</h5></div>');
     for(const x of acts){ const r=h2(`<button type="button" class="r2 act"><span class="ic">${ic(x.i)}</span><span class="tx"><b>${esc(x.t)}</b></span>${ic('chevR')}</button>`); r.onclick=()=>{ uiSfx('tap'); srSave(raw); closeSearch(); x.fn(); }; box.append(r); }
     out.prepend(box);
-  }; }
+  });
 
 
 /* ====================== v1.3.1 ====================== */
@@ -8014,7 +7990,7 @@ function odo(el, text, key){
 /* 2: celebración al guardar */
 function celebrate(){ if(RM) return; document.querySelector('.celeb')?.remove();
   const c=h2(`<div class="celeb" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="27"/><path d="M19 33l9 9 17-19"/></svg></div>`); document.body.append(c); setTimeout(()=>c.remove(),1100); }
-{ const _t=toast; toast=function(msg,kind,action){ if(!kind && /registrad|guardad|comprad|montad|añadid a la compra|avería registrada|documento guardado/i.test(msg)) celebrate(); return _t(msg,kind,action); }; }
+TOAST_PRE.push((msg,kind)=>{ if(!kind && /registrad|guardad|comprad|montad|añadid a la compra|avería registrada|documento guardado/i.test(msg)) celebrate(); });
 /* 8: onda naranja desde donde tocas */
 document.addEventListener('pointerdown',e=>{ if(RM) return; const t=e.target.closest?.('.btn2, .mt, .r2, .fabg button, .navmenu button, .stc, .kmedit, .spstart'); if(!t || t.disabled) return;
   const r=t.getBoundingClientRect(), d=Math.max(r.width,r.height)*2.2, w=h2('<span class="ripple"></span>'); w.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left-d/2}px;top:${e.clientY-r.top-d/2}px`;
@@ -8124,45 +8100,10 @@ const SUB2={
   mant:[['repost','Repostajes','fuel',2],['ruedas','Ruedas','tyre',3]],
   papeles:[['itv','ITV','checkc',1],['garant','Garantías','shield',2],['sinies','Siniestros','alert',3]],
 };
-for(const [sec,list] of Object.entries(SUB2)){
-  const st=$(SUBBOX[sec]);
-  for(const [k,l,i,pos] of list){
-    SECS[sec].subs.splice(pos,0,[k,l,i]);
-    const b=h2(`<button type="button" role="tab" data-sub="${k}">${ic(i)}<span>${l}</span></button>`);
-    b.onclick=()=>{ uiSfx('tap'); openSub(sec,k); setTop(); };
-    const bs=st.querySelectorAll('button[data-sub]'); st.insertBefore(b, bs[pos]||null);
-  }
-  st.classList.add('many');
-}
-{ const f=SECS.papeles.subs.find(x=>x[0]==='fotos'); if(f) f[1]='Archivos'; const b=document.querySelector('#stPap button[data-sub="fotos"] span'); if(b) b.textContent='Archivos';
-  const d=SECS.papeles.subs.find(x=>x[0]==='docs'); if(d) d[1]='Papeles'; const bd=document.querySelector('#stPap button[data-sub="docs"] span'); if(bd) bd.textContent='Papeles'; }
+for(const [sec,list] of Object.entries(SUB2)) for(const [k,l,i,pos] of list) SECS[sec].subs.splice(pos,0,[k,l,i]);
+{ const f=SECS.papeles.subs.find(x=>x[0]==='fotos'); if(f) f[1]='Archivos'; const d=SECS.papeles.subs.find(x=>x[0]==='docs'); if(d) d[1]='Papeles'; }
 /* ---------- MÁS: páginas nuevas ---------- */
 const MAS2={};
-{ const _rm=renderMas; renderMas=function(){
-    const pb=$('#pbMas');
-    if(UI.mas && MAS2[UI.mas]){ if(pb.contains(ovl)){ ovl.classList.remove('docked'); ovlHome.append(ovl); ovl.hidden=true; } v2Page(pb, MAS2[UI.mas][1]); return; }
-    V2.cur=null;
-    if(UI.mas) return _rm();
-    v2MasHome(pb);
-  }; }
-{ const _mo=masOpen; masOpen=function(k){ if(MAS2[k]){ UI.mas=k; renderMas(); setTop(); $('#pbMas').scrollTop=0; return; } return _mo(k); }; }
-function v2MasHome(pb){
-  if(pb.contains(ovl)){ ovl.classList.remove('docked'); ovlHome.append(ovl); } pb.innerHTML='';
-  const touch=matchMedia('(hover: none)').matches;
-  const G=[
-    ['Piezas y taller',[['fichas','tag','Piezas','Busca por referencia o nombre y explora los dibujos'],['ficha','gauge','Ficha técnica del BAC','Aceites, capacidades, pares y presiones'],['procs','book','Guías y manuales','Paso a paso, con herramientas y pares'],['listas','list','Listas de comprobación','Antes de la ITV, viaje largo, invierno…'],['talleres','wrench','Talleres y proveedores','Teléfonos, valoración y trabajos hechos'],['pines','pin','Notas en el modelo','Avisos clavados en las piezas del 3D'],['pend','cube','Piezas del 3D sin referencia','Las que aún no tienen ficha completa']]],
-    ['Números y documentos',[['stats','chart','Estadísticas','Coste por año, por km y por categoría'],['dossier','file','Dossier de venta','PDF con historial, ITV y fotos'],['pdf','receipt','Historial en PDF','Resumen corto para imprimir'],['compartir','link','Enlace para el taller','Solo lectura y con caducidad']]],
-    ['Tus datos',[['backup','cloud','Copia de seguridad','Semanal automática, exportar y restaurar'],['importar','upload','Importar datos','Lotes de ElsaWin y ETKA, con deshacer'],['wiz','sparkle','Asistente inicial','Km, últimos cambios y papeles']]],
-    ['Aplicación',[['avisos','alert','Avisos y notificaciones','Push, correo y Telegram'],['ajustes','sliders','Ajustes','Tema, sonidos, gráficos y avanzado'],...(touch?[]:[['keys','keyboard','Atajos de teclado','Teclas rápidas del visor']]),['about','info','Acerca de y actualizaciones','Versión, novedades y créditos'],['logout','logout','Cerrar sesión',(window.FB?.user?.()?.email||'Cuenta de Google')]]],
-  ];
-  for(const [gt,items] of G){
-    const sec=h2(`<div class="mgrp"><h4>${gt}</h4><div class="mtiles"></div></div>`), t=sec.querySelector('.mtiles');
-    for(const [k,i,l,d] of items){ const b=h2(`<button type="button" class="mt" data-k="${k}"><i>${ic(i)}</i><span><b>${l}</b><small>${esc(d)}</small></span>${ic('chevR')}</button>`); b.onclick=()=>{ uiSfx('tap'); masOpen(k); }; t.append(b); }
-    pb.append(sec);
-  }
-  pb.append(h2('<div style="height:24px"></div>'));
-}
-
 /* ---------- formularios genéricos ---------- */
 const MOD={};
 function provList(){ const s=new Set(); for(const t of S.v2.talleres) if(t.nombre) s.add(t.nombre);
@@ -8769,7 +8710,7 @@ function renderFichaTec(w){
 MAS2.ficha=['Ficha técnica', renderFichaTec];
 
 /* ---------- GASTOS: todas las categorías ---------- */
-const CAT={taller:['Taller y mano de obra','wrench','var(--ok)'], piezas:['Piezas','cart','var(--soon)'], combustible:['Combustible','fuel','var(--info)'], mejoras:['Mejoras','sparkle','#b77cff'], neumaticos:['Neumáticos','tyre','#8fa3b8'], itv:['ITV','checkc','#2fc4c4'], siniestros:['Siniestros y multas','alert','var(--due)'], impuestos:['Impuestos','euro','#e0a34a']};
+const CAT={taller:['Taller y mano de obra','wrench','var(--ok)'], piezas:['Piezas','cart','var(--soon)'], combustible:['Combustible','fuel','var(--info)'], mejoras:['Mejoras','sparkle','#b77cff'], neumaticos:['Neumáticos','tyre','#8fa3b8'], itv:['ITV','checkc','#2fc4c4'], siniestros:['Siniestros y multas','alert','var(--due)'], impuestos:['Impuestos (IVTM)','euro','#d4a72c']};
 const INV_CATS=new Set(['piezas','taller','mejoras','neumaticos']);
 const invMov=()=>gastosMov().filter(x=>INV_CATS.has(x.cat));   /* lo que es inversión en el coche (sin gasolina ni papeles) */
 function gastosMov(){
@@ -9182,8 +9123,7 @@ async function readInvoiceInto(file){
   }; }
 
 /* ---------- BUSCADOR: secciones nuevas ---------- */
-{ const _rs=runSearch; runSearch=function(raw){
-    _rs(raw); const q=norm(raw.trim()); if(!q) return; const out=$('#srRes'), G=[];
+SEARCH_EXT.push(function(raw){ const q=norm(raw.trim()); if(!q) return; const out=$('#srRes'), G=[];
     const add=(g,i,t,s,fn)=>{ let x=G.find(z=>z.g===g); if(!x){ x={g,items:[]}; G.push(x); } if(x.items.length<6) x.items.push({i,t,s,fn}); };
     const hit=(...a)=>norm(a.join(' ')).includes(q);
     for(const x of S.v2.talleres) if(hit(x.nombre,x.direccion,x.notas,x.telefono)) add('Talleres','wrench',x.nombre,[TIPO_T[x.tipo],x.telefono].filter(Boolean).join(' · '),()=>{ closeSearch(); go('mas'); masOpen('talleres'); setTimeout(()=>tallerDetail(x),200); });
@@ -9198,7 +9138,7 @@ async function readInvoiceInto(file){
     if(!G.length) return;
     out.querySelector(':scope > .empty2')?.remove();
     for(const g of G){ out.append(h2(`<h5>${g.g}</h5>`)); for(const x of g.items){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic(x.i)}</span><span class="tx"><b>${hl(x.t,q)}</b><small>${hl(x.s,q)}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ uiSfx('tap'); x.fn(); }; out.append(r); } }
-  }; }
+  });
 
 
 /* ====================== v2.0: IMPORTACIÓN POR LOTES Y CATÁLOGO DE PIEZAS ======================
@@ -9364,13 +9304,11 @@ function cardKey(el){ const c=CARDK.find(k=>el.classList.contains(k)); if(c) ret
 function txtNode(el){ if(!el) return null; for(const n of el.childNodes) if(n.nodeType===3 && n.textContent.trim()) return n; return null; }
 function getLab(el){ return (txtNode(el)?.textContent||el?.textContent||'').trim(); }
 function setLab(el, v){ const n=txtNode(el); if(n) n.textContent=v; else if(el && !el.children.length) el.textContent=v; else el?.append(document.createTextNode(v)); }
-/* grupos ordenables */
+/* grupos ordenables (en la 4.0 solo quedan los botones del visor 3D) */
 const OGS=[
-  {key:'inicio', name:'los paneles de Inicio', box:()=>$('#pgInicio .grid2'), items:b=>[...b.children].filter(x=>x.classList.contains('card2')), id:el=>el.dataset.k||(el.dataset.k=cardKey(el)), lab:el=>el.querySelector(':scope>h3'), axis:'y', compact:true},
-  ...['coche','mant','papeles'].map(sec=>({key:'sub:'+sec, name:'las pestañas de '+SECS[sec].t, box:()=>$(SUBBOX[sec]), items:b=>[...b.querySelectorAll(':scope>button[data-sub]')], id:el=>el.dataset.sub, lab:el=>el.querySelector('span'), axis:'x', after:()=>syncSubsFromDom(sec)})),
   {key:'tools3d', name:'los botones del visor 3D', box:()=>document.querySelector('.tools'), items:b=>[...b.children].filter(x=>x.querySelector('button')), id:el=>el.querySelector('button')?.id||el.id, lab:el=>el.classList.contains('vdrop')?el.querySelector('.vl'):el.querySelector('button'), axis:'x'},
 ];
-function masGroups(){ return [...document.querySelectorAll('#pbMas .mgrp')].filter(m=>m.querySelector('.mtiles .mt[data-k]')).map(m=>{ const t=m.querySelector('h4')?.textContent||''; return {key:'mas:'+slug(t), name:'los botones de «'+t+'»', box:()=>m.querySelector('.mtiles'), items:b=>[...b.querySelectorAll(':scope>.mt[data-k]')], id:el=>el.dataset.k, lab:el=>el.querySelector('b'), axis:'y', after:masTitles}; }); }
+function masGroups(){ return []; }   /* la portada de «Más» ya no existe */
 function allGroups(){ return [...OGS, ...masGroups()]; }
 function groupOf(target){ for(const g of allGroups()){ const b=g.box(); if(!b || !b.contains(target)) continue; const it=g.items(b).find(x=>x.contains(target)); if(it) return {g, b, it}; } return null; }
 const UIC=()=>S.cfgX.ui||{};
@@ -9385,17 +9323,11 @@ function applyGroup(g){
   g.after?.();
 }
 function applyAll(){ for(const g of allGroups()) try{ applyGroup(g); }catch(e){ console.warn('orden', g.key, e); } }
-function syncSubsFromDom(sec){
-  const st=$(SUBBOX[sec]); if(!st) return; const byK=Object.fromEntries(SECS[sec].subs.map(s=>[s[0],s]));
-  SECS[sec].subs=[...st.querySelectorAll(':scope>button[data-sub]')].map(b=>{ const s=byK[b.dataset.sub]; if(s) s[1]=getLab(b.querySelector('span')); return s; }).filter(Boolean);
-  try{ setTop(); }catch{}
-}
 function masTitles(){ const nmAll=Object.entries(UIC().nombres||{}).filter(([k])=>k.startsWith('mas:')).reduce((a,[,v])=>Object.assign(a,v),{});
   for(const k of Object.keys(ORD.origMasT)) MAS_T[k]=nmAll[k]||ORD.origMasT[k];
   for(const k of Object.keys(MAS2)){ if(!(k in ORD.origMasT)) ORD.origMasT[k]=MAS_T[k]; MAS_T[k]=nmAll[k]||ORD.origMasT[k]; } }
 function saveUI(patch){ const cur=UIC(); const d={...cur, ...patch, actualizado:new Date().toISOString()}; S.cfgX.ui=d; return S.db?.doc('config/ui').set(d); }
 /* engancharse a los repintados */
-{ const _rm=renderMas; renderMas=function(){ if(ORD.edit?.g.key.startsWith('mas:')) exitEdit(true); _rm(); if(!UI.mas) for(const g of masGroups()) applyGroup(g); }; }
 { const _vc=v2Changed; v2Changed=function(c){ _vc(c); if(c==='cfg:ui' && !ORD.edit) applyAll(); }; }
 requestAnimationFrame(applyAll);
 
@@ -9425,7 +9357,6 @@ function exitEdit(save){
   document.body.classList.remove('reord'); document.querySelector('.ordbar')?.remove();
   if(save){ const o0=JSON.parse(e.b.dataset.o0||'[]'), same=JSON.stringify(ids)===JSON.stringify(o0); const o={...(UIC().orden||{})}; if(same) delete o[e.g.key]; else o[e.g.key]=ids; if(JSON.stringify(o)!==JSON.stringify(UIC().orden||{})) saveUI({orden:o}); }
   e.g.after?.();
-  if(e.g.key==='inicio') setTimeout(()=>renderInicio(true),50);
 }
 function renameItem(g, it){
   const lab=g.lab(it); if(!lab){ toast('Este panel no tiene título que cambiar'); return; }
@@ -9845,11 +9776,11 @@ function elecGoJump(){ const id=UI.elGo; if(!id) return; if(!UI.elGoT) UI.elGoT=
 function renderElecMine(w){ const ids=new Set((S.v2.electrico||[]).flatMap(c=>(c.items||[]).map(it=>safeId(c.id+'_'+it.pos)))); const L=(S.fus||[]).filter(f=>!ids.has(f._id)); if(!L.length) return;
   const c=card2('Tus notas sueltas','edit',L.length); for(const f of L) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'fuse', t:[f.pos, f.circuito].filter(Boolean).join(' · ')||'Nota', s:[f.caja, f.amp?f.amp+' A':'', f.notas].filter(Boolean).join(' · ')})); w.append(c); }
 /* el buscador general encuentra fusibles y relés por lo que protegen */
-{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<3) return; const hits=[];
+SEARCH_EXT.push(function(raw){ const q=norm(raw.trim()); if(q.length<3) return; const hits=[];
     for(const c of (S.v2.electrico||[])) for(const it of (c.items||[])){ if(it.estado && it.estado!=='ok') continue; if(norm([it.pos,it.desc,it.cod].join(' ')).includes(q) || norm(it.pos)===q) hits.push([c,it]); }
     if(!hits.length) return; const out=$('#srRes'); out.querySelector(':scope > .empty2')?.remove(); out.append(h2('<h5>Fusibles y relés</h5>'));
     for(const [c,it] of hits.slice(0,6)){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic(c.tipo==='fusibles'?'fuse':'zap')}</span><span class="tx"><b>${esc(it.pos)} · ${hl(it.desc||'',q)}</b><small>${esc([c.tipo==='fusibles'&&it.amp?it.amp+' A':it.num?'Relé '+it.num:'', c.corto||c.nombre].filter(Boolean).join(' · '))}</small></span>${ic('chevR')}</button>`);
-      r.onclick=()=>{ closeSearch(); UI.elTab=c.tipo; go('coche','fus'); setTimeout(()=>elecItemSheet(c,it),250); }; out.append(r); } }; }
+      r.onclick=()=>{ closeSearch(); UI.elTab=c.tipo; go('coche','fus'); setTimeout(()=>elecItemSheet(c,it),250); }; out.append(r); } });
 { let k0=''; setInterval(()=>{ const k=(S.fus||[]).map(f=>f._id+(f.notas||'')).join(); if(k!==k0){ const was=k0; k0=k; if(was && V2.cur?.fn===renderElec && document.body.contains(V2.cur.root)) v2Rerender(); } }, 1000); }
 
 /* ====================== MARCADORES 3D ====================== */
@@ -10187,10 +10118,10 @@ MAS2.fichas=['Piezas', renderFichas]; MAS_T.fichas='Piezas';
 /* el antiguo «Catálogo de piezas» es ahora la pestaña «Por dibujo» de Piezas */
 MAS2.catalogo=['Piezas', w=>{ UI.fiTab='dibujo'; renderFichas(w); }]; MAS_T.catalogo='Piezas';
 /* el buscador general: fichas en vez de filas sueltas del catálogo */
-{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<3) return;
+SEARCH_EXT.push(function(raw){ const q=norm(raw.trim()); if(q.length<3) return;
     const hits=refFind(raw).slice(0,6); if(!hits.length) return;
     const out=$('#srRes'); out.querySelector(':scope > .empty2')?.remove(); out.append(h2('<h5>Piezas</h5>'));
-    for(const f of hits){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic('tag')}</span><span class="tx"><b>${hl(f.nombre,q)}</b><small>${esc([f.ref, f.uso[0]].filter(Boolean).join(' · '))}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); go('mas'); masOpen('fichas'); setTimeout(()=>fichaSheet(f.k),200); }; out.append(r); } }; }
+    for(const f of hits){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic('tag')}</span><span class="tx"><b>${hl(f.nombre,q)}</b><small>${esc([f.ref, f.uso[0]].filter(Boolean).join(' · '))}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); go('mas'); masOpen('fichas'); setTimeout(()=>fichaSheet(f.k),200); }; out.append(r); } });
 
 /* ====================== v2.1: REVISIÓN COMPLETA (navegación, arreglos y textos) ====================== */
 /* ---------- plurales: «3 archivo(s)» → «3 archivos», «1 foto(s)» → «1 foto» en cualquier texto de la app ---------- */
@@ -10203,7 +10134,7 @@ function fixPlural(t){ let last=null; return t.replace(/(\d[\d.]*(?:,\d+)?)|([A-
     for(const a of ['title','aria-label','placeholder']) n.querySelectorAll?.(`[${a}*="(s)"]`).forEach(e=>e.setAttribute(a, fixPlural(e.getAttribute(a)))); };
   new MutationObserver(ms=>{ for(const m of ms){ if(m.type==='characterData') fixNode(m.target); else m.addedNodes.forEach(fixNode); } }).observe(document.body,{subtree:true, childList:true, characterData:true});
   fixNode(document.body);
-  const _t=toast; toast=function(msg,...r){ return _t(typeof msg==='string'?fixPlural(msg):msg,...r); }; }
+  TOAST_PRE.unshift(msg=>typeof msg==='string'?fixPlural(msg):undefined); }
 
 
 /* ---------- Gráficos: escenario y calidad son de opción única ---------- */
@@ -10216,8 +10147,7 @@ document.addEventListener('pointerover', e=>{ const s=e.target.closest?.('.mi.su
 { let q=R.quality; setInterval(()=>{ if(R.quality!==q){ q=R.quality; try{ renderMenus(); }catch{} } }, 1500); }
 
 /* ---------- Ajustes: la línea técnica de pantalla pasa a «Acerca de» ---------- */
-{ const _rm=renderMas; renderMas=function(){ _rm(); if(UI.mas!=='ajustes') return; const p=[...document.querySelectorAll('#pbMas p.muted2')].find(x=>/zonas seguras/.test(x.textContent)); if(!p || p.closest('details')) return;
-    const d=h2(`<details class="diag"><summary>Datos técnicos de la pantalla</summary></details>`); p.style.opacity=''; p.style.margin='6px 2px 0'; p.before(d); d.append(p); }; }
+
 
 /* ---------- GUÍAS: página nueva (leer, seguir en el 3D, editar) + manuales ---------- */
 const gTools=pr=>[...new Set([pr.herramientas, ...(pr.pasos||[]).map(p=>p.herr)].filter(Boolean).flatMap(s=>String(s).split(/[,;·]/)).map(s=>s.trim()).filter(Boolean))];
@@ -10433,11 +10363,7 @@ function renderIVTM(w){
   for(const x of L) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'euro', t:`IVTM ${x.anio}`, s:[x.fechaPago?'Pagado el '+fmtDate(x.fechaPago):'', x.ayuntamiento, x.domiciliado?'Domiciliado':''].filter(Boolean).join(' · '), r:x.importe!=null?eurc(x.importe):'', fn:()=>recForm(MOD.ivtm,x)}));
   w.append(c);
 }
-{ SECS.papeles.subs.splice(SECS.papeles.subs.findIndex(x=>x[0]==='itv')+1,0,['ivtm','IVTM','euro']);
-  const st=$('#stPap'), b=h2(`<button type="button" role="tab" data-sub="ivtm">${ic('euro')}<span>IVTM</span></button>`); b.onclick=()=>{ uiSfx('tap'); openSub('papeles','ivtm'); setTop(); };
-  st.querySelector('button[data-sub="itv"]')?.after(b); }
-/* el IVTM pagado cuenta como gasto */
-CAT.impuestos=CAT.impuestos||['Impuestos (IVTM)','euro','#d4a72c'];
+SECS.papeles.subs.splice(SECS.papeles.subs.findIndex(x=>x[0]==='itv')+1,0,['ivtm','IVTM','euro']);
 /* documentos vigentes: el más reciente de cada tipo (los antiguos no avisan) */
 function docsVig(){ const out=[], used=new Set(); for(const dx of DOCX){ const L=docsOf(dx); if(L[0]) out.push(L[0]); L.forEach(d=>used.add(d._id)); } for(const d of S.docs) if(!used.has(d._id)) out.push(d); return out; }
 
@@ -10473,7 +10399,7 @@ function intervalSheet(it){
 }
 Object.assign(window,{docsVig, docCur, docsOf, pl});
 /* ---------- buscador: primero lo que existe, las acciones rápidas al final ---------- */
-{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); const out=$('#srRes'), a=out?.querySelector(':scope > .sracts'); if(a && a.nextElementSibling) out.append(a); }; }
+SEARCH_EXT.push(function(raw){ const out=$('#srRes'), a=out?.querySelector(':scope > .sracts'); if(a && a.nextElementSibling) out.append(a); });
 
 /* ---------- Papeles ▸ Archivos: rehecho con el diseño nuevo (los filtros antiguos no se veían) ---------- */
 function archivosAll(){
@@ -10510,9 +10436,7 @@ UI.prefs.anim=UI.prefs.anim||'full';
 function applyAnimPref(){ const a=RM?'off':UI.prefs.anim; document.body.classList.toggle('an-lo', a==='lo'); document.body.classList.toggle('an-off', a==='off'); document.body.classList.toggle('an-full', a==='full'); }
 applyAnimPref();
 const ANIMON=()=>!RM && UI.prefs.anim!=='off';
-{ const _rm=renderMas; renderMas=function(){ _rm(); if(UI.mas!=='ajustes') return; const t=[...document.querySelectorAll('#pbMas .mt.aj')].find(r=>/Pantalla de arranque/.test(r.textContent)); if(!t || t.parentElement.querySelector('.mt.aj[data-k="anim"]')) return;
-    const sg=h2('<div class="seg3"></div>'); for(const [k,l] of [['full','Todas'],['lo','Discretas'],['off','Ninguna']]){ const b=h2(`<button type="button" aria-pressed="${UI.prefs.anim===k}">${l}</button>`); b.onclick=()=>{ UI.prefs.anim=k; savePrefsUI(); applyAnimPref(); renderMas(); }; sg.append(b); }
-    const r=h2(`<div class="mt aj wide" data-k="anim" style="cursor:default"><i>${ic('sparkle')}</i><span><b>Animaciones</b><small>Movimiento, brillos, corriente en los cables y transiciones${RM?' · tu sistema pide reducir el movimiento':''}</small></span></div>`); r.append(sg); t.after(r); }; }
+
 
 /* ---------- COLECCIÓN DE ARTE: ilustraciones de línea propias para estados vacíos y cabeceras ---------- */
 const SUV='M16 68 L18 57 Q20 50 28 49 L52 46 L65 33 Q68 30 74 30 L114 30 Q120 30 123 34 L133 46 L143 48 Q150 50 150 57 L150 66 Q150 69 147 69 L138 69 A12 12 0 0 0 114 69 L56 69 A12 12 0 0 0 32 69 L19 69 Q16 69 16 68 Z';
@@ -10587,7 +10511,7 @@ function fxIn(root, sel){ if(!root || !ANIMON()) return; const L=[...root.queryS
 /* las hojas que se abren: su contenido entra en cascada */
 new MutationObserver(()=>{ const s=$('#sheet2'); if(!s || s.hidden) return; const b=$('#shBox'); const t=b?.querySelector('.dbody>div, .fgrid2, .fich'); if(t) fxIn(t); }).observe($('#sheet2'),{attributes:true, attributeFilter:['hidden']});
 /* buscador: los resultados aparecen escalonados */
-{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); if(!ANIMON()) return; [...($('#srRes')?.querySelectorAll(':scope > .r2, :scope > button, :scope > h5')||[])].slice(0,16).forEach((e,i)=>{ e.style.setProperty('--si',i); e.classList.add('srin'); }); }; }
+SEARCH_EXT.push(function(raw){ if(!ANIMON()) return; [...($('#srRes')?.querySelectorAll(':scope > .r2, :scope > button, :scope > h5')||[])].slice(0,16).forEach((e,i)=>{ e.style.setProperty('--si',i); e.classList.add('srin'); }); });
 /* tarjeta de Inicio: un brillo cruza la tarjeta del coche al entrar */
 
 /* al guardar: el botón «respira» un momento (confirmación visual además del aviso) */
@@ -10714,20 +10638,6 @@ MAS2.datos=['Tus datos', w=>{ w.append(h2(`<p class="pintro">${ic('cloud')}<span
 MAS2.exportar=['Compartir', w=>{ w.append(h2(`<p class="pintro">${ic('link')}<span>Para enseñar el coche: a un comprador, al taller o en papel.</span></p>`));
   const c=card2('Compartir','link'); for(const [k,i,t,s] of [['dossier','file','Dossier de venta','PDF con historial, ITV y fotos'],['pdf','receipt','Historial en PDF','Resumen corto para imprimir'],['compartir','link','Enlace para el taller','Solo lectura y con caducidad']]) c.querySelector('.l2').append(row2({c:'var(--info)', i, t, s, fn:()=>masOpen(k)})); w.append(c); }];
 MAS_T.datos='Tus datos'; MAS_T.exportar='Compartir';
-v2MasHome=function(pb){
-  if(pb.contains(ovl)){ ovl.classList.remove('docked'); ovlHome.append(ovl); } pb.innerHTML='';
-  const touch=matchMedia('(hover: none)').matches;
-  const G=[
-    ['Taller y piezas',[['fichas','tag','Piezas','Busca por referencia o nombre y explora los dibujos'],['procs','book','Guías y listas','Paso a paso, manuales y listas de comprobación'],['ficha','gauge','Ficha técnica del BAC','Aceites, capacidades, pares y presiones'],['talleres','wrench','Talleres y proveedores','Teléfonos, valoración y trabajos hechos']]],
-    ['Números',[['stats','chart','Estadísticas','Coste por año, por km y por categoría'],['exportar','link','Compartir','Dossier de venta, historial en PDF y enlace para el taller']]],
-    ['Aplicación',[['datos','cloud','Tus datos','Copia de seguridad, importar y asistente'],['ajustes','sliders','Ajustes','Tema, sonidos, gráficos y avanzado'],['avisos','alert','Avisos y notificaciones','Push, correo y Telegram'],...(touch?[]:[['keys','keyboard','Atajos de teclado','Teclas rápidas del visor']]),['about','info','Acerca de','Versión y novedades'],['logout','logout','Cerrar sesión',(window.FB?.user?.()?.email||'Cuenta de Google')]]],
-  ];
-  for(const [gt,items] of G){ const sec=h2(`<div class="mgrp"><h4>${gt}</h4><div class="mtiles"></div></div>`), t=sec.querySelector('.mtiles');
-    for(const [k,i,l,d] of items){ const b=h2(`<button type="button" class="mt" data-k="${k}"><i>${ic(i)}</i><span><b>${l}</b><small>${esc(d)}</small></span>${ic('chevR')}</button>`); b.onclick=()=>{ uiSfx('tap'); masOpen(k); }; t.append(b); }
-    pb.append(sec); }
-  pb.append(h2('<div style="height:24px"></div>'));
-};
-
 /* notas en el modelo y piezas sin referencia: dentro del 3D, en el panel de Piezas */
 { const sp=document.querySelector('#secPiezas .field.search'); if(sp){ const box=h2(`<div class="p3dx"><button type="button">${ic('pin')}<span>Notas en el modelo</span></button><button type="button">${ic('cube')}<span>Piezas sin referencia</span></button></div>`);
     const [a,b]=box.querySelectorAll('button'); a.onclick=()=>{ uiSfx('tap'); openGlobal('pines'); }; b.onclick=()=>{ uiSfx('tap'); openGlobal('pend'); }; sp.after(box); } }
@@ -11327,7 +11237,6 @@ function renderDiag(w){
   drawRes();
 }
 MAS2.diag=['Diagnóstico por síntomas', renderDiag]; MAS_T.diag='Diagnóstico por síntomas';
-{ const _m=v2MasHome; v2MasHome=function(pb){ _m(pb); const t=pb.querySelector('.mgrp .mtiles'); if(t && !t.querySelector('[data-k="diag"]')){ const b=h2(`<button type="button" class="mt" data-k="diag"><i>${ic('search')}</i><span><b>Diagnóstico por síntomas</b><small>Marca lo que notas y te digo las causas probables</small></span>${ic('chevR')}</button>`); b.onclick=()=>{ uiSfx('tap'); masOpen('diag'); }; t.prepend(b); } }; }
 IC.fan=IC.fan||'<path d="M12 12c0-4 1-8 4-8s2 5-4 8Zm0 0c4 0 8 1 8 4s-5 2-8-4Zm0 0c0 4-1 8-4 8s-2-5 4-8Zm0 0c-4 0-8-1-8-4s5-2 8 4Z"/>';
 IC.cloud=IC.cloud||'<path d="M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 9a4.5 4.5 0 0 0 1 9Z"/>';
 
@@ -11410,13 +11319,13 @@ IC.download=IC.download||'<path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/>';
 /* ---------- 10 · Inicio: lo urgente arriba ---------- */
 
 /* ---------- 11 · buscador: pares de apriete y pasos de guías ---------- */
-{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<2) return; const out=$('#srRes'); if(!out) return;
+SEARCH_EXT.push(function(raw){ const q=norm(raw.trim()); if(q.length<2) return; const out=$('#srRes'); if(!out) return;
     const P=S.v2.pares.flatMap(x=>(x.items||[]).map(i=>({...i, g:i.grupo||x.grupo}))).filter(p=>norm(p.componente+' '+p.valor+' par apriete nm '+(p.nota||'')).includes(q)).slice(0,6);
     const G=[]; for(const p of (S.procs||[])) (p.pasos||[]).forEach((s,i)=>{ if(G.length<6 && norm([s.titulo,s.texto,s.par,s.herr].join(' ')).includes(q)) G.push({p, s, i}); });
     if(!P.length && !G.length) return; out.querySelector(':scope > .empty2')?.remove();
     if(P.length){ out.append(h2('<h5>Pares de apriete</h5>')); for(const p of P){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic('wrench')}</span><span class="tx"><b>${hl(p.componente,q)}</b><small>${hl(p.valor,q)}${p.nota?' · '+esc(p.nota):''}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); go('mas'); masOpen('ficha'); setTimeout(()=>{ const f=$('#pbMas .ftq')||document.querySelector('.ftq'); if(f){ f.value=p.componente; f.dispatchEvent(new Event('input')); } },300); }; out.append(r); } }
     if(G.length){ out.append(h2('<h5>Pasos de guías</h5>')); for(const {p,s,i} of G){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic('book')}</span><span class="tx"><b>${hl(s.titulo||('Paso '+(i+1)),q)}</b><small>${esc(p.titulo)}${s.par?' · '+esc(s.par):''}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); guiaRead(p, i); }; out.append(r); } }
-    const a=out.querySelector(':scope > .sracts'); if(a) out.append(a); }; }
+    const a=out.querySelector(':scope > .sracts'); if(a) out.append(a); });
 
 /* ---------- 5 · leer el ticket con la cámara (OCR en el propio móvil) ---------- */
 let OCR=null;
@@ -11616,11 +11525,11 @@ new MutationObserver(()=>{ if(PD_BACK && $('#sheet2').hidden){ const f=PD_BACK; 
 
 
 /* ---------- buscador ---------- */
-{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<2) return; const out=$('#srRes'); if(!out) return;
+SEARCH_EXT.push(function(raw){ const q=norm(raw.trim()); if(q.length<2) return; const out=$('#srRes'); if(!out) return;
     const P=pdList().filter(p=>norm([p.titulo,p.nota,p.zona,p.comoSeHizo,'pendiente'].join(' ')).includes(q)).slice(0,6); if(!P.length) return;
     out.querySelector(':scope > .empty2')?.remove(); out.append(h2('<h5>Pendientes del taller</h5>'));
     for(const p of P){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic(p.estado==='hecho'?'checkc':'flag')}</span><span class="tx"><b>${hl(p.titulo,q)}</b><small>${p.estado==='hecho'?'Subsanado':(PD_PRIO[p.prio]||PD_PRIO.pronto).t}${p.zona?' · '+esc(p.zona):''}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); pdSheet(p); }; out.append(r); }
-    const a=out.querySelector(':scope > .sracts'); if(a) out.append(a); }; }
+    const a=out.querySelector(':scope > .sracts'); if(a) out.append(a); });
 
 /* ---------- avisos (push / Telegram): lo que hay que arreglar antes de circular ---------- */
 function pdAvisos(){ const A=pdOpen(); return {total:A.length, ya:A.filter(p=>p.prio==='ya').map(p=>({titulo:p.titulo, fecha:p.fecha||null}))}; }
@@ -11919,7 +11828,9 @@ function v3idFor(sec, sub){
 }
 function v3masId(k){
   const id=V3.byMas[k]||'m_'+k;
-  if(!V3.leaves[id]) V3.leaves[id]={tab:'*', get title(){ return MAS_T[k]||'Más'; }, open:()=>{ go('mas',null,{silent:true}); masOpen(k); }};
+  if(!V3.pages[id] && !V3.leaves[id]){                           /* algo de «Más» sin página todavía: se le da una */
+    if(MAS2[k]) V3.pages[id]=v2Pg('*', MAS_T[k]||MAS2[k][0], MAS2[k][1]);
+    else V3.pages[id]=ovlPg(MAS_T[k]||'Más', k); }
   return id;
 }
 function v3want(id, render){
@@ -12127,14 +12038,8 @@ addEventListener('pageshow',()=>setTimeout(v3settle, 50));
    AJUSTES  (rueda / avatar) cuenta, apariencia, avisos, tus datos, compartir, acerca de */
 
 /* ---------- hojas: pantallas de detalle de la 2.x ---------- */
-const LF=(tab,title,open,extra={})=>({tab,title,open,...extra});
-const viaMas=k=>()=>{ go('mas',null,{silent:true}); masOpen(k); };
-Object.assign(V3.leaves,{
-  '3d':LF('coche','Modelo 3D',()=>go('coche','3d'),{sub:()=>S.sel&&parts[S.sel]?parts[S.sel].name:'Toca una pieza'}),
-});
-for(const k of ['ajustes','avisos','datos','backup','importar','exportar','dossier','compartir','keys','about','pines','pend','catalogo']) V3.leaves['m_'+k]=LF('*',null,viaMas(k));
-Object.defineProperty(V3.leaves.m_pend,'title',{get:()=>'Piezas del 3D sin referencia'});
-for(const k of Object.keys(V3.leaves)) if(k.startsWith('m_') && !V3.leaves[k].title) Object.defineProperty(V3.leaves[k],'title',{get:()=>MAS_T[k.slice(2)]||'Más', configurable:true});
+/* la única «hoja» que queda: el visor 3D de la 1.x (todo lo demás son páginas: v3/06…10) */
+V3.leaves['3d']={tab:'coche', title:'Modelo 3D', open:()=>go('coche','3d'), sub:()=>S.sel&&parts[S.sel]?parts[S.sel].name:'Toca una pieza'};
 V3.bySub={'coche/3d':'3d','coche/ficha':'datos','coche/fus':'elec','coche/galeria':'galeria','coche/mejoras':'mejoras','coche/ave':'averias',
   'mant/plan':'plan','mant/hist':'hechos','mant/rep':'reparaciones','mant/pend':'pendientes','mant/ruedas':'ruedas','mant/gastos':'resumen','mant/compra':'compra','mant/repost':'repost',
   'papeles/docs':'p_docs','papeles/itv':'p_itv','papeles/garant':'p_garant','papeles/sinies':'p_sinies','papeles/ivtm':'p_ivtm','papeles/fotos':'p_fotos'};
@@ -12347,11 +12252,11 @@ V3.pages.ajustes={tab:'*', title:'Ajustes', render(w){
     vRow({i:'cloud', c:V3C.blue, t:'Copia de seguridad', s:'Semanal automática, exportar y restaurar', fn:()=>v3go('m_backup')}),
     vRow({i:'upload', c:V3C.teal, t:'Importar datos', s:'Lotes de ElsaWin y ETKA, con deshacer', fn:()=>v3go('m_importar')}),
     vRow({i:'download', c:V3C.green, t:'Usar sin conexión', s:'Descarga dibujos y esquemas al dispositivo', fn:()=>v3go('m_datos')}),
-    vRow({i:'sparkle', c:V3C.purple, t:'Asistente inicial', s:'Km, últimos cambios y papeles', fn:()=>{ go('mas',null,{silent:true}); masOpen('wiz'); }}),
+    vRow({i:'sparkle', c:V3C.purple, t:'Asistente inicial', s:'Km, últimos cambios y papeles', fn:()=>masOpen('wiz')}),
   ]));
   w.append(vGroup('Compartir',[
     vRow({i:'file', c:V3C.orange, t:'Dossier de venta', s:'PDF con historial, ITV y fotos', fn:()=>v3go('m_dossier')}),
-    vRow({i:'receipt', c:V3C.indigo, t:'Historial en PDF', s:'Resumen corto para imprimir', fn:()=>{ go('mas',null,{silent:true}); masOpen('pdf'); }}),
+    vRow({i:'receipt', c:V3C.indigo, t:'Historial en PDF', s:'Resumen corto para imprimir', fn:()=>masOpen('pdf')}),
     vRow({i:'link', c:V3C.blue, t:'Enlace para el taller', s:'Solo lectura y con caducidad', fn:()=>v3go('m_compartir')}),
   ]));
   w.append(vGroup('',[
@@ -12359,7 +12264,7 @@ V3.pages.ajustes={tab:'*', title:'Ajustes', render(w){
     vRow({i:'map', c:V3C.orange, t:'Dónde está cada cosa', s:'El mapa de la app', fn:()=>v3intro(true)}),
     vRow({i:'info', c:V3C.gray, t:'Acerca de', s:'Versión '+(window.APP_VERSION||'')+' · novedades', fn:()=>v3go('m_about')}),
   ]));
-  const lo=h2(`<section class="vgrp"><div class="vlist"><button type="button" class="vrow vdanger"><span class="vtx"><b>Cerrar sesión</b></span></button></div></section>`); lo.querySelector('button').onclick=()=>{ go('mas',null,{silent:true}); masOpen('logout'); }; w.append(lo);
+  const lo=h2(`<section class="vgrp"><div class="vlist"><button type="button" class="vrow vdanger"><span class="vtx"><b>Cerrar sesión</b></span></button></div></section>`); lo.querySelector('button').onclick=()=>masOpen('logout'); w.append(lo);
   w.append(h2(`<p class="vsign">Taller 7L ${esc(window.APP_VERSION||'')}<br>Autor y diseño: Sergio Ruiz Felices</p>`));
 }};
 
@@ -12419,11 +12324,10 @@ function fxSfx(kind){
 /* que el toast no suene dos veces: estos mensajes llevan su propio sonido */
 FX.mute=0;
 { const _u=uiSfx; uiSfx=function(k){ if(FX.mute>0 && (k==='save'||k==='ratchet')){ FX.mute--; return; } return _u(k); }; }
-{ const _t=toast; toast=function(msg,kind,action){ const m=String(msg||'');
+TOAST_PRE.push((msg,kind)=>{ const m=String(msg||'');
     if(!kind && /^Compra (guardada|registrada)/.test(m)){ FX.mute=1; fxSfx('register'); }
     else if(!kind && /^Subsanado/.test(m)){ FX.mute=1; fxSfx('clink'); }
-    else if(!kind && /Reparación registrada/.test(m)){ setTimeout(()=>fxSparks(innerWidth/2, innerHeight*.45, 'var(--v-orange)', 40), 120); }
-    return _t(msg,kind,action); }; }
+    else if(!kind && /Reparación registrada/.test(m)){ setTimeout(()=>fxSparks(innerWidth/2, innerHeight*.45, 'var(--v-orange)', 40), 120); } });
 
 /* ---------- chispas ---------- */
 function fxSparks(x, y, color, n=26){
@@ -12518,13 +12422,13 @@ const srGet=()=>{ const L=prefGet('recientes', []); return Array.isArray(L)?L:[]
 function srSave(q){ q=(q||'').trim(); if(q.length<2) return; const L=[q, ...srGet().filter(x=>x.toLowerCase()!==q.toLowerCase())].slice(0,8); if(JSON.stringify(L)!==JSON.stringify(srGet())) prefSet('recientes', L); }
 { const _cs=closeSearch; closeSearch=function(...a){ srSave($('#srQ')?.value); return _cs(...a); }; }
 $('#srRes')?.addEventListener('click',e=>{ if(e.target.closest('.r2,button')) srSave($('#srQ')?.value); }, true);
-{ const _rs=runSearch; runSearch=function(raw){ _rs(raw); if((raw||'').trim()) return; const out=$('#srRes'); if(!out) return;
+SEARCH_EXT.push(function(raw){ if((raw||'').trim()) return; const out=$('#srRes'); if(!out) return;
     const R=srGet(); const box=h2(`<div class="srx">${R.length?`<h5>Recientes <button type="button" class="srclr">Borrar</button></h5><div class="srrec">${R.map(q=>`<button type="button">${ic('history')}<span>${esc(q)}</span></button>`).join('')}</div>`:''}
       <h5>Ir directamente a</h5><div class="srgo">${[['plan','list','Mantenimiento',V3C.blue],['problemas','alert','Problemas',V3C.red],['compra','cart','Compra',V3C.teal],['tecnica','gauge','Ficha técnica',V3C.orange],['3d','cube','Modelo 3D',V3C.indigo],['guias','book','Guías',V3C.green]].map(([id,i,t,c])=>`<button type="button" data-id="${id}" style="--c:${c}"><i class="vsq">${ic(i)}</i><span>${t}</span></button>`).join('')}</div></div>`);
     box.querySelectorAll('.srrec button').forEach(b=>b.onclick=()=>{ const q=$('#srQ'); q.value=b.textContent.trim(); q.dispatchEvent(new Event('input')); runSearch(q.value); });
     box.querySelector('.srclr')?.addEventListener('click',()=>{ prefSet('recientes', []); runSearch(''); });
     box.querySelectorAll('.srgo button').forEach(b=>b.onclick=()=>{ closeSearch(); v3go(b.dataset.id); });
-    out.prepend(box); }; }
+    out.prepend(box); });
 
 
 /* ---------- caducidades al calendario del iPhone (.ics con avisos 30 y 7 días antes) ---------- */
@@ -12929,6 +12833,29 @@ Object.assign(V3.pages,{
   mejoras:v2Pg('coche','Mejoras', renderMejoras, {act:['plus','Nueva mejora',()=>recForm(MOD.mejoras)]}),
 });
 for(const k of Object.keys(V3.pages)) if(V3.leaves[k] && k!=='3d') delete V3.leaves[k];
+
+/* ====================== AJUSTES Y «TUS DATOS» (4.0 · fase 5) ======================
+   Lo que antes vivía en la sección «Más» de la 2.x, ahora son páginas del navegador (se abren desde Ajustes):
+     · con su función 2.x (v2Pg): ajustes generales, avisos, tus datos, copia, importar, compartir, dossier, enlace
+     · con un panel de la 1.x (ovlPg): atajos de teclado, acerca de, notas en el modelo, piezas sin referencia;
+       el panel se aloja en la página mientras se ve y vuelve a su sitio al salir. */
+function ovlPg(title, mode){ return {tab:'*', title, render(w){ const box=h2('<div class="v3ovl"></div>'); w.append(box); queueMicrotask(()=>{ if(box.isConnected) dockOpen(box, '__'+mode, mode); }); }   /* el panel busca sus piezas en la página: se aloja ya colocada */, leave(){ try{ undock(); }catch{} }}; }
+const masPg=(k, fn)=>Object.defineProperty(v2Pg('*', '', fn), 'title', {get:()=>MAS_T[k]||MAS2[k]?.[0]||'Ajustes', configurable:true});   /* el nombre puede haberlo cambiado el usuario */
+Object.assign(V3.pages,{
+  m_ajustes:v2Pg('*','Ajustes generales', renderAjustes),
+  m_avisos:masPg('avisos', renderAvisos),
+  m_datos:masPg('datos', MAS2.datos[1]),
+  m_backup:masPg('backup', MAS2.backup[1]),
+  m_importar:masPg('importar', MAS2.importar[1]),
+  m_exportar:masPg('exportar', MAS2.exportar[1]),
+  m_dossier:masPg('dossier', MAS2.dossier[1]),
+  m_compartir:masPg('compartir', MAS2.compartir[1]),
+  m_keys:ovlPg('Atajos de teclado','keys'),
+  m_about:ovlPg('Acerca de','about'),
+  m_pines:ovlPg('Notas en el modelo','pines'),
+  m_pend:ovlPg('Piezas del 3D sin referencia','pend'),
+});
+for(const k of Object.keys(V3.leaves)) if(k.startsWith('m_')) delete V3.leaves[k];
 
 
 connectDb();
