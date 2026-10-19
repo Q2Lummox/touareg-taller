@@ -1,17 +1,19 @@
 {
- "version": "4.0.0-beta.5",
+ "version": "4.0.0-beta.6",
  "fecha": "2026-10-19",
  "notas": [
-  "«Llevas invertido» es ahora solo el coche, las piezas y los trabajos (sin gasolina, ITV, impuestos ni multas)",
-  "«Lo que te cuesta de verdad» y el coste por km siguen incluyéndolo todo"
+  "Fase 4 de la reconstrucción: Papeles y Coche con pantallas propias",
+  "Documentos, ITV, garantías, siniestros, impuesto, archivos, datos del coche, ficha técnica, piezas, electricidad, guías, galería y mejoras ya no pasan por las secciones ni paneles antiguos",
+  "Botón + propio en cada pantalla (añadir documento, ITV, garantía, foto, mejora…)"
  ],
  "historial": [
   {
-   "version": "4.0.0-beta.5",
+   "version": "4.0.0-beta.6",
    "fecha": "2026-10-19",
    "notas": [
-    "«Llevas invertido» es ahora solo el coche, las piezas y los trabajos (sin gasolina, ITV, impuestos ni multas)",
-    "«Lo que te cuesta de verdad» y el coste por km siguen incluyéndolo todo"
+    "Fase 4 de la reconstrucción: Papeles y Coche con pantallas propias",
+    "Documentos, ITV, garantías, siniestros, impuesto, archivos, datos del coche, ficha técnica, piezas, electricidad, guías, galería y mejoras ya no pasan por las secciones ni paneles antiguos",
+    "Botón + propio en cada pantalla (añadir documento, ITV, garantía, foto, mejora…)"
    ]
   }
  ]

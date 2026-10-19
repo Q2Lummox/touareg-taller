@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.0.0-beta.5">
+<meta name="app-version" content="4.0.0-beta.6">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3287,7 +3287,7 @@ body.v3 .pdquick small{color:#fff!important;opacity:.88}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.0.0-beta.5</span>
+  <span class="spver">v4.0.0-beta.6</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6661,7 +6661,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.0.0-beta.5';
+window.APP_VERSION='4.0.0-beta.6';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6695,7 +6695,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.0.0-beta.5';
+  const APP_VERSION='4.0.0-beta.6';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -7000,24 +7000,16 @@ function restoreSub(){
 }
 function markSub(sec){ document.querySelectorAll(SUBBOX[sec]+' button').forEach(b=>b.setAttribute('aria-selected', b.dataset.sub===UI.sub[sec])); if(sec==='coche') document.body.dataset.csub=UI.sub.coche; }
 function clearCoche(){ const pb=$('#pbCoche'); $('#holdCoche').append($('#secCoche')); [...pb.children].forEach(c=>{ if(c!==ovl) c.remove(); }); }
+/* pinta una «pestaña» de una sección antigua. Desde la 4.0 todas tienen su página propia; aquí solo llega el
+   modelo 3D (Coche ▸ 3D) y, si apareciera algo sin página, se abre en el panel de la 1.x. */
 function openSub(sec,sub){
   UI.sub[sec]=sub; markSub(sec);
   const pb=$(SUBPB[sec]);
-  if(sec==='coche'){
-    if(ovl.classList.contains('docked') && ovl.parentNode===pb) _closePop();
-    clearCoche();
-    if(sub==='3d'){ requestAnimationFrame(()=>{ _rsz=''; resize(); dirty=true; carIntro(); }); }
-    else if(sub==='ficha') renderFichaCoche(pb);
-    else dockOpen(pb,'__'+sub, sub);
-    setTop(); return;
-  }
-  if(sec==='mant'){
-    clearPb(pb); dockOpen(pb,'__'+sub, sub);          /* Taller y Gastos tienen pantallas 4.0; aquí solo llega lo que no tenga */
-  } else {
-    clearPap();
-    if(sub==='docs'){ dockOpen(pb,'__docs','docs'); }
-    else { if(ovl.classList.contains('docked') && ovl.parentNode===pb){ _closePop(); } renderPapeles(sub); }
-  }
+  if(ovl.classList.contains('docked') && ovl.parentNode===pb) _closePop();
+  if(sec==='coche') clearCoche(); else if(sec==='papeles') clearPap(); else clearPb(pb);
+  if(sec==='coche' && sub==='3d') requestAnimationFrame(()=>{ _rsz=''; resize(); dirty=true; carIntro(); });
+  else dockOpen(pb,'__'+sub, sub);
+  setTop();
 }
 function setTop(){ NAVUI?.top(); }
 
@@ -7123,28 +7115,6 @@ $('#camIn').onchange=async e=>{
 /* ---------- PAPELES ---------- */
 function clearPb(pb){ [...pb.children].forEach(c=>{ if(c!==ovl) c.remove(); }); }
 function clearPap(){ const pb=$('#pbPap'); $('#holdCoche').append($('#secCoche')); [...pb.children].forEach(c=>{ if(c!==ovl) c.remove(); }); }
-function renderPapeles(sub){
-  const pb=$('#pbPap'); clearPap();
-  const wrap=h2('<div class="wrap" style="padding:14px 16px 28px"></div>'); pb.append(wrap);
-  if(sub==='fotos'){
-    const items=[];
-    for(const x of S.int) for(const a of (x.adjuntos||[])) items.push({a, t:x.descripcion||itemName(x.mant)||x.tipo||'Intervención', s:fmtDate(x.fecha), k:(a.tipo||'').startsWith('image/')?'foto':'factura'});
-    for(const [id,f] of Object.entries(S.fichas)) for(const a of (f.fotos||[])) items.push({a, t:partName(id)||'Pieza', s:'Ficha de pieza', k:(a.tipo||'').startsWith('image/')?'foto':'factura'});
-    for(const d of S.docs) for(const a of (d.adjuntos||[])) items.push({a, t:d.tipo, s:d.nombre||'Documento', k:'doc'});
-    for(const c of (S.compras||[])) for(const a of (c.adjuntos||[])) items.push({a, t:'Compra · '+c.nombre, s:fmtDate(c.fechaCompra), k:(a.tipo||'').startsWith('image/')?'foto':'factura'});
-    const chips=h2('<div class="chips2 subtabs" style="border:0;background:none;padding:0 0 12px"></div>');
-    for(const [k,l] of [['todo','Todo'],['factura','Facturas (PDF)'],['foto','Fotos'],['doc','De documentos']]){ const b=h2(`<button type="button" aria-selected="${UI.papFilter===k}">${l}</button>`); b.onclick=()=>{ UI.papFilter=k; renderPapeles('fotos'); }; chips.append(b); }
-    const row=h2(`<div class="row3" style="justify-content:space-between;align-items:center;margin:0 0 12px"><span class="muted2">${items.length} archivo(s)</span><button class="btn2" type="button">${ic('camera')}Fotografiar factura</button></div>`);
-    row.querySelector('button').onclick=()=>$('#camIn').click();
-    wrap.append(row, chips);
-    const list=items.filter(x=>UI.papFilter==='todo'||x.k===UI.papFilter);
-    if(!list.length){ wrap.append(h2(`<div class="empty2">${ic('image')}<div>Aún no hay ${UI.papFilter==='todo'?'facturas ni fotos':'archivos de este tipo'}.<br>Se guardan al registrar una intervención, en la ficha de una pieza o en un documento.</div></div>`)); return; }
-    const gal=h2('<div class="gal"></div>');
-    for(const x of list){ const gi=h2(`<div class="gi"></div>`); gi.append(attachThumbs([x.a])); gi.append(h2(`<p><b>${esc(x.t)}</b>${esc(x.s)}</p>`)); gal.append(gi); }
-    wrap.append(gal); return;
-  }
-}
-
 /* ---------- MÁS ---------- */
 function renderMas(){
   const pb=$('#pbMas'); if(pb.contains(ovl)){ ovl.classList.remove('docked'); ovlHome.append(ovl); } pb.innerHTML='';
@@ -7456,12 +7426,11 @@ function syncUI(){ const s=$('#t2Sync'), on=navigator.onLine; s.classList.toggle
 function flashSync(){ const s=$('#t2Sync'); if(!navigator.onLine) return; s.classList.add('busy'); s.querySelector('span').textContent='Guardando…'; clearTimeout(flashSync.t); flashSync.t=setTimeout(()=>{ s.classList.remove('busy'); syncUI(); },900); }
 addEventListener('online',syncUI); addEventListener('offline',syncUI); syncUI();
 
-/* ---------- refresco periódico de Inicio, insignias y galería ---------- */
+/* ---------- refresco periódico de Hoy e insignias ---------- */
 setInterval(()=>{
   updateBadges();
   if(UI.sec==='inicio') renderInicio(false);
   if(UI.sec==='coche') setTop();
-  if(UI.sec==='papeles' && UI.sub.papeles==='fotos'){ const sg=JSON.stringify([S.int.length,S.docs.length,Object.keys(S.fichas).length]); if(UI.sig.fotos!==sg){ UI.sig.fotos=sg; renderPapeles('fotos'); } }
   listsInit(); listsMigrate();
   if(!UI.wzChecked && S.cfg && S.db && performance.now()-spT0>5000){ UI.wzChecked=true; if(!S.cfg.asistente && !S.int.length && !S.docs.length) openWizard(0); }
 },1000);
@@ -7828,7 +7797,8 @@ function renderFichaCoche(pb){
   const wrap=h2('<div class="wrap pg-ficha" style="padding:14px 16px 28px"></div>'); pb.append(wrap);
   const g=h2('<div class="grid2"></div>'); wrap.append(g);
   const hm=heroMini(); hm.querySelector('.hmcar').onclick=null; hm.querySelector('.hmcar').style.cursor='default'; g.append(hm);
-  const card=h2(`<div class="card2 c12"><h3>${ic('tag')}Datos de fábrica</h3></div>`); card.append($('#secCoche')); g.append(card);
+  g.append(kmCard());
+  const sec=$('#secCoche'); if(sec){ const card=h2(`<div class="card2 c12"><h3>${ic('tag')}Datos de fábrica</h3></div>`); card.append(sec); g.append(card); }
   const pw=$('#cfgPrWrap'); if(pw) pw.open=true;
 }
 /* --- Inicio: tarjeta compacta y «requiere atención» --- */
@@ -7877,15 +7847,6 @@ function listInSelect(sel, kind){
 }
 /* --- Mantenimiento ▸ Plan compacto --- */
 /* --- Papeles ▸ Documentos: la lista primero y el formulario tras un botón --- */
-{ const _rd=renderDocs; renderDocs=function(){
-    _rd();
-    const body=$('#ovlBody'); const form=body?.querySelector('form.fusform'), ttl=form?.previousElementSibling;
-    if(!form) return;
-    const editing=!!S.docEdit;
-    if(!editing && !UI.docForm){ form.hidden=true; if(ttl) ttl.hidden=true;
-      const b=h2(`<div class="row3" style="justify-content:flex-start"><button type="button" class="btn2">${ic('plus')}Añadir documento</button></div>`); b.querySelector('button').onclick=()=>{ UI.docForm=true; renderDocs(); }; form.before(b); }
-    else { UI.docForm=false; setTimeout(()=>{ form.scrollIntoView({behavior:'smooth',block:'start'}); form.querySelector('select,input')?.focus?.({preventScroll:true}); },60); }
-  }; if(typeof EXTRA_POP!=='undefined') EXTRA_POP.docs=renderDocs; }
 /* --- selectores de archivo con estilo propio y en español --- */
 function enhanceFile(inp){
   if(inp._fx || inp.id==='camIn' || inp.closest('.dropz') || inp.hidden) return; inp._fx=true;
@@ -8163,7 +8124,6 @@ const SUB2={
   mant:[['repost','Repostajes','fuel',2],['ruedas','Ruedas','tyre',3]],
   papeles:[['itv','ITV','checkc',1],['garant','Garantías','shield',2],['sinies','Siniestros','alert',3]],
 };
-const V2SUBS={coche:{}, mant:{}, papeles:{}};
 for(const [sec,list] of Object.entries(SUB2)){
   const st=$(SUBBOX[sec]);
   for(const [k,l,i,pos] of list){
@@ -8176,16 +8136,6 @@ for(const [sec,list] of Object.entries(SUB2)){
 }
 { const f=SECS.papeles.subs.find(x=>x[0]==='fotos'); if(f) f[1]='Archivos'; const b=document.querySelector('#stPap button[data-sub="fotos"] span'); if(b) b.textContent='Archivos';
   const d=SECS.papeles.subs.find(x=>x[0]==='docs'); if(d) d[1]='Papeles'; const bd=document.querySelector('#stPap button[data-sub="docs"] span'); if(bd) bd.textContent='Papeles'; }
-{ const _os=openSub; openSub=function(sec,sub){
-    const fn=V2SUBS[sec]?.[sub];
-    if(!fn){ V2.cur=null; return _os(sec,sub); }
-    UI.sub[sec]=sub; markSub(sec);
-    const pb=$(SUBPB[sec]);
-    if(ovl.classList.contains('docked') && ovl.parentNode===pb) _closePop();
-    if(sec==='coche') clearCoche(); else if(sec==='papeles') clearPap(); else clearPb(pb);
-    v2Page(pb, fn); setTop();
-  }; }
-
 /* ---------- MÁS: páginas nuevas ---------- */
 const MAS2={};
 { const _rm=renderMas; renderMas=function(){
@@ -8552,7 +8502,6 @@ function renderGarantias(w){
   w.append(c);
   if(exp.length){ const e=card2('Caducadas','history',exp.length); for(const g of exp) e.querySelector('.l2').append(row2({c:'var(--txt-3)', i:'shield', t:g.articulo, s:'Caducó el '+fmtDate(g.fin), fn:()=>recForm(MOD.garantias,g)})); w.append(e); }
 }
-V2SUBS.papeles.garant=renderGarantias;
 
 /* ---------- ITV DETALLADA ---------- */
 const ITV_R={fav:'Favorable', leves:'Favorable con defectos leves', desf:'Desfavorable', neg:'Negativa'};
@@ -8588,7 +8537,6 @@ function renderITV(w){
   for(const r of L){ const nd=(r.defectos||[]).length; c.querySelector('.l2').append(row2({c:r.resultado==='fav'?'var(--ok)':r.resultado==='leves'?'var(--soon)':'var(--due)', i:'checkc', t:ITV_R[r.resultado]||'Inspección', s:`${fmtDate(r.fecha)} · ${kmT(r.km)}${r.estacion?' · '+r.estacion:''}${nd?` · ${pl(nd,'defecto')}`:''}`, r:r.coste?eur(r.coste):'', fn:()=>recForm(MOD.itv,r)})); }
   w.append(c);
 }
-V2SUBS.papeles.itv=renderITV;
 
 /* ---------- SINIESTROS Y MULTAS ---------- */
 const SIN_E={abierto:'Abierto / pendiente', tramite:'En trámite / recurrida', cerrado:'Cerrado / pagada'};
@@ -8610,7 +8558,6 @@ function renderSiniestros(w){
   for(const x of L){ const pd=x.plazo&&x.estado!=='cerrado'?daysTo(x.plazo):null; c.querySelector('.l2').append(row2({c:x.estado==='cerrado'?'var(--ok)':pd!=null&&pd<=7?'var(--due)':'var(--soon)', i:x.tipo==='multa'?'receipt':'alert', t:x.titulo, s:`${fmtDate(x.fecha)} · ${SIN_E[x.estado]||''}${pd!=null?` · límite ${fmtDate(x.plazo)}`:''}`, r:x.importe?eur(x.importe):'', fn:()=>recForm(MOD.siniestros,x)})); }
   w.append(c);
 }
-V2SUBS.papeles.sinies=renderSiniestros;
 
 /* ---------- GALERÍA DEL COCHE ---------- */
 const ALB=['Exterior','Interior','Motor','Bajos','Detalles','Viajes','Antes y después','Daños'];
@@ -8640,7 +8587,6 @@ function renderGaleria(w){
     e.querySelector('.gth').onclick=()=>recForm(MOD.galeria,g); const th=attachThumbs(g.fotos||[]); th.classList.add('gatt'); e.append(th); if(g.notas) e.append(h2(`<p class="muted2">${esc(g.notas)}</p>`)); tl.append(e); }
   w.append(tl);
 }
-V2SUBS.coche.galeria=renderGaleria;
 
 /* ---------- PROYECTO ESTÉTICO Y MEJORAS ---------- */
 const MEJ_E={idea:'Idea', curso:'En curso', hecha:'Hecha'}, MEJ_C=['Estética','Interior','Iluminación','Ruedas y suspensión','Mecánica','Electrónica','Off-road','Otro'];
@@ -8702,7 +8648,6 @@ function renderMejoras(w){
     w.append(c);
   }
 }
-V2SUBS.coche.mejoras=renderMejoras;
 
 /* ---------- KILÓMETROS en Coche ▸ Datos ---------- */
 function kmCard(){
@@ -8717,7 +8662,6 @@ function kmCard(){
   c.append(lo);
   return c;
 }
-{ const _rf=renderFichaCoche; renderFichaCoche=function(pb){ _rf(pb); const g=pb.querySelector('.grid2'); if(!g) return; let kc=kmCard(); g.insertBefore(kc, g.children[1]||null); const cur={pb, root:kc, run:()=>{ const n=kmCard(); const op=kc.querySelector('details')?.open; if(op) n.querySelector('details').open=true; kc.replaceWith(n); kc=n; cur.root=n; }}; V2.cur=cur; }; }
 
 
 /* ====================== v2.0: CONSULTA ====================== */
@@ -9900,7 +9844,6 @@ function elecGoJump(){ const id=UI.elGo; if(!id) return; if(!UI.elGoT) UI.elGoT=
 /* notas propias antiguas que no son de ninguna caja importada */
 function renderElecMine(w){ const ids=new Set((S.v2.electrico||[]).flatMap(c=>(c.items||[]).map(it=>safeId(c.id+'_'+it.pos)))); const L=(S.fus||[]).filter(f=>!ids.has(f._id)); if(!L.length) return;
   const c=card2('Tus notas sueltas','edit',L.length); for(const f of L) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'fuse', t:[f.pos, f.circuito].filter(Boolean).join(' · ')||'Nota', s:[f.caja, f.amp?f.amp+' A':'', f.notas].filter(Boolean).join(' · ')})); w.append(c); }
-V2SUBS.coche.fus=renderElec;
 /* el buscador general encuentra fusibles y relés por lo que protegen */
 { const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<3) return; const hits=[];
     for(const c of (S.v2.electrico||[])) for(const it of (c.items||[])){ if(it.estado && it.estado!=='ok') continue; if(norm([it.pos,it.desc,it.cod].join(' ')).includes(q) || norm(it.pos)===q) hits.push([c,it]); }
@@ -10299,6 +10242,10 @@ function guiaRead(pr, at){
   const acts=[]; if(gHas3D(pr)) acts.push(['Seguir en el 3D','cube',()=>guiaRun3D(pr),'pri']);
   acts.push(['Editar','edit',()=>guiaEdit(pr)]);
   detailSheet(pr.titulo||'Guía', `${pl(P.length,'paso')}${done.size?` · ${done.size} hechos`:''}`, body, acts);
+  /* seguir o empezar la reparación paso a paso de esta guía */
+  { const b=document.querySelector('#shBox .gread'); if(b && (pr.pasos||[]).length>2 && S.db){ const ya=repActiva().find(x=>x.guia===pr._id);
+    const bt=h2(`<button type="button" class="btn2 ${ya?'pri':'ghost'} grep">${ic('wrench')}${ya?`Seguir la reparación (${(ya.hechos||[]).length} de ${pr.pasos.length})`:'Empezar la reparación paso a paso'}</button>`);
+    bt.onclick=()=>{ uiSfx('tap'); ya?repRun(ya):repStart(pr); }; b.prepend(bt); } }
 }
 function guiaEdit(pr0){
   const pr=pr0?JSON.parse(JSON.stringify(stripId2(pr0))):{titulo:'', herramientas:'', pasos:[]}; const id=pr0?._id;
@@ -10344,10 +10291,13 @@ function renderGuias(w){
   if(M.length){ const c=card2('Manuales y documentos','file',M.length);
     for(const m of [...M].sort((a,b)=>COLL.compare((a.grupo||'')+a.titulo,(b.grupo||'')+b.titulo))) c.querySelector('.l2').append(row2({c:'var(--info)', i:'file', t:m.titulo, s:[grpName(m.grupo), m.nota].filter(Boolean).join(' · '), fn:()=>{ if(m.enlace) window.open(m.enlace,'_blank','noopener'); else toast('Este manual no tiene enlace'); }}));
     w.append(c); }
+  /* las listas de comprobación, arriba del todo */
+  { const c=card2('Listas de comprobación','list'); c.querySelector('.l2').append(row2({c:'var(--ok)', i:'list', t:'Listas de comprobación', s:'Antes de la ITV, viaje largo, invierno, verano…', fn:()=>masOpen('listas')}));
+    const first=w.querySelector(':scope > .card2'); if(first) first.before(c); else w.append(c); }
 }
-MAS2.procs=['Guías y manuales', renderGuias]; MAS_T.procs='Guías y manuales';
+MAS2.procs=['Guías y listas', renderGuias]; MAS_T.procs='Guías y listas';
 /* las guías se refrescan al cambiar */
-{ let n=-1; setInterval(()=>{ const k=(S.procs||[]).map(p=>p._id+(p.actualizado||'')).join(); if(k!==n){ const was=n; n=k; if(was!==-1 && UI.mas==='procs' && V2.cur?.fn===renderGuias && document.body.contains(V2.cur.root)) v2Rerender(); } }, 1200); }
+{ let n=-1; setInterval(()=>{ const k=(S.procs||[]).map(p=>p._id+(p.actualizado||'')).join(); if(k!==n){ const was=n; n=k; if(was!==-1 && V2.cur?.fn===renderGuias && document.body.contains(V2.cur.root)) v2Rerender(); } }, 1200); }
 
 /* ---------- Piezas del 3D sin referencia: si el modelo aún no está cargado no hay que felicitar a nadie ---------- */
 { const _rp=renderPend; const rp=function(){ _rp(); $('#ovlTitle').textContent='Piezas del 3D sin referencia';
@@ -10458,9 +10408,8 @@ function renderDocs2(w){
   if(others.length){ const c=card2('Otros documentos','file',others.length); for(const d of others){ const s=docStatus(d); c.querySelector('.l2').append(row2({c:stColor(s.st), i:'file', t:d.tipo+(d.nombre?' · '+d.nombre:''), s:d.caduca?dLeft(s.days)+' · '+fmtDate(d.caduca):'Sin fecha', fn:()=>recForm(MOD.docs,d)})); } w.append(c); }
   w.append(addBar('Añadir otro documento',()=>recForm(MOD.docs,null,{tipo:'Otro'})));
 }
-V2SUBS.papeles.docs=renderDocs2;
 /* los documentos vienen de la colección antigua: al cambiar, se redibuja la página */
-{ let k0=''; setInterval(()=>{ const k=(S.docs||[]).map(d=>d._id+d.caduca+(d.nombre||'')+(d.adjuntos?.length||0)).join(); if(k!==k0){ k0=k; if(UI.sec==='papeles' && V2.cur && document.body.contains(V2.cur.root)) v2Rerender(); if(UI.sec==='inicio') renderInicio(); } }, 900); }
+{ let k0=''; setInterval(()=>{ const k=(S.docs||[]).map(d=>d._id+d.caduca+(d.nombre||'')+(d.adjuntos?.length||0)).join(); if(k!==k0){ k0=k; if(V2.cur?.fn===renderDocs2 && document.body.contains(V2.cur.root)) v2Rerender(); if(UI.sec==='inicio') renderInicio(); } }, 900); }
 
 /* ---------- IVTM ---------- */
 C2.push('ivtm'); S.v2.ivtm=[]; COLN.ivtm='IVTM (pagos)';
@@ -10484,7 +10433,6 @@ function renderIVTM(w){
   for(const x of L) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'euro', t:`IVTM ${x.anio}`, s:[x.fechaPago?'Pagado el '+fmtDate(x.fechaPago):'', x.ayuntamiento, x.domiciliado?'Domiciliado':''].filter(Boolean).join(' · '), r:x.importe!=null?eurc(x.importe):'', fn:()=>recForm(MOD.ivtm,x)}));
   w.append(c);
 }
-V2SUBS.papeles.ivtm=renderIVTM;
 { SECS.papeles.subs.splice(SECS.papeles.subs.findIndex(x=>x[0]==='itv')+1,0,['ivtm','IVTM','euro']);
   const st=$('#stPap'), b=h2(`<button type="button" role="tab" data-sub="ivtm">${ic('euro')}<span>IVTM</span></button>`); b.onclick=()=>{ uiSfx('tap'); openSub('papeles','ivtm'); setTop(); };
   st.querySelector('button[data-sub="itv"]')?.after(b); }
@@ -10551,11 +10499,9 @@ function renderArchivos(w){
   for(const x of L){ const c=h2(`<figure class="agi"></figure>`); c.append(attachThumbs([x.a])); c.append(h2(`<figcaption><b>${esc(x.t)}</b><small>${esc([x.s, x.o].filter(Boolean).join(' · '))}</small></figcaption>`)); g.append(c); }
   w.append(g);
 }
-V2SUBS.papeles.fotos=renderArchivos;
 
 /* ---------- Nueva intervención: sin pestañas debajo (parecía que estabas en «Plan») ---------- */
 /* la página antigua de Archivos se refrescaba sola y tapaba la nueva */
-{ const _rp=renderPapeles; renderPapeles=function(sub){ if(sub==='fotos'){ if(V2.cur?.fn===renderArchivos && document.body.contains(V2.cur.root)) return v2Rerender(); if(UI.sec==='papeles') return openSub('papeles','fotos'); return; } return _rp(sub); }; }
 
 
 /* ====================== v2.1: CAPA VISUAL — colección de arte, animaciones y movimiento ====================== */
@@ -10781,10 +10727,7 @@ v2MasHome=function(pb){
     pb.append(sec); }
   pb.append(h2('<div style="height:24px"></div>'));
 };
-/* las listas de comprobación, dentro de Guías */
-{ const _rg=renderGuias; renderGuias=function(w){ _rg(w); const c=card2('Listas de comprobación','list'); c.querySelector('.l2').append(row2({c:'var(--ok)', i:'list', t:'Listas de comprobación', s:'Antes de la ITV, viaje largo, invierno, verano…', fn:()=>masOpen('listas')}));
-    const first=w.querySelector(':scope > .card2'); if(first) first.before(c); else w.append(c); };
-  MAS2.procs=['Guías y listas', renderGuias]; MAS_T.procs='Guías y listas'; }
+
 /* notas en el modelo y piezas sin referencia: dentro del 3D, en el panel de Piezas */
 { const sp=document.querySelector('#secPiezas .field.search'); if(sp){ const box=h2(`<div class="p3dx"><button type="button">${ic('pin')}<span>Notas en el modelo</span></button><button type="button">${ic('cube')}<span>Piezas sin referencia</span></button></div>`);
     const [a,b]=box.querySelectorAll('button'); a.onclick=()=>{ uiSfx('tap'); openGlobal('pines'); }; b.onclick=()=>{ uiSfx('tap'); openGlobal('pend'); }; sp.after(box); } }
@@ -11263,10 +11206,6 @@ function segCheck(s, k){
 /* para los avisos (push / Telegram): la próxima revisión de cada seguimiento */
 function segAvisos(){ return segList().map(s=>{ const c=segNext(s); return c?{titulo:s.titulo, fecha:c.fecha, n:c.k+1, de:s.checks.length}:null; }).filter(Boolean); }
 /* ---------- Inicio ---------- */
-/* ---------- botón en la guía ---------- */
-{ const _g=guiaRead; guiaRead=function(pr, at){ const r=_g(pr, at); const b=document.querySelector('#shBox .gread'); if(b && (pr.pasos||[]).length>2 && S.db){ const ya=repActiva().find(x=>x.guia===pr._id);
-    const bt=h2(`<button type="button" class="btn2 ${ya?'pri':'ghost'} grep">${ic('wrench')}${ya?`Seguir la reparación (${(ya.hechos||[]).length} de ${pr.pasos.length})`:'Empezar la reparación paso a paso'}</button>`);
-    bt.onclick=()=>{ uiSfx('tap'); ya?repRun(ya):repStart(pr); }; b.prepend(bt); } return r; }; }
 IC.chevL=IC.chevL||'<path d="m15 18-6-6 6-6"/>';
 
 /* ====================== DIAGNÓSTICO POR SÍNTOMAS (R5 TDI BAC · cambio manual) ======================
@@ -11942,7 +11881,7 @@ function v3go(id, opts={}){
   else { const s=V3.st[tab], top=v3top(); if(top.id===id && top.k===e.k){ top.render=opts.render; v3show(top,'none'); return; }
     /* si esa pantalla ya está más abajo en la pila, se vuelve a ella (sin repetirla: Compra › Movimientos › Compra…) */
     const at=s.findIndex((x,i)=>i>0 && x.id===id && x.k===e.k);
-    if(at>0){ for(const g of s.splice(at+1)) if(g.el) setTimeout(()=>g.el.remove(), RM?0:460); const x=s[at]; x.render=opts.render; x.data=opts.data??x.data; x.stale=true; v3show(x,'pop'); return; }
+    if(at>0){ for(const g of s.splice(at+1)){ v3leave(g); if(g.el) setTimeout(()=>g.el.remove(), RM?0:460); } const x=s[at]; x.render=opts.render; x.data=opts.data??x.data; x.stale=true; v3show(x,'pop'); return; }
     s.push(e); v3show(e,'push'); }
 }
 function v3tab(t){
@@ -11956,9 +11895,16 @@ function v3tab(t){
 function v3back(opts={}){
   const s=V3.st[V3.tab]; if(s.length<2) return false;
   const gone=s.pop(); const e=v3top();
-  if(gone.el){ const el=gone.el; if(opts.anim===false || RM) el.remove(); else setTimeout(()=>el.remove(), 460); }
+  v3leave(gone); if(gone.el){ const el=gone.el; if(opts.anim===false || RM) el.remove(); else setTimeout(()=>el.remove(), 460); }
   e.stale=true; v3show(e, opts.anim===false?'none':'pop'); uiSfx('tap'); return true;
 }
+
+/* una página que se cierra puede devolver lo que tomó prestado (p. ej. el formulario de datos de fábrica del 3D) */
+function v3leave(e){ try{ (e.k==='page'?V3.pages[e.id]:null)?.leave?.(e); }catch(err){ console.error(err); } }
+/* página cuyo contenido pinta una función de la 2.x (renderPendientes(w)…). Mientras se ve, V2.cur apunta a ella,
+   así sus repintados de siempre (v2Rerender, los cambios de datos) repintan esta página. */
+function v2Pg(tab, title, fn, extra={}){ return {tab, title, v2:true, render(w, e){ const box=h2('<div class="wrap v2 v3v2"></div>'); w.append(box);
+    V2.cur={pb:e.el?.querySelector('.v3sc')||w, root:box, fn, run:()=>v3render(e)}; fn(box); }, ...extra}; }
 
 /* ---------- el enrutador: las peticiones de la 2.x pasan por la pila ---------- */
 const paint={go, openSub, masOpen, openPanel};                 /* cómo pinta cada cosa la 2.x */
@@ -12185,19 +12131,6 @@ const LF=(tab,title,open,extra={})=>({tab,title,open,...extra});
 const viaMas=k=>()=>{ go('mas',null,{silent:true}); masOpen(k); };
 Object.assign(V3.leaves,{
   '3d':LF('coche','Modelo 3D',()=>go('coche','3d'),{sub:()=>S.sel&&parts[S.sel]?parts[S.sel].name:'Toca una pieza'}),
-  datos:LF('coche','Datos del coche',()=>go('coche','ficha')),
-  tecnica:LF('coche','Ficha técnica y pares',viaMas('ficha')),
-  piezas:LF('coche','Piezas',viaMas('fichas')),
-  elec:LF('coche','Electricidad',()=>go('coche','fus')),
-  guias:LF('coche','Guías y manuales',viaMas('procs')),
-  galeria:LF('coche','Galería',()=>go('coche','galeria')),
-  mejoras:LF('coche','Mejoras',()=>go('coche','mejoras')),
-  p_docs:LF('papeles','Documentos',()=>go('papeles','docs')),
-  p_itv:LF('papeles','ITV',()=>go('papeles','itv')),
-  p_garant:LF('papeles','Garantías',()=>go('papeles','garant')),
-  p_sinies:LF('papeles','Siniestros y multas',()=>go('papeles','sinies')),
-  p_ivtm:LF('papeles','Impuesto de circulación',()=>go('papeles','ivtm')),
-  p_fotos:LF('papeles','Facturas y fotos',()=>go('papeles','fotos'),{act:['camera','Fotografiar factura',()=>$('#camIn').click()]}),
 });
 for(const k of ['ajustes','avisos','datos','backup','importar','exportar','dossier','compartir','keys','about','pines','pend','catalogo']) V3.leaves['m_'+k]=LF('*',null,viaMas(k));
 Object.defineProperty(V3.leaves.m_pend,'title',{get:()=>'Piezas del 3D sin referencia'});
@@ -12865,17 +12798,14 @@ function aveSheet(a){
   if(!a && !matchMedia('(hover: none)').matches) setTimeout(()=>E('sintoma').focus(),150);
 }
 
-/* ====================== PANTALLAS DE LA 2.x COMO PÁGINAS PROPIAS ======================
-   Su contenido lo pinta la función de siempre (renderPendientes(w)…); al refrescarse por dentro
-   (v2Rerender: un filtro, abrir una lista) se vuelve a pintar esta página (NAVUI.rerender). */
-const v2Page3=(title, fn, extra={})=>({tab:'taller', title, v2:true, render(w){ const box=h2('<div class="wrap v2 v3v2"></div>'); w.append(box); fn(box); }, ...extra});
+/* ====================== PANTALLAS DE LA 2.x COMO PÁGINAS PROPIAS (v2Pg, en el núcleo) ====================== */
 Object.assign(V3.pages,{
-  pendientes:v2Page3('Pendientes', w=>renderPendientes(w), {act:['plus','Anotar',()=>pdForm(null)]}),
-  reparaciones:v2Page3('Reparaciones', w=>renderReparaciones(w), {act:['plus','Empezar una reparación',()=>repPick()]}),
-  ruedas:v2Page3('Ruedas', w=>renderRuedas(w)),
-  diag:v2Page3('Diagnóstico', w=>renderDiag(w)),
-  listas:v2Page3('Listas de comprobación', w=>renderListas(w)),
-  talleres:v2Page3('Talleres y proveedores', w=>renderTalleres(w)),
+  pendientes:v2Pg('taller','Pendientes', renderPendientes, {act:['plus','Anotar',()=>pdForm(null)]}),
+  reparaciones:v2Pg('taller','Reparaciones', renderReparaciones, {act:['plus','Empezar una reparación',()=>repPick()]}),
+  ruedas:v2Pg('taller','Ruedas', renderRuedas, {act:['plus','Juego de neumáticos',()=>recForm(MOD.neumaticos)]}),
+  diag:v2Pg('taller','Diagnóstico', renderDiag),
+  listas:v2Pg('taller','Listas de comprobación', renderListas),
+  talleres:v2Pg('taller','Talleres y proveedores', renderTalleres, {act:['plus','Taller o proveedor',()=>recForm(MOD.talleres)]}),
 });
 for(const k of ['plan','hechos','averias','pendientes','reparaciones','ruedas','diag','listas','talleres']) delete V3.leaves[k];
 
@@ -12972,10 +12902,33 @@ V3.pages.resumen={tab:'gastos', title:'Movimientos', sub:()=>pl(gastosMov().leng
 
 /* ====================== REPOSTAJES Y ESTADÍSTICAS (contenido 2.x) ====================== */
 Object.assign(V3.pages,{
-  repost:v2Page3('Repostajes', w=>renderRepost(w), {tab:'gastos', act:['plus','Repostaje',()=>recForm(MOD.repostajes)]}),
-  stats:v2Page3('Estadísticas', w=>renderStats(w), {tab:'gastos'}),
+  repost:v2Pg('gastos','Repostajes', renderRepost, {act:['plus','Repostaje',()=>recForm(MOD.repostajes)]}),
+  stats:v2Pg('gastos','Estadísticas', renderStats),
 });
 for(const k of ['compra','resumen','repost','stats']) delete V3.leaves[k];
+
+/* ====================== PAPELES Y COCHE (4.0 · fase 4) ======================
+   Todas las pantallas de detalle de Papeles y de Coche son ya páginas del navegador (v2Pg): su contenido
+   lo pinta la función de siempre de la 2.x, sin pasar por las secciones, pestañas ni paneles antiguos.
+   El modelo 3D sigue siendo su propia pantalla (hoja «3d»): es el visor WebGL de la 1.x. */
+Object.assign(V3.pages,{
+  /* ---------- Papeles ---------- */
+  p_docs:v2Pg('papeles','Documentos', renderDocs2, {act:['plus','Añadir documento',()=>recForm(MOD.docs)]}),
+  p_itv:v2Pg('papeles','ITV', renderITV, {act:['plus','Registrar una ITV',()=>recForm(MOD.itv)]}),
+  p_garant:v2Pg('papeles','Garantías', renderGarantias, {act:['plus','Nueva garantía',()=>recForm(MOD.garantias)]}),
+  p_sinies:v2Pg('papeles','Siniestros y multas', renderSiniestros, {act:['plus','Nuevo siniestro o multa',()=>recForm(MOD.siniestros)]}),
+  p_ivtm:v2Pg('papeles','Impuesto de circulación', renderIVTM, {act:['plus','Apuntar un pago',()=>recForm(MOD.ivtm)]}),
+  p_fotos:v2Pg('papeles','Facturas y fotos', renderArchivos, {act:['camera','Fotografiar factura',()=>$('#camIn').click()]}),
+  /* ---------- Coche ---------- */
+  datos:v2Pg('coche','Datos del coche', renderFichaCoche, {leave:()=>{ const s=$('#secCoche'); if(s) $('#holdCoche').append(s); }}),   /* devuelve el formulario de fábrica a su sitio */
+  tecnica:v2Pg('coche','Ficha técnica y pares', renderFichaTec),
+  piezas:v2Pg('coche','Piezas', renderFichas),
+  elec:v2Pg('coche','Electricidad', renderElec),
+  guias:v2Pg('coche','Guías y manuales', renderGuias),
+  galeria:v2Pg('coche','Galería', renderGaleria, {act:['plus','Añadir fotos',()=>recForm(MOD.galeria)]}),
+  mejoras:v2Pg('coche','Mejoras', renderMejoras, {act:['plus','Nueva mejora',()=>recForm(MOD.mejoras)]}),
+});
+for(const k of Object.keys(V3.pages)) if(V3.leaves[k] && k!=='3d') delete V3.leaves[k];
 
 
 connectDb();
