@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.0.0-beta.1">
+<meta name="app-version" content="4.0.0-beta.2">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3170,6 +3170,52 @@ body.v3 .mtop>.mtlcard{flex:1 1 100%!important}
 
 /* 4.0: nota de preferencias sincronizadas */
 .vsyncf{display:flex;align-items:center;gap:8px;margin:-4px 4px 18px}.vsyncf svg{width:16px;height:16px;flex:none;color:var(--v-blue)}
+
+/* ====================== 4.0 · Taller (fase 2) ====================== */
+.vpill{flex:none;font-style:normal;font:600 12px var(--v-font);padding:3px 9px;border-radius:10px;color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent);white-space:nowrap}
+.vmi .vtx small+small{opacity:.8}
+.vmi .vlead .vring{width:40px;height:40px}.vmi .vlead .vring b{font-size:10.5px}
+.vkmc{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px}
+.vkmc small{display:block;color:var(--v-txt2);font-size:13px}.vkmc b{font:700 26px var(--v-font);letter-spacing:-.02em}.vkmc b i{font:500 15px var(--v-font);font-style:normal;color:var(--v-txt2)}
+.vkmc .btn2{flex:none;width:auto;padding:9px 14px}
+.vtl .card2{margin:0}
+details.vfold{margin:0 0 22px}details.vfold>summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+details.vfold>summary::-webkit-details-marker{display:none}details.vfold>summary small{width:100%;font:400 13px var(--v-font);color:var(--v-txt2)}
+details.vfold>summary::after{content:'›';margin-left:auto;transform:rotate(90deg);transition:transform .2s;color:var(--v-txt2)}details.vfold[open]>summary::after{transform:rotate(-90deg)}
+details.vfold .vbadge{font-size:12.5px;vertical-align:middle}
+.vms .kv2{margin-bottom:12px}.vms .life{margin:4px 0 14px}.vms .vlist{border-radius:14px;overflow:hidden;background:var(--v-cell2)}
+.vdup{display:flex;align-items:center;gap:10px;margin:0 0 18px;padding:12px 14px;border-radius:14px}.vdup span{flex:1}.vdup .btn2{flex:none;width:auto}
+.vswipe.swiping{z-index:2}
+/* formularios 4.0 */
+.vform{display:flex;flex-wrap:wrap;gap:12px 12px;padding:16px}
+.vfl{display:flex;flex-direction:column;gap:6px;flex:1 1 100%;min-width:0}.vfl.half{flex:1 1 calc(50% - 6px)}
+.vfl .inp2{width:100%;box-sizing:border-box;min-height:44px;padding:10px 12px;font-size:16px}
+.vfl textarea.inp2{min-height:84px;resize:vertical}
+.vfl .lmng{display:none}
+.vfhint{flex:1 1 100%;display:flex;gap:8px;align-items:center;margin:0;color:var(--v-txt2)}.vfhint svg{width:18px;height:18px;color:var(--accent)}
+details.vfdet{flex:1 1 100%;border-radius:12px;background:var(--v-cell2);padding:0 12px}
+details.vfdet>summary{list-style:none;cursor:pointer;display:flex;gap:8px;align-items:center;padding:12px 0;font-weight:600;color:var(--accent)}
+details.vfdet>summary::-webkit-details-marker{display:none}details.vfdet>summary svg{width:18px;height:18px}
+details.vfdet>summary span{display:flex;flex-direction:column}details.vfdet>summary small{font-weight:400;color:var(--v-txt2);font-size:13px}
+.vfgrid{display:flex;flex-wrap:wrap;gap:12px;padding:0 0 14px}
+.vfile{position:relative;display:flex;align-items:center;gap:8px;min-height:44px;padding:10px 12px;border-radius:10px;border:1.5px dashed var(--v-sep);color:var(--accent);cursor:pointer}
+.vfile input{position:absolute;inset:0;opacity:0;cursor:pointer}.vfile svg{width:18px;height:18px}.vfl.has .vfile{border-style:solid;border-color:var(--accent)}
+.vfst{flex:1 1 100%;margin:0;min-height:1em;color:var(--v-txt2);font-size:13.5px}
+.vfacts{flex:1 1 100%;display:flex;gap:10px}.vfacts .btn2{flex:1}
+/* averías */
+.vsearch{display:flex;align-items:center;gap:8px;margin:0 0 14px;padding:0 12px;border-radius:12px;background:var(--v-cell2)}
+.vsearch svg{width:18px;height:18px;color:var(--v-txt2);flex:none}.vsearch input{flex:1;border:0;background:none;color:var(--v-txt);font:400 16px var(--v-font);padding:11px 0;outline:none;min-width:0}
+.vaves{display:flex;flex-direction:column;gap:12px;margin-bottom:22px}
+.vave{padding:14px 16px}.vave header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.vave header b{font:600 14px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--v-txt2)}
+.vave h3{margin:0;font:600 17px var(--v-font)}.vave>small{display:block;color:var(--v-txt2);font-size:13px;margin-top:3px}
+.vave p{margin:8px 0 0;color:var(--v-txt2);font-size:14.5px;white-space:pre-wrap}.vave.done{opacity:.72}
+.vave .vacts{margin-top:12px;display:flex;gap:8px}.vave .vacts .btn2{flex:1}
+.vchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;flex:1 1 100%}
+.vchip{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:16px;padding:6px 11px;background:var(--v-cell2);color:var(--v-txt);font:500 13.5px var(--v-font);cursor:pointer}
+.vchip svg{width:15px;height:15px;color:var(--accent)}.vchip i{font-style:normal;opacity:.6;margin-left:2px}
+.vave-f{padding:0}
+.v3v2{padding:0!important;max-width:none}
 </style>
 
 </head>
@@ -3212,7 +3258,7 @@ body.v3 .mtop>.mtlcard{flex:1 1 100%!important}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.0.0-beta.1</span>
+  <span class="spver">v4.0.0-beta.2</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6586,7 +6632,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.0.0-beta.1';
+window.APP_VERSION='4.0.0-beta.2';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6620,7 +6666,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.0.0-beta.1';
+  const APP_VERSION='4.0.0-beta.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -6948,13 +6994,7 @@ function openSub(sec,sub){
     else { if(ovl.classList.contains('docked') && ovl.parentNode===pb){ _closePop(); } renderPapeles(sub); }
   }
 }
-function setTop(){
-  const formOpen = !ovl.hidden && ovl.classList.contains('docked') && popMode==='int';
-  document.body.classList.toggle('formopen', formOpen);
-  NAVUI?.top();
-}
-/* «Cancelar» del formulario a pantalla completa (nueva intervención) */
-function formCancel(){ const c=[...document.querySelectorAll('#ovlBody .acts button')].find(b=>b.textContent==='Cancelar'); if(c) c.click(); else closePop(); setTop(); }
+function setTop(){ NAVUI?.top(); }
 
 function go(sec, sub, opts={}){
   const prev=UI.sec; UI.sec=sec; document.body.dataset.sec=sec;
@@ -7507,23 +7547,6 @@ function listManager(sel, kind){
   };
   return box;
 }
-{ const _rif=renderIntForm; renderIntForm=function(){
-    _rif();
-    const iM=$('#iMant'), iP=$('#iPieza'), dr=S.draft||{};
-    if(iP){
-      iP.innerHTML=''; iP.append(new Option('— General —',''));
-      for(const q of [...S.piezasL].sort((a,b)=>(a.nombre||'').localeCompare(b.nombre||'','es'))) iP.append(new Option(q.nombre,'c:'+q._id));
-      if(dr.pieza && !String(dr.pieza).startsWith('c:') && parts[dr.pieza]) iP.append(new Option(parts[dr.pieza].name+' (modelo 3D)', dr.pieza));
-      iP.value=dr.pieza||''; iP.onchange=()=>{ if(S.draft) S.draft.pieza=iP.value; };
-      iP.closest('label').classList.add('w3'); iP.closest('label').firstChild.textContent='Pieza afectada (opcional)';
-      iP.closest('label').append(listManager(iP,'pieza'));
-    }
-    if(iM){
-      const lab=iM.closest('label'); lab.classList.remove('w2'); lab.classList.add('w3'); lab.firstChild.textContent='Elemento de mantenimiento';
-      lab.append(listManager(iM,'mant'));
-      const prev=iM.onchange; iM.onchange=e=>{ prev?.(e); if(S.draft) S.draft.mant=iM.value; };
-    }
-  }; }
 
 
 /* ---------- COMPRA: lista de la compra real ---------- */
@@ -7883,37 +7906,7 @@ function listInSelect(sel, kind){
     prev=v; build();
   }, true);
 }
-{ const _rif2=renderIntForm; renderIntForm=function(){
-    const _lm=listManager; listManager=(sel,kind)=>{ const box=document.createElement('span'); box.hidden=true; box.dataset.kind=kind; return box; };
-    try{ _rif2(); } finally { listManager=_lm; }
-    const iM=$('#iMant'), iP=$('#iPieza');
-    document.querySelectorAll('#ovlBody label > span[data-kind]').forEach(x=>x.remove());
-    if(iM) listInSelect(iM,'mant'); if(iP) listInSelect(iP,'pieza');
-    /* referencia, coste, fotos y la lectura con IA en un bloque plegable */
-    const form=$('#ovlBody form'); const g=form?.querySelector('.fgrid'); if(!g) return;
-    const det=h2(`<details class="mdet"><summary>${ic('plus')}Más detalles<small>referencia, coste, fotos y facturas</small></summary><div class="fgrid"></div></details>`), g2=det.querySelector('.fgrid');
-    for(const id of ['iRef','iCoste','iAdj']){ const l=document.getElementById(id)?.closest('label'); if(l) g2.append(l); }
-    const ai=form.querySelector('.aib')?.parentElement; if(ai) g2.after(ai);
-    g.after(det);
-    const dr=S.draft||{}; if(dr.ref||dr.coste) det.open=true;
-  }; }
 /* --- Mantenimiento ▸ Plan compacto --- */
-{ const _rm=renderMant; renderMant=function(){
-    _rm();
-    const body=$('#ovlBody'); if(!body) return;
-    /* kilómetros: cifra + botón (el campo editable se quita) */
-    const kl=body.querySelector('#mKm')?.closest('label');
-    if(kl){ const km=S.cfg?.kmActual; const d=h2(`<div class="mkm2"><span class="muted2">Kilómetros actuales</span><b>${km?nf.format(km)+' km':'—'}</b><button type="button" class="btn2 ghost">${ic('edit')}Actualizar</button></div>`); d.querySelector('button').onclick=quickKm; kl.replaceWith(d); }
-    if(S.mantTab==='hist'){ body.querySelector('.mtop')?.remove(); return; }
-    /* los elementos sin datos, plegados al final */
-    const rows=[...body.querySelectorAll('.mgroup .mrow.st-nodata, .mgroup .mrow.st-noint')];
-    if(rows.length){ const det=h2(`<details class="mgroup nocfg"><summary>${ic('sliders')}Sin configurar<span class="cnt">${rows.length}</span><small>Falta el último cambio o el intervalo</small></summary><div class="ncbox"></div></details>`), bx=det.querySelector('.ncbox');
-      const wz=h2(`<button type="button" class="btn2" style="margin:6px 0 10px">${ic('sparkle')}Configurar con el asistente</button>`); wz.onclick=()=>openWizard(1); bx.append(wz);
-      for(const r of rows) bx.append(r);
-      if(rows.some(r=>r.querySelector('.mcfg'))) det.open=true;
-      const groups=[...body.querySelectorAll('.mgroup:not(.nocfg)')]; groups.forEach(gg=>{ if(!gg.querySelector('.mrow')) gg.remove(); });
-      const addF=[...body.querySelectorAll('form.mcfg')].pop(); if(addF) addF.before(det); else body.append(det); }
-  }; }
 /* --- Papeles ▸ Documentos: la lista primero y el formulario tras un botón --- */
 { const _rd=renderDocs; renderDocs=function(){
     _rd();
@@ -7934,13 +7927,6 @@ function enhanceFile(inp){
 }
 document.querySelectorAll('input[type=file]').forEach(enhanceFile);
 new MutationObserver(ms=>{ for(const m of ms) for(const n of m.addedNodes){ if(n.nodeType!==1) continue; if(n.matches?.('input[type=file]')) enhanceFile(n); else n.querySelectorAll?.('input[type=file]').forEach(enhanceFile); } }).observe(document.body,{childList:true,subtree:true});
-/* --- insignias en las pestañas: vencidos en Plan, pendientes en Compra --- */
-function subBadges(){
-  const c=counts(), cp=(S.compras||[]).filter(x=>x.estado!=='montado').length;
-  for(const [sel,n,cls] of [['#stMant [data-sub="plan"]',c.due||c.soon,c.due?'':'soon'],['#stMant [data-sub="compra"]',cp,'info'],['#stPap [data-sub="docs"]',c.ddue||c.dsoon,c.ddue?'':'soon']]){
-    const b=document.querySelector(sel); if(!b) continue; let x=b.querySelector('.sbadge'); if(!n){ x?.remove(); continue; } if(!x){ x=document.createElement('b'); b.append(x); } x.className='sbadge '+cls; x.textContent=n; }
-}
-{ const _ub=updateBadges; updateBadges=function(){ _ub(); subBadges(); }; }
 /* --- el punto de sincronización se explica al tocarlo --- */
 $('#t2Sync').style.cursor='pointer'; $('#t2Sync').onclick=()=>toast(navigator.onLine?'Todo guardado en la nube: los cambios se suben al momento.':'Sin conexión: los cambios se guardan en el móvil y se subirán solos.');
 /* --- atajos de teclado solo en el modelo 3D --- */
@@ -8023,9 +8009,7 @@ function foldForm(form, label, key){
 { const _rp=renderPop; renderPop=function(...a){
     const r=_rp.apply(this,a);
     try{ const body=$('#ovlBody');
-      if(popMode==='mant' && S.mantTab!=='hist') foldForm([...body.querySelectorAll('form.mcfg')].filter(f=>!f.closest('.mrow')).pop(), 'Añadir elemento al plan', 'addMant');
-      else if(popMode==='fus' && !S.fusEdit) foldForm(body.querySelector('form.fusform'), 'Añadir fusible o relé', 'addFus');
-      else if(popMode==='ave' && !S.aveEdit) foldForm([...body.querySelectorAll('form')].pop(), 'Registrar avería', 'addAve');
+      if(popMode==='fus' && !S.fusEdit) foldForm(body.querySelector('form.fusform'), 'Añadir fusible o relé', 'addFus');
     }catch(e){ console.warn(e); }
     return r; }; }
 
@@ -8048,7 +8032,7 @@ document.addEventListener('touchstart',e=>{
   if(e.touches.length!==1 || document.getElementById('splash')){ G=null; return; }
   const t=e.touches[0], tgt=e.target;
   const inSheet=tgt.closest?.('.shbox, .csw.m .cspop');
-  let row=tgt.closest?.('.cmpi, .hist2 .h'); if(row && !(row._swL||row._swR)) row=null;
+  let row=tgt.closest?.('.cmpi, .hist2 .h, .vswipe'); if(row && !(row._swL||row._swR)) row=null;
   G={x0:t.clientX, y0:t.clientY, x:t.clientX, y:t.clientY, t0:performance.now(), mode:null, tgt, edgeL: t.clientX<26, sheet: inSheet, row};
 },{passive:true});
 document.addEventListener('touchmove',e=>{
@@ -8192,7 +8176,7 @@ function v2Changed(c){
     v2Migrate(); autoBackup();
   },140);
 }
-function v2Rerender(){ const c=V2.cur; if(!c) return; const st=c.pb.scrollTop; c.run(false); c.pb.scrollTop=st; }
+function v2Rerender(){ if(NAVUI?.rerender()) return; const c=V2.cur; if(!c) return; const st=c.pb.scrollTop; c.run(false); c.pb.scrollTop=st; }
 { const _sg=sigOf; sigOf=function(){ return _sg()+JSON.stringify([C2.map(c=>S.v2[c].length+':'+S.v2[c].map(x=>x.actualizado||'').join()), S.cfgX.app?.ultimaCopia, S.cfgX.app?.ultimaExport, (S.copias||[]).length]); }; }
 S.kmPace=()=>kmPace();
 
@@ -8587,7 +8571,6 @@ function renderRuedas(w){
   }
   if(ft||ft2) w.append(h2(`<p class="muted2" style="margin:12px 2px">Presiones de referencia en la ficha técnica: ${esc(ft||'—')} delante · ${esc(ft2||'—')} detrás. Comprueba siempre la etiqueta de la tapa del depósito.</p>`));
 }
-V2SUBS.mant.ruedas=renderRuedas;
 
 /* ---------- GARANTÍAS ---------- */
 MOD.garantias={col:'garantias', newT:'Nueva garantía', editT:'Editar garantía', delT:'Garantía borrada',
@@ -10599,17 +10582,6 @@ function intervalSheet(it){
     try{ const {id, ...rest}=it; await S.db.collection('mantenimiento').doc(id).set({...rest, intervaloKm:ck, intervaloMeses:cm}); closeSheet(); uiSfx('save'); celebrate(); toast(`Intervalo guardado: ${[ck?nf.format(ck)+' km':'', cm?pl(cm,'mes','meses'):''].filter(Boolean).join(' o ')}`); }catch{ toast('No se pudo guardar','err'); } };
   sheet(box, b=>b.classList.add('v2f'));
 }
-{ const _rm=renderMant; renderMant=function(){ _rm(); const body=$('#ovlBody'); if(!body || S.mantTab==='hist') return;
-    for(const r of body.querySelectorAll('.mrow.st-noint, .mrow.st-nodata')){ if(r.dataset.fx) continue; r.dataset.fx='1';
-      const name=r.querySelector('.nm')?.firstChild?.textContent?.trim(), it=S.mant.find(x=>x.nombre===name); if(!it) continue;
-      const noint=r.classList.contains('st-noint'), sm=r.querySelector('.nm small'), pill=r.querySelector('.pill');
-      if(noint){ if(sm) sm.textContent='Falta decir cada cuánto se cambia'; if(pill) pill.textContent='Falta intervalo';
-        const b=h2(`<button type="button" class="pri2">${ic('sliders')}Poner intervalo</button>`); b.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); intervalSheet(it); }; r.querySelector('.bt')?.prepend(b); }
-      else { if(sm && !it.intervaloKm && !it.intervaloMeses) sm.textContent='Sin intervalo ni último cambio'; else if(sm) sm.textContent='Falta apuntar el último cambio'; if(pill) pill.textContent='Sin datos';
-        if(!it.intervaloKm && !it.intervaloMeses){ const b=h2(`<button type="button">${ic('sliders')}Intervalo</button>`); b.onclick=e=>{ e.stopPropagation(); uiSfx('tap'); intervalSheet(it); }; r.querySelector('.bt')?.append(b); } }
-      /* «km —» del último cambio sin kilómetros */
-      r.querySelectorAll('.c b').forEach(x=>{ x.textContent=x.textContent.replace(/ · —$/,' · km sin apuntar'); }); }
-    const sum=body.querySelector('details.nocfg summary small'); if(sum) sum.textContent='Les falta el intervalo o el último cambio: complétalos y te aviso a tiempo'; }; }
 Object.assign(window,{docsVig, docCur, docsOf, pl});
 /* ---------- buscador: primero lo que existe, las acciones rápidas al final ---------- */
 { const _rs=runSearch; runSearch=function(raw){ _rs(raw); const out=$('#srRes'), a=out?.querySelector(':scope > .sracts'); if(a && a.nextElementSibling) out.append(a); }; }
@@ -10691,10 +10663,6 @@ function heroArt(){ document.querySelectorAll('.card2.hmini').forEach(c=>{ if(c.
 function lifePct(it){ const s=itemStatus(it); if(!s || !['ok','soon','due'].includes(s.st)) return null; let p=0;
   if(it.intervaloKm && s.kmLeft!=null) p=Math.max(p, 1-s.kmLeft/it.intervaloKm); if(it.intervaloMeses && s.daysLeft!=null) p=Math.max(p, 1-s.daysLeft/(it.intervaloMeses*30.44));
   return Math.max(0, Math.min(1.08, p)); }
-function progBars(){ document.querySelectorAll('.mrow.st-ok, .mrow.st-soon, .mrow.st-due').forEach(r=>{ if(r.querySelector('.life')) return; const name=r.querySelector('.nm')?.firstChild?.textContent?.trim(); const it=S.mant.find(x=>x.nombre===name); if(!it) return; const p=lifePct(it); if(p==null) return;
-    const b=h2(`<div class="life" title="Vida usada: ${Math.round(p*100)} %"><i style="--p:${Math.min(1,p)}"></i><span>${Math.round(p*100)} %</span></div>`); r.querySelector('.nm')?.after(b); }); }
-{ const _rm=renderMant; renderMant=function(){ _rm(); try{ progBars(); }catch{} }; }
-
 /* ---------- gráficos: las líneas se dibujan y las barras crecen ---------- */
 { const _lc=lineChart; lineChart=function(pts,o){ const el=_lc(pts,o); el.querySelectorAll?.('path').forEach(p=>{ if(p.getAttribute('fill')==='none' || /stroke/.test(p.getAttribute('class')||'') || !p.getAttribute('fill')) { p.setAttribute('pathLength','1'); p.classList.add('drawln'); } }); return el; }; }
 
@@ -10718,13 +10686,6 @@ new MutationObserver(ms=>{ if(!ioLit) return; for(const m of ms) for(const n of 
 setInterval(()=>{ if(document.hidden) return; document.querySelectorAll('.page.on .stc:not(.lit), .page.on .doc2:not(.lit), .page.on .life:not(.lit), #shBox .stc:not(.lit)').forEach(e=>{ const r=e.getBoundingClientRect(); if(r.height && r.top<innerHeight && r.bottom>0) e.classList.add('lit'); }); }, 900);
 
 /* ---------- Historial: por años, con el botón arriba ---------- */
-{ const _rm=renderMant; renderMant=function(){ _rm(); if(S.mantTab!=='hist') return; const body=$('#ovlBody'), hist=body?.querySelector('.hist'); if(!hist || hist.dataset.fx) return; hist.dataset.fx='1';
-    const acts=body.querySelector(':scope > .acts'); if(acts){ acts.classList.add('histtop'); hist.before(acts); }
-    let y=''; for(const h of hist.querySelectorAll(':scope > .h')){ const d=h.querySelector('.d')?.firstChild?.textContent||''; const yy=(d.match(/\d{4}/)||[''])[0];
-      if(yy && yy!==y){ y=yy; const n=[...hist.querySelectorAll(':scope > .h')].filter(x=>(x.querySelector('.d')?.firstChild?.textContent||'').includes(yy)).length; h.before(h2(`<h5 class="hyear"><span>${yy}</span><em>${n===1?'1 trabajo':n+' trabajos'}</em></h5>`)); }
-      const t=h.querySelector('.t b')?.textContent||''; h.querySelector('.hic')||h.prepend(h2(`<span class="hic">${ic(/aver|repar/i.test(t)?'alert':/sustit/i.test(t)?'wrench':/revis|inspec/i.test(t)?'checkc':'history')}</span>`));
-      h.querySelectorAll('button.del').forEach(b=>{ if(/Borrar/.test(b.textContent)) b.classList.add('hdel'); }); }
-    if(!hist.querySelector('.h')) hist.replaceWith(emptyCard('history','Aquí aparece todo lo que se le ha hecho al coche: cambios, reparaciones e inspecciones, con km y coste. Se rellena al registrar una intervención.')); }; }
 /* ---------- paneles antiguos vacíos: también con ilustración ---------- */
 new MutationObserver(()=>{ const b=$('#ovlBody'); if(!b) return; const p=b.querySelector(':scope > p.empty:first-child'); if(!p || p.previousElementSibling?.matches('svg.art') || b.querySelector(':scope > svg.art')) return;
   const k={pines:'pin', fus:'zap', ave:'alert', procs:'book', docs:'shield', pend:'cube'}[popMode]||'sparkle'; p.insertAdjacentHTML('beforebegin', art(k,'panel')); p.classList.add('empty3'); }).observe($('#ovlBody')||document.body,{childList:true});
@@ -10770,10 +10731,6 @@ function mantTimeline(){
   if(!pace) c.append(h2(`<p class="muted2" style="margin:8px 2px 0;font-size:12px">Lo que va por kilómetros se estima a 15.000 km/año hasta que tengas dos lecturas de km.</p>`));
   c.classList.add('mtlcard'); return c;
 }
-{ const _rm=renderMant; renderMant=function(){ _rm(); const body=$('#ovlBody'); if(!body || S.mantTab==='hist' || popMode!=='mant') return; body.querySelector('.mtlcard')?.remove(); const c=mantTimeline(); if(!c) return;
-    const k=body.querySelector('.mkm2'); if(k) k.after(c); else body.prepend(c); }; }
-
-/* ====================== INICIO: ATAJOS Y GASTO DEL AÑO EN BARRAS ====================== */
 
 /* ====================== TEXTOS DE AYUDA LARGOS: dos líneas y «más» ====================== */
 function pintroFix(root){ for(const p of (root||document).querySelectorAll?.('.pintro:not([data-cl])')||[]){ p.dataset.cl='1'; const s=p.querySelector('span'); if(!s) continue;
@@ -10834,7 +10791,7 @@ if(matchMedia('(pointer:coarse)').matches){ controls.dampingFactor=.16; }
 if(window.__wire) window.__wire.inv=()=>Object.entries(parts).map(([id,p])=>{ let t=0; for(const m of p.meshes){ const g=m.geometry; t+=(g.index?g.index.count:g.attributes.position.count)/3; } const b=partBox(id), s=b?b.getSize(new THREE.Vector3()):null; return {id:id.replace(/^Touareg2008_/,''), n:p.name, l:p.layer, m:p.meshes.length, t:Math.round(t), s:s?[s.x,s.y,s.z].map(v=>+v.toFixed(2)):null}; });
 
 /* ====================== SONIDOS DE HOJAS Y FORMULARIOS (2.1.1) ======================
-   Un soplo corto al abrir y cerrar las hojas y los formularios a pantalla completa. Con «Sonidos de la
+   Un soplo corto al abrir y cerrar las hojas. Con «Sonidos de la
    interfaz». (Las transiciones entre pantallas de la 2.x se fueron con la 4.0: las hace el navegador.) */
 const NAV={t:0};
 function navSfx(kind, dir){
@@ -10856,8 +10813,6 @@ function navSfx(kind, dir){
 }
 /* hojas que se abren desde abajo */
 { const sh=$('#sheet2'); if(sh){ let was=!sh.hidden; new MutationObserver(()=>{ const on=!sh.hidden; if(on!==was){ was=on; navSfx(on?'sheet':'sheetx'); } }).observe(sh,{attributes:true, attributeFilter:['hidden']}); } }
-/* formularios a pantalla completa (nueva intervención…) */
-{ let fo=false; new MutationObserver(()=>{ const on=document.body.classList.contains('formopen'); if(on!==fo){ fo=on; navSfx(on?'in':'back'); } }).observe(document.body,{attributes:true, attributeFilter:['class']}); }
 
 /* ====================== INTERFAZ SIMPLIFICADA (2.1.1, elegido por Sergio el 15-10-2026) ======================
    1 · Cuatro secciones abajo (Inicio · Coche · Taller · Papeles); «Más» pasa a un botón de la cabecera.
@@ -10872,18 +10827,6 @@ SECS.mant.t='Taller';
 const TALLER_GASTOS=['gastos','repost','compra'];
 { const st=$('#stMant'); for(const k of ['hist','repost','compra']){ st?.querySelector(`button[data-sub="${k}"]`)?.remove(); const i=SECS.mant.subs.findIndex(x=>x[0]===k); if(i>=0) SECS.mant.subs.splice(i,1); } }
 /* ir al historial = ir al plan y bajar hasta «Trabajos hechos» */
-{ const _os=openSub; openSub=function(sec, sub){ if(sec==='mant' && sub==='hist'){ UI.toHist=true; sub='plan'; } const r=_os(sec, sub);
-    if(UI.toHist && sec==='mant'){ setTimeout(()=>{ const h=document.querySelector('#ovlBody .mhecho'); if(h){ UI.toHist=false; h.scrollIntoView({block:'start', behavior:RM?'auto':'smooth'}); } }, 380); } return r; }; }
-/* Plan: lo que toca arriba y lo ya hecho debajo, por años */
-function histYears(hist){ let y=''; for(const h of hist.querySelectorAll(':scope > .h')){ const d=h.querySelector('.d')?.firstChild?.textContent||''; const yy=(d.match(/\d{4}/)||[''])[0];
-    if(yy && yy!==y){ y=yy; const n=[...hist.querySelectorAll(':scope > .h')].filter(x=>(x.querySelector('.d')?.firstChild?.textContent||'').includes(yy)).length; h.before(h2(`<h5 class="hyear"><span>${yy}</span><em>${n===1?'1 trabajo':n+' trabajos'}</em></h5>`)); }
-    const t=h.querySelector('.t b')?.textContent||''; h.querySelector('.hic')||h.prepend(h2(`<span class="hic">${ic(/aver|repar/i.test(t)?'alert':/sustit/i.test(t)?'wrench':/revis|inspec/i.test(t)?'checkc':'history')}</span>`));
-    h.querySelectorAll('button.del').forEach(b=>{ if(/Borrar/.test(b.textContent)) b.classList.add('hdel'); }); } }
-{ const _rm=renderMant; renderMant=function(){ _rm(); const body=$('#ovlBody'); if(!body || popMode!=='mant' || S.mantTab==='hist' || body.querySelector('.mhecho')) return;
-    const all=[...S.int].sort(byDateDesc), sec=h2(`<section class="mhecho"><h4>${ic('history')}<span>Trabajos hechos</span><em>${pl(all.length,'trabajo')}</em><button type="button" class="btn2 sm">${ic('plus')}Registrar</button></h4></section>`);
-    sec.querySelector('button').onclick=()=>{ uiSfx('tap'); openIntForm({back:'mant'}); };
-    if(all.length){ const hl=histList(all, true); histYears(hl); sec.append(hl); } else sec.append(emptyCard('history','Aquí aparece todo lo que se le ha hecho al coche: cambios, reparaciones e inspecciones, con km y coste.'));
-    body.append(sec); if(UI.toHist) setTimeout(()=>{ UI.toHist=false; sec.scrollIntoView({block:'start', behavior:RM?'auto':'smooth'}); }, 120); }; }
 /* Gastos ▸ Resumen · Repostajes · Compra */
 function gastosChips(){ const pb=$('#pbMant'), w=pb?.querySelector(':scope > .wrap'); if(!w || UI.sec!=='mant' || !TALLER_GASTOS.includes(UI.sub.mant) || w.querySelector(':scope > .gchips')) return;
   const c=chips([['gastos','Resumen'],['repost','Repostajes'],['compra','Compra']], UI.sub.mant, k=>{ if(k!==UI.sub.mant){ openSub('mant',k); setTop(); } }); c.classList.add('gchips'); w.prepend(c); }
@@ -11301,14 +11244,42 @@ function repRun(rep0){
     uiSfx('tick'); const h=[...rep.hechos, i]; if(i<P.length-1) i++; save({hechos:h, paso:i}); draw();
     if(h.length===P.length){ celebrate(); toast('Todos los pasos hechos. Cuando quieras, pulsa «Terminar».'); } };
   const ta=box.querySelector('textarea'); ta.value=rep.notas||''; ta.onblur=()=>{ if(ta.value!==(rep.notas||'')) save({notas:ta.value}); };
+  const fresh=()=>repList().find(x=>x._id===rep._id)||rep;
+  /* modo taller: letra grande y pantalla siempre encendida mientras reparas (solo en este aparato) */
+  { const b=h2(`<button type="button" class="mtbtn" aria-pressed="${!!UI.prefs.modoTaller}">${ic('maximize')}<span>Modo taller</span><small>Letra grande y pantalla siempre encendida</small></button>`);
+    const apply=v=>{ document.body.classList.toggle('modotaller', v); b.setAttribute('aria-pressed', String(v)); if(v) wakeOn(); else wakeOff(); };
+    b.onclick=()=>{ UI.prefs.modoTaller=!UI.prefs.modoTaller; savePrefsUI(); uiSfx('tap'); apply(UI.prefs.modoTaller); if(UI.prefs.modoTaller) toast(navigator.wakeLock?'Modo taller: la pantalla no se apagará':'Modo taller activado (este navegador no deja mantener la pantalla encendida)'); };
+    box.querySelector('.rphead').after(b); if(UI.prefs.modoTaller) apply(true); }
+  /* sin guía: añadir pasos sobre la marcha */
+  if(pr.libre){ const a=h2(`<div class="rpadd"><input class="inp2" placeholder="Añadir un paso…" autocomplete="off"><button type="button" class="btn2 ghost">${ic('plus')}Añadir</button></div>`);
+    const add=async()=>{ const v=a.querySelector('input').value.trim(); if(!v) return; const cur=fresh(); const pasos=[...((cur.pasos&&cur.pasos.length)?cur.pasos:[]), {titulo:v, texto:''}];
+      await v2Upd('reparaciones', cur, {pasos, paso:pasos.length-1}); uiSfx('tick'); repRun({...cur, pasos, paso:pasos.length-1}); };
+    a.querySelector('button').onclick=add; a.querySelector('input').onkeydown=e=>{ if(e.key==='Enter') add(); };
+    box.querySelector('.rpdots').after(a); }
+  /* lo que vas viendo y no tiene que ver: a Pendientes, y lo apuntado en esta reparación */
+  { const d=h2(`<div class="pdinrep"><button type="button" class="btn2 pdquick">${ic('flag')}<span><b>Anotar algo que he visto</b><small>Un tornillo que falta, algo roto… aunque no tenga que ver con esta reparación</small></span></button><div class="pdmine"></div></div>`);
+    const drawM=()=>{ const M=pdList().filter(p=>p.reparacion===rep._id), l=d.querySelector('.pdmine'); l.innerHTML=''; if(!M.length) return;
+      l.append(h2(`<h5>${ic('flag')}Apuntado en esta reparación <em>${M.filter(p=>p.estado!=='hecho').length} por hacer</em></h5>`));
+      for(const p of M){ const r=pdRow(p,{noRep:true}); r.querySelector('.pdchk').onclick=async e=>{ e.stopPropagation(); await pdToggle(p, r); setTimeout(drawM,250); };
+        r.querySelector('.pdbody').onclick=()=>{ uiSfx('tap'); pdSheet(p); pdBack(()=>repRun(fresh())); }; l.append(r); } };
+    d.querySelector('.pdquick').onclick=()=>{ uiSfx('tap'); pdForm(null,{reparacion:rep._id}); pdBack(()=>repRun(fresh())); };
+    drawM(); (box.querySelector('.rpadd')||box.querySelector('.rpdots')).after(d); }
+  /* fotos de antes y después (al terminar van a la galería y a la intervención) */
+  { const r0=fresh(), d=h2(`<details class="rpparts rpfotos"><summary>${ic('camera')}Fotos de antes y después <em>${(r0.antes||[]).length} · ${(r0.despues||[]).length}</em></summary><div class="rpfrow"><label class="btn2 ghost sm">${ic('camera')}Antes<input type="file" accept="image/*" multiple hidden data-k="antes"></label><label class="btn2 ghost sm">${ic('camera')}Después<input type="file" accept="image/*" multiple hidden data-k="despues"></label></div><p class="muted2 rpfst"></p></details>`);
+    d.querySelectorAll('input').forEach(i=>i.onchange=async()=>{ const k=i.dataset.k, st=d.querySelector('.rpfst'); const up=await uploadFiles([...i.files], st); const cur=fresh();
+      await v2Upd('reparaciones', cur, {[k]:[...(cur[k]||[]), ...up]}); st.textContent=`${pl(up.length,'foto guardada','fotos guardadas')} (${k}).`; uiSfx('save'); });
+    box.querySelector('.rpnotes').before(d); }
   draw();
-  detailSheet(rep.titulo, 'Reparación en curso', box, [['Terminar','check',()=>repFinish(rep),'pri'], ...(pr.libre?[]:[['Ver la guía entera','book',()=>guiaRead(pr)]])]);
+  detailSheet(rep.titulo, 'Reparación en curso', box, [['Terminar','check',()=>repFinish(rep),'pri'], ...(pr.libre?[]:[['Ver la guía entera','book',()=>guiaRead(pr)]]),
+    ['Abandonar','x',async()=>{ if(!confirm('¿Abandonar esta reparación? No se apunta en el historial; lo marcado se pierde.')) return; await v2Upd('reparaciones', fresh(), {estado:'cancelada', fin:new Date().toISOString()}); closeSheet(); toast('Reparación abandonada'); }]]);
 }
 /* ---------- terminar ---------- */
 function repFinish(rep){
   const pr=repGuia(rep), P=pr?.pasos||[], faltan=P.length-(rep.hechos||[]).length;
   const cs=(rep.compras||[]).map(id=>(S.compras||[]).find(c=>c._id===id)).filter(Boolean), ave=(S.ave||[]).find(a=>a._id===rep.averia), tpl=segTpl(rep.titulo);
+  const PD=pdList().filter(p=>p.reparacion===rep._id && p.estado!=='hecho');
   const body=h2(`<div class="repnew">
+    ${PD.length?`<div class="alr soon pdfin">${ic('flag')}<span>Durante esta reparación apuntaste ${pl(PD.length,'cosa','cosas')} por arreglar: ${PD.map(p=>'<b>'+esc(p.titulo)+'</b>').join(', ')}. Siguen en <b>Taller ▸ Pendientes</b>; no se cierran con la reparación.</span></div>`:''}
     ${faltan>0?`<div class="alr soon">${ic('alert')}<span>Quedan ${pl(faltan,'paso')} sin marcar. Puedes terminar igual.</span></div>`:''}
     <label class="wzlab">Fecha</label><input class="inp2" id="rfF" type="date" value="${todayISO()}">
     <label class="wzlab">Km</label><input class="inp2" id="rfK" inputmode="numeric" value="${S.cfg?.kmActual??rep.km??''}">
@@ -11322,12 +11293,14 @@ function repFinish(rep){
     try{
       const refs=cs.map(c=>c.ref).filter(Boolean).join(', ');
       const desc=`${rep.titulo}${cs.length?' · piezas: '+cs.map(c=>c.nombre).join(', '):''}${rep.notas?' · '+rep.notas:''}`;
-      const r=await S.db.collection('intervenciones').add({fecha:f, km, tipo:'Reparación', mant:null, pieza:ave?.piezas?.[0]||null, descripcion:desc, ref:refs, coste:mo===''?null:Number(mo.replace(',','.')), reparacion:rep._id, creado:new Date().toISOString()});
+      const cur=repList().find(x=>x._id===rep._id)||rep, fotos=[...(cur.antes||[]).map(x=>({...x, nombre:'Antes · '+(x.nombre||'')})), ...(cur.despues||[]).map(x=>({...x, nombre:'Después · '+(x.nombre||'')}))];
+      const r=await S.db.collection('intervenciones').add({fecha:f, km, tipo:'Reparación', mant:null, pieza:ave?.piezas?.[0]||null, descripcion:desc, ref:refs, coste:mo===''?null:Number(mo.replace(',','.')), reparacion:rep._id, adjuntos:fotos.length?fotos:undefined, creado:new Date().toISOString()});
+      const gal=fotos.length?await S.db.collection('galeria').add({album:'Reparaciones', fecha:f, titulo:rep.titulo, km, fotos, notas:'Antes y después de la reparación', actualizado:new Date().toISOString()}):null;
       if(body.querySelector('#rfMont')?.checked) for(const c of cs){ const {_id,...data}=c; await S.db.collection('compras').doc(_id).set({...data, estado:'montado', fechaMontaje:f, montaje:'yo', intervencion:r.id}); }
       if(ave && body.querySelector('#rfAve')?.checked){ const {_id,...a}=ave; await S.db.collection('averias').doc(_id).set({...a, estado:'resuelta', notas:[a.notas, `Resuelta el ${fmtD(f)}: ${rep.titulo}.`].filter(Boolean).join('\n')}); }
       if(km!=null && (!S.cfg?.kmActual || km>Number(S.cfg.kmActual))) await S.db.doc('config/coche').set({...(S.cfg||{}), kmActual:km});
       if(body.querySelector('#rfSeg')?.checked) await segCreate(tpl, f, rep._id);
-      await v2Upd('reparaciones', rep, {estado:'terminada', fin:new Date().toISOString(), intervencion:r.id, km});
+      await v2Upd('reparaciones', cur, {estado:'terminada', fin:new Date().toISOString(), intervencion:r.id, km, ...(gal?{galeria:gal.id}:{})});
       closeSheet(); celebrate(); toast('Reparación registrada en el historial');
     }catch(e){ toast('No se pudo guardar','err'); } },'pri']]);
 }
@@ -11487,7 +11460,6 @@ function renderDiag(w){
 }
 MAS2.diag=['Diagnóstico por síntomas', renderDiag]; MAS_T.diag='Diagnóstico por síntomas';
 { const _m=v2MasHome; v2MasHome=function(pb){ _m(pb); const t=pb.querySelector('.mgrp .mtiles'); if(t && !t.querySelector('[data-k="diag"]')){ const b=h2(`<button type="button" class="mt" data-k="diag"><i>${ic('search')}</i><span><b>Diagnóstico por síntomas</b><small>Marca lo que notas y te digo las causas probables</small></span>${ic('chevR')}</button>`); b.onclick=()=>{ uiSfx('tap'); masOpen('diag'); }; t.prepend(b); } }; }
-{ const _ra=renderAve; renderAve=function(...a){ const r=_ra(...a); const body=$('#ovlBody'); if(body && !body.querySelector('.ddiag')){ const b=h2(`<button type="button" class="btn2 ghost ddiag">${ic('search')}¿No sabes qué es? Diagnóstico por síntomas</button>`); b.onclick=()=>{ uiSfx('tap'); go('mas'); masOpen('diag'); }; body.prepend(b); } return r; }; }
 IC.fan=IC.fan||'<path d="M12 12c0-4 1-8 4-8s2 5-4 8Zm0 0c4 0 8 1 8 4s-5 2-8-4Zm0 0c0 4-1 8-4 8s-2-5 4-8Zm0 0c-4 0-8-1-8-4s5-2 8 4Z"/>';
 IC.cloud=IC.cloud||'<path d="M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 9a4.5 4.5 0 0 0 1 9Z"/>';
 
@@ -11519,16 +11491,10 @@ function cocheEdit(){
    uso sin conexión · Inicio con lo urgente · buscador con pares y pasos · accesos rápidos en Taller ·
    gráfico de gasto acumulado · fotos de antes y después en las reparaciones · ticket leído con la cámara */
 
-/* ---------- 1 · trabajos repetidos ---------- */
+/* ---------- 1 · trabajos repetidos (los quita la pantalla Trabajos hechos) ---------- */
 function intDupes(){ const seen=new Map(), dup=[];
   for(const x of [...S.int].sort((a,b)=>(a.creado||'').localeCompare(b.creado||''))){ const k=[x.fecha, x.mant||'', x.pieza||'', norm(x.descripcion||''), x.km??'', x.tipo||''].join('|'); if(seen.has(k)) dup.push(x); else seen.set(k,x); }
   return dup; }
-{ const _rm=renderMant; renderMant=function(){ _rm(); const sec=$('#ovlBody')?.querySelector('.mhecho'); if(!sec || sec.querySelector('.dupban')) return; const D=intDupes(); if(!D.length) return;
-    const b=h2(`<div class="dupban alr soon">${ic('alert')}<span>Hay <b>${pl(D.length,'trabajo repetido','trabajos repetidos')}</b> (misma fecha, km y descripción).</span><button type="button" class="btn2 sm">Quitar repetidos</button></div>`);
-    b.querySelector('button').onclick=async()=>{ if(!confirm(`¿Borrar ${pl(D.length,'trabajo repetido','trabajos repetidos')}? Se deja uno de cada.`)) return; const bk=D.map(x=>({id:x._id, d:stripId2(x)}));
-      for(const x of D) await S.db.collection('intervenciones').doc(x._id).delete();
-      toast(`${pl(D.length,'repetido borrado','repetidos borrados')}`, null, {label:'Deshacer', fn:async()=>{ for(const x of bk) await S.db.collection('intervenciones').doc(x.id).set(x.d); }}); };
-    sec.querySelector('h4').after(b); }; }
 
 /* ---------- 3 · importación: avisar de lo que esta versión no entiende ---------- */
 const IMP_KEYS=new Set(['formato','version','lote','laminas','pares','guias','ficha','manuales','circuitos','electrico','averias','compras','coche','mejoras','minApp']);
@@ -11614,27 +11580,6 @@ IC.download=IC.download||'<path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/>';
     if(P.length){ out.append(h2('<h5>Pares de apriete</h5>')); for(const p of P){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic('wrench')}</span><span class="tx"><b>${hl(p.componente,q)}</b><small>${hl(p.valor,q)}${p.nota?' · '+esc(p.nota):''}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); go('mas'); masOpen('ficha'); setTimeout(()=>{ const f=$('#pbMas .ftq')||document.querySelector('.ftq'); if(f){ f.value=p.componente; f.dispatchEvent(new Event('input')); } },300); }; out.append(r); } }
     if(G.length){ out.append(h2('<h5>Pasos de guías</h5>')); for(const {p,s,i} of G){ const r=h2(`<button type="button" class="r2"><span class="ic">${ic('book')}</span><span class="tx"><b>${hl(s.titulo||('Paso '+(i+1)),q)}</b><small>${esc(p.titulo)}${s.par?' · '+esc(s.par):''}</small></span>${ic('chevR')}</button>`); r.onclick=()=>{ closeSearch(); guiaRead(p, i); }; out.append(r); } }
     const a=out.querySelector(':scope > .sracts'); if(a) out.append(a); }; }
-
-/* ---------- 12 · Taller: accesos directos a guías, piezas y ficha técnica ---------- */
-{ const _rm=renderMant; renderMant=function(){ _rm(); const body=$('#ovlBody'); if(!body || popMode!=='mant' || S.mantTab==='hist' || body.querySelector('.tshort')) return;
-    const s=h2(`<div class="tshort">${[['procs','book','Guías'],['fichas','tag','Piezas'],['ficha','gauge','Ficha y pares'],['diag','search','Diagnóstico']].map(([k,i,t])=>`<button type="button" data-k="${k}">${ic(i)}<span>${t}</span></button>`).join('')}</div>`);
-    s.querySelectorAll('button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); go('mas'); masOpen(b.dataset.k); }); body.prepend(s); }; }
-
-/* ---------- 14 · fotos de antes y después en la reparación ---------- */
-{ const _rr=repRun; repRun=function(rep0){ _rr(rep0); const box=document.querySelector('#shBox .reprun'); if(!box) return;
-    const rep=repList().find(x=>x._id===rep0._id)||rep0;
-    const d=h2(`<details class="rpparts rpfotos"><summary>${ic('camera')}Fotos de antes y después <em>${(rep.antes||[]).length} · ${(rep.despues||[]).length}</em></summary><div class="rpfrow"><label class="btn2 ghost sm">${ic('camera')}Antes<input type="file" accept="image/*" multiple hidden data-k="antes"></label><label class="btn2 ghost sm">${ic('camera')}Después<input type="file" accept="image/*" multiple hidden data-k="despues"></label></div><p class="muted2 rpfst"></p></details>`);
-    d.querySelectorAll('input').forEach(i=>i.onchange=async()=>{ const k=i.dataset.k, st=d.querySelector('.rpfst'); const up=await uploadFiles([...i.files], st); const cur=repList().find(x=>x._id===rep._id)||rep;
-      await v2Upd('reparaciones', cur, {[k]:[...(cur[k]||[]), ...up]}); st.textContent=`${pl(up.length,'foto guardada','fotos guardadas')} (${k}).`; uiSfx('save'); });
-    box.querySelector('.rpnotes')?.before(d); }; }
-/* al terminar, las fotos pasan a la galería (álbum Reparaciones) y a la intervención */
-{ let pend=null; const _rf=repFinish; repFinish=function(rep){ pend=rep._id; return _rf(rep); };
-  const tryGal=async()=>{ if(!pend) return; const rep=repList().find(x=>x._id===pend); if(!rep || rep.estado!=='terminada' || rep.galeria) return; pend=null;
-    const fotos=[...(rep.antes||[]).map(f=>({...f, nombre:'Antes · '+(f.nombre||'')})), ...(rep.despues||[]).map(f=>({...f, nombre:'Después · '+(f.nombre||'')}))]; if(!fotos.length) return;
-    const g=await S.db.collection('galeria').add({album:'Reparaciones', fecha:todayISO(), titulo:rep.titulo, km:rep.km??null, fotos, notas:'Antes y después de la reparación', actualizado:new Date().toISOString()});
-    const it=S.int.find(x=>x._id===rep.intervencion); if(it){ await S.db.collection('intervenciones').doc(it._id).set({...stripId2(it), adjuntos:[...(it.adjuntos||[]), ...fotos]}); }
-    await v2Upd('reparaciones', rep, {galeria:g.id}); };
-  setInterval(tryGal, 2500); }
 
 /* ---------- 5 · leer el ticket con la cámara (OCR en el propio móvil) ---------- */
 let OCR=null;
@@ -11740,7 +11685,7 @@ function pdForm(p0, opts={}){
 /* ---------- tachar / reabrir ---------- */
 async function pdToggle(p, el){
   const done=p.estado!=='hecho';
-  if(done){ uiSfx('tick'); el?.classList.add('pdpop'); }
+  if(done){ el?.classList.add('pdpop'); const r=el?.querySelector('.pdchk')?.getBoundingClientRect(); if(r) fxSparks(r.left+r.width/2, r.top+r.height/2, 'var(--v-green)'); FX.mute=1; fxSfx('clink'); haptic?.('tick'); }
   await v2Upd('pendientes', p, done?{estado:'hecho', hechoEl:todayISO()}:{estado:'abierto', hechoEl:null});
   if(done){ const quedan=pdOpen().filter(x=>x._id!==p._id).length; if(!quedan) celebrate();
     v2toast(quedan?`Subsanado · quedan ${quedan}`:'Subsanado · ¡no queda nada pendiente!', ()=>v2Upd('pendientes', {...p}, {estado:'abierto', hechoEl:null})); }
@@ -11792,8 +11737,21 @@ function pdRow(p, o={}){
   if(p.fotos?.length){ const t=r.querySelector('.pdthm'); window.FB?.blobThumb?.(p.fotos[0].id).then(u=>t.style.backgroundImage=`url("${u}")`).catch(()=>{ t.classList.add('ic0'); t.innerHTML=ic(pdTipo(p.tipo)[2]); }); }
   r.querySelector('.pdchk').onclick=e=>{ e.stopPropagation(); pdToggle(p, r); };
   r.querySelector('.pdbody').onclick=()=>{ uiSfx('tap'); pdSheet(p); };
+  r.dataset.pd=p._id; r.insertAdjacentHTML('afterbegin',`<span class="swbg" aria-hidden="true"><em class="l">${ic('check')}${done?'Reabrir':'Hecho'}</em><em class="r">${ic('trash')}Borrar</em></span>`); swBind(r);
   return r;
 }
+/* deslizar la fila: a la derecha la tachas, a la izquierda la borras */
+function swBind(row){ if(row._sw) return; row._sw=true; let x0=0,y0=0,dx=0,on=false,lock=null;
+  const mv=v=>{ for(const el of [row.querySelector('.pdchk'), row.querySelector('.pdbody')]) if(el){ el.style.transition=v==null?'transform .3s cubic-bezier(.2,1.2,.4,1)':'none'; el.style.transform=v==null?'':`translateX(${v}px)`; } };
+  row.addEventListener('touchstart',e=>{ const t=e.touches[0]; x0=t.clientX; y0=t.clientY; dx=0; on=true; lock=null; },{passive:true});
+  row.addEventListener('touchmove',e=>{ if(!on) return; const t=e.touches[0], ddx=t.clientX-x0, ddy=t.clientY-y0;
+    if(lock==null && (Math.abs(ddx)>9 || Math.abs(ddy)>9)) lock=Math.abs(ddx)>Math.abs(ddy)*1.3?'x':'y'; if(lock!=='x') return;
+    if(x0<26) return;  /* desde el borde es el gesto de volver */
+    dx=ddx; mv(Math.max(-140,Math.min(140,dx))); row.classList.toggle('swr', dx>0); row.classList.toggle('swl', dx<0); row.classList.toggle('swgo', Math.abs(dx)>=80); },{passive:true});
+  const end=()=>{ if(!on) return; on=false; const go2=Math.abs(dx)>=80 && lock==='x'; mv(null); setTimeout(()=>row.classList.remove('swr','swl','swgo'),300);
+    if(!go2) return; const p=pdList().find(x=>x._id===row.dataset.pd); if(!p) return; uiSfx('tick');
+    if(dx>0) pdToggle(p, row); else v2Del('pendientes', p, 'Pendiente borrado'); };
+  row.addEventListener('touchend',end,{passive:true}); row.addEventListener('touchcancel',()=>{ on=false; mv(null); row.classList.remove('swr','swl','swgo'); },{passive:true}); }
 
 /* ---------- la página: Taller ▸ Pendientes ---------- */
 function renderPendientes(w){
@@ -11814,31 +11772,11 @@ function renderPendientes(w){
       const c=card2(v.t, v.i, L.length); c.classList.add('pdcard'); c.style.setProperty('--c', v.c); const l=c.querySelector('.l2'); for(const p of L) l.append(pdRow(p)); w.append(c); } }
   if(f!=='abiertos' && D.length){ const c=card2('Subsanados','checkc',D.length); c.classList.add('pdcard','pddone'); const l=c.querySelector('.l2'); for(const p of D.slice(0, f==='hechos'?999:12)) l.append(pdRow(p)); w.append(c); }
 }
-V2SUBS.mant.pend=renderPendientes;
-/* pestaña nueva en Taller, justo después del Plan, con el número de cosas abiertas */
-{ SECS.mant.subs.splice(1,0,['pend','Pendientes','flag']); const st=$('#stMant');
-  if(st){ const b=h2(`<button type="button" role="tab" data-sub="pend">${ic('flag')}<span>Pendientes</span><b class="pdcnt" hidden></b></button>`); b.onclick=()=>{ uiSfx('tap'); openSub('mant','pend'); setTop(); };
-    const plan=st.querySelector('button[data-sub="plan"]'); if(plan) plan.after(b); else st.append(b); } }
-function pdBadge(){ const b=document.querySelector('#stMant button[data-sub="pend"] .pdcnt'); if(!b) return; const A=pdOpen(), ya=A.some(p=>p.prio==='ya'); b.hidden=!A.length; b.textContent=A.length; b.classList.toggle('ya', ya); }
-{ const _ub=updateBadges; updateBadges=function(...a){ const r=_ub(...a); try{ pdBadge(); }catch{} return r; }; }
 
-/* ---------- en la reparación en curso: botón grande y lo apuntado en ella ---------- */
-{ const _rr=repRun; repRun=function(rep0){ _rr(rep0); const box=document.querySelector('#shBox .reprun'); if(!box) return;
-    const mine=()=>pdList().filter(p=>p.reparacion===rep0._id);
-    const d=h2(`<div class="pdinrep"><button type="button" class="btn2 pdquick">${ic('flag')}<span><b>Anotar algo que he visto</b><small>Un tornillo que falta, algo roto… aunque no tenga que ver con esta reparación</small></span></button><div class="pdmine"></div></div>`);
-    const drawM=()=>{ const M=mine(), l=d.querySelector('.pdmine'); l.innerHTML=''; if(!M.length) return; l.append(h2(`<h5>${ic('flag')}Apuntado en esta reparación <em>${M.filter(p=>p.estado!=='hecho').length} por hacer</em></h5>`)); for(const p of M){ const r=pdRow(p,{noRep:true}); r.querySelector('.pdchk').onclick=async e=>{ e.stopPropagation(); await pdToggle(p, r); setTimeout(drawM,250); };
-        r.querySelector('.pdbody').onclick=()=>{ uiSfx('tap'); pdSheet(p); pdBack(()=>repRun(repList().find(x=>x._id===rep0._id)||rep0)); }; l.append(r); } };
-    d.querySelector('.pdquick').onclick=()=>{ uiSfx('tap'); const back=repList().find(x=>x._id===rep0._id)||rep0; pdForm(null,{reparacion:rep0._id}); pdBack(()=>repRun(repList().find(x=>x._id===rep0._id)||back)); };
-    drawM(); const nav=box.querySelector('.rpdots'); if(nav) nav.after(d); else box.append(d); }; }
-/* al guardar o cerrar el formulario abierto desde la reparación, se vuelve a ella */
+/* ---------- desde la reparación en curso (v2/19 repRun): al guardar o cerrar el formulario, se vuelve a ella ---------- */
 let PD_BACK=null; function pdBack(fn){ PD_BACK=fn; }
 new MutationObserver(()=>{ if(PD_BACK && $('#sheet2').hidden){ const f=PD_BACK; PD_BACK=null; setTimeout(()=>{ if($('#sheet2').hidden) f(); }, 260); } }).observe($('#sheet2'),{attributes:true,attributeFilter:['hidden']});
-/* al terminar la reparación, recordar lo que se apuntó (no se cierra con ella) */
-{ const _rf=repFinish; repFinish=function(rep){ const r=_rf(rep); const b=document.querySelector('#shBox .repnew'); const M=pdList().filter(p=>p.reparacion===rep._id && p.estado!=='hecho');
-    if(b && M.length){ const a=h2(`<div class="alr soon pdfin">${ic('flag')}<span>Durante esta reparación apuntaste ${pl(M.length,'cosa','cosas')} por arreglar: ${M.map(p=>'<b>'+esc(p.titulo)+'</b>').join(', ')}. Siguen en <b>Taller ▸ Pendientes</b>; no se cierran con la reparación.</span></div>`); b.prepend(a); }
-    return r; }; }
 
-/* ---------- Inicio: tarjeta con lo pendiente ---------- */
 
 /* ---------- buscador ---------- */
 { const _rs=runSearch; runSearch=function(raw){ _rs(raw); const q=norm(raw.trim()); if(q.length<2) return; const out=$('#srRes'); if(!out) return;
@@ -11887,17 +11825,6 @@ function repLibreStart(){
     try{ const r=await S.db.collection('reparaciones').add(d); toast('Reparación empezada'); repRun({...d, _id:r.id}); }catch{ toast('No se pudo guardar','err'); } },'pri']]);
   setTimeout(()=>{ if(!matchMedia('(hover: none)').matches) body.querySelector('#rlT')?.focus(); },120);
 }
-/* en una reparación sin guía: añadir pasos sobre la marcha */
-{ const _rr=repRun; repRun=function(rep0){ _rr(rep0); const box=document.querySelector('#shBox .reprun'); if(!box) return;
-    const rep=repList().find(x=>x._id===rep0._id)||rep0;
-    if(rep.libre){ const a=h2(`<div class="rpadd"><input class="inp2" placeholder="Añadir un paso…" autocomplete="off"><button type="button" class="btn2 ghost">${ic('plus')}Añadir</button></div>`);
-      const go2=async()=>{ const v=a.querySelector('input').value.trim(); if(!v) return; const cur=repList().find(x=>x._id===rep._id)||rep; const base=(cur.pasos&&cur.pasos.length)?cur.pasos:[];
-        const pasos=[...base, {titulo:v, texto:''}]; await v2Upd('reparaciones', cur, {pasos, paso:pasos.length-1}); uiSfx('tick'); repRun({...cur, pasos, paso:pasos.length-1}); };
-      a.querySelector('button').onclick=go2; a.querySelector('input').onkeydown=e=>{ if(e.key==='Enter') go2(); };
-      box.querySelector('.rpdots')?.after(a); }
-    const acts=document.querySelector('#shBox .dacts'); if(acts && !acts.querySelector('.rpaband')){ const b=h2(`<button type="button" class="btn2 ghost rpaband">${ic('x')}Abandonar</button>`);
-      b.onclick=async()=>{ if(!confirm('¿Abandonar esta reparación? No se apunta en el historial; lo marcado se pierde.')) return; const cur=repList().find(x=>x._id===rep._id)||rep; await v2Upd('reparaciones', cur, {estado:'cancelada', fin:new Date().toISOString()}); closeSheet(); v2toast('Reparación abandonada', ()=>v2Upd('reparaciones', {...cur}, {estado:'en_curso'})); };
-      acts.querySelector('.btn2:last-child')?.before(b); } }; }
 
 /* ---------- ficha de una reparación terminada ---------- */
 function repSheet(r){
@@ -11928,14 +11855,6 @@ function renderReparaciones(w){
     w.append(c); }
   if(!A.length && !D.length) w.append(emptyCard('wrench','Aquí verás las reparaciones que hagas paso a paso: las que tienes a medias y las terminadas, con sus fotos de antes y después y lo que apuntaste mientras trabajabas.','Empezar una reparación',repPick));
 }
-V2SUBS.mant.rep=renderReparaciones;
-{ SECS.mant.subs.splice(1,0,['rep','Reparaciones','wrench']); const st=$('#stMant');
-  if(st){ const b=h2(`<button type="button" role="tab" data-sub="rep">${ic('wrench')}<span>Reparaciones</span><b class="pdcnt rpcnt" hidden></b></button>`); b.onclick=()=>{ uiSfx('tap'); openSub('mant','rep'); setTop(); };
-    const plan=st.querySelector('button[data-sub="plan"]'); if(plan) plan.after(b); else st.append(b); } }
-{ const _ub=updateBadges; updateBadges=function(...a){ const r=_ub(...a); const b=document.querySelector('#stMant .rpcnt'); if(b){ const n=repActiva().length; b.hidden=!n; b.textContent=n; b.classList.add('on'); } return r; }; }
-/* Inicio: «Taller en marcha» con botón para ver todas */
-/* el tablero del Taller: acceso directo */
-{ const _rm=renderMant; renderMant=function(){ _rm(); const s=$('#ovlBody')?.querySelector('.tshort'); if(s && !s.querySelector('[data-k="rep"]')){ const b=h2(`<button type="button" data-k="rep">${ic('wrench')}<span>Reparar</span></button>`); b.onclick=()=>{ uiSfx('tap'); go('mant','rep'); }; s.prepend(b); s.style.gridTemplateColumns='repeat(5,1fr)'; } }; }
 
 /* ====================== TECLADO: sugerencias y autocorrector donde se escribe texto ======================
    En casillas de texto normal (nombres, notas, descripciones…) el teclado del móvil sugiere y corrige.
@@ -12133,7 +12052,6 @@ function v3tab(t){
   uiSfx('tap'); haptic?.('tick'); V3.tab=t; v3show(v3top(),'tab');
 }
 function v3back(opts={}){
-  if(document.body.classList.contains('formopen')){ uiSfx('tap'); formCancel(); return true; }
   const s=V3.st[V3.tab]; if(s.length<2) return false;
   const gone=s.pop(); const e=v3top();
   if(gone.el){ const el=gone.el; if(opts.anim===false || RM) el.remove(); else setTimeout(()=>el.remove(), 460); }
@@ -12200,8 +12118,9 @@ function v3barSet(e){
   const A=v3bar.querySelector('.v3act'); [...A.children].forEach(c=>{ if(c.classList.contains('mb')) $('#t2r').prepend(c); else c.remove(); });
   const btn=(i,l,fn,cls='')=>{ const b=h2(`<button type="button" class="v3ib ${cls}" aria-label="${l}" title="${l}">${ic(i)}</button>`); b.onclick=ev=>{ uiSfx('tap'); fn(ev,b); }; A.append(b); return b; };
   if(leaf && e.id==='3d'){ const mb=$('#t2r .mb'); if(mb) A.append(mb); }
-  if(!leaf){ btn('search','Buscar',()=>openSearch()); if(V3ACT[V3.tab]) btn('plus','Añadir',(ev,b)=>v3menu(b, V3ACT[V3.tab]),'pri'); }
-  else { const L=V3.leaves[e.id]; if(L?.act) btn(L.act[0], L.act[1], L.act[2], 'pri'); }
+  const def=leaf?V3.leaves[e.id]:e.k==='page'?V3.pages[e.id]:null;
+  if(def?.act) btn(def.act[0], def.act[1], def.act[2], 'pri');                    /* la acción propia de esa pantalla */
+  else if(!leaf && !def?.bare){ btn('search','Buscar',()=>openSearch()); if(V3ACT[V3.tab]) btn('plus','Añadir',(ev,b)=>v3menu(b, V3ACT[V3.tab]),'pri'); }
 }
 function v3barScroll(y){ v3bar.classList.toggle('scrolled', y>34); v3bar.classList.toggle('lined', y>4); }
 v3bar.querySelector('.v3back').onclick=()=>v3back();
@@ -12331,7 +12250,7 @@ document.addEventListener('touchstart',()=>{ V3.touch=true; },{passive:true,capt
 for(const t of ['touchend','touchcancel']) document.addEventListener(t,e=>{ if(!e.touches.length){ V3.touch=false; if(V3.pend){ V3.pend=false; v3dirty(); } } },{passive:true,capture:true});
 function v3sig(){ try{ return sigOf()+'|'+JSON.stringify([(S.ave||[]).map(a=>a.estado+a.sintoma), (S.compras||[]).map(c=>c.estado+c.nombre+c.fechaCompra+c.precio), S.int.map(x=>x.fecha+'|'+x.coste+'|'+x.km), S.cfg?.precioCompra, S.cfg?.fechaCompra, (S.docs||[]).map(d=>d.caduca), UI.prefs.theme, UI.v3pf, SEEN]); }catch{ return Math.random()+''; } }
 function v3dirty(force){ if(V3.touch){ V3.pend=true; return; } clearTimeout(V3.dirtyT); V3.dirtyT=setTimeout(()=>{ if(V3.touch){ V3.pend=true; return; } const sg=v3sig(); if(sg===V3.sig && force!==true) { v3badges(); return; } V3.sig=sg; for(const [k] of V3TABS){ const r=V3.st[k][0]; if(r.el){ if(V3.cur===r) v3render(r); else r.stale=true; } }
-    const e=V3.cur; if(e && e.k==='page') v3render(e); v3badges(); }, 160); }
+    const e=V3.cur; if(e && e.k==='page' && !V3.pages[e.id]?.keep) v3render(e); v3badges(); }, 160); }   /* keep: formularios, no se repintan con lo que se está escribiendo */
 /* el estado de la sincronización, en el avatar */
 { const s=$('#t2Sync'); if(s) new MutationObserver(()=>{ document.body.classList.toggle('v3off', s.classList.contains('off')); }).observe(s,{attributes:true}); }
 
@@ -12340,6 +12259,7 @@ NAVUI={
   top(){ const e=V3.cur; if(e?.k==='leaf') v3bar.querySelector('.v3bt small').textContent=V3.leaves[e.id]?.sub?.()||''; },   /* p. ej. la pieza elegida en el 3D */
   badges(){ v3badges(); },
   refresh(force){ v3dirty(force); },
+  rerender(){ const e=V3.cur; if(e?.k!=='page' || !V3.pages[e.id]?.v2) return false; v3render(e); return true; },   /* v2Rerender dentro de una página 4.0 */
   canPull(){ const e=V3.cur; return !!(e && e.k==='hub' && e.id==='hoy' && (e.el?.querySelector('.v3sc')?.scrollTop||0)<=0); },
   pull(){ openSearch(); },                                       /* tirar hacia abajo en Hoy: el buscador (como Spotlight) */
   prefsChanged(prefs){ SEEN=prefGet('vistos', {}) || {}; if(prefs){ applyTheme(); nightApply(); } v3dirty(true); },
@@ -12370,15 +12290,6 @@ Object.assign(V3.leaves,{
   guias:LF('coche','Guías y manuales',viaMas('procs')),
   galeria:LF('coche','Galería',()=>go('coche','galeria')),
   mejoras:LF('coche','Mejoras',()=>go('coche','mejoras')),
-  averias:LF('taller','Averías',()=>go('coche','ave')),
-  pendientes:LF('taller','Pendientes',()=>go('mant','pend'),{act:['plus','Anotar',()=>pdForm(null)]}),
-  diag:LF('taller','Diagnóstico',viaMas('diag')),
-  reparaciones:LF('taller','Reparaciones',()=>go('mant','rep'),{act:['plus','Empezar una reparación',()=>repPick()]}),
-  plan:LF('taller','Mantenimiento',()=>go('mant','plan'),{act:['plus','Registrar intervención',()=>openIntForm({back:'mant'})]}),
-  hechos:LF('taller','Trabajos hechos',()=>go('mant','hist'),{same:['plan'],act:['plus','Registrar intervención',()=>openIntForm({back:'mant'})]}),
-  ruedas:LF('taller','Ruedas',()=>go('mant','ruedas')),
-  listas:LF('taller','Listas de comprobación',viaMas('listas')),
-  talleres:LF('taller','Talleres y proveedores',viaMas('talleres')),
   compra:LF('gastos','Lista de la compra',()=>go('mant','compra'),{same:['resumen','repost'],act:['plus','Añadir',(ev,b)=>v3menu(b,[['receipt','Compra ya hecha',()=>compraSheet(null,'hecha'),'var(--v-green)'],['cart','Añadir a la lista de la compra',()=>compraSheet(null),'var(--v-teal)']])]}),
   resumen:LF('gastos','Movimientos',()=>go('mant','gastos'),{same:['compra','repost']}),
   repost:LF('gastos','Repostajes',()=>go('mant','repost'),{same:['compra','resumen'],act:['plus','Repostaje',()=>recForm(MOD.repostajes)]}),
@@ -12401,7 +12312,7 @@ V3.byMas={ficha:'tecnica',fichas:'piezas',catalogo:'piezas',procs:'guias',diag:'
 Object.assign(V3ACT,{
   hoy:[['gauge','Actualizar kilómetros',()=>quickKm(),'var(--v-blue)'],['fuel','Repostaje',()=>recForm(MOD.repostajes),'var(--v-green)'],['flag','Anotar algo por arreglar',()=>pdForm(null),'var(--v-orange)'],['camera','Fotografiar una factura',()=>$('#camIn').click(),'var(--v-purple)'],['wrench','Registrar intervención',()=>openIntForm({}),'var(--v-gray)']],
   coche:[['cube','Abrir el modelo 3D',()=>v3go('3d'),'var(--v-indigo)'],['image','Añadir fotos a la galería',()=>recForm(MOD.galeria),'var(--v-pink)'],['sparkle','Nueva mejora',()=>recForm(MOD.mejoras),'var(--v-purple)']],
-  taller:[['wrench','Empezar una reparación',()=>repPick(),'var(--v-orange)'],['flag','Anotar algo por arreglar',()=>pdForm(null),'var(--v-yellow)'],['alert','Registrar una avería',()=>{ S.aveEdit=null; UI.addAve=true; v3go('averias'); },'var(--v-red)'],['plus','Registrar intervención',()=>openIntForm({}),'var(--v-blue)']],
+  taller:[['wrench','Empezar una reparación',()=>repPick(),'var(--v-orange)'],['flag','Anotar algo por arreglar',()=>pdForm(null),'var(--v-yellow)'],['alert','Registrar una avería',()=>aveOpen(null),'var(--v-red)'],['plus','Registrar intervención',()=>openIntForm({}),'var(--v-blue)']],
   gastos:[['receipt','Compra ya hecha',()=>compraSheet(null,'hecha'),'var(--v-green)'],['cart','Añadir a la lista de la compra',()=>compraSheet(null),'var(--v-teal)'],['fuel','Repostaje',()=>recForm(MOD.repostajes),'var(--v-green)'],['camera','Fotografiar una factura',()=>$('#camIn').click(),'var(--v-purple)']],
   papeles:[['shield','Añadir documento',()=>recForm(MOD.docs),'var(--v-blue)'],['checkc','Registrar una ITV',()=>recForm(MOD.itv),'var(--v-green)'],['camera','Fotografiar una factura',()=>$('#camIn').click(),'var(--v-purple)']],
 });
@@ -12429,7 +12340,7 @@ function v3now(){ /* lo que pide atención, ordenado por urgencia */
   for(const r of (typeof repActiva==='function'?repActiva():[])){ const n=(r.hechos||[]).length, t=repGuia(r)?.pasos?.length||0; L.push({w:0, el:()=>{ const b=h2(`<button type="button" class="vnow rep"><span class="vnl">${vRing(t?n/t:0,'var(--v-orange)',`${n}/${t}`)}</span><span class="vtx"><em>Reparación en curso</em><b>${esc(r.titulo)}</b><small>Empezada ${pdAgo(r.inicio)}</small></span><span class="vgo">Seguir</span></button>`); b.onclick=()=>{ uiSfx('tap'); repRun(r); }; return b; }}); }
   for(const s of (typeof segList==='function'?segList():[])){ const nx=segNext(s); if(!nx) continue; const d=daysTo(nx.fecha); if(d>1) continue;
     L.push({w:d<=0?1:5, el:()=>vNow('eye', d<=0?V3C.red:V3C.blue, 'Revisión', s.titulo, d<0?`Tocaba hace ${pl(-d,'día')}`:d===0?'Hoy':'Mañana', ()=>segCheck(s,nx.k), d<=0?'Apuntar':'')}); }
-  for(const a of (S.ave||[]).filter(a=>a.estado!=='resuelta')) L.push({w:2, el:()=>vNow('alert', V3C.red, 'Avería abierta', a.sintoma||a.codigo||'Avería', a.fecha?'Desde el '+fmtDate(a.fecha):'', ()=>{ S.aveEdit=a; v3go('averias'); })});
+  for(const a of (S.ave||[]).filter(a=>a.estado!=='resuelta')) L.push({w:2, el:()=>vNow('alert', V3C.red, 'Avería abierta', a.sintoma||a.codigo||'Avería', a.fecha?'Desde el '+fmtDate(a.fecha):'', ()=>aveOpen(a))});
   for(const p of (typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya')) L.push({w:2, el:()=>vNow('flag', V3C.red, 'Antes de circular', p.titulo, p.zona||'', ()=>pdSheet(p))});
   for(const {it,s} of mantList().filter(x=>x.s.st==='due'||x.s.st==='soon').slice(0,4)) L.push({w:s.st==='due'?3:6, el:()=>vNow('wrench', s.st==='due'?V3C.red:V3C.orange, s.st==='due'?'Mantenimiento vencido':'Mantenimiento próximo', it.nombre, mantLine(it,s), ()=>v3go('plan'))});
   for(const d of docsVig()){ const st=docStatus(d); if(st.st!=='due' && st.st!=='soon') continue; L.push({w:st.st==='due'?3:7, el:()=>vNow('shield', st.st==='due'?V3C.red:V3C.orange, st.st==='due'?'Documento caducado':'Caduca pronto', d.tipo+(d.nombre?' · '+d.nombre:''), st.days<0?`Caducó hace ${pl(-st.days,'día')}`:st.days===0?'Caduca hoy':`En ${pl(st.days,'día')}`, ()=>recForm(MOD.docs, d))}); }
@@ -12505,7 +12416,7 @@ V3.hubs.taller={title:'Taller', sub:()=>S.cfg?.kmActual?nf.format(S.cfg.kmActual
   /* problemas */
   const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta'), pds=typeof pdOpen==='function'?pdOpen():[], np=aves.length+pds.length;
   const pg=vGroup('Problemas',[], {more:['Ver todos',()=>v3go('problemas')]}); const pl2=pg.querySelector('.vlist'); if(nProb) pg.querySelector('.vgh span').insertAdjacentHTML('beforeend', ' '+avBadge(nProb));
-  for(const a of aves.slice(0,2)) pl2.append(vRow({i:'alert', c:V3C.red, t:a.sintoma||a.codigo||'Avería', s:'Avería'+(a.fecha?' · desde el '+fmtDate(a.fecha):''), fn:()=>{ S.aveEdit=a; v3go('averias'); }}));
+  for(const a of aves.slice(0,2)) pl2.append(vRow({i:'alert', c:V3C.red, t:a.sintoma||a.codigo||'Avería', s:'Avería'+(a.fecha?' · desde el '+fmtDate(a.fecha):''), fn:()=>aveOpen(a)}));
   for(const p of pds.slice(0,Math.max(0,3-Math.min(2,aves.length)))) pl2.append(vRow({i:'flag', c:(PD_PRIO[p.prio]||PD_PRIO.pronto).c, t:p.titulo, s:(PD_PRIO[p.prio]||PD_PRIO.pronto).t+(p.zona?' · '+p.zona:''), fn:()=>pdSheet(p)}));
   if(!np) pl2.append(h2(`<div class="vcalm sm">${ic('checkc')}<div><b>Sin problemas apuntados</b><small>Si ves algo raro, apúntalo o usa el diagnóstico.</small></div></div>`));
   const pa=h2(`<div class="vseg2"><button type="button">${ic('flag')}Anotar</button><button type="button">${ic('steth')}¿Qué le pasa?</button></div>`); const [b1,b2]=pa.querySelectorAll('button'); b1.onclick=()=>{ uiSfx('tap'); pdForm(null); }; b2.onclick=()=>v3go('diag'); pl2.append(pa);
@@ -12531,10 +12442,10 @@ V3.pages.problemas={tab:'taller', title:'Problemas', sub:()=>'Lo que falla y lo 
   const seg=h2(`<div class="vseg">${[['todo','Todo',aves.length+pds.length],['ave','Averías',aves.length],['pend','Pendientes',pds.length]].map(([k,l,n])=>`<button type="button" data-k="${k}" aria-pressed="${f===k}">${l}${n?` <em>${n}</em>`:''}</button>`).join('')}</div>`);
   seg.querySelectorAll('button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); UI.v3pf=b.dataset.k; v3render(v3top()); }); w.append(seg);
   const dg=h2(`<button type="button" class="vdiag"><i class="vsq" style="--c:${V3C.red}">${ic('steth')}</i><span class="vtx"><b>¿Qué le pasa al coche?</b><small>Elige los síntomas y te digo qué puede ser y qué mirar primero</small></span><span class="vch">${ic('chevR')}</span></button>`); dg.onclick=()=>v3go('diag'); w.append(dg);
-  if(f!=='pend'){ const g=vGroup('Averías',[], {more:['Nueva',()=>{ S.aveEdit=null; UI.addAve=true; v3go('averias'); }]}); const L=g.querySelector('.vlist');
-    for(const a of aves) L.append(vRow({i:'alert', c:V3C.red, t:a.sintoma||a.codigo||'Avería', s:[a.codigo, a.fecha?'desde el '+fmtDate(a.fecha):'', (a.piezas||[]).length?pl(a.piezas.length,'pieza'):''].filter(Boolean).join(' · '), fn:()=>{ S.aveEdit=a; v3go('averias'); }}));
+  if(f!=='pend'){ const g=vGroup('Averías',[], {more:['Nueva',()=>aveOpen(null)]}); const L=g.querySelector('.vlist');
+    for(const a of aves) L.append(vRow({i:'alert', c:V3C.red, t:a.sintoma||a.codigo||'Avería', s:[a.codigo, a.fecha?'desde el '+fmtDate(a.fecha):'', (a.piezas||[]).length?pl(a.piezas.length,'pieza'):''].filter(Boolean).join(' · '), fn:()=>aveOpen(a)}));
     if(!aves.length) L.append(h2(`<div class="vcalm sm">${ic('checkc')}<div><b>Ninguna avería abierta</b><small>Algo que falla o un código de error del VCDS.</small></div></div>`));
-    L.append(vRow({i:'history', c:V3C.gray, t:'Historial de averías', s:'También las resueltas', fn:()=>{ S.aveEdit=null; v3go('averias'); }}));
+    L.append(vRow({i:'history', c:V3C.gray, t:'Historial de averías', s:'También las resueltas', fn:()=>{ UI.aveF='todas'; v3go('averias'); }}));
     w.append(g); }
   if(f!=='ave'){ const g=vGroup('Pendientes',[], {more:['Anotar',()=>pdForm(null)]}); const L=g.querySelector('.vlist'); L.classList.add('vpd');
     for(const p of pds) L.append(pdRow(p));
@@ -12642,7 +12553,7 @@ function v3intro(force){
 requestAnimationFrame(()=>{ if(!V3.cur) v3show(v3top(),'none'); v3badges(); });
 window.__v3={go:(...a)=>v3go(...a), back:(...a)=>v3back(...a), tab:t=>v3tab(t), V3, closeMenu:()=>closeV3Menu(), openSearch:()=>openSearch(),
   /* para las pruebas: lo que usa la 2.x para pedir pantallas, y su estado */
-  x:{go:(...a)=>go(...a), openSub:(...a)=>openSub(...a), masOpen:k=>masOpen(k), openPanel:(...a)=>openPanel(...a), runSearch:q=>runSearch(q), get UI(){ return UI; }, get S(){ return S; }, parts:()=>Object.keys(parts), prefGet:(k,d)=>prefGet(k,d)}};
+  x:{go:(...a)=>go(...a), openSub:(...a)=>openSub(...a), masOpen:k=>masOpen(k), openPanel:(...a)=>openPanel(...a), runSearch:q=>runSearch(q), get UI(){ return UI; }, get S(){ return S; }, parts:()=>Object.keys(parts), prefGet:(k,d)=>prefGet(k,d), openIntForm:d=>openIntForm(d)}};
 
 /* ---------- si el modelo 3D no llega a cargar (cobertura floja), botón para reintentar ---------- */
 { const ld=document.getElementById('loader'); if(ld) new MutationObserver(()=>{ if(/No se pudo cargar el modelo/i.test(ld.textContent) && !ld.querySelector('.v3retry')){
@@ -12694,10 +12605,6 @@ function fxSparks(x, y, color, n=26){
     if(alive) requestAnimationFrame(step); else cv.remove(); };
   requestAnimationFrame(step);
 }
-/* tachar un pendiente: chispas desde el círculo y la llave en la bandeja */
-{ const _pt=pdToggle; pdToggle=async function(p, el){ const done=p.estado!=='hecho';
-    if(done && el){ const r=el.querySelector('.pdchk')?.getBoundingClientRect(); if(r) fxSparks(r.left+r.width/2, r.top+r.height/2, 'var(--v-green)'); FX.mute=1; fxSfx('clink'); }
-    return _pt(p, el); }; }
 
 /* ---------- Hoy: salud del coche, reflejo y cuentakilómetros que rueda (lo llama la pantalla de Hoy) ---------- */
 function fxHealth(){ let c; try{ c=counts(); }catch{ return null; }
@@ -12788,19 +12695,6 @@ $('#srRes')?.addEventListener('click',e=>{ if(e.target.closest('.r2,button')) sr
     box.querySelectorAll('.srgo button').forEach(b=>b.onclick=()=>{ closeSearch(); v3go(b.dataset.id); });
     out.prepend(box); }; }
 
-/* ---------- deslizar un pendiente: a la derecha lo tachas, a la izquierda lo borras ---------- */
-function swBind(row){ if(row._sw) return; row._sw=true; let x0=0,y0=0,dx=0,on=false,lock=null;
-  const mv=v=>{ for(const el of [row.querySelector('.pdchk'), row.querySelector('.pdbody')]) if(el){ el.style.transition=v==null?'transform .3s cubic-bezier(.2,1.2,.4,1)':'none'; el.style.transform=v==null?'':`translateX(${v}px)`; } };
-  row.addEventListener('touchstart',e=>{ const t=e.touches[0]; x0=t.clientX; y0=t.clientY; dx=0; on=true; lock=null; },{passive:true});
-  row.addEventListener('touchmove',e=>{ if(!on) return; const t=e.touches[0], ddx=t.clientX-x0, ddy=t.clientY-y0;
-    if(lock==null && (Math.abs(ddx)>9 || Math.abs(ddy)>9)) lock=Math.abs(ddx)>Math.abs(ddy)*1.3?'x':'y'; if(lock!=='x') return;
-    if(x0<26) return;  /* desde el borde es el gesto de volver */
-    dx=ddx; mv(Math.max(-140,Math.min(140,dx))); row.classList.toggle('swr', dx>0); row.classList.toggle('swl', dx<0); row.classList.toggle('swgo', Math.abs(dx)>=80); },{passive:true});
-  const end=()=>{ if(!on) return; on=false; const go2=Math.abs(dx)>=80 && lock==='x'; mv(null); setTimeout(()=>row.classList.remove('swr','swl','swgo'),300);
-    if(!go2) return; const p=pdList().find(x=>x._id===row.dataset.pd); if(!p) return; uiSfx('tick');
-    if(dx>0) pdToggle(p, row); else v2Del('pendientes', p, 'Pendiente borrado'); };
-  row.addEventListener('touchend',end,{passive:true}); row.addEventListener('touchcancel',()=>{ on=false; mv(null); row.classList.remove('swr','swl','swgo'); },{passive:true}); }
-{ const _pr=pdRow; pdRow=function(p,o){ const r=_pr(p,o); r.dataset.pd=p._id; r.insertAdjacentHTML('afterbegin',`<span class="swbg" aria-hidden="true"><em class="l">${ic('check')}${p.estado==='hecho'?'Reabrir':'Hecho'}</em><em class="r">${ic('trash')}Borrar</em></span>`); swBind(r); return r; }; }
 
 /* ---------- caducidades al calendario del iPhone (.ics con avisos 30 y 7 días antes) ---------- */
 function icsCad(){
@@ -12821,11 +12715,6 @@ async function wakeOn(){ try{ WAKE=await navigator.wakeLock?.request('screen'); 
 function wakeOff(){ try{ WAKE?.release(); }catch{} WAKE=null; }
 document.addEventListener('visibilitychange',()=>{ if(!document.hidden && document.body.classList.contains('modotaller')) wakeOn(); });
 new MutationObserver(()=>{ if($('#sheet2').hidden && document.body.classList.contains('modotaller')){ document.body.classList.remove('modotaller'); wakeOff(); } }).observe($('#sheet2'),{attributes:true, attributeFilter:['hidden']});
-{ const _rr=repRun; repRun=function(rep0){ _rr(rep0); const box=document.querySelector('#shBox .reprun'); if(!box || box.querySelector('.mtbtn')) return;
-    const on=UI.prefs.modoTaller; const b=h2(`<button type="button" class="mtbtn" aria-pressed="${!!on}">${ic('maximize')}<span>Modo taller</span><small>Letra grande y pantalla siempre encendida</small></button>`);
-    const apply=v=>{ document.body.classList.toggle('modotaller', v); b.setAttribute('aria-pressed', String(v)); if(v) wakeOn(); else wakeOff(); };
-    b.onclick=()=>{ UI.prefs.modoTaller=!UI.prefs.modoTaller; savePrefsUI(); uiSfx('tap'); apply(UI.prefs.modoTaller); if(UI.prefs.modoTaller) toast(navigator.wakeLock?'Modo taller: la pantalla no se apagará':'Modo taller activado (este navegador no deja mantener la pantalla encendida)'); };
-    box.querySelector('.rphead')?.after(b); if(on) apply(true); }; }
 
 /* ---------- dictado: un micrófono junto a las casillas de texto largo ---------- */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -12854,6 +12743,243 @@ matchMedia('(orientation: landscape) and (max-height: 520px)').addEventListener?
       at(1520,()=>{ NDL.tgt=.19; });
       at(1970,()=>{ NDL.tgt=.18; NDL.idle=true; NDL.offT=performance.now(); idleJitter(); });
       at(3270,()=>exitSplash()); }; } }
+
+/* ====================== TALLER (4.0 · fase 2) ======================
+   Las pantallas de Taller con código propio, sin el panel de la 1.x ni capas encima:
+     Mantenimiento (plan)      · lo que toca por km y por fecha, lo que viene en 12 meses, lo sin configurar
+     Trabajos hechos (hechos)  · todo lo que se le ha hecho, por años; tocar = ficha; deslizar = borrar
+     Intervención (intform)    · el formulario de registrar un trabajo (sustituye a openIntForm de la 1.x)
+     Averías (averias)         · lista con buscador y filtro; la ficha de cada avería se edita en una hoja
+   Y como pantallas propias (su contenido sigue siendo el de la 2.x, que ya era limpio): Pendientes,
+   Reparaciones, Ruedas, Diagnóstico, Listas de comprobación y Talleres.
+   Datos: mantenimiento/{id}, intervenciones/{_id}, averias/{_id} (los mismos de siempre). */
+
+/* ---------- utilidades ---------- */
+const kmTxt=v=>v==null||v===''?'':nf.format(Number(v))+' km';
+const intName=x=>itemName(x.mant)||partName(x.pieza)||'';
+const intIcon=x=>{ const t=(x.tipo||'')+' '+(x.descripcion||''); return /aver|repar/i.test(t)?'alert':/sustit/i.test(t)?'wrench':/revis|inspec/i.test(t)?'checkc':'history'; };
+const intCol=x=>({alert:V3C.red, wrench:V3C.orange, checkc:V3C.green, history:V3C.indigo})[intIcon(x)];
+const ivTxt=it=>[it.intervaloKm?nf.format(Number(it.intervaloKm))+' km':'', it.intervaloMeses?pl(Number(it.intervaloMeses),'mes','meses'):''].filter(Boolean).join(' o ');
+const stCol=st=>st==='due'?V3C.red:st==='soon'?V3C.orange:st==='ok'?V3C.green:V3C.gray;
+function intRow(x){
+  const n=intName(x), t=n||x.descripcion||x.tipo||'Intervención';
+  const r=vRow({i:intIcon(x), c:intCol(x), t, s:[fmtDate(x.fecha), kmTxt(x.km), n?x.descripcion:x.tipo].filter(Boolean).join(' · '), r:(x.coste!=null && x.coste!=='')?eur(Number(x.coste)):null, fn:()=>intSheet(x)});
+  r.classList.add('vswipe'); r._swL={l:'Borrar', i:'x', danger:true, fn:()=>{ if(confirm('¿Borrar esta intervención? Podrás deshacerlo justo después.')) delDoc('intervenciones', x._id, stripId2(x), 'Intervención borrada'); }};
+  return r;
+}
+const vField=(label, html, cls='')=>h2(`<label class="vfl ${cls}"><span class="wzlab">${label}</span>${html}</label>`);
+
+/* ====================== MANTENIMIENTO ====================== */
+function mantRow(it, s){
+  const p=mantPct(it,s), col=stCol(s.st);
+  const b=h2(`<button type="button" class="vrow vmi"><span class="vlead">${vRing(p,col,Math.round(p*100)+'%')}</span><span class="vtx"><b>${esc(it.nombre)}</b><small>${esc(mantLine(it,s))}</small><small>Cada ${esc(ivTxt(it))}${s.last?' · último '+esc(fmtDate(s.last.fecha)):''}</small></span><em class="vpill" style="--c:${col}">${ST_LABEL[s.st]}</em><span class="vch">${ic('chevR')}</span></button>`);
+  b.onclick=()=>{ uiSfx('tap'); mantSheet(it); }; return b;
+}
+V3.pages.plan={tab:'taller', title:'Mantenimiento', sub:()=>S.cfg?.kmActual?nf.format(S.cfg.kmActual)+' km':'', act:['plus','Registrar intervención',()=>openIntForm({})], render(w){
+  if(!S.mant.length){ w.append(h2(`<div class="vcalm">${ic('history')}<div><b>Cargando el plan…</b><small>Si no aparece, revisa la conexión.</small></div></div>`)); return; }
+  /* cuentakilómetros */
+  const km=h2(`<section class="vgrp"><div class="vcard vkmc"><span><small>Cuentakilómetros</small><b>${S.cfg?.kmActual?nf.format(S.cfg.kmActual):'—'}<i> km</i></b></span><button type="button" class="btn2 ghost">${ic('edit')}Actualizar</button></div></section>`);
+  km.querySelector('button').onclick=()=>{ uiSfx('tap'); quickKm(); }; w.append(km);
+  /* lo que viene en 12 meses */
+  const tl=mantTimeline(); if(tl){ const g=h2('<section class="vgrp vtl"></section>'); g.append(tl); w.append(g); }
+  /* el plan, por grupos; lo que no tiene datos va aparte */
+  const all=[...S.mant].sort((a,b)=>(a.orden??99)-(b.orden??99)).map(it=>({it, s:itemStatus(it)}));
+  const ok=all.filter(x=>x.s.st!=='nodata' && x.s.st!=='noint'), sin=all.filter(x=>x.s.st==='nodata'||x.s.st==='noint');
+  for(const gname of [...new Set(ok.map(x=>x.it.grupo||'Otros'))]){
+    const rows=ok.filter(x=>(x.it.grupo||'Otros')===gname).sort((a,b)=>({due:0,soon:1,ok:2}[a.s.st]-{due:0,soon:1,ok:2}[b.s.st]) || ((a.it.orden??99)-(b.it.orden??99)));
+    w.append(vGroup(gname, rows.map(x=>mantRow(x.it, x.s)), {cls:'vmant'}));
+  }
+  if(sin.length){
+    const d=h2(`<details class="vgrp vfold"><summary class="vgh"><span>Sin configurar <em class="vbadge" style="--c:var(--v-gray)">${sin.length}</em></span><small>Les falta el intervalo o el último cambio</small></summary><div class="vlist"></div></details>`), L=d.querySelector('.vlist');
+    for(const {it,s} of sin) L.append(vRow({i:'sliders', c:V3C.gray, t:it.nombre, s:s.st==='noint'?'Falta decir cada cuánto se cambia':(ivTxt(it)?'Cada '+ivTxt(it)+' · falta apuntar el último cambio':'Sin intervalo ni último cambio'), fn:()=>mantSheet(it)}));
+    L.append(vRow({i:'sparkle', c:V3C.purple, t:'Configurar con el asistente', s:'Último cambio y kilómetros de lo principal', fn:()=>openWizard(1), cls:'vadd'}));
+    w.append(d);
+  }
+  w.append(vGroup('',[vRow({i:'plus', c:V3C.blue, t:'Añadir elemento al plan', s:'Algo que quieras vigilar por km o por fecha', fn:mantAdd, cls:'vadd'})]));
+  /* lo último que se ha hecho */
+  const hist=[...S.int].sort(byDateDesc);
+  const hg=vGroup('Trabajos hechos', hist.slice(0,4).map(intRow), {more:hist.length?['Todos',()=>v3go('hechos')]:null}); hg.querySelector('.vlist').classList.add('vhist');
+  if(!hist.length) hg.querySelector('.vlist').append(h2(`<div class="vcalm sm">${ic('history')}<div><b>Nada registrado todavía</b><small>Cada cambio que apuntes calcula cuándo toca el siguiente.</small></div></div>`));
+  hg.querySelector('.vlist').append(vRow({i:'plus', c:V3C.blue, t:'Registrar intervención', fn:()=>openIntForm({}), cls:'vadd'}));
+  w.append(hg);
+  w.append(h2(`<p class="vfoot">Los intervalos los defines tú (libro de mantenimiento o ElsaWin). El estado se calcula con la fecha y los kilómetros del último cambio registrado.</p>`));
+}};
+/* ficha de un elemento del plan */
+function mantSheet(it){
+  const s=itemStatus(it), p=mantPct(it,s), H=S.int.filter(x=>x.mant===it.id).sort(byDateDesc);
+  const nx=[s.nextKm!=null?kmTxt(s.nextKm):'', s.nextDate?fmtDate(s.nextDate):''].filter(Boolean).join(' · ');
+  const body=h2(`<div class="vms"><div class="kv2"><span>Estado</span><b style="color:${stCol(s.st)}">${ST_LABEL[s.st]}</b><span>Intervalo</span><b>${ivTxt(it)?'Cada '+esc(ivTxt(it)):'Sin definir'}</b>
+    <span>Último cambio</span><b>${s.last?esc(fmtDate(s.last.fecha))+(s.last.km!=null?' · '+esc(kmTxt(s.last.km)):''):'—'}</b><span>Próximo</span><b>${nx?esc(nx)+(s.st!=='nodata'?' ('+esc(mantLine(it,s))+')':''):'—'}</b></div>
+    ${s.st==='ok'||s.st==='soon'||s.st==='due'?`<div class="life"><i style="--p:${Math.min(1,p)}"></i><span>${Math.round(p*100)} % de vida usada</span></div>`:''}<div class="vlist vhist"></div></div>`);
+  const L=body.querySelector('.vlist'); for(const x of H.slice(0,5)) L.append(intRow(x)); if(!H.length) L.remove();
+  const A=[['Registrar cambio','plus',()=>{ closeSheet(); openIntForm({mant:it.id}); },'pri'], ['Intervalo','sliders',()=>intervalSheet(it)], ['Nombre','edit',()=>mantRename(it)]];
+  if(it.pieza && parts[it.pieza]) A.push(['Ver pieza','cube',()=>{ closeSheet(); v3go('3d'); setTimeout(()=>{ try{ select(it.pieza); focusPart(it.pieza); }catch{} },350); }]);
+  A.push(['Quitar del plan','trash',async()=>{ if(!confirm(`¿Quitar «${it.nombre}» del plan? Lo ya registrado no se borra.`)) return; closeSheet(); const bk=stripId(it);
+    await S.db.collection('mantenimiento').doc(it.id).delete(); toast('Quitado del plan', null, {label:'Deshacer', fn:()=>S.db.collection('mantenimiento').doc(it.id).set(bk)}); }]);
+  detailSheet(it.nombre, it.grupo||'', body, A);
+}
+function mantRename(it){
+  const box=h2(`<div class="recf"><h3>Nombre</h3><input class="inp2" value="${esc(it.nombre)}" autocomplete="off"><div class="row3 recacts"><button class="btn2 ghost" type="button">Cancelar</button><button class="btn2" type="button">${ic('check')}Guardar</button></div></div>`);
+  const [no,okb]=box.querySelectorAll('button'), inp=box.querySelector('input');
+  no.onclick=()=>mantSheet(it);
+  okb.onclick=async()=>{ const n=inp.value.trim(); if(!n) return inp.focus(); await S.db.collection('mantenimiento').doc(it.id).set({...stripId(it), nombre:n}); closeSheet(); toast('Nombre cambiado'); };
+  sheet(box, b=>b.classList.add('v2f'));
+}
+function mantAdd(){
+  const box=h2(`<div class="recf"><h3>Añadir al plan</h3><label class="wzlab">Qué es</label><input class="inp2" id="maN" placeholder="p. ej. Filtro del compresor de suspensión" autocomplete="off">
+    <div class="fgrid2"><div class="ff half"><label class="wzlab">Cada (km)</label><input class="inp2" id="maK" type="number" inputmode="numeric" step="500"></div><div class="ff half"><label class="wzlab">Cada (meses)</label><input class="inp2" id="maM" type="number" inputmode="numeric" step="1"></div></div>
+    <div class="row3 recacts"><button class="btn2 ghost" type="button" data-a="no">Cancelar</button><button class="btn2" type="button" data-a="ok">${ic('plus')}Añadir</button></div></div>`);
+  const v=id=>box.querySelector('#'+id);
+  box.querySelector('[data-a="no"]').onclick=closeSheet;
+  box.querySelector('[data-a="ok"]').onclick=async()=>{ const n=v('maN').value.trim(); if(!n){ v('maN').focus(); return; }
+    if(S.mant.some(x=>norm(x.nombre)===norm(n))){ toast('Ya está en el plan','err'); return; }
+    const k=v('maK').value, m=v('maM').value, id='c-'+Date.now().toString(36);
+    await S.db.collection('mantenimiento').doc(id).set({nombre:n, grupo:'Personalizados', pieza:null, orden:200, intervaloKm:k===''?null:Number(k), intervaloMeses:m===''?null:Number(m)});
+    closeSheet(); uiSfx('save'); toast(`«${n}» añadido al plan`); };
+  sheet(box, b=>b.classList.add('v2f')); setTimeout(()=>{ if(!matchMedia('(hover: none)').matches) v('maN').focus(); },120);
+}
+
+/* ====================== TRABAJOS HECHOS ====================== */
+V3.pages.hechos={tab:'taller', title:'Trabajos hechos', sub:()=>pl(S.int.length,'trabajo'), act:['plus','Registrar intervención',()=>openIntForm({})], render(w){
+  const all=[...S.int].sort(byDateDesc);
+  const D=intDupes();
+  if(D.length){ const b=h2(`<div class="alr soon vdup">${ic('alert')}<span>Hay <b>${pl(D.length,'trabajo repetido','trabajos repetidos')}</b> (misma fecha, km y descripción).</span><button type="button" class="btn2 sm">Quitar repetidos</button></div>`);
+    b.querySelector('button').onclick=async()=>{ if(!confirm(`¿Borrar ${pl(D.length,'trabajo repetido','trabajos repetidos')}? Se deja uno de cada.`)) return; const bk=D.map(x=>({id:x._id, d:stripId2(x)}));
+      for(const x of D) await S.db.collection('intervenciones').doc(x._id).delete();
+      toast(`${pl(D.length,'repetido borrado','repetidos borrados')}`, null, {label:'Deshacer', fn:async()=>{ for(const x of bk) await S.db.collection('intervenciones').doc(x.id).set(x.d); }}); };
+    w.append(b); }
+  if(!all.length){ w.append(h2(`<div class="vcalm">${ic('history')}<div><b>Aquí aparece todo lo que se le hace al coche</b><small>Cambios, reparaciones e inspecciones, con km y coste. Se rellena al registrar una intervención.</small></div></div>`)); return; }
+  for(const y of [...new Set(all.map(x=>(x.fecha||'').slice(0,4)||'Sin fecha'))]){
+    const L=all.filter(x=>((x.fecha||'').slice(0,4)||'Sin fecha')===y), tot=L.reduce((s,x)=>s+(Number(x.coste)||0),0);
+    const g=vGroup(`${y}`, L.map(intRow), {foot:`${pl(L.length,'trabajo')}${tot?' · '+eur(tot):''}`}); g.querySelector('.vlist').classList.add('vhist'); w.append(g);
+  }
+}};
+
+/* ====================== INTERVENCIÓN (formulario) ======================
+   openIntForm({mant, pieza, back}) de siempre: ahora abre esta pantalla. Desde una pieza del 3D
+   (back:'info') es el modo pieza: sin elemento de mantenimiento y con las notas de esa pieza. */
+openIntForm=function(d={}){ v3go('intform', {data:d}); };
+V3.pages.intform={tab:'*', title:'Registrar intervención', keep:true, bare:true, render(w, e){
+  const d=e.data||{}, partMode=d.back==='info' && !!d.pieza && !!parts[d.pieza];
+  const linked=d.mant||'', pz=d.pieza||(d.mant?S.mant.find(x=>x.id===d.mant)?.pieza:'')||'';
+  const f=h2(`<form class="vform vcard" novalidate></form>`);
+  if(partMode) f.append(h2(`<p class="vfhint">${ic('cube')}<span>En la pieza <b>${esc(partName(d.pieza))}</b></span></p>`));
+  const fF=vField('Fecha','<input class="inp2" type="date" required>','half'), fK=vField('Kilómetros','<input class="inp2" type="number" inputmode="numeric" min="0" step="1" placeholder="p. ej. 272800">','half');
+  const fT=vField('Tipo','<select class="inp2" data-nosort></select>');
+  fF.querySelector('input').value=todayISO(); fK.querySelector('input').value=S.cfg?.kmActual??'';
+  const T=fT.querySelector('select'); for(const t of (partMode?TIPOS_PIEZA:TIPOS_MANT)) T.append(new Option(t,t)); T.value=d.mant?'Sustitución':(d.pieza?(partMode?'Reparación':'Reparación'):'Sustitución');
+  f.append(fF, fK, fT);
+  let M=null, P=null;
+  if(!partMode){
+    const fM=vField('Elemento de mantenimiento','<select class="inp2"></select>'); M=fM.querySelector('select'); M.append(new Option('— Ninguno —',''));
+    for(const it of [...S.mant].sort((a,b)=>COLL.compare(a.nombre||'',b.nombre||''))) M.append(new Option(it.nombre, it.id)); M.value=linked;
+    const fP=vField('Pieza afectada (opcional)','<select class="inp2"></select>'); P=fP.querySelector('select'); P.append(new Option('— General —',''));
+    for(const q of [...S.piezasL].sort((a,b)=>COLL.compare(a.nombre||'',b.nombre||''))) P.append(new Option(q.nombre,'c:'+q._id));
+    if(pz && !String(pz).startsWith('c:') && parts[pz]) P.append(new Option(parts[pz].name+' (modelo 3D)', pz));
+    P.value=pz||'';
+    f.append(fM, fP); listInSelect(M,'mant'); listInSelect(P,'pieza');
+    M.addEventListener('change',()=>{ const it=S.mant.find(x=>x.id===M.value); if(it){ if(T.value==='Reparación') T.value='Sustitución'; if(it.pieza && parts[it.pieza] && !P.value){ if(![...P.options].some(o=>o.value===it.pieza)) P.append(new Option(parts[it.pieza].name+' (modelo 3D)', it.pieza)); P.value=it.pieza; } } });
+  }
+  const fD=vField('Qué se ha hecho','<textarea class="inp2" rows="3" placeholder="El trabajo, los síntomas, las piezas usadas…"></textarea>'); f.append(fD);
+  const det=h2(`<details class="vfdet"><summary>${ic('plus')}<span><b>Más detalles</b><small>Referencia, coste, fotos y facturas</small></span></summary><div class="vfgrid"></div></details>`), dg=det.querySelector('.vfgrid');
+  const fR=vField('Referencia / marca montada','<input class="inp2" autocomplete="off" placeholder="Ref. o marca del recambio">'), fC=vField('Coste (€)','<input class="inp2" type="number" inputmode="decimal" min="0" step="0.01">','half');
+  const fA=vField('Fotos y facturas',`<span class="vfile"><input type="file" multiple accept="image/*,application/pdf"><span>${ic('camera')}<b>Añadir fotos o facturas</b></span></span>`);
+  const A=fA.querySelector('input'); A.onchange=()=>{ const n=A.files.length; fA.querySelector('.vfile b').textContent=n?`${pl(n,'archivo')}: ${[...A.files].map(x=>x.name).join(', ')}`:'Añadir fotos o facturas'; fA.classList.toggle('has',!!n); };
+  dg.append(fR, fC, fA); f.append(det);
+  let N=null; if(partMode){ const fN=vField('Notas de esta pieza (se quedan en su ficha)','<textarea class="inp2" rows="3" placeholder="Averías conocidas, trucos de desmontaje, pares, proveedores…"></textarea>'); N=fN.querySelector('textarea'); N.value=S.fichas[d.pieza]?.notas||''; f.append(fN); }
+  const st=h2('<p class="vfst" role="status"></p>'), acts=h2(`<div class="row3 vfacts"><button type="button" class="btn2 ghost">Cancelar</button><button type="submit" class="btn2 pri">${ic('check')}Guardar</button></div>`);
+  f.append(st, acts); w.append(h2('<section class="vgrp"></section>')); w.lastChild.append(f);
+  micFor(fD.querySelector('textarea')); if(N) micFor(N);
+  const [cancel, save]=acts.querySelectorAll('button');
+  cancel.onclick=()=>{ uiSfx('tap'); v3back(); };
+  f.onsubmit=async ev=>{ ev.preventDefault(); if(!S.db) return;
+    const v=x=>x.querySelector('input,select,textarea').value, kmv=v(fK), co=v(fC);
+    const data={fecha:v(fF), km:kmv===''?null:Number(kmv), tipo:T.value, mant:M?.value||null, pieza:partMode?d.pieza:(P?.value||null), descripcion:v(fD).trim(), ref:v(fR).trim(), coste:co===''?null:Number(co), creado:new Date().toISOString()};
+    if(!data.fecha){ st.textContent='Indica la fecha.'; return; }
+    if(!data.mant && !data.pieza && !data.descripcion){ st.textContent='Di qué se ha hecho, o elige el elemento o la pieza.'; return; }
+    save.disabled=true; st.textContent='Guardando…';
+    try{
+      if(A.files?.length) data.adjuntos=await uploadFiles([...A.files], st);
+      await S.db.collection('intervenciones').add(data);
+      if(N && N.value.trim()!==(S.fichas[d.pieza]?.notas||'')){ const cur=S.fichas[d.pieza]||{};
+        await S.db.collection('piezas').doc(d.pieza).set({...cur, notas:N.value.trim(), pieza:parts[d.pieza]?.name||'', capa:parts[d.pieza]?.layer||'', actualizado:new Date().toISOString()}); }
+      const cur=S.cfg?.kmActual!=null && S.cfg.kmActual!=='' ? Number(S.cfg.kmActual) : null;
+      if(data.km!=null && (cur==null || data.km>cur)) await S.db.doc('config/coche').set({...(S.cfg||{}), kmActual:data.km});
+      toast('Intervención registrada'); v3back();
+    }catch(err){ save.disabled=false; st.textContent='No se pudo guardar. Revisa la conexión e inténtalo de nuevo.'; }
+  };
+  if(!matchMedia('(hover: none)').matches) setTimeout(()=>(M||fD.querySelector('textarea')).focus(), 420);
+}};
+
+/* ====================== AVERÍAS ======================
+   Desde fuera se pide con aveOpen(avería) / aveOpen(null) (nueva). Lo de la 2.x que aún hace
+   «S.aveEdit=…; go('coche','ave')» o «UI.addAve=true» también funciona: la pantalla lo recoge al pintarse. */
+function aveOpen(a){ if(V3.cur?.id!=='averias') v3go('averias'); setTimeout(()=>aveSheet(a||null), V3.cur?.id==='averias'?0:420); }
+const aveMatch2=(a,q)=>norm([a.codigo,a.sintoma,a.notas,...(a.piezas||[]).map(partName)].join(' ')).includes(q);
+V3.pages.averias={tab:'taller', title:'Averías', sub:()=>{ const n=(S.ave||[]).filter(a=>a.estado!=='resuelta').length; return n?pl(n,'abierta'):'Ninguna abierta'; }, act:['plus','Registrar avería',()=>aveSheet(null)], render(w){
+  /* lo que pidió la 2.x antes de llegar aquí */
+  if(UI.addAve || S.aveEdit!=null){ const id=S.aveEdit && typeof S.aveEdit==='object'?S.aveEdit._id:S.aveEdit, a=(S.ave||[]).find(x=>x._id===id)||null; UI.addAve=false; S.aveEdit=null; setTimeout(()=>aveSheet(a),60); }
+  const f=UI.aveF||'abiertas', A=S.ave||[], nO=A.filter(a=>a.estado!=='resuelta').length, nR=A.length-nO;
+  const dg=h2(`<button type="button" class="vdiag"><i class="vsq" style="--c:${V3C.red}">${ic('steth')}</i><span class="vtx"><b>¿No sabes qué es?</b><small>Diagnóstico por síntomas: qué puede ser y qué mirar primero</small></span><span class="vch">${ic('chevR')}</span></button>`); dg.onclick=()=>v3go('diag'); w.append(dg);
+  const seg=h2(`<div class="vseg">${[['abiertas','Abiertas',nO],['resueltas','Resueltas',nR],['todas','Todas',A.length]].map(([k,l,n])=>`<button type="button" data-k="${k}" aria-pressed="${f===k}">${l}${n?` <em>${n}</em>`:''}</button>`).join('')}</div>`);
+  seg.querySelectorAll('button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); UI.aveF=b.dataset.k; v3render(v3top()); }); w.append(seg);
+  const q=h2(`<label class="vsearch">${ic('search')}<input type="search" placeholder="Código (P0401, 01314…), síntoma o pieza" autocomplete="off"></label>`), qi=q.querySelector('input'); qi.value=UI.aveQ||''; w.append(q);
+  const box=h2('<div class="vaves"></div>'); w.append(box);
+  const draw=()=>{ box.innerHTML=''; const qq=norm((UI.aveQ||'').trim());
+    const L=A.filter(a=>f==='todas' || (f==='resueltas')===(a.estado==='resuelta')).filter(a=>!qq||aveMatch2(a,qq)).sort((a,b)=>(a.estado==='resuelta')-(b.estado==='resuelta') || (b.fecha||'').localeCompare(a.fecha||''));
+    if(!L.length){ box.append(h2(`<div class="vcalm sm">${ic('checkc')}<div><b>${qq?'Nada coincide':f==='resueltas'?'Ninguna resuelta todavía':'Ninguna avería abierta'}</b><small>${qq?'Prueba con otro código o palabra.':'Apunta los códigos que leas con VCDS/OBD y lo que notes, y enlázalo con las piezas.'}</small></div></div>`)); return; }
+    for(const a of L) box.append(aveCard(a)); };
+  qi.oninput=()=>{ UI.aveQ=qi.value; draw(); }; draw();
+}};
+function aveCard(a){
+  const done=a.estado==='resuelta';
+  const c=h2(`<article class="vcard vave${done?' done':''}"><header><b class="mono">${esc(a.codigo||'Sin código')}</b><em class="vpill" style="--c:${done?V3C.green:V3C.red}">${done?'Resuelta':'Abierta'}</em></header>
+    <h3>${esc(a.sintoma||'Sin síntoma')}</h3><small>${[a.fecha?'Desde el '+fmtDate(a.fecha):'', kmTxt(a.km)].filter(Boolean).join(' · ')}</small>${a.notas?`<p>${esc(a.notas)}</p>`:''}
+    <div class="vchips"></div><div class="row3 vacts"><button type="button" class="btn2 ghost">${ic('edit')}Editar</button><button type="button" class="btn2 ghost">${ic(done?'history':'check')}${done?'Reabrir':'Resuelta'}</button></div></article>`);
+  const ch=c.querySelector('.vchips'); for(const pid of (a.piezas||[])){ if(!parts[pid]) continue; const b=h2(`<button type="button" class="vchip">${ic('cube')}${esc(parts[pid].name)}</button>`); b.onclick=()=>{ uiSfx('tap'); v3go('3d'); setTimeout(()=>{ try{ select(pid); focusPart(pid); }catch{} },350); }; ch.append(b); }
+  if(!ch.children.length) ch.remove();
+  const [ed, rs]=c.querySelectorAll('.vacts button');
+  ed.onclick=()=>{ uiSfx('tap'); aveSheet(a); };
+  rs.onclick=async()=>{ uiSfx('tap'); await S.db.collection('averias').doc(a._id).set({...stripId2(a), estado:done?'abierta':'resuelta'}); toast(done?'Avería reabierta':'Avería resuelta', null, {label:'Deshacer', fn:()=>S.db.collection('averias').doc(a._id).set(stripId2(a))}); };
+  return c;
+}
+function aveSheet(a){
+  const sel=new Set(a?.piezas||S.aveDraftParts||[]); S.aveDraftParts=null;
+  const body=h2(`<div class="vform vave-f">
+    <label class="vfl half"><span class="wzlab">Código</span><input class="inp2 mono" name="codigo" placeholder="P0401 / 18058…" autocomplete="off"></label>
+    <label class="vfl half"><span class="wzlab">Estado</span><select class="inp2" name="estado" data-nosort><option value="abierta">Abierta</option><option value="resuelta">Resuelta</option></select></label>
+    <label class="vfl"><span class="wzlab">Síntoma</span><input class="inp2" name="sintoma" placeholder="Qué notas: humo, tirones, testigo…" autocomplete="off"></label>
+    <label class="vfl"><span class="wzlab">Notas y diagnóstico</span><textarea class="inp2" name="notas" rows="3" placeholder="Pruebas hechas, valores, causa encontrada…"></textarea></label>
+    <label class="vfl"><span class="wzlab">Piezas implicadas</span><select class="inp2" name="pz"><option value="">Añadir pieza…</option>${Object.values(parts).sort((x,y)=>x.name.localeCompare(y.name,'es')).map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('')}</select></label>
+    <div class="vchips"></div><p class="vfst" role="status"></p></div>`);
+  const E=n=>body.querySelector(`[name="${n}"]`);
+  if(a) for(const k of ['codigo','sintoma','notas','estado']) E(k).value=a[k]||(k==='estado'?'abierta':'');
+  const chips=body.querySelector('.vchips'), drawChips=()=>{ chips.innerHTML=''; for(const pid of sel){ const b=h2(`<button type="button" class="vchip on">${ic('cube')}${esc(partName(pid)||pid)}<i>×</i></button>`); b.onclick=()=>{ sel.delete(pid); drawChips(); }; chips.append(b); } };
+  E('pz').onchange=()=>{ if(E('pz').value) sel.add(E('pz').value); E('pz').value=''; drawChips(); }; drawChips();
+  const save=async()=>{ const sint=E('sintoma').value.trim(), cod=E('codigo').value.trim().toUpperCase();
+    if(!sint && !cod){ body.querySelector('.vfst').textContent='Pon el síntoma o el código.'; E('sintoma').focus(); return; }
+    const d={...(a?stripId2(a):{}), codigo:cod, sintoma:sint, notas:E('notas').value.trim(), estado:E('estado').value, piezas:[...sel], fecha:a?.fecha||todayISO(), km:a?.km??(S.cfg?.kmActual??null)};
+    try{ if(a) await S.db.collection('averias').doc(a._id).set(d); else await S.db.collection('averias').add(d); closeSheet(); toast(a?'Avería guardada':'Avería registrada'); }catch{ toast('No se pudo guardar','err'); } };
+  const A=[[a?'Guardar':'Registrar avería','check',save,'pri']];
+  if(a) A.push(['Borrar','trash',()=>{ if(!confirm('¿Borrar esta avería? Podrás deshacerlo justo después.')) return; closeSheet(); delDoc('averias', a._id, stripId2(a), 'Avería borrada'); }]);
+  detailSheet(a?(a.codigo||'Avería'):'Registrar avería', a?(a.sintoma||''):'Lo que falla o un código de error', body, A);
+  micFor(E('notas'));
+  if(!a && !matchMedia('(hover: none)').matches) setTimeout(()=>E('sintoma').focus(),150);
+}
+
+/* ====================== PANTALLAS DE LA 2.x COMO PÁGINAS PROPIAS ======================
+   Su contenido lo pinta la función de siempre (renderPendientes(w)…); al refrescarse por dentro
+   (v2Rerender: un filtro, abrir una lista) se vuelve a pintar esta página (NAVUI.rerender). */
+const v2Page3=(title, fn, extra={})=>({tab:'taller', title, v2:true, render(w){ const box=h2('<div class="wrap v2 v3v2"></div>'); w.append(box); fn(box); }, ...extra});
+Object.assign(V3.pages,{
+  pendientes:v2Page3('Pendientes', w=>renderPendientes(w), {act:['plus','Anotar',()=>pdForm(null)]}),
+  reparaciones:v2Page3('Reparaciones', w=>renderReparaciones(w), {act:['plus','Empezar una reparación',()=>repPick()]}),
+  ruedas:v2Page3('Ruedas', w=>renderRuedas(w)),
+  diag:v2Page3('Diagnóstico', w=>renderDiag(w)),
+  listas:v2Page3('Listas de comprobación', w=>renderListas(w)),
+  talleres:v2Page3('Talleres y proveedores', w=>renderTalleres(w)),
+});
+for(const k of ['plan','hechos','averias','pendientes','reparaciones','ruedas','diag','listas','talleres']) delete V3.leaves[k];
 
 
 connectDb();

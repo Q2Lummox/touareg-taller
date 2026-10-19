@@ -1,19 +1,21 @@
 {
- "version": "4.0.0-beta.1",
+ "version": "4.0.0-beta.2",
  "fecha": "2026-10-19",
  "notas": [
-  "Fase 1 de la reconstrucción: navegación nueva y limpia, una sola pila de pantallas, sin parches ni vigilante",
-  "Preferencias en tu cuenta: tema, noche de taller, sonidos, avisos vistos y búsquedas recientes iguales en todos tus aparatos",
-  "Fuera el código de la barra, transiciones y botón + de la 2.x"
+  "Fase 2 de la reconstrucción: Taller rehecho por dentro",
+  "Mantenimiento, trabajos hechos, registrar intervención y averías con pantallas propias, sin el panel antiguo ni sus capas",
+  "Arreglado: tocar una avería desde Hoy o desde Taller ahora abre esa avería",
+  "La reparación en curso es una sola función: al terminar, las fotos pasan a la galería en el mismo guardado"
  ],
  "historial": [
   {
-   "version": "4.0.0-beta.1",
+   "version": "4.0.0-beta.2",
    "fecha": "2026-10-19",
    "notas": [
-    "Fase 1 de la reconstrucción: navegación nueva y limpia, una sola pila de pantallas, sin parches ni vigilante",
-    "Preferencias en tu cuenta: tema, noche de taller, sonidos, avisos vistos y búsquedas recientes iguales en todos tus aparatos",
-    "Fuera el código de la barra, transiciones y botón + de la 2.x"
+    "Fase 2 de la reconstrucción: Taller rehecho por dentro",
+    "Mantenimiento, trabajos hechos, registrar intervención y averías con pantallas propias, sin el panel antiguo ni sus capas",
+    "Arreglado: tocar una avería desde Hoy o desde Taller ahora abre esa avería",
+    "La reparación en curso es una sola función: al terminar, las fotos pasan a la galería en el mismo guardado"
    ]
   }
  ]
