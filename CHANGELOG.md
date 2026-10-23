@@ -1,5 +1,13 @@
 # Novedades
 
+## v4.0.0 · 2026-10-23
+- Nueva app por dentro: pantallas más rápidas, preferencias sincronizadas en tu cuenta y botones alineados en todas partes
+- Taller, Gastos, Papeles y Coche rehechos; «Llevas invertido» con coche, piezas y trabajos
+- Avisos con motivo («Novedades» y «Nuevo») y guías por secciones con buscador
+- El 3D pasa a ser un mapa del coche: ubicaciones, cableado, fusibles, masas, centralitas, refrigeración y drenajes
+- Reparación paso a paso: ¿lo tienes todo?, foto de cada paso y manos libres
+- Desplegables que no se cortan en el ordenador
+
 ## v3.1.0 · 2026-10-18
 - Avisos de la barra: solo lo no visto, todos en rojo y señalados dentro de cada pestaña
 - Gráficos: en qué se va el dinero, consumo y próximos 30.000 km

@@ -1,13 +1,27 @@
 {
- "version": "3.1.0",
- "fecha": "2026-10-18",
+ "version": "4.0.0",
+ "fecha": "2026-10-23",
  "notas": [
-  "Avisos de la barra: solo lo no visto, todos en rojo y señalados dentro de cada pestaña",
-  "Gráficos: en qué se va el dinero, consumo y próximos 30.000 km",
-  "Herramientas: buscador con recientes, deslizar pendientes, caducidades al calendario, modo taller, dictado y noche de taller",
-  "Arreglos: interruptores de Ajustes, desplegables del 3D por encima de la barra, franjas en modo claro"
+  "Nueva app por dentro: pantallas más rápidas, preferencias sincronizadas en tu cuenta y botones alineados en todas partes",
+  "Taller, Gastos, Papeles y Coche rehechos; «Llevas invertido» con coche, piezas y trabajos",
+  "Avisos con motivo («Novedades» y «Nuevo») y guías por secciones con buscador",
+  "El 3D pasa a ser un mapa del coche: ubicaciones, cableado, fusibles, masas, centralitas, refrigeración y drenajes",
+  "Reparación paso a paso: ¿lo tienes todo?, foto de cada paso y manos libres",
+  "Desplegables que no se cortan en el ordenador"
  ],
  "historial": [
+  {
+   "version": "4.0.0",
+   "fecha": "2026-10-23",
+   "notas": [
+    "Nueva app por dentro: pantallas más rápidas, preferencias sincronizadas en tu cuenta y botones alineados en todas partes",
+    "Taller, Gastos, Papeles y Coche rehechos; «Llevas invertido» con coche, piezas y trabajos",
+    "Avisos con motivo («Novedades» y «Nuevo») y guías por secciones con buscador",
+    "El 3D pasa a ser un mapa del coche: ubicaciones, cableado, fusibles, masas, centralitas, refrigeración y drenajes",
+    "Reparación paso a paso: ¿lo tienes todo?, foto de cada paso y manos libres",
+    "Desplegables que no se cortan en el ordenador"
+   ]
+  },
   {
    "version": "3.1.0",
    "fecha": "2026-10-18",

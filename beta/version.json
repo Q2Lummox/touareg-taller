@@ -1,19 +1,25 @@
 {
- "version": "4.0.0-beta.10",
+ "version": "4.0.0",
  "fecha": "2026-10-23",
  "notas": [
-  "Avisos con motivo: «Novedades» arriba de Taller, Gastos y Papeles, y «Nuevo» en la fila de la que viene cada aviso",
-  "Guías por secciones (motor, refrigeración, escape, carrocería, mantenimiento…), con buscador",
-  "Cada guía se puede mover de sección desde la propia guía"
+  "Nueva app por dentro: pantallas más rápidas, preferencias sincronizadas en tu cuenta y botones alineados en todas partes",
+  "Taller, Gastos, Papeles y Coche rehechos; «Llevas invertido» con coche, piezas y trabajos",
+  "Avisos con motivo («Novedades» y «Nuevo») y guías por secciones con buscador",
+  "El 3D pasa a ser un mapa del coche: ubicaciones, cableado, fusibles, masas, centralitas, refrigeración y drenajes",
+  "Reparación paso a paso: ¿lo tienes todo?, foto de cada paso y manos libres",
+  "Desplegables que no se cortan en el ordenador"
  ],
  "historial": [
   {
-   "version": "4.0.0-beta.10",
+   "version": "4.0.0",
    "fecha": "2026-10-23",
    "notas": [
-    "Avisos con motivo: «Novedades» arriba de Taller, Gastos y Papeles, y «Nuevo» en la fila de la que viene cada aviso",
-    "Guías por secciones (motor, refrigeración, escape, carrocería, mantenimiento…), con buscador",
-    "Cada guía se puede mover de sección desde la propia guía"
+    "Nueva app por dentro: pantallas más rápidas, preferencias sincronizadas en tu cuenta y botones alineados en todas partes",
+    "Taller, Gastos, Papeles y Coche rehechos; «Llevas invertido» con coche, piezas y trabajos",
+    "Avisos con motivo («Novedades» y «Nuevo») y guías por secciones con buscador",
+    "El 3D pasa a ser un mapa del coche: ubicaciones, cableado, fusibles, masas, centralitas, refrigeración y drenajes",
+    "Reparación paso a paso: ¿lo tienes todo?, foto de cada paso y manos libres",
+    "Desplegables que no se cortan en el ordenador"
    ]
   }
  ]
