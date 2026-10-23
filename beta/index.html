@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.0.0-beta.9">
+<meta name="app-version" content="4.0.0-beta.10">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2615,6 +2615,13 @@ body.wireon #tWire[data-k="aceite"] svg:first-child,body.wireon #tWire[data-k="c
 .isacts .btn2{justify-content:center;width:100%;min-width:0;padding-left:6px;padding-right:6px}
 .isacts .isdel{color:var(--due)!important}
 .btn2.isok{width:100%;justify-content:center;margin-top:8px}
+/* guías por secciones (4.0) */
+.gsecs .gq{width:100%;margin:2px 0 12px}
+.gsecs .gl{padding:10px 10px 0}
+.gsecs .gres .gcard:last-child,.gsecs .gl .gcard:last-child{margin-bottom:10px}
+.gsecrow{display:flex;align-items:center;gap:10px;margin:0 0 12px;padding:8px 10px;border:1px solid var(--card-line);border-radius:12px}
+.gsecrow>span{display:flex;align-items:center;gap:6px;color:var(--mut,#8a939c);font-size:13px;flex:none}.gsecrow>span svg{width:16px;height:16px}
+.gsecrow>select,.gsecrow>.csel{flex:1;min-width:0}
 /* ====================== TALLER 7L · 3.0 ====================== */
 body.v3{
   --v-font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue","IBM Plex Sans",system-ui,sans-serif;
@@ -3246,6 +3253,9 @@ body.v3.light .fxhealth{background:rgba(8,10,14,.62)}
 .mpanel.popL .mpanel.fly{left:auto;right:calc(100% + 6px)}
 .mpanel.popL .mpanel.fly::before{left:auto;right:-14px}
 @media (max-width:900px){ body.v3 .v3act .mb>.mpanel{max-height:calc(100dvh - var(--t2h) - var(--sa-t) - var(--navh) - var(--sa-b) - 16px);overflow-y:auto;overscroll-behavior:contain} }
+/* avisos: lo nuevo, marcado (4.0) */
+.vrow.vnew .vtx>b::after{content:"Nuevo";display:inline-block;margin-left:8px;padding:1px 7px;border-radius:9px;background:var(--v-red);color:#fff;font:600 11px/16px var(--v-font);vertical-align:2px}
+.vnovs .vlist{box-shadow:0 0 0 1.5px color-mix(in srgb,var(--v-red) 55%,transparent)}
 </style>
 
 </head>
@@ -3288,7 +3298,7 @@ body.v3.light .fxhealth{background:rgba(8,10,14,.62)}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.0.0-beta.9</span>
+  <span class="spver">v4.0.0-beta.10</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6661,7 +6671,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.0.0-beta.9';
+window.APP_VERSION='4.0.0-beta.10';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6695,7 +6705,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.0.0-beta.9';
+  const APP_VERSION='4.0.0-beta.10';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -9208,6 +9218,7 @@ async function importRun(d, st){
     const data={titulo:g.titulo||'Guía importada', herramientas:g.herramientas||'', grupo:String(g.grupo||''), fuente:g.fuente||fuente, pasos, lote:id, actualizado:now};
     /* si ya existe una guía importada con el mismo título, se sustituye (al deshacer vuelve la anterior) */
     const old=(S.procs||[]).find(x=>x.lote && x.titulo===data.titulo);
+    if(g.seccion) data.seccion=g.seccion; else if(old?.seccion) data.seccion=old.seccion;   /* la sección que elegiste se respeta */
     if(old){ rec.prev['procedimientos/'+old._id]=stripId2(old); await S.db.collection('procedimientos').doc(old._id).set(data); rec.docs.push('procedimientos/'+old._id); }
     else { const r=await S.db.collection('procedimientos').add(data); rec.docs.push('procedimientos/'+r.id); } }
   for(const m of (d.manuales||[])){ const r=await S.db.collection('manuales').add({titulo:m.titulo||'', grupo:String(m.grupo||''), enlace:m.enlace||'', nota:m.nota||'', lote:id, fuente, actualizado:now}); rec.docs.push('manuales/'+r.id); }
@@ -10179,6 +10190,8 @@ function guiaRead(pr, at){
     ol.append(li); });
   if(/drenaj/i.test(pr.titulo||'')){ const b=h2(`<button type="button" class="btn2 pri gdren">${ic('drop')}Ver las mangueras en el 3D</button>`); b.onclick=()=>{ closeSheet(); if(!WIRE.on?.drenaje) wireShow(drenCircuit()); }; body.prepend(b); }
   if(/bomba de agua|refrigera/i.test(pr.titulo||'')){ const b=h2(`<button type="button" class="btn2 pri gdren">${ic('thermo')}Ver el circuito en el 3D</button>`); b.onclick=()=>{ closeSheet(); if(!WIRE.on?.refri) wireShow(refriCircuit()); }; body.prepend(b); }
+  if(pr._id){ const k=gSec(pr), sr=h2(`<div class="gsecrow"><span>${ic('layers')}Sección</span></div>`), sel=gSecSelect(k); sr.append(sel);
+    sel.onchange=()=>gSecMove(pr, sel.value); body.prepend(sr); }
   body.append(ol); upd(); if(at!=null) setTimeout(()=>body.querySelector('li.ghit')?.scrollIntoView({block:'start', behavior:'smooth'}),350);
   const acts=[]; if(gHas3D(pr)) acts.push(['Seguir en el 3D','cube',()=>guiaRun3D(pr),'pri']);
   acts.push(['Editar','edit',()=>guiaEdit(pr)]);
@@ -10192,11 +10205,13 @@ function guiaEdit(pr0){
   const pr=pr0?JSON.parse(JSON.stringify(stripId2(pr0))):{titulo:'', herramientas:'', pasos:[]}; const id=pr0?._id;
   const box=h2(`<div class="recf gedit"><h3>${id?'Editar guía':'Nueva guía'}</h3><div class="fgrid2">
     <div class="ff full"><label class="lab2">Título</label><input class="inp2" id="ge_t" placeholder="Cambiar el filtro de gasoil"></div>
-    <div class="ff full"><label class="lab2">Herramientas generales</label><input class="inp2" id="ge_h" placeholder="Llave de 13, Torx T30…"></div></div>
+    <div class="ff full"><label class="lab2">Herramientas generales</label><input class="inp2" id="ge_h" placeholder="Llave de 13, Torx T30…"></div>
+    <div class="ff full"><label class="lab2">Sección</label><span class="gesec"></span></div></div>
     <div class="gelist"></div><button type="button" class="btn2 ghost geadd">${ic('plus')}Añadir paso</button>
     <p class="muted2" style="margin:10px 2px 0">Para que un paso mueva la cámara del 3D, coloca el coche como quieras verlo y pulsa «Usar la vista del 3D» en ese paso.</p>
     <div class="row3 recacts">${id?`<button class="btn2 ghost" type="button" data-a="del" style="margin-right:auto;color:var(--due)">${ic('trash')}Borrar</button>`:''}<button class="btn2 ghost" type="button" data-a="no">Cancelar</button><button class="btn2" type="button" data-a="ok">${ic('check')}Guardar</button></div></div>`);
   const t=box.querySelector('#ge_t'), hh=box.querySelector('#ge_h'), list=box.querySelector('.gelist'); t.value=pr.titulo||''; hh.value=pr.herramientas||'';
+  { const sel=gSecSelect(gSec(pr)); box.querySelector('.gesec').replaceWith(sel); sel.onchange=()=>{ pr.seccion=sel.value; }; }
   const draw=()=>{ list.innerHTML=''; pr.pasos.forEach((p,i)=>{ const c=h2(`<div class="gestep"><div class="gesh"><b>Paso ${i+1}</b><span>
       <button type="button" class="ib" data-a="up" aria-label="Subir"${i?'':' disabled'}>${ic('chevU')}</button><button type="button" class="ib" data-a="dn" aria-label="Bajar"${i<pr.pasos.length-1?'':' disabled'}>${ic('chevD')}</button><button type="button" class="ib" data-a="rm" aria-label="Quitar">${ic('trash')}</button></span></div>
       <textarea class="inp2" rows="3" placeholder="Qué hay que hacer en este paso"></textarea><div class="ge2"><input class="inp2" placeholder="Herramientas"><input class="inp2" placeholder="Par de apriete (Nm)"></div>
@@ -10211,34 +10226,87 @@ function guiaEdit(pr0){
   box.querySelector('.geadd').onclick=()=>{ pr.pasos.push({texto:'', herr:'', par:'', piezas:S.sel?[S.sel]:[]}); draw(); setTimeout(()=>list.lastElementChild?.querySelector('textarea')?.focus(),50); };
   box.querySelector('[data-a="no"]').onclick=closeSheet;
   box.querySelector('[data-a="del"]')?.addEventListener('click',()=>{ if(!confirm('¿Borrar esta guía?')) return; closeSheet(); v2Del('procedimientos', pr0, 'Guía borrada'); });
-  box.querySelector('[data-a="ok"]').onclick=async()=>{ pr.titulo=t.value.trim(); pr.herramientas=hh.value.trim(); if(!pr.titulo){ t.focus(); toast('Ponle un título','err'); return; } if(!S.db) return toast('Inicia sesión para guardar','err');
+  box.querySelector('[data-a="ok"]').onclick=async()=>{ pr.titulo=t.value.trim(); pr.herramientas=hh.value.trim(); if(pr.seccion && pr.seccion===gSecAuto(pr)) delete pr.seccion; if(!pr.titulo){ t.focus(); toast('Ponle un título','err'); return; } if(!S.db) return toast('Inicia sesión para guardar','err');
     const d={...pr, pasos:pr.pasos.filter(p=>(p.texto||'').trim()||p.cam), actualizado:new Date().toISOString()};
     try{ if(id) await S.db.collection('procedimientos').doc(id).set(d); else await S.db.collection('procedimientos').add({...d, creado:d.actualizado}); closeSheet(); uiSfx('save'); celebrate(); toast('Guía guardada'); }catch{ toast('No se pudo guardar','err'); } };
   draw(); sheet(box, b=>b.classList.add('v2f'));
 }
 IC.chevU=IC.chevU||'<path d="m6 15 6-6 6 6"/>';
+/* ---------- guías por secciones (4.0): cada una va a la suya según su grupo de ElsaWin/ETKA o su título;
+   desde la propia guía se puede mover a otra («seccion» en el documento, que se respeta al reimportar) ---------- */
+const GSEC=[
+  ['mant','Mantenimiento y limpieza','checkc'],
+  ['motor','Motor','gauge'],
+  ['refri','Refrigeración y climatización','thermo'],
+  ['comb','Combustible y escape','fuel'],
+  ['trans','Embrague, cambio y transmisión','layers'],
+  ['rodaje','Suspensión, dirección y frenos','tyre'],
+  ['carro','Carrocería, techo y portón','car'],
+  ['elec','Electricidad','zap'],
+  ['otras','Otras','book']];
+function gSecAuto(pr){
+  const t=String(pr.titulo||''), g=String(pr.grupo||'').trim();
+  if(/drenaj|limpi|engras|lubrica|revisión|mantenimiento/i.test(t)) return 'mant';
+  if(/^\d{2}/.test(g)){ const n=Number(g.slice(0,2));
+    if(n===19 || (n>=80&&n<=87)) return 'refri'; if(n===20||n===23||n===26) return 'comb'; if(n>=10&&n<=28) return 'motor';
+    if(n>=30&&n<=39) return 'trans'; if(n>=40&&n<=49) return 'rodaje'; if(n>=50&&n<=79) return 'carro'; if(n>=90&&n<=97) return 'elec'; }
+  else if(/^\d$/.test(g)) return {'1':'motor','2':'comb','3':'trans','4':'rodaje','5':'rodaje','6':'rodaje','7':'rodaje','8':'carro','9':'elec'}[g];
+  if(/bomba de agua|refrigera|termostato|radiador|climatiz|calefac/i.test(t)) return 'refri';
+  if(/escape|catalizador|gasoil|gasóleo|combustible|inyector/i.test(t)) return 'comb';
+  if(/motor|culata|correa|distribución|turbo|aceite/i.test(t)) return 'motor';
+  if(/embrague|cambio|transfer|diferencial|palier/i.test(t)) return 'trans';
+  if(/freno|amortiguador|suspensión|dirección|rueda|neumático/i.test(t)) return 'rodaje';
+  if(/puerta|portón|capó|techo|luneta|carrocería|cristal|maletero/i.test(t)) return 'carro';
+  if(/fusible|relé|masa|centralita|cableado|batería|luz|faro|eléctric/i.test(t)) return 'elec';
+  return 'otras';
+}
+const gSec=pr=>GSEC.some(x=>x[0]===pr.seccion)?pr.seccion:gSecAuto(pr);
+const gSecName=k=>(GSEC.find(x=>x[0]===k)||GSEC[GSEC.length-1])[1];
+/* el desplegable «Sección» (en la guía y al editarla) */
+function gSecSelect(cur){ const s=document.createElement('select'); s.className='inp2'; s.dataset.nosort='';
+  for(const [k,t] of GSEC) s.append(new Option(t,k)); s.value=cur; return s; }
+async function gSecMove(pr, k){
+  if(!S.db || !pr._id) return toast('Inicia sesión para guardar','err');
+  const d={...stripId2(pr), seccion:k}; if(k===gSecAuto(pr)) delete d.seccion;      /* si vuelve a la suya, sin marca */
+  try{ await S.db.collection('procedimientos').doc(pr._id).set(d); pr.seccion=d.seccion; uiSfx('tap'); toast('Guía movida a «'+gSecName(k)+'»'); }catch{ toast('No se pudo mover','err'); }
+}
+function gCard(pr){
+  const n=(pr.pasos||[]).length, d=UI.gchk?.[pr._id]?.size||0;
+  const r=h2(`<div class="gcard"><button type="button" class="gmain"><span class="gic">${ic(gHas3D(pr)?'cube':'book')}</span><span class="tx"><b>${esc(pr.titulo||'Sin título')}</b><small>${esc([pl(n,'paso'), pr.fuente?'De '+String(pr.fuente).split('·')[0].trim():'', gHas3D(pr)?'con vistas 3D':''].filter(Boolean).join(' · '))}</small>${d?`<span class="gmini"><i style="width:${n?d/n*100:0}%"></i></span>`:''}</span>${ic('chevR')}</button>
+    <div class="gacts"><button type="button" class="btn2 sm" data-a="leer">${ic('list')}Leer</button>${gHas3D(pr)?`<button type="button" class="btn2 sm ghost" data-a="3d">${ic('cube')}Seguir en 3D</button>`:''}<button type="button" class="btn2 sm ghost" data-a="ed">${ic('edit')}Editar</button></div></div>`);
+  r.querySelector('.gmain').onclick=()=>{ uiSfx('tap'); guiaRead(pr); }; r.querySelector('[data-a="leer"]').onclick=()=>{ uiSfx('tap'); guiaRead(pr); };
+  r.querySelector('[data-a="3d"]')?.addEventListener('click',()=>{ uiSfx('tap'); guiaRun3D(pr); }); r.querySelector('[data-a="ed"]').onclick=()=>{ uiSfx('tap'); guiaEdit(pr); };
+  return r;
+}
 function renderGuias(w){
   const L=[...(S.procs||[])].sort((a,b)=>COLL.compare(a.titulo||'',b.titulo||'')), M=S.v2.manuales||[];
   w.append(addBar('Nueva guía', ()=>guiaEdit(null)));
+  /* las listas de comprobación, arriba del todo */
+  { const c=card2('Listas de comprobación','list'); c.querySelector('.l2').append(row2({c:'var(--ok)', i:'list', t:'Listas de comprobación', s:'Antes de la ITV, viaje largo, invierno, verano…', fn:()=>masOpen('listas')})); w.append(c); }
   if(!L.length && !M.length){ w.append(emptyCard('book','Aquí van tus <b>guías paso a paso</b>: qué hacer, con qué herramienta y a qué par. Puedes escribirlas tú o llegan importadas de ElsaWin; las que guardan vistas del coche se siguen <b>en el 3D</b>.','Nueva guía',()=>guiaEdit(null))); return; }
-  if(L.length){ const c=card2('Guías','book', L.length);
-    for(const pr of L){ const n=(pr.pasos||[]).length, d=UI.gchk?.[pr._id]?.size||0;
-      const r=h2(`<div class="gcard"><button type="button" class="gmain"><span class="gic">${ic(gHas3D(pr)?'cube':'book')}</span><span class="tx"><b>${esc(pr.titulo||'Sin título')}</b><small>${esc([pl(n,'paso'), pr.fuente?'De '+String(pr.fuente).split('·')[0].trim():'', gHas3D(pr)?'con vistas 3D':''].filter(Boolean).join(' · '))}</small>${d?`<span class="gmini"><i style="width:${n?d/n*100:0}%"></i></span>`:''}</span>${ic('chevR')}</button>
-        <div class="gacts"><button type="button" class="btn2 sm" data-a="leer">${ic('list')}Leer</button>${gHas3D(pr)?`<button type="button" class="btn2 sm ghost" data-a="3d">${ic('cube')}Seguir en 3D</button>`:''}<button type="button" class="btn2 sm ghost" data-a="ed">${ic('edit')}Editar</button></div></div>`);
-      r.querySelector('.gmain').onclick=()=>{ uiSfx('tap'); guiaRead(pr); }; r.querySelector('[data-a="leer"]').onclick=()=>{ uiSfx('tap'); guiaRead(pr); };
-      r.querySelector('[data-a="3d"]')?.addEventListener('click',()=>{ uiSfx('tap'); guiaRun3D(pr); }); r.querySelector('[data-a="ed"]').onclick=()=>{ uiSfx('tap'); guiaEdit(pr); };
-      c.querySelector('.l2').append(r); }
+  if(L.length){
+    const c=h2(`<div class="card2 gsecs"><h3>${ic('book')}Guías<span class="cnt">${L.length}</span></h3>
+      <input class="inp2 gq" type="search" placeholder="Buscar guía: bomba, escape, portón…" enterkeyhint="search" autocomplete="off"><div class="pcats"></div><div class="gres" hidden></div></div>`);
+    const box=c.querySelector('.pcats'), res=c.querySelector('.gres'), q=c.querySelector('.gq');
+    UI.gOpen=UI.gOpen||new Set();
+    for(const [k,t,i] of GSEC){ const G=L.filter(pr=>gSec(pr)===k); if(!G.length) continue;
+      const d=h2(`<details class="pgrp" data-k="${k}"${UI.gOpen.has(k)?' open':''}><summary><span class="pic">${ic(i)}</span><b>${esc(t)}</b><em>${G.length}</em>${ic('chevD','pchev')}</summary><div class="gl"></div></details>`);
+      d.addEventListener('toggle',()=>{ d.open?UI.gOpen.add(k):UI.gOpen.delete(k); if(d.open) uiSfx('tap'); });
+      G.forEach(pr=>d.querySelector('.gl').append(gCard(pr))); box.append(d); }
+    q.value=UI.gQ||'';
+    const run=()=>{ const t=norm(q.value.trim()); UI.gQ=q.value; box.hidden=!!t; res.hidden=!t; res.innerHTML='';
+      if(!t) return; const R=L.filter(pr=>norm([pr.titulo, pr.herramientas, gSecName(gSec(pr)), ...(pr.pasos||[]).map(p=>p.titulo||'')].join(' ')).includes(t));
+      if(!R.length) res.append(h2(`<p class="muted2" style="margin:6px 2px">Ninguna guía con «${esc(q.value.trim())}».</p>`));
+      for(const pr of R){ const r=gCard(pr); r.querySelector('.tx small').append(' · '+gSecName(gSec(pr))); res.append(r); } };
+    q.oninput=run; if(q.value) run();
     w.append(c); }
   if(M.length){ const c=card2('Manuales y documentos','file',M.length);
     for(const m of [...M].sort((a,b)=>COLL.compare((a.grupo||'')+a.titulo,(b.grupo||'')+b.titulo))) c.querySelector('.l2').append(row2({c:'var(--info)', i:'file', t:m.titulo, s:[grpName(m.grupo), m.nota].filter(Boolean).join(' · '), fn:()=>{ if(m.enlace) window.open(m.enlace,'_blank','noopener'); else toast('Este manual no tiene enlace'); }}));
     w.append(c); }
-  /* las listas de comprobación, arriba del todo */
-  { const c=card2('Listas de comprobación','list'); c.querySelector('.l2').append(row2({c:'var(--ok)', i:'list', t:'Listas de comprobación', s:'Antes de la ITV, viaje largo, invierno, verano…', fn:()=>masOpen('listas')}));
-    const first=w.querySelector(':scope > .card2'); if(first) first.before(c); else w.append(c); }
 }
 MAS2.procs=['Guías y listas', renderGuias]; MAS_T.procs='Guías y listas';
 /* las guías se refrescan al cambiar */
-{ let n=-1; setInterval(()=>{ const k=(S.procs||[]).map(p=>p._id+(p.actualizado||'')).join(); if(k!==n){ const was=n; n=k; if(was!==-1 && V2.cur?.fn===renderGuias && document.body.contains(V2.cur.root)) v2Rerender(); } }, 1200); }
+{ let n=-1; setInterval(()=>{ const k=(S.procs||[]).map(p=>p._id+(p.actualizado||'')+(p.seccion||'')).join(); if(k!==n){ const was=n; n=k; if(was!==-1 && V2.cur?.fn===renderGuias && document.body.contains(V2.cur.root)) v2Rerender(); } }, 1200); }
 
 /* ---------- Piezas del 3D sin referencia: si el modelo aún no está cargado no hay que felicitar a nadie ---------- */
 { const _rp=renderPend; const rp=function(){ _rp(); $('#ovlTitle').textContent='Piezas del 3D sin referencia';
@@ -11990,18 +12058,31 @@ function backEnd(ok){
      Papeles → documentos caducados o por caducar (se ven en Papeles)
    Todos en rojo; dentro de cada pestaña, la fila de la que viene el aviso lleva su número. */
 let SEEN=prefGet('vistos', {}) || {};
-function avItems(){
+/* cada aviso con lo que es, para poder enseñarlo dentro de su pestaña («Novedades») y marcar su fila */
+function avAll(){
   let ml=[]; try{ ml=mantList(); }catch{}
-  const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta').map(a=>'a:'+a._id), ya=(typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya').map(p=>'p:'+p._id);
-  const mant=ml.filter(x=>x.s.st==='due'||x.s.st==='soon').map(x=>'m:'+(x.it.id||x.it._id||x.it.nombre)+':'+x.s.st);
-  const compra=(S.compras||[]).filter(c=>c.estado==='pendiente').map(c=>'c:'+c._id);
-  let docs=[]; try{ docs=docsVig().filter(d=>{ const s=docStatus(d).st; return s==='due'||s==='soon'; }).map(d=>'d:'+(d._id||d.tipo)+':'+d.caduca); }catch{}
+  const R=V3C.red, O=V3C.orange;
+  const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta').map(a=>({k:'a:'+a._id, i:'alert', c:R, t:a.sintoma||a.codigo||'Avería', s:'Avería abierta'+(a.fecha?' · desde el '+fmtDate(a.fecha):''), fn:()=>aveOpen(a)}));
+  const ya=(typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya').map(p=>({k:'p:'+p._id, i:'flag', c:R, t:p.titulo, s:'Pendiente: arreglar antes de circular'+(p.zona?' · '+p.zona:''), fn:()=>pdSheet(p)}));
+  const mant=ml.filter(x=>x.s.st==='due'||x.s.st==='soon').map(x=>({k:'m:'+(x.it.id||x.it._id||x.it.nombre)+':'+x.s.st, i:'list', c:x.s.st==='due'?R:O, t:x.it.nombre, s:(x.s.st==='due'?'Mantenimiento vencido':'Mantenimiento próximo')+(()=>{ try{ return ' · '+mantLine(x.it,x.s); }catch{ return ''; } })(), fn:()=>{ v3go('plan'); setTimeout(()=>{ try{ mantSheet(x.it); }catch{} }, 420); }}));
+  const compra=(S.compras||[]).filter(c=>c.estado==='pendiente').map(c=>({k:'c:'+c._id, i:'cart', c:V3C.teal, t:c.nombre+(c.cantidad>1?' ×'+c.cantidad:''), s:'Nuevo en la lista de la compra', fn:()=>compraSheet(c)}));
+  let docs=[]; try{ docs=docsVig().map(d=>({d, st:docStatus(d)})).filter(x=>x.st.st==='due'||x.st.st==='soon').map(({d,st})=>({k:'d:'+(d._id||d.tipo)+':'+d.caduca, i:'file', c:st.st==='due'?R:O, t:d.tipo+(d.nombre?' · '+d.nombre:''), s:(st.st==='due'?'Caducado el ':'Caduca el ')+fmtDate(d.caduca), fn:()=>recForm(MOD.docs, d)})); }catch{}
   return {taller:[...aves, ...ya, ...mant], gastos:compra, papeles:docs};
+}
+function avItems(){ const A=avAll(); return Object.fromEntries(Object.entries(A).map(([t,L])=>[t, L.map(x=>x.k)])); }
+const avIsNew=(t,k)=>!(SEEN[t]||[]).includes(k);
+/* «Novedades»: arriba de la pestaña, lo que ha hecho saltar el número rojo de la barra, cada cosa con su motivo y a un toque */
+function avBanner(t){
+  const L=avAll()[t].filter(x=>avIsNew(t,x.k)); if(!L.length) return null;
+  const g=vGroup('Novedades', L.slice(0,8).map(x=>vRow(x)), {cls:'vnovs', more:['Marcar como visto',()=>{ SEEN[t]=avItems()[t]; prefSet('vistos', SEEN); v3badges(); v3render(v3top()); }],
+    foot:L.length>8?`Y ${L.length-8} más.`:`Es lo que marca el número rojo de la barra. Se da por visto cuando sales de aquí.`});
+  g.querySelector('.vgh span').insertAdjacentHTML('beforeend', ' '+avBadge(L.length));
+  return g;
 }
 const unseen=(t,I)=>(I||avItems())[t].filter(x=>!(SEEN[t]||[]).includes(x));
 /* dónde se «ven» los avisos de cada pestaña */
 function avCtx(e){ if(!e) return null;
-  if(e.k==='hub' && (e.id==='taller'||e.id==='papeles')) return e.id;
+  if(e.k==='hub' && ['taller','gastos','papeles'].includes(e.id)) return e.id;
   if(['problemas','averias','pendientes','plan','hechos'].includes(e.id)) return 'taller';
   if(e.id==='compra') return 'gastos';
   if(e.id==='p_docs') return 'papeles';
@@ -12149,6 +12230,7 @@ V3.hubs.coche={title:'Coche', sub:()=>'Touareg 7L · 2.5 R5 TDI · 9905 CMY', re
 
 /* ====================== TALLER ====================== */
 V3.hubs.taller={title:'Taller', sub:()=>S.cfg?.kmActual?nf.format(S.cfg.kmActual)+' km':'', render(w){
+  { const nv=avBanner('taller'); if(nv) w.append(nv); }
   let c; try{ c=counts(); }catch{ c={due:0,soon:0,ok:0}; }
   const st=h2(`<div class="vstats"><button type="button" style="--c:${V3C.red}"><b>${c.due}</b><span>Vencido</span></button><button type="button" style="--c:${V3C.orange}"><b>${c.soon}</b><span>Próximo</span></button><button type="button" style="--c:${V3C.green}"><b>${c.ok}</b><span>Al día</span></button></div>`);
   st.querySelectorAll('button').forEach(b=>b.onclick=()=>{ uiSfx('tap'); v3go('plan'); }); w.append(st);
@@ -12204,6 +12286,7 @@ V3.pages.problemas={tab:'taller', title:'Problemas', sub:()=>'Lo que falla y lo 
 
 /* ====================== GASTOS ====================== */
 V3.hubs.gastos={title:'Gastos', sub:()=>'Lo invertido en el Touareg', render(w){
+  { const nv=avBanner('gastos'); if(nv) w.append(nv); }
   const mov=gastosMov(), pc=Number(S.cfg?.precioCompra)||0, gast=invMov().reduce((t,x)=>t+x.eur,0);
   const big=h2(`<section class="vbig"><small>Llevas invertido</small><b>${eur(pc+gast)}</b><div class="vbigs"><span><em>El coche</em>${eur(pc)}</span><span><em>Piezas y trabajos</em>${eur(gast)}</span></div><button type="button" class="vlink">${ic('edit')}${S.cfg?.precioCompra?'Compra y valor del coche':'Apunta lo que costó el coche'}</button></section>`);
   big.querySelector('.vlink').onclick=()=>{ uiSfx('tap'); cocheEdit(); }; w.append(big);
@@ -12226,11 +12309,12 @@ V3.hubs.gastos={title:'Gastos', sub:()=>'Lo invertido en el Touareg', render(w){
 
 /* ====================== PAPELES ====================== */
 V3.hubs.papeles={title:'Papeles', sub:()=>'Documentación del coche', render(w){
+  { const nv=avBanner('papeles'); if(nv) w.append(nv); }
   const D=docsVig().map(d=>({d, s:docStatus(d)})), bad=D.filter(x=>x.s.st==='due').length, soon=D.filter(x=>x.s.st==='soon').length;
   const st=h2(`<section class="vstate ${bad?'bad':soon?'soon':'ok'}"><i>${ic(bad||soon?'alert':'shield')}</i><div><b>${bad?pl(bad,'documento caducado','documentos caducados'):soon?pl(soon,'documento caduca pronto','documentos caducan pronto'):D.length?'Todo en regla':'Sin documentos'}</b><small>${D.length?`${pl(D.length,'documento')} con fecha de caducidad vigilada`:'Añade la ITV, el seguro y el impuesto para que te avise.'}</small></div></section>`); w.append(st);
   if(D.length){ const g=vGroup('Caducidades',[]), L=g.querySelector('.vlist'); const nDoc=unseen('papeles').length; if(nDoc) g.querySelector('.vgh span').insertAdjacentHTML('beforeend', ' '+avBadge(nDoc));
     for(const {d,s} of D.sort((a,b)=>(a.d.caduca||'9').localeCompare(b.d.caduca||'9'))){ const col=s.st==='due'?V3C.red:s.st==='soon'?V3C.orange:s.st==='ok'?V3C.green:V3C.gray;
-      L.append(vRow({i:/itv|inspec/i.test(d.tipo)?'checkc':/seguro/i.test(d.tipo)?'shield':/impuesto|ivtm/i.test(d.tipo)?'euro':'file', c:col, t:d.tipo+(d.nombre?' · '+d.nombre:''), s:d.caduca?(s.days<0?'Caducó el ':'Hasta el ')+fmtDate(d.caduca):'Sin fecha', r:d.caduca?(s.days<0?'Caducado':s.days<=60?pl(s.days,'día'):Math.round(s.days/30.4)+' meses'):null, rc:col, fn:()=>recForm(MOD.docs, d)})); }
+      L.append(vRow({cls:avIsNew('papeles','d:'+(d._id||d.tipo)+':'+d.caduca)&&(s.st==='due'||s.st==='soon')?'vnew':'', i:/itv|inspec/i.test(d.tipo)?'checkc':/seguro/i.test(d.tipo)?'shield':/impuesto|ivtm/i.test(d.tipo)?'euro':'file', c:col, t:d.tipo+(d.nombre?' · '+d.nombre:''), s:d.caduca?(s.days<0?'Caducó el ':'Hasta el ')+fmtDate(d.caduca):'Sin fecha', r:d.caduca?(s.days<0?'Caducado':s.days<=60?pl(s.days,'día'):Math.round(s.days/30.4)+' meses'):null, rc:col, fn:()=>recForm(MOD.docs, d)})); }
     if(D.some(x=>x.d.caduca && x.d.caduca>=todayISO())) L.append(vRow({i:'calendar', c:V3C.red, t:'Añadir al calendario del iPhone', s:'Con aviso 30 y 7 días antes de cada caducidad', fn:icsCad}));
     w.append(g); }
   const G=S.v2;
@@ -12518,7 +12602,7 @@ const vField=(label, html, cls='')=>h2(`<label class="vfl ${cls}"><span class="w
 /* ====================== MANTENIMIENTO ====================== */
 function mantRow(it, s){
   const p=mantPct(it,s), col=stCol(s.st);
-  const b=h2(`<button type="button" class="vrow vmi"><span class="vlead">${vRing(p,col,Math.round(p*100)+'%')}</span><span class="vtx"><b>${esc(it.nombre)}</b><small>${esc(mantLine(it,s))}</small><small>Cada ${esc(ivTxt(it))}${s.last?' · último '+esc(fmtDate(s.last.fecha)):''}</small></span><em class="vpill" style="--c:${col}">${ST_LABEL[s.st]}</em><span class="vch">${ic('chevR')}</span></button>`);
+  const b=h2(`<button type="button" class="vrow vmi${(s.st==='due'||s.st==='soon')&&avIsNew('taller','m:'+(it.id||it._id||it.nombre)+':'+s.st)?' vnew':''}"><span class="vlead">${vRing(p,col,Math.round(p*100)+'%')}</span><span class="vtx"><b>${esc(it.nombre)}</b><small>${esc(mantLine(it,s))}</small><small>Cada ${esc(ivTxt(it))}${s.last?' · último '+esc(fmtDate(s.last.fecha)):''}</small></span><em class="vpill" style="--c:${col}">${ST_LABEL[s.st]}</em><span class="vch">${ic('chevR')}</span></button>`);
   b.onclick=()=>{ uiSfx('tap'); mantSheet(it); }; return b;
 }
 V3.pages.plan={tab:'taller', title:'Mantenimiento', sub:()=>S.cfg?.kmActual?nf.format(S.cfg.kmActual)+' km':'', act:['plus','Registrar intervención',()=>openIntForm({})], render(w){
@@ -12758,7 +12842,7 @@ function btnRows(root){
 /* ====================== LISTA DE LA COMPRA ====================== */
 const cmpN=x=>esc(x.nombre)+(x.cantidad>1?` <em>×${x.cantidad}</em>`:'');
 function cmpRow(x, kind){
-  const r=h2(`<div class="vrow vcmp vswipe k-${kind}"><button type="button" class="vck" aria-label="${kind==='pend'?'Marcar como comprado':kind==='comp'?'Marcar como montado':'Ver'}">${kind==='pend'?'':ic(kind==='comp'?'check':'checkc')}</button>
+  const r=h2(`<div class="vrow vcmp vswipe k-${kind}${kind==='pend'&&avIsNew('gastos','c:'+x._id)?' vnew':''}"><button type="button" class="vck" aria-label="${kind==='pend'?'Marcar como comprado':kind==='comp'?'Marcar como montado':'Ver'}">${kind==='pend'?'':ic(kind==='comp'?'check':'checkc')}</button>
     <button type="button" class="vtx"><b>${cmpN(x)}</b><small>${esc([x.ref, kind==='pend'?x.notas:fmtDate(x.fechaCompra), kind!=='pend'?x.tienda:'', x.montaje==='taller'?'lo monta un taller':''].filter(Boolean).join(' · '))}</small></button>
     ${kind==='comp'?`<button type="button" class="btn2 sm vmnt">${ic('wrench')}Montar</button>`:x.precio!=null&&kind!=='pend'?`<span class="vr">${eur(Number(x.precio))}</span>`:''}</div>`);
   r.querySelector('.vtx').onclick=()=>{ uiSfx('tap'); compraSheet(x); };
