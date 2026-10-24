@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="4.0.1">
+<meta name="app-version" content="4.0.2">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3278,6 +3278,9 @@ body.v3.light .fxhealth{background:rgba(8,10,14,.62)}
 body.manoslibres .reprun .rpnav{position:sticky;bottom:0;z-index:2;background:var(--v-bg2,#111);padding:8px 0}
 body.manoslibres .reprun .rpnav .btn2{min-height:76px;font-size:16px!important;padding:0 8px!important;min-width:0;white-space:normal;line-height:1.2}
 body.manoslibres .reprun .rpnav{grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,1fr)}
+.hlmode{display:flex;align-items:center;gap:6px;margin:-2px 0 10px;flex-wrap:wrap}.hlmode span{font-size:13px;color:var(--v-txt2);margin-right:2px}
+.hlmode button{border:0;border-radius:15px;padding:6px 12px;background:var(--v-cell2);color:var(--v-txt);font:500 13px var(--v-font)}
+.hlmode button[aria-pressed="true"]{background:var(--accent);color:#000}
 </style>
 
 </head>
@@ -3320,7 +3323,7 @@ body.manoslibres .reprun .rpnav{grid-template-columns:minmax(0,1fr) minmax(0,1.5
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.0.1</span>
+  <span class="spver">v4.0.2</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6692,7 +6695,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.0.1';
+window.APP_VERSION='4.0.2';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6726,7 +6729,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.0.1';
+  const APP_VERSION='4.0.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -11102,11 +11105,14 @@ function repNeedsBox(pr, compras, opts={}){
 /* ---------- manos libres: leer cada paso en voz alta y obedecer «siguiente», «anterior», «hecho», «repite» ---------- */
 const HL={on:false, rec:null, box:null, act:null, st:null, speaking:false, t:null, need:false, fired:false, fails:[]};
 const hlMsg=(t,keep)=>{ if(!HL.st) return; if(!keep && Date.now()-(HL.heardAt||0)<2500) return; HL.st.textContent=t; };
-/* mientras habla la app no se escucha (si no, se oye a sí misma y en el iPhone el micrófono se corta);
-   al terminar de leer vuelve a escuchar */
+/* se puede cortar la lectura: con la voz (una orden suelta: «siguiente», «hecho»…) donde el navegador deja
+   escuchar mientras habla, y en el iPhone (que corta el micrófono al hablar) tocando la pantalla */
+const HL_IOS=/iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+function hlCut(){ if(!HL.speaking) return false; HL.speaking=false; clearTimeout(HL.t); try{ speechSynthesis.cancel(); }catch{} return true; }
 function hlSay(t){
-  hlPause(); HL.speaking=true; hlMsg('🔊 Leyendo…');
-  const done=()=>{ if(!HL.speaking) return; HL.speaking=false; clearTimeout(HL.t); if(HL.on) setTimeout(hlStart, 350); };
+  hlPause(); HL.speaking=true; hlMsg(HL_IOS?'🔊 Leyendo… toca la pantalla para cortar y dar una orden':'🔊 Leyendo… puedes cortar diciendo la orden', true); HL.heardAt=0;
+  if(!HL_IOS) setTimeout(()=>{ if(HL.speaking) hlStart(true); }, 400);
+  const done=()=>{ if(!HL.speaking) return; HL.speaking=false; clearTimeout(HL.t); if(HL.on && !HL.rec) setTimeout(hlStart, 350); else if(HL.rec) hlMsg('🎙 Escuchando… di «siguiente», «anterior», «hecho» o «repite».'); };
   try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='es-ES'; u.rate=1; const v=speechSynthesis.getVoices().find(v=>/^es/i.test(v.lang)); if(v) u.voice=v; u.onend=done; u.onerror=done; speechSynthesis.speak(u); }catch{ done(); }
   clearTimeout(HL.t); HL.t=setTimeout(done, 3000+String(t).length*80);     /* por si el navegador no avisa al acabar */
 }
@@ -11121,21 +11127,23 @@ function hlCmd(t){ t=' '+norm(t).replace(/[^a-z0-9ñ]+/g,' ')+' ';
 function hlStop(){ if(HL.on && !UI.prefs.modoTaller) try{ wakeOff(); }catch{} HL.on=false; HL.speaking=false; clearTimeout(HL.t); hlPause(); try{ speechSynthesis.cancel(); }catch{} document.body.classList.remove('manoslibres'); }
 /* escucha frase a frase (en el iPhone la escucha continua se para sola); si el navegador no deja volver a
    escuchar sin tocar la pantalla, lo dice y un toque en cualquier sitio de la reparación la reanuda */
-function hlStart(){
-  if(!HL.on || HL.speaking || HL.rec || !HL.box?.isConnected) return;
+function hlStart(barge){
+  if(!HL.on || (HL.speaking && !barge) || HL.rec || !HL.box?.isConnected) return;
   const R=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!R){ hlMsg('Este navegador no entiende la voz: usa los botones grandes. Los pasos sí se leen en voz alta.', true); return; }
   const now=Date.now(); HL.fails=HL.fails.filter(x=>now-x<10000);
   if(HL.fails.length>=5){ HL.need=true; hlMsg('El micrófono se ha parado. Toca la pantalla para que vuelva a escuchar.', true); return; }
   const r=new R(); r.lang='es-ES'; r.continuous=false; r.interimResults=true; r.maxAlternatives=3; HL.rec=r; HL.fired=false; let got=false;
-  r.onstart=()=>hlMsg('🎙 Escuchando… di «siguiente», «anterior», «hecho» o «repite».');
+  r.onstart=()=>{ if(!HL.speaking) hlMsg('🎙 Escuchando… di «siguiente», «anterior», «hecho» o «repite».'); };
   r.onresult=e=>{ if(HL.fired) return; got=true; let heard='';
     for(let k=e.resultIndex;k<e.results.length;k++) for(let a=0;a<e.results[k].length;a++){ const tx=e.results[k][a].transcript||''; heard=heard||tx; const c=hlCmd(tx);
-      if(c){ HL.fired=true; HL.heardAt=Date.now(); hlMsg('He oído «'+tx.trim()+'»', true); if(HL.rec===r) HL.rec=null; try{ r.abort(); }catch{} uiSfx('tick'); HL.act?.(c); return; } }
-    if(heard && e.results[e.results.length-1].isFinal){ HL.heardAt=Date.now(); hlMsg('He oído «'+heard.trim()+'»: no es una orden. Di «siguiente», «anterior», «hecho» o «repite».', true); } };
+      /* mientras lee, solo una orden suelta (lo demás puede ser la propia lectura que se cuela por el micro) */
+      if(c && HL.speaking && norm(tx).replace(/[^a-z0-9ñ]+/g,' ').trim().split(' ').length>2) continue;
+      if(c){ hlCut(); HL.fired=true; HL.heardAt=Date.now(); hlMsg('He oído «'+tx.trim()+'»', true); if(HL.rec===r) HL.rec=null; try{ r.abort(); }catch{} uiSfx('tick'); HL.act?.(c); return; } }
+    if(heard && !HL.speaking && e.results[e.results.length-1].isFinal){ HL.heardAt=Date.now(); hlMsg('He oído «'+heard.trim()+'»: no es una orden. Di «siguiente», «anterior», «hecho» o «repite».', true); } };
   r.onerror=e=>{ HL.lastErr=e.error; if(e.error==='not-allowed'||e.error==='service-not-allowed'){ HL.need=true; hlMsg('El micrófono se ha parado. Toca la pantalla para que vuelva a escuchar.', true); } };
-  r.onend=()=>{ if(HL.rec===r) HL.rec=null; if(!HL.on || HL.speaking || HL.fired || HL.need) return;
-    if(!got) HL.fails.push(Date.now()); setTimeout(hlStart, 250); };
+  r.onend=()=>{ if(HL.rec===r) HL.rec=null; if(!HL.on || HL.fired || HL.need) return;
+    if(!got && !HL.speaking) HL.fails.push(Date.now()); setTimeout(()=>hlStart(HL.speaking), 250); };
   try{ r.start(); }catch{ HL.rec=null; HL.need=true; hlMsg('Toca la pantalla para que vuelva a escuchar.', true); }
 }
 /* ---------- empezar ---------- */
@@ -11196,19 +11204,26 @@ function repRun(rep0){
     const apply=v=>{ document.body.classList.toggle('modotaller', v); b.setAttribute('aria-pressed', String(v)); if(v) wakeOn(); else wakeOff(); };
     b.onclick=()=>{ UI.prefs.modoTaller=!UI.prefs.modoTaller; savePrefsUI(); uiSfx('tap'); apply(UI.prefs.modoTaller); if(UI.prefs.modoTaller) toast(navigator.wakeLock?'Modo taller: la pantalla no se apagará':'Modo taller activado (este navegador no deja mantener la pantalla encendida)'); };
     box.querySelector('.rphead').after(b); if(UI.prefs.modoTaller) apply(true); }
-  { const b=h2(`<button type="button" class="mtbtn hlbtn" aria-pressed="false">${ic('mic')}<span>Manos libres</span><small>Te lee cada paso; di «siguiente», «anterior», «hecho» o «repite»</small></button>`), st=h2('<p class="muted2 hlst" hidden></p>');
-    const stepTxt=()=>{ const p=P[i]||{}; return [`Paso ${i+1} de ${P.length}.`, p.titulo||'', p.texto||'', p.par?('Par de apriete: '+p.par):''].join(' ').replace(/\s*·\s*/g,'. ').replace(/Nm\b/g,'newton metro'); };
+  { const b=h2(`<button type="button" class="mtbtn hlbtn" aria-pressed="false">${ic('mic')}<span>Manos libres</span><small>Di «siguiente», «anterior», «hecho» o «repite» (lee el paso entero). Toca la pantalla para cortar la lectura</small></button>`), st=h2('<p class="muted2 hlst" hidden></p>');
+    /* por defecto solo el título y el par; el texto entero con «repite» o si eliges «Todo» */
+    const stepTxt=full=>{ const p=P[i]||{}; full=full||UI.prefs.hlFull; return [`Paso ${i+1}.`, p.titulo||'', full?(p.texto||''):'', p.par?('Par: '+p.par):''].join(' ').replace(/^(Paso \d+\.)\s*\d+\s*·\s*/,'$1 ').replace(/\s*·\s*/g,'. ').replace(/Nm\b/g,'newton metro'); };
     HL.act=a=>{ if(!box.isConnected) return hlStop();
       if(a==='stop'){ try{ speechSynthesis.cancel(); }catch{} HL.speaking=false; setTimeout(hlStart,300); return; }
       if(a==='next'){ if(i>=P.length-1){ hlSay('Es el último paso. Cuando acabes, di hecho.'); return; } box.querySelector('.rpnext').click(); }
       else if(a==='prev'){ if(i===0){ hlSay('Estás en el primer paso.'); return; } box.querySelector('.rpprev').click(); }
       else if(a==='ok'){ if(!rep.hechos.includes(i)) box.querySelector('.rpok').click(); else if(i<P.length-1) box.querySelector('.rpnext').click(); if(rep.hechos.length===P.length){ hlSay('Todos los pasos hechos. Cuando quieras, pulsa terminar.'); return; } }
-      hlSay(stepTxt()); };
+      hlSay(stepTxt(a==='read')); };
     /* un toque en la reparación reanuda la escucha si el navegador la ha cortado */
-    for(const ev of ['touchend','click']) box.addEventListener(ev, ()=>{ if(HL.on && HL.need){ HL.need=false; HL.fails=[]; hlStart(); } }, true);   /* dentro del toque: el iPhone solo deja abrir el micrófono así */
-    b.onclick=()=>{ uiSfx('tap'); if(HL.on){ hlStop(); b.setAttribute('aria-pressed','false'); st.hidden=true; return; }
-      HL.on=true; HL.box=box; HL.st=st; HL.need=false; HL.fails=[]; b.setAttribute('aria-pressed','true'); document.body.classList.add('manoslibres'); st.hidden=false; wakeOn?.(); hlSay(stepTxt()); };
-    box.querySelector('.mtbtn').after(b, st); }
+    for(const ev of ['touchend','click']) box.addEventListener(ev, e=>{ if(!HL.on || e.target.closest('.hlbtn,.hlmode')) return;
+      if(HL.speaking){ hlCut(); hlPause(); HL.need=false; HL.fails=[]; hlStart(); return; }                 /* tocar corta la lectura y escucha */
+      if(HL.need){ HL.need=false; HL.fails=[]; hlStart(); } }, true);   /* dentro del toque: el iPhone solo deja abrir el micrófono así */
+    { const m=h2(`<div class="hlmode" hidden><span>Leer</span><button type="button" data-v="0">Solo título y par</button><button type="button" data-v="1">Todo el paso</button></div>`);
+      const sync=()=>m.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', String(!!UI.prefs.hlFull===(x.dataset.v==='1'))));
+      m.querySelectorAll('button').forEach(x=>x.onclick=()=>{ UI.prefs.hlFull=x.dataset.v==='1'; savePrefsUI(); sync(); uiSfx('tap'); });
+      sync(); HL.mode=m; }   /* dentro del toque: el iPhone solo deja abrir el micrófono así */
+    b.onclick=()=>{ uiSfx('tap'); if(HL.on){ hlStop(); b.setAttribute('aria-pressed','false'); st.hidden=true; HL.mode.hidden=true; return; }
+      HL.on=true; HL.box=box; HL.st=st; HL.need=false; HL.fails=[]; b.setAttribute('aria-pressed','true'); document.body.classList.add('manoslibres'); st.hidden=false; HL.mode.hidden=false; wakeOn?.(); hlSay(stepTxt()); };
+    box.querySelector('.mtbtn').after(b, st, HL.mode); }
   { const nb=repNeedsBox(pr, rep.compras); if(nb) box.querySelector('.rpparts').before(nb); }
   /* sin guía: añadir pasos sobre la marcha */
   if(pr.libre){ const a=h2(`<div class="rpadd"><input class="inp2" placeholder="Añadir un paso…" autocomplete="off"><button type="button" class="btn2 ghost">${ic('plus')}Añadir</button></div>`);
