@@ -1,15 +1,19 @@
 {
- "version": "4.0.0",
- "fecha": "2026-10-23",
+ "version": "4.0.1",
+ "fecha": "2026-10-24",
  "notas": [
-  "Nueva app por dentro: pantallas más rápidas, preferencias sincronizadas en tu cuenta y botones alineados en todas partes",
-  "Taller, Gastos, Papeles y Coche rehechos; «Llevas invertido» con coche, piezas y trabajos",
-  "Avisos con motivo («Novedades» y «Nuevo») y guías por secciones con buscador",
-  "El 3D pasa a ser un mapa del coche: ubicaciones, cableado, fusibles, masas, centralitas, refrigeración y drenajes",
-  "Reparación paso a paso: ¿lo tienes todo?, foto de cada paso y manos libres",
-  "Desplegables que no se cortan en el ordenador"
+  "Manos libres: escucha frase a frase y deja de escuchar mientras lee, para que «siguiente», «anterior», «hecho» y «repite» funcionen también en el iPhone",
+  "Se ve lo que ha oído; si el micrófono se corta, un toque en la pantalla lo reanuda"
  ],
  "historial": [
+  {
+   "version": "4.0.1",
+   "fecha": "2026-10-24",
+   "notas": [
+    "Manos libres: escucha frase a frase y deja de escuchar mientras lee, para que «siguiente», «anterior», «hecho» y «repite» funcionen también en el iPhone",
+    "Se ve lo que ha oído; si el micrófono se corta, un toque en la pantalla lo reanuda"
+   ]
+  },
   {
    "version": "4.0.0",
    "fecha": "2026-10-23",

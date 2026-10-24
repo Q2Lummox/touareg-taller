@@ -1,5 +1,9 @@
 # Novedades
 
+## v4.0.1 · 2026-10-24
+- Manos libres: escucha frase a frase y deja de escuchar mientras lee, para que «siguiente», «anterior», «hecho» y «repite» funcionen también en el iPhone
+- Se ve lo que ha oído; si el micrófono se corta, un toque en la pantalla lo reanuda
+
 ## v4.0.0 · 2026-10-23
 - Nueva app por dentro: pantallas más rápidas, preferencias sincronizadas en tu cuenta y botones alineados en todas partes
 - Taller, Gastos, Papeles y Coche rehechos; «Llevas invertido» con coche, piezas y trabajos
