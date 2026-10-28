@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="4.0.5">
+<meta name="app-version" content="4.1.0">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -2914,7 +2914,7 @@ body.v3 .toasts .toast,body.v3 .toast{border-radius:14px;font-family:var(--v-fon
 
 /* Hoy en pantallas anchas: el coche a la izquierda, lo de ahora a la derecha */
 @media (min-width:1180px){
-  .v3in.vhoy{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);column-gap:28px;align-items:start;grid-template-areas:"lt lt" "hero now" "quick now" "money next" "money ."}
+  .v3in.vhoy{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);column-gap:28px;align-items:start;grid-template-areas:"lt lt" "hero now" "cuadro now" "quick now" "money next" "money ."}
   .vhoy>.v3lt{grid-area:lt}.vhoy>.vh-hero{grid-area:hero;min-height:360px}.vhoy>.vh-hero .vhin{min-height:360px}.vhoy>.vh-quick{grid-area:quick}.vhoy>.vh-now{grid-area:now}.vhoy>.vh-next{grid-area:next}.vhoy>.vh-money{grid-area:money}
 }
 /* bienvenida */
@@ -3294,6 +3294,79 @@ body.manoslibres .reprun .rpnav{grid-template-columns:minmax(0,1fr) minmax(0,1.5
 .cmpchip:disabled{opacity:.4}
 .cmpfg{margin:0 0 16px}.cmpfg h5{margin:0 0 8px;font:600 13px var(--v-font);color:var(--v-txt2);text-transform:uppercase;letter-spacing:.04em}
 .cmpchips{display:flex;flex-wrap:wrap;gap:6px}
+/* vídeos de YouTube (4.1) */
+.ytov{position:fixed;inset:0;z-index:9900;background:#000c;display:grid;place-items:center;padding:calc(var(--sa-t) + 10px) 10px calc(var(--sa-b) + 10px);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.ytbox{width:min(960px,100%);background:var(--v-bg2,#111);border-radius:16px;overflow:hidden;box-shadow:0 30px 80px #000c}
+.ythead{display:flex;align-items:center;gap:10px;padding:10px 12px}.ythead b{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:600 15px var(--v-font)}.ythead span{color:var(--v-txt2);font-size:13px}
+.ytx{width:34px;height:34px;border-radius:50%;border:0;background:var(--v-cell2);color:var(--v-txt);display:grid;place-items:center}.ytx svg{width:16px;height:16px}
+.ytframe{position:relative;aspect-ratio:16/9;background:#000}.ytframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ytbar{display:flex;align-items:center;gap:8px;padding:10px 12px;flex-wrap:wrap}.ytbar:empty{display:none}.ytbar span{font-size:13px;color:var(--v-txt2)}.ytbar select,.ytbar .csel{flex:1;min-width:150px}
+.ytnote{margin:0;padding:0 12px 12px;font-size:13px}.ytnote a{color:var(--accent)}
+.gvids{margin:0 0 14px;padding:10px 12px;border:1px solid var(--card-line,#333);border-radius:12px}.gvids h5{display:flex;align-items:center;gap:6px;margin:0 0 8px;font:600 13px var(--v-font);color:var(--v-txt2)}.gvids h5 svg{width:16px;height:16px}
+.gvrow{display:grid;grid-template-columns:120px 1fr auto;gap:10px;align-items:center;margin:0 0 10px}.gvrow small{display:block;color:var(--v-txt2);font-size:12px;margin-top:2px}
+.gvth{position:relative;padding:0;border:0;border-radius:8px;overflow:hidden;aspect-ratio:16/9;background:#000}.gvth img{width:100%;height:100%;object-fit:cover;display:block}.gvth i{position:absolute;inset:0;display:grid;place-items:center;color:#fff}.gvth i svg{width:34px;height:34px;filter:drop-shadow(0 2px 6px #000)}
+.gvstep{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}.gvstep .btn2{display:inline-flex;align-items:center;gap:5px}.gvstep svg{width:14px;height:14px}
+.rpvid{display:inline-flex;align-items:center;gap:6px;margin:10px 0 0}.rpvid svg{width:16px;height:16px}
+.gvdel{width:32px;height:32px;border:0;border-radius:50%;background:var(--v-cell2);color:var(--v-txt2);display:grid;place-items:center}.gvdel svg{width:14px;height:14px}
+/* Auto-Scan de VCDS (4.1) */
+.vcrow{display:grid;grid-template-columns:76px 1fr;gap:10px;padding:12px 14px;border-bottom:.5px solid var(--v-sep)}.vcrow:last-child{border-bottom:0}
+.vccod b{font:700 14px var(--v-mono,ui-monospace,monospace);color:var(--v-red)}.vccod em{display:block;margin-top:4px;font-style:normal;font-size:11px;background:var(--v-red);color:#fff;border-radius:8px;padding:1px 6px;width:max-content}
+.vctx>b{display:block;font:600 15px var(--v-font)}.vctx small{display:block;color:var(--v-txt2);font-size:12.5px;margin-top:2px}.vctx p{margin:6px 0 0;font-size:14px;line-height:1.4}
+.vcmira{display:flex;gap:6px;color:var(--v-blue)}.vcmira svg{width:15px;height:15px;flex:none;margin-top:2px}
+.vctx .btn2{margin-top:8px;display:inline-flex;gap:6px;align-items:center}.vctx .btn2 svg{width:14px;height:14px}
+.vcok{margin:0;padding:12px 14px;color:var(--v-txt2);font-size:13.5px;line-height:1.6}
+.vcprev{margin-top:12px}
+/* guías por hacer (4.1) */
+.gph>summary{list-style:none;cursor:pointer}.gph>summary::-webkit-details-marker{display:none}.gph>summary h3{margin:0}
+.gph[open]>summary{margin-bottom:8px}
+.gphr{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:start;padding:9px 0;border-bottom:.5px solid var(--card-line,#333)}.gphr:last-child{border-bottom:0}
+.gphr i{color:var(--accent)}.gphr i svg{width:18px;height:18px}.gphr small{display:block;color:var(--v-txt2,#999);font-size:12.5px;margin-top:2px;line-height:1.35}
+.gphr.on{opacity:.55}.gphr.on i{color:var(--v-green,#3c3)}.gphr .ib{width:30px;height:30px;border:0;border-radius:50%;background:none;color:var(--v-txt2)}.gphr .ib svg{width:14px;height:14px}
+.gphadd{margin-top:10px}
+/* Hoy: cuadro de instrumentos (4.1) */
+.vcuadro{margin:0 0 22px;padding:14px 10px 10px;border-radius:22px;background:radial-gradient(120% 90% at 50% 0%,#1d2530 0%,#0b0e12 70%);box-shadow:inset 0 1px 0 #ffffff14,0 14px 40px #0008,0 0 0 1px #000;color:#e9f1ff;font-family:var(--v-font)}
+.cqrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:4px}
+.cqg{border:0;background:none;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}.cqg svg{width:100%;height:auto;display:block;overflow:visible}
+.cqbez{fill:#05070a;stroke:#2a3340;stroke-width:3}.cqface{fill:url(#none);fill:#0a0e14}
+.cqz{fill:none;stroke-width:5;opacity:.75}
+.cqt .tl{stroke:#dfe8f5;stroke-width:2.4}.cqt .ts{stroke:#8ea0b8;stroke-width:1.2}
+.cql{fill:#cfdbea;font:600 13px var(--v-font);text-anchor:middle}
+.cqtit{fill:#7f93ad;font:700 9.5px var(--v-font);letter-spacing:.18em;text-anchor:middle}
+.cqbig{fill:#fff;font:700 19px var(--v-font);text-anchor:middle}.cqsm{fill:#8ea0b8;font:500 9.5px var(--v-font);text-anchor:middle}
+.cqn{transform-box:view-box;transform-origin:100px 100px;transform:rotate(var(--a));transition:transform .9s cubic-bezier(.3,1.4,.5,1)}
+.cqnd{fill:#ff3b1f;filter:drop-shadow(0 0 3px #ff3b1f99)}.cqhub{fill:#1b222c;stroke:#3a4655;stroke-width:2}
+.cqlcd{align-self:stretch;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:10px 8px;border-radius:12px;background:linear-gradient(180deg,#0e1a2b,#08111c);box-shadow:inset 0 0 0 1px #24405f,inset 0 0 22px #1c4c8a33}
+.cqclk{display:flex;justify-content:space-between;font:600 11px var(--v-font);color:#9ec3ff;text-transform:capitalize}.cqh{font-variant-numeric:tabular-nums}
+.cqodo{display:flex;align-items:baseline;justify-content:center;gap:2px;cursor:pointer}.cqodo i{font:700 17px ui-monospace,Menlo,monospace;font-style:normal;color:#fff;background:#00000080;border-radius:3px;padding:1px 2px;min-width:12px;text-align:center}.cqodo em{font-style:normal;color:#9ec3ff;font-size:11px;margin-left:3px}
+.cqinfo{text-align:center;line-height:1.15}.cqinfo small{display:block;color:#6f8db3;font-size:9.5px;text-transform:uppercase;letter-spacing:.12em}.cqinfo b{display:block;color:#e9f1ff;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cqinfo span{color:#9ec3ff;font-size:11px}
+.cqlamps{display:flex;justify-content:center;gap:10px;margin-top:8px;padding-top:8px;border-top:1px solid #ffffff10}
+.cqlamp{width:34px;height:34px;border:0;border-radius:50%;background:#0c1118;color:#2b3542;display:grid;place-items:center;cursor:pointer;transition:color .3s,box-shadow .3s}.cqlamp svg{width:18px;height:18px}
+.cqlamp.lv1{color:#ffb000;box-shadow:0 0 14px #ffb00066;background:#2a1f05}.cqlamp.lv2{color:#ff3b1f;box-shadow:0 0 16px #ff3b1f88;background:#2a0b06;animation:cqblink 2.4s ease-in-out infinite}
+@keyframes cqblink{0%,100%{filter:none}50%{filter:brightness(1.5)}}
+.cqsweep .cqn{animation:cqsw 1.9s cubic-bezier(.45,0,.3,1)}
+@keyframes cqsw{0%{transform:rotate(-120deg)}42%{transform:rotate(120deg)}55%{transform:rotate(120deg)}100%{transform:rotate(var(--a))}}
+.cqsweep .cqlamp{animation:cqcheck 1.7s steps(1,end)}
+@keyframes cqcheck{0%{color:#ffb000;box-shadow:0 0 14px #ffb00066}70%{color:#ffb000;box-shadow:0 0 14px #ffb00066}100%{}}
+.cqsweep .cqlcd{animation:cqlcd 1.2s ease-out}@keyframes cqlcd{0%{opacity:0;filter:brightness(2)}100%{opacity:1}}
+@media (max-width:380px){ .cqodo i{font-size:14px;min-width:10px} .cqlamps{gap:6px} .cqlamp{width:30px;height:30px} }
+@media (prefers-reduced-motion:reduce){ .cqn{transition:none} .cqsweep .cqn,.cqsweep .cqlamp,.cqlamp.lv2{animation:none} }
+body.v3.light .vcuadro{box-shadow:0 10px 30px #0003,0 0 0 1px #0002}
+@media (min-width:901px){ .v3in.vhoy .vh-cuadro{grid-area:cuadro} }
+.vhoy .vh-hero .fxhealth{display:none}
+.mvcds{display:flex;align-items:center;gap:5px;color:var(--v-blue,#4aa3ff);font-size:12.5px;margin:4px 0}.mvcds svg{width:14px;height:14px}
+/* lectura al sol (4.1): claro, más contraste y letra más grande */
+body.v3.sol{--v-txt:#000;--v-txt2:#2b3138;--v-txt3:#3d454e;--v-sep:#00000040;--v-bg:#fff;--v-bg2:#f4f5f7;--v-cell:#fff;--v-cell2:#e9ecf0;--v-cell3:#dde2e8}
+body.v3.sol .v3sc .v3in{zoom:1.12}
+body.v3.sol .vcard,body.v3.sol .vlist,body.v3.sol .card2{box-shadow:0 0 0 1.5px #00000030!important}
+body.v3.sol .vrow .vtx small,body.v3.sol .muted2{color:#2b3138!important}
+body.v3.sol .btn2.ghost{color:#8a4b00!important}
+body.v3.sol .vcuadro{zoom:.893}
+.rpneedc.tap{cursor:pointer;border-radius:8px;padding:4px 6px;margin:2px -6px}.rpneedc.tap:active{background:var(--v-fill,rgba(127,127,127,.15))}
+/* 4.1: el brillo de fondo de la 2.x seguía animándose detrás de todo (no se ve en la 4.x) y el desenfoque de las
+   barras se recalculaba en cada fotograma del 3D: en el visor, barras opacas */
+body.v3::before{animation:none!important}
+body[data-v3leaf="3d"] #v3tabs, body[data-v3leaf="3d"] .v3tabs{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--v-bg)!important}
+body[data-v3leaf="3d"] .v3bar::before{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--v-bg)!important}
 </style>
 
 </head>
@@ -3336,7 +3409,7 @@ body.manoslibres .reprun .rpnav{grid-template-columns:minmax(0,1fr) minmax(0,1.5
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.0.5</span>
+  <span class="spver">v4.1.0</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6708,7 +6781,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.0.5';
+window.APP_VERSION='4.1.0';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6742,7 +6815,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.0.5';
+  const APP_VERSION='4.1.0';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -6977,8 +7050,8 @@ const TOAST_PRE=[];
 
 /* ---------- tema ---------- */
 function applyTheme(){
-  const t=UI.prefs.theme, light = t==='light' || (t==='auto' && matchMedia('(prefers-color-scheme: light)').matches);
-  document.body.classList.toggle('light', light);
+  const t=UI.prefs.theme, light = !!UI.prefs.sol || t==='light' || (t==='auto' && matchMedia('(prefers-color-scheme: light)').matches);
+  document.body.classList.toggle('light', light); document.body.classList.toggle('sol', !!UI.prefs.sol);
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', light?'#eef1f4':'#121418');
 }
 matchMedia('(prefers-color-scheme: light)').addEventListener?.('change', applyTheme);
@@ -7189,7 +7262,10 @@ function renderAjustes(pb){
 
   /* Animaciones, justo después de «Pantalla de arranque» */
   { const t=[...pb.querySelectorAll('.mt.aj')].find(r=>/Pantalla de arranque/.test(r.textContent)); if(t){ const sg=h2('<div class="seg3"></div>'); for(const [k,l] of [['full','Todas'],['lo','Discretas'],['off','Ninguna']]){ const b=h2(`<button type="button" aria-pressed="${UI.prefs.anim===k}">${l}</button>`); b.onclick=()=>{ UI.prefs.anim=k; savePrefsUI(); applyAnimPref(); v2Rerender(); }; sg.append(b); }
-    const r=h2(`<div class="mt aj wide" data-k="anim" style="cursor:default"><i>${ic('sparkle')}</i><span><b>Animaciones</b><small>Movimiento, brillos, corriente en los cables y transiciones${RM?' · tu sistema pide reducir el movimiento':''}</small></span></div>`); r.append(sg); t.after(r); } }
+    const r=h2(`<div class="mt aj wide" data-k="anim" style="cursor:default"><i>${ic('sparkle')}</i><span><b>Animaciones</b><small>Movimiento, brillos, corriente en los cables y transiciones${RM?' · tu sistema pide reducir el movimiento':''}</small></span></div>`); r.append(sg); t.after(r);
+    /* 4.1: lectura al sol (claro, más contraste y letra más grande) */
+    { const sg2=h2('<div class="seg3"></div>'); for(const [k,l] of [[false,'Normal'],[true,'Al sol']]){ const b=h2(`<button type="button" aria-pressed="${!!UI.prefs.sol===k}">${l}</button>`); b.onclick=()=>{ UI.prefs.sol=k; savePrefsUI(); applyTheme(); v2Rerender(); }; sg2.append(b); }
+      const r2=h2(`<div class="mt aj wide" data-k="sol" style="cursor:default"><i>${ic('sun')}</i><span><b>Pantalla en el garaje o al sol</b><small>«Al sol»: fondo claro, más contraste y letra más grande, para leer con mucha luz</small></span></div>`); r2.append(sg2); r.after(r2); } } }
   /* los datos técnicos de la pantalla, plegados */
   { const p=[...pb.querySelectorAll('p.muted2')].find(x=>/zonas seguras/.test(x.textContent)); if(p){ const d=h2(`<details class="diag"><summary>Datos técnicos de la pantalla</summary></details>`); p.style.opacity=''; p.style.margin='6px 2px 0'; p.before(d); d.append(p); } }
 }
@@ -9259,6 +9335,8 @@ async function importRun(d, st){
     /* si ya existe una guía importada con el mismo título, se sustituye (al deshacer vuelve la anterior) */
     const old=(S.procs||[]).find(x=>x.lote && x.titulo===data.titulo);
     if(g.seccion) data.seccion=g.seccion; else if(old?.seccion) data.seccion=old.seccion;   /* la sección que elegiste se respeta */
+    if(old?.videos?.length) data.videos=old.videos;                                          /* y los vídeos que pusiste */
+    if(old) for(const [i,p] of data.pasos.entries()){ const o=(old.pasos||[]).find(x=>x.video && (x.titulo||'')===(p.titulo||'')) || ((old.pasos||[])[i]?.titulo===p.titulo ? old.pasos[i] : null); if(o?.video) p.video=o.video; }
     if(old){ rec.prev['procedimientos/'+old._id]=stripId2(old); await S.db.collection('procedimientos').doc(old._id).set(data); rec.docs.push('procedimientos/'+old._id); }
     else { const r=await S.db.collection('procedimientos').add(data); rec.docs.push('procedimientos/'+r.id); } }
   for(const m of (d.manuales||[])){ const r=await S.db.collection('manuales').add({titulo:m.titulo||'', grupo:String(m.grupo||''), enlace:m.enlace||'', nota:m.nota||'', lote:id, fuente, actualizado:now}); rec.docs.push('manuales/'+r.id); }
@@ -9864,9 +9942,23 @@ const MARCA_U={
     J136:[.3,.17,.34], J505:[.26,.17,.37], J521:[.7,.17,.34], J646:[.7,.15,.3], J499:[.74,.16,.37], J530:[.5,.92,.25], J393:[.88,.4,.82], G384:[.88,.37,.79], J345:[.88,.35,.85], J197:[.9,.45,.92],
     U13:[.9,.35,.88], R78:[.9,.36,.86], J772:[.9,.33,.9], J446:[.1,.4,.95], J647:[.12,.35,.78], J742:[.5,.1,.92] },
   caja:{ SB:[.05,.52,.13], SC:[.95,.52,.13], MOT:[.2,.52,-.035], MOTR:[.23,.5,-.03], SD:[.3,.16,.36], SDR:[.33,.16,.38], EBOX:{ref:'dash', u:[0.42,0.24,0.3]} } };
-const MARCA_T={masa:['Puntos de masa','earth'], unidad:['Centralitas','chip'], caja:['Cajas de fusibles y relés','fuse']};
+const MARCA_T={masa:['Puntos de masa','earth'], unidad:['Centralitas','chip'], caja:['Cajas de fusibles y relés','fuse'], sensor:['Piezas de tus guías','steth']};
+/* 4.1: sensores y piezas con guía (posición aproximada sobre el modelo genérico) · [cód, nombre, dónde, ancla, guía, VCDS] */
+const SENSORES=[
+  ['G397','Sensor de luz y lluvia','En el parabrisas, detrás del retrovisor interior',[.5,.86,.17],/luz y lluvia/i,'09 Red de a bordo'],
+  ['G238','Sensor de calidad del aire','En la entrada de aire fresco, en la cámara de agua (posición aproximada: confírmala con ElsaWin)',[.72,.57,.01],/calidad del aire/i,'08 Climatronic'],
+  ['H12','Sirena de la alarma','Cámara de agua izquierda, debajo de la E-box',[.22,.55,.0],/sirena/i,'46 Confort'],
+  ['G266','Sensor de nivel y temperatura del aceite','Fondo del cárter, por debajo del motor',[.46,.2,-.14],/G266/,'17 Cuadro'],
+  ['J567','Faro izquierdo (xenón)','Faro delantero izquierdo: centralita de regulación y cable adaptador',[.14,.47,-.25],/faro/i,'29 / 55'],
+  ['J568','Faro derecho (xenón)','Faro delantero derecho: centralita de regulación y cable adaptador',[.86,.47,-.25],/faro/i,'39 / 55'],
+  ['BAT','Batería','Debajo del asiento del conductor',[.28,.2,.37],/batería/i,'61 Batería'],
+  ['V36','Bomba de agua','En el bloque, lado del cilindro 1, por abajo (la mueve la cascada de engranajes)',[.52,.3,-.17],/bomba de agua/i,'01 Motor'],
+  ['ENF','Enfriador de aceite','En el soporte del filtro de aceite, detrás del compresor del aire acondicionado',[.4,.38,-.12],/enfriador/i,'01 Motor'],
+  ['CAT','Catalizador de arranque','Pegado a la salida del turbo; soporte atornillado al cambio',[.45,.18,.05],/escape/i,'01 Motor'],
+];
 function marcasData(kind){
   const out=[]; const anc=v=>Array.isArray(v)?BA(v):v;
+  if(kind==='sensor'){ for(const [cod,nombre,donde,u,re,vc] of SENSORES){ const g=(S.procs||[]).find(p=>re.test(p.titulo||'')); out.push({id:'s_'+cod, cod:cod.length>4?cod.slice(0,4):cod, nombre, tipo:'unidad', ancla:anc(u), donde, guia:g||null, paso:0, zona:u[2]<.05?'Delante':'Habitáculo', vcds:vc}); } return out; }
   if(kind==='caja'){ for(const c of (S.v2.electrico||[])){ const u=MARCA_U.caja[c.id]; if(!u) continue; out.push({id:'c_'+c.id, cod:({MOT:'S', EBOX:'E-Box', MOTR:'Relés', SDR:'Relés'})[c.id]||c.id, nombre:c.nombre, tipo:c.tipo==='reles'?'conector':'fusible', ancla:anc(u), donde:c.donde, caja:c.id, tab:c.tipo, zona:c.tipo==='reles'?'Relés':'Fusibles'}); } return out; }
   const g=(S.procs||[]).find(p=>kind==='masa'?/puntos de masa/i.test(p.titulo||''):/unidades de control|centralitas/i.test(p.titulo||''));
   for(const [pi,p] of (g?.pasos||[]).entries()){ const t=String(p.texto||'');
@@ -9886,7 +9978,9 @@ function marcaFly(n){ const l=WIRE.labels.find(x=>x.n===n); if(!l) return; const
   document.querySelectorAll('.wlab').forEach(x=>x.classList.toggle('on', x===l.el)); document.querySelectorAll('.marcacard .wrow').forEach(r=>r.classList.toggle('on', r.dataset.w===n.id)); }
 function marcaInfo(c,n){ marcaFly(n); const p=document.querySelector('.marcacard .dinfo');
   if(p){ p.hidden=false; p.innerHTML=`${ic(MARCA_T[c.marcas][1])}<span><b>${esc(n.nombre)}</b> · ${esc(n.donde||'')}</span>`; if(n.caja){ const b=h2(`<button type="button" class="btn2 ghost">${ic('fuse')}Ver su dibujo</button>`); b.onclick=()=>elecGoBox(n.caja, n.tab); p.append(b); }
-    if(n.guia){ const b=h2(`<button type="button" class="btn2 ghost">${ic('book')}Ver en la guía</button>`); b.onclick=()=>{ uiSfx('tap'); guiaRead(n.guia, n.paso); }; p.append(b); } } }
+    if(n.vcds) p.append(h2(`<small class="mvcds">${ic('steth')}VCDS: ${esc(n.vcds)}</small>`));
+    if(n.guia){ const b=h2(`<button type="button" class="btn2 ghost">${ic('book')}Ver en la guía</button>`); b.onclick=()=>{ uiSfx('tap'); guiaRead(n.guia, n.paso); }; p.append(b); }
+    else if(n.id?.startsWith('s_')) p.append(h2('<small class="mvcds">Todavía sin guía: está en «Guías por hacer».</small>')); } }
 function elecGoBox(id, tab){ wireClear(); UI.elTab=tab||'fusibles'; UI.elQ=''; UI.elGo=id; go('coche','fus'); }
 function marcasCard(c){
   document.querySelector('.wirecard')?.remove(); const [tit,icn]=MARCA_T[c.marcas];
@@ -10213,7 +10307,7 @@ document.addEventListener('pointerover', e=>{ const s=e.target.closest?.('.mi.su
 
 
 /* ---------- GUÍAS: página nueva (leer, seguir en el 3D, editar) + manuales ---------- */
-const gTools=pr=>[...new Set([pr.herramientas, ...(pr.pasos||[]).map(p=>p.herr)].filter(Boolean).flatMap(s=>String(s).split(/[,;·]/)).map(s=>s.trim()).filter(Boolean))];
+const gTools=pr=>{ const m=new Map(); for(const t of [pr.herramientas, ...(pr.pasos||[]).map(p=>p.herr)].filter(Boolean).flatMap(s=>String(s).split(/[,;·]/)).map(s=>s.trim()).filter(Boolean)){ const k=norm(t); if(!m.has(k)) m.set(k,t); } return [...m.values()]; };
 const gHas3D=pr=>(pr.pasos||[]).some(p=>p.cam || (p.piezas||[]).length);
 function guiaRun3D(pr){ closeSheet(); go('coche','3d'); const t0=Date.now(); const run=()=>{ if(!UI.modelReady && Date.now()-t0<30000) return setTimeout(run,300); try{ runProc(pr._id,0); }catch(e){ toast('No se pudo abrir la guía en el 3D','err'); } }; setTimeout(run,250); }
 function guiaRead(pr, at){
@@ -11039,7 +11133,7 @@ document.querySelector('#tDren')?.closest('.seg')?.remove();
 document.querySelector('#tRefri')?.closest('.seg')?.remove();
 function sysKind(){ const c=WIRE.on; if(!c) return null; return c.flow?c.flow:c.drenaje?'dren':c.marcas?'marcas':'cable'; }
 function sysSync(){ const b=$('#tWire'); if(!b) return; const k=sysKind();
-  const lab={refri:'Refrigeración', aceite:'Aceite', comb:'Combustible', dren:'Drenajes', marcas:({caja:'Cajas', masa:'Masas', unidad:'Centralitas'})[WIRE.on?.marcas]||'Electricidad', cable:'Cableado'}[k]||'Sistemas';
+  const lab={refri:'Refrigeración', aceite:'Aceite', comb:'Combustible', dren:'Drenajes', marcas:({caja:'Cajas', masa:'Masas', unidad:'Centralitas', sensor:'Piezas'})[WIRE.on?.marcas]||'Electricidad', cable:'Cableado'}[k]||'Sistemas';
   const icn={refri:'thermo', aceite:'drop', comb:'fuel', dren:'drop', marcas:'zap', cable:'zap'}[k]||'sys';
   b.innerHTML=ic(icn,'ti')+`<span>${lab}</span>`+ic('chevD','ti chev'); b.dataset.k=k||''; b.title='Sistemas en el 3D: electricidad, drenajes y refrigeración'; }
 { const _d=drenSync; drenSync=function(){ _d(); sysSync(); }; }
@@ -11059,6 +11153,7 @@ elecMenu=function(){
   item('fuse','Cajas en el 3D','Dónde está cada caja de fusibles y relés', ()=>marcasShow('caja'), '', WIRE.on?.marcas==='caja');
   item('earth','Puntos de masa','Los tornillos de masa sobre el modelo', ()=>marcasShow('masa'), '', WIRE.on?.marcas==='masa');
   item('chip','Centralitas','Dónde va cada unidad de control', ()=>marcasShow('unidad'), '', WIRE.on?.marcas==='unidad');
+  item('steth','Piezas de tus guías','Sensores, sirena, faros, batería, bomba… con su guía y su VCDS', ()=>marcasShow('sensor'), '', WIRE.on?.marcas==='sensor');
   head('gauge','Motor','r');
   item('thermo','Refrigeración','El agua circulando: caliente, frío y bomba averiada', ()=>{ if(WIRE.on?.flow!=='refri') wireShow(flowCircuit('refri')); }, 'r', k==='refri');
   item('drop','Aceite','Bomba, filtro, galería y culata · presiones de ElsaWin', ()=>{ if(WIRE.on?.flow!=='aceite') wireShow(flowCircuit('aceite')); }, 'o', k==='aceite');
@@ -11107,6 +11202,19 @@ function repNeeds(pr){
   const pares=[]; for(const [k,p] of (pr.pasos||[]).entries()) if(p.par) pares.push([k, p.par]);
   return {herr:[...seen.values()], pares};
 }
+/* 4.1: una pieza de la reparación que sigue «sin comprar» pero que ya compraste por otro lado (añadida de nuevo a la
+   lista y marcada como comprada) se cambia por la comprada: misma referencia o, si falta alguna, el mismo nombre */
+const repRefN=r=>String(r||'').toUpperCase().replace(/[^0-9A-Z]/g,'');
+const repNomN=n=>norm(String(n||'').replace(/\([^)]*\)/g,'')).replace(/\s+/g,' ').trim();
+function repCompraTwin(c, ids){
+  if(!c || c.estado!=='pendiente') return null; const rf=repRefN(c.ref), nm=repNomN(c.nombre);
+  return (S.compras||[]).find(o=>o._id!==c._id && o.estado!=='pendiente' && !(ids||[]).includes(o._id) &&
+    (rf && repRefN(o.ref) ? repRefN(o.ref)===rf : (nm.length>5 && (repNomN(o.nombre).includes(nm) || nm.includes(repNomN(o.nombre))) && repNomN(o.nombre).length>5)))||null;
+}
+function repComprasFix(ids){
+  const out=[...(ids||[])], swaps=[]; out.forEach((id,k)=>{ const c=(S.compras||[]).find(x=>x._id===id), o=repCompraTwin(c, out); if(o){ out[k]=o._id; swaps.push([id,o._id,c,o]); } });
+  return {ids:out, swaps};
+}
 function repNeedsBox(pr, compras, opts={}){
   const N=repNeeds(pr), cs=(compras||[]).map(id=>(S.compras||[]).find(c=>c._id===id)).filter(Boolean), sin=cs.filter(c=>c.estado==='pendiente');
   if(!N.herr.length && !N.pares.length && !cs.length) return null;
@@ -11115,7 +11223,7 @@ function repNeedsBox(pr, compras, opts={}){
   if(sin.length) b.append(h2(`<div class="alr soon">${ic('cart')}<span>Aún sin comprar: ${sin.map(c=>'<b>'+esc(c.nombre)+'</b>').join(', ')}.</span></div>`));
   if(N.herr.length){ b.append(h2(`<h5>${ic('wrench')}Herramientas</h5>`)); for(const t of N.herr){ const l=h2(`<label class="chk"><input type="checkbox"${got.has(t)?' checked':''}><span>${esc(t)}</span></label>`); l.querySelector('input').onchange=e=>{ e.target.checked?got.add(t):got.delete(t); if(e.target.checked) uiSfx('tick'); }; b.append(l); } }
   if(N.pares.length){ b.append(h2(`<h5>${ic('gauge')}Pares de apriete (para tener la dinamométrica adecuada)</h5>`)); const u=h2('<ul class="rppares"></ul>'); for(const [k,v] of N.pares) u.append(h2(`<li><em>Paso ${k+1}</em> ${esc(v)}</li>`)); b.append(u); }
-  if(cs.length){ b.append(h2(`<h5>${ic('cart')}Piezas</h5>`)); for(const c of cs) b.append(h2(`<p class="rpneedc">${ic(c.estado==='pendiente'?'alert':'check')}<span>${esc(c.nombre)}${c.ref?` <small>${esc(c.ref)}</small>`:''}${c.estado==='pendiente'?' <em>sin comprar</em>':''}</span></p>`)); }
+  if(cs.length){ b.append(h2(`<h5>${ic('cart')}Piezas</h5>`)); for(const c of cs){ const r=h2(`<p class="rpneedc${c.estado==='pendiente'?' tap':''}">${ic(c.estado==='pendiente'?'alert':'check')}<span>${esc(c.nombre)}${c.ref?` <small>${esc(c.ref)}</small>`:''}${c.estado==='pendiente'?' <em>sin comprar · toca si ya la tienes</em>':''}</span></p>`); if(c.estado==='pendiente'){ r.setAttribute('role','button'); r.tabIndex=0; r.onclick=()=>{ uiSfx('tap'); compraSheet(c,'comprar'); }; } b.append(r); } }
   return d;
 }
 /* ---------- manos libres: leer cada paso en voz alta y obedecer «siguiente», «anterior», «hecho», «repite» ---------- */
@@ -11184,6 +11292,7 @@ function repRun(rep0){
   const pr=repGuia(rep0); if(!pr){ toast('No encuentro la guía de esta reparación','err'); return; }
   let rep={...rep0, hechos:[...(rep0.hechos||[])], montadas:[...(rep0.montadas||[])]}; const P=pr.pasos||[]; let i=Math.min(rep.paso||0, Math.max(0,P.length-1));
   const save=async patch=>{ rep={...rep, ...patch}; try{ await v2Upd('reparaciones', rep, patch); }catch{} };
+  { const F=repComprasFix(rep.compras); if(F.swaps.length){ const mont=rep.montadas.map(id=>F.swaps.find(w=>w[0]===id)?.[1]||id); save({compras:F.ids, montadas:mont}); setTimeout(()=>toast(F.swaps.length===1?`«${F.swaps[0][3].nombre}» ya está comprada: la he puesto en esta reparación`:`${F.swaps.length} piezas ya compradas puestas en esta reparación`), 400); } }
   const fresh=()=>repList().find(x=>x._id===rep._id)||rep;
   const box=h2(`<div class="reprun"><div class="rphead"><div class="gbar"><i></i></div><span class="rpcount"></span></div><div class="rpstep"></div>
     <div class="rpnav"><button type="button" class="btn2 ghost rpprev">${ic('chevL')}Anterior</button><button type="button" class="btn2 pri rpok">${ic('check')}<span>Hecho</span></button><button type="button" class="btn2 ghost rpnext">Siguiente${ic('chevR')}</button></div>
@@ -11193,12 +11302,13 @@ function repRun(rep0){
   const draw=()=>{ const p=P[i]||{}, n=rep.hechos.length;
     box.querySelector('.gbar i').style.width=(P.length?n/P.length*100:0)+'%'; box.querySelector('.rpcount').textContent=`Paso ${i+1} de ${P.length} · ${n} hechos`;
     const st=box.querySelector('.rpstep'); const done=rep.hechos.includes(i);
-    st.innerHTML=`<h4 class="${done?'on':''}">${ic(done?'check':'wrench')}<span>${esc(p.titulo||('Paso '+(i+1)))}</span></h4>${p.par?`<div class="rppar">${ic('gauge')}<b>${esc(p.par)}</b></div>`:''}<p>${esc(p.texto||'')}</p>${p.herr?`<p class="rpherr">${ic('wrench')}${esc(p.herr)}</p>`:''}${p.img?.id?'<button type="button" class="gimg rpimg" aria-label="Ver el dibujo a pantalla completa"><img alt=""></button>':''}
+    st.innerHTML=`<h4 class="${done?'on':''}">${ic(done?'check':'wrench')}<span>${esc(p.titulo||('Paso '+(i+1)))}</span></h4>${p.par?`<div class="rppar">${ic('gauge')}<b>${esc(p.par)}</b></div>`:''}<p>${esc(p.texto||'')}</p>${p.herr?`<p class="rpherr">${ic('wrench')}${esc(p.herr)}</p>`:''}${p.video?.url?`<button type="button" class="btn2 sm rpvid">${ic('play')}Ver el vídeo de este paso${p.video.t?' · '+ytT(p.video.t):''}</button>`:''}${p.img?.id?'<button type="button" class="gimg rpimg" aria-label="Ver el dibujo a pantalla completa"><img alt=""></button>':''}
       <div class="rpshot"><label class="btn2 ghost sm">${ic('camera')}<span>Foto de este paso</span><input type="file" accept="image/*" capture="environment" multiple hidden></label><span class="rpshots"></span><small>Antes de soltar algo, una foto: luego sabrás cómo iba.</small></div>`;
     { const sh=st.querySelector('.rpshot'), th=sh.querySelector('.rpshots'), F=(rep.fotosPaso||fresh().fotosPaso||{})[i]||[];
       for(const a of F){ const t=h2('<button type="button" class="rpth"><img alt=""></button>'); window.FB?.blobThumb?.(a.id).then(u=>t.querySelector('img').src=u).catch(()=>{}); t.onclick=()=>openViewer({id:a.id, tipo:a.tipo||'image/jpeg', nombre:a.nombre||('Paso '+(i+1))}); th.append(t); }
       const inp=sh.querySelector('input'), k=i; inp.onchange=async()=>{ const sm=sh.querySelector('small'); sm.textContent='Guardando…'; const up=await uploadFiles([...inp.files]); const cur=fresh(), fp={...(cur.fotosPaso||{}), ...(rep.fotosPaso||{})}; fp[k]=[...(fp[k]||[]), ...up.map(x=>({...x, nombre:`Paso ${k+1} · ${x.nombre||''}`}))];
         await v2Upd('reparaciones', cur, {fotosPaso:fp}); rep={...rep, fotosPaso:fp}; uiSfx('save'); sm.textContent=pl(up.length,'foto guardada','fotos guardadas')+' en este paso.'; if(i===k) draw(); }; }
+    st.querySelector('.rpvid')?.addEventListener('click',()=>ytOpen(p.video,{titulo:p.titulo||('Paso '+(i+1))}));
     if(p.img?.id){ const gb=st.querySelector('.rpimg'); window.FB?.blobURL(p.img.id).then(u=>gb.querySelector('img').src=u).catch(()=>gb.remove()); gb.onclick=()=>openViewer({id:p.img.id, tipo:p.img.tipo||'image/png', nombre:p.titulo||pr.titulo}); }
     box.querySelector('.rpok span').textContent=done?'Quitar «hecho»':(i===P.length-1?'Hecho':'Hecho y siguiente');
     box.querySelector('.rpok').classList.toggle('pri', !done); box.querySelector('.rpprev').disabled=i===0; box.querySelector('.rpnext').disabled=i>=P.length-1;
@@ -12223,8 +12333,9 @@ let AVCTX=null;
 function avEnter(e){ const c=avCtx(e); if(AVCTX && AVCTX!==c) avMarkSeen(AVCTX); AVCTX=c; setTimeout(v3badges,0); }
 document.addEventListener('visibilitychange',()=>{ if(document.hidden && AVCTX) avMarkSeen(AVCTX); });
 function v3badges(){ const I=avItems();
-  for(const t of ['taller','gastos','papeles']){ const b=v3tabs.querySelector(`button[data-t="${t}"] .v3badge`); if(!b) continue; const n=unseen(t,I).length; b.hidden=!n; b.textContent=n>99?'99+':n; }
-  v3tabs.querySelector('button[data-t="hoy"] .v3badge').hidden=true; }
+  for(const t of ['taller','gastos','papeles']){ const b=v3tabs.querySelector(`button[data-t="${t}"] .v3badge`); if(!b) continue; const n=unseen(t,I).length, tx=String(n>99?'99+':n);   /* 4.1: solo se toca si cambia (antes, cada segundo) */
+    if(b.hidden!==!n) b.hidden=!n; if(b.textContent!==tx) b.textContent=tx; }
+  const h=v3tabs.querySelector('button[data-t="hoy"] .v3badge'); if(h && !h.hidden) h.hidden=true; }
 
 /* ---------- datos que cambian: refrescar lo que se ve ---------- */
 /* no se redibuja nada con el dedo encima (si no, el gesto se pierde) ni si los datos no han cambiado */
@@ -12238,7 +12349,7 @@ function v3dirty(force){ if(V3.touch){ V3.pend=true; return; } clearTimeout(V3.d
 
 /* ---------- lo que la 2.x y los gestos le piden al navegador (enganches declarados en ui/01-base) ---------- */
 NAVUI={
-  top(){ const e=V3.cur; if(e?.k==='leaf') v3bar.querySelector('.v3bt small').textContent=V3.leaves[e.id]?.sub?.()||''; },   /* p. ej. la pieza elegida en el 3D */
+  top(){ const e=V3.cur; if(e?.k==='leaf'){ const sm=v3bar.querySelector('.v3bt small'), tx=V3.leaves[e.id]?.sub?.()||''; if(sm && sm.textContent!==tx) sm.textContent=tx; } },   /* p. ej. la pieza elegida en el 3D */
   badges(){ v3badges(); },
   refresh(force){ v3dirty(force); },
   rerender(){ const e=V3.cur; if(e?.k!=='page' || !V3.pages[e.id]?.v2) return false; v3render(e); return true; },   /* v2Rerender dentro de una página 4.0 */
@@ -12391,6 +12502,7 @@ V3.hubs.taller={title:'Taller', sub:()=>S.cfg?.kmActual?nf.format(S.cfg.kmActual
   ]));
   w.append(vGroup('Herramientas',[
     vRow({i:'steth', c:V3C.red, t:'Diagnóstico por síntomas', s:'Qué puede ser y por dónde empezar', fn:()=>v3go('diag')}),
+    vRow({i:'steth', c:V3C.blue, t:'Escaneos de VCDS', s:(()=>{ const n=(S.v2.autoscans||[]).length; return n?pl(n,'escaneo')+' · cada código explicado':'Importa el Auto-Scan: códigos explicados y comparados'; })(), fn:()=>v3go('vcds')}),
     vRow({i:'checkc', c:V3C.green, t:'Listas de comprobación', s:'ITV, viaje largo, invierno…', fn:()=>v3go('listas')}),
     vRow({i:'phonec', c:V3C.teal, t:'Talleres y proveedores', s:'Teléfonos y trabajos hechos', fn:()=>v3go('talleres')}),
   ]));
@@ -13287,6 +13399,342 @@ function fichaOldSheet(o){
     for(const o of L.sort((a,b)=>COLL.compare(a.name,b.name))) c.querySelector('.l2').append(row2({c:'var(--info)', i:'cube', t:o.name, s:String(o.f.notas||o.f.denominacion||o.f.par||'').slice(0,90), fn:()=>fichaOldSheet(o)}));
     w.append(c); };
   V3.pages.piezas=v2Pg('coche','Piezas', renderFichas); }
+
+/* ====================== VÍDEOS EN LAS GUÍAS (4.1) ======================
+   Cada guía puede tener vídeos de YouTube (de otros o tuyos, subidos como «oculto»), y cada paso su vídeo
+   empezando en el minuto exacto. Se ven dentro de la app (youtube-nocookie) sin salir de la guía.
+   Mientras ves el vídeo de la guía, «Este minuto es el paso…» guarda el minuto en ese paso.
+   «Grabar este paso» abre la cámara y, con el vídeo hecho, el menú de compartir del móvil (elige YouTube).
+   Firestore: procedimientos/{id}.videos=[{url, titulo}] · pasos[i].video={url, t} (t en segundos).
+   Al reimportar una guía se conservan sus vídeos (v2/05). */
+IC.play=IC.play||'<circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5z"/>';
+IC.video=IC.video||'<rect x="2.5" y="6" width="13" height="12" rx="2"/><path d="M15.5 10.5l6-3.5v10l-6-3.5z"/>';
+/* enlace de YouTube → {id, t} (acepta youtu.be, watch?v=, shorts, embed, live y ?t=1m30s / t=90 / start=) */
+function ytParse(url){
+  const s=String(url||'').trim(); if(!s) return null;
+  const m=s.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/|v\/))([\w-]{11})/) || s.match(/^([\w-]{11})$/);
+  if(!m) return null;
+  let t=0; const q=s.match(/[?&#](?:t|start)=([\dhms]+)/);
+  if(q){ const v=q[1]; if(/^\d+$/.test(v)) t=Number(v); else { const h=v.match(/(\d+)h/), mi=v.match(/(\d+)m/), se=v.match(/(\d+)s/); t=(h?+h[1]*3600:0)+(mi?+mi[1]*60:0)+(se?+se[1]:0); } }
+  return {id:m[1], t};
+}
+const ytT=t=>{ t=Math.max(0,Math.round(Number(t)||0)); const h=Math.floor(t/3600), m=Math.floor(t%3600/60), s=t%60; return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(s).padStart(2,'0'); };
+const ytParseT=v=>{ v=String(v||'').trim(); if(!v) return 0; if(/^\d+$/.test(v)) return Number(v); const p=v.split(':').map(Number); return p.reduce((a,x)=>a*60+(x||0),0); };
+const ytThumb=id=>`https://i.ytimg.com/vi/${id}/mqdefault.jpg`;
+async function ytSave(pr){ if(!S.db || !pr._id) return toast('Inicia sesión para guardar','err'); try{ await S.db.collection('procedimientos').doc(pr._id).set(stripId2(pr)); toast('Vídeo guardado'); }catch{ toast('No se pudo guardar','err'); } }
+
+/* el reproductor: encima de todo, con «Este minuto es el paso…» si viene de la guía */
+let YT=null;
+function ytClose(){ YT?.el.remove(); removeEventListener('message', YT?.onmsg||(()=>{})); YT=null; }
+function ytOpen(v, opts={}){
+  const p=ytParse(v.url); if(!p){ toast('Ese enlace no es de YouTube','err'); return; }
+  ytClose(); const start=Math.max(0, Math.round(v.t!=null?v.t:p.t));
+  const el=h2(`<div class="ytov" role="dialog" aria-label="Vídeo"><div class="ytbox"><div class="ythead"><b>${esc(opts.titulo||v.titulo||'Vídeo')}</b><span>${start?'desde el '+ytT(start):''}</span><button type="button" class="ytx" aria-label="Cerrar">${ic('x')}</button></div>
+    <div class="ytframe"><iframe src="https://www.youtube-nocookie.com/embed/${p.id}?start=${start}&autoplay=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(location.origin)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="Vídeo de YouTube"></iframe></div>
+    <div class="ytbar"></div><p class="ytnote"><a href="https://www.youtube.com/watch?v=${p.id}&t=${start}s" target="_blank" rel="noopener">Abrir en YouTube</a></p></div></div>`);
+  const fr=el.querySelector('iframe'); YT={el, cur:start, id:p.id};
+  /* minuto actual sin cargar la librería de YouTube: el reproductor manda «infoDelivery» al escucharlo */
+  YT.onmsg=e=>{ if(!/youtube/.test(e.origin)) return; let d=e.data; try{ if(typeof d==='string') d=JSON.parse(d); }catch{ return; } if(d?.info && typeof d.info.currentTime==='number') YT.cur=d.info.currentTime; };
+  addEventListener('message', YT.onmsg);
+  fr.addEventListener('load', ()=>{ try{ fr.contentWindow.postMessage(JSON.stringify({event:'listening', id:1, channel:'widget'}), '*'); }catch{} });
+  el.querySelector('.ytx').onclick=()=>{ uiSfx('tap'); ytClose(); };
+  el.addEventListener('click', e=>{ if(e.target===el) ytClose(); });
+  if(opts.pr && (opts.pr.pasos||[]).length){
+    const P=opts.pr.pasos, bar=el.querySelector('.ytbar');
+    bar.innerHTML=`<span>Este minuto es el</span><select class="inp2" data-nosort>${P.map((s,i)=>`<option value="${i}">${esc((s.titulo||'Paso '+(i+1)).slice(0,60))}</option>`).join('')}</select><button type="button" class="btn2 sm">${ic('check')}Guardar</button>`;
+    const sel=bar.querySelector('select'); sel.value=String(opts.paso??0);
+    bar.querySelector('button').onclick=async()=>{ const i=Number(sel.value), t=Math.round(YT?.cur||0); P[i].video={url:`https://youtu.be/${p.id}`, t};
+      await ytSave(opts.pr); uiSfx('save'); toast(`Paso ${i+1}: ${ytT(t)}`); if(i+1<P.length) sel.value=String(i+1); opts.onSave?.(); };
+  }
+  document.body.append(el); uiSfx('open');
+}
+/* «Grabar este paso»: cámara → menú de compartir (YouTube, Fotos, etc.) */
+function ytRecord(nombre){
+  const i=document.createElement('input'); i.type='file'; i.accept='video/*'; i.setAttribute('capture','environment');
+  i.onchange=async()=>{ const f=i.files?.[0]; if(!f) return; const file=new File([f], (nombre||'paso').replace(/[^\wáéíóúñ -]/gi,'').slice(0,60)+'.'+((f.name.split('.').pop())||'mp4'), {type:f.type||'video/mp4'});
+    try{ if(navigator.canShare?.({files:[file]})){ await navigator.share({files:[file], title:nombre}); toast('Cuando esté en YouTube, pega aquí el enlace con «Añadir vídeo»'); return; } }catch(e){ if(e?.name==='AbortError') return; }
+    const a=document.createElement('a'); a.href=URL.createObjectURL(file); a.download=file.name; document.body.append(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },3000);
+    toast('Vídeo guardado en el móvil. Súbelo a YouTube como «oculto» y pega el enlace en el paso'); };
+  i.click();
+}
+/* hoja para poner o cambiar el vídeo de un paso o de la guía */
+function ytAsk(title, cur, onOk, withT=true){
+  const body=h2(`<div><label class="wzlab">Enlace de YouTube</label><input class="inp2 yturl" placeholder="https://youtu.be/…" inputmode="url" autocomplete="off" spellcheck="false">
+    ${withT?'<label class="wzlab">Empieza en el minuto (mm:ss, opcional)</label><input class="inp2 ytmin" placeholder="4:32" inputmode="numeric">':'<label class="wzlab">Título (opcional)</label><input class="inp2 yttit" placeholder="p. ej. Cambio de bomba de agua R5 TDI">'}
+    <p class="muted2" style="margin:10px 2px 0">Vale cualquier enlace: el de compartir del móvil, el del navegador o uno con el minuto (…?t=272). Si es un vídeo tuyo, súbelo como «oculto»: solo lo ve quien tiene el enlace.</p></div>`);
+  const u=body.querySelector('.yturl'), m=body.querySelector('.ytmin'), ti=body.querySelector('.yttit');
+  u.value=cur?.url||''; if(m && cur?.t) m.value=ytT(cur.t); if(ti) ti.value=cur?.titulo||'';
+  u.oninput=()=>{ const p=ytParse(u.value); if(m && p?.t && !m.value) m.value=ytT(p.t); };
+  const acts=[['Guardar','check',()=>{ const p=ytParse(u.value); if(!p){ toast('Ese enlace no es de YouTube','err'); u.focus(); return; } closeSheet(); onOk({url:`https://youtu.be/${p.id}`, t:m?(m.value?ytParseT(m.value):p.t):undefined, titulo:ti?.value.trim()||undefined}); },'pri']];
+  if(cur?.url) acts.unshift(['Quitar','trash',()=>{ closeSheet(); onOk(null); }]);
+  detailSheet(title, '', body, acts); setTimeout(()=>u.focus(),120);
+}
+/* ---------- en la guía ---------- */
+function vidEnhance(pr){
+  const box=document.querySelector('#shBox .gread'); if(!box || !pr) return;
+  const reopen=()=>setTimeout(()=>guiaRead(pr), 60);
+  /* vídeos de la guía */
+  const V=pr.videos||[];
+  const sec=h2(`<section class="gvids"><h5>${ic('video')}Vídeos de esta guía</h5><div class="gvl"></div><button type="button" class="btn2 ghost sm gvadd">${ic('plus')}Añadir vídeo de YouTube</button></section>`), L=sec.querySelector('.gvl');
+  V.forEach((v,k)=>{ const p=ytParse(v.url); if(!p) return; const r=h2(`<div class="gvrow"><button type="button" class="gvth"><img alt="" loading="lazy" src="${ytThumb(p.id)}"><i>${ic('play')}</i></button><div><b>${esc(v.titulo||'Vídeo '+(k+1))}</b><small>Toca para verlo · mientras lo ves, guarda el minuto de cada paso</small></div><button type="button" class="ib gvdel" aria-label="Quitar">${ic('x')}</button></div>`);
+    r.querySelector('.gvth').onclick=()=>ytOpen(v, {pr, titulo:v.titulo||pr.titulo, onSave:()=>{}});
+    r.querySelector('.gvdel').onclick=async()=>{ if(!confirm('¿Quitar este vídeo de la guía?')) return; pr.videos=V.filter((_,j)=>j!==k); await ytSave(pr); closeSheet(); reopen(); };
+    L.append(r); });
+  sec.querySelector('.gvadd').onclick=()=>ytAsk('Vídeo de la guía', null, async v=>{ if(!v) return; pr.videos=[...V, {url:v.url, ...(v.titulo?{titulo:v.titulo}:{})}]; await ytSave(pr); reopen(); }, false);
+  (box.querySelector('.gsteps')||box).before(sec);
+  /* vídeo de cada paso */
+  box.querySelectorAll('.gsteps > li').forEach((li,i)=>{ const p=pr.pasos?.[i]; if(!p) return;
+    const row=h2(`<div class="gvstep"></div>`);
+    if(p.video?.url){ const b=h2(`<button type="button" class="btn2 sm gvplay">${ic('play')}Vídeo${p.video.t?' · '+ytT(p.video.t):''}</button>`); b.onclick=()=>ytOpen(p.video, {titulo:`Paso ${i+1}`}); row.append(b); }
+    const ed=h2(`<button type="button" class="btn2 ghost sm">${ic(p.video?.url?'edit':'plus')}${p.video?.url?'Cambiar':'Vídeo'}</button>`);
+    ed.onclick=()=>ytAsk(`Vídeo del paso ${i+1}`, p.video, async v=>{ if(v) p.video={url:v.url, t:v.t||0}; else delete p.video; await ytSave(pr); reopen(); });
+    const rec=h2(`<button type="button" class="btn2 ghost sm">${ic('camera')}Grabar</button>`); rec.onclick=()=>ytRecord(`${pr.titulo} · paso ${i+1}`);
+    row.append(ed, rec); (li.querySelector(':scope > div')||li).append(row); });
+}
+{ const _gr=guiaRead; guiaRead=function(pr, at){ _gr(pr, at); try{ vidEnhance(pr); }catch(e){ console.warn('vídeos', e); } }; }
+addEventListener('keydown', e=>{ if(e.key==='Escape' && YT) ytClose(); });
+
+/* ====================== AUTO-SCAN DE VCDS (4.1) ======================
+   Importa el archivo de texto del Auto-Scan (o el texto pegado): módulos, códigos y su estado.
+   Cada código va con su explicación en español, qué mirar con VCDS y la guía que toca, y se compara
+   con el escaneo anterior (nuevos, siguen, desaparecidos). Puede crear las averías en Taller ▸ Problemas.
+   Firestore: autoscans/{id} {fecha, km, modulos:[{dir, nombre, ok, codigos:[{codigo, texto, estado}]}], n, texto} */
+C2.push('autoscans'); S.v2.autoscans=S.v2.autoscans||[]; COLN.autoscans='Escaneos de VCDS';
+const VC_MOD={'01':'Motor','02':'Cambio','03':'ABS / ESP','05':'Acceso y arranque','08':'Climatronic','09':'Red de a bordo (J519)','0E':'Navegación','10':'Ayuda al aparcar','11':'Motor 2','13':'Control de distancia','15':'Airbags','16':'Volante','17':'Cuadro de instrumentos','19':'Gateway','1C':'Sensor de posición','22':'Tracción total / reductora','25':'Inmovilizador','29':'Faro izquierdo','34':'Suspensión neumática','36':'Asiento del conductor','37':'Navegación','39':'Faro derecho','42':'Puerta del conductor','44':'Dirección asistida','46':'Confort (J393)','47':'Sonido','52':'Puerta del acompañante','55':'Regulación de faros','56':'Radio','57':'TV','5F':'Información','61':'Batería','62':'Puerta trasera izquierda','65':'Presión de neumáticos','66':'Asiento del acompañante','67':'Voz','69':'Remolque','6C':'Cámara trasera','6E':'Mandos del techo','72':'Puerta trasera derecha','76':'Ayuda al aparcar','77':'Teléfono'};
+const VC_TXT=[[/open or short to ground/i,'circuito abierto o cortocircuito a masa'],[/open or short to plus|short to plus|short to b\+/i,'circuito abierto o cortocircuito a positivo'],[/short to ground/i,'cortocircuito a masa'],[/open circuit/i,'circuito abierto'],[/implausible signal/i,'señal no plausible'],[/no signal\/communication|no communication/i,'sin señal / sin comunicación'],[/signal too high/i,'señal demasiado alta'],[/signal too low/i,'señal demasiado baja'],[/upper limit exceeded/i,'por encima del límite'],[/lower limit exceeded/i,'por debajo del límite'],[/mechanical malfunction|mechanical failure/i,'fallo mecánico'],[/electrical (error|fault) in circuit/i,'fallo eléctrico en el circuito'],[/(?<!mechanical )malfunction/i,'funciona mal'],[/defective/i,'averiado'],[/faulty/i,'defectuoso'],[/check dtc memory/i,'revisar la memoria de averías de otras centralitas'],[/wrong coding|incorrectly coded|coding/i,'codificación incorrecta'],[/adaptation/i,'falta adaptación'],[/supply voltage/i,'tensión de alimentación'],[/intermittent/i,'intermitente (va y viene)'],[/sporadic/i,'esporádico']];
+const vcEs=t=>{ const out=[]; for(const [re,es] of VC_TXT) if(re.test(t)) out.push(es); return [...new Set(out)].join(' · '); };
+/* pistas por pieza: explicación, qué mirar y la guía (título que la busca) */
+const VC_HINT=[
+  [/G238|air quality/i,'Sensor de calidad del aire: cierra la recirculación cuando hay humos. Con «sin señal» o «circuito abierto» suele ser el cable o su conector.','Climatronic (08): valores medidos del sensor; mira el conector y el cable.',/calidad del aire/i],
+  [/G397|G213|rain|light sensor/i,'Sensor de lluvia y luz (detrás del retrovisor).','Red de a bordo (09): códigos y codificación del sensor.',/luz y lluvia/i],
+  [/H12|alarm horn|back-?up horn|siren/i,'Sirena de la alarma (la de batería propia).','Confort (46): prueba de actuadores de la sirena.',/sirena/i],
+  [/G266|oil level|oil temp/i,'Sensor de nivel y temperatura del aceite, en el fondo del cárter.','Cuadro (17): valor de la temperatura del aceite.',/G266/],
+  [/coolant|G62\b|G2\b|thermostat|radiator/i,'Refrigeración: temperatura del refrigerante, termostato o ventiladores.','Motor (01): temperatura del refrigerante en los valores medidos.',/bomba de agua|refrigera/i],
+  [/oil pressure|F1\b|F22\b/i,'Presión de aceite: manocontacto o presión real.','Antes de nada, comprueba el nivel de aceite.',/aceite y filtros/i],
+  [/headlight|J567|J568|L13|L14|gas discharge|xenon|J343|J344/i,'Faros de xenón o su regulación.','Faros (29/39) o regulación (55): códigos y ajuste básico.',/faro/i],
+  [/battery|voltage|J367|J581|terminal 30/i,'Alimentación eléctrica: batería, carga o bornes.','Mide la batería: 12,4–12,7 V parado, 13,8–14,5 V en marcha.',/batería/i],
+  [/exhaust|catalyst|EGR|N18|G70|air mass|MAF/i,'Admisión o escape: caudalímetro, EGR o catalizador.','Motor (01): caudal de aire y EGR en los valores medidos.',/escape/i],
+  [/glow|J179|Q10|Q11|Q12|Q13|Q14/i,'Precalentamiento: calentadores o su relé.','Motor (01): estado de los calentadores.',null],
+  [/injector|N240|N241|N242|N243|N244|pump.?injector|unit injector/i,'Inyectores-bomba.','Motor (01): correcciones de cada cilindro.',null],
+];
+const vcHint=t=>VC_HINT.find(([re])=>re.test(t));
+const vcGuia=re=>re?(S.procs||[]).find(p=>re.test(p.titulo||'')):null;
+/* ---------- leer el texto ---------- */
+function vcParse(txt){
+  const L=String(txt||'').replace(/\r/g,'').split('\n'); const out={fecha:null, km:null, modulos:[]};
+  const d=L[0]?.match(/(\d{1,2}),\s*(\w+),\s*(\d{4})/); const MES={january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,enero:1,febrero:2,marzo:3,abril:4,mayo:5,junio:6,julio:7,agosto:8,septiembre:9,octubre:10,noviembre:11,diciembre:12};
+  if(d && MES[d[2].toLowerCase()]) out.fecha=`${d[3]}-${String(MES[d[2].toLowerCase()]).padStart(2,'0')}-${d[1].padStart(2,'0')}`;
+  const km=String(txt).match(/Mileage:\s*([\d.,]+)\s*km/i); if(km) out.km=Number(km[1].replace(/[.,]/g,''));
+  let m=null;
+  for(const raw of L){
+    const a=raw.match(/^Address\s+([0-9A-F]{2}):\s*(.*?)(?:\s{2,}Labels?:|\s+\(|$)/i);
+    if(a){ m={dir:a[1].toUpperCase(), nombre:a[2].trim(), ok:false, codigos:[]}; out.modulos.push(m); continue; }
+    if(!m) continue;
+    if(/No fault code found|0 Faults? Found/i.test(raw)){ m.ok=true; continue; }
+    if(/^\s*\d+\s+Faults?\s+Found/i.test(raw)){ m.ok=false; continue; }
+    if(/^\s*-{10,}/.test(raw)){ m=null; continue; }
+    if(/:\s/.test(raw.split(' - ')[0]) || /^\s*(Freeze Frame|Fault Status|Fault Priority|Fault Frequency|Reset counter|Mileage|Time Indication|Date|Time|Voltage|Temperature|Readiness|Coding|Shop|Part No|Component|VCID|Subsystem|Long Coding)/i.test(raw)) continue;
+    const st=raw.match(/^\s*\d{2,3}-\d{2}\s*-\s*(.+)$/) || raw.match(/^\s{4,}\d{3}\s+-\s+(.+)$/) || raw.match(/^\s*([A-Z]?\d{2,3}\s*-\s*\d{3}\s*-\s*.+)$/);
+    if(st && m.codigos.length){ const c=m.codigos[m.codigos.length-1]; c.estado=[c.estado, st[1].trim()].filter(Boolean).join(' · '); continue; }
+    const c=raw.match(/^\s*((?:\d{5,6}|[PBCU][0-9A-F]{4}(?:\s+[0-9A-F]{2})?)(?:\s+\[\d+\])?)\s+-\s+(.+?)\s*$/);
+    if(c){ m.codigos.push({codigo:c[1].replace(/\s+\[\d+\]/,'').trim(), texto:c[2].trim(), estado:''}); m.ok=false; }
+  }
+  out.modulos=out.modulos.filter(x=>x.dir); out.n=out.modulos.reduce((s,x)=>s+x.codigos.length,0);
+  return out;
+}
+const vcKey=(dir,c)=>dir+':'+c.codigo;
+function vcDiff(cur, prev){
+  const A=new Map(), B=new Map();
+  for(const m of cur.modulos) for(const c of m.codigos) A.set(vcKey(m.dir,c), {m, c});
+  for(const m of (prev?.modulos||[])) for(const c of m.codigos) B.set(vcKey(m.dir,c), {m, c});
+  return {nuevos:[...A.keys()].filter(k=>!B.has(k)), siguen:[...A.keys()].filter(k=>B.has(k)), fuera:[...B.keys()].filter(k=>!A.has(k)).map(k=>B.get(k))};
+}
+const vcScans=()=>[...(S.v2.autoscans||[])].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||'')||(b.creado||'').localeCompare(a.creado||''));
+const vcModN=m=>`${m.dir} · ${VC_MOD[m.dir]||m.nombre}`;
+/* ---------- importar ---------- */
+function vcImport(){
+  const body=h2(`<div><p class="muted2" style="margin:0 0 10px">En VCDS: Auto-Scan ▸ Start ▸ al terminar, Save. Elige aquí ese archivo .txt, o copia el texto y pégalo abajo.</p>
+    <label class="btn2 ghost" style="display:inline-flex;gap:6px;align-items:center">${ic('upload')}Elegir el archivo del Auto-Scan<input type="file" accept=".txt,text/plain" hidden></label>
+    <label class="wzlab">O pega aquí el texto</label><textarea class="inp2" rows="6" placeholder="Address 01: Engine…"></textarea><div class="vcprev"></div></div>`);
+  const ta=body.querySelector('textarea'), fi=body.querySelector('input[type=file]'), pv=body.querySelector('.vcprev'); let P=null;
+  const show=()=>{ P=vcParse(ta.value); pv.innerHTML=''; if(!P.modulos.length){ if(ta.value.trim()) pv.append(h2('<p class="alr soon">No encuentro módulos («Address 01: …»). ¿Es el texto del Auto-Scan?</p>')); return; }
+    const prev=vcScans()[0], df=vcDiff(P, prev);
+    pv.append(h2(`<div class="alr ${P.n?'soon':'ok'}">${ic(P.n?'alert':'checkc')}<span>${pl(P.modulos.length,'módulo')} · ${P.n?pl(P.n,'código de avería','códigos de avería'):'sin averías'}${P.fecha?' · '+fmtDate(P.fecha):''}${P.km?' · '+nf.format(P.km)+' km':''}${prev?`<br>Frente al anterior: ${df.nuevos.length} nuevos, ${df.siguen.length} siguen, ${df.fuera.length} ya no salen.`:''}</span></div>`),
+      h2(`<label class="chk"><input type="checkbox" checked class="vcave"><span>Apuntar en Taller ▸ Problemas los códigos nuevos como averías</span></label>`)); };
+  ta.oninput=show; fi.onchange=async()=>{ const f=fi.files?.[0]; if(!f) return; ta.value=await f.text(); show(); };
+  detailSheet('Importar Auto-Scan de VCDS','', body, [['Importar','upload',async()=>{
+    if(!P?.modulos.length){ toast('Elige o pega primero el Auto-Scan','err'); return; } if(!S.db) return toast('Inicia sesión para guardar','err');
+    const prev=vcScans()[0], df=vcDiff(P, prev), now=new Date().toISOString(), f=P.fecha||todayISO();
+    const doc={fecha:f, km:P.km, modulos:P.modulos, n:P.n, texto:ta.value.slice(0,400000).replace(/(VIN:\s*\w{11})\w{6}/g,'$1······'), creado:now};
+    try{ const r=await S.db.collection('autoscans').add(doc);
+      if(body.querySelector('.vcave')?.checked){ let k=0;
+        for(const m of P.modulos) for(const c of m.codigos){ const ya=(S.ave||[]).find(a=>a.estado!=='resuelta' && a.codigo===c.codigo && (a.modulo||'')===m.dir);
+          if(ya){ const {_id,...a}=ya; await S.db.collection('averias').doc(_id).set({...a, notas:[a.notas, `Sigue saliendo en el Auto-Scan del ${fmtDate(f)}.`].filter(Boolean).join('\n')}); continue; }
+          const h=vcHint(c.texto+' '+c.estado), es=vcEs(c.estado);
+          await S.db.collection('averias').add({codigo:c.codigo, sintoma:c.texto, modulo:m.dir, estado:'abierta', fecha:f, km:P.km??null, origen:'autoscan', autoscan:r.id,
+            notas:[`${vcModN(m)}${c.estado?' · '+c.estado:''}`, es?'En español: '+es+'.':'', h?h[1]:'', h?'Qué mirar: '+h[2]:''].filter(Boolean).join('\n'), creado:now}); k++; }
+        toast(k?`Auto-Scan guardado · ${pl(k,'avería nueva','averías nuevas')} en Problemas`:'Auto-Scan guardado');
+      } else toast('Auto-Scan guardado');
+      closeSheet(); celebrate(); setTimeout(()=>v3go('vcds_det', {data:{scan:r.id}}), 300);
+    }catch{ toast('No se pudo guardar','err'); } },'pri']]);
+}
+/* ---------- páginas ---------- */
+V3.pages.vcds={tab:'taller', title:'Escaneos de VCDS', sub:()=>{ const s=vcScans(); return s.length?`Último: ${fmtDate(s[0].fecha)}`:'Importa tu primer Auto-Scan'; }, act:['plus','Importar',()=>vcImport()], render(w){
+  const S2=vcScans();
+  w.append(vGroup('',[vRow({i:'upload', c:V3C.blue, t:'Importar un Auto-Scan', s:'El archivo .txt de VCDS o el texto pegado', fn:()=>vcImport(), cls:'vadd'})]));
+  if(!S2.length){ w.append(h2(`<div class="vcalm">${ic('steth')}<div><b>Todavía no hay escaneos</b><small>Haz un Auto-Scan con VCDS (contacto puesto, sin arrancar) y guárdalo: aquí verás cada código explicado y qué ha cambiado desde el anterior.</small></div></div>`)); return; }
+  w.append(vGroup('Escaneos', S2.map((s,k)=>{ const prev=S2[k+1], df=prev?vcDiff(s,prev):null;
+    return vRow({i:s.n?'alert':'checkc', c:s.n?V3C.red:V3C.green, t:`${fmtDate(s.fecha)}${s.km?' · '+nf.format(s.km)+' km':''}`, s:[s.n?pl(s.n,'código'):'Sin averías', pl((s.modulos||[]).length,'módulo'), df?`${df.nuevos.length} nuevos · ${df.fuera.length} ya no salen`:''].filter(Boolean).join(' · '), r:s.n?String(s.n):null, rc:s.n?V3C.red:null, fn:()=>v3go('vcds_det',{data:{scan:s._id}})}); })));
+}};
+V3.pages.vcds_det={tab:'taller', title:'Auto-Scan', sub:()=>{ const s=(S.v2.autoscans||[]).find(x=>x._id===v3top()?.data?.scan); return s?fmtDate(s.fecha)+(s.km?' · '+nf.format(s.km)+' km':''):''; }, render(w, e){
+  const id=e?.data?.scan, all=vcScans(), s=all.find(x=>x._id===id); if(!s){ w.append(h2('<p class="muted2">No encuentro este escaneo.</p>')); return; }
+  const prev=all[all.indexOf(s)+1], df=prev?vcDiff(s,prev):null, nuevos=new Set(df?.nuevos||[]);
+  w.append(h2(`<div class="vtots">${[[s.n,'Códigos',s.n?V3C.red:V3C.green],[(s.modulos||[]).filter(m=>m.codigos.length).length,'Módulos con avería',V3C.orange],[(s.modulos||[]).length,'Módulos leídos',V3C.blue]].map(([v,l,col])=>`<div style="--c:${col}"><b>${v}</b><span>${l}</span></div>`).join('')}</div>`));
+  if(df) w.append(h2(`<p class="vfoot" style="margin:-6px 4px 16px">Frente al ${fmtDate(prev.fecha)}: <b>${df.nuevos.length}</b> nuevos · <b>${df.siguen.length}</b> siguen · <b>${df.fuera.length}</b> ya no salen.</p>`));
+  for(const m of (s.modulos||[]).filter(x=>x.codigos.length)){
+    const g=vGroup(vcModN(m), []), L=g.querySelector('.vlist');
+    for(const c of m.codigos){ const h=vcHint(c.texto+' '+c.estado), es=vcEs(c.estado), gu=vcGuia(h?.[3]), isNew=nuevos.has(vcKey(m.dir,c));
+      const r=h2(`<div class="vcrow${isNew?' vnew':''}"><div class="vccod"><b>${esc(c.codigo)}</b>${isNew?'<em>Nuevo</em>':''}</div><div class="vctx"><b>${esc(c.texto)}</b>${c.estado?`<small>${esc(c.estado)}</small>`:''}${es?`<p>${esc(es[0].toUpperCase()+es.slice(1))}.</p>`:''}${h?`<p>${esc(h[1])}</p><p class="vcmira">${ic('steth')}${esc(h[2])}</p>`:''}</div></div>`);
+      if(gu){ const b=h2(`<button type="button" class="btn2 sm">${ic('book')}${esc(gu.titulo.slice(0,48))}</button>`); b.onclick=()=>guiaRead(gu); r.querySelector('.vctx').append(b); }
+      L.append(r); }
+    w.append(g); }
+  if(df?.fuera.length){ const g=vGroup('Ya no salen', []), L=g.querySelector('.vlist');
+    for(const {m,c} of df.fuera){ const a=(S.ave||[]).find(x=>x.estado!=='resuelta' && x.codigo===c.codigo && (x.modulo||'')===m.dir);
+      L.append(vRow({i:'checkc', c:V3C.green, t:`${c.codigo} · ${c.texto}`, s:vcModN(m)+(a?' · avería abierta: toca para cerrarla':''), fn:a?async()=>{ if(!confirm(`¿Dar por resuelta la avería ${c.codigo}?`)) return; const {_id,...x}=a; await S.db.collection('averias').doc(_id).set({...x, estado:'resuelta', notas:[x.notas, `Ya no sale en el Auto-Scan del ${fmtDate(s.fecha)}.`].filter(Boolean).join('\n')}); toast('Avería cerrada'); }:null})); }
+    w.append(g); }
+  const ok=(s.modulos||[]).filter(m=>!m.codigos.length);
+  if(ok.length) w.append(vGroup('Sin averías', [h2(`<p class="vcok">${ok.map(m=>esc(vcModN(m))).join(' · ')}</p>`)]));
+  w.append(vGroup('',[vRow({i:'trash', c:V3C.gray, t:'Borrar este escaneo', s:'Las averías que creó se quedan', fn:async()=>{ if(!confirm('¿Borrar este escaneo?')) return; await S.db.collection('autoscans').doc(s._id).delete(); v3back(); toast('Escaneo borrado'); }})]));
+}};
+for(const k of ['vcds','vcds_det']) delete V3.leaves?.[k];
+
+/* ====================== GUÍAS POR HACER (4.1) ======================
+   El «manual completo» del Touareg se va construyendo con las páginas de ElsaWin y ETKA que imprime Sergio.
+   Esta lista dice qué guía falta, qué páginas pedir y dónde están en ElsaWin; se marca sola como hecha
+   cuando la guía ya está importada. Se pueden añadir otras (guiaspend/{id} {titulo, donde, hecha}). */
+C2.push('guiaspend'); S.v2.guiaspend=S.v2.guiaspend||[]; COLN.guiaspend='Guías por hacer';
+const GPH=[
+  ['Sensor de calidad del aire G238', /calidad del aire|G238/i, 'Heating, ventilation… ▸ Heating, air conditioning ▸ 87 ▸ «air quality sensor» (o Search item: air quality) · y en Current flow diagrams, la hoja del Climatronic donde sale el G238'],
+  ['Filtro de aire', /filtro de aire/i, 'Power unit ▸ 5-cylinder diesel engine ▸ 23 o 24 ▸ Air filter: despiece y removing and installing'],
+  ['Filtro de polen (habitáculo)', /polen|habitáculo/i, 'Heating, ventilation… ▸ Heating, air conditioning ▸ 80 ▸ Dust and pollen filter'],
+  ['Correa de accesorios (poli-V) y tensor', /correa/i, 'Power unit ▸ 5-cylinder diesel engine ▸ 13 ▸ Poly V-belt: esquema de la correa y removing and installing'],
+  ['Pastillas y discos delanteros', /pastillas.*delant|frenos delanteros|discos delanteros/i, 'Running gear ▸ 46 Brakes ▸ front brakes: pads y brake discs'],
+  ['Pastillas y discos traseros', /pastillas.*tras|frenos traseros|discos traseros/i, 'Running gear ▸ 46 Brakes ▸ rear brakes: pads y brake discs'],
+  ['Líquido de frenos: cambiar y purgar', /líquido de frenos|purgar/i, 'Running gear ▸ 47 Brakes hydraulics ▸ bleeding brake system / changing brake fluid'],
+  ['Calentadores (bujías de precalentamiento)', /calentador|precalentamiento/i, 'Power unit ▸ 5-cylinder diesel engine ▸ 28 ▸ glow plugs: checking y removing and installing'],
+  ['Aceite del cambio manual (6 velocidades)', /aceite del cambio|cambio manual/i, 'Power transmission ▸ cambio manual 6 vel. (letras FEA) ▸ checking / changing gear oil'],
+  ['Caja de transferencia y diferenciales: aceite', /transferencia|diferencial/i, 'Power transmission ▸ 39 transfer box / final drive ▸ oil: checking and topping up'],
+  ['Plan de mantenimiento con sus intervalos', /plan de mantenimiento|inspección/i, 'El manual de mantenimiento (Maintenance) del Touareg 2003 con motor BAC: tabla de trabajos e intervalos'],
+  ['Inyectores-bomba: comprobar', /inyector/i, 'Power unit ▸ 23 ▸ pump/injector units: checking, removing and installing'],
+];
+const gphDone=re=>(S.procs||[]).some(p=>re.test(p.titulo||''));
+function renderGphCard(w){
+  const own=S.v2.guiaspend||[], L=[...GPH.map(([t,re,d])=>({t, d, hecha:gphDone(re), fija:true})), ...own.map(o=>({t:o.titulo, d:o.donde, hecha:!!o.hecha || gphDone(new RegExp(String(o.titulo).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i')), o}))];
+  const falta=L.filter(x=>!x.hecha), c=h2(`<details class="card2 gph"${UI.gphOpen?' open':''}><summary><h3>${ic('list')}Guías por hacer<span class="cnt">${falta.length}</span></h3></summary><p class="muted2" style="margin:0 0 10px">El manual de tu Touareg se completa con las páginas que imprimes de ElsaWin y ETKA. Aquí está qué falta y dónde buscarlo; cuando importes la guía, se tacha sola.</p><div class="gphl"></div><button type="button" class="btn2 ghost gphadd">${ic('plus')}Añadir una guía que quiero</button></details>`);
+  c.addEventListener('toggle',()=>{ UI.gphOpen=c.open; });
+  const l=c.querySelector('.gphl');
+  for(const x of [...falta, ...L.filter(x=>x.hecha)]){ const r=h2(`<div class="gphr${x.hecha?' on':''}"><i>${ic(x.hecha?'checkc':'book')}</i><div><b>${esc(x.t)}</b><small>${esc(x.hecha?'Ya está en tus guías':x.d||'')}</small></div>${x.o?'<button type="button" class="ib" aria-label="Quitar">'+ic('x')+'</button>':''}</div>`);
+    r.querySelector('.ib')?.addEventListener('click',async()=>{ if(!confirm('¿Quitar de la lista?')) return; await S.db.collection('guiaspend').doc(x.o._id).delete(); });
+    l.append(r); }
+  c.querySelector('.gphadd').onclick=()=>{ const body=h2('<div><label class="wzlab">Qué guía</label><input class="inp2 gpt" placeholder="p. ej. Cambiar el motor del elevalunas"><label class="wzlab">Dónde está en ElsaWin (si lo sabes)</label><input class="inp2 gpd" placeholder="Grupo o nombre de la página"></div>');
+    detailSheet('Guía por hacer','', body, [['Añadir','plus',async()=>{ const t=body.querySelector('.gpt').value.trim(); if(!t) return; await S.db.collection('guiaspend').add({titulo:t, donde:body.querySelector('.gpd').value.trim(), creado:new Date().toISOString()}); closeSheet(); toast('Añadida a «Guías por hacer»'); },'pri']]); };
+  w.append(c);
+}
+{ const _rg=renderGuias; renderGuias=function(w){ _rg(w); try{ renderGphCard(w); }catch(e){ console.warn(e); } };
+  V3.pages.guias=v2Pg('coche','Guías y manuales', renderGuias); }
+
+/* ====================== HOY: EL CUADRO DE INSTRUMENTOS (4.1) ======================
+   Debajo de la foto del coche, un cuadro como el del Touareg: reloj de la salud (izquierda), reloj de lo que
+   falta para el próximo mantenimiento (derecha), pantalla central (cuentakilómetros, lo siguiente y el gasto
+   del mes) y la fila de testigos (averías, «antes de circular», mantenimiento, papeles, piezas sin montar).
+   La primera vez de cada sesión hace el barrido de agujas y la comprobación de testigos, como al dar el
+   contacto (con sonido si están activados). Todo es SVG y CSS; con «menos movimiento» no se anima. */
+const CQ={a0:-120, a1:120};
+const cqAng=p=>CQ.a0+(CQ.a1-CQ.a0)*Math.max(0,Math.min(1,p));
+function cqPt(cx,cy,r,a){ const t=(a-90)*Math.PI/180; return [cx+r*Math.cos(t), cy+r*Math.sin(t)]; }
+function cqArc(cx,cy,r,a,b){ const [x0,y0]=cqPt(cx,cy,r,a), [x1,y1]=cqPt(cx,cy,r,b); return `M${x0.toFixed(1)} ${y0.toFixed(1)} A${r} ${r} 0 ${b-a>180?1:0} 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`; }
+/* un reloj: zonas de color, rayitas, números, aguja y el valor abajo */
+function cqGauge(o){ /* {cls, title, val(0..1), zones:[[p0,p1,col]], labels:[[p,txt]], big, small} */
+  let ticks=''; for(let i=0;i<=40;i++){ const a=cqAng(i/40), long=i%5===0, [x0,y0]=cqPt(100,100,long?70:74,a), [x1,y1]=cqPt(100,100,80,a); ticks+=`<line x1="${x0.toFixed(1)}" y1="${y0.toFixed(1)}" x2="${x1.toFixed(1)}" y2="${y1.toFixed(1)}" class="${long?'tl':'ts'}"/>`; }
+  const zones=(o.zones||[]).map(([p0,p1,c])=>`<path d="${cqArc(100,100,86,cqAng(p0),cqAng(p1))}" stroke="${c}" class="cqz"/>`).join('');
+  const labels=(o.labels||[]).map(([p,t])=>{ const [x,y]=cqPt(100,100,56,cqAng(p)); return `<text x="${x.toFixed(1)}" y="${(y+4).toFixed(1)}" class="cql">${esc(t)}</text>`; }).join('');
+  return `<button type="button" class="cqg ${o.cls||''}" aria-label="${esc(o.title)}: ${esc(o.big)}"><svg viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="100" cy="100" r="96" class="cqbez"/><circle cx="100" cy="100" r="90" class="cqface"/>${zones}<g class="cqt">${ticks}</g>${labels}
+    <text x="100" y="131" class="cqtit">${esc(o.title)}</text>
+    <g class="cqn" style="--a:${cqAng(o.val).toFixed(1)}deg"><path d="M97 104 L100 22 L103 104 Z" class="cqnd"/><circle cx="100" cy="100" r="11" class="cqhub"/></g>
+    <text x="100" y="153" class="cqbig">${esc(o.big)}</text><text x="100" y="169" class="cqsm">${esc(o.small||'')}</text></svg></button>`;
+}
+/* testigos: [icono, nombre, nivel 0 apagado / 1 ámbar / 2 rojo, a dónde lleva] */
+function cqLamps(){
+  const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta').length, ya=(typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya').length;
+  let c={due:0,soon:0,ddue:0,dsoon:0}; try{ c=counts(); }catch{}
+  const sinM=(S.compras||[]).filter(x=>x.estado==='comprado').length, rep=(typeof repActiva==='function'?repActiva():[]).length;
+  return [
+    ['alert','Averías', aves?2:0, ()=>v3go('problemas'), aves?pl(aves,'abierta'):'Ninguna'],
+    ['flag','Antes de circular', ya?2:0, ()=>v3go('problemas'), ya?pl(ya,'pendiente'):'Nada'],
+    ['wrench','Mantenimiento', c.due?2:c.soon?1:0, ()=>v3go('plan'), c.due?pl(c.due,'vencido'):c.soon?pl(c.soon,'próximo'):'Al día'],
+    ['shield','Papeles', c.ddue?2:c.dsoon?1:0, ()=>v3tab('papeles'), c.ddue?'Caducado':c.dsoon?'Caduca pronto':'En regla'],
+    ['gear','Reparación en curso', rep?1:0, ()=>v3go('reparaciones'), rep?pl(rep,'en marcha'):'Ninguna'],
+    ['cart','Sin montar', sinM?1:0, ()=>v3go('compra_comp'), sinM?pl(sinM,'pieza'):'Nada'],
+  ];
+}
+function cqNext(){
+  let best=null; try{ for(const {it,s} of mantList()){ if(s.kmLeft==null) continue; if(!best || s.kmLeft<best.s.kmLeft) best={it,s}; } }catch{}
+  return best;
+}
+/* el barrido: agujas al máximo y vuelta, todos los testigos encendidos un momento y un sonido que sube */
+function cqSweepSound(){
+  if(!UI.prefs.sound) return; try{
+    if(!UAC){ const C=window.AudioContext||window.webkitAudioContext; if(!C) return; UAC=new C(); } if(UAC.state==='suspended') UAC.resume();
+    const t=UAC.currentTime, o=UAC.createOscillator(), g=UAC.createGain(), f=UAC.createBiquadFilter(); f.type='lowpass'; f.frequency.value=1400;
+    o.type='sawtooth'; o.frequency.setValueAtTime(70,t); o.frequency.exponentialRampToValueAtTime(300,t+.55); o.frequency.exponentialRampToValueAtTime(90,t+1.15);
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(.05,t+.08); g.gain.linearRampToValueAtTime(.035,t+.6); g.gain.linearRampToValueAtTime(0,t+1.2);
+    o.connect(f); f.connect(g); g.connect(UAC.destination); o.start(t); o.stop(t+1.25);
+    const d=UAC.createOscillator(), dg=UAC.createGain(); d.type='sine'; d.frequency.value=1318; dg.gain.setValueAtTime(0,t+1.25); dg.gain.linearRampToValueAtTime(.06,t+1.27); dg.gain.exponentialRampToValueAtTime(.0001,t+1.9);
+    d.connect(dg); dg.connect(UAC.destination); d.start(t+1.25); d.stop(t+1.95);
+  }catch{} }
+function vCuadro(){
+  const H=fxHealth()||{s:100, txt:''}, nx=cqNext(), km=S.cfg?.kmActual, y=new Date(), mk=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0');
+  const mes=gastosMov().filter(x=>(x.fecha||'').startsWith(mk)).reduce((s,x)=>s+x.eur,0);
+  const KM=15000, left=nx?nx.s.kmLeft:null, pv=left==null?1:Math.max(0,Math.min(1,left/KM));
+  const g1=cqGauge({cls:'cq-l', title:'SALUD', val:H.s/100, zones:[[0,.6,'var(--v-red)'],[.6,.85,'var(--v-orange)'],[.85,1,'var(--v-green)']], labels:[[0,'0'],[.25,'25'],[.5,'50'],[.75,'75'],[1,'100']], big:H.s+'%', small:H.txt||''});
+  const g2=cqGauge({cls:'cq-r', title:'SERVICIO', val:pv, zones:[[0,.1,'var(--v-red)'],[.1,.25,'var(--v-orange)'],[.25,1,'var(--v-green)']], labels:[[0,'0'],[1/3,'5'],[2/3,'10'],[1,'15']], big:left==null?'—':left<=0?'¡Ya!':nf.format(Math.round(left/100)*100)+' km', small:nx?nx.it.nombre:'Sin datos de km'});
+  const lamps=cqLamps();
+  const el=h2(`<section class="vcuadro" aria-label="Cuadro de instrumentos"><div class="cqrow">${g1}
+    <div class="cqlcd"><div class="cqclk"><span>${y.toLocaleDateString('es-ES',{weekday:'short', day:'numeric', month:'short'})}</span><span class="cqh">${String(y.getHours()).padStart(2,'0')}:${String(y.getMinutes()).padStart(2,'0')}</span></div>
+      <div class="cqodo" aria-label="Cuentakilómetros">${String(Math.round(km||0)).padStart(6,'0').split('').map(d=>`<i>${d}</i>`).join('')}<em>km</em></div>
+      <div class="cqinfo"><small>Siguiente</small><b>${nx?esc(nx.it.nombre):'—'}</b><span>${nx?(nx.s.kmLeft<=0?'vencido':'en '+nf.format(Math.round(nx.s.kmLeft))+' km'):''}</span></div>
+      <div class="cqinfo"><small>Gasto del mes</small><b>${eur(mes)}</b></div></div>
+    ${g2}</div><div class="cqlamps">${lamps.map(([i,t,lv,,s],k)=>`<button type="button" class="cqlamp lv${lv}" data-k="${k}" aria-label="${esc(t)}: ${esc(s)}" title="${esc(t)} · ${esc(s)}">${ic(i)}</button>`).join('')}</div></section>`);
+  el.querySelectorAll('.cqlamp').forEach(b=>b.onclick=()=>{ uiSfx('tap'); const L=lamps[+b.dataset.k]; toast(`${L[1]}: ${L[4]}`); L[3](); });
+  el.querySelector('.cq-l').onclick=()=>{ uiSfx('tap'); v3tab('taller'); };
+  el.querySelector('.cq-r').onclick=()=>{ uiSfx('tap'); v3go('plan'); };
+  el.querySelector('.cqodo').onclick=()=>{ uiSfx('tap'); quickKm(); };
+  /* contacto: barrido una vez por sesión */
+  if(!UI.cqSwept && !RM){ UI.cqSwept=true; el.classList.add('cqsweep'); setTimeout(cqSweepSound, 250); setTimeout(()=>el.classList.remove('cqsweep'), 2100); }
+  return el;
+}
+IC.gear=IC.gear||'<circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/>';
+{ const _r=V3.hubs.hoy.render; V3.hubs.hoy.render=function(w){ _r.call(this, w); try{ const hero=w.querySelector('.vh-hero'); if(hero && S.cfg){ const c=vCuadro(); c.classList.add('vh-cuadro'); hero.after(c); } }catch(e){ console.warn('cuadro', e); } }; }
+
+/* ====================== 3D MÁS LIGERO EN EL MÓVIL (4.1) ======================
+   En «Calidad baja» el visor seguía dibujando las sombras del sol (cada fotograma pintaba el coche dos veces:
+   una para la sombra y otra para verlo) y la pintura perlada con barniz e iridiscencia, el material más caro.
+   En baja ahora se quitan las dos cosas; media y alta quedan como estaban.
+   Además, mientras se mira el 3D, el refresco de cada segundo (insignias de las pestañas) se hace cada 10 s:
+   solo tocaba la pantalla para volver a escribir lo mismo y metía un tirón al girar el coche. */
+function lite3d(){
+  try{ const lo=R.quality==='baja';
+    renderer.shadowMap.enabled = FX.sombras && !lo; sun.castShadow = FX.sombras && !lo;
+    for(const m of paintMats){ const cc=(FX.barniz && !lo)?1:0, ir=(FX.barniz && !lo)?.12:0; if(m.clearcoat!==cc || m.iridescence!==ir){ m.clearcoat=cc; m.iridescence=ir; m.needsUpdate=true; } }
+    dirty=true; }catch(e){ console.warn('lite3d', e); }
+}
+{ const _aq=applyQuality; applyQuality=function(){ _aq.apply(this, arguments); lite3d(); };
+  const _af=applyFx; applyFx=function(){ _af.apply(this, arguments); lite3d(); };
+  /* la pintura se crea al cargar el modelo, después de aplicar la calidad */
+  const chk=setInterval(()=>{ if(paintMats.length){ clearInterval(chk); lite3d(); } }, 700); }
+{ const _ub=updateBadges; let k=0;
+  updateBadges=function(){ if(document.body.dataset.v3leaf==='3d' && (k++%10)) return; _ub(); }; }
 
 
 connectDb();

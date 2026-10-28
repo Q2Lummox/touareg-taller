@@ -1,17 +1,29 @@
 {
- "version": "4.1.0-beta.2",
+ "version": "4.1.0",
  "fecha": "2026-10-28",
  "notas": [
-  "3D más fluido en el móvil: en calidad baja, sin sombras del sol ni pintura perlada (casi la mitad de trabajo por fotograma)",
-  "Reparación en curso: si compraste aparte una pieza que estaba «sin comprar», la reconoce sola; y puedes marcarla tocándola"
+  "Vídeos de YouTube en cada paso de las guías (y grabar los tuyos)",
+  "Importar el Auto-Scan de VCDS: códigos explicados y comparados con el anterior",
+  "Guías por hacer: qué falta y dónde está en ElsaWin",
+  "Hoy con cuadro de instrumentos",
+  "Sensores en el mapa 3D",
+  "Modo «Al sol» en Ajustes",
+  "3D más fluido en el móvil en calidad baja",
+  "Reparación en curso: reconoce sola las piezas que compraste aparte"
  ],
  "historial": [
   {
-   "version": "4.1.0-beta.2",
+   "version": "4.1.0",
    "fecha": "2026-10-28",
    "notas": [
-    "3D más fluido en el móvil: en calidad baja, sin sombras del sol ni pintura perlada (casi la mitad de trabajo por fotograma)",
-    "Reparación en curso: si compraste aparte una pieza que estaba «sin comprar», la reconoce sola; y puedes marcarla tocándola"
+    "Vídeos de YouTube en cada paso de las guías (y grabar los tuyos)",
+    "Importar el Auto-Scan de VCDS: códigos explicados y comparados con el anterior",
+    "Guías por hacer: qué falta y dónde está en ElsaWin",
+    "Hoy con cuadro de instrumentos",
+    "Sensores en el mapa 3D",
+    "Modo «Al sol» en Ajustes",
+    "3D más fluido en el móvil en calidad baja",
+    "Reparación en curso: reconoce sola las piezas que compraste aparte"
    ]
   }
  ]

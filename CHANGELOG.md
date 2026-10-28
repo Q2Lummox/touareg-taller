@@ -1,5 +1,15 @@
 # Novedades
 
+## v4.1.0 · 2026-10-28
+- Vídeos de YouTube en cada paso de las guías (y grabar los tuyos)
+- Importar el Auto-Scan de VCDS: códigos explicados y comparados con el anterior
+- Guías por hacer: qué falta y dónde está en ElsaWin
+- Hoy con cuadro de instrumentos
+- Sensores en el mapa 3D
+- Modo «Al sol» en Ajustes
+- 3D más fluido en el móvil en calidad baja
+- Reparación en curso: reconoce sola las piezas que compraste aparte
+
 ## v4.0.5 · 2026-10-28
 - Lista de la compra: buscar, filtrar (sistema del coche, tipo de pieza, tienda, precio, estado, quién lo montó y año) y ordenar en cada apartado
 - Por comprar y sin montar, en orden alfabético; historial por fecha de compra (o de montaje), separado por años
