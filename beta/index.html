@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.0.4">
+<meta name="app-version" content="4.0.5">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3281,6 +3281,19 @@ body.manoslibres .reprun .rpnav{grid-template-columns:minmax(0,1fr) minmax(0,1.5
 .hlmode{display:flex;align-items:center;gap:6px;margin:-2px 0 10px;flex-wrap:wrap}.hlmode span{font-size:13px;color:var(--v-txt2);margin-right:2px}
 .hlmode button{border:0;border-radius:15px;padding:6px 12px;background:var(--v-cell2);color:var(--v-txt);font:500 13px var(--v-font)}
 .hlmode button[aria-pressed="true"]{background:var(--accent);color:#000}
+/* lista de la compra: filtrar y ordenar (4.0) */
+.cmpbar{margin:0 0 16px;display:flex;flex-direction:column;gap:10px}
+.cmpbar2{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.cmpfb{display:inline-flex;align-items:center;gap:6px}.cmpfb svg{width:16px;height:16px}.cmpfb em{font-style:normal;background:var(--accent);color:#000;border-radius:9px;padding:0 7px;font-size:12px}
+.cmpfb.on{box-shadow:inset 0 0 0 1.5px var(--accent)}
+.cmpsort{display:flex;align-items:center;gap:8px;flex:1;min-width:220px}.cmpsort span{font-size:13px;color:var(--v-txt2);white-space:nowrap}.cmpsort select,.cmpsort .csel{flex:1;min-width:0}
+.cmpact{display:flex;flex-wrap:wrap;gap:6px}.cmpact:empty{display:none}
+.cmpchip{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:16px;padding:7px 12px;background:var(--v-cell2);color:var(--v-txt);font:500 13.5px var(--v-font);cursor:pointer}
+.cmpchip em{font-style:normal;color:var(--v-txt2);font-size:12px}.cmpchip svg{width:13px;height:13px}
+.cmpchip[aria-pressed="true"],.cmpchip.on{background:var(--accent);color:#000}.cmpchip[aria-pressed="true"] em{color:#000a}
+.cmpchip:disabled{opacity:.4}
+.cmpfg{margin:0 0 16px}.cmpfg h5{margin:0 0 8px;font:600 13px var(--v-font);color:var(--v-txt2);text-transform:uppercase;letter-spacing:.04em}
+.cmpchips{display:flex;flex-wrap:wrap;gap:6px}
 </style>
 
 </head>
@@ -3323,7 +3336,7 @@ body.manoslibres .reprun .rpnav{grid-template-columns:minmax(0,1fr) minmax(0,1.5
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.0.4</span>
+  <span class="spver">v4.0.5</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6696,7 +6709,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.0.4';
+window.APP_VERSION='4.0.5';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6730,7 +6743,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.0.4';
+  const APP_VERSION='4.0.5';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -12962,7 +12975,7 @@ function btnRows(root){
 const cmpN=x=>esc(x.nombre)+(x.cantidad>1?` <em>×${x.cantidad}</em>`:'');
 function cmpRow(x, kind){
   const r=h2(`<div class="vrow vcmp vswipe k-${kind}${kind==='pend'&&avIsNew('gastos','c:'+x._id)?' vnew':''}"><button type="button" class="vck" aria-label="${kind==='pend'?'Marcar como comprado':kind==='comp'?'Marcar como montado':'Ver'}">${kind==='pend'?'':ic(kind==='comp'?'check':'checkc')}</button>
-    <button type="button" class="vtx"><b>${cmpN(x)}</b><small>${esc([x.ref, kind==='pend'?x.notas:fmtDate(x.fechaCompra), kind!=='pend'?x.tienda:'', x.montaje==='taller'?'lo monta un taller':''].filter(Boolean).join(' · '))}</small></button>
+    <button type="button" class="vtx"><b>${cmpN(x)}</b><small>${esc([x.ref, kind==='pend'?x.notas:fmtDate(x.fechaCompra), kind!=='pend'?x.tienda:'', kind==='hist'&&x.fechaMontaje?'montada el '+fmtDate(x.fechaMontaje):'', kind==='hist'&&x.fechaMontaje?'montada el '+fmtDate(x.fechaMontaje):'', x.montaje==='taller'?'lo monta un taller':''].filter(Boolean).join(' · '))}</small></button>
     ${kind==='comp'?`<button type="button" class="btn2 sm vmnt">${ic('wrench')}Montar</button>`:x.precio!=null&&kind!=='pend'?`<span class="vr">${eur(Number(x.precio))}</span>`:''}</div>`);
   r.querySelector('.vtx').onclick=()=>{ uiSfx('tap'); compraSheet(x, kind==='pend'?'comprar':undefined); };   /* lo que está por comprar abre la ventana completa de compra */
   if(kind==='pend'){ r.querySelector('.vck').onclick=()=>{ uiSfx('tap'); compraSheet(x,'comprar'); }; r._swR={l:'Comprado', i:'check', fn:()=>compraSheet(x,'comprar')}; }
@@ -12996,22 +13009,91 @@ V3.pages.compra={tab:'gastos', title:'Lista de la compra', sub:()=>{ const n=cmp
   ]));
   w.append(cmpQuickAdd());
 }};
-V3.pages.compra_pend={tab:'gastos', title:'Por comprar', sub:()=>pl(cmpLists().pend.length,'artículo'), act:CMP_ADD, render(w){
-  const L=cmpLists().pend; w.append(cmpQuickAdd());
-  const g=vGroup(`Por comprar${L.length?' · '+L.length:''}`, L.map(x=>cmpRow(x,'pend')), {foot:L.length?'Toca uno para registrar la compra (precio, tienda, factura…) o desliza a la derecha.':''});
-  if(!L.length) g.querySelector('.vlist').append(cmpEmpty('Nada pendiente. Añade arriba lo que necesites.')); w.append(g);
-}};
-V3.pages.compra_comp={tab:'gastos', title:'Comprado, sin montar', sub:()=>pl(cmpLists().comp.length,'pieza'), render(w){
-  const L=cmpLists().comp;
-  const g=vGroup(`Comprado, sin montar${L.length?' · '+L.length:''}`, L.map(x=>cmpRow(x,'comp')), {foot:L.length?'Toca el nombre para completar los datos de la compra; «Montar» cuando la pongas.':''});
-  if(!L.length) g.querySelector('.vlist').append(cmpEmpty('Lo que compres aparece aquí hasta que lo montes.')); w.append(g);
-}};
-V3.pages.compra_hist={tab:'gastos', title:'Historial de compras', sub:()=>{ const H=cmpLists().hist; return `${pl(H.length,'compra')} · ${eur(H.reduce((a,x)=>a+(Number(x.precio)||0),0))}`; }, render(w){
-  const H=cmpLists().hist; if(!H.length){ w.append(cmpEmpty('Todavía no hay compras.')); return; }
-  for(const yy of [...new Set(H.map(x=>(x.fechaCompra||'').slice(0,4)||'Sin fecha'))]){
-    const Y=H.filter(x=>((x.fechaCompra||'').slice(0,4)||'Sin fecha')===yy);
-    w.append(vGroup(yy, Y.map(x=>cmpRow(x,'hist')), {foot:`${pl(Y.length,'compra')} · ${eur(Y.reduce((a,x)=>a+(Number(x.precio)||0),0))}`})); }
-}};
+/* ---------- filtrar y ordenar las tres listas (como en una tienda: facetas con su número) ---------- */
+const CMP_SORT={
+  pend:[['az','Nombre (A–Z)'],['za','Nombre (Z–A)'],['nuevo','Lo último que apunté']],
+  comp:[['az','Nombre (A–Z)'],['za','Nombre (Z–A)'],['p_asc','Precio: de menor a mayor'],['p_desc','Precio: de mayor a menor'],['f_desc','Fecha de compra: lo más reciente'],['f_asc','Fecha de compra: lo más antiguo']],
+  hist:[['f_desc','Fecha de compra: lo más reciente'],['f_asc','Fecha de compra: lo más antiguo'],['m_desc','Fecha de montaje: lo más reciente'],['m_asc','Fecha de montaje: lo más antiguo'],['az','Nombre (A–Z)'],['za','Nombre (Z–A)'],['p_asc','Precio: de menor a mayor'],['p_desc','Precio: de mayor a menor']]};
+const CMP_DEF={pend:'az', comp:'az', hist:'f_desc'};
+/* sistema del coche: por la referencia VW (grupo de ETKA) y, si no hay, por el nombre */
+const CMP_SIS_RE=[['G',/aceite|anticongelante|g ?12|liquido|limpiador|agua destilada|grasa|refrigerante (g|vw)/],['N',/^(tornillo|tuerca|arandela|esparrago|remache|grapa|clip)/],
+  ['2',/escape|catalizador|silencioso|gasoil|gasoleo|combustible|deposito de/],['3',/embrague|caja de cambio|transfer|diferencial|palier|cardan/],
+  ['6',/freno|pastilla|disco|neumatico|rueda|llanta|bombin/],['4',/amortiguador delantero|suspension|direccion|rotula|brazo|estabilizadora|silentblock/],
+  ['9',/faro|bombilla|lampara|cable|mazo|sensor|transmisor|rele|fusible|sirena|alarma|bateria|centralita|unidad de control|conector|interruptor|alternador|motor de arranque|antena/],
+  ['8',/porton|puerta|luneta|techo|maletero|paragolpes|retrovisor|guarnecido|moldura|cristal|bisagra|cerradura|capo|aleta|boquilla/],
+  ['1',/motor|culata|bomba de agua|termostato|correa|turbo|inyector|filtro|cigue|carter|radiador|manguito|enfriador|junta|reten|tapa|tapon|refrigera/]];
+function cmpSis(x){ const k=refKey(x.ref); if(k.length>=7 && /\d/.test(k)){ const g=refGroup(k); if(FGRP[g]) return g; }
+  const n=norm(x.nombre||''); for(const [g,re] of CMP_SIS_RE) if(re.test(n)) return g; return 'X'; }
+const cmpTipo=x=>refTipo(x.nombre||'');
+const cmpSisN=g=>g==='X'?'Sin clasificar':String(FGRP[g]||g);
+/* facetas de cada lista */
+function cmpFacets(kind, L){
+  const F=[['sis','Sistema del coche', x=>cmpSis(x), cmpSisN], ['tipo','Tipo de pieza', x=>cmpTipo(x), k=>FTIPO_N[k]||k]];
+  if(kind!=='pend') F.push(['tienda','Tienda', x=>(x.tienda||'').trim()||'—', k=>k==='—'?'Sin tienda':k], ['precio','Precio', x=>Number(x.precio)?'con':'sin', k=>k==='con'?'Con precio':'Sin precio (no cuenta en Gastos)']);
+  if(kind==='hist') F.push(['estado','Estado', x=>x.estado, k=>({comprado:'Comprado, sin montar', montado:'Montado'})[k]||k], ['monta','Quién lo montó', x=>x.estado==='montado'?(x.montaje==='taller'?'taller':'yo'):'—', k=>({yo:'Lo monté yo', taller:'Un taller', '—':'Aún sin montar'})[k]], ['anio','Año de compra', x=>(x.fechaCompra||'').slice(0,4)||'—', k=>k==='—'?'Sin fecha':k]);
+  return F;
+}
+const cmpState=kind=>{ UI.cmpV=UI.cmpV||{}; return UI.cmpV[kind]=UI.cmpV[kind]||{sort:CMP_DEF[kind], f:{}, q:''}; };
+function cmpApply(kind, L, st, skip){
+  const F=cmpFacets(kind, L), q=norm(st.q||'');
+  return L.filter(x=>{ if(q && !norm([x.nombre,x.ref,x.tienda,x.notas].join(' ')).includes(q)) return false;
+    for(const [k,,fn] of F){ if(k===skip) continue; const sel=st.f[k]; if(sel && sel.length && !sel.includes(fn(x))) return false; } return true; });
+}
+function cmpSort(L, how){
+  const nm=(a,b)=>COLL.compare(a.nombre||'',b.nombre||''), pr=x=>Number(x.precio)||0, d=(x,f)=>x[f]||'';
+  const by={az:nm, za:(a,b)=>-nm(a,b), nuevo:(a,b)=>d(b,'creado').localeCompare(d(a,'creado'))||nm(a,b),
+    p_asc:(a,b)=>pr(a)-pr(b)||nm(a,b), p_desc:(a,b)=>pr(b)-pr(a)||nm(a,b),
+    f_desc:(a,b)=>d(b,'fechaCompra').localeCompare(d(a,'fechaCompra'))||nm(a,b), f_asc:(a,b)=>(d(a,'fechaCompra')||'9').localeCompare(d(b,'fechaCompra')||'9')||nm(a,b),
+    m_desc:(a,b)=>d(b,'fechaMontaje').localeCompare(d(a,'fechaMontaje'))||nm(a,b), m_asc:(a,b)=>(d(a,'fechaMontaje')||'9').localeCompare(d(b,'fechaMontaje')||'9')||nm(a,b)}[how]||nm;
+  return [...L].sort(by);
+}
+/* la hoja de filtros: cada opción con cuántos resultados daría */
+function cmpFilterSheet(kind, L, redraw){
+  const st=cmpState(kind), draft=JSON.parse(JSON.stringify(st.f)), body=h2('<div class="cmpfs"></div>');
+  const paint=()=>{ body.innerHTML=''; const tmp={...st, f:draft};
+    for(const [k,t,fn,lab] of cmpFacets(kind, L)){
+      const base=cmpApply(kind, L, tmp, k), cnt=new Map(); for(const x of L) cnt.set(fn(x), 0); for(const x of base) cnt.set(fn(x), (cnt.get(fn(x))||0)+1);
+      const keys=[...cnt.keys()].sort((a,b)=>COLL.compare(String(lab(a)),String(lab(b)))); if(keys.length<2 && !(draft[k]||[]).length) continue;
+      const g=h2(`<section class="cmpfg"><h5>${esc(t)}</h5><div class="cmpchips"></div></section>`);
+      for(const v of keys){ const on=(draft[k]||[]).includes(v), n=cnt.get(v)||0;
+        const c=h2(`<button type="button" class="cmpchip" aria-pressed="${on}"${!n&&!on?' disabled':''}>${esc(String(lab(v)))} <em>${n}</em></button>`);
+        c.onclick=()=>{ uiSfx('tap'); const a=draft[k]=draft[k]||[]; on?a.splice(a.indexOf(v),1):a.push(v); paint(); }; g.querySelector('.cmpchips').append(c); }
+      body.append(g); }
+    const n=cmpApply(kind, L, tmp).length, ok=document.querySelector('#shBox .dacts .pri'); if(ok) ok.lastChild.textContent=`Ver ${pl(n,'resultado')}`; };
+  detailSheet('Filtrar', ({pend:'Por comprar', comp:'Comprado, sin montar', hist:'Historial de compras'})[kind], body,
+    [['Quitar filtros','x',()=>{ st.f={}; closeSheet(); redraw(); }], ['Ver resultados','check',()=>{ st.f=draft; closeSheet(); redraw(); },'pri']]);
+  paint();
+}
+function cmpView(kind, w){
+  const all=cmpLists()[kind], st=cmpState(kind), nF=Object.values(st.f).reduce((a,v)=>a+(v?.length||0),0);
+  if(kind==='pend') w.append(cmpQuickAdd());
+  const bar=h2(`<div class="cmpbar"><input class="inp2 cmpq" type="search" placeholder="Buscar en esta lista…" autocomplete="off"><div class="cmpbar2"><button type="button" class="btn2 ghost cmpfb${nF?' on':''}">${ic('sliders')}Filtrar${nF?` <em>${nF}</em>`:''}</button><label class="cmpsort"><span>Ordenar por</span><select class="inp2" data-nosort></select></label></div><div class="cmpact"></div></div>`);
+  const sel=bar.querySelector('select'); for(const [k,l] of CMP_SORT[kind]) sel.append(new Option(l,k)); sel.value=st.sort;
+  const redraw=()=>v3render(v3top());
+  sel.onchange=()=>{ st.sort=sel.value; uiSfx('tap'); redraw(); };
+  bar.querySelector('.cmpfb').onclick=()=>{ uiSfx('tap'); cmpFilterSheet(kind, all, redraw); };
+  const q=bar.querySelector('.cmpq'); q.value=st.q||''; let qt=0; q.oninput=()=>{ clearTimeout(qt); qt=setTimeout(()=>{ st.q=q.value; const pos=q.selectionStart; redraw(); setTimeout(()=>{ const n=document.querySelector('.v3pg.on .cmpq'); if(n){ n.focus(); try{ n.setSelectionRange(pos,pos); }catch{} } },0); }, 250); };
+  /* filtros activos, cada uno con su ✕ */
+  const act=bar.querySelector('.cmpact');
+  for(const [k,,,lab] of cmpFacets(kind, all)) for(const v of (st.f[k]||[])){ const c=h2(`<button type="button" class="cmpchip on">${esc(String(lab(v)))} ${ic('x')}</button>`); c.onclick=()=>{ st.f[k]=st.f[k].filter(x=>x!==v); redraw(); }; act.append(c); }
+  w.append(bar);
+  const L=cmpSort(cmpApply(kind, all, st), st.sort), filt=nF||norm(st.q||'');
+  const emptyTxt={pend:'Nada pendiente. Añade arriba lo que necesites.', comp:'Lo que compres aparece aquí hasta que lo montes.', hist:'Todavía no hay compras.'}[kind];
+  if(!L.length){ w.append(cmpEmpty(filt?'Nada con estos filtros. Quita alguno para ver más.':emptyTxt)); return; }
+  const tot=X=>X.reduce((a,x)=>a+(Number(x.precio)||0),0);
+  /* el historial por fechas va separado por años; el resto, una sola lista */
+  const dk=/^f_/.test(st.sort)?'fechaCompra':/^m_/.test(st.sort)?'fechaMontaje':null;
+  if(kind==='hist' && dk){
+    for(const yy of [...new Set(L.map(x=>(x[dk]||'').slice(0,4)||'Sin fecha'))]){ const Y=L.filter(x=>((x[dk]||'').slice(0,4)||'Sin fecha')===yy);
+      w.append(vGroup(dk==='fechaMontaje'&&yy==='Sin fecha'?'Sin montar':yy, Y.map(x=>cmpRow(x,'hist')), {foot:`${pl(Y.length,'compra')} · ${eur(tot(Y))}`})); }
+    return; }
+  const title={pend:'Por comprar', comp:'Comprado, sin montar', hist:'Historial de compras'}[kind]+` · ${L.length}${filt?' de '+all.length:''}`;
+  const foot={pend:'Toca uno para registrar la compra (precio, tienda, factura…) o desliza a la derecha.', comp:'Toca el nombre para completar los datos de la compra; «Montar» cuando la pongas.', hist:''}[kind];
+  w.append(vGroup(title, L.map(x=>cmpRow(x,kind)), {foot:kind==='pend'?foot:`${foot?foot+' ':''}${pl(L.length,'compra')} · ${eur(tot(L))}`}));
+}
+V3.pages.compra_pend={tab:'gastos', title:'Por comprar', sub:()=>pl(cmpLists().pend.length,'artículo'), act:CMP_ADD, render(w){ cmpView('pend', w); }};
+V3.pages.compra_comp={tab:'gastos', title:'Comprado, sin montar', sub:()=>pl(cmpLists().comp.length,'pieza'), render(w){ cmpView('comp', w); }};
+V3.pages.compra_hist={tab:'gastos', title:'Historial de compras', sub:()=>{ const H=cmpLists().hist; return `${pl(H.length,'compra')} · ${eur(H.reduce((a,x)=>a+(Number(x.precio)||0),0))}`; }, render(w){ cmpView('hist', w); }};
 
 /* ====================== MOVIMIENTOS ====================== */
 const MOVF=[['todo','Todo'],['piezas','Piezas'],['taller','Taller'],['combustible','Combustible'],['otros','Otros']];

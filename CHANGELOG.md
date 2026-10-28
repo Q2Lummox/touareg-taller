@@ -1,5 +1,9 @@
 # Novedades
 
+## v4.0.5 · 2026-10-28
+- Lista de la compra: buscar, filtrar (sistema del coche, tipo de pieza, tienda, precio, estado, quién lo montó y año) y ordenar en cada apartado
+- Por comprar y sin montar, en orden alfabético; historial por fecha de compra (o de montaje), separado por años
+
 ## v4.0.4 · 2026-10-28
 - Lista de la compra ordenada: un resumen con tres apartados (por comprar, comprado sin montar e historial por años) en vez de una lista interminable
 
