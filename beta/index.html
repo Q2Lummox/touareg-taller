@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.0.3">
+<meta name="app-version" content="4.0.4">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3323,7 +3323,7 @@ body.manoslibres .reprun .rpnav{grid-template-columns:minmax(0,1fr) minmax(0,1.5
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.0.3</span>
+  <span class="spver">v4.0.4</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6696,7 +6696,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.0.3';
+window.APP_VERSION='4.0.4';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6730,7 +6730,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.0.3';
+  const APP_VERSION='4.0.4';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -12203,7 +12203,7 @@ const unseen=(t,I)=>(I||avItems())[t].filter(x=>!(SEEN[t]||[]).includes(x));
 function avCtx(e){ if(!e) return null;
   if(e.k==='hub' && ['taller','gastos','papeles'].includes(e.id)) return e.id;
   if(['problemas','averias','pendientes','plan','hechos'].includes(e.id)) return 'taller';
-  if(e.id==='compra') return 'gastos';
+  if(['compra','compra_pend','compra_comp','compra_hist'].includes(e.id)) return 'gastos';
   if(e.id==='p_docs') return 'papeles';
   return null; }
 function avMarkSeen(ctx){ if(!ctx) return; SEEN[ctx]=avItems()[ctx]; prefSet('vistos', SEEN); }
@@ -12971,22 +12971,46 @@ function cmpRow(x, kind){
   r._swL={l:'Borrar', i:'x', danger:true, fn:async()=>{ if(!confirm(`¿Borrar «${x.nombre}» de la compra?`)) return; const bk=stripId2(x); await S.db.collection('compras').doc(x._id).delete(); toast('Borrado de la compra', null, {label:'Deshacer', fn:()=>S.db.collection('compras').doc(x._id).set(bk)}); }};
   return r;
 }
-V3.pages.compra={tab:'gastos', title:'Lista de la compra', sub:()=>{ const n=(S.compras||[]).filter(c=>c.estado==='pendiente').length; return n?pl(n,'cosa por comprar','cosas por comprar'):'Nada por comprar'; },
-  act:['plus','Añadir',(ev,b)=>v3menu(b,[['receipt','Compra ya hecha',()=>compraSheet(null,'hecha'),'var(--v-green)'],['cart','Añadir a la lista de la compra',()=>compraSheet(null),'var(--v-teal)']])], render(w){
-  const all=S.compras||[], pend=all.filter(x=>x.estado==='pendiente').sort((a,b)=>COLL.compare(a.nombre||'',b.nombre||'')),
-        comp=all.filter(x=>x.estado==='comprado').sort((a,b)=>(b.fechaCompra||'').localeCompare(a.fechaCompra||'')),
-        hist=all.filter(x=>x.estado!=='pendiente').sort((a,b)=>(b.fechaCompra||'').localeCompare(a.fechaCompra||'')), tot=hist.reduce((a,x)=>a+(Number(x.precio)||0),0);
-  /* añadir rápido */
+/* la lista de la compra: un resumen con tres apartados (por comprar · comprado sin montar · historial) */
+const cmpLists=()=>{ const all=S.compras||[];
+  return {pend:all.filter(x=>x.estado==='pendiente').sort((a,b)=>COLL.compare(a.nombre||'',b.nombre||'')),
+          comp:all.filter(x=>x.estado==='comprado').sort((a,b)=>(b.fechaCompra||'').localeCompare(a.fechaCompra||'')),
+          hist:all.filter(x=>x.estado!=='pendiente').sort((a,b)=>(b.fechaCompra||'').localeCompare(a.fechaCompra||''))}; };
+const CMP_ADD=['plus','Añadir',(ev,b)=>v3menu(b,[['receipt','Compra ya hecha',()=>compraSheet(null,'hecha'),'var(--v-green)'],['cart','Añadir a la lista de la compra',()=>compraSheet(null),'var(--v-teal)']])];
+function cmpQuickAdd(){
   const add=h2(`<section class="vgrp"><div class="vcard vqadd"><input class="inp2" list="cpList3" placeholder="Añadir a la lista: pieza o artículo…" autocomplete="off"><input class="inp2 vqn" type="number" inputmode="numeric" min="1" value="1" aria-label="Cantidad"><button type="button" class="btn2">${ic('plus')}</button><datalist id="cpList3"></datalist></div></section>`);
-  { const dl=add.querySelector('datalist'); [...new Set([...S.piezasL.map(x=>x.nombre), ...S.mant.map(x=>x.nombre)])].sort(COLL.compare).forEach(n=>dl.append(new Option(n)));
-    const [inp, qty]=add.querySelectorAll('input'), b=add.querySelector('button');
-    const go2=async()=>{ const n=inp.value.trim(); if(!n){ inp.focus(); return; } b.disabled=true; try{ await S.db.collection('compras').add({nombre:n, cantidad:Math.max(1,Number(qty.value)||1), estado:'pendiente', creado:new Date().toISOString()}); toast(`«${n}» añadido a la compra`); }catch{ toast('No se pudo añadir','err'); } b.disabled=false; };
-    b.onclick=go2; inp.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); go2(); } }; }
-  w.append(add);
-  const grp=(title, list, kind, empty, foot)=>{ const g=vGroup(title, list.map(x=>cmpRow(x,kind)), {foot}); if(!list.length) g.querySelector('.vlist').append(h2(`<div class="vcalm sm">${ic('checkc')}<div><small>${empty}</small></div></div>`)); w.append(g); };
-  grp(`Por comprar${pend.length?' · '+pend.length:''}`, pend, 'pend', 'Nada pendiente. Añade arriba lo que necesites.', pend.length?'Toca el círculo o desliza a la derecha cuando lo compres.':'');
-  grp(`Comprado, sin montar${comp.length?' · '+comp.length:''}`, comp, 'comp', 'Lo que compres aparece aquí hasta que lo montes.');
-  if(hist.length) grp('Historial de compras', hist.slice(0,60), 'hist', '', `${pl(hist.length,'compra')} · ${eur(tot)}`);
+  const dl=add.querySelector('datalist'); [...new Set([...S.piezasL.map(x=>x.nombre), ...S.mant.map(x=>x.nombre)])].sort(COLL.compare).forEach(n=>dl.append(new Option(n)));
+  const [inp, qty]=add.querySelectorAll('input'), b=add.querySelector('button');
+  const go2=async()=>{ const n=inp.value.trim(); if(!n){ inp.focus(); return; } b.disabled=true; try{ await S.db.collection('compras').add({nombre:n, cantidad:Math.max(1,Number(qty.value)||1), estado:'pendiente', creado:new Date().toISOString()}); toast(`«${n}» añadido a la compra`); }catch{ toast('No se pudo añadir','err'); } b.disabled=false; };
+  b.onclick=go2; inp.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); go2(); } };
+  return add;
+}
+const cmpEmpty=t=>h2(`<div class="vcalm sm">${ic('checkc')}<div><small>${t}</small></div></div>`);
+V3.pages.compra={tab:'gastos', title:'Lista de la compra', sub:()=>{ const n=cmpLists().pend.length; return n?pl(n,'cosa por comprar','cosas por comprar'):'Nada por comprar'; },
+  act:CMP_ADD, render(w){
+  const L=cmpLists(), tot=L.hist.reduce((a,x)=>a+(Number(x.precio)||0),0), nNew=L.pend.filter(x=>avIsNew('gastos','c:'+x._id)).length;
+  w.append(vGroup('',[
+    vRow({i:'cart', c:V3C.teal, t:'Por comprar', s:L.pend.length?pl(L.pend.length,'artículo')+(nNew?` · ${nNew} nuevos`:''):'Nada pendiente', r:L.pend.length&&!nNew?String(L.pend.length):null, badge:nNew?String(nNew):null, fn:()=>v3go('compra_pend')}),
+    vRow({i:'wrench', c:V3C.orange, t:'Comprado, sin montar', s:L.comp.length?pl(L.comp.length,'pieza')+' esperando a montarse':'Nada pendiente de montar', r:L.comp.length?String(L.comp.length):null, fn:()=>v3go('compra_comp')}),
+    vRow({i:'history', c:V3C.indigo, t:'Historial de compras', s:L.hist.length?`${pl(L.hist.length,'compra')} · ${eur(tot)}`:'Todavía sin compras', fn:()=>v3go('compra_hist')}),
+  ]));
+  w.append(cmpQuickAdd());
+}};
+V3.pages.compra_pend={tab:'gastos', title:'Por comprar', sub:()=>pl(cmpLists().pend.length,'artículo'), act:CMP_ADD, render(w){
+  const L=cmpLists().pend; w.append(cmpQuickAdd());
+  const g=vGroup(`Por comprar${L.length?' · '+L.length:''}`, L.map(x=>cmpRow(x,'pend')), {foot:L.length?'Toca uno para registrar la compra (precio, tienda, factura…) o desliza a la derecha.':''});
+  if(!L.length) g.querySelector('.vlist').append(cmpEmpty('Nada pendiente. Añade arriba lo que necesites.')); w.append(g);
+}};
+V3.pages.compra_comp={tab:'gastos', title:'Comprado, sin montar', sub:()=>pl(cmpLists().comp.length,'pieza'), render(w){
+  const L=cmpLists().comp;
+  const g=vGroup(`Comprado, sin montar${L.length?' · '+L.length:''}`, L.map(x=>cmpRow(x,'comp')), {foot:L.length?'Toca el nombre para completar los datos de la compra; «Montar» cuando la pongas.':''});
+  if(!L.length) g.querySelector('.vlist').append(cmpEmpty('Lo que compres aparece aquí hasta que lo montes.')); w.append(g);
+}};
+V3.pages.compra_hist={tab:'gastos', title:'Historial de compras', sub:()=>{ const H=cmpLists().hist; return `${pl(H.length,'compra')} · ${eur(H.reduce((a,x)=>a+(Number(x.precio)||0),0))}`; }, render(w){
+  const H=cmpLists().hist; if(!H.length){ w.append(cmpEmpty('Todavía no hay compras.')); return; }
+  for(const yy of [...new Set(H.map(x=>(x.fechaCompra||'').slice(0,4)||'Sin fecha'))]){
+    const Y=H.filter(x=>((x.fechaCompra||'').slice(0,4)||'Sin fecha')===yy);
+    w.append(vGroup(yy, Y.map(x=>cmpRow(x,'hist')), {foot:`${pl(Y.length,'compra')} · ${eur(Y.reduce((a,x)=>a+(Number(x.precio)||0),0))}`})); }
 }};
 
 /* ====================== MOVIMIENTOS ====================== */
@@ -13023,7 +13047,7 @@ Object.assign(V3.pages,{
   repost:v2Pg('gastos','Repostajes', renderRepost, {act:['plus','Repostaje',()=>recForm(MOD.repostajes)]}),
   stats:v2Pg('gastos','Estadísticas', renderStats),
 });
-for(const k of ['compra','resumen','repost','stats']) delete V3.leaves[k];
+for(const k of ['compra','compra_pend','compra_comp','compra_hist','resumen','repost','stats']) delete V3.leaves[k];
 
 /* ====================== PAPELES Y COCHE (4.0 · fase 4) ======================
    Todas las pantallas de detalle de Papeles y de Coche son ya páginas del navegador (v2Pg): su contenido

@@ -1,5 +1,8 @@
 # Novedades
 
+## v4.0.4 · 2026-10-28
+- Lista de la compra ordenada: un resumen con tres apartados (por comprar, comprado sin montar e historial por años) en vez de una lista interminable
+
 ## v4.0.3 · 2026-10-28
 - Lista de la compra: al tocar algo por comprar se abre la ventana completa (precio, tienda, fecha, quién lo monta, factura), igual que al marcarlo con el círculo
 - «Guardar sin comprar» para corregir nombre o cantidad; aviso con «Añadir precio» si lo marcas comprado sin precio
