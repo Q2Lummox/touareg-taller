@@ -1,29 +1,33 @@
 {
- "version": "4.1.0",
+ "version": "4.2.0-beta.1",
  "fecha": "2026-10-28",
  "notas": [
-  "Vídeos de YouTube en cada paso de las guías (y grabar los tuyos)",
-  "Importar el Auto-Scan de VCDS: códigos explicados y comparados con el anterior",
-  "Guías por hacer: qué falta y dónde está en ElsaWin",
-  "Hoy con cuadro de instrumentos",
-  "Sensores en el mapa 3D",
-  "Modo «Al sol» en Ajustes",
-  "3D más fluido en el móvil en calidad baja",
-  "Reparación en curso: reconoce sola las piezas que compraste aparte"
+  "Visor de imágenes nuevo: pellizcar para ampliar, arrastrar, doble toque, girar y deslizar abajo para cerrar, sin parpadeos",
+  "Ficha de cada pieza con compras, guías, reparaciones y tiendas; aviso si ya la tienes en la compra",
+  "Taller reorganizado: guías, diagnóstico, VCDS, tus herramientas y la ITV juntos",
+  "Gráficas de los registros de VCDS con el anterior superpuesto y el rango bueno",
+  "Preparar el pedido para la tienda (WhatsApp, correo o copiar)",
+  "Mis herramientas: «¿Lo tienes todo?» sabe lo que tienes y propone alternativas",
+  "Grabar el ruido de una avería, antes y después",
+  "Atajos: abrir la app directamente en una acción (Siri)",
+  "Preparar la ITV con aviso un mes antes",
+  "Hoy más compacto, 3D con la hoja plegada, modo garaje en las guías y compra con «Más detalles»"
  ],
  "historial": [
   {
-   "version": "4.1.0",
+   "version": "4.2.0-beta.1",
    "fecha": "2026-10-28",
    "notas": [
-    "Vídeos de YouTube en cada paso de las guías (y grabar los tuyos)",
-    "Importar el Auto-Scan de VCDS: códigos explicados y comparados con el anterior",
-    "Guías por hacer: qué falta y dónde está en ElsaWin",
-    "Hoy con cuadro de instrumentos",
-    "Sensores en el mapa 3D",
-    "Modo «Al sol» en Ajustes",
-    "3D más fluido en el móvil en calidad baja",
-    "Reparación en curso: reconoce sola las piezas que compraste aparte"
+    "Visor de imágenes nuevo: pellizcar para ampliar, arrastrar, doble toque, girar y deslizar abajo para cerrar, sin parpadeos",
+    "Ficha de cada pieza con compras, guías, reparaciones y tiendas; aviso si ya la tienes en la compra",
+    "Taller reorganizado: guías, diagnóstico, VCDS, tus herramientas y la ITV juntos",
+    "Gráficas de los registros de VCDS con el anterior superpuesto y el rango bueno",
+    "Preparar el pedido para la tienda (WhatsApp, correo o copiar)",
+    "Mis herramientas: «¿Lo tienes todo?» sabe lo que tienes y propone alternativas",
+    "Grabar el ruido de una avería, antes y después",
+    "Atajos: abrir la app directamente en una acción (Siri)",
+    "Preparar la ITV con aviso un mes antes",
+    "Hoy más compacto, 3D con la hoja plegada, modo garaje en las guías y compra con «Más detalles»"
    ]
   }
  ]

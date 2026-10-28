@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.1.0">
+<meta name="app-version" content="4.2.0-beta.1">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3367,6 +3367,90 @@ body.v3.sol .vcuadro{zoom:.893}
 body.v3::before{animation:none!important}
 body[data-v3leaf="3d"] #v3tabs, body[data-v3leaf="3d"] .v3tabs{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--v-bg)!important}
 body[data-v3leaf="3d"] .v3bar::before{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--v-bg)!important}
+/* 4.2 visor de imágenes */
+.vz{position:fixed;inset:0;z-index:9800;background:rgba(0,0,0,calc(.94*var(--vzbg,1)));touch-action:none;overscroll-behavior:contain;animation:fadeIn .18s;outline:none;-webkit-user-select:none;user-select:none}
+.vz.out{opacity:0;transition:opacity .18s}
+.vzst{position:absolute;inset:0;overflow:hidden;touch-action:none;cursor:grab}
+.vz.zoomed .vzst{cursor:move}
+.vzst img{position:absolute;left:50%;top:50%;max-width:none;max-height:none;transform-origin:50% 50%;will-change:transform;pointer-events:none;-webkit-touch-callout:none;opacity:0;transition:opacity .2s}
+.vz.ok .vzst img{opacity:1}
+.vzbar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:calc(var(--sa-t,0px) + 10px) 12px 14px 16px;background:linear-gradient(#000b,transparent);color:#fff;font:600 15px var(--v-font);transition:opacity .2s}
+.vzt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vzbar button,.vztools button{width:44px;height:44px;border-radius:50%;border:0;background:#ffffff26;color:#fff;display:grid;place-items:center;cursor:pointer;font:600 22px/1 var(--v-font);flex:none}
+.vzbar svg,.vztools svg{width:20px;height:20px}
+.vztools button b{font-size:12px}
+.vztools{position:absolute;left:50%;bottom:calc(var(--sa-b,0px) + 18px);transform:translateX(-50%);display:flex;gap:10px;padding:8px;border-radius:30px;background:#000a;transition:opacity .2s}
+.vz.bare .vzbar,.vz.bare .vztools{opacity:0;pointer-events:none}
+.vzhint{position:absolute;left:0;right:0;bottom:calc(var(--sa-b,0px) + 84px);text-align:center;color:#fffc;font:500 13px var(--v-font);transition:opacity .6s;pointer-events:none}
+.vzhint.gone{opacity:0}
+.cpmore{margin:10px 0 2px;border:1px solid var(--v-sep,#8884);border-radius:12px;padding:2px 12px 10px}
+.cpmore>summary{cursor:pointer;padding:10px 0 4px;font:600 14px var(--v-font);color:var(--v-orange,var(--accent));list-style:none}
+.cpmore>summary::-webkit-details-marker{display:none}
+.cpfi{width:100%;margin:10px 0 0;justify-content:flex-start}
+.pzshops{display:flex;flex-wrap:wrap;gap:8px}.pzshops .btn2{flex:1 1 auto;justify-content:center;text-decoration:none}
+.rpneedc:not(.tap){cursor:pointer}
+/* 4.2 gráficas VCDS */
+.vgcard{background:var(--v-cell);border-radius:16px;padding:12px 12px 10px;margin:0 0 12px}
+.vgcard.bad{box-shadow:inset 0 0 0 1.5px var(--v-red)}
+.vgcard header{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.vgcard header b{font:600 15px var(--v-font)}.vgcard header small{color:var(--v-txt2);font-size:12px;flex:1}
+.vgsvg{width:100%;height:auto;display:block;margin:6px 0 4px}
+.vgline{fill:none;stroke:var(--v-blue,#0a84ff);stroke-width:1.8;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.vgprev{fill:none;stroke:var(--v-txt2);stroke-width:1.2;stroke-dasharray:4 3;opacity:.7;vector-effect:non-scaling-stroke}
+.vgband{fill:var(--v-green,#30d158);opacity:.13}
+.vggr{stroke:var(--v-sep,#8884);stroke-width:.6}.vgax{fill:var(--v-txt2);font:500 9.5px var(--v-font)}
+.vgst{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--v-txt2)}.vgst b{color:var(--v-txt);font-weight:600}.vgst .vgchg b{color:var(--v-orange)}
+.vgwarn{margin:6px 0 0;color:var(--v-red);font:600 13px var(--v-font);display:flex;gap:6px;align-items:center}.vgwarn svg{width:15px;height:15px}
+.vgnote{margin:4px 0 0;font-size:11.5px;color:var(--v-txt2)}
+.vmoved{margin:4px 6px 18px;color:var(--v-txt2);font-size:13px;display:flex;align-items:center;gap:6px}.vmoved svg{width:15px;height:15px}.vmoved button{border:0;background:none;color:var(--accent);font:600 13px var(--v-font);padding:0;cursor:pointer}
+/* 4.2 pedido */
+.pedl{display:grid;gap:2px;margin-bottom:8px}.pedl small{color:var(--v-txt2)}.pedl .pedsin{color:var(--v-orange)}
+.pedt{font:14px/1.45 var(--v-font);min-height:180px}
+.pedb{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pedb .btn2{flex:1 1 40%}
+.pedgo{width:100%;margin:8px 0 12px}
+.chk.own span::after{content:' · la tienes';color:var(--v-green);font-size:12px;font-weight:600}
+/* herramientas */
+.hrow{display:flex;gap:12px;align-items:flex-start;padding:11px 14px;border-top:.5px solid var(--v-sep)}.hrow:first-child{border-top:0}
+.hrow b{font:600 15px var(--v-font);display:block}.hrow small{color:var(--v-txt2);font-size:12.5px}.hrow p{margin:5px 0 0;font-size:13px;color:var(--v-txt2);line-height:1.4}
+.hchk{flex:none;width:34px;height:34px;border-radius:50%;border:0;background:var(--v-cell2);color:var(--accent);display:grid;place-items:center;cursor:pointer}.hchk svg{width:18px;height:18px}
+.hrow.on .hchk{background:color-mix(in srgb,var(--v-green) 20%,transparent);color:var(--v-green)}.hrow.on b{color:var(--v-txt2)}
+/* ruidos */
+.rdbox{margin-top:14px}.rdl{display:grid;gap:8px;margin:6px 0 10px}
+.rdi{display:flex;gap:10px;align-items:center;background:var(--v-cell2);border-radius:12px;padding:8px 10px}.rdi>div{flex:1;min-width:0}.rdi b{font-size:13.5px}.rdi small{display:block;color:var(--v-txt2);font-size:12px}
+.rdi audio{width:100%;height:34px;margin-top:4px}
+.rdi em{font-style:normal;font:700 11px var(--v-font);text-transform:uppercase;letter-spacing:.04em;color:var(--v-orange);writing-mode:vertical-rl;transform:rotate(180deg)}.rdi em.ok{color:var(--v-green)}
+.rdrec{text-align:center}.rdt{display:block;font:700 38px var(--v-font);margin:8px 0}
+.rdlvl{height:10px;border-radius:5px;background:var(--v-cell2);overflow:hidden}.rdlvl i{display:block;height:100%;width:0;background:var(--v-red);transition:width .08s}
+/* atajos */
+.atrow{display:flex;gap:10px;align-items:center;padding:10px 14px;border-top:.5px solid var(--v-sep)}.atrow:first-child{border-top:0}.atrow>div{flex:1;min-width:0}.atrow b{display:block;font:600 15px var(--v-font)}.atrow small{display:block;color:var(--v-txt2);font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.atol{margin:0;padding-left:20px;line-height:1.5}
+/* ITV */
+.itvhero{display:flex;align-items:baseline;gap:10px;justify-content:center;padding:22px 16px;margin:0 0 16px;border-radius:18px;background:color-mix(in srgb,var(--c) 14%,var(--v-cell))}
+.itvhero b{font:800 52px/1 var(--v-font);color:var(--c)}.itvhero span{color:var(--v-txt2);font-size:15px}
+.itvtip{display:flex;gap:12px;padding:11px 14px;border-top:.5px solid var(--v-sep)}.itvtip:first-child{border-top:0}.itvtip>svg{width:20px;height:20px;flex:none;color:var(--accent);margin-top:2px}.itvtip b{display:block;font:600 15px var(--v-font)}.itvtip small{color:var(--v-txt2);font-size:13px;line-height:1.4}
+.vitvnow{margin:0 0 14px}
+/* Hoy compacto con el cuadro (móvil) */
+@media (max-width:900px){
+  .vhoy-cq .vh-hero,.vhoy-cq .vh-hero .vhin{min-height:216px!important;height:auto!important;aspect-ratio:auto!important}
+  .vhoy-cq .vh-hero .vkm{background:none!important;box-shadow:none!important;border:0!important;padding:0!important;justify-content:flex-end;margin-top:auto}
+  .vhoy-cq .vh-hero .vkm>span{display:none}
+  .vhoy-cq .vh-cuadro .cqodo{cursor:pointer}
+}
+/* modo garaje */
+.gz{position:fixed;inset:0;z-index:9600;background:var(--v-bg);display:flex;flex-direction:column;padding:var(--sa-t,0) 0 var(--sa-b,0)}
+.gzbar{display:flex;align-items:center;gap:10px;padding:10px 12px 8px 16px}.gzn{font:700 15px var(--v-font);color:var(--accent);flex:none}.gzt{flex:1;font:600 14px var(--v-font);color:var(--v-txt2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gzx{width:44px;height:44px;border-radius:50%;border:0;background:var(--v-cell2);color:var(--v-txt);display:grid;place-items:center;cursor:pointer}.gzx svg{width:20px;height:20px}
+.gzbody{flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;padding:4px 16px 8px;overflow:hidden}
+.gzimg{flex:0 1 44%;min-height:0;display:flex}.gzimg button{flex:1;border:0;padding:0;background:#fff;border-radius:14px;overflow:hidden;cursor:zoom-in;display:flex;align-items:center;justify-content:center}.gzimg img{max-width:100%;max-height:100%;object-fit:contain}
+.gztx{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch}
+.gztx h2{font:700 26px/1.2 var(--v-font);margin:4px 0 10px}.gztx p{font:400 20px/1.5 var(--v-font);margin:0 0 12px}
+.gzchip{display:inline-flex;align-items:center;gap:8px;margin:0 8px 8px 0;padding:8px 12px;border-radius:12px;background:var(--v-cell2);font:600 17px var(--v-font)}.gzchip svg{width:20px;height:20px;color:var(--accent)}
+.gznav{display:flex;gap:10px;padding:10px 16px 14px}.gznav button{flex:1;min-height:58px;border:0;border-radius:16px;font:700 18px var(--v-font);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+.gzp{background:var(--v-cell2);color:var(--v-txt)}.gzp:disabled{opacity:.35}.gzs{background:var(--accent);color:#fff}.gznav svg{width:22px;height:22px}
+.gzgo{width:100%;margin:0 0 12px}
+@keyframes gzr{from{opacity:0;transform:translateX(40px)}}@keyframes gzl{from{opacity:0;transform:translateX(-40px)}}
+.gzin-r{animation:gzr .22s ease}.gzin-l{animation:gzl .22s ease}
+@media (orientation:landscape) and (max-height:600px){ .gzbody{flex-direction:row} .gzimg{flex:0 0 46%} .gztx p{font-size:18px} .gznav button{min-height:46px} }
+.gztx h2{text-transform:none!important;letter-spacing:0!important;display:block!important;color:var(--v-txt)!important}.gztx h2::before,.gztx h2::after{display:none!important}
 </style>
 
 </head>
@@ -3409,7 +3493,7 @@ body[data-v3leaf="3d"] .v3bar::before{-webkit-backdrop-filter:none!important;bac
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.1.0</span>
+  <span class="spver">v4.2.0-beta.1</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6782,7 +6866,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.1.0';
+window.APP_VERSION='4.2.0-beta.1';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6816,7 +6900,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.1.0';
+  const APP_VERSION='4.2.0-beta.1';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -7666,10 +7750,12 @@ function compraSheet(c, mode){
     ${buy||d.estado!=='pendiente'?`<label class="wzlab">Precio total pagado (€)</label><input class="inp2" id="cpP" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(d.precio??'')}" placeholder="0,00">
     <label class="wzlab">Tienda</label><input class="inp2" id="cpT" value="${esc(d.tienda||'')}" placeholder="Tienda o web">
     <label class="wzlab">Fecha de compra</label><input class="inp2" id="cpF" type="date" value="${esc(d.fechaCompra||todayISO())}">
+    <details class="cpmore"${(d.ref||d.montaje==='taller'||d.adjuntos?.length)?' open':''}><summary>Más detalles: referencia, quién lo monta, factura</summary>
     ${hecha?'':`<label class="wzlab">Referencia / marca</label><input class="inp2" id="cpR" value="${esc(d.ref||'')}" placeholder="Ref. o marca">`}
     <label class="wzlab">¿Quién lo monta?</label><select class="inp2" id="cpM"><option value="yo"${d.montaje!=='taller'?' selected':''}>Lo monto yo</option><option value="taller"${d.montaje==='taller'?' selected':''}>Me lo monta un taller o mecánico</option></select>
     <div id="cpMW"${d.montaje==='taller'?'':' hidden'}><label class="wzlab">Mano de obra (€)</label><input class="inp2" id="cpMO" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(d.manoObra??'')}" placeholder="Lo que te cobra el taller"><label class="wzlab">Taller o mecánico</label><input class="inp2" id="cpTa" value="${esc(d.taller||'')}" placeholder="Nombre del taller"></div>
-    <label class="wzlab">Factura o foto (opcional)</label><input id="cpA" type="file" accept="image/*,application/pdf" multiple style="color:var(--txt-2)">`:''}
+    <label class="wzlab">Factura o foto (opcional)</label><input id="cpA" type="file" accept="image/*,application/pdf" multiple style="color:var(--txt-2)"></details>`:''}
+    ${!isNew&&d.ref?`<button type="button" class="btn2 ghost cpfi" id="cpFi">${ic('tag')}Ficha de la pieza · ${esc(d.ref)}</button>`:''}
     <label class="wzlab">Notas</label><input class="inp2" id="cpNo" value="${esc(d.notas||'')}" placeholder="Opcional">
     <div class="row3">${!isNew&&!buy?`<button class="btn2 ghost" type="button" id="cpDel" style="margin-right:auto;color:var(--due)">${ic('x')}Borrar</button>`:''}<button class="btn2 ghost" type="button" id="cpNo2">Cancelar</button>${buy?'<button class="btn2 ghost" type="button" id="cpKeep">Guardar sin comprar</button>':''}<button class="btn2" type="button" id="cpOk">${ic('check')}${buy?'Comprado':hecha?'Guardar compra':'Guardar'}</button></div></div>`, b=>{
     const dl=document.createElement('datalist'); dl.id='cpList'; const names=new Set([...S.piezasL.map(x=>x.nombre), ...S.mant.map(x=>x.nombre)]); [...names].sort(COLL.compare).forEach(n=>dl.append(new Option(n))); b.append(dl);
@@ -7677,6 +7763,7 @@ function compraSheet(c, mode){
     v('cpNo2').onclick=()=>$('#sheet2').hidden=true;
     if(v('cpDel')) v('cpDel').onclick=async()=>{ if(!confirm(`¿Borrar «${d.nombre}» de la compra?`)) return; const bk={...c}; delete bk._id; await S.db.collection('compras').doc(c._id).delete(); $('#sheet2').hidden=true; toast('Borrado de la compra', null, {label:'Deshacer', fn:()=>S.db.collection('compras').doc(c._id).set(bk)}); };
     setTimeout(()=>(v('cpN')||v('cpP'))?.focus(),80);
+    if(v('cpFi')) v('cpFi').onclick=()=>{ $('#sheet2').hidden=true; fichaSheet(d.ref); };
     if(v('cpM')) v('cpM').addEventListener('change',()=>{ v('cpMW').hidden=v('cpM').value!=='taller'; });
     for(const id of ['cpT','cpTa']) addProvList(v(id));          /* tiendas y talleres ya usados */
     compraOcr(b);                                                 /* leer el ticket con la cámara */
@@ -7686,6 +7773,7 @@ function compraSheet(c, mode){
       d.notas=v('cpNo').value.trim();
       if(v('cpP')){ d.precio=v('cpP').value===''?null:Number(v('cpP').value); d.tienda=v('cpT').value.trim(); d.fechaCompra=v('cpF').value||todayISO(); if(v('cpR')) d.ref=v('cpR').value.trim(); d.montaje=v('cpM').value; d.manoObra = d.montaje==='taller' && v('cpMO').value!=='' ? Number(v('cpMO').value) : null; d.taller = d.montaje==='taller' ? v('cpTa').value.trim() : ''; }
       if(mark) d.estado='comprado';
+      if(isNew && !cmpDupOk(d.nombre, d.ref)) return;
       ok.disabled=true;
       try{
         const files=[...(v('cpA')?.files||[])]; if(files.length) d.adjuntos=[...(d.adjuntos||[]), ...await uploadFiles(files)];
@@ -10177,6 +10265,7 @@ function refRow(f){ const s=[f.ref, f.uso[0]].filter(Boolean).join(' · ');
   return row2({c:f.stock?'var(--ok)':f.com.length?'var(--info)':'var(--accent)', i:f.stock?'home':f.com.length?'cart':'tag', t:f.nombre, s, r:f.stock?`${f.stock} en casa`:null, fn:()=>fichaSheet(f.k)}); }
 
 /* ---------- la ficha ---------- */
+const PZ_SHOPS=[['Google',(k,r)=>'https://www.google.com/search?q='+encodeURIComponent(r)],['Autodoc',k=>'https://www.autodoc.es/search?keyword='+encodeURIComponent(k)],['eBay',k=>'https://www.ebay.es/sch/i.html?_nkw='+encodeURIComponent(k)],['Recambios VW',(k,r)=>'https://www.google.com/search?q='+encodeURIComponent(r+' recambio original volkswagen precio')],['Wallapop',(k,r)=>'https://es.wallapop.com/app/search?keywords='+encodeURIComponent(r)]];
 function fichaSheet(k){
   const f=refIndex().get(refKey(k));
   if(!f){ toast('Esa referencia no tiene ficha todavía'); return; }
@@ -10218,10 +10307,19 @@ function fichaSheet(k){
   if(f.m3d.length){ const c=card2('En el modelo 3D','cube', f.m3d.length);
     for(const id of f.m3d) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'cube', t:parts[id]?.name||id, s:(LAYERS.find(l=>l.id===parts[id]?.layer)?.name||''), fn:()=>{ closeSheet(); go('coche','3d'); try{ select(id); _focusPart(id); if(matchMedia('(max-width:860px)').matches) setTab('ficha'); }catch{} }}));
     body.append(c); }
+  /* 4.2: en qué guías sale y en qué reparaciones se ha usado */
+  { const nm=norm(String(f.nombre||'').replace(/\([^)]*\)/g,'')).trim(), G=(S.procs||[]).filter(pr=>{ const t=norm(JSON.stringify([pr.titulo, pr.herramientas, (pr.pasos||[]).map(x=>[x.texto,x.titulo,x.herr]), pr.compras||[]])).replace(/[^0-9a-z ]/g,' ');
+      return t.replace(/\s+/g,'').includes(f.k.toLowerCase()) || (nm.length>8 && t.includes(nm.replace(/[^0-9a-z ]/g,' '))); });
+    if(G.length){ const c=card2('En tus guías','book', G.length); for(const pr of G) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'book', t:pr.titulo, s:pr.grupo||'Guía', fn:()=>{ closeSheet(); setTimeout(()=>guiaRead(pr),200); }})); body.append(c); }
+    const ids=new Set(f.com.map(x=>x._id)), RP=(S.v2.reparaciones||[]).filter(r=>(r.compras||[]).some(id=>ids.has(id)));
+    if(RP.length){ const c=card2('En tus reparaciones','wrench', RP.length); for(const r of RP){ const mont=(r.montadas||[]).some(id=>ids.has(id)); c.querySelector('.l2').append(row2({c:r.estado==='en_curso'?'var(--accent)':'var(--ok)', i:'wrench', t:r.titulo, s:[r.estado==='en_curso'?'En curso':'Terminada '+(r.fin?fmtDate(r.fin):''), mont?'montada':''].filter(Boolean).join(' · '), fn:r.estado==='en_curso'?()=>{ closeSheet(); setTimeout(()=>repRun(r),200); }:null})); } body.append(c); } }
+  /* 4.2: buscarla en tiendas */
+  { const c=card2('Buscar en tiendas','search'); const w=h2('<div class="pzshops"></div>');
+    for(const [n,u] of PZ_SHOPS){ const a=h2(`<a class="btn2 ghost" target="_blank" rel="noopener">${esc(n)}</a>`); a.href=u(f.k, f.ref); w.append(a); }
+    c.querySelector('.l2').append(w); body.append(c); }
   const sub=f.uso.length?f.uso.slice(0,2).join(' · '):'';
   detailSheet(f.nombre, sub, body, [
-    ['Añadir a la compra','cart',async()=>{ if(!S.db) return toast('Inicia sesión para guardar','err'); await S.db.collection('compras').add({nombre:f.nombre, ref:f.ref, cantidad:1, estado:'pendiente', notas:f.lam[0]?`Lámina ${f.lam[0].l.lamina}${f.lam[0].p.pos?' · pos. '+f.lam[0].p.pos:''}`:'', creado:new Date().toISOString()}); toast(`«${f.nombre}» añadido a la compra`); }],
-    ['Buscar en internet','search',()=>window.open('https://www.google.com/search?q='+encodeURIComponent(f.k),'_blank','noopener')],
+    ['Añadir a la compra','cart',async()=>{ if(!S.db) return toast('Inicia sesión para guardar','err'); if(!cmpDupOk(f.nombre, f.ref)) return; await S.db.collection('compras').add({nombre:f.nombre, ref:f.ref, cantidad:1, estado:'pendiente', notas:f.lam[0]?`Lámina ${f.lam[0].l.lamina}${f.lam[0].p.pos?' · pos. '+f.lam[0].p.pos:''}`:'', creado:new Date().toISOString()}); toast(`«${f.nombre}» añadido a la compra`); }],
   ]);
 }
 MOD.refs={col:'refs', newT:'Añadir pieza', editT:'Tus datos de la pieza', delT:'Datos de la ficha borrados',
@@ -11221,8 +11319,8 @@ function repNeedsBox(pr, compras, opts={}){
   if(!N.herr.length && !N.pares.length && !cs.length) return null;
   const d=h2(`<details class="rpparts rpneed"${opts.open?' open':''}><summary>${ic('list')}¿Lo tienes todo? <em>${sin.length?pl(sin.length,'pieza sin comprar','piezas sin comprar'):pl(N.herr.length,'herramienta')}</em></summary><div class="rpneedb"></div></details>`), b=d.querySelector('.rpneedb');
   UI.repNeed=UI.repNeed||{}; const key=pr._id||pr.titulo, got=UI.repNeed[key]=UI.repNeed[key]||new Set();
-  if(sin.length) b.append(h2(`<div class="alr soon">${ic('cart')}<span>Aún sin comprar: ${sin.map(c=>'<b>'+esc(c.nombre)+'</b>').join(', ')}.</span></div>`));
-  if(N.herr.length){ b.append(h2(`<h5>${ic('wrench')}Herramientas</h5>`)); for(const t of N.herr){ const l=h2(`<label class="chk"><input type="checkbox"${got.has(t)?' checked':''}><span>${esc(t)}</span></label>`); l.querySelector('input').onchange=e=>{ e.target.checked?got.add(t):got.delete(t); if(e.target.checked) uiSfx('tick'); }; b.append(l); } }
+  if(sin.length){ b.append(h2(`<div class="alr soon">${ic('cart')}<span>Aún sin comprar: ${sin.map(c=>'<b>'+esc(c.nombre)+'</b>').join(', ')}.</span></div>`)); if(typeof pedidoSheet==='function'){ const pb=h2(`<button type="button" class="btn2 ghost pedgo">${ic('share')}Preparar el pedido para la tienda</button>`); pb.onclick=()=>pedidoSheet(sin); b.append(pb); } }
+  if(N.herr.length){ b.append(h2(`<h5>${ic('wrench')}Herramientas</h5>`)); for(const t of N.herr){ const own=typeof herrTengo==='function' && herrTengo(t); if(own) got.add(t); const l=h2(`<label class="chk${own?' own':''}"><input type="checkbox"${got.has(t)?' checked':''}><span>${esc(t)}</span></label>`); l.querySelector('input').onchange=e=>{ e.target.checked?got.add(t):got.delete(t); if(e.target.checked) uiSfx('tick'); }; b.append(l); } }
   if(N.pares.length){ b.append(h2(`<h5>${ic('gauge')}Pares de apriete (para tener la dinamométrica adecuada)</h5>`)); const u=h2('<ul class="rppares"></ul>'); for(const [k,v] of N.pares) u.append(h2(`<li><em>Paso ${k+1}</em> ${esc(v)}</li>`)); b.append(u); }
   if(cs.length){ b.append(h2(`<h5>${ic('cart')}Piezas</h5>`)); for(const c of cs){ const r=h2(`<p class="rpneedc${c.estado==='pendiente'?' tap':''}">${ic(c.estado==='pendiente'?'alert':'check')}<span>${esc(c.nombre)}${c.ref?` <small>${esc(c.ref)}</small>`:''}${c.estado==='pendiente'?' <em>sin comprar · toca si ya la tienes</em>':''}</span></p>`); if(c.estado==='pendiente'){ r.setAttribute('role','button'); r.tabIndex=0; r.onclick=()=>{ uiSfx('tap'); compraSheet(c,'comprar'); }; } b.append(r); } }
   return d;
@@ -12342,7 +12440,7 @@ function v3badges(){ const I=avItems();
 /* no se redibuja nada con el dedo encima (si no, el gesto se pierde) ni si los datos no han cambiado */
 document.addEventListener('touchstart',()=>{ V3.touch=true; },{passive:true,capture:true});
 for(const t of ['touchend','touchcancel']) document.addEventListener(t,e=>{ if(!e.touches.length){ V3.touch=false; if(V3.pend){ V3.pend=false; v3dirty(); } } },{passive:true,capture:true});
-function v3sig(){ try{ return sigOf()+'|'+JSON.stringify([(S.ave||[]).map(a=>a.estado+a.sintoma), (S.compras||[]).map(c=>c.estado+c.nombre+c.fechaCompra+c.precio), S.int.map(x=>x.fecha+'|'+x.coste+'|'+x.km), S.cfg?.precioCompra, S.cfg?.fechaCompra, (S.docs||[]).map(d=>d.caduca), UI.prefs.theme, UI.v3pf, SEEN]); }catch{ return Math.random()+''; } }
+function v3sig(){ try{ return sigOf()+'|'+JSON.stringify([(S.ave||[]).map(a=>a.estado+a.sintoma+(a.audios||[]).length), (S.compras||[]).map(c=>c.estado+c.nombre+c.fechaCompra+c.precio), S.int.map(x=>x.fecha+'|'+x.coste+'|'+x.km), S.cfg?.precioCompra, S.cfg?.fechaCompra, (S.docs||[]).map(d=>d.caduca), UI.prefs.theme, UI.v3pf, SEEN]); }catch{ return Math.random()+''; } }
 function v3dirty(force){ if(V3.touch){ V3.pend=true; return; } clearTimeout(V3.dirtyT); V3.dirtyT=setTimeout(()=>{ if(V3.touch){ V3.pend=true; return; } const sg=v3sig(); if(sg===V3.sig && force!==true) { v3badges(); return; } V3.sig=sg; for(const [k] of V3TABS){ const r=V3.st[k][0]; if(r.el){ if(V3.cur===r) v3render(r); else r.stale=true; } }
     const e=V3.cur; if(e && e.k==='page' && !V3.pages[e.id]?.keep) v3render(e); v3badges(); }, 160); }   /* keep: formularios, no se repintan con lo que se está escribiendo */
 /* el estado de la sincronización, en el avatar */
@@ -12463,9 +12561,9 @@ V3.hubs.coche={title:'Coche', sub:()=>'Touareg 7L · 2.5 R5 TDI · 9905 CMY', re
     vTile({i:'tag', c:V3C.gray, t:'Datos del coche', s:'Bastidor, pintura, equipamiento', fn:()=>v3go('datos')}),
     vTile({i:'gauge', c:V3C.orange, t:'Ficha técnica', s:nPar?`Aceites, capacidades y ${nPar} pares`:'Aceites, capacidades y pares', fn:()=>v3go('tecnica')}),
     vTile({i:'cube', c:V3C.teal, t:'Piezas', s:nPz?pl(nPz,'pieza')+' con referencia':'Referencias y despiece', fn:()=>v3go('piezas')}),
-    vTile({i:'zap', c:V3C.yellow, t:'Electricidad', s:'Fusibles, relés y esquemas', fn:()=>v3go('elec')}),
-    vTile({i:'book', c:V3C.green, t:'Guías y manuales', s:nG?pl(nG,'guía')+' paso a paso':'Paso a paso', fn:()=>v3go('guias')}),
-    vTile({i:'steth', c:V3C.red, t:'Diagnóstico', s:'¿Qué le pasa? Por síntomas', fn:()=>v3go('diag')})));
+    vTile({i:'zap', c:V3C.yellow, t:'Electricidad', s:'Fusibles, relés y esquemas', fn:()=>v3go('elec')})));
+  /* 4.2: guías y diagnóstico se van a Taller (todo lo de arreglar junto); aquí queda un acceso discreto */
+  w.append(h2(`<p class="vmoved">${ic('book')}Las guías y el diagnóstico están ahora en <button type="button">Taller</button></p>`)); w.lastChild.querySelector('button').onclick=()=>v3tab('taller');
   w.append(vGroup('Su historia',[], {cls:'tight'}), vGrid(
     vTile({i:'image', c:V3C.pink, t:'Galería', s:nF?pl(nF,'foto'):'Fotos del coche', n:nF||null, img:lastF?.id?window.FB?.blobThumb?.(lastF.id):null, fn:()=>v3go('galeria')}),
     vTile({i:'sparkle', c:V3C.purple, t:'Mejoras', s:mj.length?pl(mj.length,'proyecto'):'Proyectos y presupuestos', n:mj.length||null, fn:()=>v3go('mejoras')})));
@@ -12491,20 +12589,23 @@ V3.hubs.taller={title:'Taller', sub:()=>S.cfg?.kmActual?nf.format(S.cfg.kmActual
   for(const a of aves.slice(0,2)) pl2.append(vRow({i:'alert', c:V3C.red, t:a.sintoma||a.codigo||'Avería', s:'Avería'+(a.fecha?' · desde el '+fmtDate(a.fecha):''), fn:()=>aveOpen(a)}));
   for(const p of pds.slice(0,Math.max(0,3-Math.min(2,aves.length)))) pl2.append(vRow({i:'flag', c:(PD_PRIO[p.prio]||PD_PRIO.pronto).c, t:p.titulo, s:(PD_PRIO[p.prio]||PD_PRIO.pronto).t+(p.zona?' · '+p.zona:''), fn:()=>pdSheet(p)}));
   if(!np) pl2.append(h2(`<div class="vcalm sm">${ic('checkc')}<div><b>Sin problemas apuntados</b><small>Si ves algo raro, apúntalo o usa el diagnóstico.</small></div></div>`));
-  const pa=h2(`<div class="vseg2"><button type="button">${ic('flag')}Anotar</button><button type="button">${ic('steth')}¿Qué le pasa?</button></div>`); const [b1,b2]=pa.querySelectorAll('button'); b1.onclick=()=>{ uiSfx('tap'); pdForm(null); }; b2.onclick=()=>v3go('diag'); pl2.append(pa);
+  const pa=h2(`<div class="vseg2 v3b"><button type="button">${ic('flag')}Anotar</button><button type="button">${ic('steth')}¿Qué le pasa?</button><button type="button">${ic('activity')}VCDS</button></div>`); const [b1,b2,b3]=pa.querySelectorAll('button'); b1.onclick=()=>{ uiSfx('tap'); pdForm(null); }; b2.onclick=()=>v3go('diag'); b3.onclick=()=>v3go('vcds'); pl2.append(pa);
   w.append(pg);
   /* todo lo demás */
   const hechos=S.int.length;
   w.append(vGroup('Taller',[
     vRow({i:'list', c:V3C.blue, t:'Mantenimiento', s:'Lo que toca por km y por fecha', badge:nMant?String(nMant):null, fn:()=>v3go('plan')}),
     vRow({i:'wrench', c:V3C.orange, t:'Reparaciones', s:'En curso y terminadas, con fotos', r:A.length?String(A.length):null, fn:()=>v3go('reparaciones')}),
+    vRow({i:'book', c:V3C.green, t:'Guías y manuales', s:(S.procs||[]).length?pl((S.procs||[]).length,'guía')+' paso a paso':'Paso a paso', fn:()=>v3go('guias')}),
     vRow({i:'history', c:V3C.indigo, t:'Trabajos hechos', s:'Todo lo que se le ha hecho', r:hechos?nf.format(hechos):null, fn:()=>v3go('hechos')}),
     vRow({i:'tyre', c:V3C.gray, t:'Ruedas', s:'Juegos, presiones y desgaste', fn:()=>v3go('ruedas')}),
   ]));
   w.append(vGroup('Herramientas',[
     vRow({i:'steth', c:V3C.red, t:'Diagnóstico por síntomas', s:'Qué puede ser y por dónde empezar', fn:()=>v3go('diag')}),
-    vRow({i:'steth', c:V3C.blue, t:'Escaneos de VCDS', s:(()=>{ const n=(S.v2.autoscans||[]).length; return n?pl(n,'escaneo')+' · cada código explicado':'Importa el Auto-Scan: códigos explicados y comparados'; })(), fn:()=>v3go('vcds')}),
-    vRow({i:'checkc', c:V3C.green, t:'Listas de comprobación', s:'ITV, viaje largo, invierno…', fn:()=>v3go('listas')}),
+    vRow({i:'steth', c:V3C.blue, t:'VCDS', s:(()=>{ const n=(S.v2.autoscans||[]).length, g=(S.v2.vcdslogs||[]).length; return (n||g)?[n?pl(n,'escaneo'):'', g?pl(g,'registro','registros')+' con gráfica':''].filter(Boolean).join(' · '):'Auto-Scan explicado y gráficas de valores medidos'; })(), fn:()=>v3go('vcds')}),
+    vRow({i:'wrench', c:V3C.orange, t:'Mis herramientas', s:(()=>{ const n=(S.v2.herrs||[]).length; return n?pl(n,'herramienta')+' · las guías saben lo que tienes':'Apunta las que tienes y las guías te dicen lo que falta'; })(), fn:()=>v3go('herrs')}),
+    vRow({i:'shield', c:V3C.indigo, t:'Preparar la ITV', s:typeof itvSub==='function'?itvSub():'Lo que miran, para llevarlo bien', fn:()=>v3go('itv')}),
+    vRow({i:'checkc', c:V3C.green, t:'Listas de comprobación', s:'Viaje largo, invierno…', fn:()=>v3go('listas')}),
     vRow({i:'phonec', c:V3C.teal, t:'Talleres y proveedores', s:'Teléfonos y trabajos hechos', fn:()=>v3go('talleres')}),
   ]));
 }};
@@ -13106,7 +13207,7 @@ function cmpQuickAdd(){
   const add=h2(`<section class="vgrp"><div class="vcard vqadd"><input class="inp2" list="cpList3" placeholder="Añadir a la lista: pieza o artículo…" autocomplete="off"><input class="inp2 vqn" type="number" inputmode="numeric" min="1" value="1" aria-label="Cantidad"><button type="button" class="btn2">${ic('plus')}</button><datalist id="cpList3"></datalist></div></section>`);
   const dl=add.querySelector('datalist'); [...new Set([...S.piezasL.map(x=>x.nombre), ...S.mant.map(x=>x.nombre)])].sort(COLL.compare).forEach(n=>dl.append(new Option(n)));
   const [inp, qty]=add.querySelectorAll('input'), b=add.querySelector('button');
-  const go2=async()=>{ const n=inp.value.trim(); if(!n){ inp.focus(); return; } b.disabled=true; try{ await S.db.collection('compras').add({nombre:n, cantidad:Math.max(1,Number(qty.value)||1), estado:'pendiente', creado:new Date().toISOString()}); toast(`«${n}» añadido a la compra`); }catch{ toast('No se pudo añadir','err'); } b.disabled=false; };
+  const go2=async()=>{ const n=inp.value.trim(); if(!n){ inp.focus(); return; } if(!cmpDupOk(n,'')) return; b.disabled=true; try{ await S.db.collection('compras').add({nombre:n, cantidad:Math.max(1,Number(qty.value)||1), estado:'pendiente', creado:new Date().toISOString()}); toast(`«${n}» añadido a la compra`); }catch{ toast('No se pudo añadir','err'); } b.disabled=false; };
   b.onclick=go2; inp.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); go2(); } };
   return add;
 }
@@ -13642,7 +13743,7 @@ function renderGphCard(w){
   w.append(c);
 }
 { const _rg=renderGuias; renderGuias=function(w){ _rg(w); try{ renderGphCard(w); }catch(e){ console.warn(e); } };
-  V3.pages.guias=v2Pg('coche','Guías y manuales', renderGuias); }
+  V3.pages.guias=v2Pg('taller','Guías y manuales', renderGuias); }
 
 /* ====================== HOY: EL CUADRO DE INSTRUMENTOS (4.1) ======================
    Debajo de la foto del coche, un cuadro como el del Touareg: reloj de la salud (izquierda), reloj de lo que
@@ -13736,6 +13837,351 @@ function lite3d(){
   const chk=setInterval(()=>{ if(paintMats.length){ clearInterval(chk); lite3d(); } }, 700); }
 { const _ub=updateBadges; let k=0;
   updateBadges=function(){ if(document.body.dataset.v3leaf==='3d' && (k++%10)) return; _ub(); }; }
+
+/* ====================== VISOR DE FOTOS E ILUSTRACIONES (4.2) ======================
+   Antes la foto se abría en una capa y el zoom era el del navegador (pellizcar ampliaba la página entera): los
+   gestos de la app (volver desde el borde, tirar hacia abajo para buscar, cerrar hojas) se disparaban debajo y
+   la ventana parpadeaba, se cerraba o se quedaba a medio ampliar. Ahora el visor lleva sus propios gestos y no
+   deja pasar ninguno a la app:
+   · pellizcar para ampliar o reducir (hasta ×8), arrastrar para moverse por la imagen ampliada
+   · doble toque: amplía ×2,5 donde tocas, o vuelve a encajarla
+   · botones − + girar 90° y encajar; en el ordenador, rueda del ratón y teclas + − 0 R Esc
+   · sin ampliar, deslizar hacia abajo la cierra */
+const VZ_MAX=8;
+openViewer=function(a){
+  const isImg=(a.tipo||'').startsWith('image/');
+  if(!isImg){ const w=window.open('','_blank'); window.FB.blobURL(a.id).then(u=>{ if(w) w.location.href=u; else location.href=u; }).catch(()=>{ w?.close(); toast('Archivo no disponible','err'); }); return; }
+  document.querySelector('.vz')?.remove();
+  const v=h2(`<div class="vz" role="dialog" aria-modal="true" aria-label="Visor de imagen" tabindex="-1">
+    <div class="vzst"><img alt="" draggable="false"></div>
+    <div class="vzbar"><span class="vzt"></span><button type="button" class="vzx" aria-label="Cerrar">${ic('x')}</button></div>
+    <div class="vztools"><button type="button" data-a="out" aria-label="Reducir">−</button><button type="button" data-a="fit" aria-label="Encajar"><b>1:1</b></button><button type="button" data-a="in" aria-label="Ampliar">+</button><button type="button" data-a="rot" aria-label="Girar">${ic('refresh')}</button></div>
+    <div class="vzhint">Pellizca para ampliar · doble toque · desliza abajo para cerrar</div></div>`);
+  v.querySelector('.vzt').textContent=a.nombre||'';
+  const st=v.querySelector('.vzst'), img=v.querySelector('img');
+  let s=1, tx=0, ty=0, r=0, nat={w:1,h:1};
+  const P=new Map(); let pinch=null, pan=null, lastTap=0, down=null, drag=0;
+  const box=()=>{ const W=st.clientWidth, H=st.clientHeight, rot=r%180!==0, iw=rot?nat.h:nat.w, ih=rot?nat.w:nat.h, k=Math.min(W/iw, H/ih); return {W,H, fw:iw*k, fh:ih*k}; };
+  const clamp=()=>{ const b=box(), mx=Math.max(0,(b.fw*s-b.W)/2), my=Math.max(0,(b.fh*s-b.H)/2); tx=Math.max(-mx,Math.min(mx,tx)); ty=Math.max(-my,Math.min(my,ty)); };
+  const fitSize=()=>{ const b=box(), rot=r%180!==0; img.style.width=(rot?b.fh:b.fw)+'px'; img.style.height=(rot?b.fw:b.fh)+'px'; };
+  const apply=(anim)=>{ img.style.transition=anim?'transform .22s ease':'none'; img.style.transform=`translate(-50%,-50%) translate(${tx}px,${ty}px) rotate(${r}deg) scale(${s})`; v.classList.toggle('zoomed', s>1.01); };
+  const zoomAt=(ns, px, py, anim)=>{ ns=Math.max(1, Math.min(VZ_MAX, ns)); tx=px-(px-tx)*ns/s; ty=py-(py-ty)*ns/s; s=ns; if(s<=1.001){ s=1; tx=0; ty=0; } clamp(); apply(anim); };
+  const rel=(x,y)=>{ const R=st.getBoundingClientRect(); return [x-R.left-R.width/2, y-R.top-R.height/2]; };
+  const close=()=>{ removeEventListener('keydown', key, true); removeEventListener('resize', onRs); v.classList.add('out'); setTimeout(()=>v.remove(), 180); };
+  const key=e=>{ if(!v.isConnected) return; const k=e.key; if(k==='Escape'){ e.preventDefault(); e.stopPropagation(); close(); } else if(k==='+'||k==='='){ zoomAt(s*1.5,0,0,true); } else if(k==='-'){ zoomAt(s/1.5,0,0,true); } else if(k==='0'){ zoomAt(1,0,0,true); } else if(k==='r'||k==='R'){ rotate(); } };
+  const rotate=()=>{ r=(r+90)%360; s=1; tx=0; ty=0; fitSize(); apply(true); };
+  const onRs=()=>{ fitSize(); clamp(); apply(false); };
+  /* ninguno de estos gestos llega a la app de debajo */
+  for(const ev of ['touchstart','touchmove','touchend','touchcancel','pointerdown','click','dblclick','wheel','gesturestart','gesturechange','gestureend'])
+    v.addEventListener(ev, e=>{ e.stopPropagation(); if(ev.startsWith('gesture')) e.preventDefault(); }, {passive:false});
+  v.addEventListener('touchmove', e=>e.preventDefault(), {passive:false});     /* que el iPhone no amplíe la página */
+  st.addEventListener('pointerdown', e=>{ st.setPointerCapture?.(e.pointerId); P.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(P.size===2){ const [p1,p2]=[...P.values()]; const [cx,cy]=rel((p1.x+p2.x)/2,(p1.y+p2.y)/2); pinch={d:Math.hypot(p1.x-p2.x,p1.y-p2.y)||1, s0:s, cx, cy, tx0:tx, ty0:ty}; pan=null; down=null; }
+    else if(P.size===1){ pan={x:e.clientX, y:e.clientY, tx0:tx, ty0:ty}; down={x:e.clientX, y:e.clientY, t:performance.now()}; drag=0; } });
+  st.addEventListener('pointermove', e=>{ if(!P.has(e.pointerId)) return; P.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pinch && P.size>=2){ const [p1,p2]=[...P.values()]; const d=Math.hypot(p1.x-p2.x,p1.y-p2.y)||1, [cx,cy]=rel((p1.x+p2.x)/2,(p1.y+p2.y)/2);
+      const ns=Math.max(.85, Math.min(VZ_MAX, pinch.s0*d/pinch.d)); tx=cx-(pinch.cx-pinch.tx0)*ns/pinch.s0; ty=cy-(pinch.cy-pinch.ty0)*ns/pinch.s0; s=ns;   /* lo que había entre los dedos sigue entre los dedos */ apply(false); return; }
+    if(pan){ const dx=e.clientX-pan.x, dy=e.clientY-pan.y; if(s>1.01){ tx=pan.tx0+dx; ty=pan.ty0+dy; clamp(); apply(false); } else if(dy>0 && Math.abs(dy)>Math.abs(dx)){ drag=dy; img.style.transition='none'; img.style.transform=`translate(-50%,-50%) translate(0,${dy}px) rotate(${r}deg)`; v.style.setProperty('--vzbg', String(Math.max(.25, 1-dy/400))); } } });
+  const up=e=>{ if(!P.has(e.pointerId)) return; P.delete(e.pointerId);
+    if(pinch){ if(P.size<2){ pinch=null; if(s<1){ s=1; tx=0; ty=0; } clamp(); apply(true); if(P.size===1){ const [p]=[...P.values()]; pan={x:p.x,y:p.y,tx0:tx,ty0:ty}; } } return; }
+    if(P.size) return; const d=down; pan=null; down=null;
+    if(drag){ const g=drag; drag=0; v.style.removeProperty('--vzbg'); if(g>110){ close(); return; } apply(true); return; }
+    if(d && e.type==='pointerup' && Math.hypot(e.clientX-d.x, e.clientY-d.y)<10 && performance.now()-d.t<300){
+      const now=performance.now(); if(now-lastTap<320){ lastTap=0; const [px,py]=rel(e.clientX,e.clientY); s>1.01?zoomAt(1,0,0,true):zoomAt(2.5,px,py,true); }
+      else { lastTap=now; setTimeout(()=>{ if(lastTap===now) v.classList.toggle('bare'); }, 330); } } };
+  st.addEventListener('pointerup', up); st.addEventListener('pointercancel', up);
+  st.addEventListener('wheel', e=>{ e.preventDefault(); const [px,py]=rel(e.clientX,e.clientY); zoomAt(s*Math.exp(-e.deltaY*(e.ctrlKey?.01:.0022)), px, py, false); }, {passive:false});
+  v.querySelector('.vzx').onclick=close;
+  v.querySelectorAll('.vztools button').forEach(b=>b.onclick=()=>{ uiSfx?.('tap'); const k=b.dataset.a; if(k==='in') zoomAt(s*1.6,0,0,true); else if(k==='out') zoomAt(s/1.6,0,0,true); else if(k==='fit') zoomAt(1,0,0,true); else rotate(); });
+  img.onload=()=>{ nat={w:img.naturalWidth||1, h:img.naturalHeight||1}; fitSize(); clamp(); apply(false); v.classList.add('ok'); };
+  document.body.append(v); addEventListener('keydown', key, true); addEventListener('resize', onRs); v.focus({preventScroll:true});
+  window.FB.blobThumb?.(a.id).then(u=>{ if(!img.src) img.src=u; }).catch(()=>{});
+  window.FB.blobURL(a.id).then(u=>{ img.src=u; }).catch(()=>{ toast('Archivo no disponible','err'); close(); });
+  setTimeout(()=>v.querySelector('.vzhint')?.classList.add('gone'), 2600);
+};
+IC.refresh=IC.refresh||'<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>';
+
+/* ====================== UNA PIEZA, UNA FICHA (4.2) ======================
+   Antes de añadir algo a la compra se mira si ya está (misma referencia o, si no hay referencia, mismo nombre)
+   sin montar: así no se duplica lo que llega de una importación de ETKA y lo que apuntas tú. La ficha de la pieza
+   (v2/09: fichaSheet) junta catálogo, compras, historial, 3D, guías, reparaciones y tiendas. */
+const cmpNom=n=>norm(String(n||'').replace(/\([^)]*\)/g,'')).replace(/[^0-9a-zñ ]/g,' ').replace(/\s+/g,' ').trim();
+function cmpDup(nombre, ref, except){
+  const rk=refKey(ref||''), nm=cmpNom(nombre);
+  return (S.compras||[]).filter(c=>c._id!==except && c.estado!=='montado').find(c=>{ const ck=refKey(c.ref||'');
+    if(rk.length>=7 && ck.length>=7) return ck===rk;
+    const cn=cmpNom(c.nombre); return nm.length>4 && cn.length>4 && (cn===nm || (Math.min(cn.length,nm.length)>12 && (cn.includes(nm)||nm.includes(cn)))); })||null;
+}
+function cmpDupOk(nombre, ref, except){
+  const c=cmpDup(nombre, ref, except); if(!c) return true;
+  return confirm(`Ya tienes «${c.nombre}»${c.ref?' ('+c.ref+')':''} en la compra: ${({pendiente:'por comprar', comprado:'comprado, sin montar'})[c.estado]||c.estado}.\n\n¿Añadir otra igualmente?`);
+}
+/* desde la reparación: tocar el nombre de una pieza ya comprada abre su ficha */
+document.addEventListener('click', e=>{ const r=e.target.closest?.('.rpneedc:not(.tap)'); if(!r) return; const ref=r.querySelector('small')?.textContent; if(ref && refIndex().get(refKey(ref))){ uiSfx('tap'); fichaSheet(ref); } });
+
+/* ====================== VCDS: GRÁFICAS DE VALORES MEDIDOS (4.2) ======================
+   VCDS guarda en .csv lo que registras en «Bloques de valores medidos» o «Valores medidos avanzados» (botón
+   Registrar). Aquí se importa ese archivo y cada valor sale en su gráfica, con mínimo, máximo y media, y con el
+   registro anterior del mismo valor superpuesto para comparar. Cada valor puede llevar su rango bueno (lo pones tú,
+   del manual o de ElsaWin); algunos traen uno orientativo que se puede cambiar.
+   El archivo de VCDS trae unas filas de cabecera (fecha, grupos, nombres, unidades) y luego las filas de datos;
+   las columnas «TIME»/«STAMP» son los segundos de cada grupo. Se guardan como máximo 600 puntos por valor.
+   vcdslogs/{id}: {fecha, nombre, km, notas, series:[{n, u, g, t:[s], v:[num]}]}   vcdsrangos/{clave}: {min, max} */
+C2.push('vcdslogs'); S.v2.vcdslogs=S.v2.vcdslogs||[]; COLN.vcdslogs='Registros de VCDS';
+C2.push('vcdsrangos'); S.v2.vcdsrangos=S.v2.vcdsrangos||[]; COLN.vcdsrangos='Rangos de valores VCDS';
+const VG_MAXP=600;
+/* rangos orientativos: solo lo muy conocido y siempre con la fuente dicha; el tuyo manda */
+const VG_REF=[
+  [/deviat|desviaci/i, -2.8, 2.8, 'Orientativo para motores TDI bomba-inyector: desviación de caudal de ±2,8 mg/carrera en ralentí, motor caliente'],
+  [/coolant|refriger/i, 80, 105, 'Orientativo: motor caliente, entre 80 y 105 °C'],
+  [/battery|bater|supply volt|tensi[oó]n/i, 12.5, 14.8, 'Orientativo: con el motor en marcha, entre 12,5 y 14,8 V'],
+];
+const vgKey=n=>norm(n).replace(/[^0-9a-z]+/g,'-').replace(/^-|-$/g,'').slice(0,80)||'v';
+function vgSplit(line){ const out=[]; let cur='', q=false; for(const ch of line){ if(ch==='"'){ q=!q; continue; } if(ch===',' && !q){ out.push(cur.trim()); cur=''; } else cur+=ch; } out.push(cur.trim()); return out; }
+const vgNum=x=>{ const s=String(x??'').trim().replace(/\s/g,''); if(!s || !/^[-+]?\d*[.,]?\d+(e[-+]?\d+)?$/i.test(s)) return null; return Number(s.replace(',','.')); };
+function vgParse(txt){
+  const L=String(txt||'').replace(/\r/g,'').split('\n').filter(l=>l.trim()), R=L.map(vgSplit);
+  /* la primera fila de datos: casi todo números y al menos 2 */
+  let d0=R.findIndex(r=>{ const n=r.filter(c=>vgNum(c)!=null).length, f=r.filter(c=>c!=='').length; return n>=2 && n>=f*.7; });
+  if(d0<1) throw new Error('No encuentro las filas de datos. ¿Es un registro .csv de VCDS (Registrar en valores medidos)?');
+  const H=R.slice(0,d0), W=Math.max(...R.slice(d0,d0+20).map(r=>r.length));
+  const isUnit=c=>/^(\/min|rpm|°c|c|mbar|bar|hpa|kpa|%|v|mv|mg\/?.*|ms|km\/h|g\/s|kg\/h|°|grad|nm|s|a|ma|ohm|l\/h|deg|°kw|°cs)$/i.test(c.trim());
+  const uRow=[...H].reverse().find(r=>r.filter(c=>c&&isUnit(c)).length>=1);
+  const nRow=H.length?[...H].reverse().find(r=>r!==uRow && r.filter(c=>/[a-z]{3}/i.test(c)).length>=2 && !r.some(c=>/vcds version|^(lunes|monday|tuesday|wednesday|thursday|friday|saturday|sunday)/i.test(c))):null;
+  const gRow=H.find(r=>r.some(c=>/group|grupo|^g\d{3}$|ide\d+/i.test(c)));
+  let fecha=null; { const m=L[0].match(/(\d{1,2})[,\s]+([A-Za-z]+)[,\s]+(\d{4})/); const MES={january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,enero:1,febrero:2,marzo:3,abril:4,mayo:5,junio:6,julio:7,agosto:8,septiembre:9,octubre:10,noviembre:11,diciembre:12};
+    if(m && MES[m[2].toLowerCase()]) fecha=`${m[3]}-${String(MES[m[2].toLowerCase()]).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`; }
+  const nameOf=i=>(nRow?.[i]||'').trim(), unitOf=i=>(uRow?.[i]||'').trim();
+  const isTime=i=>/^(time|stamp|tiempo|marca)$/i.test(nameOf(i)) || /^(time|stamp)$/i.test((H.find(r=>/^(time|stamp)$/i.test(r[i]||''))||[])[i]||'');
+  const data=R.slice(d0); let lastT=-1; const cols=[];
+  for(let i=0;i<W;i++){ if(/^marker|^marca/i.test(nameOf(i)) || /marker/i.test((H.find(r=>/marker/i.test(r[i]||''))||[])[i]||'')) continue;
+    if(isTime(i)){ lastT=i; continue; }
+    const vals=data.map(r=>vgNum(r[i])); const ok=vals.filter(v=>v!=null).length; if(ok<Math.max(2, data.length*.3)) continue;
+    let n=nameOf(i)||`Columna ${i+1}`; const g=(gRow?.[i]||'').trim();
+    cols.push({i, t:lastT, n, u:unitOf(i), g}); }
+  if(!cols.length) throw new Error('El archivo no trae valores numéricos que se puedan dibujar.');
+  const series=cols.map(c=>{ let t=[], v=[]; data.forEach((r,k)=>{ const y=vgNum(r[c.i]); if(y==null) return; const x=c.t>=0?vgNum(r[c.t]):k; t.push(x??k); v.push(y); });
+    if(v.length>VG_MAXP){ const st=v.length/VG_MAXP, t2=[], v2=[]; for(let k=0;k<VG_MAXP;k++){ const a=Math.floor(k*st), b=Math.max(a+1,Math.floor((k+1)*st)); let s=0; for(let j=a;j<b;j++) s+=v[j]; t2.push(t[a]); v2.push(+(s/(b-a)).toFixed(3)); } t=t2; v=v2; }
+    return {n:c.n, u:c.u, g:c.g, t:t.map(x=>+(+x).toFixed(2)), v}; });
+  return {fecha, series, filas:data.length};
+}
+const vgStats=v=>{ let mn=Infinity, mx=-Infinity, s=0; for(const x of v){ if(x<mn) mn=x; if(x>mx) mx=x; s+=x; } return {mn, mx, av:v.length?s/v.length:0}; };
+const vgFmt=x=>Math.abs(x)>=100?nf.format(Math.round(x)):(Math.round(x*100)/100).toLocaleString('es-ES');
+function vgRange(n){ const own=(S.v2.vcdsrangos||[]).find(r=>r._id===vgKey(n)); if(own && (own.min!=null || own.max!=null)) return {min:own.min, max:own.max, own:true}; const r=VG_REF.find(([re])=>re.test(n)); return r?{min:r[1], max:r[2], txt:r[3]}:null; }
+/* una gráfica en SVG: la serie, la anterior en discontinua y la franja buena */
+function vgChart(se, prev, rg){
+  const W=340, H=150, P={l:40,r:8,t:10,b:20}, all=[...se.v, ...(prev?.v||[]), ...(rg?[rg.min,rg.max].filter(x=>x!=null):[])];
+  let lo=Math.min(...all), hi=Math.max(...all); if(hi-lo<1e-9){ hi+=1; lo-=1; } const pad=(hi-lo)*.08; lo-=pad; hi+=pad;
+  const xs=a=>{ const t0=a.t[0], t1=a.t[a.t.length-1]; const d=(t1-t0)||1; return k=>P.l+(a.t[k]-t0)/d*(W-P.l-P.r); };
+  const ys=y=>P.t+(1-(y-lo)/(hi-lo))*(H-P.t-P.b);
+  const path=a=>{ const X=xs(a); return a.v.map((y,k)=>`${k?'L':'M'}${X(k).toFixed(1)} ${ys(y).toFixed(1)}`).join(''); };
+  const ticks=[lo+pad, (lo+hi)/2, hi-pad].map(y=>`<line x1="${P.l}" x2="${W-P.r}" y1="${ys(y).toFixed(1)}" y2="${ys(y).toFixed(1)}" class="vggr"/><text x="${P.l-5}" y="${(ys(y)+3.5).toFixed(1)}" class="vgax" text-anchor="end">${vgFmt(y)}</text>`).join('');
+  const band=rg?`<rect x="${P.l}" width="${W-P.l-P.r}" y="${ys(rg.max??hi).toFixed(1)}" height="${Math.max(0, ys(rg.min??lo)-ys(rg.max??hi)).toFixed(1)}" class="vgband"/>`:'';
+  const dur=se.t[se.t.length-1]-se.t[0];
+  return `<svg viewBox="0 0 ${W} ${H}" class="vgsvg" role="img" aria-label="${esc(se.n)}">${band}${ticks}${prev?`<path d="${path(prev)}" class="vgprev"/>`:''}<path d="${path(se)}" class="vgline"/><text x="${W-P.r}" y="${H-5}" class="vgax" text-anchor="end">${dur>0?vgFmt(dur)+' s':pl(se.v.length,'muestra')}</text></svg>`;
+}
+const vgLogs=()=>[...(S.v2.vcdslogs||[])].sort((a,b)=>(b.fecha||b.creado||'').localeCompare(a.fecha||a.creado||''));
+function vgImport(){
+  const body=h2(`<div><p class="muted2" style="margin:0 0 10px">En VCDS: <b>Motor ▸ Bloques de valores medidos</b> (o Valores medidos avanzados), elige los grupos y pulsa <b>Registrar</b> ▸ Iniciar. Al parar se guarda un .csv en la carpeta Logs de VCDS. Elígelo aquí.</p>
+    <input type="file" class="vgf" accept=".csv,text/csv,text/plain"><label class="wzlab">Qué estabas haciendo</label><input class="inp2 vgn" placeholder="p. ej. Ralentí en caliente, aceleración en 3ª…"><label class="wzlab">Km (si lo sabes)</label><input class="inp2 vgk" inputmode="numeric" value="${S.cfg?.kmActual??''}"><div class="vgprev2"></div></div>`);
+  let parsed=null, fname='';
+  body.querySelector('.vgf').onchange=async e=>{ const f=e.target.files[0]; if(!f) return; fname=f.name; const box=body.querySelector('.vgprev2'); try{ parsed=vgParse(await f.text()); box.innerHTML=`<div class="alr ok">${ic('checkc')}<span><b>${pl(parsed.series.length,'valor','valores')}</b> en ${nf.format(parsed.filas)} filas${parsed.fecha?' · '+fmtDate(parsed.fecha):''}: ${parsed.series.slice(0,6).map(s=>esc(s.n)).join(', ')}${parsed.series.length>6?'…':''}</span></div>`; }catch(err){ parsed=null; box.innerHTML=`<div class="alr due">${ic('alert')}<span>${esc(err.message)}</span></div>`; } };
+  detailSheet('Importar un registro de VCDS','', body, [['Guardar','check',async()=>{ if(!parsed) return toast('Elige primero el archivo .csv','err');
+    const km=body.querySelector('.vgk').value.trim(); const d={fecha:parsed.fecha||todayISO(), nombre:body.querySelector('.vgn').value.trim()||fname.replace(/\.csv$/i,''), km:km===''?null:Number(km), archivo:fname, series:parsed.series, creado:new Date().toISOString()};
+    try{ const r=await S.db.collection('vcdslogs').add(d); closeSheet(); toast('Registro guardado'); setTimeout(()=>v3go('vcds_log',{data:{log:r.id}}),250); }catch{ toast('No se pudo guardar (¿archivo muy grande?)','err'); } },'pri']]);
+}
+function vgRangeSheet(n, rg){
+  const body=h2(`<div><p class="muted2" style="margin:0 0 10px">El rango bueno de «${esc(n)}» según el manual o ElsaWin. La franja verde de la gráfica lo marca y se avisa si te sales.${rg?.txt?'<br><small>'+esc(rg.txt)+'</small>':''}</p><div class="row3"><div style="flex:1"><label class="wzlab">Mínimo</label><input class="inp2 vmn" inputmode="decimal" value="${rg?.min??''}"></div><div style="flex:1"><label class="wzlab">Máximo</label><input class="inp2 vmx" inputmode="decimal" value="${rg?.max??''}"></div></div></div>`);
+  detailSheet('Rango bueno', n, body, [['Guardar','check',async()=>{ const g=x=>{ const v=body.querySelector(x).value.trim().replace(',','.'); return v===''?null:Number(v); }; await S.db.collection('vcdsrangos').doc(vgKey(n)).set({nombre:n, min:g('.vmn'), max:g('.vmx')}); closeSheet(); toast('Rango guardado'); },'pri']]);
+}
+/* el apartado en la página de VCDS */
+{ const P=V3.pages.vcds; P.title='VCDS'; const _r=P.render; P.render=function(w, e){ _r.call(this, w, e);
+    const L=vgLogs(); const g=vGroup('Gráficas de valores medidos', [vRow({i:'upload', c:V3C.purple, t:'Importar un registro (.csv)', s:'Lo que grabas con «Registrar» en valores medidos', fn:()=>vgImport(), cls:'vadd'}), ...L.map(x=>vRow({i:'activity', c:V3C.purple, t:x.nombre||'Registro', s:[fmtDate(x.fecha), x.km?nf.format(x.km)+' km':'', pl((x.series||[]).length,'valor','valores')].filter(Boolean).join(' · '), fn:()=>v3go('vcds_log',{data:{log:x._id}})}))]);
+    const ag=[...w.children].find(c=>/Escaneos/.test(c.querySelector?.('.vgh')?.textContent||'')); w.insertBefore(g, ag?ag.nextSibling:null); }; }
+V3.pages.vcds_log={tab:'taller', title:'Registro de VCDS', sub:()=>{ const x=(S.v2.vcdslogs||[]).find(l=>l._id===v3top()?.data?.log); return x?[fmtDate(x.fecha), x.nombre].filter(Boolean).join(' · '):''; }, render(w, e){
+  const all=vgLogs(), x=all.find(l=>l._id===e?.data?.log); if(!x){ w.append(h2('<p class="muted2">No encuentro este registro.</p>')); return; }
+  const older=all.slice(all.indexOf(x)+1);
+  w.append(h2(`<p class="vfoot" style="margin:0 4px 14px">${pl((x.series||[]).length,'valor','valores')}${x.km?' · '+nf.format(x.km)+' km':''}${older.length?' · en discontinua, el mismo valor del registro anterior':''}. Toca «rango» para poner el valor bueno.</p>`));
+  let fuera=0;
+  for(const se of (x.series||[])){ const prevLog=older.find(o=>(o.series||[]).some(s=>vgKey(s.n)===vgKey(se.n))), prev=prevLog?.series.find(s=>vgKey(s.n)===vgKey(se.n)), st=vgStats(se.v), rg=vgRange(se.n);
+    const bad=rg && ((rg.min!=null && st.av<rg.min) || (rg.max!=null && st.av>rg.max)); if(bad) fuera++;
+    const ps=prev?vgStats(prev.v):null, dlt=ps?st.av-ps.av:null;
+    const c=h2(`<section class="vgcard${bad?' bad':''}"><header><b>${esc(se.n)}</b><small>${esc([se.u, se.g].filter(Boolean).join(' · '))}</small><button type="button" class="btn2 sm ghost vgrg">${rg?`${rg.min!=null?vgFmt(rg.min):'…'} – ${rg.max!=null?vgFmt(rg.max):'…'}${rg.own?'':' *'}`:'rango'}</button></header>${vgChart(se, prev, rg)}
+      <div class="vgst"><span>mín <b>${vgFmt(st.mn)}</b></span><span>media <b>${vgFmt(st.av)}</b></span><span>máx <b>${vgFmt(st.mx)}</b></span>${dlt!=null?`<span class="${Math.abs(dlt)>Math.abs(ps.av)*.1?'vgchg':''}">frente al ${fmtDate(prevLog.fecha)}: <b>${dlt>0?'+':''}${vgFmt(dlt)}</b></span>`:''}</div>
+      ${bad?`<p class="vgwarn">${ic('alert')}La media se sale del rango bueno.</p>`:''}${rg?.txt&&!rg.own?`<p class="vgnote">* ${esc(rg.txt)}</p>`:''}</section>`);
+    c.querySelector('.vgrg').onclick=()=>vgRangeSheet(se.n, rg); w.append(c); }
+  if(fuera) w.querySelector('.vfoot')?.after(h2(`<div class="alr due" style="margin-bottom:12px">${ic('alert')}<span>${pl(fuera,'valor se sale','valores se salen')} del rango bueno.</span></div>`));
+  const del=h2(`<button type="button" class="btn2 ghost" style="margin-top:14px;color:var(--due)">${ic('x')}Borrar este registro</button>`); del.onclick=async()=>{ if(!confirm('¿Borrar este registro?')) return; await S.db.collection('vcdslogs').doc(x._id).delete(); v3back?.(); toast('Registro borrado'); }; w.append(del);
+}};
+IC.activity=IC.activity||'<path d="M3 12h4l3-8 4 16 3-8h4"/>';
+
+/* ====================== 4.2: PEDIDO, HERRAMIENTAS, RUIDOS, ATAJOS, ITV, HOY, 3D Y MODO GARAJE ====================== */
+
+/* ---------- PREPARAR EL PEDIDO: un mensaje con referencias y cantidades para la tienda ---------- */
+const PD_COCHE='Volkswagen Touareg 7L 2.5 R5 TDI (motor BAC), año 2004, cambio manual';
+function pedidoTxt(items, saludo){
+  const L=items.map(c=>`• ${c.ref?c.ref+' · ':''}${c.nombre}${(c.cantidad||1)>1?' ×'+c.cantidad:' ×1'}`);
+  return `${saludo?'Hola, ':''}quería pedir estas piezas para un ${PD_COCHE}:\n\n${L.join('\n')}\n\n¿Me podéis decir precio y si las tenéis? Gracias.`;
+}
+function pedidoSheet(items, titulo){
+  if(!items.length) return toast('No hay nada por comprar');
+  const sel=new Set(items.map(c=>c._id));
+  const body=h2(`<div class="pedw"><p class="muted2" style="margin:0 0 10px">Elige qué piezas van en el pedido. El mensaje lleva el coche, las referencias y las cantidades; puedes retocarlo antes de mandarlo.</p><div class="pedl"></div><label class="wzlab">Mensaje</label><textarea class="inp2 pedt" rows="9"></textarea>
+    <div class="pedb"><button type="button" class="btn2 pri" data-a="share">${ic('share')}Enviar…</button><button type="button" class="btn2 ghost" data-a="wa">WhatsApp</button><button type="button" class="btn2 ghost" data-a="mail">${ic('mail')}Correo</button><button type="button" class="btn2 ghost" data-a="copy">${ic('copy')}Copiar</button></div></div>`);
+  const ta=body.querySelector('.pedt'), l=body.querySelector('.pedl');
+  const upd=()=>{ ta.value=pedidoTxt(items.filter(c=>sel.has(c._id)), true); };
+  for(const c of items){ const r=h2(`<label class="chk"><input type="checkbox" checked><span>${esc(c.nombre)}${c.ref?` <small>${esc(c.ref)}</small>`:' <small class="pedsin">sin referencia</small>'}${(c.cantidad||1)>1?' ×'+c.cantidad:''}</span></label>`); r.querySelector('input').onchange=e=>{ e.target.checked?sel.add(c._id):sel.delete(c._id); upd(); }; l.append(r); }
+  upd();
+  body.querySelectorAll('.pedb button').forEach(b=>b.onclick=async()=>{ uiSfx('tap'); const t=ta.value, a=b.dataset.a;
+    if(a==='share'){ if(navigator.share){ try{ await navigator.share({title:'Pedido de piezas', text:t}); }catch{} } else { await navigator.clipboard?.writeText(t); toast('Copiado: pégalo donde quieras'); } }
+    else if(a==='wa') window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank','noopener');
+    else if(a==='mail') location.href='mailto:?subject='+encodeURIComponent('Pedido de piezas · Touareg 2.5 TDI')+'&body='+encodeURIComponent(t);
+    else { await navigator.clipboard?.writeText(t); toast('Mensaje copiado'); } });
+  detailSheet(titulo||'Preparar el pedido', pl(items.length,'pieza por comprar','piezas por comprar'), body, []);
+}
+IC.share=IC.share||'<path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/>';
+IC.mail=IC.mail||'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>';
+IC.copy=IC.copy||'<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>';
+/* en la lista «Por comprar» */
+{ const P=V3.pages.compra_pend; if(P){ const _r=P.render; P.render=function(w, e){ _r.call(this, w, e); const pend=(S.compras||[]).filter(c=>c.estado==='pendiente'); if(!pend.length) return;
+    const b=h2(`<button type="button" class="btn2 ghost pedgo">${ic('share')}Preparar el pedido para la tienda</button>`); b.onclick=()=>pedidoSheet([...pend].sort((a,b)=>COLL.compare(a.nombre||'',b.nombre||''))); const q=w.querySelector('.vqadd')?.closest('.vgrp'); q?q.after(b):w.prepend(b); }; } }
+
+/* ---------- MIS HERRAMIENTAS ---------- */
+C2.push('herrs'); S.v2.herrs=S.v2.herrs||[]; COLN.herrs='Mis herramientas';
+const herrN=t=>norm(String(t||'')).replace(/\([^)]*\)/g,'').replace(/[^0-9a-zñ ]/g,' ').replace(/\s+/g,' ').trim();
+const herrCode=t=>{ const m=String(t||'').toUpperCase().match(/\b(T\s?\d{4,5}\s?[A-Z]?|V\.?A\.?G\.?\s?\d{4}[A-Z]?|VAS\s?\d{4,6}[A-Z]?|\d{1,2}-\d{3}[A-Z]?)\b/); return m?m[1].replace(/[\s.]/g,''):''; };
+function herrTengo(t){ const n=herrN(t), c=herrCode(t); return (S.v2.herrs||[]).some(h=>{ const hc=herrCode(h.nombre); if(c && hc) return c===hc; const hn=herrN(h.nombre); return hn.length>3 && n.length>3 && (hn===n || n.includes(hn) || hn.includes(n)); }); }
+/* herramientas especiales de VW que salen en tus guías y con qué se suplen (orientativo) */
+const HERR_ALT=[
+  [/T\s?10225/i,'Sujeta el cigüeñal por la polea. Se suple con un útil de sujeción de poleas universal (de dos o tres brazos) o una llave de cinta, con cuidado de no dañar la polea.'],
+  [/V\.?A\.?G\.?\s?1331/i,'Llave dinamométrica de 5 a 50 Nm.'],
+  [/V\.?A\.?G\.?\s?1332/i,'Llave dinamométrica de 40 a 200 Nm.'],
+  [/VAS\s?5024/i,'Alicates para abrazaderas elásticas; sirven los de cable (de cable flexible) de cualquier marca.'],
+  [/V\.?A\.?G\.?\s?1306/i,'Bandeja de vaciado: cualquier bandeja de al menos 10 litros.'],
+  [/T\s?10007/i,'Refractómetro para anticongelante (también mide el líquido de la batería y el AdBlue); los genéricos son baratos.'],
+  [/10-221/i,'Ganchos para sacar retenes: hay juegos genéricos de ganchos extractores.'],
+  [/T\s?10221|T\s?10222/i,'Extractor específico; a veces se suple con un extractor de dos garras del tamaño adecuado, pero mira la guía: si no cabe, no fuerces.'],
+];
+const herrAlt=t=>HERR_ALT.find(([re])=>re.test(t))?.[1]||'';
+function herrGuias(){ const M=new Map(); for(const pr of (S.procs||[])){ let T=[]; try{ T=repNeeds(pr).herr; }catch{} for(const t of T){ const k=herrCode(t)||herrN(t); if(!k) continue; const x=M.get(k)||{t, guias:new Set()}; x.guias.add(pr.titulo); M.set(k,x); } } return [...M.values()].sort((a,b)=>COLL.compare(a.t,b.t)); }
+V3.pages.herrs={tab:'taller', title:'Mis herramientas', sub:()=>{ const n=(S.v2.herrs||[]).length; return n?pl(n,'herramienta'):'Apunta las que tienes'; }, render(w){
+  const add=h2(`<section class="vgrp"><div class="vcard vqadd"><input class="inp2" placeholder="Añadir: llave dinamométrica 40–200 Nm…" autocomplete="off"><button type="button" class="btn2 pri" aria-label="Añadir">${ic('plus')}</button></div></section>`);
+  const [inp]=add.querySelectorAll('input'), b=add.querySelector('button');
+  const go2=async()=>{ const n=inp.value.trim(); if(!n) return inp.focus(); if(herrTengo(n) && !confirm(`Ya tienes algo parecido a «${n}». ¿Añadir igualmente?`)) return; await S.db.collection('herrs').add({nombre:n, creado:new Date().toISOString()}); inp.value=''; toast('Añadida'); };
+  b.onclick=go2; inp.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); go2(); } }; w.append(add);
+  const G=herrGuias(), falta=G.filter(x=>!herrTengo(x.t));
+  if(G.length){ const g=vGroup(`Las que piden tus guías · te faltan ${falta.length}`, []), L=g.querySelector('.vlist');
+    for(const x of [...falta, ...G.filter(x=>herrTengo(x.t))]){ const ok=herrTengo(x.t), alt=herrAlt(x.t);
+      const r=h2(`<div class="hrow${ok?' on':''}"><button type="button" class="hchk" aria-label="${ok?'La tengo':'Marcar que la tengo'}">${ic(ok?'checkc':'plus')}</button><div><b>${esc(cap1(x.t))}</b><small>${esc([...x.guias].slice(0,2).join(' · '))}${x.guias.size>2?' …':''}</small>${alt&&!ok?`<p>${esc(alt)}</p>`:''}</div></div>`);
+      r.querySelector('.hchk').onclick=async()=>{ uiSfx('tap'); if(ok){ const h=(S.v2.herrs||[]).find(h=>herrTengo(x.t) && (herrCode(h.nombre)===herrCode(x.t) || herrN(x.t).includes(herrN(h.nombre)) || herrN(h.nombre).includes(herrN(x.t)))); if(h) await S.db.collection('herrs').doc(h._id).delete(); } else await S.db.collection('herrs').add({nombre:x.t, creado:new Date().toISOString()}); };
+      L.append(r); } w.append(g); }
+  const mine=[...(S.v2.herrs||[])].sort((a,b)=>COLL.compare(a.nombre,b.nombre));
+  if(mine.length){ const g=vGroup('Las que tienes', []), L=g.querySelector('.vlist');
+    for(const h of mine){ const r=vRow({i:'wrench', c:V3C.orange, t:h.nombre, s:h.notas||'', fn:()=>{ if(confirm(`¿Quitar «${h.nombre}» de tus herramientas?`)) S.db.collection('herrs').doc(h._id).delete(); }}); L.append(r); } w.append(g); }
+  else if(!G.length) w.append(h2(`<div class="vcalm">${ic('wrench')}<div><b>Apunta tus herramientas</b><small>Al empezar una reparación, «¿Lo tienes todo?» marcará solas las que ya tienes.</small></div></div>`));
+}};
+
+/* ---------- RUIDOS: grabar el sonido de una avería (antes y después de arreglarla) ---------- */
+async function ruidoGrabar(a, done){
+  if(!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder==='undefined') return toast('Este navegador no deja grabar sonido','err');
+  let st; try{ st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false, noiseSuppression:false, autoGainControl:false}}); }catch{ return toast('Sin permiso para el micrófono','err'); }
+  const type=['audio/mp4','audio/webm;codecs=opus','audio/webm'].find(t=>MediaRecorder.isTypeSupported?.(t))||'';
+  const rec=new MediaRecorder(st, type?{mimeType:type}:undefined), ch=[]; let t0=Date.now(), tm;
+  const body=h2(`<div class="rdrec"><div class="rdlvl"><i></i></div><b class="rdt">0:00</b><p class="muted2">Acerca el móvil a donde suena. Graba unos segundos en ralentí y, si cambia, acelerando.</p><div class="vseg" style="margin-top:10px"><button type="button" data-k="antes" aria-pressed="true">Antes de arreglar</button><button type="button" data-k="despues" aria-pressed="false">Después</button></div><input class="inp2 rdn" placeholder="Nota: ralentí en frío, al girar…" style="margin-top:10px"></div>`);
+  let cuando='antes'; body.querySelectorAll('.vseg button').forEach(b=>b.onclick=()=>{ cuando=b.dataset.k; body.querySelectorAll('.vseg button').forEach(x=>x.setAttribute('aria-pressed', String(x===b))); });
+  try{ const ac=new (window.AudioContext||window.webkitAudioContext)(), an=ac.createAnalyser(); ac.createMediaStreamSource(st).connect(an); const buf=new Uint8Array(an.fftSize); const lv=body.querySelector('.rdlvl i');
+    const loop=()=>{ if(rec.state!=='recording'){ ac.close(); return; } an.getByteTimeDomainData(buf); let m=0; for(const x of buf) m=Math.max(m, Math.abs(x-128)); lv.style.width=Math.min(100, m/1.28)+'%'; requestAnimationFrame(loop); }; requestAnimationFrame(loop); }catch{}
+  rec.ondataavailable=e=>{ if(e.data.size) ch.push(e.data); };
+  rec.start(); tm=setInterval(()=>{ const s=Math.round((Date.now()-t0)/1000); body.querySelector('.rdt').textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; if(s>=120) stop(); }, 250);
+  const stop=()=>new Promise(res=>{ if(rec.state==='inactive') return res(); rec.onstop=res; rec.stop(); clearInterval(tm); st.getTracks().forEach(t=>t.stop()); });
+  detailSheet('Grabando…', a.sintoma||a.codigo||'Avería', body, [['Parar y guardar','check',async()=>{ await stop(); const dur=Math.round((Date.now()-t0)/1000); const bl=new Blob(ch,{type:rec.mimeType||type||'audio/webm'}); if(!bl.size) return toast('No se ha grabado nada','err');
+      const ext=/mp4/.test(bl.type)?'m4a':'webm'; const up=await uploadFiles([new File([bl], `ruido-${todayISO()}.${ext}`, {type:bl.type})]); if(!up.length) return;
+      const x={id:up[0].id, tipo:up[0].tipo||bl.type, fecha:new Date().toISOString(), dur, cuando, nota:body.querySelector('.rdn').value.trim()};
+      a.audios=[...(a.audios||[]), x]; await v2Upd('averias', a, {audios:a.audios}); closeSheet(); toast('Sonido guardado en la avería'); done?.(); },'pri'],
+    ['Cancelar','x',async()=>{ await stop(); closeSheet(); }]]);
+}
+function ruidosBox(a){
+  const box=h2(`<div class="rdbox"><span class="wzlab">Ruidos grabados</span><div class="rdl"></div><button type="button" class="btn2 ghost rdgo">${ic('mic')}Grabar el ruido</button></div>`);
+  const draw=()=>{ const l=box.querySelector('.rdl'); l.innerHTML=''; const A=[...(a.audios||[])].sort((x,y)=>x.fecha.localeCompare(y.fecha));
+    if(!A.length) l.append(h2('<p class="muted2" style="margin:2px 0 8px">Graba cómo suena ahora; cuando lo arregles, graba otra vez («Después») y compáralos aquí.</p>'));
+    for(const x of A){ const r=h2(`<div class="rdi"><em class="${x.cuando==='despues'?'ok':''}">${x.cuando==='despues'?'Después':'Antes'}</em><div><b>${fmtDate(x.fecha.slice(0,10))} · ${x.dur||'?'} s</b>${x.nota?`<small>${esc(x.nota)}</small>`:''}<audio controls preload="none"></audio></div><button type="button" class="ib" aria-label="Borrar">${ic('x')}</button></div>`);
+      window.FB?.blobURL(x.id).then(u=>{ const au=r.querySelector('audio'); au.src=u; }).catch(()=>{});
+      r.querySelector('.ib').onclick=async()=>{ if(!confirm('¿Borrar esta grabación?')) return; a.audios=(a.audios||[]).filter(y=>y!==x); await v2Upd('averias', a, {audios:a.audios}); draw(); };
+      l.append(r); } };
+  box.querySelector('.rdgo').onclick=()=>{ uiSfx('tap'); ruidoGrabar(a, ()=>setTimeout(()=>aveSheet((S.ave||[]).find(x=>x._id===a._id)||a), 300)); };
+  draw(); return box;
+}
+{ const _as=aveSheet; aveSheet=function(a){ _as(a); if(!a?._id) return; try{ const f=document.querySelector('.vave-f'); if(f) f.append(ruidosBox(a)); }catch(e){ console.warn(e); } }; }
+
+/* ---------- ATAJOS: abrir la app directamente en una acción (?accion=km…) ---------- */
+const ACCIONES={km:['Actualizar km',()=>quickKm()], repostaje:['Repostaje',()=>recForm(MOD.repostajes)], compra:['Añadir a la compra',()=>compraSheet(null)], comprado:['Compra ya hecha',()=>compraSheet(null,'hecha')], averia:['Apuntar una avería',()=>aveOpen(null)], pendiente:['Anotar algo que he visto',()=>pdForm(null)], foto:['Fotos del coche',()=>recForm(MOD.galeria)], vcds:['VCDS',()=>v3go('vcds')]};
+{ const q=new URLSearchParams(location.search).get('accion'); if(q && ACCIONES[q]){ const t0=Date.now(); const run=()=>{ if(S.cfg && S.db && !document.getElementById('splash') && V3.cur){ try{ history.replaceState(null,'',location.pathname+location.hash); }catch{} setTimeout(ACCIONES[q][1], 350); } else if(Date.now()-t0<30000) setTimeout(run, 400); }; setTimeout(run, 800); } }
+V3.pages.atajos={tab:'*', title:'Atajos y Siri', sub:()=>'Abrir la app directamente en una acción', render(w){
+  const base=location.origin+location.pathname.replace(/beta\/?$/,'').replace(/index\.html$/,'');
+  w.append(h2(`<div class="vcard" style="padding:14px 16px;margin-bottom:14px"><p style="margin:0 0 8px"><b>Con la app Atajos del iPhone</b> puedes decirle a Siri «Añadir kilómetros» y que se abra la app justo ahí:</p><ol class="atol"><li>Abre <b>Atajos</b> ▸ <b>+</b> ▸ <b>Añadir acción</b> ▸ busca <b>Abrir URL</b>.</li><li>Pega la dirección de la acción (botón «Copiar» de abajo).</li><li>Ponle de nombre lo que dirás a Siri, por ejemplo «Añadir kilómetros».</li></ol>
+    <p class="muted2" style="margin:8px 0 0">En el iPhone, Atajos abre la dirección en Safari, no en la app de la pantalla de inicio: la primera vez tendrás que entrar con tu cuenta de Google en Safari. En Android y en el ordenador se abre la app instalada.</p></div>`));
+  const g=vGroup('Acciones', []), L=g.querySelector('.vlist');
+  for(const [k,[t]] of Object.entries(ACCIONES)){ const url=base+'?accion='+k; const r=h2(`<div class="atrow"><div><b>${esc(t)}</b><small>${esc(url)}</small></div><button type="button" class="btn2 sm ghost">${ic('copy')}Copiar</button></div>`); r.querySelector('button').onclick=()=>navigator.clipboard?.writeText(url).then(()=>toast('Dirección copiada'))||toast(url); L.append(r); }
+  w.append(g);
+}};
+{ const P=V3.pages.ajustes; if(P){ const _r=P.render; P.render=function(w, e){ _r.call(this, w, e); try{ const g=vGroup('',[vRow({i:'sparkle', c:V3C.purple, t:'Atajos y Siri', s:'Abrir la app directamente en una acción', fn:()=>v3go('atajos')})]); const last=[...w.querySelectorAll('.vgrp')].pop(); last?last.after(g):w.append(g); }catch{} }; } }
+
+/* ---------- PREPARAR LA ITV ---------- */
+function itvInfo(){ const d=typeof docCur==='function'?docCur('ITV'):null; const s=d?.caduca?docStatus(d):null; return {d, days:s?.days??null}; }
+function itvSub(){ const {days}=itvInfo(); return days==null?'Lo que miran, para llevarlo bien':days<0?`Caducada hace ${-days} días`:days===0?'¡Hoy!':`Dentro de ${days} días`; }
+V3.pages.itv={tab:'taller', title:'Preparar la ITV', sub:()=>itvSub(), render(w){
+  const {d, days}=itvInfo(), D=listasData(), L=D.listas.find(l=>l.id==='itv'), m=D.marcas.itv||{}, n=L?L.items.filter(i=>m[i.id]).length:0, tot=L?L.items.length:0;
+  const col=days==null?V3C.gray:days<0?V3C.red:days<=30?V3C.orange:V3C.green;
+  w.append(h2(`<div class="itvhero" style="--c:${col}"><b>${days==null?'—':days<0?'Caducada':days}</b><span>${days==null?'Pon la fecha de la ITV en Papeles':days<0?`desde el ${fmtDate(d.caduca)}`:`días · ${fmtDate(d.caduca)}`}</span></div>`));
+  const g=vGroup('Para ir preparado', [
+    vRow({i:'checkc', c:V3C.green, t:'Antes de la ITV', s:tot?`${n} de ${tot} revisados`:'La lista de comprobación', r:tot?`${Math.round(n/tot*100)}%`:null, fn:()=>{ UI.lista='itv'; v3go('listas'); }}),
+    vRow({i:'history', c:V3C.indigo, t:'Inspecciones anteriores', s:(S.v2.itv||[]).length?pl(S.v2.itv.length,'inspección','inspecciones')+' con su resultado':'Guarda el resultado y los defectos', fn:()=>{ try{ masOpen('itv'); }catch{ v3tab('papeles'); } }})]); w.append(g);
+  const pend=typeof itvPend==='function'?itvPend():[];
+  if(pend.length){ const pg=vGroup('Defectos de la última sin corregir', []), PL=pg.querySelector('.vlist'); for(const p of pend) PL.append(vRow({i:'alert', c:p.gravedad==='leve'?V3C.orange:V3C.red, t:p.texto||'Defecto', s:(ITV_G?.[p.gravedad]||'')+(p.r?.fecha?' · '+fmtDate(p.r.fecha):'')})); w.append(pg); }
+  const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta');
+  w.append(vGroup('Para tu Touareg (diésel)', [
+    h2(`<div class="itvtip">${ic('gauge')}<div><b>Opacidad de humos</b><small>Llega con el motor bien caliente (mejor tras 20–30 min de carretera) y sin el testigo de precalentamiento ni el de motor encendidos. Un filtro de aire limpio ayuda.</small></div></div>`),
+    h2(`<div class="itvtip">${ic('alert')}<div><b>Testigos del cuadro</b><small>Motor, ABS, ESP y airbag tienen que apagarse al arrancar. ${aves.length?`Tienes ${pl(aves.length,'avería abierta','averías abiertas')} en la app: míralas antes.`:'Haz un Auto-Scan con VCDS unos días antes por si hay algo guardado.'}</small></div></div>`),
+    h2(`<div class="itvtip">${ic('file')}<div><b>Papeles</b><small>Permiso de circulación, ficha técnica (la tarjeta ITV) y el seguro en vigor.</small></div></div>`)]));
+}};
+/* aviso en Hoy: el mes antes */
+{ const _r=V3.hubs.hoy.render; V3.hubs.hoy.render=function(w){ _r.call(this, w); try{ const {days}=itvInfo(); if(days==null || days>30 || days<-60) return; const D=listasData(), L=D.listas.find(l=>l.id==='itv'), m=D.marcas.itv||{}, n=L?L.items.filter(i=>m[i.id]).length:0;
+    const r=vNow('shield', days<=7?V3C.red:V3C.orange, days<0?'ITV caducada':'ITV en '+pl(days,'día'), 'Preparar la ITV', L?`${n} de ${L.items.length} puntos revisados`:'', ()=>v3go('itv'), 'Preparar'); r.classList.add('vitvnow');
+    const c=w.querySelector('.vh-cuadro')||w.querySelector('.vh-hero'); c?c.after(r):w.prepend(r); }catch(e){ console.warn('itv hoy', e); } }; }
+
+/* ---------- HOY MÁS COMPACTO: con el cuadro, la foto se queda en una franja y los km se ven solo en el cuadro ---------- */
+{ const _r=V3.hubs.hoy.render; V3.hubs.hoy.render=function(w){ _r.call(this, w); if(w.querySelector('.vh-cuadro')) w.classList.add('vhoy-cq'); }; }
+
+/* ---------- 3D: en el móvil, la hoja de abajo empieza plegada (solo las pestañas) y se abre al tocar una pieza ---------- */
+{ const mob=()=>matchMedia('(max-width:860px)').matches, app=document.querySelector('.app');
+  const setH=px=>{ app.classList.add('snap'); app.style.setProperty('--sheetH', px+'px'); setTimeout(()=>{ app.classList.remove('snap'); try{ resize(); dirty=true; }catch{} }, 320); };
+  const L=V3.leaves['3d']; if(L && app){ const _o=L.open; L.open=function(){ const r=_o.apply(this, arguments); if(mob() && !UI.sheet3dSet){ UI.sheet3dSet=true; setTimeout(()=>setH(0), 60); } return r; }; }
+  const _s=select; select=function(id){ const r=_s.apply(this, arguments); try{ if(id && mob() && app && (parseFloat(app.style.getPropertyValue('--sheetH'))||0)<20) setH(Math.round(app.getBoundingClientRect().height*.4)); }catch{} return r; }; }
+
+/* ---------- MODO GARAJE: la guía a pantalla completa, un paso por pantalla ---------- */
+function guiaGaraje(pr, at=0){
+  const P=pr.pasos||[]; if(!P.length) return; let i=Math.max(0, Math.min(at, P.length-1));
+  const v=h2(`<div class="gz" role="dialog" aria-label="Modo garaje"><div class="gzbar"><span class="gzn"></span><b class="gzt"></b><button type="button" class="gzx" aria-label="Cerrar">${ic('x')}</button></div><div class="gzbody"><div class="gzimg"></div><div class="gztx"></div></div><div class="gznav"><button type="button" class="gzp">${ic('chevL')}Anterior</button><button type="button" class="gzs">Siguiente${ic('chevR')}</button></div></div>`);
+  const draw=dir=>{ const p=P[i]; v.querySelector('.gzn').textContent=`${i+1} / ${P.length}`; v.querySelector('.gzt').textContent=pr.titulo;
+    const im=v.querySelector('.gzimg'); im.innerHTML=''; im.hidden=!p.img?.id;
+    if(p.img?.id){ const b=h2('<button type="button" aria-label="Ampliar la ilustración"><img alt=""></button>'); window.FB?.blobURL(p.img.id).then(u=>b.querySelector('img').src=u).catch(()=>{}); b.onclick=()=>openViewer({id:p.img.id, tipo:p.img.tipo||'image/png', nombre:p.titulo||pr.titulo}); im.append(b); }
+    const tx=v.querySelector('.gztx'); tx.innerHTML=`${p.titulo?`<h2>${esc(p.titulo)}</h2>`:''}<p>${esc(p.texto||'').replace(/\n/g,'<br>')}</p>${p.par?`<div class="gzchip">${ic('gauge')}${esc(p.par)}</div>`:''}${p.herr?`<div class="gzchip">${ic('wrench')}${esc(p.herr)}</div>`:''}`; tx.scrollTop=0;
+    v.querySelector('.gzp').disabled=i===0; v.querySelector('.gzs').innerHTML=i===P.length-1?`${ic('check')}Terminar`:`Siguiente${ic('chevR')}`;
+    const bd=v.querySelector('.gzbody'); if(dir && !RM){ bd.classList.remove('gzin-l','gzin-r'); void bd.offsetWidth; bd.classList.add(dir>0?'gzin-r':'gzin-l'); } };
+  const go=d=>{ const j=i+d; if(j<0) return; if(j>=P.length){ close(); return; } i=j; uiSfx?.('tap'); draw(d); };
+  const close=()=>{ try{ if(!UI.prefs.modoTaller) wakeOff(); }catch{} removeEventListener('keydown', key, true); v.remove(); };
+  const key=e=>{ if(e.key==='ArrowRight'||e.key===' '){ e.preventDefault(); go(1); } else if(e.key==='ArrowLeft'){ e.preventDefault(); go(-1); } else if(e.key==='Escape'){ e.preventDefault(); e.stopPropagation(); close(); } };
+  v.querySelector('.gzx').onclick=close; v.querySelector('.gzp').onclick=()=>go(-1); v.querySelector('.gzs').onclick=()=>go(1);
+  /* deslizar a los lados para cambiar de paso (y que no llegue a la app de debajo) */
+  let sx=null, sy=0; for(const ev of ['touchstart','touchmove','touchend','pointerdown']) v.addEventListener(ev, e=>e.stopPropagation(), {passive:true});
+  v.addEventListener('touchstart', e=>{ if(e.touches.length!==1 || e.target.closest('.gzimg button')) { sx=null; return; } sx=e.touches[0].clientX; sy=e.touches[0].clientY; }, {passive:true});
+  v.addEventListener('touchend', e=>{ if(sx==null) return; const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy; sx=null; if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.5) go(dx<0?1:-1); }, {passive:true});
+  document.body.append(v); addEventListener('keydown', key, true); try{ wakeOn(); }catch{} draw(0);
+}
+{ const _gr=guiaRead; guiaRead=function(pr, at){ _gr(pr, at); try{ if(!(pr.pasos||[]).length) return; const g=document.querySelector('.gread'); if(!g || g.querySelector('.gzgo')) return;
+    const b=h2(`<button type="button" class="btn2 pri gzgo">${ic('maximize')}Modo garaje: un paso por pantalla, letra grande</button>`); b.onclick=()=>{ uiSfx('tap'); guiaGaraje(pr, typeof at==='number'?at:0); }; g.prepend(b); }catch(e){ console.warn(e); } }; }
+/* en la tarjeta de la avería: botón directo para grabar (y cuántos ruidos lleva) */
+{ const _ac=aveCard; aveCard=function(a){ const c=_ac(a); try{ const r=c.querySelector('.vacts'); if(r && a._id){ const n=(a.audios||[]).length; const b=h2(`<button type="button" class="btn2 ghost">${ic('mic')}${n?pl(n,'ruido'):'Ruido'}</button>`); b.onclick=()=>{ uiSfx('tap'); const cur=(S.ave||[]).find(x=>x._id===a._id)||a; (cur.audios||[]).length?aveSheet(cur):ruidoGrabar(cur, ()=>setTimeout(()=>aveSheet((S.ave||[]).find(x=>x._id===a._id)||cur), 300)); }; r.append(b); } }catch{} return c; }; }
 
 
 connectDb();
