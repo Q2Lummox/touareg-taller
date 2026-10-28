@@ -1,5 +1,9 @@
 # Novedades
 
+## v4.0.3 · 2026-10-28
+- Lista de la compra: al tocar algo por comprar se abre la ventana completa (precio, tienda, fecha, quién lo monta, factura), igual que al marcarlo con el círculo
+- «Guardar sin comprar» para corregir nombre o cantidad; aviso con «Añadir precio» si lo marcas comprado sin precio
+
 ## v4.0.2 · 2026-10-24
 - Manos libres: por defecto lee solo el título y el par de cada paso; «repite» lee el paso entero (o elige «Todo el paso»)
 - La lectura se corta: en el iPhone tocando la pantalla, que se pone a escuchar al momento; en otros aparatos, diciendo la orden

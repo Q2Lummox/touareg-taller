@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.0.2">
+<meta name="app-version" content="4.0.3">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3323,7 +3323,7 @@ body.manoslibres .reprun .rpnav{grid-template-columns:minmax(0,1fr) minmax(0,1.5
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.0.2</span>
+  <span class="spver">v4.0.3</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6696,7 +6696,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.0.2';
+window.APP_VERSION='4.0.3';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6730,7 +6730,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.0.2';
+  const APP_VERSION='4.0.3';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -7573,7 +7573,7 @@ function compraSheet(c, mode){
   if(hecha) d.estado='comprado';
   const buy = mode==='comprar';
   sheet(`<div><h3>${buy?'Marcar como comprado':hecha?'Compra ya hecha':isNew?'Añadir a la compra':'Editar compra'}</h3>${hecha?'<p class="muted2" style="margin:-4px 0 10px">Se guarda directamente como comprada, sin pasar por la lista.</p>':''}
-    ${buy?`<p class="muted2" style="margin:-4px 0 10px">${esc(d.nombre)}${d.cantidad>1?' ×'+d.cantidad:''}</p>`:`<label class="wzlab">Pieza o artículo</label><input class="inp2" id="cpN" list="cpList" value="${esc(d.nombre)}" placeholder="p. ej. Bomba de agua"><label class="wzlab">Cantidad</label><input class="inp2" id="cpQ" type="number" inputmode="numeric" min="1" value="${esc(d.cantidad||1)}"><label class="wzlab">Referencia</label><input class="inp2" id="cpRf" value="${esc(d.ref||'')}" placeholder="p. ej. 070 121 011 D" autocomplete="off" spellcheck="false">`}
+    ${buy?`<label class="wzlab">Pieza o artículo</label><input class="inp2" id="cpN" list="cpList" value="${esc(d.nombre)}"><label class="wzlab">Cantidad</label><input class="inp2" id="cpQ" type="number" inputmode="numeric" min="1" value="${esc(d.cantidad||1)}">`:`<label class="wzlab">Pieza o artículo</label><input class="inp2" id="cpN" list="cpList" value="${esc(d.nombre)}" placeholder="p. ej. Bomba de agua"><label class="wzlab">Cantidad</label><input class="inp2" id="cpQ" type="number" inputmode="numeric" min="1" value="${esc(d.cantidad||1)}"><label class="wzlab">Referencia</label><input class="inp2" id="cpRf" value="${esc(d.ref||'')}" placeholder="p. ej. 070 121 011 D" autocomplete="off" spellcheck="false">`}
     ${buy||d.estado!=='pendiente'?`<label class="wzlab">Precio total pagado (€)</label><input class="inp2" id="cpP" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(d.precio??'')}" placeholder="0,00">
     <label class="wzlab">Tienda</label><input class="inp2" id="cpT" value="${esc(d.tienda||'')}" placeholder="Tienda o web">
     <label class="wzlab">Fecha de compra</label><input class="inp2" id="cpF" type="date" value="${esc(d.fechaCompra||todayISO())}">
@@ -7582,7 +7582,7 @@ function compraSheet(c, mode){
     <div id="cpMW"${d.montaje==='taller'?'':' hidden'}><label class="wzlab">Mano de obra (€)</label><input class="inp2" id="cpMO" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(d.manoObra??'')}" placeholder="Lo que te cobra el taller"><label class="wzlab">Taller o mecánico</label><input class="inp2" id="cpTa" value="${esc(d.taller||'')}" placeholder="Nombre del taller"></div>
     <label class="wzlab">Factura o foto (opcional)</label><input id="cpA" type="file" accept="image/*,application/pdf" multiple style="color:var(--txt-2)">`:''}
     <label class="wzlab">Notas</label><input class="inp2" id="cpNo" value="${esc(d.notas||'')}" placeholder="Opcional">
-    <div class="row3">${!isNew&&!buy?`<button class="btn2 ghost" type="button" id="cpDel" style="margin-right:auto;color:var(--due)">${ic('x')}Borrar</button>`:''}<button class="btn2 ghost" type="button" id="cpNo2">Cancelar</button><button class="btn2" type="button" id="cpOk">${ic('check')}${buy?'Comprado':hecha?'Guardar compra':'Guardar'}</button></div></div>`, b=>{
+    <div class="row3">${!isNew&&!buy?`<button class="btn2 ghost" type="button" id="cpDel" style="margin-right:auto;color:var(--due)">${ic('x')}Borrar</button>`:''}<button class="btn2 ghost" type="button" id="cpNo2">Cancelar</button>${buy?'<button class="btn2 ghost" type="button" id="cpKeep">Guardar sin comprar</button>':''}<button class="btn2" type="button" id="cpOk">${ic('check')}${buy?'Comprado':hecha?'Guardar compra':'Guardar'}</button></div></div>`, b=>{
     const dl=document.createElement('datalist'); dl.id='cpList'; const names=new Set([...S.piezasL.map(x=>x.nombre), ...S.mant.map(x=>x.nombre)]); [...names].sort(COLL.compare).forEach(n=>dl.append(new Option(n))); b.append(dl);
     const v=id=>b.querySelector('#'+id);
     v('cpNo2').onclick=()=>$('#sheet2').hidden=true;
@@ -7591,20 +7591,23 @@ function compraSheet(c, mode){
     if(v('cpM')) v('cpM').addEventListener('change',()=>{ v('cpMW').hidden=v('cpM').value!=='taller'; });
     for(const id of ['cpT','cpTa']) addProvList(v(id));          /* tiendas y talleres ya usados */
     compraOcr(b);                                                 /* leer el ticket con la cámara */
-    v('cpOk').onclick=async()=>{
+    const save=async(mark)=>{
       const ok=v('cpOk'); 
       if(v('cpN')){ d.nombre=v('cpN').value.trim(); if(!d.nombre){ v('cpN').focus(); return; } d.cantidad=Math.max(1,Number(v('cpQ').value)||1); if(v('cpRf')) d.ref=v('cpRf').value.trim(); }
       d.notas=v('cpNo').value.trim();
       if(v('cpP')){ d.precio=v('cpP').value===''?null:Number(v('cpP').value); d.tienda=v('cpT').value.trim(); d.fechaCompra=v('cpF').value||todayISO(); if(v('cpR')) d.ref=v('cpR').value.trim(); d.montaje=v('cpM').value; d.manoObra = d.montaje==='taller' && v('cpMO').value!=='' ? Number(v('cpMO').value) : null; d.taller = d.montaje==='taller' ? v('cpTa').value.trim() : ''; }
-      if(buy) d.estado='comprado';
+      if(mark) d.estado='comprado';
       ok.disabled=true;
       try{
         const files=[...(v('cpA')?.files||[])]; if(files.length) d.adjuntos=[...(d.adjuntos||[]), ...await uploadFiles(files)];
         const {_id, ...data}=d; data.actualizado=new Date().toISOString(); if(isNew) data.creado=data.actualizado;
         if(isNew) await S.db.collection('compras').add(data); else await S.db.collection('compras').doc(c._id).set(data);
-        $('#sheet2').hidden=true; if(hecha) toast('Compra guardada: '+d.nombre, null, {label:'Añadir otra', fn:()=>compraSheet({nombre:'',cantidad:1,tienda:d.tienda,fechaCompra:d.fechaCompra,montaje:d.montaje}, 'hecha')}); else toast(buy?'Compra registrada':isNew?'Añadido a la compra':'Compra guardada');
+        $('#sheet2').hidden=true; if(hecha) toast('Compra guardada: '+d.nombre, null, {label:'Añadir otra', fn:()=>compraSheet({nombre:'',cantidad:1,tienda:d.tienda,fechaCompra:d.fechaCompra,montaje:d.montaje}, 'hecha')}); else if(mark && !Number(d.precio) && c?._id) toast('Comprado. Sin precio no cuenta en Gastos', null, {label:'Añadir precio', fn:()=>compraSheet({...d, _id:c._id})});
+        else toast(mark?'Compra registrada':isNew?'Añadido a la compra':'Compra guardada');
       }catch{ ok.disabled=false; toast('No se pudo guardar','err'); }
     };
+    v('cpOk').onclick=()=>save(buy);
+    if(v('cpKeep')) v('cpKeep').onclick=()=>save(false);
   });
 }
 function montarCompra(c){
@@ -12961,7 +12964,7 @@ function cmpRow(x, kind){
   const r=h2(`<div class="vrow vcmp vswipe k-${kind}${kind==='pend'&&avIsNew('gastos','c:'+x._id)?' vnew':''}"><button type="button" class="vck" aria-label="${kind==='pend'?'Marcar como comprado':kind==='comp'?'Marcar como montado':'Ver'}">${kind==='pend'?'':ic(kind==='comp'?'check':'checkc')}</button>
     <button type="button" class="vtx"><b>${cmpN(x)}</b><small>${esc([x.ref, kind==='pend'?x.notas:fmtDate(x.fechaCompra), kind!=='pend'?x.tienda:'', x.montaje==='taller'?'lo monta un taller':''].filter(Boolean).join(' · '))}</small></button>
     ${kind==='comp'?`<button type="button" class="btn2 sm vmnt">${ic('wrench')}Montar</button>`:x.precio!=null&&kind!=='pend'?`<span class="vr">${eur(Number(x.precio))}</span>`:''}</div>`);
-  r.querySelector('.vtx').onclick=()=>{ uiSfx('tap'); compraSheet(x); };
+  r.querySelector('.vtx').onclick=()=>{ uiSfx('tap'); compraSheet(x, kind==='pend'?'comprar':undefined); };   /* lo que está por comprar abre la ventana completa de compra */
   if(kind==='pend'){ r.querySelector('.vck').onclick=()=>{ uiSfx('tap'); compraSheet(x,'comprar'); }; r._swR={l:'Comprado', i:'check', fn:()=>compraSheet(x,'comprar')}; }
   else if(kind==='comp'){ const m=()=>montarCompra(x); r.querySelector('.vck').onclick=m; r.querySelector('.vmnt').onclick=m; r._swR={l:'Montado', i:'wrench', fn:m}; }
   else r.querySelector('.vck').onclick=()=>compraSheet(x);
