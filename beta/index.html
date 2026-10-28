@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.1.0-beta.1">
+<meta name="app-version" content="4.1.0-beta.2">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3361,6 +3361,12 @@ body.v3.sol .vcard,body.v3.sol .vlist,body.v3.sol .card2{box-shadow:0 0 0 1.5px 
 body.v3.sol .vrow .vtx small,body.v3.sol .muted2{color:#2b3138!important}
 body.v3.sol .btn2.ghost{color:#8a4b00!important}
 body.v3.sol .vcuadro{zoom:.893}
+.rpneedc.tap{cursor:pointer;border-radius:8px;padding:4px 6px;margin:2px -6px}.rpneedc.tap:active{background:var(--v-fill,rgba(127,127,127,.15))}
+/* 4.1: el brillo de fondo de la 2.x seguía animándose detrás de todo (no se ve en la 4.x) y el desenfoque de las
+   barras se recalculaba en cada fotograma del 3D: en el visor, barras opacas */
+body.v3::before{animation:none!important}
+body[data-v3leaf="3d"] #v3tabs, body[data-v3leaf="3d"] .v3tabs{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--v-bg)!important}
+body[data-v3leaf="3d"] .v3bar::before{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--v-bg)!important}
 </style>
 
 </head>
@@ -3403,7 +3409,7 @@ body.v3.sol .vcuadro{zoom:.893}
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.1.0-beta.1</span>
+  <span class="spver">v4.1.0-beta.2</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6776,7 +6782,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.1.0-beta.1';
+window.APP_VERSION='4.1.0-beta.2';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6810,7 +6816,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.1.0-beta.1';
+  const APP_VERSION='4.1.0-beta.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -11197,6 +11203,19 @@ function repNeeds(pr){
   const pares=[]; for(const [k,p] of (pr.pasos||[]).entries()) if(p.par) pares.push([k, p.par]);
   return {herr:[...seen.values()], pares};
 }
+/* 4.1: una pieza de la reparación que sigue «sin comprar» pero que ya compraste por otro lado (añadida de nuevo a la
+   lista y marcada como comprada) se cambia por la comprada: misma referencia o, si falta alguna, el mismo nombre */
+const repRefN=r=>String(r||'').toUpperCase().replace(/[^0-9A-Z]/g,'');
+const repNomN=n=>norm(String(n||'').replace(/\([^)]*\)/g,'')).replace(/\s+/g,' ').trim();
+function repCompraTwin(c, ids){
+  if(!c || c.estado!=='pendiente') return null; const rf=repRefN(c.ref), nm=repNomN(c.nombre);
+  return (S.compras||[]).find(o=>o._id!==c._id && o.estado!=='pendiente' && !(ids||[]).includes(o._id) &&
+    (rf && repRefN(o.ref) ? repRefN(o.ref)===rf : (nm.length>5 && (repNomN(o.nombre).includes(nm) || nm.includes(repNomN(o.nombre))) && repNomN(o.nombre).length>5)))||null;
+}
+function repComprasFix(ids){
+  const out=[...(ids||[])], swaps=[]; out.forEach((id,k)=>{ const c=(S.compras||[]).find(x=>x._id===id), o=repCompraTwin(c, out); if(o){ out[k]=o._id; swaps.push([id,o._id,c,o]); } });
+  return {ids:out, swaps};
+}
 function repNeedsBox(pr, compras, opts={}){
   const N=repNeeds(pr), cs=(compras||[]).map(id=>(S.compras||[]).find(c=>c._id===id)).filter(Boolean), sin=cs.filter(c=>c.estado==='pendiente');
   if(!N.herr.length && !N.pares.length && !cs.length) return null;
@@ -11205,7 +11224,7 @@ function repNeedsBox(pr, compras, opts={}){
   if(sin.length) b.append(h2(`<div class="alr soon">${ic('cart')}<span>Aún sin comprar: ${sin.map(c=>'<b>'+esc(c.nombre)+'</b>').join(', ')}.</span></div>`));
   if(N.herr.length){ b.append(h2(`<h5>${ic('wrench')}Herramientas</h5>`)); for(const t of N.herr){ const l=h2(`<label class="chk"><input type="checkbox"${got.has(t)?' checked':''}><span>${esc(t)}</span></label>`); l.querySelector('input').onchange=e=>{ e.target.checked?got.add(t):got.delete(t); if(e.target.checked) uiSfx('tick'); }; b.append(l); } }
   if(N.pares.length){ b.append(h2(`<h5>${ic('gauge')}Pares de apriete (para tener la dinamométrica adecuada)</h5>`)); const u=h2('<ul class="rppares"></ul>'); for(const [k,v] of N.pares) u.append(h2(`<li><em>Paso ${k+1}</em> ${esc(v)}</li>`)); b.append(u); }
-  if(cs.length){ b.append(h2(`<h5>${ic('cart')}Piezas</h5>`)); for(const c of cs) b.append(h2(`<p class="rpneedc">${ic(c.estado==='pendiente'?'alert':'check')}<span>${esc(c.nombre)}${c.ref?` <small>${esc(c.ref)}</small>`:''}${c.estado==='pendiente'?' <em>sin comprar</em>':''}</span></p>`)); }
+  if(cs.length){ b.append(h2(`<h5>${ic('cart')}Piezas</h5>`)); for(const c of cs){ const r=h2(`<p class="rpneedc${c.estado==='pendiente'?' tap':''}">${ic(c.estado==='pendiente'?'alert':'check')}<span>${esc(c.nombre)}${c.ref?` <small>${esc(c.ref)}</small>`:''}${c.estado==='pendiente'?' <em>sin comprar · toca si ya la tienes</em>':''}</span></p>`); if(c.estado==='pendiente'){ r.setAttribute('role','button'); r.tabIndex=0; r.onclick=()=>{ uiSfx('tap'); compraSheet(c,'comprar'); }; } b.append(r); } }
   return d;
 }
 /* ---------- manos libres: leer cada paso en voz alta y obedecer «siguiente», «anterior», «hecho», «repite» ---------- */
@@ -11274,6 +11293,7 @@ function repRun(rep0){
   const pr=repGuia(rep0); if(!pr){ toast('No encuentro la guía de esta reparación','err'); return; }
   let rep={...rep0, hechos:[...(rep0.hechos||[])], montadas:[...(rep0.montadas||[])]}; const P=pr.pasos||[]; let i=Math.min(rep.paso||0, Math.max(0,P.length-1));
   const save=async patch=>{ rep={...rep, ...patch}; try{ await v2Upd('reparaciones', rep, patch); }catch{} };
+  { const F=repComprasFix(rep.compras); if(F.swaps.length){ const mont=rep.montadas.map(id=>F.swaps.find(w=>w[0]===id)?.[1]||id); save({compras:F.ids, montadas:mont}); setTimeout(()=>toast(F.swaps.length===1?`«${F.swaps[0][3].nombre}» ya está comprada: la he puesto en esta reparación`:`${F.swaps.length} piezas ya compradas puestas en esta reparación`), 400); } }
   const fresh=()=>repList().find(x=>x._id===rep._id)||rep;
   const box=h2(`<div class="reprun"><div class="rphead"><div class="gbar"><i></i></div><span class="rpcount"></span></div><div class="rpstep"></div>
     <div class="rpnav"><button type="button" class="btn2 ghost rpprev">${ic('chevL')}Anterior</button><button type="button" class="btn2 pri rpok">${ic('check')}<span>Hecho</span></button><button type="button" class="btn2 ghost rpnext">Siguiente${ic('chevR')}</button></div>
@@ -12314,8 +12334,9 @@ let AVCTX=null;
 function avEnter(e){ const c=avCtx(e); if(AVCTX && AVCTX!==c) avMarkSeen(AVCTX); AVCTX=c; setTimeout(v3badges,0); }
 document.addEventListener('visibilitychange',()=>{ if(document.hidden && AVCTX) avMarkSeen(AVCTX); });
 function v3badges(){ const I=avItems();
-  for(const t of ['taller','gastos','papeles']){ const b=v3tabs.querySelector(`button[data-t="${t}"] .v3badge`); if(!b) continue; const n=unseen(t,I).length; b.hidden=!n; b.textContent=n>99?'99+':n; }
-  v3tabs.querySelector('button[data-t="hoy"] .v3badge').hidden=true; }
+  for(const t of ['taller','gastos','papeles']){ const b=v3tabs.querySelector(`button[data-t="${t}"] .v3badge`); if(!b) continue; const n=unseen(t,I).length, tx=String(n>99?'99+':n);   /* 4.1: solo se toca si cambia (antes, cada segundo) */
+    if(b.hidden!==!n) b.hidden=!n; if(b.textContent!==tx) b.textContent=tx; }
+  const h=v3tabs.querySelector('button[data-t="hoy"] .v3badge'); if(h && !h.hidden) h.hidden=true; }
 
 /* ---------- datos que cambian: refrescar lo que se ve ---------- */
 /* no se redibuja nada con el dedo encima (si no, el gesto se pierde) ni si los datos no han cambiado */
@@ -12329,7 +12350,7 @@ function v3dirty(force){ if(V3.touch){ V3.pend=true; return; } clearTimeout(V3.d
 
 /* ---------- lo que la 2.x y los gestos le piden al navegador (enganches declarados en ui/01-base) ---------- */
 NAVUI={
-  top(){ const e=V3.cur; if(e?.k==='leaf') v3bar.querySelector('.v3bt small').textContent=V3.leaves[e.id]?.sub?.()||''; },   /* p. ej. la pieza elegida en el 3D */
+  top(){ const e=V3.cur; if(e?.k==='leaf'){ const sm=v3bar.querySelector('.v3bt small'), tx=V3.leaves[e.id]?.sub?.()||''; if(sm && sm.textContent!==tx) sm.textContent=tx; } },   /* p. ej. la pieza elegida en el 3D */
   badges(){ v3badges(); },
   refresh(force){ v3dirty(force); },
   rerender(){ const e=V3.cur; if(e?.k!=='page' || !V3.pages[e.id]?.v2) return false; v3render(e); return true; },   /* v2Rerender dentro de una página 4.0 */
@@ -13696,6 +13717,25 @@ function vCuadro(){
 }
 IC.gear=IC.gear||'<circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/>';
 { const _r=V3.hubs.hoy.render; V3.hubs.hoy.render=function(w){ _r.call(this, w); try{ const hero=w.querySelector('.vh-hero'); if(hero && S.cfg){ const c=vCuadro(); c.classList.add('vh-cuadro'); hero.after(c); } }catch(e){ console.warn('cuadro', e); } }; }
+
+/* ====================== 3D MÁS LIGERO EN EL MÓVIL (4.1) ======================
+   En «Calidad baja» el visor seguía dibujando las sombras del sol (cada fotograma pintaba el coche dos veces:
+   una para la sombra y otra para verlo) y la pintura perlada con barniz e iridiscencia, el material más caro.
+   En baja ahora se quitan las dos cosas; media y alta quedan como estaban.
+   Además, mientras se mira el 3D, el refresco de cada segundo (insignias de las pestañas) se hace cada 10 s:
+   solo tocaba la pantalla para volver a escribir lo mismo y metía un tirón al girar el coche. */
+function lite3d(){
+  try{ const lo=R.quality==='baja';
+    renderer.shadowMap.enabled = FX.sombras && !lo; sun.castShadow = FX.sombras && !lo;
+    for(const m of paintMats){ const cc=(FX.barniz && !lo)?1:0, ir=(FX.barniz && !lo)?.12:0; if(m.clearcoat!==cc || m.iridescence!==ir){ m.clearcoat=cc; m.iridescence=ir; m.needsUpdate=true; } }
+    dirty=true; }catch(e){ console.warn('lite3d', e); }
+}
+{ const _aq=applyQuality; applyQuality=function(){ _aq.apply(this, arguments); lite3d(); };
+  const _af=applyFx; applyFx=function(){ _af.apply(this, arguments); lite3d(); };
+  /* la pintura se crea al cargar el modelo, después de aplicar la calidad */
+  const chk=setInterval(()=>{ if(paintMats.length){ clearInterval(chk); lite3d(); } }, 700); }
+{ const _ub=updateBadges; let k=0;
+  updateBadges=function(){ if(document.body.dataset.v3leaf==='3d' && (k++%10)) return; _ub(); }; }
 
 
 connectDb();
