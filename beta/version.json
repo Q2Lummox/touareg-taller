@@ -1,33 +1,17 @@
 {
- "version": "4.2.0-beta.1",
- "fecha": "2026-10-28",
+ "version": "4.2.0-beta.2",
+ "fecha": "2026-10-29",
  "notas": [
-  "Visor de imágenes nuevo: pellizcar para ampliar, arrastrar, doble toque, girar y deslizar abajo para cerrar, sin parpadeos",
-  "Ficha de cada pieza con compras, guías, reparaciones y tiendas; aviso si ya la tienes en la compra",
-  "Taller reorganizado: guías, diagnóstico, VCDS, tus herramientas y la ITV juntos",
-  "Gráficas de los registros de VCDS con el anterior superpuesto y el rango bueno",
-  "Preparar el pedido para la tienda (WhatsApp, correo o copiar)",
-  "Mis herramientas: «¿Lo tienes todo?» sabe lo que tienes y propone alternativas",
-  "Grabar el ruido de una avería, antes y después",
-  "Atajos: abrir la app directamente en una acción (Siri)",
-  "Preparar la ITV con aviso un mes antes",
-  "Hoy más compacto, 3D con la hoja plegada, modo garaje en las guías y compra con «Más detalles»"
+  "Buscar en tiendas: la referencia va siempre junta, sin espacios (también arregla los %20 de Wallapop)",
+  "Nuevas tiendas en la ficha de la pieza: Oscaro, Amazon y AliExpress"
  ],
  "historial": [
   {
-   "version": "4.2.0-beta.1",
-   "fecha": "2026-10-28",
+   "version": "4.2.0-beta.2",
+   "fecha": "2026-10-29",
    "notas": [
-    "Visor de imágenes nuevo: pellizcar para ampliar, arrastrar, doble toque, girar y deslizar abajo para cerrar, sin parpadeos",
-    "Ficha de cada pieza con compras, guías, reparaciones y tiendas; aviso si ya la tienes en la compra",
-    "Taller reorganizado: guías, diagnóstico, VCDS, tus herramientas y la ITV juntos",
-    "Gráficas de los registros de VCDS con el anterior superpuesto y el rango bueno",
-    "Preparar el pedido para la tienda (WhatsApp, correo o copiar)",
-    "Mis herramientas: «¿Lo tienes todo?» sabe lo que tienes y propone alternativas",
-    "Grabar el ruido de una avería, antes y después",
-    "Atajos: abrir la app directamente en una acción (Siri)",
-    "Preparar la ITV con aviso un mes antes",
-    "Hoy más compacto, 3D con la hoja plegada, modo garaje en las guías y compra con «Más detalles»"
+    "Buscar en tiendas: la referencia va siempre junta, sin espacios (también arregla los %20 de Wallapop)",
+    "Nuevas tiendas en la ficha de la pieza: Oscaro, Amazon y AliExpress"
    ]
   }
  ]

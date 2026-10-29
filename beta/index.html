@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.2.0-beta.1">
+<meta name="app-version" content="4.2.0-beta.2">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3493,7 +3493,7 @@ body[data-v3leaf="3d"] .v3bar::before{-webkit-backdrop-filter:none!important;bac
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.2.0-beta.1</span>
+  <span class="spver">v4.2.0-beta.2</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6866,7 +6866,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.2.0-beta.1';
+window.APP_VERSION='4.2.0-beta.2';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6900,7 +6900,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.2.0-beta.1';
+  const APP_VERSION='4.2.0-beta.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -10265,7 +10265,9 @@ function refRow(f){ const s=[f.ref, f.uso[0]].filter(Boolean).join(' · ');
   return row2({c:f.stock?'var(--ok)':f.com.length?'var(--info)':'var(--accent)', i:f.stock?'home':f.com.length?'cart':'tag', t:f.nombre, s, r:f.stock?`${f.stock} en casa`:null, fn:()=>fichaSheet(f.k)}); }
 
 /* ---------- la ficha ---------- */
-const PZ_SHOPS=[['Google',(k,r)=>'https://www.google.com/search?q='+encodeURIComponent(r)],['Autodoc',k=>'https://www.autodoc.es/search?keyword='+encodeURIComponent(k)],['eBay',k=>'https://www.ebay.es/sch/i.html?_nkw='+encodeURIComponent(k)],['Recambios VW',(k,r)=>'https://www.google.com/search?q='+encodeURIComponent(r+' recambio original volkswagen precio')],['Wallapop',(k,r)=>'https://es.wallapop.com/app/search?keywords='+encodeURIComponent(r)]];
+/* 4.2: todas las búsquedas con la referencia junta, sin espacios (dan mejores resultados y Wallapop no muestra %20) */
+const pzQ=k=>encodeURIComponent(refKey(k));
+const PZ_SHOPS=[['Google',k=>'https://www.google.com/search?q='+pzQ(k)],['Autodoc',k=>'https://www.autodoc.es/search?keyword='+pzQ(k)],['Oscaro',k=>'https://www.oscaro.es/search?q='+pzQ(k)],['Amazon',k=>'https://www.amazon.es/s?k='+pzQ(k)],['eBay',k=>'https://www.ebay.es/sch/i.html?_nkw='+pzQ(k)],['AliExpress',k=>'https://es.aliexpress.com/wholesale?SearchText='+pzQ(k)],['Wallapop',k=>'https://es.wallapop.com/app/search?keywords='+pzQ(k)]];
 function fichaSheet(k){
   const f=refIndex().get(refKey(k));
   if(!f){ toast('Esa referencia no tiene ficha todavía'); return; }
