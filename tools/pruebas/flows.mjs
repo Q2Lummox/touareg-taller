@@ -201,7 +201,7 @@ const flows = {
     const sh = await st(p, () => [...__store.keys()].filter(k => k.startsWith('compartido/'))); ok('enlace', sh.length === 1, 'enlace creado: ' + sh.join(','));
     const url = await st(p, () => document.querySelector('.v3pg.on input[readonly], .v3pg.on .lnk, .v3pg.on a[href*="taller.html"]')?.value || document.querySelector('.v3pg.on a[href*="taller.html"]')?.href || document.querySelector('.v3pg.on')?.innerText.match(/https?:\S+taller\.html\S*/)?.[0]);
     res.push(['enlace', 'INFO', 'url: ' + url]);
-    const d = await st(p, () => { const k = [...__store.keys()].find(k => k.startsWith('compartido/')); const v = __store.get(k); return JSON.stringify(v).slice(0, 300) + ' VIN?' + /WVGZZZ/.test(JSON.stringify(v)); }); res.push(['enlace', 'INFO', d]);
+    const d = await st(p, () => { const k = [...__store.keys()].find(k => k.startsWith('compartido/')); const v = __store.get(k); return JSON.stringify(v).slice(0, 300); }); res.push(['enlace', 'INFO', d]);
   },
   async guia(p){
     const n0 = await st(p, () => __v3.x.S.procs.length);

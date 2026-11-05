@@ -8,7 +8,10 @@ os.chdir(REPO)
 def sh(*a): return subprocess.run(a, check=True, capture_output=True, text=True).stdout
 def checks(path):
     h = open(path, encoding='utf-8').read()
-    assert 'WVGZZZ7LZ4D' not in h, 'el bastidor no puede publicarse'
+    vin = os.path.join(HERE, '.bastidor')   # archivo local, no se sube: el comienzo del bastidor que no puede publicarse
+    if os.path.exists(vin):
+        pat = open(vin).read().strip(); assert pat and pat not in h, 'el bastidor no puede publicarse'
+    else: print('AVISO: falta tools/pruebas/.bastidor; no se comprueba el bastidor')
     i = h.index('<script type="module">', h.index('src="./fb.js"')); j = h.index('</script>', i)
     open(os.path.join(HERE, 'lint', 'main.mjs'), 'w').write(h[i + len('<script type="module">'):j])
     r = subprocess.run(['node', '--check', os.path.join(HERE, 'lint', 'main.mjs')], capture_output=True, text=True)
