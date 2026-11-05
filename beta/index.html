@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.2.0-beta.2">
+<meta name="app-version" content="4.2.1-beta.1">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3493,7 +3493,7 @@ body[data-v3leaf="3d"] .v3bar::before{-webkit-backdrop-filter:none!important;bac
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.2.0-beta.2</span>
+  <span class="spver">v4.2.1-beta.1</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5407,7 +5407,7 @@ function selectLayer(lid){
 const TIPOS_PIEZA=['Reparación','Intervención','Sustitución','Revisión','Ajuste','Limpieza'];
 const TIPOS_MANT=['Sustitución','Mantenimiento','Revisión','Reparación'];
 const todayISO=()=>{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
-const fmtDate=s=>{ if(!s) return '—'; const [y,m,d]=s.split('-'); return `${d}/${m}/${y}`; };
+const fmtDate=s=>{ if(!s) return '—'; const t=String(s), x=t.match(/^(\d{4})-(\d{2})-(\d{2})/); return x?`${x[3]}/${x[2]}/${x[1]}`:t; };
 const fmtKm=n=> (n!=null && n!=='' && !isNaN(n)) ? Number(n).toLocaleString('es-ES')+' km' : '—';
 const byDateDesc=(a,b)=>(b.fecha||'').localeCompare(a.fecha||'') || (Number(b.km)||0)-(Number(a.km)||0);
 function intsFor(pid){ return S.int.filter(x=>x.pieza===pid).sort(byDateDesc); }
@@ -5948,7 +5948,15 @@ function renderGastos(){
 }
 
 /* ---------- exportar historial en PDF ---------- */
-function loadScript(src){ return new Promise((ok,ko)=>{ const s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=ko; document.head.append(s); }); }
+function loadScript(src){ return new Promise((ok,ko)=>{ const s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=()=>{ s.remove(); ko(new Error(navigator.onLine?'no se pudo descargar el generador de PDF; inténtalo de nuevo':'sin conexión: el generador de PDF se descarga la primera vez que lo usas con internet')); }; document.head.append(s); }); }
+/* 4.2.1: copiar al portapapeles con respaldo (en algunos navegadores writeText falla y antes daba un error sin avisar) */
+async function copyTxt(t, okMsg){
+  try{ await navigator.clipboard.writeText(t); if(okMsg) toast(okMsg); return true; }catch{}
+  try{ const ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly',''); ta.style.cssText='position:fixed;top:0;left:0;opacity:0'; document.body.append(ta); ta.select(); ta.setSelectionRange(0, t.length); const k=document.execCommand('copy'); ta.remove(); if(k){ if(okMsg) toast(okMsg); return true; } }catch{}
+  toast('No se pudo copiar: mantén pulsado el texto para copiarlo','err'); return false;
+}
+/* 4.2.1: nombre de un documento sin repetir («ITV · ITV», «Seguro · Seguro a todo riesgo») */
+function docLbl(d){ const t=String(d?.tipo||'Documento'), n=String(d?.nombre||'').trim(); if(!n) return t; const N=x=>x.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim(), nt=N(t), nn=N(n); if(nn===nt || nn.includes(nt)) return n; if(nt.includes(nn)) return t; return t+' · '+n; }
 async function exportPdf(){
   try{
     toast('Preparando el PDF…');
@@ -6390,7 +6398,7 @@ async function saveFile(name, data){
 
 /* ---------- documentación del coche ---------- */
 const DOC_T=['ITV','Seguro','Impuesto de circulación','Permiso de circulación','Ficha técnica','Garantía','Otro'];
-function docStatus(d){ if(!d.caduca) return {st:'nodata', days:null}; const days=Math.round((new Date(d.caduca+'T12:00:00')-new Date(todayISO()+'T12:00:00'))/864e5); return {st: days<0?'due': days<=30?'soon':'ok', days}; }
+function docStatus(d){ if(!d?.caduca) return {st:'nodata', days:null}; const days=Math.round((new Date(String(d.caduca).slice(0,10)+'T12:00:00')-new Date(todayISO()+'T12:00:00'))/864e5); if(!isFinite(days)) return {st:'nodata', days:null}; return {st: days<0?'due': days<=30?'soon':'ok', days}; }
 function updateDocBadge(){
   let due=0,soon=0; for(const d of S.docs){ const s=docStatus(d).st; if(s==='due') due++; else if(s==='soon') soon++; }
   const b=$('#docBadge'); if(!b) return; b.hidden=!(due||soon); b.className='badge'+(due?'':' soon'); b.textContent=due||soon; b.title=due?`${due} documento(s) caducado(s)`:`${soon} a punto de caducar`;
@@ -6403,7 +6411,7 @@ function renderDocs(){
   const box=el('div','doclist');
   for(const d of list){ const s=docStatus(d);
     const r=el('div','mrow st-'+s.st);
-    const nm=el('div','nm',d.tipo+(d.nombre?' · '+d.nombre:'')); nm.append(el('small',null,d.notas||''));
+    const nm=el('div','nm',docLbl(d)); nm.append(el('small',null,d.notas||''));
     const c1=el('div','c'); c1.append('Caduca', el('b',null,d.caduca?fmtDate(d.caduca):'—'));
     const c2=el('div','c'); c2.append('Quedan', el('b',null, s.days==null?'—': s.days<0?`caducó hace ${-s.days} días`:`${s.days} días`));
     const pill=el('span','pill',{ok:'Al día',soon:'Próximo',due:'Caducado',nodata:'Sin fecha'}[s.st]);
@@ -6866,7 +6874,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.2.0-beta.2';
+window.APP_VERSION='4.2.1-beta.1';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6900,7 +6908,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.2.0-beta.2';
+  const APP_VERSION='4.2.1-beta.1';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -6967,7 +6975,7 @@ function pwaInit(){
     $('#ovlKind').textContent='Aviso'; $('#ovlTitle').textContent='Tienes cosas pendientes';
     const body=$('#ovlBody'); body.innerHTML=''; const box=el('div','remind');
     for(const it of S.mant){ const s=itemStatus(it); if(s.st==='due'||s.st==='soon'){ const r=el('div',s.st==='due'?'v':''); r.append(el('span',null,it.nombre), el('small',null,s.st==='due'?'Vencido':'Próximo')); box.append(r); } }
-    for(const d of docsVig()){ const s=docStatus(d); if(s.st==='due'||s.st==='soon'){ const r=el('div',s.st==='due'?'v':''); r.append(el('span',null,(d.tipo||'Documento')+(d.nombre?' · '+d.nombre:'')), el('small',null,s.days<0?'Caducado hace '+(-s.days)+' d':'Caduca en '+s.days+' d')); box.append(r); } }
+    for(const d of docsVig()){ const s=docStatus(d); if(s.st==='due'||s.st==='soon'){ const r=el('div',s.st==='due'?'v':''); r.append(el('span',null,docLbl(d)), el('small',null,s.days<0?'Caducado hace '+(-s.days)+' d':'Caduca en '+s.days+' d')); box.append(r); } }
     const acts=el('div','acts');
     const bm=el('button','pri','Ver mantenimiento'); bm.type='button'; bm.onclick=()=>{ closePop(); $('#bMant').click(); };
     const bd=el('button',null,'Ver documentación'); bd.type='button'; bd.onclick=()=>openGlobal('docs');
@@ -7299,7 +7307,10 @@ function quickKm(){
   sheet(`<div><h3>Kilómetros actuales</h3><p class="muted2">Mira el cuentakilómetros y escribe la cifra.</p><input class="inp2" type="number" inputmode="numeric" min="0" step="1" id="qkIn" placeholder="p. ej. 245000"><div class="row3"><button class="btn2 ghost" type="button" id="qkNo">Cancelar</button><button class="btn2" type="button" id="qkOk">${ic('check')}Guardar</button></div></div>`, b=>{
     const i=b.querySelector('#qkIn'); i.value=S.cfg?.kmActual||''; setTimeout(()=>i.focus(),80);
     b.querySelector('#qkNo').onclick=()=>$('#sheet2').hidden=true;
-    const ok=async()=>{ const v=i.value===''?null:Number(i.value); if(v!=null && (isNaN(v)||v<0)) return; await S.db?.doc('config/coche').set({...(S.cfg||{}), kmActual:v}); $('#sheet2').hidden=true; toast('Kilómetros actualizados'); };
+    const ok=async()=>{ const v=i.value===''?null:Number(i.value); if(v!=null && (isNaN(v)||v<0)) return; const cur=Number(S.cfg?.kmActual)||0;
+      if(v!=null && cur && v<cur && !confirm(`Has puesto ${nf.format(v)} km y el coche tenía ${nf.format(cur)} km. El cuentakilómetros no puede ir hacia atrás: ¿seguro que es correcto?`)){ i.focus(); i.select?.(); return; }
+      if(v!=null && cur && v-cur>30000 && !confirm(`Son ${nf.format(v-cur)} km más que la última vez (${nf.format(cur)} km). ¿Es correcto?`)){ i.focus(); return; }
+      await S.db?.doc('config/coche').set({...(S.cfg||{}), kmActual:v}); $('#sheet2').hidden=true; toast('Kilómetros actualizados'); };
     b.querySelector('#qkOk').onclick=ok; i.onkeydown=e=>{ if(e.key==='Enter') ok(); };
   });
 }
@@ -7379,7 +7390,7 @@ function searchBase(raw){
   for(const it of S.mant) if(norm(it.nombre+' '+(it.grupo||'')).includes(q)){ const s=itemStatus(it); add('Mantenimiento','wrench',it.nombre,(it.grupo||'')+' · '+ST_LABEL[s.st],()=>{ closeSearch(); go('mant','plan'); },stColor(s.st)); }
   for(const x of S.int) if(norm([x.descripcion,x.ref,x.tipo,itemName(x.mant),partName(x.pieza)].join(' ')).includes(q)) add('Historial','history',x.descripcion||itemName(x.mant)||x.tipo,fmtDate(x.fecha)+(x.km!=null?' · '+nf.format(x.km)+' km':''),()=>{ closeSearch(); go('mant','hist'); });
   for(const c of (S.compras||[])) if(norm([c.nombre,c.ref,c.tienda,c.notas].join(' ')).includes(q)) add('Compras','cart',c.nombre+(c.cantidad>1?' ×'+c.cantidad:''),({pendiente:'Por comprar',comprado:'Comprado, sin montar',montado:'Montado'})[c.estado]+(c.precio?' · '+eur(c.precio):''),()=>{ closeSearch(); go('mant','compra'); });
-  for(const d of S.docs) if(norm(d.tipo+' '+(d.nombre||'')+' '+(d.notas||'')).includes(q)) add('Documentos','shield',d.tipo+(d.nombre?' · '+d.nombre:''),d.caduca?'Caduca el '+fmtDate(d.caduca):'',()=>{ closeSearch(); S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); });
+  for(const d of S.docs) if(norm(d.tipo+' '+(d.nombre||'')+' '+(d.notas||'')).includes(q)) add('Documentos','shield',docLbl(d),d.caduca?'Caduca el '+fmtDate(d.caduca):'',()=>{ closeSearch(); S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); });
   for(const a of S.ave) if(norm([a.codigo,a.sintoma,a.notas].join(' ')).includes(q)) add('Averías','alert',(a.codigo?a.codigo+' · ':'')+(a.sintoma||''),a.estado==='resuelta'?'Resuelta':'Abierta',()=>{ closeSearch(); S.aveEdit=a; S.aveDraftParts=null; openGlobal('ave'); });
   for(const code of (S.cfg?.pr||[])){ const inf=S.prinfo?.[code]; if(norm(code+' '+(inf?.es||'')+' '+(inf?.en||'')).includes(q)) add('Códigos PR','tag',code+' · '+(inf?.es||'Sin descripción').slice(0,70),inf?.familia||'',()=>{ closeSearch(); go('coche','ficha'); S.prOpen=code; renderFab(S.cfg); setTimeout(()=>$('#prCard')?.scrollIntoView({behavior:'smooth',block:'center'}),120); }); }
   if(norm('C9Z '+(S.cfg?.pintura||'')+' pintura color').includes(q)) add('Ficha del coche','tag','Pintura '+(S.cfg?.pintura||'C9Z'),'Ficha del coche',()=>{ closeSearch(); go('coche','ficha'); });
@@ -7659,7 +7670,7 @@ async function perfReport(){
 { const _ab2=EXTRA_POP.about; EXTRA_POP.about=function(){ _ab2(); const box=$('#ovlBody .about'); if(!box) return;
     const sec=h2(`<div class="perf"><h4>Rendimiento de este dispositivo</h4><dl></dl><button type="button" class="btn2 ghost">${ic('list')}Copiar informe</button></div>`);
     box.append(sec); perfReport().then(rows=>{ const dl=sec.querySelector('dl'); for(const [k,v] of rows) dl.append(el('dt',null,k), el('dd',null,v));
-      sec.querySelector('button').onclick=()=>{ try{ navigator.clipboard.writeText(rows.map(r=>r.join(': ')).join('\n')); toast('Informe copiado'); }catch{} }; }); }; }
+      sec.querySelector('button').onclick=()=>{ copyTxt(rows.map(r=>r.join(': ')).join('\n'), 'Informe copiado'); }; }); }; }
 
 /* ---------- fotos: miniaturas, carga al hacer scroll y visor ---------- */
 const thumbIO='IntersectionObserver' in window ? new IntersectionObserver(es=>{ for(const e of es) if(e.isIntersecting){ thumbIO.unobserve(e.target); loadThumb(e.target); } },{rootMargin:'300px'}) : null;
@@ -8016,7 +8027,7 @@ function heroMini(){
 function attentionCard(km, skipKm){
   const rows=[];
   for(const {it,s} of mantList()) if(s.st==='due'||s.st==='soon') rows.push({c:stColor(s.st), i:'wrench', t:it.nombre, s:mantLine(it,s), r:ST_LABEL[s.st], fn:()=>openIntForm({mant:it.id, back:'mant'})});
-  for(const d of docsVig()){ const s=docStatus(d); if(s.st==='due'||s.st==='soon') rows.push({c:stColor(s.st), i:'shield', t:d.tipo+(d.nombre?' · '+d.nombre:''), s:'Caduca el '+fmtDate(d.caduca), r:s.days<0?'Caducado':s.days===0?'Hoy':`${s.days} días`, fn:()=>{ S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); }}); }
+  for(const d of docsVig()){ const s=docStatus(d); if(s.st==='due'||s.st==='soon') rows.push({c:stColor(s.st), i:'shield', t:docLbl(d), s:'Caduca el '+fmtDate(d.caduca), r:s.days<0?'Caducado':s.days===0?'Hoy':`${s.days} días`, fn:()=>{ S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); }}); }
   const mont=(S.compras||[]).filter(x=>x.estado==='comprado'), pend=(S.compras||[]).filter(x=>x.estado==='pendiente');
   if(mont.length) rows.push({c:'var(--soon)', i:'cart', t:mont.length===1?mont[0].nombre:`${mont.length} piezas compradas`, s:'Compradas y sin montar', r:'Montar', fn:()=>go('mant','compra')});
   if(pend.length) rows.push({c:'var(--info)', i:'cart', t:`${pend.length} en la lista de la compra`, s:pend.slice(0,3).map(x=>x.nombre).join(', ')+(pend.length>3?'…':''), r:'Ver', fn:()=>go('mant','compra')});
@@ -8575,7 +8586,7 @@ function renderRepost(w){
   const byM=Object.fromEntries(months.map(m=>[m,0])); for(const r of R){ const m=(r.fecha||'').slice(0,7); if(m in byM) byM[m]+=repTotal(r); }
   const mc=card2('Gasto en combustible por mes','calendar'); mc.querySelector('.l2').replaceWith(barChart(months.map(m=>({l:MES[+m.slice(5)-1], segs:[{v:byM[m], c:'var(--info)'}], t:byM[m]?Math.round(byM[m])+'':''})), {small:true})); w.append(mc);
   const pts=fc.L.filter(x=>fc.per.has(x._id)).map(x=>({x:new Date(x.fecha+'T12:00:00').getTime(), y:fc.per.get(x._id).l100}));
-  const cc=card2('Consumo por tramo (L/100 km)','chart'); cc.querySelector('.l2').replaceWith(lineChart(pts,{fmt:v=>nf1(v), c:'var(--accent)', empty:'Con dos repostajes de depósito lleno ya se calcula el consumo.'})); w.append(cc);
+  const cc=card2('Consumo por tramo (L/100 km)','chart'); cc.querySelector('.l2').replaceWith(lineChart(pts,{fmt:v=>nf1(v), c:'var(--accent)', empty:pts.length===1?`Primer tramo: ${nf1(pts[0].y)} L/100 km. Con el siguiente repostaje a depósito lleno verás cómo evoluciona.`:'Con dos repostajes de depósito lleno ya se calcula el consumo.'})); w.append(cc);
   const pp=R.filter(r=>num(r.precioL)).map(r=>({x:new Date(r.fecha+'T12:00:00').getTime(), y:num(r.precioL)})).sort((a,b)=>a.x-b.x);
   if(pp.length>=2){ const pc=card2('Precio del litro','euro'); pc.querySelector('.l2').replaceWith(lineChart(pp,{fmt:v=>v.toLocaleString('es-ES',{minimumFractionDigits:3,maximumFractionDigits:3})+' €', c:'var(--soon)'})); w.append(pc); }
   const lc=card2('Repostajes','fuel',R.length), l=lc.querySelector('.l2');
@@ -8691,7 +8702,7 @@ MOD.itv={col:'itv', newT:'Registrar inspección (ITV)', editT:'Editar inspecció
     if(doc) await S.db.collection('documentos').doc(doc._id).set(data); else await S.db.collection('documentos').add(data);
     if(num(d.km) && (!num(S.cfg?.kmActual) || num(d.km)>num(S.cfg.kmActual))) await S.db.doc('config/coche').set({...(S.cfg||{}), kmActual:num(d.km)});
     toast('Caducidad de la ITV actualizada: '+fmtDate(d.proxima)); }};
-function itvPend(){ return S.v2.itv.flatMap(r=>(r.defectos||[]).filter(x=>!x.corregido).map(x=>({...x, r}))); }
+function itvPend(){ return S.v2.itv.flatMap(r=>(Array.isArray(r.defectos)?r.defectos:[]).filter(x=>x && !x.corregido).map(x=>({...x, r}))); }
 function renderITV(w){
   const L=[...S.v2.itv].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
   w.append(addBar('Registrar inspección',()=>recForm(MOD.itv)));
@@ -9153,7 +9164,7 @@ MAS2.backup=['Copia de seguridad', renderBackup2];
 function permCard(){
   const em=window.FB?.user?.()?.email||'TU_CORREO';
   const c=h2(`<div class="card2 permc"><h3>${ic('alert')}Faltan permisos en Firebase</h3><p class="muted2">Las reglas de tu base de datos no dejan usar: ${[...V2.perm].map(x=>COLN[x]||x).join(', ')}. Abre la consola de Firebase ▸ Firestore ▸ Reglas y añade dentro de <code>match /databases/{database}/documents</code>:</p><pre class="rules">match /{col}/{doc=**} {\n  allow read, write: if request.auth != null\n    &amp;&amp; request.auth.token.email == "${esc(em)}";\n}</pre><button class="btn2 ghost" type="button">${ic('copy')}Copiar</button></div>`);
-  c.querySelector('button').onclick=()=>{ navigator.clipboard?.writeText(c.querySelector('pre').textContent).then(()=>toast('Reglas copiadas')); }; return c;
+  c.querySelector('button').onclick=()=>{ copyTxt(c.querySelector('pre').textContent, 'Reglas copiadas'); }; return c;
 }
 
 /* ---------- DOSSIER DE VENTA (PDF) ---------- */
@@ -9274,8 +9285,8 @@ function renderCompartir(w){
 function linkBox(t, cad){
   const u=shareURL(t), b=h2(`<div class="lnkbox"><div class="qrw" aria-hidden="true"></div><div><input class="inp2" readonly value="${esc(u)}"><small class="muted2">Caduca el ${new Date(cad).toLocaleString('es-ES',{dateStyle:'medium',timeStyle:'short'})}</small><div class="row3" style="justify-content:flex-start;flex-wrap:wrap"><button class="btn2" type="button">${ic('share')}Enviar</button><button class="btn2 ghost" type="button">${ic('copy')}Copiar</button><a class="btn2 ghost" target="_blank" rel="noopener" href="${esc(u)}">${ic('eye')}Abrir</a></div></div></div>`);
   const [sh,cp]=b.querySelectorAll('button');
-  sh.onclick=async()=>{ try{ if(navigator.share) await navigator.share({title:'Historial del Touareg 7L', text:'Historial de mantenimiento del Touareg (solo lectura):', url:u}); else { await navigator.clipboard.writeText(u); toast('Enlace copiado'); } }catch{} };
-  cp.onclick=()=>navigator.clipboard?.writeText(u).then(()=>toast('Enlace copiado'));
+  sh.onclick=async()=>{ try{ if(navigator.share) await navigator.share({title:'Historial del Touareg 7L', text:'Historial de mantenimiento del Touareg (solo lectura):', url:u}); else await copyTxt(u, 'Enlace copiado'); }catch{} };
+  cp.onclick=()=>copyTxt(u, 'Enlace copiado');
   loadScript('https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js').then(()=>{ const q=window.qrcode(0,'M'); q.addData(u); q.make(); b.querySelector('.qrw').innerHTML=q.createSvgTag({cellSize:3, margin:2, scalable:true}); }).catch(()=>b.querySelector('.qrw').remove());
   return b;
 }
@@ -9284,7 +9295,7 @@ function rulesBox(s){
   const c=h2(`<div class="permc" style="margin-top:12px"><div class="alr soon">${ic('alert')}<span>${s===403||s===401?'El enlace está creado, pero tu base de datos aún no permite leerlo desde fuera.':'No se ha podido comprobar el enlace desde fuera (¿sin conexión?).'} Falta un paso, solo la primera vez:</span></div>
     <p class="muted2">En la consola de Firebase ▸ Firestore ▸ <b>Reglas</b>, añade este bloque dentro de <code>match /databases/{database}/documents { … }</code> y pulsa Publicar. Solo deja <b>leer un enlace concreto</b> a quien lo tenga (no se pueden listar), y escribir solo a ti.</p>
     <pre class="rules">match /compartido/{token} {\n  allow get: if true;\n  allow write: if request.auth != null\n    &amp;&amp; request.auth.token.email == "${esc(em)}";\n}</pre><button class="btn2 ghost" type="button">${ic('copy')}Copiar reglas</button></div>`);
-  c.querySelector('button').onclick=()=>navigator.clipboard?.writeText(c.querySelector('pre').textContent).then(()=>toast('Reglas copiadas'));
+  c.querySelector('button').onclick=()=>copyTxt(c.querySelector('pre').textContent, 'Reglas copiadas');
   return c;
 }
 MAS2.compartir=['Enlace para el taller', renderCompartir];
@@ -9576,7 +9587,7 @@ function enterEdit(g, b, anchor){
   document.querySelector('.ordbar')?.remove();
   const bar=h2(`<div class="ordbar" role="toolbar"><span><b>Modo ordenar</b><small>Arrastra ${esc(g.name)} · toca para renombrar</small></span><button type="button" class="btn2 ghost" data-a="r">Original</button><button type="button" class="btn2" data-a="ok">${ic('check')}Listo</button></div>`);
   bar.querySelector('[data-a="ok"]').onclick=()=>{ uiSfx('save'); exitEdit(true); };
-  bar.querySelector('[data-a="r"]').onclick=async()=>{ if(!confirm('¿Volver al orden y los nombres originales de '+g.name+'?')) return; const o={...(UIC().orden||{})}, n={...(UIC().nombres||{})}; delete o[g.key]; delete n[g.key]; exitEdit(false); await saveUI({orden:o, nombres:n}); applyAll(); if(g.key==='inicio') renderInicio(true); else if(g.key.startsWith('mas:')) renderMas(); toast('Orden y nombres originales'); };
+  bar.querySelector('[data-a="r"]').onclick=async()=>{ if(!confirm('¿Volver al orden y los nombres originales de '+g.name+'?')) return; const o={...(UIC().orden||{})}, n={...(UIC().nombres||{})}; delete o[g.key]; delete n[g.key]; exitEdit(false); await saveUI({orden:o, nombres:n}); applyAll(); if(g.key==='inicio') renderInicio(true); else if(g.key.startsWith('mas:')) (typeof renderMas==='function'?renderMas():v2Rerender?.()); toast('Orden y nombres originales'); };
   document.body.append(bar);
 }
 function exitEdit(save){
@@ -10273,7 +10284,7 @@ function fichaSheet(k){
   if(!f){ toast('Esa referencia no tiene ficha todavía'); return; }
   const body=h2('<div class="fich"></div>'), u=f.user||{};
   const top=h2(`<div class="fitop"><button type="button" class="pref" title="Copiar">${esc(f.ref)}</button><span class="fitag">${esc(FGRP[f.grp]?(GRP[f.grp]?f.grp+' · ':'')+FGRP[f.grp]:'')}</span><span class="fitag">${esc(FTIPO_N[f.tipo])}</span></div>`);
-  top.querySelector('.pref').onclick=()=>navigator.clipboard?.writeText(f.ref).then(()=>toast('Referencia copiada: '+f.ref));
+  top.querySelector('.pref').onclick=()=>copyTxt(f.ref, 'Referencia copiada: '+f.ref);
   body.append(top);
   /* lo tuyo */
   const mine=card2('Tus datos','home');
@@ -10650,7 +10661,7 @@ function renderDocs2(w){
     b.querySelector('button').onclick=async e=>{ if(!confirm(`¿Ordenar los documentos repetidos?\n\nDe cada tipo queda uno (el que vence más tarde) con todas las fotos y notas; las fechas antiguas pasan a su historial. Podrás deshacerlo justo después.`)) return; e.target.disabled=true; try{ await docMerge(dup); celebrate(); }catch{ toast('No se pudo juntar','err'); e.target.disabled=false; } }; w.append(b); }
   const grid=h2('<div class="docgrid"></div>'); for(const dx of DOCX){ const c=docCard(dx); if(c) grid.append(c); } w.append(grid);
   const others=S.docs.filter(d=>!DOCX.some(dx=>dx.re.test(d.tipo||''))).sort((a,b)=>(a.caduca||'9').localeCompare(b.caduca||'9'));
-  if(others.length){ const c=card2('Otros documentos','file',others.length); for(const d of others){ const s=docStatus(d); c.querySelector('.l2').append(row2({c:stColor(s.st), i:'file', t:d.tipo+(d.nombre?' · '+d.nombre:''), s:d.caduca?dLeft(s.days)+' · '+fmtDate(d.caduca):'Sin fecha', fn:()=>recForm(MOD.docs,d)})); } w.append(c); }
+  if(others.length){ const c=card2('Otros documentos','file',others.length); for(const d of others){ const s=docStatus(d); c.querySelector('.l2').append(row2({c:stColor(s.st), i:'file', t:docLbl(d), s:d.caduca?dLeft(s.days)+' · '+fmtDate(d.caduca):'Sin fecha', fn:()=>recForm(MOD.docs,d)})); } w.append(c); }
   w.append(addBar('Añadir otro documento',()=>recForm(MOD.docs,null,{tipo:'Otro'})));
 }
 /* los documentos vienen de la colección antigua: al cambiar, se redibuja la página */
@@ -11294,7 +11305,7 @@ C2.push('reparaciones','seguimientos'); for(const c of ['reparaciones','seguimie
 const repList=()=>(S.v2.reparaciones||[]);
 const repActiva=()=>repList().filter(r=>r.estado==='en_curso').sort((a,b)=>(b.inicio||'').localeCompare(a.inicio||''));
 const repGuia=r=>r.libre?{_id:null, titulo:r.titulo, pasos:(r.pasos&&r.pasos.length)?r.pasos:[{titulo:'Trabajo', texto:'Reparación sin guía: añade abajo los pasos que vayas haciendo y márcalos.'}], libre:true}:(S.procs||[]).find(p=>p._id===r.guia);
-const fmtD=iso=>iso?iso.split('-').reverse().join('/'):'';
+const fmtD=iso=>{ if(!iso) return ''; const x=String(iso).match(/^(\d{4})-(\d{2})-(\d{2})/); return x?`${x[3]}/${x[2]}/${x[1]}`:String(iso); };
 
 /* ---------- ¿lo tienes todo? herramientas, pares y piezas de la guía ---------- */
 function repNeeds(pr){
@@ -11480,6 +11491,7 @@ function repRun(rep0){
 function repFinish(rep){
   const pr=repGuia(rep), P=pr?.pasos||[], faltan=P.length-(rep.hechos||[]).length;
   const cs=(rep.compras||[]).map(id=>(S.compras||[]).find(c=>c._id===id)).filter(Boolean), ave=(S.ave||[]).find(a=>a._id===rep.averia), tpl=segTpl(rep.titulo);
+  const csC=cs.filter(c=>c.estado!=='pendiente'), csP=cs.filter(c=>c.estado==='pendiente');
   const PD=pdList().filter(p=>p.reparacion===rep._id && p.estado!=='hecho');
   const body=h2(`<div class="repnew">
     ${PD.length?`<div class="alr soon pdfin">${ic('flag')}<span>Durante esta reparación apuntaste ${pl(PD.length,'cosa','cosas')} por arreglar: ${PD.map(p=>'<b>'+esc(p.titulo)+'</b>').join(', ')}. Siguen en <b>Taller ▸ Pendientes</b>; no se cierran con la reparación.</span></div>`:''}
@@ -11487,7 +11499,8 @@ function repFinish(rep){
     <label class="wzlab">Fecha</label><input class="inp2" id="rfF" type="date" value="${todayISO()}">
     <label class="wzlab">Km</label><input class="inp2" id="rfK" inputmode="numeric" value="${S.cfg?.kmActual??rep.km??''}">
     <label class="wzlab">Mano de obra (€, si pagaste a alguien)</label><input class="inp2" id="rfMO" inputmode="decimal" placeholder="0">
-    ${cs.length?`<label class="chk"><input type="checkbox" id="rfMont" checked><span>Marcar como montadas las ${pl(cs.length,'pieza')} de la compra</span></label>`:''}
+    ${csC.length?`<label class="chk"><input type="checkbox" id="rfMont" checked><span>${csC.length===1?'Marcar como montada la pieza comprada':'Marcar como montadas las '+csC.length+' piezas compradas'}</span></label>`:''}
+    ${csP.length?`<label class="chk"><input type="checkbox" id="rfMontP"><span>También ${csP.length===1?'la que sigue':'las '+csP.length+' que siguen'} «por comprar» (${csP.map(c=>esc(c.nombre)).join(', ')}): ${csP.length===1?'la tenía y está montada':'las tenía y están montadas'}</span></label>`:''}
     ${ave?`<label class="chk"><input type="checkbox" id="rfAve" checked><span>Dar por resuelta la avería «${esc(ave.sintoma||ave.codigo)}»</span></label>`:''}
     <label class="chk"><input type="checkbox" id="rfSeg" checked><span>Crear seguimiento: ${esc(tpl.titulo)} (${tpl.dias.map(d=>d===1?'mañana':d+' días').join(', ')})</span></label>
   </div>`);
@@ -11499,7 +11512,8 @@ function repFinish(rep){
       const cur=repList().find(x=>x._id===rep._id)||rep, fotos=[...(cur.antes||[]).map(x=>({...x, nombre:'Antes · '+(x.nombre||'')})), ...Object.keys(cur.fotosPaso||{}).sort((a,b)=>a-b).flatMap(k=>cur.fotosPaso[k]), ...(cur.despues||[]).map(x=>({...x, nombre:'Después · '+(x.nombre||'')}))];
       const r=await S.db.collection('intervenciones').add({fecha:f, km, tipo:'Reparación', mant:null, pieza:ave?.piezas?.[0]||null, descripcion:desc, ref:refs, coste:mo===''?null:Number(mo.replace(',','.')), reparacion:rep._id, adjuntos:fotos.length?fotos:undefined, creado:new Date().toISOString()});
       const gal=fotos.length?await S.db.collection('galeria').add({album:'Reparaciones', fecha:f, titulo:rep.titulo, km, fotos, notas:'Antes y después de la reparación', actualizado:new Date().toISOString()}):null;
-      if(body.querySelector('#rfMont')?.checked) for(const c of cs){ const {_id,...data}=c; await S.db.collection('compras').doc(_id).set({...data, estado:'montado', fechaMontaje:f, montaje:'yo', intervencion:r.id}); }
+      const mont=[...(body.querySelector('#rfMont')?.checked?csC:[]), ...(body.querySelector('#rfMontP')?.checked?csP:[])];
+      for(const c of mont){ const {_id,...data}=c; await S.db.collection('compras').doc(_id).set({...data, estado:'montado', fechaMontaje:f, montaje:data.montaje||'yo', intervencion:r.id}); }
       if(ave && body.querySelector('#rfAve')?.checked){ const {_id,...a}=ave; await S.db.collection('averias').doc(_id).set({...a, estado:'resuelta', notas:[a.notas, `Resuelta el ${fmtD(f)}: ${rep.titulo}.`].filter(Boolean).join('\n')}); }
       if(km!=null && (!S.cfg?.kmActual || km>Number(S.cfg.kmActual))) await S.db.doc('config/coche').set({...(S.cfg||{}), kmActual:km});
       if(body.querySelector('#rfSeg')?.checked) await segCreate(tpl, f, rep._id);
@@ -12407,8 +12421,8 @@ function avAll(){
   const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta').map(a=>({k:'a:'+a._id, i:'alert', c:R, t:a.sintoma||a.codigo||'Avería', s:'Avería abierta'+(a.fecha?' · desde el '+fmtDate(a.fecha):''), fn:()=>aveOpen(a)}));
   const ya=(typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya').map(p=>({k:'p:'+p._id, i:'flag', c:R, t:p.titulo, s:'Pendiente: arreglar antes de circular'+(p.zona?' · '+p.zona:''), fn:()=>pdSheet(p)}));
   const mant=ml.filter(x=>x.s.st==='due'||x.s.st==='soon').map(x=>({k:'m:'+(x.it.id||x.it._id||x.it.nombre)+':'+x.s.st, i:'list', c:x.s.st==='due'?R:O, t:x.it.nombre, s:(x.s.st==='due'?'Mantenimiento vencido':'Mantenimiento próximo')+(()=>{ try{ return ' · '+mantLine(x.it,x.s); }catch{ return ''; } })(), fn:()=>{ v3go('plan'); setTimeout(()=>{ try{ mantSheet(x.it); }catch{} }, 420); }}));
-  const compra=(S.compras||[]).filter(c=>c.estado==='pendiente').map(c=>({k:'c:'+c._id, i:'cart', c:V3C.teal, t:c.nombre+(c.cantidad>1?' ×'+c.cantidad:''), s:'Nuevo en la lista de la compra', fn:()=>compraSheet(c)}));
-  let docs=[]; try{ docs=docsVig().map(d=>({d, st:docStatus(d)})).filter(x=>x.st.st==='due'||x.st.st==='soon').map(({d,st})=>({k:'d:'+(d._id||d.tipo)+':'+d.caduca, i:'file', c:st.st==='due'?R:O, t:d.tipo+(d.nombre?' · '+d.nombre:''), s:(st.st==='due'?'Caducado el ':'Caduca el ')+fmtDate(d.caduca), fn:()=>recForm(MOD.docs, d)})); }catch{}
+  const compra=(S.compras||[]).filter(c=>c.estado==='pendiente').map(c=>({k:'c:'+c._id, i:'cart', c:V3C.teal, t:(c.nombre||'Sin nombre')+(c.cantidad>1?' ×'+c.cantidad:''), s:'Nuevo en la lista de la compra', fn:()=>compraSheet(c)}));
+  let docs=[]; try{ docs=docsVig().map(d=>({d, st:docStatus(d)})).filter(x=>x.st.st==='due'||x.st.st==='soon').map(({d,st})=>({k:'d:'+(d._id||d.tipo)+':'+d.caduca, i:'file', c:st.st==='due'?R:O, t:docLbl(d), s:(st.st==='due'?'Caducado el ':'Caduca el ')+fmtDate(d.caduca), fn:()=>recForm(MOD.docs, d)})); }catch{}
   return {taller:[...aves, ...ya, ...mant], gastos:compra, papeles:docs};
 }
 function avItems(){ const A=avAll(); return Object.fromEntries(Object.entries(A).map(([t,L])=>[t, L.map(x=>x.k)])); }
@@ -12514,7 +12528,7 @@ function v3now(){ /* lo que pide atención, ordenado por urgencia */
   for(const a of (S.ave||[]).filter(a=>a.estado!=='resuelta')) L.push({w:2, el:()=>vNow('alert', V3C.red, 'Avería abierta', a.sintoma||a.codigo||'Avería', a.fecha?'Desde el '+fmtDate(a.fecha):'', ()=>aveOpen(a))});
   for(const p of (typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya')) L.push({w:2, el:()=>vNow('flag', V3C.red, 'Antes de circular', p.titulo, p.zona||'', ()=>pdSheet(p))});
   for(const {it,s} of mantList().filter(x=>x.s.st==='due'||x.s.st==='soon').slice(0,4)) L.push({w:s.st==='due'?3:6, el:()=>vNow('wrench', s.st==='due'?V3C.red:V3C.orange, s.st==='due'?'Mantenimiento vencido':'Mantenimiento próximo', it.nombre, mantLine(it,s), ()=>v3go('plan'))});
-  for(const d of docsVig()){ const st=docStatus(d); if(st.st!=='due' && st.st!=='soon') continue; L.push({w:st.st==='due'?3:7, el:()=>vNow('shield', st.st==='due'?V3C.red:V3C.orange, st.st==='due'?'Documento caducado':'Caduca pronto', d.tipo+(d.nombre?' · '+d.nombre:''), st.days<0?`Caducó hace ${pl(-st.days,'día')}`:st.days===0?'Caduca hoy':`En ${pl(st.days,'día')}`, ()=>recForm(MOD.docs, d))}); }
+  for(const d of docsVig()){ const st=docStatus(d); if(st.st!=='due' && st.st!=='soon') continue; L.push({w:st.st==='due'?3:7, el:()=>vNow('shield', st.st==='due'?V3C.red:V3C.orange, st.st==='due'?'Documento caducado':'Caduca pronto', docLbl(d), st.days<0?`Caducó hace ${pl(-st.days,'día')}`:st.days===0?'Caduca hoy':`En ${pl(st.days,'día')}`, ()=>recForm(MOD.docs, d))}); }
   for(const c of (S.compras||[]).filter(c=>c.estado==='comprado').slice(0,3)) L.push({w:8, el:()=>vNow('cart', V3C.teal, 'Comprado, sin montar', c.nombre, c.fechaCompra?'Desde el '+fmtDate(c.fechaCompra):'', ()=>montarCompra(c), 'Montar')});
   return L.sort((a,b)=>a.w-b.w);
 }
@@ -12661,7 +12675,7 @@ V3.hubs.papeles={title:'Papeles', sub:()=>'Documentación del coche', render(w){
   const st=h2(`<section class="vstate ${bad?'bad':soon?'soon':'ok'}"><i>${ic(bad||soon?'alert':'shield')}</i><div><b>${bad?pl(bad,'documento caducado','documentos caducados'):soon?pl(soon,'documento caduca pronto','documentos caducan pronto'):D.length?'Todo en regla':'Sin documentos'}</b><small>${D.length?`${pl(D.length,'documento')} con fecha de caducidad vigilada`:'Añade la ITV, el seguro y el impuesto para que te avise.'}</small></div></section>`); w.append(st);
   if(D.length){ const g=vGroup('Caducidades',[]), L=g.querySelector('.vlist'); const nDoc=unseen('papeles').length; if(nDoc) g.querySelector('.vgh span').insertAdjacentHTML('beforeend', ' '+avBadge(nDoc));
     for(const {d,s} of D.sort((a,b)=>(a.d.caduca||'9').localeCompare(b.d.caduca||'9'))){ const col=s.st==='due'?V3C.red:s.st==='soon'?V3C.orange:s.st==='ok'?V3C.green:V3C.gray;
-      L.append(vRow({cls:avIsNew('papeles','d:'+(d._id||d.tipo)+':'+d.caduca)&&(s.st==='due'||s.st==='soon')?'vnew':'', i:/itv|inspec/i.test(d.tipo)?'checkc':/seguro/i.test(d.tipo)?'shield':/impuesto|ivtm/i.test(d.tipo)?'euro':'file', c:col, t:d.tipo+(d.nombre?' · '+d.nombre:''), s:d.caduca?(s.days<0?'Caducó el ':'Hasta el ')+fmtDate(d.caduca):'Sin fecha', r:d.caduca?(s.days<0?'Caducado':s.days<=60?pl(s.days,'día'):Math.round(s.days/30.4)+' meses'):null, rc:col, fn:()=>recForm(MOD.docs, d)})); }
+      L.append(vRow({cls:avIsNew('papeles','d:'+(d._id||d.tipo)+':'+d.caduca)&&(s.st==='due'||s.st==='soon')?'vnew':'', i:/itv|inspec/i.test(d.tipo)?'checkc':/seguro/i.test(d.tipo)?'shield':/impuesto|ivtm/i.test(d.tipo)?'euro':'file', c:col, t:docLbl(d), s:d.caduca?(s.days<0?'Caducó el ':'Hasta el ')+fmtDate(d.caduca):'Sin fecha', r:d.caduca?(s.days<0?'Caducado':s.days<=60?pl(s.days,'día'):Math.round(s.days/30.4)+' meses'):null, rc:col, fn:()=>recForm(MOD.docs, d)})); }
     if(D.some(x=>x.d.caduca && x.d.caduca>=todayISO())) L.append(vRow({i:'calendar', c:V3C.red, t:'Añadir al calendario del iPhone', s:'Con aviso 30 y 7 días antes de cada caducidad', fn:icsCad}));
     w.append(g); }
   const G=S.v2;
@@ -12846,10 +12860,13 @@ function g3Consumo(){
 /* ---------- Taller: la carretera de los próximos km ---------- */
 function g3Road(){
   const km=Number(S.cfg?.kmActual); if(!km) return null; const SPAN=30000;
-  const L=mantList().filter(({s})=>s.kmLeft!=null && s.kmLeft<=SPAN).sort((a,b)=>a.s.kmLeft-b.s.kmLeft); if(!L.length) return null;
+  const L0=mantList().filter(({s})=>s.kmLeft!=null && s.kmLeft<=SPAN).sort((a,b)=>a.s.kmLeft-b.s.kmLeft); if(!L0.length) return null;
   const pos=k=>Math.max(0,Math.min(100, k/SPAN*100));
+  /* 4.2.1: lo que toca al mismo km va en una marca; cada marca va arriba o abajo donde no pise a la anterior */
+  const G=[]; for(const x of L0){ const g=G[G.length-1]; if(g && Math.abs(x.s.kmLeft-g.s.kmLeft)<=400) g.more.push(x.it.nombre); else G.push({it:x.it, s:x.s, more:[]}); }
+  const last=[-1e9,-1e9]; const L=G.map(g=>{ const x=pos(g.s.kmLeft); let r=[0,1].find(k=>x-last[k]>=34); if(r==null) r=last[0]<=last[1]?0:1; last[r]=x; return {...g, row:r}; });
   const box=h2(`<section class="vgrp"><h2 class="vgh"><span>Próximos ${nf.format(SPAN)} km</span><button type="button">Plan</button></h2><div class="vcard g3road">
-    <div class="g3rd"><i class="g3car">${ic('car2')}</i>${L.map(({it,s},i)=>`<button type="button" class="g3mk ${s.kmLeft<=0?'due':s.kmLeft<=1500?'soon':''}" style="--x:${pos(s.kmLeft)}%;--row:${i%2}" title="${esc(it.nombre)}"><b>${esc(it.nombre)}</b><small>${s.kmLeft<=0?'pasado':nf.format(Math.round(km+s.kmLeft))+' km'}</small></button>`).join('')}</div>
+    <div class="g3rd"><i class="g3car">${ic('car2')}</i>${L.map(({it,s,more,row})=>`<button type="button" class="g3mk ${s.kmLeft<=0?'due':s.kmLeft<=1500?'soon':''}" style="--x:${pos(s.kmLeft)}%;--row:${row}" title="${esc([it.nombre,...more].join(' · '))}"><b>${esc(it.nombre)}${more.length?' +'+more.length:''}</b><small>${s.kmLeft<=0?'pasado':nf.format(Math.round(km+s.kmLeft))+' km'}</small></button>`).join('')}</div>
     <div class="g3sc"><span>${nf.format(km)} km</span><span>${nf.format(km+SPAN/2)}</span><span>${nf.format(km+SPAN)}</span></div></div></section>`);
   box.querySelector('.vgh button').onclick=()=>v3go('plan'); box.querySelectorAll('.g3mk').forEach(b=>b.onclick=()=>v3go('plan')); return box;
 }
@@ -13638,7 +13655,7 @@ function vcParse(txt){
     if(/^\s*\d+\s+Faults?\s+Found/i.test(raw)){ m.ok=false; continue; }
     if(/^\s*-{10,}/.test(raw)){ m=null; continue; }
     if(/:\s/.test(raw.split(' - ')[0]) || /^\s*(Freeze Frame|Fault Status|Fault Priority|Fault Frequency|Reset counter|Mileage|Time Indication|Date|Time|Voltage|Temperature|Readiness|Coding|Shop|Part No|Component|VCID|Subsystem|Long Coding)/i.test(raw)) continue;
-    const st=raw.match(/^\s*\d{2,3}-\d{2}\s*-\s*(.+)$/) || raw.match(/^\s{4,}\d{3}\s+-\s+(.+)$/) || raw.match(/^\s*([A-Z]?\d{2,3}\s*-\s*\d{3}\s*-\s*.+)$/);
+    const st=raw.match(/^\s*\d{2,3}-\d{2}\s*-\s*(.+)$/) || raw.match(/^\s{4,}\d{3}\s+-\s+(.+)$/) || raw.match(/^\s*([A-Z]?\d{2,3}\s*-\s*\d{3}\s*-\s*.+)$/) || raw.match(/^\s{6,}([PBCU][0-9A-F]{4}\s*-\s*(?:\d{2,3}(?:-\d{2})?\s*-.*|.*))$/);
     if(st && m.codigos.length){ const c=m.codigos[m.codigos.length-1]; c.estado=[c.estado, st[1].trim()].filter(Boolean).join(' · '); continue; }
     const c=raw.match(/^\s*((?:\d{5,6}|[PBCU][0-9A-F]{4}(?:\s+[0-9A-F]{2})?)(?:\s+\[\d+\])?)\s+-\s+(.+?)\s*$/);
     if(c){ m.codigos.push({codigo:c[1].replace(/\s+\[\d+\]/,'').trim(), texto:c[2].trim(), estado:''}); m.ok=false; }
@@ -13653,7 +13670,7 @@ function vcDiff(cur, prev){
   for(const m of (prev?.modulos||[])) for(const c of m.codigos) B.set(vcKey(m.dir,c), {m, c});
   return {nuevos:[...A.keys()].filter(k=>!B.has(k)), siguen:[...A.keys()].filter(k=>B.has(k)), fuera:[...B.keys()].filter(k=>!A.has(k)).map(k=>B.get(k))};
 }
-const vcScans=()=>[...(S.v2.autoscans||[])].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||'')||(b.creado||'').localeCompare(a.creado||''));
+const vcScans=()=>[...(S.v2.autoscans||[])].map(s=>({...s, modulos:(Array.isArray(s.modulos)?s.modulos:[]).map(m=>({...m, codigos:Array.isArray(m.codigos)?m.codigos:[]}))})).sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||'')||(b.creado||'').localeCompare(a.creado||''));
 const vcModN=m=>`${m.dir} · ${VC_MOD[m.dir]||m.nombre}`;
 /* ---------- importar ---------- */
 function vcImport(){
@@ -14035,10 +14052,10 @@ function pedidoSheet(items, titulo){
   for(const c of items){ const r=h2(`<label class="chk"><input type="checkbox" checked><span>${esc(c.nombre)}${c.ref?` <small>${esc(c.ref)}</small>`:' <small class="pedsin">sin referencia</small>'}${(c.cantidad||1)>1?' ×'+c.cantidad:''}</span></label>`); r.querySelector('input').onchange=e=>{ e.target.checked?sel.add(c._id):sel.delete(c._id); upd(); }; l.append(r); }
   upd();
   body.querySelectorAll('.pedb button').forEach(b=>b.onclick=async()=>{ uiSfx('tap'); const t=ta.value, a=b.dataset.a;
-    if(a==='share'){ if(navigator.share){ try{ await navigator.share({title:'Pedido de piezas', text:t}); }catch{} } else { await navigator.clipboard?.writeText(t); toast('Copiado: pégalo donde quieras'); } }
+    if(a==='share'){ if(navigator.share){ try{ await navigator.share({title:'Pedido de piezas', text:t}); }catch{} } else await copyTxt(t, 'Copiado: pégalo donde quieras'); }
     else if(a==='wa') window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank','noopener');
     else if(a==='mail') location.href='mailto:?subject='+encodeURIComponent('Pedido de piezas · Touareg 2.5 TDI')+'&body='+encodeURIComponent(t);
-    else { await navigator.clipboard?.writeText(t); toast('Mensaje copiado'); } });
+    else await copyTxt(t, 'Mensaje copiado'); });
   detailSheet(titulo||'Preparar el pedido', pl(items.length,'pieza por comprar','piezas por comprar'), body, []);
 }
 IC.share=IC.share||'<path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/>';
@@ -14123,7 +14140,7 @@ V3.pages.atajos={tab:'*', title:'Atajos y Siri', sub:()=>'Abrir la app directame
   w.append(h2(`<div class="vcard" style="padding:14px 16px;margin-bottom:14px"><p style="margin:0 0 8px"><b>Con la app Atajos del iPhone</b> puedes decirle a Siri «Añadir kilómetros» y que se abra la app justo ahí:</p><ol class="atol"><li>Abre <b>Atajos</b> ▸ <b>+</b> ▸ <b>Añadir acción</b> ▸ busca <b>Abrir URL</b>.</li><li>Pega la dirección de la acción (botón «Copiar» de abajo).</li><li>Ponle de nombre lo que dirás a Siri, por ejemplo «Añadir kilómetros».</li></ol>
     <p class="muted2" style="margin:8px 0 0">En el iPhone, Atajos abre la dirección en Safari, no en la app de la pantalla de inicio: la primera vez tendrás que entrar con tu cuenta de Google en Safari. En Android y en el ordenador se abre la app instalada.</p></div>`));
   const g=vGroup('Acciones', []), L=g.querySelector('.vlist');
-  for(const [k,[t]] of Object.entries(ACCIONES)){ const url=base+'?accion='+k; const r=h2(`<div class="atrow"><div><b>${esc(t)}</b><small>${esc(url)}</small></div><button type="button" class="btn2 sm ghost">${ic('copy')}Copiar</button></div>`); r.querySelector('button').onclick=()=>navigator.clipboard?.writeText(url).then(()=>toast('Dirección copiada'))||toast(url); L.append(r); }
+  for(const [k,[t]] of Object.entries(ACCIONES)){ const url=base+'?accion='+k; const r=h2(`<div class="atrow"><div><b>${esc(t)}</b><small>${esc(url)}</small></div><button type="button" class="btn2 sm ghost">${ic('copy')}Copiar</button></div>`); r.querySelector('button').onclick=()=>copyTxt(url, 'Dirección copiada'); L.append(r); }
   w.append(g);
 }};
 { const P=V3.pages.ajustes; if(P){ const _r=P.render; P.render=function(w, e){ _r.call(this, w, e); try{ const g=vGroup('',[vRow({i:'sparkle', c:V3C.purple, t:'Atajos y Siri', s:'Abrir la app directamente en una acción', fn:()=>v3go('atajos')})]); const last=[...w.querySelectorAll('.vgrp')].pop(); last?last.after(g):w.append(g); }catch{} }; } }
@@ -14137,7 +14154,7 @@ V3.pages.itv={tab:'taller', title:'Preparar la ITV', sub:()=>itvSub(), render(w)
   w.append(h2(`<div class="itvhero" style="--c:${col}"><b>${days==null?'—':days<0?'Caducada':days}</b><span>${days==null?'Pon la fecha de la ITV en Papeles':days<0?`desde el ${fmtDate(d.caduca)}`:`días · ${fmtDate(d.caduca)}`}</span></div>`));
   const g=vGroup('Para ir preparado', [
     vRow({i:'checkc', c:V3C.green, t:'Antes de la ITV', s:tot?`${n} de ${tot} revisados`:'La lista de comprobación', r:tot?`${Math.round(n/tot*100)}%`:null, fn:()=>{ UI.lista='itv'; v3go('listas'); }}),
-    vRow({i:'history', c:V3C.indigo, t:'Inspecciones anteriores', s:(S.v2.itv||[]).length?pl(S.v2.itv.length,'inspección','inspecciones')+' con su resultado':'Guarda el resultado y los defectos', fn:()=>{ try{ masOpen('itv'); }catch{ v3tab('papeles'); } }})]); w.append(g);
+    vRow({i:'history', c:V3C.indigo, t:'Inspecciones anteriores', s:(S.v2.itv||[]).length?pl(S.v2.itv.length,'inspección','inspecciones')+' con su resultado':'Guarda el resultado y los defectos', fn:()=>{ v3go('p_itv'); }})]); w.append(g);
   const pend=typeof itvPend==='function'?itvPend():[];
   if(pend.length){ const pg=vGroup('Defectos de la última sin corregir', []), PL=pg.querySelector('.vlist'); for(const p of pend) PL.append(vRow({i:'alert', c:p.gravedad==='leve'?V3C.orange:V3C.red, t:p.texto||'Defecto', s:(ITV_G?.[p.gravedad]||'')+(p.r?.fecha?' · '+fmtDate(p.r.fecha):'')})); w.append(pg); }
   const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta');
