@@ -1,0 +1,11 @@
+three160
+lint/main.mjs
+lint/globals.json
+lint/eslint.json
+*.png
+*.txt
+*.out
+shots/
+imp.json
+copia.json
+log1.csv
