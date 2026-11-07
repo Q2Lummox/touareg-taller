@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.2.1-beta.3">
+<meta name="app-version" content="4.2.1-beta.4">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3514,7 +3514,7 @@ body[data-v3leaf="3d"] .v3bar::before{-webkit-backdrop-filter:none!important;bac
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.2.1-beta.3</span>
+  <span class="spver">v4.2.1-beta.4</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6895,7 +6895,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.2.1-beta.3';
+window.APP_VERSION='4.2.1-beta.4';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6929,7 +6929,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.2.1-beta.3';
+  const APP_VERSION='4.2.1-beta.4';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -13934,7 +13934,7 @@ openViewer=function(a, opt={}){
   const info=()=>{ v.querySelector('.vzt').textContent=L[i].nombre||a.nombre||''; v.querySelector('.vzn').textContent=many?`${i+1} / ${L.length}`:''; v.querySelector('.vzl')?.toggleAttribute('disabled', i===0); v.querySelector('.vzr')?.toggleAttribute('disabled', i===L.length-1); };
   const fill=()=>{ load(slots[0], L[i-1]); load(slots[1], L[i]); load(slots[2], L[i+1]); placeSlots(); setTr(0,false); info(); };
   let busy=false;
-  const go=d=>{ const j=i+d; if(busy || j<0 || j>=L.length){ setTr(0,true); return; } busy=true; uiSfx?.('tap');
+  const go=d=>{ const j=i+d; if(busy || j<0 || j>=L.length){ setTr(0,true); return; } busy=true;
     const W=st.clientWidth; setTr(-d*(W+GAP), true);
     setTimeout(()=>{ /* reciclar huecos: el que sale pasa al otro lado con la foto siguiente */
       if(d>0){ const o=slots.shift(); slots.push(o); } else { const o=slots.pop(); slots.unshift(o); }

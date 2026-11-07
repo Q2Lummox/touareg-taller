@@ -1,11 +1,17 @@
 {
- "version": "4.2.1-beta.3",
+ "version": "4.2.1-beta.4",
  "fecha": "2026-11-07",
  "notas": [
-  "Visor de fotos: desliza a los lados para pasar a la foto anterior o siguiente (también con flechas ‹ › y teclas ← →)",
-  "Quitar una foto de una reparación pide confirmación con la foto delante"
+  "Visor de fotos: pasar de una foto a otra ya no hace sonido"
  ],
  "historial": [
+  {
+   "version": "4.2.1-beta.4",
+   "fecha": "2026-11-07",
+   "notas": [
+    "Visor de fotos: pasar de una foto a otra ya no hace sonido"
+   ]
+  },
   {
    "version": "4.2.1-beta.3",
    "fecha": "2026-11-07",
