@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<meta name="app-version" content="4.2.1-beta.1">
+<meta name="app-version" content="4.2.1-beta.2">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3451,6 +3451,11 @@ body[data-v3leaf="3d"] .v3bar::before{-webkit-backdrop-filter:none!important;bac
 .gzin-r{animation:gzr .22s ease}.gzin-l{animation:gzl .22s ease}
 @media (orientation:landscape) and (max-height:600px){ .gzbody{flex-direction:row} .gzimg{flex:0 0 46%} .gztx p{font-size:18px} .gznav button{min-height:46px} }
 .gztx h2{text-transform:none!important;letter-spacing:0!important;display:block!important;color:var(--v-txt)!important}.gztx h2::before,.gztx h2::after{display:none!important}
+.rpfgal h5.rpfh{margin:12px 0 6px;font-size:13px;color:var(--v-txt2,var(--txt-2))}
+.rpfgal .pdgal{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.rpfi{position:relative;display:block}.rpfi>button:first-child{display:block;width:100%;aspect-ratio:1;border:0;padding:0;border-radius:10px;overflow:hidden;background:var(--v-cell2,#2228);cursor:zoom-in}
+.rpfi img{width:100%;height:100%;object-fit:cover;display:block}
+.rpfgal .rpfi .rpfx{position:absolute!important;top:4px!important;right:4px!important;left:auto!important;bottom:auto!important;width:28px!important;height:28px!important;min-height:0!important;aspect-ratio:auto!important;padding:0!important;margin:0!important;border-radius:50%!important;border:0!important;background:#000b!important;color:#fff!important;font:600 17px/28px system-ui!important;text-align:center;cursor:pointer;display:block!important}
 </style>
 
 </head>
@@ -3493,7 +3498,7 @@ body[data-v3leaf="3d"] .v3bar::before{-webkit-backdrop-filter:none!important;bac
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.2.1-beta.1</span>
+  <span class="spver">v4.2.1-beta.2</span>
 </div>
 
 <header class="top2" id="top2">
@@ -6874,7 +6879,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.2.1-beta.1';
+window.APP_VERSION='4.2.1-beta.2';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6908,7 +6913,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.2.1-beta.1';
+  const APP_VERSION='4.2.1-beta.2';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -11478,9 +11483,18 @@ function repRun(rep0){
     d.querySelector('.pdquick').onclick=()=>{ uiSfx('tap'); pdForm(null,{reparacion:rep._id}); pdBack(()=>repRun(fresh())); };
     drawM(); (box.querySelector('.rpadd')||box.querySelector('.rpdots')).after(d); }
   /* fotos de antes y después (al terminar van a la galería y a la intervención) */
-  { const r0=fresh(), d=h2(`<details class="rpparts rpfotos"><summary>${ic('camera')}Fotos de antes y después <em>${(r0.antes||[]).length} · ${(r0.despues||[]).length}</em></summary><div class="rpfrow"><label class="btn2 ghost sm">${ic('camera')}Antes<input type="file" accept="image/*" multiple hidden data-k="antes"></label><label class="btn2 ghost sm">${ic('camera')}Después<input type="file" accept="image/*" multiple hidden data-k="despues"></label></div><p class="muted2 rpfst"></p></details>`);
+  { const r0=fresh(), d=h2(`<details class="rpparts rpfotos"><summary>${ic('camera')}Fotos de antes y después <em>${(r0.antes||[]).length} · ${(r0.despues||[]).length}</em></summary><div class="rpfrow"><label class="btn2 ghost sm">${ic('camera')}Antes<input type="file" accept="image/*" multiple hidden data-k="antes"></label><label class="btn2 ghost sm">${ic('camera')}Después<input type="file" accept="image/*" multiple hidden data-k="despues"></label></div><p class="muted2 rpfst"></p><div class="rpfgal"></div></details>`);
+    /* 4.2.1: las fotos se ven aquí mismo mientras dura la reparación (antes solo al terminarla); tocar = visor, × = quitar */
+    const gal=d.querySelector('.rpfgal');
+    const drawF=r=>{ r=r||fresh(); gal.innerHTML=''; d.querySelector('summary em').textContent=`${(r.antes||[]).length} · ${(r.despues||[]).length}`;
+      for(const [k,lab] of [['antes','Antes'],['despues','Después']]){ const L=(r[k]||[]).filter(f=>(f.tipo||'image/').startsWith('image/')); if(!L.length) continue;
+        const g=h2(`<div><h5 class="rpfh">${lab} · ${L.length}</h5><div class="pdgal">${L.map((f,j)=>`<span class="rpfi"><button type="button" data-j="${j}" aria-label="${lab} ${j+1}"><img alt=""></button><button type="button" class="rpfx" data-j="${j}" aria-label="Quitar">×</button></span>`).join('')}</div></div>`);
+        g.querySelectorAll('button[data-j]:not(.rpfx)').forEach(b=>{ const f=L[+b.dataset.j]; (window.FB?.blobThumb||window.FB?.blobURL)?.(f.id).then(u=>b.querySelector('img').src=u).catch(()=>{}); b.onclick=()=>openViewer({id:f.id, tipo:f.tipo||'image/jpeg', nombre:(r.titulo||'Reparación')+' · '+lab}); });
+        g.querySelectorAll('.rpfx').forEach(b=>b.onclick=async()=>{ if(!confirm('¿Quitar esta foto de la reparación?')) return; const f=L[+b.dataset.j], cur=fresh(); const nx=(cur[k]||[]).filter(x=>x.id!==f.id); await v2Upd('reparaciones', cur, {[k]:nx}); drawF({...cur, [k]:nx}); });
+        gal.append(g); } };
+    drawF();
     d.querySelectorAll('input').forEach(i=>i.onchange=async()=>{ const k=i.dataset.k, st=d.querySelector('.rpfst'); const up=await uploadFiles([...i.files], st); const cur=fresh();
-      await v2Upd('reparaciones', cur, {[k]:[...(cur[k]||[]), ...up]}); st.textContent=`${pl(up.length,'foto guardada','fotos guardadas')} (${k}).`; uiSfx('save'); });
+      const nx=[...(cur[k]||[]), ...up]; await v2Upd('reparaciones', cur, {[k]:nx}); st.textContent=`${pl(up.length,'foto guardada','fotos guardadas')} (${k==='antes'?'antes':'después'}).`; uiSfx('save'); i.value=''; drawF({...cur, [k]:nx}); if(up.length) d.open=true; });
     box.querySelector('.rpnotes').before(d); }
   draw();
   { const mo=new MutationObserver(()=>{ if(!box.isConnected || box.closest('[hidden]')){ if(HL.box===box) hlStop(); mo.disconnect(); } }); mo.observe(document.body,{subtree:true, childList:true, attributes:true, attributeFilter:['hidden']}); }

@@ -1,18 +1,17 @@
 {
- "version": "4.2.1-beta.1",
- "fecha": "2026-11-05",
+ "version": "4.2.1-beta.2",
+ "fecha": "2026-11-07",
  "notas": [
-  "Cuentakilómetros: avisa si pones menos km que antes (un cero de menos) o un salto enorme",
-  "Terminar una reparación: solo se marcan montadas las piezas compradas; las que siguen por comprar, aparte",
-  "Auto-Scan: la línea P-code bajo un código ya no cuenta como otro código",
-  "Preparar la ITV ▸ Inspecciones anteriores ya abre la ITV (antes daba error)",
-  "Copiar al portapapeles con respaldo y aviso si falla",
-  "PDF sin conexión: mensaje claro en vez de «[object Event]»",
-  "«Próximos 30.000 km»: los nombres ya no se pisan",
-  "Documentos sin nombres repetidos («ITV · ITV»)",
-  "Consumo con un solo tramo, fechas raras y datos incompletos sin NaN ni errores"
+  "Reparación en curso: las fotos de antes y después se ven ahí mismo, se abren en el visor y se pueden quitar"
  ],
  "historial": [
+  {
+   "version": "4.2.1-beta.2",
+   "fecha": "2026-11-07",
+   "notas": [
+    "Reparación en curso: las fotos de antes y después se ven ahí mismo, se abren en el visor y se pueden quitar"
+   ]
+  },
   {
    "version": "4.2.1-beta.1",
    "fecha": "2026-11-05",
