@@ -35,7 +35,7 @@ export async function open(vp = {width: 390, height: 844}, opts = {}){
     if(store) window.__preStore = store;
   }, {ui: Object.assign({sound: false, theme: opts.scheme === 'light' ? 'light' : 'dark'}, opts.ui || {}), store: opts.store || null});
   if(opts.init) await ctx.addInitScript(opts.init);
-  await p.goto(BASE + (opts.beta === false ? '' : 'beta/') + (opts.q || ''));
+  await p.goto(BASE + ((opts.beta === false || process.env.OFICIAL) ? '' : 'beta/') + (opts.q || ''));
   return {b, ctx, p, errs};
 }
 export const appErrs = p => p.evaluate(() => (window.__errs || []).slice());

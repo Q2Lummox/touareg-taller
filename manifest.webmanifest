@@ -10,8 +10,71 @@
   "background_color": "#121418",
   "theme_color": "#121418",
   "icons": [
-    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
-    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
-    {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Actualizar km",
+      "short_name": "Km",
+      "url": "./?accion=km",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Repostaje",
+      "short_name": "Repostaje",
+      "url": "./?accion=repostaje",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Añadir a la compra",
+      "short_name": "Compra",
+      "url": "./?accion=compra",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Apuntar una avería",
+      "short_name": "Avería",
+      "url": "./?accion=averia",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
   ]
 }

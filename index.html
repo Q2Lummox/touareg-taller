@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="app-version" content="4.1.0">
+<meta name="app-version" content="4.2.1">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js">
@@ -3367,6 +3367,111 @@ body.v3.sol .vcuadro{zoom:.893}
 body.v3::before{animation:none!important}
 body[data-v3leaf="3d"] #v3tabs, body[data-v3leaf="3d"] .v3tabs{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--v-bg)!important}
 body[data-v3leaf="3d"] .v3bar::before{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--v-bg)!important}
+/* 4.2 visor de imágenes */
+.vz{position:fixed;inset:0;z-index:9800;background:rgba(0,0,0,calc(.94*var(--vzbg,1)));touch-action:none;overscroll-behavior:contain;animation:fadeIn .18s;outline:none;-webkit-user-select:none;user-select:none}
+.vz.out{opacity:0;transition:opacity .18s}
+.vzst{position:absolute;inset:0;overflow:hidden;touch-action:none;cursor:grab}
+.vz.zoomed .vzst{cursor:move}
+.vzst img{position:absolute;left:50%;top:50%;max-width:none;max-height:none;transform-origin:50% 50%;will-change:transform;pointer-events:none;-webkit-touch-callout:none;opacity:0;transition:opacity .2s}
+.vz.ok .vzst img{opacity:1}
+.vzbar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:calc(var(--sa-t,0px) + 10px) 12px 14px 16px;background:linear-gradient(#000b,transparent);color:#fff;font:600 15px var(--v-font);transition:opacity .2s}
+.vzt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vzbar button,.vztools button{width:44px;height:44px;border-radius:50%;border:0;background:#ffffff26;color:#fff;display:grid;place-items:center;cursor:pointer;font:600 22px/1 var(--v-font);flex:none}
+.vzbar svg,.vztools svg{width:20px;height:20px}
+.vztools button b{font-size:12px}
+.vztools{position:absolute;left:50%;bottom:calc(var(--sa-b,0px) + 18px);transform:translateX(-50%);display:flex;gap:10px;padding:8px;border-radius:30px;background:#000a;transition:opacity .2s}
+.vz.bare .vzbar,.vz.bare .vztools{opacity:0;pointer-events:none}
+.vzhint{position:absolute;left:0;right:0;bottom:calc(var(--sa-b,0px) + 84px);text-align:center;color:#fffc;font:500 13px var(--v-font);transition:opacity .6s;pointer-events:none}
+.vzhint.gone{opacity:0}
+.cpmore{margin:10px 0 2px;border:1px solid var(--v-sep,#8884);border-radius:12px;padding:2px 12px 10px}
+.cpmore>summary{cursor:pointer;padding:10px 0 4px;font:600 14px var(--v-font);color:var(--v-orange,var(--accent));list-style:none}
+.cpmore>summary::-webkit-details-marker{display:none}
+.cpfi{width:100%;margin:10px 0 0;justify-content:flex-start}
+.pzshops{display:flex;flex-wrap:wrap;gap:8px}.pzshops .btn2{flex:1 1 auto;justify-content:center;text-decoration:none}
+.rpneedc:not(.tap){cursor:pointer}
+/* 4.2 gráficas VCDS */
+.vgcard{background:var(--v-cell);border-radius:16px;padding:12px 12px 10px;margin:0 0 12px}
+.vgcard.bad{box-shadow:inset 0 0 0 1.5px var(--v-red)}
+.vgcard header{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.vgcard header b{font:600 15px var(--v-font)}.vgcard header small{color:var(--v-txt2);font-size:12px;flex:1}
+.vgsvg{width:100%;height:auto;display:block;margin:6px 0 4px}
+.vgline{fill:none;stroke:var(--v-blue,#0a84ff);stroke-width:1.8;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.vgprev{fill:none;stroke:var(--v-txt2);stroke-width:1.2;stroke-dasharray:4 3;opacity:.7;vector-effect:non-scaling-stroke}
+.vgband{fill:var(--v-green,#30d158);opacity:.13}
+.vggr{stroke:var(--v-sep,#8884);stroke-width:.6}.vgax{fill:var(--v-txt2);font:500 9.5px var(--v-font)}
+.vgst{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--v-txt2)}.vgst b{color:var(--v-txt);font-weight:600}.vgst .vgchg b{color:var(--v-orange)}
+.vgwarn{margin:6px 0 0;color:var(--v-red);font:600 13px var(--v-font);display:flex;gap:6px;align-items:center}.vgwarn svg{width:15px;height:15px}
+.vgnote{margin:4px 0 0;font-size:11.5px;color:var(--v-txt2)}
+.vmoved{margin:4px 6px 18px;color:var(--v-txt2);font-size:13px;display:flex;align-items:center;gap:6px}.vmoved svg{width:15px;height:15px}.vmoved button{border:0;background:none;color:var(--accent);font:600 13px var(--v-font);padding:0;cursor:pointer}
+/* 4.2 pedido */
+.pedl{display:grid;gap:2px;margin-bottom:8px}.pedl small{color:var(--v-txt2)}.pedl .pedsin{color:var(--v-orange)}
+.pedt{font:14px/1.45 var(--v-font);min-height:180px}
+.pedb{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pedb .btn2{flex:1 1 40%}
+.pedgo{width:100%;margin:8px 0 12px}
+.chk.own span::after{content:' · la tienes';color:var(--v-green);font-size:12px;font-weight:600}
+/* herramientas */
+.hrow{display:flex;gap:12px;align-items:flex-start;padding:11px 14px;border-top:.5px solid var(--v-sep)}.hrow:first-child{border-top:0}
+.hrow b{font:600 15px var(--v-font);display:block}.hrow small{color:var(--v-txt2);font-size:12.5px}.hrow p{margin:5px 0 0;font-size:13px;color:var(--v-txt2);line-height:1.4}
+.hchk{flex:none;width:34px;height:34px;border-radius:50%;border:0;background:var(--v-cell2);color:var(--accent);display:grid;place-items:center;cursor:pointer}.hchk svg{width:18px;height:18px}
+.hrow.on .hchk{background:color-mix(in srgb,var(--v-green) 20%,transparent);color:var(--v-green)}.hrow.on b{color:var(--v-txt2)}
+/* ruidos */
+.rdbox{margin-top:14px}.rdl{display:grid;gap:8px;margin:6px 0 10px}
+.rdi{display:flex;gap:10px;align-items:center;background:var(--v-cell2);border-radius:12px;padding:8px 10px}.rdi>div{flex:1;min-width:0}.rdi b{font-size:13.5px}.rdi small{display:block;color:var(--v-txt2);font-size:12px}
+.rdi audio{width:100%;height:34px;margin-top:4px}
+.rdi em{font-style:normal;font:700 11px var(--v-font);text-transform:uppercase;letter-spacing:.04em;color:var(--v-orange);writing-mode:vertical-rl;transform:rotate(180deg)}.rdi em.ok{color:var(--v-green)}
+.rdrec{text-align:center}.rdt{display:block;font:700 38px var(--v-font);margin:8px 0}
+.rdlvl{height:10px;border-radius:5px;background:var(--v-cell2);overflow:hidden}.rdlvl i{display:block;height:100%;width:0;background:var(--v-red);transition:width .08s}
+/* atajos */
+.atrow{display:flex;gap:10px;align-items:center;padding:10px 14px;border-top:.5px solid var(--v-sep)}.atrow:first-child{border-top:0}.atrow>div{flex:1;min-width:0}.atrow b{display:block;font:600 15px var(--v-font)}.atrow small{display:block;color:var(--v-txt2);font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.atol{margin:0;padding-left:20px;line-height:1.5}
+/* ITV */
+.itvhero{display:flex;align-items:baseline;gap:10px;justify-content:center;padding:22px 16px;margin:0 0 16px;border-radius:18px;background:color-mix(in srgb,var(--c) 14%,var(--v-cell))}
+.itvhero b{font:800 52px/1 var(--v-font);color:var(--c)}.itvhero span{color:var(--v-txt2);font-size:15px}
+.itvtip{display:flex;gap:12px;padding:11px 14px;border-top:.5px solid var(--v-sep)}.itvtip:first-child{border-top:0}.itvtip>svg{width:20px;height:20px;flex:none;color:var(--accent);margin-top:2px}.itvtip b{display:block;font:600 15px var(--v-font)}.itvtip small{color:var(--v-txt2);font-size:13px;line-height:1.4}
+.vitvnow{margin:0 0 14px}
+/* Hoy compacto con el cuadro (móvil) */
+@media (max-width:900px){
+  .vhoy-cq .vh-hero,.vhoy-cq .vh-hero .vhin{min-height:216px!important;height:auto!important;aspect-ratio:auto!important}
+  .vhoy-cq .vh-hero .vkm{background:none!important;box-shadow:none!important;border:0!important;padding:0!important;justify-content:flex-end;margin-top:auto}
+  .vhoy-cq .vh-hero .vkm>span{display:none}
+  .vhoy-cq .vh-cuadro .cqodo{cursor:pointer}
+}
+/* modo garaje */
+.gz{position:fixed;inset:0;z-index:9600;background:var(--v-bg);display:flex;flex-direction:column;padding:var(--sa-t,0) 0 var(--sa-b,0)}
+.gzbar{display:flex;align-items:center;gap:10px;padding:10px 12px 8px 16px}.gzn{font:700 15px var(--v-font);color:var(--accent);flex:none}.gzt{flex:1;font:600 14px var(--v-font);color:var(--v-txt2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gzx{width:44px;height:44px;border-radius:50%;border:0;background:var(--v-cell2);color:var(--v-txt);display:grid;place-items:center;cursor:pointer}.gzx svg{width:20px;height:20px}
+.gzbody{flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;padding:4px 16px 8px;overflow:hidden}
+.gzimg{flex:0 1 44%;min-height:0;display:flex}.gzimg button{flex:1;border:0;padding:0;background:#fff;border-radius:14px;overflow:hidden;cursor:zoom-in;display:flex;align-items:center;justify-content:center}.gzimg img{max-width:100%;max-height:100%;object-fit:contain}
+.gztx{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch}
+.gztx h2{font:700 26px/1.2 var(--v-font);margin:4px 0 10px}.gztx p{font:400 20px/1.5 var(--v-font);margin:0 0 12px}
+.gzchip{display:inline-flex;align-items:center;gap:8px;margin:0 8px 8px 0;padding:8px 12px;border-radius:12px;background:var(--v-cell2);font:600 17px var(--v-font)}.gzchip svg{width:20px;height:20px;color:var(--accent)}
+.gznav{display:flex;gap:10px;padding:10px 16px 14px}.gznav button{flex:1;min-height:58px;border:0;border-radius:16px;font:700 18px var(--v-font);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+.gzp{background:var(--v-cell2);color:var(--v-txt)}.gzp:disabled{opacity:.35}.gzs{background:var(--accent);color:#fff}.gznav svg{width:22px;height:22px}
+.gzgo{width:100%;margin:0 0 12px}
+@keyframes gzr{from{opacity:0;transform:translateX(40px)}}@keyframes gzl{from{opacity:0;transform:translateX(-40px)}}
+.gzin-r{animation:gzr .22s ease}.gzin-l{animation:gzl .22s ease}
+@media (orientation:landscape) and (max-height:600px){ .gzbody{flex-direction:row} .gzimg{flex:0 0 46%} .gztx p{font-size:18px} .gznav button{min-height:46px} }
+.gztx h2{text-transform:none!important;letter-spacing:0!important;display:block!important;color:var(--v-txt)!important}.gztx h2::before,.gztx h2::after{display:none!important}
+.rpfgal h5.rpfh{margin:12px 0 6px;font-size:13px;color:var(--v-txt2,var(--txt-2))}
+.rpfgal .pdgal{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.rpfi{position:relative;display:block}.rpfi>button:first-child{display:block;width:100%;aspect-ratio:1;border:0;padding:0;border-radius:10px;overflow:hidden;background:var(--v-cell2,#2228);cursor:zoom-in}
+.rpfi img{width:100%;height:100%;object-fit:cover;display:block}
+.rpfgal .rpfi .rpfx{position:absolute!important;top:4px!important;right:4px!important;left:auto!important;bottom:auto!important;width:28px!important;height:28px!important;min-height:0!important;aspect-ratio:auto!important;padding:0!important;margin:0!important;border-radius:50%!important;border:0!important;background:#000b!important;color:#fff!important;font:600 17px/28px system-ui!important;text-align:center;cursor:pointer;display:block!important}
+.vztr{position:absolute;inset:0;will-change:transform}
+.vzs{position:absolute;inset:0;overflow:hidden}.vzs[hidden]{display:none}
+.vz .vzs img{opacity:0;transition:opacity .2s}.vz .vzs.ok img{opacity:1}
+.vzn{flex:none;font:600 14px var(--v-font,system-ui);opacity:.85;margin-left:auto;padding:0 6px}
+.vzt{flex:1;min-width:0}
+.vzar{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:64px;border:0;border-radius:14px;background:#0006;color:#fff;font:300 40px/1 system-ui;cursor:pointer;z-index:2;transition:opacity .2s}
+.vzl{left:8px}.vzr{right:8px}.vzar[disabled]{opacity:0;pointer-events:none}
+.vz.bare .vzar,.vz.zoomed .vzar{opacity:0;pointer-events:none}
+@media (hover:none){.vzar{width:38px;height:52px;font-size:32px;background:#0004}}
+.vconf{position:fixed;inset:0;z-index:9900;background:#0008;display:grid;place-items:center;padding:20px;animation:fadeIn .15s}
+.vconf.out{opacity:0;transition:opacity .15s}
+.vconfb{width:min(340px,100%);background:var(--v-cell,#1c1c1e);color:var(--v-txt,#fff);border-radius:18px;padding:18px;text-align:center;box-shadow:0 20px 60px #0008}
+.vconfb img{width:96px;height:96px;object-fit:cover;border-radius:12px;display:block;margin:0 auto 12px}
+.vconfb b{display:block;font:700 17px var(--v-font,system-ui)}.vconfb p{margin:6px 0 0;color:var(--v-txt2,#aaa);font-size:14px;line-height:1.4}
+.vconfa{display:flex;gap:10px;margin-top:16px}.vconfa .btn2{flex:1;justify-content:center}
+.vconf .vconfa .btn2.vdanger{background:var(--v-red,#ff453a)!important;color:#fff!important;border:0!important;box-shadow:none!important}
 </style>
 
 </head>
@@ -3409,7 +3514,7 @@ body[data-v3leaf="3d"] .v3bar::before{-webkit-backdrop-filter:none!important;bac
     <p class="sptip" id="spTip"></p>
   </div>
   <div class="spauth"><span>Autor y diseño</span><b>Sergio Ruiz Felices</b></div>
-  <span class="spver">v4.1.0</span>
+  <span class="spver">v4.2.1</span>
 </div>
 
 <header class="top2" id="top2">
@@ -5322,7 +5427,7 @@ function selectLayer(lid){
 const TIPOS_PIEZA=['Reparación','Intervención','Sustitución','Revisión','Ajuste','Limpieza'];
 const TIPOS_MANT=['Sustitución','Mantenimiento','Revisión','Reparación'];
 const todayISO=()=>{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
-const fmtDate=s=>{ if(!s) return '—'; const [y,m,d]=s.split('-'); return `${d}/${m}/${y}`; };
+const fmtDate=s=>{ if(!s) return '—'; const t=String(s), x=t.match(/^(\d{4})-(\d{2})-(\d{2})/); return x?`${x[3]}/${x[2]}/${x[1]}`:t; };
 const fmtKm=n=> (n!=null && n!=='' && !isNaN(n)) ? Number(n).toLocaleString('es-ES')+' km' : '—';
 const byDateDesc=(a,b)=>(b.fecha||'').localeCompare(a.fecha||'') || (Number(b.km)||0)-(Number(a.km)||0);
 function intsFor(pid){ return S.int.filter(x=>x.pieza===pid).sort(byDateDesc); }
@@ -5863,7 +5968,15 @@ function renderGastos(){
 }
 
 /* ---------- exportar historial en PDF ---------- */
-function loadScript(src){ return new Promise((ok,ko)=>{ const s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=ko; document.head.append(s); }); }
+function loadScript(src){ return new Promise((ok,ko)=>{ const s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=()=>{ s.remove(); ko(new Error(navigator.onLine?'no se pudo descargar el generador de PDF; inténtalo de nuevo':'sin conexión: el generador de PDF se descarga la primera vez que lo usas con internet')); }; document.head.append(s); }); }
+/* 4.2.1: copiar al portapapeles con respaldo (en algunos navegadores writeText falla y antes daba un error sin avisar) */
+async function copyTxt(t, okMsg){
+  try{ await navigator.clipboard.writeText(t); if(okMsg) toast(okMsg); return true; }catch{}
+  try{ const ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly',''); ta.style.cssText='position:fixed;top:0;left:0;opacity:0'; document.body.append(ta); ta.select(); ta.setSelectionRange(0, t.length); const k=document.execCommand('copy'); ta.remove(); if(k){ if(okMsg) toast(okMsg); return true; } }catch{}
+  toast('No se pudo copiar: mantén pulsado el texto para copiarlo','err'); return false;
+}
+/* 4.2.1: nombre de un documento sin repetir («ITV · ITV», «Seguro · Seguro a todo riesgo») */
+function docLbl(d){ const t=String(d?.tipo||'Documento'), n=String(d?.nombre||'').trim(); if(!n) return t; const N=x=>x.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim(), nt=N(t), nn=N(n); if(nn===nt || nn.includes(nt)) return n; if(nt.includes(nn)) return t; return t+' · '+n; }
 async function exportPdf(){
   try{
     toast('Preparando el PDF…');
@@ -6305,7 +6418,7 @@ async function saveFile(name, data){
 
 /* ---------- documentación del coche ---------- */
 const DOC_T=['ITV','Seguro','Impuesto de circulación','Permiso de circulación','Ficha técnica','Garantía','Otro'];
-function docStatus(d){ if(!d.caduca) return {st:'nodata', days:null}; const days=Math.round((new Date(d.caduca+'T12:00:00')-new Date(todayISO()+'T12:00:00'))/864e5); return {st: days<0?'due': days<=30?'soon':'ok', days}; }
+function docStatus(d){ if(!d?.caduca) return {st:'nodata', days:null}; const days=Math.round((new Date(String(d.caduca).slice(0,10)+'T12:00:00')-new Date(todayISO()+'T12:00:00'))/864e5); if(!isFinite(days)) return {st:'nodata', days:null}; return {st: days<0?'due': days<=30?'soon':'ok', days}; }
 function updateDocBadge(){
   let due=0,soon=0; for(const d of S.docs){ const s=docStatus(d).st; if(s==='due') due++; else if(s==='soon') soon++; }
   const b=$('#docBadge'); if(!b) return; b.hidden=!(due||soon); b.className='badge'+(due?'':' soon'); b.textContent=due||soon; b.title=due?`${due} documento(s) caducado(s)`:`${soon} a punto de caducar`;
@@ -6318,7 +6431,7 @@ function renderDocs(){
   const box=el('div','doclist');
   for(const d of list){ const s=docStatus(d);
     const r=el('div','mrow st-'+s.st);
-    const nm=el('div','nm',d.tipo+(d.nombre?' · '+d.nombre:'')); nm.append(el('small',null,d.notas||''));
+    const nm=el('div','nm',docLbl(d)); nm.append(el('small',null,d.notas||''));
     const c1=el('div','c'); c1.append('Caduca', el('b',null,d.caduca?fmtDate(d.caduca):'—'));
     const c2=el('div','c'); c2.append('Quedan', el('b',null, s.days==null?'—': s.days<0?`caducó hace ${-s.days} días`:`${s.days} días`));
     const pill=el('span','pill',{ok:'Al día',soon:'Próximo',due:'Caducado',nodata:'Sin fecha'}[s.st]);
@@ -6781,7 +6894,7 @@ $('#rSunH').onchange=e=>{ R.sunH=e.target.checked; savePrefs(); syncSunHandle();
 syncSunHandle();
 syncRenderUI(); applyScene(); applyQuality(); placeSun();
 resize(); requestAnimationFrame(tick);
-window.APP_VERSION='4.1.0';
+window.APP_VERSION='4.2.1';
 
 /* =====================================================================
    PWA: Firebase, inicio de sesión, versión, actualizaciones y avisos
@@ -6815,7 +6928,7 @@ async function loginGate(FB){
 }
 
 function pwaInit(){
-  const APP_VERSION='4.1.0';
+  const APP_VERSION='4.2.1';
   const W=window.__pwa={reg:null, latest:null, wantReload:false, installEvt:null};
   const cmpV=(a,b)=>{ const x=String(a).split('.').map(Number), y=String(b).split('.').map(Number); for(let i=0;i<3;i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
   $('#mAboutV').textContent='Versión '+APP_VERSION+' · novedades y actualizaciones';
@@ -6882,7 +6995,7 @@ function pwaInit(){
     $('#ovlKind').textContent='Aviso'; $('#ovlTitle').textContent='Tienes cosas pendientes';
     const body=$('#ovlBody'); body.innerHTML=''; const box=el('div','remind');
     for(const it of S.mant){ const s=itemStatus(it); if(s.st==='due'||s.st==='soon'){ const r=el('div',s.st==='due'?'v':''); r.append(el('span',null,it.nombre), el('small',null,s.st==='due'?'Vencido':'Próximo')); box.append(r); } }
-    for(const d of docsVig()){ const s=docStatus(d); if(s.st==='due'||s.st==='soon'){ const r=el('div',s.st==='due'?'v':''); r.append(el('span',null,(d.tipo||'Documento')+(d.nombre?' · '+d.nombre:'')), el('small',null,s.days<0?'Caducado hace '+(-s.days)+' d':'Caduca en '+s.days+' d')); box.append(r); } }
+    for(const d of docsVig()){ const s=docStatus(d); if(s.st==='due'||s.st==='soon'){ const r=el('div',s.st==='due'?'v':''); r.append(el('span',null,docLbl(d)), el('small',null,s.days<0?'Caducado hace '+(-s.days)+' d':'Caduca en '+s.days+' d')); box.append(r); } }
     const acts=el('div','acts');
     const bm=el('button','pri','Ver mantenimiento'); bm.type='button'; bm.onclick=()=>{ closePop(); $('#bMant').click(); };
     const bd=el('button',null,'Ver documentación'); bd.type='button'; bd.onclick=()=>openGlobal('docs');
@@ -7214,7 +7327,10 @@ function quickKm(){
   sheet(`<div><h3>Kilómetros actuales</h3><p class="muted2">Mira el cuentakilómetros y escribe la cifra.</p><input class="inp2" type="number" inputmode="numeric" min="0" step="1" id="qkIn" placeholder="p. ej. 245000"><div class="row3"><button class="btn2 ghost" type="button" id="qkNo">Cancelar</button><button class="btn2" type="button" id="qkOk">${ic('check')}Guardar</button></div></div>`, b=>{
     const i=b.querySelector('#qkIn'); i.value=S.cfg?.kmActual||''; setTimeout(()=>i.focus(),80);
     b.querySelector('#qkNo').onclick=()=>$('#sheet2').hidden=true;
-    const ok=async()=>{ const v=i.value===''?null:Number(i.value); if(v!=null && (isNaN(v)||v<0)) return; await S.db?.doc('config/coche').set({...(S.cfg||{}), kmActual:v}); $('#sheet2').hidden=true; toast('Kilómetros actualizados'); };
+    const ok=async()=>{ const v=i.value===''?null:Number(i.value); if(v!=null && (isNaN(v)||v<0)) return; const cur=Number(S.cfg?.kmActual)||0;
+      if(v!=null && cur && v<cur && !confirm(`Has puesto ${nf.format(v)} km y el coche tenía ${nf.format(cur)} km. El cuentakilómetros no puede ir hacia atrás: ¿seguro que es correcto?`)){ i.focus(); i.select?.(); return; }
+      if(v!=null && cur && v-cur>30000 && !confirm(`Son ${nf.format(v-cur)} km más que la última vez (${nf.format(cur)} km). ¿Es correcto?`)){ i.focus(); return; }
+      await S.db?.doc('config/coche').set({...(S.cfg||{}), kmActual:v}); $('#sheet2').hidden=true; toast('Kilómetros actualizados'); };
     b.querySelector('#qkOk').onclick=ok; i.onkeydown=e=>{ if(e.key==='Enter') ok(); };
   });
 }
@@ -7294,7 +7410,7 @@ function searchBase(raw){
   for(const it of S.mant) if(norm(it.nombre+' '+(it.grupo||'')).includes(q)){ const s=itemStatus(it); add('Mantenimiento','wrench',it.nombre,(it.grupo||'')+' · '+ST_LABEL[s.st],()=>{ closeSearch(); go('mant','plan'); },stColor(s.st)); }
   for(const x of S.int) if(norm([x.descripcion,x.ref,x.tipo,itemName(x.mant),partName(x.pieza)].join(' ')).includes(q)) add('Historial','history',x.descripcion||itemName(x.mant)||x.tipo,fmtDate(x.fecha)+(x.km!=null?' · '+nf.format(x.km)+' km':''),()=>{ closeSearch(); go('mant','hist'); });
   for(const c of (S.compras||[])) if(norm([c.nombre,c.ref,c.tienda,c.notas].join(' ')).includes(q)) add('Compras','cart',c.nombre+(c.cantidad>1?' ×'+c.cantidad:''),({pendiente:'Por comprar',comprado:'Comprado, sin montar',montado:'Montado'})[c.estado]+(c.precio?' · '+eur(c.precio):''),()=>{ closeSearch(); go('mant','compra'); });
-  for(const d of S.docs) if(norm(d.tipo+' '+(d.nombre||'')+' '+(d.notas||'')).includes(q)) add('Documentos','shield',d.tipo+(d.nombre?' · '+d.nombre:''),d.caduca?'Caduca el '+fmtDate(d.caduca):'',()=>{ closeSearch(); S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); });
+  for(const d of S.docs) if(norm(d.tipo+' '+(d.nombre||'')+' '+(d.notas||'')).includes(q)) add('Documentos','shield',docLbl(d),d.caduca?'Caduca el '+fmtDate(d.caduca):'',()=>{ closeSearch(); S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); });
   for(const a of S.ave) if(norm([a.codigo,a.sintoma,a.notas].join(' ')).includes(q)) add('Averías','alert',(a.codigo?a.codigo+' · ':'')+(a.sintoma||''),a.estado==='resuelta'?'Resuelta':'Abierta',()=>{ closeSearch(); S.aveEdit=a; S.aveDraftParts=null; openGlobal('ave'); });
   for(const code of (S.cfg?.pr||[])){ const inf=S.prinfo?.[code]; if(norm(code+' '+(inf?.es||'')+' '+(inf?.en||'')).includes(q)) add('Códigos PR','tag',code+' · '+(inf?.es||'Sin descripción').slice(0,70),inf?.familia||'',()=>{ closeSearch(); go('coche','ficha'); S.prOpen=code; renderFab(S.cfg); setTimeout(()=>$('#prCard')?.scrollIntoView({behavior:'smooth',block:'center'}),120); }); }
   if(norm('C9Z '+(S.cfg?.pintura||'')+' pintura color').includes(q)) add('Ficha del coche','tag','Pintura '+(S.cfg?.pintura||'C9Z'),'Ficha del coche',()=>{ closeSearch(); go('coche','ficha'); });
@@ -7574,7 +7690,7 @@ async function perfReport(){
 { const _ab2=EXTRA_POP.about; EXTRA_POP.about=function(){ _ab2(); const box=$('#ovlBody .about'); if(!box) return;
     const sec=h2(`<div class="perf"><h4>Rendimiento de este dispositivo</h4><dl></dl><button type="button" class="btn2 ghost">${ic('list')}Copiar informe</button></div>`);
     box.append(sec); perfReport().then(rows=>{ const dl=sec.querySelector('dl'); for(const [k,v] of rows) dl.append(el('dt',null,k), el('dd',null,v));
-      sec.querySelector('button').onclick=()=>{ try{ navigator.clipboard.writeText(rows.map(r=>r.join(': ')).join('\n')); toast('Informe copiado'); }catch{} }; }); }; }
+      sec.querySelector('button').onclick=()=>{ copyTxt(rows.map(r=>r.join(': ')).join('\n'), 'Informe copiado'); }; }); }; }
 
 /* ---------- fotos: miniaturas, carga al hacer scroll y visor ---------- */
 const thumbIO='IntersectionObserver' in window ? new IntersectionObserver(es=>{ for(const e of es) if(e.isIntersecting){ thumbIO.unobserve(e.target); loadThumb(e.target); } },{rootMargin:'300px'}) : null;
@@ -7594,7 +7710,7 @@ attachThumbs=function(list){
     const x=el('a','att'); x.href='#'; x.title=a.nombre||''; x._att=a;
     const isImg=(a.tipo||'').startsWith('image/');
     if(isImg){ const im=new Image(); im.alt=a.nombre||'Foto'; im.decoding='async'; x.append(im); x.classList.add('ld'); } else x.append(el('span','pdf','PDF'));
-    x.onclick=e=>{ e.preventDefault(); openViewer(a); };
+    x.onclick=e=>{ e.preventDefault(); const sib=[...(x.parentElement?.querySelectorAll('.att')||[])].map(n=>n._att).filter(Boolean); openViewer(a, sib.length>1?{lista:sib, i:sib.indexOf(a)}:{}); };
     if(isImg){ if(thumbIO) thumbIO.observe(x); else loadThumb(x); }
     w.append(x);
   }
@@ -7665,10 +7781,12 @@ function compraSheet(c, mode){
     ${buy||d.estado!=='pendiente'?`<label class="wzlab">Precio total pagado (€)</label><input class="inp2" id="cpP" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(d.precio??'')}" placeholder="0,00">
     <label class="wzlab">Tienda</label><input class="inp2" id="cpT" value="${esc(d.tienda||'')}" placeholder="Tienda o web">
     <label class="wzlab">Fecha de compra</label><input class="inp2" id="cpF" type="date" value="${esc(d.fechaCompra||todayISO())}">
+    <details class="cpmore"${(d.ref||d.montaje==='taller'||d.adjuntos?.length)?' open':''}><summary>Más detalles: referencia, quién lo monta, factura</summary>
     ${hecha?'':`<label class="wzlab">Referencia / marca</label><input class="inp2" id="cpR" value="${esc(d.ref||'')}" placeholder="Ref. o marca">`}
     <label class="wzlab">¿Quién lo monta?</label><select class="inp2" id="cpM"><option value="yo"${d.montaje!=='taller'?' selected':''}>Lo monto yo</option><option value="taller"${d.montaje==='taller'?' selected':''}>Me lo monta un taller o mecánico</option></select>
     <div id="cpMW"${d.montaje==='taller'?'':' hidden'}><label class="wzlab">Mano de obra (€)</label><input class="inp2" id="cpMO" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(d.manoObra??'')}" placeholder="Lo que te cobra el taller"><label class="wzlab">Taller o mecánico</label><input class="inp2" id="cpTa" value="${esc(d.taller||'')}" placeholder="Nombre del taller"></div>
-    <label class="wzlab">Factura o foto (opcional)</label><input id="cpA" type="file" accept="image/*,application/pdf" multiple style="color:var(--txt-2)">`:''}
+    <label class="wzlab">Factura o foto (opcional)</label><input id="cpA" type="file" accept="image/*,application/pdf" multiple style="color:var(--txt-2)"></details>`:''}
+    ${!isNew&&d.ref?`<button type="button" class="btn2 ghost cpfi" id="cpFi">${ic('tag')}Ficha de la pieza · ${esc(d.ref)}</button>`:''}
     <label class="wzlab">Notas</label><input class="inp2" id="cpNo" value="${esc(d.notas||'')}" placeholder="Opcional">
     <div class="row3">${!isNew&&!buy?`<button class="btn2 ghost" type="button" id="cpDel" style="margin-right:auto;color:var(--due)">${ic('x')}Borrar</button>`:''}<button class="btn2 ghost" type="button" id="cpNo2">Cancelar</button>${buy?'<button class="btn2 ghost" type="button" id="cpKeep">Guardar sin comprar</button>':''}<button class="btn2" type="button" id="cpOk">${ic('check')}${buy?'Comprado':hecha?'Guardar compra':'Guardar'}</button></div></div>`, b=>{
     const dl=document.createElement('datalist'); dl.id='cpList'; const names=new Set([...S.piezasL.map(x=>x.nombre), ...S.mant.map(x=>x.nombre)]); [...names].sort(COLL.compare).forEach(n=>dl.append(new Option(n))); b.append(dl);
@@ -7676,6 +7794,7 @@ function compraSheet(c, mode){
     v('cpNo2').onclick=()=>$('#sheet2').hidden=true;
     if(v('cpDel')) v('cpDel').onclick=async()=>{ if(!confirm(`¿Borrar «${d.nombre}» de la compra?`)) return; const bk={...c}; delete bk._id; await S.db.collection('compras').doc(c._id).delete(); $('#sheet2').hidden=true; toast('Borrado de la compra', null, {label:'Deshacer', fn:()=>S.db.collection('compras').doc(c._id).set(bk)}); };
     setTimeout(()=>(v('cpN')||v('cpP'))?.focus(),80);
+    if(v('cpFi')) v('cpFi').onclick=()=>{ $('#sheet2').hidden=true; fichaSheet(d.ref); };
     if(v('cpM')) v('cpM').addEventListener('change',()=>{ v('cpMW').hidden=v('cpM').value!=='taller'; });
     for(const id of ['cpT','cpTa']) addProvList(v(id));          /* tiendas y talleres ya usados */
     compraOcr(b);                                                 /* leer el ticket con la cámara */
@@ -7685,6 +7804,7 @@ function compraSheet(c, mode){
       d.notas=v('cpNo').value.trim();
       if(v('cpP')){ d.precio=v('cpP').value===''?null:Number(v('cpP').value); d.tienda=v('cpT').value.trim(); d.fechaCompra=v('cpF').value||todayISO(); if(v('cpR')) d.ref=v('cpR').value.trim(); d.montaje=v('cpM').value; d.manoObra = d.montaje==='taller' && v('cpMO').value!=='' ? Number(v('cpMO').value) : null; d.taller = d.montaje==='taller' ? v('cpTa').value.trim() : ''; }
       if(mark) d.estado='comprado';
+      if(isNew && !cmpDupOk(d.nombre, d.ref)) return;
       ok.disabled=true;
       try{
         const files=[...(v('cpA')?.files||[])]; if(files.length) d.adjuntos=[...(d.adjuntos||[]), ...await uploadFiles(files)];
@@ -7927,7 +8047,7 @@ function heroMini(){
 function attentionCard(km, skipKm){
   const rows=[];
   for(const {it,s} of mantList()) if(s.st==='due'||s.st==='soon') rows.push({c:stColor(s.st), i:'wrench', t:it.nombre, s:mantLine(it,s), r:ST_LABEL[s.st], fn:()=>openIntForm({mant:it.id, back:'mant'})});
-  for(const d of docsVig()){ const s=docStatus(d); if(s.st==='due'||s.st==='soon') rows.push({c:stColor(s.st), i:'shield', t:d.tipo+(d.nombre?' · '+d.nombre:''), s:'Caduca el '+fmtDate(d.caduca), r:s.days<0?'Caducado':s.days===0?'Hoy':`${s.days} días`, fn:()=>{ S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); }}); }
+  for(const d of docsVig()){ const s=docStatus(d); if(s.st==='due'||s.st==='soon') rows.push({c:stColor(s.st), i:'shield', t:docLbl(d), s:'Caduca el '+fmtDate(d.caduca), r:s.days<0?'Caducado':s.days===0?'Hoy':`${s.days} días`, fn:()=>{ S.docEdit=d._id; UI.docForm=true; go('papeles','docs'); }}); }
   const mont=(S.compras||[]).filter(x=>x.estado==='comprado'), pend=(S.compras||[]).filter(x=>x.estado==='pendiente');
   if(mont.length) rows.push({c:'var(--soon)', i:'cart', t:mont.length===1?mont[0].nombre:`${mont.length} piezas compradas`, s:'Compradas y sin montar', r:'Montar', fn:()=>go('mant','compra')});
   if(pend.length) rows.push({c:'var(--info)', i:'cart', t:`${pend.length} en la lista de la compra`, s:pend.slice(0,3).map(x=>x.nombre).join(', ')+(pend.length>3?'…':''), r:'Ver', fn:()=>go('mant','compra')});
@@ -8486,7 +8606,7 @@ function renderRepost(w){
   const byM=Object.fromEntries(months.map(m=>[m,0])); for(const r of R){ const m=(r.fecha||'').slice(0,7); if(m in byM) byM[m]+=repTotal(r); }
   const mc=card2('Gasto en combustible por mes','calendar'); mc.querySelector('.l2').replaceWith(barChart(months.map(m=>({l:MES[+m.slice(5)-1], segs:[{v:byM[m], c:'var(--info)'}], t:byM[m]?Math.round(byM[m])+'':''})), {small:true})); w.append(mc);
   const pts=fc.L.filter(x=>fc.per.has(x._id)).map(x=>({x:new Date(x.fecha+'T12:00:00').getTime(), y:fc.per.get(x._id).l100}));
-  const cc=card2('Consumo por tramo (L/100 km)','chart'); cc.querySelector('.l2').replaceWith(lineChart(pts,{fmt:v=>nf1(v), c:'var(--accent)', empty:'Con dos repostajes de depósito lleno ya se calcula el consumo.'})); w.append(cc);
+  const cc=card2('Consumo por tramo (L/100 km)','chart'); cc.querySelector('.l2').replaceWith(lineChart(pts,{fmt:v=>nf1(v), c:'var(--accent)', empty:pts.length===1?`Primer tramo: ${nf1(pts[0].y)} L/100 km. Con el siguiente repostaje a depósito lleno verás cómo evoluciona.`:'Con dos repostajes de depósito lleno ya se calcula el consumo.'})); w.append(cc);
   const pp=R.filter(r=>num(r.precioL)).map(r=>({x:new Date(r.fecha+'T12:00:00').getTime(), y:num(r.precioL)})).sort((a,b)=>a.x-b.x);
   if(pp.length>=2){ const pc=card2('Precio del litro','euro'); pc.querySelector('.l2').replaceWith(lineChart(pp,{fmt:v=>v.toLocaleString('es-ES',{minimumFractionDigits:3,maximumFractionDigits:3})+' €', c:'var(--soon)'})); w.append(pc); }
   const lc=card2('Repostajes','fuel',R.length), l=lc.querySelector('.l2');
@@ -8602,7 +8722,7 @@ MOD.itv={col:'itv', newT:'Registrar inspección (ITV)', editT:'Editar inspecció
     if(doc) await S.db.collection('documentos').doc(doc._id).set(data); else await S.db.collection('documentos').add(data);
     if(num(d.km) && (!num(S.cfg?.kmActual) || num(d.km)>num(S.cfg.kmActual))) await S.db.doc('config/coche').set({...(S.cfg||{}), kmActual:num(d.km)});
     toast('Caducidad de la ITV actualizada: '+fmtDate(d.proxima)); }};
-function itvPend(){ return S.v2.itv.flatMap(r=>(r.defectos||[]).filter(x=>!x.corregido).map(x=>({...x, r}))); }
+function itvPend(){ return S.v2.itv.flatMap(r=>(Array.isArray(r.defectos)?r.defectos:[]).filter(x=>x && !x.corregido).map(x=>({...x, r}))); }
 function renderITV(w){
   const L=[...S.v2.itv].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
   w.append(addBar('Registrar inspección',()=>recForm(MOD.itv)));
@@ -9064,7 +9184,7 @@ MAS2.backup=['Copia de seguridad', renderBackup2];
 function permCard(){
   const em=window.FB?.user?.()?.email||'TU_CORREO';
   const c=h2(`<div class="card2 permc"><h3>${ic('alert')}Faltan permisos en Firebase</h3><p class="muted2">Las reglas de tu base de datos no dejan usar: ${[...V2.perm].map(x=>COLN[x]||x).join(', ')}. Abre la consola de Firebase ▸ Firestore ▸ Reglas y añade dentro de <code>match /databases/{database}/documents</code>:</p><pre class="rules">match /{col}/{doc=**} {\n  allow read, write: if request.auth != null\n    &amp;&amp; request.auth.token.email == "${esc(em)}";\n}</pre><button class="btn2 ghost" type="button">${ic('copy')}Copiar</button></div>`);
-  c.querySelector('button').onclick=()=>{ navigator.clipboard?.writeText(c.querySelector('pre').textContent).then(()=>toast('Reglas copiadas')); }; return c;
+  c.querySelector('button').onclick=()=>{ copyTxt(c.querySelector('pre').textContent, 'Reglas copiadas'); }; return c;
 }
 
 /* ---------- DOSSIER DE VENTA (PDF) ---------- */
@@ -9185,8 +9305,8 @@ function renderCompartir(w){
 function linkBox(t, cad){
   const u=shareURL(t), b=h2(`<div class="lnkbox"><div class="qrw" aria-hidden="true"></div><div><input class="inp2" readonly value="${esc(u)}"><small class="muted2">Caduca el ${new Date(cad).toLocaleString('es-ES',{dateStyle:'medium',timeStyle:'short'})}</small><div class="row3" style="justify-content:flex-start;flex-wrap:wrap"><button class="btn2" type="button">${ic('share')}Enviar</button><button class="btn2 ghost" type="button">${ic('copy')}Copiar</button><a class="btn2 ghost" target="_blank" rel="noopener" href="${esc(u)}">${ic('eye')}Abrir</a></div></div></div>`);
   const [sh,cp]=b.querySelectorAll('button');
-  sh.onclick=async()=>{ try{ if(navigator.share) await navigator.share({title:'Historial del Touareg 7L', text:'Historial de mantenimiento del Touareg (solo lectura):', url:u}); else { await navigator.clipboard.writeText(u); toast('Enlace copiado'); } }catch{} };
-  cp.onclick=()=>navigator.clipboard?.writeText(u).then(()=>toast('Enlace copiado'));
+  sh.onclick=async()=>{ try{ if(navigator.share) await navigator.share({title:'Historial del Touareg 7L', text:'Historial de mantenimiento del Touareg (solo lectura):', url:u}); else await copyTxt(u, 'Enlace copiado'); }catch{} };
+  cp.onclick=()=>copyTxt(u, 'Enlace copiado');
   loadScript('https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js').then(()=>{ const q=window.qrcode(0,'M'); q.addData(u); q.make(); b.querySelector('.qrw').innerHTML=q.createSvgTag({cellSize:3, margin:2, scalable:true}); }).catch(()=>b.querySelector('.qrw').remove());
   return b;
 }
@@ -9195,7 +9315,7 @@ function rulesBox(s){
   const c=h2(`<div class="permc" style="margin-top:12px"><div class="alr soon">${ic('alert')}<span>${s===403||s===401?'El enlace está creado, pero tu base de datos aún no permite leerlo desde fuera.':'No se ha podido comprobar el enlace desde fuera (¿sin conexión?).'} Falta un paso, solo la primera vez:</span></div>
     <p class="muted2">En la consola de Firebase ▸ Firestore ▸ <b>Reglas</b>, añade este bloque dentro de <code>match /databases/{database}/documents { … }</code> y pulsa Publicar. Solo deja <b>leer un enlace concreto</b> a quien lo tenga (no se pueden listar), y escribir solo a ti.</p>
     <pre class="rules">match /compartido/{token} {\n  allow get: if true;\n  allow write: if request.auth != null\n    &amp;&amp; request.auth.token.email == "${esc(em)}";\n}</pre><button class="btn2 ghost" type="button">${ic('copy')}Copiar reglas</button></div>`);
-  c.querySelector('button').onclick=()=>navigator.clipboard?.writeText(c.querySelector('pre').textContent).then(()=>toast('Reglas copiadas'));
+  c.querySelector('button').onclick=()=>copyTxt(c.querySelector('pre').textContent, 'Reglas copiadas');
   return c;
 }
 MAS2.compartir=['Enlace para el taller', renderCompartir];
@@ -9487,7 +9607,7 @@ function enterEdit(g, b, anchor){
   document.querySelector('.ordbar')?.remove();
   const bar=h2(`<div class="ordbar" role="toolbar"><span><b>Modo ordenar</b><small>Arrastra ${esc(g.name)} · toca para renombrar</small></span><button type="button" class="btn2 ghost" data-a="r">Original</button><button type="button" class="btn2" data-a="ok">${ic('check')}Listo</button></div>`);
   bar.querySelector('[data-a="ok"]').onclick=()=>{ uiSfx('save'); exitEdit(true); };
-  bar.querySelector('[data-a="r"]').onclick=async()=>{ if(!confirm('¿Volver al orden y los nombres originales de '+g.name+'?')) return; const o={...(UIC().orden||{})}, n={...(UIC().nombres||{})}; delete o[g.key]; delete n[g.key]; exitEdit(false); await saveUI({orden:o, nombres:n}); applyAll(); if(g.key==='inicio') renderInicio(true); else if(g.key.startsWith('mas:')) renderMas(); toast('Orden y nombres originales'); };
+  bar.querySelector('[data-a="r"]').onclick=async()=>{ if(!confirm('¿Volver al orden y los nombres originales de '+g.name+'?')) return; const o={...(UIC().orden||{})}, n={...(UIC().nombres||{})}; delete o[g.key]; delete n[g.key]; exitEdit(false); await saveUI({orden:o, nombres:n}); applyAll(); if(g.key==='inicio') renderInicio(true); else if(g.key.startsWith('mas:')) (typeof renderMas==='function'?renderMas():v2Rerender?.()); toast('Orden y nombres originales'); };
   document.body.append(bar);
 }
 function exitEdit(save){
@@ -10176,12 +10296,15 @@ function refRow(f){ const s=[f.ref, f.uso[0]].filter(Boolean).join(' · ');
   return row2({c:f.stock?'var(--ok)':f.com.length?'var(--info)':'var(--accent)', i:f.stock?'home':f.com.length?'cart':'tag', t:f.nombre, s, r:f.stock?`${f.stock} en casa`:null, fn:()=>fichaSheet(f.k)}); }
 
 /* ---------- la ficha ---------- */
+/* 4.2: todas las búsquedas con la referencia junta, sin espacios (dan mejores resultados y Wallapop no muestra %20) */
+const pzQ=k=>encodeURIComponent(refKey(k));
+const PZ_SHOPS=[['Google',k=>'https://www.google.com/search?q='+pzQ(k)],['Autodoc',k=>'https://www.autodoc.es/search?keyword='+pzQ(k)],['Oscaro',k=>'https://www.oscaro.es/search?q='+pzQ(k)],['Amazon',k=>'https://www.amazon.es/s?k='+pzQ(k)],['eBay',k=>'https://www.ebay.es/sch/i.html?_nkw='+pzQ(k)],['AliExpress',k=>'https://es.aliexpress.com/wholesale?SearchText='+pzQ(k)],['Wallapop',k=>'https://es.wallapop.com/app/search?keywords='+pzQ(k)]];
 function fichaSheet(k){
   const f=refIndex().get(refKey(k));
   if(!f){ toast('Esa referencia no tiene ficha todavía'); return; }
   const body=h2('<div class="fich"></div>'), u=f.user||{};
   const top=h2(`<div class="fitop"><button type="button" class="pref" title="Copiar">${esc(f.ref)}</button><span class="fitag">${esc(FGRP[f.grp]?(GRP[f.grp]?f.grp+' · ':'')+FGRP[f.grp]:'')}</span><span class="fitag">${esc(FTIPO_N[f.tipo])}</span></div>`);
-  top.querySelector('.pref').onclick=()=>navigator.clipboard?.writeText(f.ref).then(()=>toast('Referencia copiada: '+f.ref));
+  top.querySelector('.pref').onclick=()=>copyTxt(f.ref, 'Referencia copiada: '+f.ref);
   body.append(top);
   /* lo tuyo */
   const mine=card2('Tus datos','home');
@@ -10217,10 +10340,19 @@ function fichaSheet(k){
   if(f.m3d.length){ const c=card2('En el modelo 3D','cube', f.m3d.length);
     for(const id of f.m3d) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'cube', t:parts[id]?.name||id, s:(LAYERS.find(l=>l.id===parts[id]?.layer)?.name||''), fn:()=>{ closeSheet(); go('coche','3d'); try{ select(id); _focusPart(id); if(matchMedia('(max-width:860px)').matches) setTab('ficha'); }catch{} }}));
     body.append(c); }
+  /* 4.2: en qué guías sale y en qué reparaciones se ha usado */
+  { const nm=norm(String(f.nombre||'').replace(/\([^)]*\)/g,'')).trim(), G=(S.procs||[]).filter(pr=>{ const t=norm(JSON.stringify([pr.titulo, pr.herramientas, (pr.pasos||[]).map(x=>[x.texto,x.titulo,x.herr]), pr.compras||[]])).replace(/[^0-9a-z ]/g,' ');
+      return t.replace(/\s+/g,'').includes(f.k.toLowerCase()) || (nm.length>8 && t.includes(nm.replace(/[^0-9a-z ]/g,' '))); });
+    if(G.length){ const c=card2('En tus guías','book', G.length); for(const pr of G) c.querySelector('.l2').append(row2({c:'var(--accent)', i:'book', t:pr.titulo, s:pr.grupo||'Guía', fn:()=>{ closeSheet(); setTimeout(()=>guiaRead(pr),200); }})); body.append(c); }
+    const ids=new Set(f.com.map(x=>x._id)), RP=(S.v2.reparaciones||[]).filter(r=>(r.compras||[]).some(id=>ids.has(id)));
+    if(RP.length){ const c=card2('En tus reparaciones','wrench', RP.length); for(const r of RP){ const mont=(r.montadas||[]).some(id=>ids.has(id)); c.querySelector('.l2').append(row2({c:r.estado==='en_curso'?'var(--accent)':'var(--ok)', i:'wrench', t:r.titulo, s:[r.estado==='en_curso'?'En curso':'Terminada '+(r.fin?fmtDate(r.fin):''), mont?'montada':''].filter(Boolean).join(' · '), fn:r.estado==='en_curso'?()=>{ closeSheet(); setTimeout(()=>repRun(r),200); }:null})); } body.append(c); } }
+  /* 4.2: buscarla en tiendas */
+  { const c=card2('Buscar en tiendas','search'); const w=h2('<div class="pzshops"></div>');
+    for(const [n,u] of PZ_SHOPS){ const a=h2(`<a class="btn2 ghost" target="_blank" rel="noopener">${esc(n)}</a>`); a.href=u(f.k, f.ref); w.append(a); }
+    c.querySelector('.l2').append(w); body.append(c); }
   const sub=f.uso.length?f.uso.slice(0,2).join(' · '):'';
   detailSheet(f.nombre, sub, body, [
-    ['Añadir a la compra','cart',async()=>{ if(!S.db) return toast('Inicia sesión para guardar','err'); await S.db.collection('compras').add({nombre:f.nombre, ref:f.ref, cantidad:1, estado:'pendiente', notas:f.lam[0]?`Lámina ${f.lam[0].l.lamina}${f.lam[0].p.pos?' · pos. '+f.lam[0].p.pos:''}`:'', creado:new Date().toISOString()}); toast(`«${f.nombre}» añadido a la compra`); }],
-    ['Buscar en internet','search',()=>window.open('https://www.google.com/search?q='+encodeURIComponent(f.k),'_blank','noopener')],
+    ['Añadir a la compra','cart',async()=>{ if(!S.db) return toast('Inicia sesión para guardar','err'); if(!cmpDupOk(f.nombre, f.ref)) return; await S.db.collection('compras').add({nombre:f.nombre, ref:f.ref, cantidad:1, estado:'pendiente', notas:f.lam[0]?`Lámina ${f.lam[0].l.lamina}${f.lam[0].p.pos?' · pos. '+f.lam[0].p.pos:''}`:'', creado:new Date().toISOString()}); toast(`«${f.nombre}» añadido a la compra`); }],
   ]);
 }
 MOD.refs={col:'refs', newT:'Añadir pieza', editT:'Tus datos de la pieza', delT:'Datos de la ficha borrados',
@@ -10549,7 +10681,7 @@ function renderDocs2(w){
     b.querySelector('button').onclick=async e=>{ if(!confirm(`¿Ordenar los documentos repetidos?\n\nDe cada tipo queda uno (el que vence más tarde) con todas las fotos y notas; las fechas antiguas pasan a su historial. Podrás deshacerlo justo después.`)) return; e.target.disabled=true; try{ await docMerge(dup); celebrate(); }catch{ toast('No se pudo juntar','err'); e.target.disabled=false; } }; w.append(b); }
   const grid=h2('<div class="docgrid"></div>'); for(const dx of DOCX){ const c=docCard(dx); if(c) grid.append(c); } w.append(grid);
   const others=S.docs.filter(d=>!DOCX.some(dx=>dx.re.test(d.tipo||''))).sort((a,b)=>(a.caduca||'9').localeCompare(b.caduca||'9'));
-  if(others.length){ const c=card2('Otros documentos','file',others.length); for(const d of others){ const s=docStatus(d); c.querySelector('.l2').append(row2({c:stColor(s.st), i:'file', t:d.tipo+(d.nombre?' · '+d.nombre:''), s:d.caduca?dLeft(s.days)+' · '+fmtDate(d.caduca):'Sin fecha', fn:()=>recForm(MOD.docs,d)})); } w.append(c); }
+  if(others.length){ const c=card2('Otros documentos','file',others.length); for(const d of others){ const s=docStatus(d); c.querySelector('.l2').append(row2({c:stColor(s.st), i:'file', t:docLbl(d), s:d.caduca?dLeft(s.days)+' · '+fmtDate(d.caduca):'Sin fecha', fn:()=>recForm(MOD.docs,d)})); } w.append(c); }
   w.append(addBar('Añadir otro documento',()=>recForm(MOD.docs,null,{tipo:'Otro'})));
 }
 /* los documentos vienen de la colección antigua: al cambiar, se redibuja la página */
@@ -11193,7 +11325,7 @@ C2.push('reparaciones','seguimientos'); for(const c of ['reparaciones','seguimie
 const repList=()=>(S.v2.reparaciones||[]);
 const repActiva=()=>repList().filter(r=>r.estado==='en_curso').sort((a,b)=>(b.inicio||'').localeCompare(a.inicio||''));
 const repGuia=r=>r.libre?{_id:null, titulo:r.titulo, pasos:(r.pasos&&r.pasos.length)?r.pasos:[{titulo:'Trabajo', texto:'Reparación sin guía: añade abajo los pasos que vayas haciendo y márcalos.'}], libre:true}:(S.procs||[]).find(p=>p._id===r.guia);
-const fmtD=iso=>iso?iso.split('-').reverse().join('/'):'';
+const fmtD=iso=>{ if(!iso) return ''; const x=String(iso).match(/^(\d{4})-(\d{2})-(\d{2})/); return x?`${x[3]}/${x[2]}/${x[1]}`:String(iso); };
 
 /* ---------- ¿lo tienes todo? herramientas, pares y piezas de la guía ---------- */
 function repNeeds(pr){
@@ -11220,8 +11352,8 @@ function repNeedsBox(pr, compras, opts={}){
   if(!N.herr.length && !N.pares.length && !cs.length) return null;
   const d=h2(`<details class="rpparts rpneed"${opts.open?' open':''}><summary>${ic('list')}¿Lo tienes todo? <em>${sin.length?pl(sin.length,'pieza sin comprar','piezas sin comprar'):pl(N.herr.length,'herramienta')}</em></summary><div class="rpneedb"></div></details>`), b=d.querySelector('.rpneedb');
   UI.repNeed=UI.repNeed||{}; const key=pr._id||pr.titulo, got=UI.repNeed[key]=UI.repNeed[key]||new Set();
-  if(sin.length) b.append(h2(`<div class="alr soon">${ic('cart')}<span>Aún sin comprar: ${sin.map(c=>'<b>'+esc(c.nombre)+'</b>').join(', ')}.</span></div>`));
-  if(N.herr.length){ b.append(h2(`<h5>${ic('wrench')}Herramientas</h5>`)); for(const t of N.herr){ const l=h2(`<label class="chk"><input type="checkbox"${got.has(t)?' checked':''}><span>${esc(t)}</span></label>`); l.querySelector('input').onchange=e=>{ e.target.checked?got.add(t):got.delete(t); if(e.target.checked) uiSfx('tick'); }; b.append(l); } }
+  if(sin.length){ b.append(h2(`<div class="alr soon">${ic('cart')}<span>Aún sin comprar: ${sin.map(c=>'<b>'+esc(c.nombre)+'</b>').join(', ')}.</span></div>`)); if(typeof pedidoSheet==='function'){ const pb=h2(`<button type="button" class="btn2 ghost pedgo">${ic('share')}Preparar el pedido para la tienda</button>`); pb.onclick=()=>pedidoSheet(sin); b.append(pb); } }
+  if(N.herr.length){ b.append(h2(`<h5>${ic('wrench')}Herramientas</h5>`)); for(const t of N.herr){ const own=typeof herrTengo==='function' && herrTengo(t); if(own) got.add(t); const l=h2(`<label class="chk${own?' own':''}"><input type="checkbox"${got.has(t)?' checked':''}><span>${esc(t)}</span></label>`); l.querySelector('input').onchange=e=>{ e.target.checked?got.add(t):got.delete(t); if(e.target.checked) uiSfx('tick'); }; b.append(l); } }
   if(N.pares.length){ b.append(h2(`<h5>${ic('gauge')}Pares de apriete (para tener la dinamométrica adecuada)</h5>`)); const u=h2('<ul class="rppares"></ul>'); for(const [k,v] of N.pares) u.append(h2(`<li><em>Paso ${k+1}</em> ${esc(v)}</li>`)); b.append(u); }
   if(cs.length){ b.append(h2(`<h5>${ic('cart')}Piezas</h5>`)); for(const c of cs){ const r=h2(`<p class="rpneedc${c.estado==='pendiente'?' tap':''}">${ic(c.estado==='pendiente'?'alert':'check')}<span>${esc(c.nombre)}${c.ref?` <small>${esc(c.ref)}</small>`:''}${c.estado==='pendiente'?' <em>sin comprar · toca si ya la tienes</em>':''}</span></p>`); if(c.estado==='pendiente'){ r.setAttribute('role','button'); r.tabIndex=0; r.onclick=()=>{ uiSfx('tap'); compraSheet(c,'comprar'); }; } b.append(r); } }
   return d;
@@ -11305,7 +11437,7 @@ function repRun(rep0){
     st.innerHTML=`<h4 class="${done?'on':''}">${ic(done?'check':'wrench')}<span>${esc(p.titulo||('Paso '+(i+1)))}</span></h4>${p.par?`<div class="rppar">${ic('gauge')}<b>${esc(p.par)}</b></div>`:''}<p>${esc(p.texto||'')}</p>${p.herr?`<p class="rpherr">${ic('wrench')}${esc(p.herr)}</p>`:''}${p.video?.url?`<button type="button" class="btn2 sm rpvid">${ic('play')}Ver el vídeo de este paso${p.video.t?' · '+ytT(p.video.t):''}</button>`:''}${p.img?.id?'<button type="button" class="gimg rpimg" aria-label="Ver el dibujo a pantalla completa"><img alt=""></button>':''}
       <div class="rpshot"><label class="btn2 ghost sm">${ic('camera')}<span>Foto de este paso</span><input type="file" accept="image/*" capture="environment" multiple hidden></label><span class="rpshots"></span><small>Antes de soltar algo, una foto: luego sabrás cómo iba.</small></div>`;
     { const sh=st.querySelector('.rpshot'), th=sh.querySelector('.rpshots'), F=(rep.fotosPaso||fresh().fotosPaso||{})[i]||[];
-      for(const a of F){ const t=h2('<button type="button" class="rpth"><img alt=""></button>'); window.FB?.blobThumb?.(a.id).then(u=>t.querySelector('img').src=u).catch(()=>{}); t.onclick=()=>openViewer({id:a.id, tipo:a.tipo||'image/jpeg', nombre:a.nombre||('Paso '+(i+1))}); th.append(t); }
+      for(const a of F){ const t=h2('<button type="button" class="rpth"><img alt=""></button>'); window.FB?.blobThumb?.(a.id).then(u=>t.querySelector('img').src=u).catch(()=>{}); t.onclick=()=>openViewer({id:a.id, tipo:a.tipo||'image/jpeg', nombre:a.nombre||('Paso '+(i+1))}, {lista:F.map(x=>({...x, tipo:x.tipo||'image/jpeg', nombre:x.nombre||('Paso '+(i+1))})), i:F.indexOf(a)}); th.append(t); }
       const inp=sh.querySelector('input'), k=i; inp.onchange=async()=>{ const sm=sh.querySelector('small'); sm.textContent='Guardando…'; const up=await uploadFiles([...inp.files]); const cur=fresh(), fp={...(cur.fotosPaso||{}), ...(rep.fotosPaso||{})}; fp[k]=[...(fp[k]||[]), ...up.map(x=>({...x, nombre:`Paso ${k+1} · ${x.nombre||''}`}))];
         await v2Upd('reparaciones', cur, {fotosPaso:fp}); rep={...rep, fotosPaso:fp}; uiSfx('save'); sm.textContent=pl(up.length,'foto guardada','fotos guardadas')+' en este paso.'; if(i===k) draw(); }; }
     st.querySelector('.rpvid')?.addEventListener('click',()=>ytOpen(p.video,{titulo:p.titulo||('Paso '+(i+1))}));
@@ -11366,9 +11498,19 @@ function repRun(rep0){
     d.querySelector('.pdquick').onclick=()=>{ uiSfx('tap'); pdForm(null,{reparacion:rep._id}); pdBack(()=>repRun(fresh())); };
     drawM(); (box.querySelector('.rpadd')||box.querySelector('.rpdots')).after(d); }
   /* fotos de antes y después (al terminar van a la galería y a la intervención) */
-  { const r0=fresh(), d=h2(`<details class="rpparts rpfotos"><summary>${ic('camera')}Fotos de antes y después <em>${(r0.antes||[]).length} · ${(r0.despues||[]).length}</em></summary><div class="rpfrow"><label class="btn2 ghost sm">${ic('camera')}Antes<input type="file" accept="image/*" multiple hidden data-k="antes"></label><label class="btn2 ghost sm">${ic('camera')}Después<input type="file" accept="image/*" multiple hidden data-k="despues"></label></div><p class="muted2 rpfst"></p></details>`);
+  { const r0=fresh(), d=h2(`<details class="rpparts rpfotos"><summary>${ic('camera')}Fotos de antes y después <em>${(r0.antes||[]).length} · ${(r0.despues||[]).length}</em></summary><div class="rpfrow"><label class="btn2 ghost sm">${ic('camera')}Antes<input type="file" accept="image/*" multiple hidden data-k="antes"></label><label class="btn2 ghost sm">${ic('camera')}Después<input type="file" accept="image/*" multiple hidden data-k="despues"></label></div><p class="muted2 rpfst"></p><div class="rpfgal"></div></details>`);
+    /* 4.2.1: las fotos se ven aquí mismo mientras dura la reparación (antes solo al terminarla); tocar = visor, × = quitar */
+    const gal=d.querySelector('.rpfgal');
+    const drawF=r=>{ r=r||fresh(); gal.innerHTML=''; d.querySelector('summary em').textContent=`${(r.antes||[]).length} · ${(r.despues||[]).length}`;
+      const isI=f=>(f.tipo||'image/').startsWith('image/'), ALL=[...(r.antes||[]).filter(isI).map(f=>({...f, nombre:(r.titulo||'Reparación')+' · Antes'})), ...(r.despues||[]).filter(isI).map(f=>({...f, nombre:(r.titulo||'Reparación')+' · Después'}))];
+      for(const [k,lab] of [['antes','Antes'],['despues','Después']]){ const L=(r[k]||[]).filter(isI); if(!L.length) continue;
+        const g=h2(`<div><h5 class="rpfh">${lab} · ${L.length}</h5><div class="pdgal">${L.map((f,j)=>`<span class="rpfi"><button type="button" data-j="${j}" aria-label="${lab} ${j+1}"><img alt=""></button><button type="button" class="rpfx" data-j="${j}" aria-label="Quitar">×</button></span>`).join('')}</div></div>`);
+        g.querySelectorAll('button[data-j]:not(.rpfx)').forEach(b=>{ const f=L[+b.dataset.j]; (window.FB?.blobThumb||window.FB?.blobURL)?.(f.id).then(u=>b.querySelector('img').src=u).catch(()=>{}); b.onclick=()=>openViewer({id:f.id, tipo:f.tipo||'image/jpeg', nombre:(r.titulo||'Reparación')+' · '+lab}, {lista:ALL, i:ALL.findIndex(x=>x.id===f.id)}); });
+        g.querySelectorAll('.rpfx').forEach(b=>b.onclick=async()=>{ const f=L[+b.dataset.j]; if(!await askConfirm({titulo:'¿Quitar esta foto?', texto:`Se quita de las fotos de ${lab.toLowerCase()} de esta reparación.`, img:f.id, si:'Quitar foto', peligro:true})) return; const cur=fresh(); const nx=(cur[k]||[]).filter(x=>x.id!==f.id); await v2Upd('reparaciones', cur, {[k]:nx}); drawF({...cur, [k]:nx}); });
+        gal.append(g); } };
+    drawF();
     d.querySelectorAll('input').forEach(i=>i.onchange=async()=>{ const k=i.dataset.k, st=d.querySelector('.rpfst'); const up=await uploadFiles([...i.files], st); const cur=fresh();
-      await v2Upd('reparaciones', cur, {[k]:[...(cur[k]||[]), ...up]}); st.textContent=`${pl(up.length,'foto guardada','fotos guardadas')} (${k}).`; uiSfx('save'); });
+      const nx=[...(cur[k]||[]), ...up]; await v2Upd('reparaciones', cur, {[k]:nx}); st.textContent=`${pl(up.length,'foto guardada','fotos guardadas')} (${k==='antes'?'antes':'después'}).`; uiSfx('save'); i.value=''; drawF({...cur, [k]:nx}); if(up.length) d.open=true; });
     box.querySelector('.rpnotes').before(d); }
   draw();
   { const mo=new MutationObserver(()=>{ if(!box.isConnected || box.closest('[hidden]')){ if(HL.box===box) hlStop(); mo.disconnect(); } }); mo.observe(document.body,{subtree:true, childList:true, attributes:true, attributeFilter:['hidden']}); }
@@ -11379,6 +11521,7 @@ function repRun(rep0){
 function repFinish(rep){
   const pr=repGuia(rep), P=pr?.pasos||[], faltan=P.length-(rep.hechos||[]).length;
   const cs=(rep.compras||[]).map(id=>(S.compras||[]).find(c=>c._id===id)).filter(Boolean), ave=(S.ave||[]).find(a=>a._id===rep.averia), tpl=segTpl(rep.titulo);
+  const csC=cs.filter(c=>c.estado!=='pendiente'), csP=cs.filter(c=>c.estado==='pendiente');
   const PD=pdList().filter(p=>p.reparacion===rep._id && p.estado!=='hecho');
   const body=h2(`<div class="repnew">
     ${PD.length?`<div class="alr soon pdfin">${ic('flag')}<span>Durante esta reparación apuntaste ${pl(PD.length,'cosa','cosas')} por arreglar: ${PD.map(p=>'<b>'+esc(p.titulo)+'</b>').join(', ')}. Siguen en <b>Taller ▸ Pendientes</b>; no se cierran con la reparación.</span></div>`:''}
@@ -11386,7 +11529,8 @@ function repFinish(rep){
     <label class="wzlab">Fecha</label><input class="inp2" id="rfF" type="date" value="${todayISO()}">
     <label class="wzlab">Km</label><input class="inp2" id="rfK" inputmode="numeric" value="${S.cfg?.kmActual??rep.km??''}">
     <label class="wzlab">Mano de obra (€, si pagaste a alguien)</label><input class="inp2" id="rfMO" inputmode="decimal" placeholder="0">
-    ${cs.length?`<label class="chk"><input type="checkbox" id="rfMont" checked><span>Marcar como montadas las ${pl(cs.length,'pieza')} de la compra</span></label>`:''}
+    ${csC.length?`<label class="chk"><input type="checkbox" id="rfMont" checked><span>${csC.length===1?'Marcar como montada la pieza comprada':'Marcar como montadas las '+csC.length+' piezas compradas'}</span></label>`:''}
+    ${csP.length?`<label class="chk"><input type="checkbox" id="rfMontP"><span>También ${csP.length===1?'la que sigue':'las '+csP.length+' que siguen'} «por comprar» (${csP.map(c=>esc(c.nombre)).join(', ')}): ${csP.length===1?'la tenía y está montada':'las tenía y están montadas'}</span></label>`:''}
     ${ave?`<label class="chk"><input type="checkbox" id="rfAve" checked><span>Dar por resuelta la avería «${esc(ave.sintoma||ave.codigo)}»</span></label>`:''}
     <label class="chk"><input type="checkbox" id="rfSeg" checked><span>Crear seguimiento: ${esc(tpl.titulo)} (${tpl.dias.map(d=>d===1?'mañana':d+' días').join(', ')})</span></label>
   </div>`);
@@ -11398,7 +11542,8 @@ function repFinish(rep){
       const cur=repList().find(x=>x._id===rep._id)||rep, fotos=[...(cur.antes||[]).map(x=>({...x, nombre:'Antes · '+(x.nombre||'')})), ...Object.keys(cur.fotosPaso||{}).sort((a,b)=>a-b).flatMap(k=>cur.fotosPaso[k]), ...(cur.despues||[]).map(x=>({...x, nombre:'Después · '+(x.nombre||'')}))];
       const r=await S.db.collection('intervenciones').add({fecha:f, km, tipo:'Reparación', mant:null, pieza:ave?.piezas?.[0]||null, descripcion:desc, ref:refs, coste:mo===''?null:Number(mo.replace(',','.')), reparacion:rep._id, adjuntos:fotos.length?fotos:undefined, creado:new Date().toISOString()});
       const gal=fotos.length?await S.db.collection('galeria').add({album:'Reparaciones', fecha:f, titulo:rep.titulo, km, fotos, notas:'Antes y después de la reparación', actualizado:new Date().toISOString()}):null;
-      if(body.querySelector('#rfMont')?.checked) for(const c of cs){ const {_id,...data}=c; await S.db.collection('compras').doc(_id).set({...data, estado:'montado', fechaMontaje:f, montaje:'yo', intervencion:r.id}); }
+      const mont=[...(body.querySelector('#rfMont')?.checked?csC:[]), ...(body.querySelector('#rfMontP')?.checked?csP:[])];
+      for(const c of mont){ const {_id,...data}=c; await S.db.collection('compras').doc(_id).set({...data, estado:'montado', fechaMontaje:f, montaje:data.montaje||'yo', intervencion:r.id}); }
       if(ave && body.querySelector('#rfAve')?.checked){ const {_id,...a}=ave; await S.db.collection('averias').doc(_id).set({...a, estado:'resuelta', notas:[a.notas, `Resuelta el ${fmtD(f)}: ${rep.titulo}.`].filter(Boolean).join('\n')}); }
       if(km!=null && (!S.cfg?.kmActual || km>Number(S.cfg.kmActual))) await S.db.doc('config/coche').set({...(S.cfg||{}), kmActual:km});
       if(body.querySelector('#rfSeg')?.checked) await segCreate(tpl, f, rep._id);
@@ -11780,7 +11925,7 @@ function pdSheet(p0){
     <div class="pdhead" style="--c:${done?'var(--ok)':pr.c}"><span class="pdhi">${ic(done?'check':pdTipo(p.tipo)[2])}</span><span><b>${done?'Subsanado'+(p.hechoEl?' el '+fmtDate(p.hechoEl):''):pr.t}</b><small>${esc([pdTipo(p.tipo)[1], p.zona].filter(Boolean).join(' · '))}</small></span></div>
     ${p.fotos?.length?`<div class="pdgal">${p.fotos.map((f,k)=>`<button type="button" data-k="${k}" aria-label="Ver la foto ${k+1}"><img alt=""></button>`).join('')}</div>`:''}
   </div>`);
-  body.querySelectorAll('.pdgal button').forEach(b=>{ const f=p.fotos[+b.dataset.k]; window.FB?.blobThumb?.(f.id).then(u=>b.querySelector('img').src=u).catch(()=>{}); b.onclick=()=>openViewer({id:f.id, tipo:f.tipo||'image/jpeg', nombre:p.titulo}); });
+  body.querySelectorAll('.pdgal button').forEach(b=>{ const f=p.fotos[+b.dataset.k]; window.FB?.blobThumb?.(f.id).then(u=>b.querySelector('img').src=u).catch(()=>{}); b.onclick=()=>openViewer({id:f.id, tipo:f.tipo||'image/jpeg', nombre:p.titulo}, {lista:p.fotos.map(x=>({...x, nombre:p.titulo})), i:+b.dataset.k}); });
   body.append(kv([['Visto', esc([pdAgo(p.creado||p.fecha), p.km!=null?kmT(p.km):''].filter(Boolean).join(' · '))], rp?['Durante', esc(rp.titulo)]:null, p.nota?['Nota', esc(p.nota).replace(/\n/g,'<br>')]:null, done&&p.comoSeHizo?['Cómo se arregló', esc(p.comoSeHizo)]:null]));
   if(c){ const r=row2({c:CST[c.estado]?.[1], i:'cart', t:c.nombre, s:[CST[c.estado]?.[0]||c.estado, c.ref, c.precio!=null?eur(c.precio):''].filter(Boolean).join(' · '), fn:()=>{ closeSheet(); setTimeout(()=>compraSheet(c, c.estado==='pendiente'?'comprar':undefined),60); }}); r.classList.add('pdcrow'); body.append(r);
     if(!done && c.estado==='montado') body.append(h2(`<div class="alr ok">${ic('check')}<span>La pieza ya está montada. Si con eso queda arreglado, dale a «Subsanado».</span></div>`)); }
@@ -11899,7 +12044,7 @@ function repSheet(r){
   const dur=r.inicio&&r.fin?Math.max(0, Math.round((new Date(r.fin)-new Date(r.inicio))/864e5)):null;
   const body=h2('<div class="pdsheet"></div>');
   if(fotos.length){ const g=h2(`<div class="pdgal">${fotos.map((f,k)=>`<button type="button" data-k="${k}" aria-label="${f.k}"><img alt=""><i class="rpfk">${f.k}</i></button>`).join('')}</div>`);
-    g.querySelectorAll('button').forEach(b=>{ const f=fotos[+b.dataset.k]; window.FB?.blobThumb?.(f.id).then(u=>b.querySelector('img').src=u).catch(()=>{}); b.onclick=()=>openViewer({id:f.id, tipo:f.tipo||'image/jpeg', nombre:r.titulo+' · '+f.k}); }); body.append(g); }
+    g.querySelectorAll('button').forEach(b=>{ const f=fotos[+b.dataset.k]; window.FB?.blobThumb?.(f.id).then(u=>b.querySelector('img').src=u).catch(()=>{}); b.onclick=()=>openViewer({id:f.id, tipo:f.tipo||'image/jpeg', nombre:r.titulo+' · '+f.k}, {lista:fotos.map(x=>({...x, nombre:r.titulo+' · '+x.k})), i:+b.dataset.k}); }); body.append(g); }
   body.append(kv([['Empezada', fmtDate((r.inicio||'').slice(0,10))], ['Terminada', fmtDate((r.fin||'').slice(0,10))+(dur!=null?` · ${dur===0?'el mismo día':pl(dur,'día')}`:'')], r.km!=null?['Km', kmT(r.km)]:null, ['Pasos', `${(r.hechos||[]).length} de ${repPasos(r)}${r.libre?' (sin guía)':''}`], cs.length?['Piezas', esc(cs.map(c=>c.nombre).join(', '))]:null, r.notas?['Notas', esc(r.notas).replace(/\n/g,'<br>')]:null]));
   if(P.length){ body.append(h2(`<h5 class="rpsh">${ic('flag')}Apuntado en Pendientes</h5>`)); for(const p of P) body.append(pdRow(p,{noRep:true})); }
   detailSheet(r.titulo, 'Reparación terminada', body, it?[['Ver en Trabajos hechos','history',()=>intSheet(it)]]:[]);
@@ -12306,8 +12451,8 @@ function avAll(){
   const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta').map(a=>({k:'a:'+a._id, i:'alert', c:R, t:a.sintoma||a.codigo||'Avería', s:'Avería abierta'+(a.fecha?' · desde el '+fmtDate(a.fecha):''), fn:()=>aveOpen(a)}));
   const ya=(typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya').map(p=>({k:'p:'+p._id, i:'flag', c:R, t:p.titulo, s:'Pendiente: arreglar antes de circular'+(p.zona?' · '+p.zona:''), fn:()=>pdSheet(p)}));
   const mant=ml.filter(x=>x.s.st==='due'||x.s.st==='soon').map(x=>({k:'m:'+(x.it.id||x.it._id||x.it.nombre)+':'+x.s.st, i:'list', c:x.s.st==='due'?R:O, t:x.it.nombre, s:(x.s.st==='due'?'Mantenimiento vencido':'Mantenimiento próximo')+(()=>{ try{ return ' · '+mantLine(x.it,x.s); }catch{ return ''; } })(), fn:()=>{ v3go('plan'); setTimeout(()=>{ try{ mantSheet(x.it); }catch{} }, 420); }}));
-  const compra=(S.compras||[]).filter(c=>c.estado==='pendiente').map(c=>({k:'c:'+c._id, i:'cart', c:V3C.teal, t:c.nombre+(c.cantidad>1?' ×'+c.cantidad:''), s:'Nuevo en la lista de la compra', fn:()=>compraSheet(c)}));
-  let docs=[]; try{ docs=docsVig().map(d=>({d, st:docStatus(d)})).filter(x=>x.st.st==='due'||x.st.st==='soon').map(({d,st})=>({k:'d:'+(d._id||d.tipo)+':'+d.caduca, i:'file', c:st.st==='due'?R:O, t:d.tipo+(d.nombre?' · '+d.nombre:''), s:(st.st==='due'?'Caducado el ':'Caduca el ')+fmtDate(d.caduca), fn:()=>recForm(MOD.docs, d)})); }catch{}
+  const compra=(S.compras||[]).filter(c=>c.estado==='pendiente').map(c=>({k:'c:'+c._id, i:'cart', c:V3C.teal, t:(c.nombre||'Sin nombre')+(c.cantidad>1?' ×'+c.cantidad:''), s:'Nuevo en la lista de la compra', fn:()=>compraSheet(c)}));
+  let docs=[]; try{ docs=docsVig().map(d=>({d, st:docStatus(d)})).filter(x=>x.st.st==='due'||x.st.st==='soon').map(({d,st})=>({k:'d:'+(d._id||d.tipo)+':'+d.caduca, i:'file', c:st.st==='due'?R:O, t:docLbl(d), s:(st.st==='due'?'Caducado el ':'Caduca el ')+fmtDate(d.caduca), fn:()=>recForm(MOD.docs, d)})); }catch{}
   return {taller:[...aves, ...ya, ...mant], gastos:compra, papeles:docs};
 }
 function avItems(){ const A=avAll(); return Object.fromEntries(Object.entries(A).map(([t,L])=>[t, L.map(x=>x.k)])); }
@@ -12341,7 +12486,7 @@ function v3badges(){ const I=avItems();
 /* no se redibuja nada con el dedo encima (si no, el gesto se pierde) ni si los datos no han cambiado */
 document.addEventListener('touchstart',()=>{ V3.touch=true; },{passive:true,capture:true});
 for(const t of ['touchend','touchcancel']) document.addEventListener(t,e=>{ if(!e.touches.length){ V3.touch=false; if(V3.pend){ V3.pend=false; v3dirty(); } } },{passive:true,capture:true});
-function v3sig(){ try{ return sigOf()+'|'+JSON.stringify([(S.ave||[]).map(a=>a.estado+a.sintoma), (S.compras||[]).map(c=>c.estado+c.nombre+c.fechaCompra+c.precio), S.int.map(x=>x.fecha+'|'+x.coste+'|'+x.km), S.cfg?.precioCompra, S.cfg?.fechaCompra, (S.docs||[]).map(d=>d.caduca), UI.prefs.theme, UI.v3pf, SEEN]); }catch{ return Math.random()+''; } }
+function v3sig(){ try{ return sigOf()+'|'+JSON.stringify([(S.ave||[]).map(a=>a.estado+a.sintoma+(a.audios||[]).length), (S.compras||[]).map(c=>c.estado+c.nombre+c.fechaCompra+c.precio), S.int.map(x=>x.fecha+'|'+x.coste+'|'+x.km), S.cfg?.precioCompra, S.cfg?.fechaCompra, (S.docs||[]).map(d=>d.caduca), UI.prefs.theme, UI.v3pf, SEEN]); }catch{ return Math.random()+''; } }
 function v3dirty(force){ if(V3.touch){ V3.pend=true; return; } clearTimeout(V3.dirtyT); V3.dirtyT=setTimeout(()=>{ if(V3.touch){ V3.pend=true; return; } const sg=v3sig(); if(sg===V3.sig && force!==true) { v3badges(); return; } V3.sig=sg; for(const [k] of V3TABS){ const r=V3.st[k][0]; if(r.el){ if(V3.cur===r) v3render(r); else r.stale=true; } }
     const e=V3.cur; if(e && e.k==='page' && !V3.pages[e.id]?.keep) v3render(e); v3badges(); }, 160); }   /* keep: formularios, no se repintan con lo que se está escribiendo */
 /* el estado de la sincronización, en el avatar */
@@ -12413,7 +12558,7 @@ function v3now(){ /* lo que pide atención, ordenado por urgencia */
   for(const a of (S.ave||[]).filter(a=>a.estado!=='resuelta')) L.push({w:2, el:()=>vNow('alert', V3C.red, 'Avería abierta', a.sintoma||a.codigo||'Avería', a.fecha?'Desde el '+fmtDate(a.fecha):'', ()=>aveOpen(a))});
   for(const p of (typeof pdOpen==='function'?pdOpen():[]).filter(p=>p.prio==='ya')) L.push({w:2, el:()=>vNow('flag', V3C.red, 'Antes de circular', p.titulo, p.zona||'', ()=>pdSheet(p))});
   for(const {it,s} of mantList().filter(x=>x.s.st==='due'||x.s.st==='soon').slice(0,4)) L.push({w:s.st==='due'?3:6, el:()=>vNow('wrench', s.st==='due'?V3C.red:V3C.orange, s.st==='due'?'Mantenimiento vencido':'Mantenimiento próximo', it.nombre, mantLine(it,s), ()=>v3go('plan'))});
-  for(const d of docsVig()){ const st=docStatus(d); if(st.st!=='due' && st.st!=='soon') continue; L.push({w:st.st==='due'?3:7, el:()=>vNow('shield', st.st==='due'?V3C.red:V3C.orange, st.st==='due'?'Documento caducado':'Caduca pronto', d.tipo+(d.nombre?' · '+d.nombre:''), st.days<0?`Caducó hace ${pl(-st.days,'día')}`:st.days===0?'Caduca hoy':`En ${pl(st.days,'día')}`, ()=>recForm(MOD.docs, d))}); }
+  for(const d of docsVig()){ const st=docStatus(d); if(st.st!=='due' && st.st!=='soon') continue; L.push({w:st.st==='due'?3:7, el:()=>vNow('shield', st.st==='due'?V3C.red:V3C.orange, st.st==='due'?'Documento caducado':'Caduca pronto', docLbl(d), st.days<0?`Caducó hace ${pl(-st.days,'día')}`:st.days===0?'Caduca hoy':`En ${pl(st.days,'día')}`, ()=>recForm(MOD.docs, d))}); }
   for(const c of (S.compras||[]).filter(c=>c.estado==='comprado').slice(0,3)) L.push({w:8, el:()=>vNow('cart', V3C.teal, 'Comprado, sin montar', c.nombre, c.fechaCompra?'Desde el '+fmtDate(c.fechaCompra):'', ()=>montarCompra(c), 'Montar')});
   return L.sort((a,b)=>a.w-b.w);
 }
@@ -12462,9 +12607,9 @@ V3.hubs.coche={title:'Coche', sub:()=>'Touareg 7L · 2.5 R5 TDI · 9905 CMY', re
     vTile({i:'tag', c:V3C.gray, t:'Datos del coche', s:'Bastidor, pintura, equipamiento', fn:()=>v3go('datos')}),
     vTile({i:'gauge', c:V3C.orange, t:'Ficha técnica', s:nPar?`Aceites, capacidades y ${nPar} pares`:'Aceites, capacidades y pares', fn:()=>v3go('tecnica')}),
     vTile({i:'cube', c:V3C.teal, t:'Piezas', s:nPz?pl(nPz,'pieza')+' con referencia':'Referencias y despiece', fn:()=>v3go('piezas')}),
-    vTile({i:'zap', c:V3C.yellow, t:'Electricidad', s:'Fusibles, relés y esquemas', fn:()=>v3go('elec')}),
-    vTile({i:'book', c:V3C.green, t:'Guías y manuales', s:nG?pl(nG,'guía')+' paso a paso':'Paso a paso', fn:()=>v3go('guias')}),
-    vTile({i:'steth', c:V3C.red, t:'Diagnóstico', s:'¿Qué le pasa? Por síntomas', fn:()=>v3go('diag')})));
+    vTile({i:'zap', c:V3C.yellow, t:'Electricidad', s:'Fusibles, relés y esquemas', fn:()=>v3go('elec')})));
+  /* 4.2: guías y diagnóstico se van a Taller (todo lo de arreglar junto); aquí queda un acceso discreto */
+  w.append(h2(`<p class="vmoved">${ic('book')}Las guías y el diagnóstico están ahora en <button type="button">Taller</button></p>`)); w.lastChild.querySelector('button').onclick=()=>v3tab('taller');
   w.append(vGroup('Su historia',[], {cls:'tight'}), vGrid(
     vTile({i:'image', c:V3C.pink, t:'Galería', s:nF?pl(nF,'foto'):'Fotos del coche', n:nF||null, img:lastF?.id?window.FB?.blobThumb?.(lastF.id):null, fn:()=>v3go('galeria')}),
     vTile({i:'sparkle', c:V3C.purple, t:'Mejoras', s:mj.length?pl(mj.length,'proyecto'):'Proyectos y presupuestos', n:mj.length||null, fn:()=>v3go('mejoras')})));
@@ -12490,20 +12635,23 @@ V3.hubs.taller={title:'Taller', sub:()=>S.cfg?.kmActual?nf.format(S.cfg.kmActual
   for(const a of aves.slice(0,2)) pl2.append(vRow({i:'alert', c:V3C.red, t:a.sintoma||a.codigo||'Avería', s:'Avería'+(a.fecha?' · desde el '+fmtDate(a.fecha):''), fn:()=>aveOpen(a)}));
   for(const p of pds.slice(0,Math.max(0,3-Math.min(2,aves.length)))) pl2.append(vRow({i:'flag', c:(PD_PRIO[p.prio]||PD_PRIO.pronto).c, t:p.titulo, s:(PD_PRIO[p.prio]||PD_PRIO.pronto).t+(p.zona?' · '+p.zona:''), fn:()=>pdSheet(p)}));
   if(!np) pl2.append(h2(`<div class="vcalm sm">${ic('checkc')}<div><b>Sin problemas apuntados</b><small>Si ves algo raro, apúntalo o usa el diagnóstico.</small></div></div>`));
-  const pa=h2(`<div class="vseg2"><button type="button">${ic('flag')}Anotar</button><button type="button">${ic('steth')}¿Qué le pasa?</button></div>`); const [b1,b2]=pa.querySelectorAll('button'); b1.onclick=()=>{ uiSfx('tap'); pdForm(null); }; b2.onclick=()=>v3go('diag'); pl2.append(pa);
+  const pa=h2(`<div class="vseg2 v3b"><button type="button">${ic('flag')}Anotar</button><button type="button">${ic('steth')}¿Qué le pasa?</button><button type="button">${ic('activity')}VCDS</button></div>`); const [b1,b2,b3]=pa.querySelectorAll('button'); b1.onclick=()=>{ uiSfx('tap'); pdForm(null); }; b2.onclick=()=>v3go('diag'); b3.onclick=()=>v3go('vcds'); pl2.append(pa);
   w.append(pg);
   /* todo lo demás */
   const hechos=S.int.length;
   w.append(vGroup('Taller',[
     vRow({i:'list', c:V3C.blue, t:'Mantenimiento', s:'Lo que toca por km y por fecha', badge:nMant?String(nMant):null, fn:()=>v3go('plan')}),
     vRow({i:'wrench', c:V3C.orange, t:'Reparaciones', s:'En curso y terminadas, con fotos', r:A.length?String(A.length):null, fn:()=>v3go('reparaciones')}),
+    vRow({i:'book', c:V3C.green, t:'Guías y manuales', s:(S.procs||[]).length?pl((S.procs||[]).length,'guía')+' paso a paso':'Paso a paso', fn:()=>v3go('guias')}),
     vRow({i:'history', c:V3C.indigo, t:'Trabajos hechos', s:'Todo lo que se le ha hecho', r:hechos?nf.format(hechos):null, fn:()=>v3go('hechos')}),
     vRow({i:'tyre', c:V3C.gray, t:'Ruedas', s:'Juegos, presiones y desgaste', fn:()=>v3go('ruedas')}),
   ]));
   w.append(vGroup('Herramientas',[
     vRow({i:'steth', c:V3C.red, t:'Diagnóstico por síntomas', s:'Qué puede ser y por dónde empezar', fn:()=>v3go('diag')}),
-    vRow({i:'steth', c:V3C.blue, t:'Escaneos de VCDS', s:(()=>{ const n=(S.v2.autoscans||[]).length; return n?pl(n,'escaneo')+' · cada código explicado':'Importa el Auto-Scan: códigos explicados y comparados'; })(), fn:()=>v3go('vcds')}),
-    vRow({i:'checkc', c:V3C.green, t:'Listas de comprobación', s:'ITV, viaje largo, invierno…', fn:()=>v3go('listas')}),
+    vRow({i:'steth', c:V3C.blue, t:'VCDS', s:(()=>{ const n=(S.v2.autoscans||[]).length, g=(S.v2.vcdslogs||[]).length; return (n||g)?[n?pl(n,'escaneo'):'', g?pl(g,'registro','registros')+' con gráfica':''].filter(Boolean).join(' · '):'Auto-Scan explicado y gráficas de valores medidos'; })(), fn:()=>v3go('vcds')}),
+    vRow({i:'wrench', c:V3C.orange, t:'Mis herramientas', s:(()=>{ const n=(S.v2.herrs||[]).length; return n?pl(n,'herramienta')+' · las guías saben lo que tienes':'Apunta las que tienes y las guías te dicen lo que falta'; })(), fn:()=>v3go('herrs')}),
+    vRow({i:'shield', c:V3C.indigo, t:'Preparar la ITV', s:typeof itvSub==='function'?itvSub():'Lo que miran, para llevarlo bien', fn:()=>v3go('itv')}),
+    vRow({i:'checkc', c:V3C.green, t:'Listas de comprobación', s:'Viaje largo, invierno…', fn:()=>v3go('listas')}),
     vRow({i:'phonec', c:V3C.teal, t:'Talleres y proveedores', s:'Teléfonos y trabajos hechos', fn:()=>v3go('talleres')}),
   ]));
 }};
@@ -12557,7 +12705,7 @@ V3.hubs.papeles={title:'Papeles', sub:()=>'Documentación del coche', render(w){
   const st=h2(`<section class="vstate ${bad?'bad':soon?'soon':'ok'}"><i>${ic(bad||soon?'alert':'shield')}</i><div><b>${bad?pl(bad,'documento caducado','documentos caducados'):soon?pl(soon,'documento caduca pronto','documentos caducan pronto'):D.length?'Todo en regla':'Sin documentos'}</b><small>${D.length?`${pl(D.length,'documento')} con fecha de caducidad vigilada`:'Añade la ITV, el seguro y el impuesto para que te avise.'}</small></div></section>`); w.append(st);
   if(D.length){ const g=vGroup('Caducidades',[]), L=g.querySelector('.vlist'); const nDoc=unseen('papeles').length; if(nDoc) g.querySelector('.vgh span').insertAdjacentHTML('beforeend', ' '+avBadge(nDoc));
     for(const {d,s} of D.sort((a,b)=>(a.d.caduca||'9').localeCompare(b.d.caduca||'9'))){ const col=s.st==='due'?V3C.red:s.st==='soon'?V3C.orange:s.st==='ok'?V3C.green:V3C.gray;
-      L.append(vRow({cls:avIsNew('papeles','d:'+(d._id||d.tipo)+':'+d.caduca)&&(s.st==='due'||s.st==='soon')?'vnew':'', i:/itv|inspec/i.test(d.tipo)?'checkc':/seguro/i.test(d.tipo)?'shield':/impuesto|ivtm/i.test(d.tipo)?'euro':'file', c:col, t:d.tipo+(d.nombre?' · '+d.nombre:''), s:d.caduca?(s.days<0?'Caducó el ':'Hasta el ')+fmtDate(d.caduca):'Sin fecha', r:d.caduca?(s.days<0?'Caducado':s.days<=60?pl(s.days,'día'):Math.round(s.days/30.4)+' meses'):null, rc:col, fn:()=>recForm(MOD.docs, d)})); }
+      L.append(vRow({cls:avIsNew('papeles','d:'+(d._id||d.tipo)+':'+d.caduca)&&(s.st==='due'||s.st==='soon')?'vnew':'', i:/itv|inspec/i.test(d.tipo)?'checkc':/seguro/i.test(d.tipo)?'shield':/impuesto|ivtm/i.test(d.tipo)?'euro':'file', c:col, t:docLbl(d), s:d.caduca?(s.days<0?'Caducó el ':'Hasta el ')+fmtDate(d.caduca):'Sin fecha', r:d.caduca?(s.days<0?'Caducado':s.days<=60?pl(s.days,'día'):Math.round(s.days/30.4)+' meses'):null, rc:col, fn:()=>recForm(MOD.docs, d)})); }
     if(D.some(x=>x.d.caduca && x.d.caduca>=todayISO())) L.append(vRow({i:'calendar', c:V3C.red, t:'Añadir al calendario del iPhone', s:'Con aviso 30 y 7 días antes de cada caducidad', fn:icsCad}));
     w.append(g); }
   const G=S.v2;
@@ -12742,10 +12890,13 @@ function g3Consumo(){
 /* ---------- Taller: la carretera de los próximos km ---------- */
 function g3Road(){
   const km=Number(S.cfg?.kmActual); if(!km) return null; const SPAN=30000;
-  const L=mantList().filter(({s})=>s.kmLeft!=null && s.kmLeft<=SPAN).sort((a,b)=>a.s.kmLeft-b.s.kmLeft); if(!L.length) return null;
+  const L0=mantList().filter(({s})=>s.kmLeft!=null && s.kmLeft<=SPAN).sort((a,b)=>a.s.kmLeft-b.s.kmLeft); if(!L0.length) return null;
   const pos=k=>Math.max(0,Math.min(100, k/SPAN*100));
+  /* 4.2.1: lo que toca al mismo km va en una marca; cada marca va arriba o abajo donde no pise a la anterior */
+  const G=[]; for(const x of L0){ const g=G[G.length-1]; if(g && Math.abs(x.s.kmLeft-g.s.kmLeft)<=400) g.more.push(x.it.nombre); else G.push({it:x.it, s:x.s, more:[]}); }
+  const last=[-1e9,-1e9]; const L=G.map(g=>{ const x=pos(g.s.kmLeft); let r=[0,1].find(k=>x-last[k]>=34); if(r==null) r=last[0]<=last[1]?0:1; last[r]=x; return {...g, row:r}; });
   const box=h2(`<section class="vgrp"><h2 class="vgh"><span>Próximos ${nf.format(SPAN)} km</span><button type="button">Plan</button></h2><div class="vcard g3road">
-    <div class="g3rd"><i class="g3car">${ic('car2')}</i>${L.map(({it,s},i)=>`<button type="button" class="g3mk ${s.kmLeft<=0?'due':s.kmLeft<=1500?'soon':''}" style="--x:${pos(s.kmLeft)}%;--row:${i%2}" title="${esc(it.nombre)}"><b>${esc(it.nombre)}</b><small>${s.kmLeft<=0?'pasado':nf.format(Math.round(km+s.kmLeft))+' km'}</small></button>`).join('')}</div>
+    <div class="g3rd"><i class="g3car">${ic('car2')}</i>${L.map(({it,s,more,row})=>`<button type="button" class="g3mk ${s.kmLeft<=0?'due':s.kmLeft<=1500?'soon':''}" style="--x:${pos(s.kmLeft)}%;--row:${row}" title="${esc([it.nombre,...more].join(' · '))}"><b>${esc(it.nombre)}${more.length?' +'+more.length:''}</b><small>${s.kmLeft<=0?'pasado':nf.format(Math.round(km+s.kmLeft))+' km'}</small></button>`).join('')}</div>
     <div class="g3sc"><span>${nf.format(km)} km</span><span>${nf.format(km+SPAN/2)}</span><span>${nf.format(km+SPAN)}</span></div></div></section>`);
   box.querySelector('.vgh button').onclick=()=>v3go('plan'); box.querySelectorAll('.g3mk').forEach(b=>b.onclick=()=>v3go('plan')); return box;
 }
@@ -13105,7 +13256,7 @@ function cmpQuickAdd(){
   const add=h2(`<section class="vgrp"><div class="vcard vqadd"><input class="inp2" list="cpList3" placeholder="Añadir a la lista: pieza o artículo…" autocomplete="off"><input class="inp2 vqn" type="number" inputmode="numeric" min="1" value="1" aria-label="Cantidad"><button type="button" class="btn2">${ic('plus')}</button><datalist id="cpList3"></datalist></div></section>`);
   const dl=add.querySelector('datalist'); [...new Set([...S.piezasL.map(x=>x.nombre), ...S.mant.map(x=>x.nombre)])].sort(COLL.compare).forEach(n=>dl.append(new Option(n)));
   const [inp, qty]=add.querySelectorAll('input'), b=add.querySelector('button');
-  const go2=async()=>{ const n=inp.value.trim(); if(!n){ inp.focus(); return; } b.disabled=true; try{ await S.db.collection('compras').add({nombre:n, cantidad:Math.max(1,Number(qty.value)||1), estado:'pendiente', creado:new Date().toISOString()}); toast(`«${n}» añadido a la compra`); }catch{ toast('No se pudo añadir','err'); } b.disabled=false; };
+  const go2=async()=>{ const n=inp.value.trim(); if(!n){ inp.focus(); return; } if(!cmpDupOk(n,'')) return; b.disabled=true; try{ await S.db.collection('compras').add({nombre:n, cantidad:Math.max(1,Number(qty.value)||1), estado:'pendiente', creado:new Date().toISOString()}); toast(`«${n}» añadido a la compra`); }catch{ toast('No se pudo añadir','err'); } b.disabled=false; };
   b.onclick=go2; inp.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); go2(); } };
   return add;
 }
@@ -13534,7 +13685,7 @@ function vcParse(txt){
     if(/^\s*\d+\s+Faults?\s+Found/i.test(raw)){ m.ok=false; continue; }
     if(/^\s*-{10,}/.test(raw)){ m=null; continue; }
     if(/:\s/.test(raw.split(' - ')[0]) || /^\s*(Freeze Frame|Fault Status|Fault Priority|Fault Frequency|Reset counter|Mileage|Time Indication|Date|Time|Voltage|Temperature|Readiness|Coding|Shop|Part No|Component|VCID|Subsystem|Long Coding)/i.test(raw)) continue;
-    const st=raw.match(/^\s*\d{2,3}-\d{2}\s*-\s*(.+)$/) || raw.match(/^\s{4,}\d{3}\s+-\s+(.+)$/) || raw.match(/^\s*([A-Z]?\d{2,3}\s*-\s*\d{3}\s*-\s*.+)$/);
+    const st=raw.match(/^\s*\d{2,3}-\d{2}\s*-\s*(.+)$/) || raw.match(/^\s{4,}\d{3}\s+-\s+(.+)$/) || raw.match(/^\s*([A-Z]?\d{2,3}\s*-\s*\d{3}\s*-\s*.+)$/) || raw.match(/^\s{6,}([PBCU][0-9A-F]{4}\s*-\s*(?:\d{2,3}(?:-\d{2})?\s*-.*|.*))$/);
     if(st && m.codigos.length){ const c=m.codigos[m.codigos.length-1]; c.estado=[c.estado, st[1].trim()].filter(Boolean).join(' · '); continue; }
     const c=raw.match(/^\s*((?:\d{5,6}|[PBCU][0-9A-F]{4}(?:\s+[0-9A-F]{2})?)(?:\s+\[\d+\])?)\s+-\s+(.+?)\s*$/);
     if(c){ m.codigos.push({codigo:c[1].replace(/\s+\[\d+\]/,'').trim(), texto:c[2].trim(), estado:''}); m.ok=false; }
@@ -13549,7 +13700,7 @@ function vcDiff(cur, prev){
   for(const m of (prev?.modulos||[])) for(const c of m.codigos) B.set(vcKey(m.dir,c), {m, c});
   return {nuevos:[...A.keys()].filter(k=>!B.has(k)), siguen:[...A.keys()].filter(k=>B.has(k)), fuera:[...B.keys()].filter(k=>!A.has(k)).map(k=>B.get(k))};
 }
-const vcScans=()=>[...(S.v2.autoscans||[])].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||'')||(b.creado||'').localeCompare(a.creado||''));
+const vcScans=()=>[...(S.v2.autoscans||[])].map(s=>({...s, modulos:(Array.isArray(s.modulos)?s.modulos:[]).map(m=>({...m, codigos:Array.isArray(m.codigos)?m.codigos:[]}))})).sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||'')||(b.creado||'').localeCompare(a.creado||''));
 const vcModN=m=>`${m.dir} · ${VC_MOD[m.dir]||m.nombre}`;
 /* ---------- importar ---------- */
 function vcImport(){
@@ -13641,7 +13792,7 @@ function renderGphCard(w){
   w.append(c);
 }
 { const _rg=renderGuias; renderGuias=function(w){ _rg(w); try{ renderGphCard(w); }catch(e){ console.warn(e); } };
-  V3.pages.guias=v2Pg('coche','Guías y manuales', renderGuias); }
+  V3.pages.guias=v2Pg('taller','Guías y manuales', renderGuias); }
 
 /* ====================== HOY: EL CUADRO DE INSTRUMENTOS (4.1) ======================
    Debajo de la foto del coche, un cuadro como el del Touareg: reloj de la salud (izquierda), reloj de lo que
@@ -13735,6 +13886,397 @@ function lite3d(){
   const chk=setInterval(()=>{ if(paintMats.length){ clearInterval(chk); lite3d(); } }, 700); }
 { const _ub=updateBadges; let k=0;
   updateBadges=function(){ if(document.body.dataset.v3leaf==='3d' && (k++%10)) return; _ub(); }; }
+
+/* ====================== VISOR DE FOTOS E ILUSTRACIONES (4.2) ======================
+   Antes la foto se abría en una capa y el zoom era el del navegador (pellizcar ampliaba la página entera): los
+   gestos de la app (volver desde el borde, tirar hacia abajo para buscar, cerrar hojas) se disparaban debajo y
+   la ventana parpadeaba, se cerraba o se quedaba a medio ampliar. Ahora el visor lleva sus propios gestos y no
+   deja pasar ninguno a la app:
+   · pellizcar para ampliar o reducir (hasta ×8), arrastrar para moverse por la imagen ampliada
+   · doble toque: amplía ×2,5 donde tocas, o vuelve a encajarla
+   · botones − + girar 90° y encajar; en el ordenador, rueda del ratón y teclas + − 0 R Esc
+   · sin ampliar, deslizar hacia abajo la cierra */
+const VZ_MAX=8;
+/* 4.2.1: el visor recorre varias fotos. openViewer(foto, {lista, i}): deslizar a los lados pasa a la anterior o la
+   siguiente (la foto sigue al dedo y la otra entra a la vez), también con las flechas ‹ › y las teclas ← →.
+   Ampliada, el dedo mueve la foto; en la primera o la última, el borde «resiste». */
+openViewer=function(a, opt={}){
+  const isImgF=f=>(f?.tipo||'image/').startsWith('image/');
+  if(!isImgF(a)){ const w=window.open('','_blank'); window.FB.blobURL(a.id).then(u=>{ if(w) w.location.href=u; else location.href=u; }).catch(()=>{ w?.close(); toast('Archivo no disponible','err'); }); return; }
+  const L=(opt.lista||[a]).filter(isImgF); let i=Math.max(0, opt.i!=null?opt.i:L.findIndex(f=>f.id===a.id)); if(!L[i]) i=0;
+  document.querySelector('.vz')?.remove();
+  const many=L.length>1;
+  const v=h2(`<div class="vz${many?' many':''}" role="dialog" aria-modal="true" aria-label="Visor de imagen" tabindex="-1">
+    <div class="vzst"><div class="vztr"><div class="vzs"><img alt="" draggable="false"></div><div class="vzs"><img alt="" draggable="false"></div><div class="vzs"><img alt="" draggable="false"></div></div></div>
+    <div class="vzbar"><span class="vzt"></span><span class="vzn"></span><button type="button" class="vzx" aria-label="Cerrar">${ic('x')}</button></div>
+    ${many?`<button type="button" class="vzar vzl" aria-label="Foto anterior">‹</button><button type="button" class="vzar vzr" aria-label="Foto siguiente">›</button>`:''}
+    <div class="vztools"><button type="button" data-a="out" aria-label="Reducir">−</button><button type="button" data-a="fit" aria-label="Encajar"><b>1:1</b></button><button type="button" data-a="in" aria-label="Ampliar">+</button><button type="button" data-a="rot" aria-label="Girar">${ic('refresh')}</button></div>
+    <div class="vzhint">${many?'Desliza a los lados para pasar de foto · pellizca para ampliar':'Pellizca para ampliar · doble toque · desliza abajo para cerrar'}</div></div>`);
+  const st=v.querySelector('.vzst'), tr=v.querySelector('.vztr'); let slots=[...v.querySelectorAll('.vzs')];   /* [anterior, actual, siguiente] */
+  const GAP=24;
+  let s=1, tx=0, ty=0, r=0;
+  const imgC=()=>slots[1].querySelector('img');
+  const natOf=im=>({w:im.naturalWidth||1, h:im.naturalHeight||1});
+  const boxOf=(im, rr)=>{ const W=st.clientWidth, H=st.clientHeight, n=natOf(im), rot=rr%180!==0, iw=rot?n.h:n.w, ih=rot?n.w:n.h, k=Math.min(W/iw, H/ih); return {W,H, fw:iw*k, fh:ih*k}; };
+  const fitIm=(im, rr)=>{ const b=boxOf(im, rr), rot=rr%180!==0; im.style.width=(rot?b.fh:b.fw)+'px'; im.style.height=(rot?b.fw:b.fh)+'px'; };
+  const placeSlots=()=>{ const W=st.clientWidth; slots.forEach((sl,k)=>{ sl.style.transform=`translateX(${(k-1)*(W+GAP)}px)`; }); };
+  const setTr=(x, anim)=>{ tr.style.transition=anim?'transform .3s cubic-bezier(.2,.8,.25,1)':'none'; tr.style.transform=`translate3d(${x}px,0,0)`; };
+  const clamp=()=>{ const b=boxOf(imgC(), r), mx=Math.max(0,(b.fw*s-b.W)/2), my=Math.max(0,(b.fh*s-b.H)/2); tx=Math.max(-mx,Math.min(mx,tx)); ty=Math.max(-my,Math.min(my,ty)); };
+  const apply=anim=>{ const im=imgC(); im.style.transition=anim?'transform .22s ease':'none'; im.style.transform=`translate(-50%,-50%) translate(${tx}px,${ty}px) rotate(${r}deg) scale(${s})`; v.classList.toggle('zoomed', s>1.01); };
+  const zoomAt=(ns, px, py, anim)=>{ ns=Math.max(1, Math.min(VZ_MAX, ns)); tx=px-(px-tx)*ns/s; ty=py-(py-ty)*ns/s; s=ns; if(s<=1.001){ s=1; tx=0; ty=0; } clamp(); apply(anim); };
+  const rel=(x,y)=>{ const R=st.getBoundingClientRect(); return [x-R.left-R.width/2, y-R.top-R.height/2]; };
+  /* cargar una foto en un hueco (primero la miniatura, luego la buena) */
+  const load=(sl, f)=>{ const im=sl.querySelector('img'); sl._id=f?.id||null; im.removeAttribute('src'); im.style.transform='translate(-50%,-50%)'; sl.classList.remove('ok'); if(!f){ sl.hidden=true; return; } sl.hidden=false;
+    im.onload=()=>{ if(sl._id!==f.id) return; fitIm(im, sl===slots[1]?r:0); sl.classList.add('ok'); if(sl===slots[1]){ clamp(); apply(false); } };
+    window.FB.blobThumb?.(f.id).then(u=>{ if(sl._id===f.id && !im.src) im.src=u; }).catch(()=>{});
+    window.FB.blobURL(f.id).then(u=>{ if(sl._id===f.id) im.src=u; }).catch(()=>{ if(sl===slots[1]) toast('Archivo no disponible','err'); }); };
+  const info=()=>{ v.querySelector('.vzt').textContent=L[i].nombre||a.nombre||''; v.querySelector('.vzn').textContent=many?`${i+1} / ${L.length}`:''; v.querySelector('.vzl')?.toggleAttribute('disabled', i===0); v.querySelector('.vzr')?.toggleAttribute('disabled', i===L.length-1); };
+  const fill=()=>{ load(slots[0], L[i-1]); load(slots[1], L[i]); load(slots[2], L[i+1]); placeSlots(); setTr(0,false); info(); };
+  let busy=false;
+  const go=d=>{ const j=i+d; if(busy || j<0 || j>=L.length){ setTr(0,true); return; } busy=true;
+    const W=st.clientWidth; setTr(-d*(W+GAP), true);
+    setTimeout(()=>{ /* reciclar huecos: el que sale pasa al otro lado con la foto siguiente */
+      if(d>0){ const o=slots.shift(); slots.push(o); } else { const o=slots.pop(); slots.unshift(o); }
+      i=j; s=1; tx=0; ty=0; r=0; v.classList.remove('zoomed');
+      for(const sl of slots){ const im=sl.querySelector('img'); im.style.transition='none'; im.style.transform='translate(-50%,-50%)'; }
+      placeSlots(); setTr(0,false);
+      load(d>0?slots[2]:slots[0], L[d>0?i+1:i-1]); if(slots[1].classList.contains('ok')) fitIm(imgC(), 0); info(); busy=false; }, 310); };
+  const close=()=>{ removeEventListener('keydown', key, true); removeEventListener('resize', onRs); v.classList.add('out'); setTimeout(()=>v.remove(), 180); };
+  const key=e=>{ if(!v.isConnected) return; const k=e.key; if(k==='Escape'){ e.preventDefault(); e.stopPropagation(); close(); } else if(k==='ArrowRight'){ e.preventDefault(); if(s<=1.01) go(1); } else if(k==='ArrowLeft'){ e.preventDefault(); if(s<=1.01) go(-1); } else if(k==='+'||k==='='){ zoomAt(s*1.5,0,0,true); } else if(k==='-'){ zoomAt(s/1.5,0,0,true); } else if(k==='0'){ zoomAt(1,0,0,true); } else if(k==='r'||k==='R'){ rotate(); } };
+  const rotate=()=>{ r=(r+90)%360; s=1; tx=0; ty=0; fitIm(imgC(), r); apply(true); };
+  const onRs=()=>{ for(const sl of slots) if(sl.classList.contains('ok')) fitIm(sl.querySelector('img'), sl===slots[1]?r:0); placeSlots(); clamp(); apply(false); };
+  for(const ev of ['touchstart','touchmove','touchend','touchcancel','pointerdown','click','dblclick','wheel','gesturestart','gesturechange','gestureend'])
+    v.addEventListener(ev, e=>{ e.stopPropagation(); if(ev.startsWith('gesture')) e.preventDefault(); }, {passive:false});
+  v.addEventListener('touchmove', e=>e.preventDefault(), {passive:false});
+  const P=new Map(); let pinch=null, pan=null, lastTap=0, down=null, mode=null, hist=[];
+  st.addEventListener('pointerdown', e=>{ if(busy) return; st.setPointerCapture?.(e.pointerId); P.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(P.size===2){ if(mode==='swipe'){ setTr(0,true); } const [p1,p2]=[...P.values()]; const [cx,cy]=rel((p1.x+p2.x)/2,(p1.y+p2.y)/2); pinch={d:Math.hypot(p1.x-p2.x,p1.y-p2.y)||1, s0:s, cx, cy, tx0:tx, ty0:ty}; pan=null; down=null; mode=null; }
+    else if(P.size===1){ pan={x:e.clientX, y:e.clientY, tx0:tx, ty0:ty}; down={x:e.clientX, y:e.clientY, t:performance.now()}; mode=null; hist=[[performance.now(), e.clientX]]; } });
+  st.addEventListener('pointermove', e=>{ if(!P.has(e.pointerId)) return; P.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pinch && P.size>=2){ const [p1,p2]=[...P.values()]; const d=Math.hypot(p1.x-p2.x,p1.y-p2.y)||1, [cx,cy]=rel((p1.x+p2.x)/2,(p1.y+p2.y)/2);
+      const ns=Math.max(.85, Math.min(VZ_MAX, pinch.s0*d/pinch.d)); tx=cx-(pinch.cx-pinch.tx0)*ns/pinch.s0; ty=cy-(pinch.cy-pinch.ty0)*ns/pinch.s0; s=ns; apply(false); return; }
+    if(!pan) return; const dx=e.clientX-pan.x, dy=e.clientY-pan.y;
+    if(s>1.01){ tx=pan.tx0+dx; ty=pan.ty0+dy; clamp(); apply(false); return; }
+    if(!mode && Math.hypot(dx,dy)>8) mode=Math.abs(dx)>Math.abs(dy)?(many?'swipe':null):(dy>0?'close':null);
+    hist.push([performance.now(), e.clientX]); if(hist.length>6) hist.shift();
+    if(mode==='swipe'){ const edge=(dx>0 && i===0)||(dx<0 && i===L.length-1); setTr(edge?dx*.3:dx, false); }
+    else if(mode==='close'){ const im=imgC(); im.style.transition='none'; im.style.transform=`translate(-50%,-50%) translate(0,${dy}px) rotate(${r}deg)`; v.style.setProperty('--vzbg', String(Math.max(.25, 1-dy/400))); } });
+  const up=e=>{ if(!P.has(e.pointerId)) return; P.delete(e.pointerId);
+    if(pinch){ if(P.size<2){ pinch=null; if(s<1){ s=1; tx=0; ty=0; } clamp(); apply(true); if(P.size===1){ const [p]=[...P.values()]; pan={x:p.x,y:p.y,tx0:tx,ty0:ty}; mode=null; } } return; }
+    if(P.size) return; const d=down, m=mode; pan=null; down=null; mode=null;
+    if(m==='swipe'){ const dx=e.clientX-d.x, W=st.clientWidth, h0=hist[0], h1=hist[hist.length-1], vel=h1&&h0&&h1[0]>h0[0]?(h1[1]-h0[1])/(h1[0]-h0[0]):0;   /* px/ms */
+      if((dx<-W*.18 || vel<-.45) && i<L.length-1) go(1); else if((dx>W*.18 || vel>.45) && i>0) go(-1); else setTr(0,true); return; }
+    if(m==='close'){ const dy=e.clientY-d.y; v.style.removeProperty('--vzbg'); if(dy>110){ close(); return; } apply(true); return; }
+    if(d && e.type==='pointerup' && Math.hypot(e.clientX-d.x, e.clientY-d.y)<10 && performance.now()-d.t<300){
+      const now=performance.now(); if(now-lastTap<320){ lastTap=0; const [px,py]=rel(e.clientX,e.clientY); s>1.01?zoomAt(1,0,0,true):zoomAt(2.5,px,py,true); }
+      else { lastTap=now; setTimeout(()=>{ if(lastTap===now) v.classList.toggle('bare'); }, 330); } } };
+  st.addEventListener('pointerup', up); st.addEventListener('pointercancel', up);
+  st.addEventListener('wheel', e=>{ e.preventDefault(); if(many && s<=1.01 && Math.abs(e.deltaX)>Math.abs(e.deltaY)*1.5 && Math.abs(e.deltaX)>30){ go(e.deltaX>0?1:-1); return; } const [px,py]=rel(e.clientX,e.clientY); zoomAt(s*Math.exp(-e.deltaY*(e.ctrlKey?.01:.0022)), px, py, false); }, {passive:false});
+  v.querySelector('.vzx').onclick=close;
+  v.querySelector('.vzl')?.addEventListener('click', ()=>{ zoomAt(1,0,0,false); go(-1); });
+  v.querySelector('.vzr')?.addEventListener('click', ()=>{ zoomAt(1,0,0,false); go(1); });
+  v.querySelectorAll('.vztools button').forEach(b=>b.onclick=()=>{ uiSfx?.('tap'); const k=b.dataset.a; if(k==='in') zoomAt(s*1.6,0,0,true); else if(k==='out') zoomAt(s/1.6,0,0,true); else if(k==='fit') zoomAt(1,0,0,true); else rotate(); });
+  document.body.append(v); addEventListener('keydown', key, true); addEventListener('resize', onRs); v.focus({preventScroll:true});
+  fill(); v.classList.add('ok');
+  setTimeout(()=>v.querySelector('.vzhint')?.classList.add('gone'), 2600);
+};
+/* pregunta dentro de la app (más clara que la del navegador y con la foto delante) */
+function askConfirm({titulo, texto='', img=null, si='Aceptar', no='Cancelar', peligro=false}){
+  return new Promise(res=>{
+    const v=h2(`<div class="vconf" role="alertdialog" aria-modal="true"><div class="vconfb">${img?'<img alt="">':''}<b></b><p></p><div class="vconfa"><button type="button" class="btn2 ghost">${esc(no)}</button><button type="button" class="btn2 ${peligro?'vdanger':'pri'}">${esc(si)}</button></div></div></div>`);
+    v.querySelector('b').textContent=titulo; v.querySelector('p').textContent=texto; if(!texto) v.querySelector('p').remove();
+    if(img) (window.FB?.blobThumb||window.FB?.blobURL)?.(img).then(u=>v.querySelector('img').src=u).catch(()=>v.querySelector('img')?.remove());
+    const end=ok=>{ removeEventListener('keydown', k, true); v.classList.add('out'); setTimeout(()=>v.remove(), 160); res(ok); };
+    const k=e=>{ if(e.key==='Escape'){ e.preventDefault(); e.stopPropagation(); end(false); } };
+    const [bn, bs]=v.querySelectorAll('.vconfa button'); bn.onclick=()=>end(false); bs.onclick=()=>{ uiSfx?.('tap'); end(true); };
+    v.addEventListener('click', e=>{ if(e.target===v) end(false); });
+    for(const ev of ['touchstart','pointerdown','click']) v.addEventListener(ev, e=>e.stopPropagation());
+    document.body.append(v); addEventListener('keydown', k, true); setTimeout(()=>bn.focus(), 50);
+  });
+}
+IC.refresh=IC.refresh||'<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>';
+
+/* ====================== UNA PIEZA, UNA FICHA (4.2) ======================
+   Antes de añadir algo a la compra se mira si ya está (misma referencia o, si no hay referencia, mismo nombre)
+   sin montar: así no se duplica lo que llega de una importación de ETKA y lo que apuntas tú. La ficha de la pieza
+   (v2/09: fichaSheet) junta catálogo, compras, historial, 3D, guías, reparaciones y tiendas. */
+const cmpNom=n=>norm(String(n||'').replace(/\([^)]*\)/g,'')).replace(/[^0-9a-zñ ]/g,' ').replace(/\s+/g,' ').trim();
+function cmpDup(nombre, ref, except){
+  const rk=refKey(ref||''), nm=cmpNom(nombre);
+  return (S.compras||[]).filter(c=>c._id!==except && c.estado!=='montado').find(c=>{ const ck=refKey(c.ref||'');
+    if(rk.length>=7 && ck.length>=7) return ck===rk;
+    const cn=cmpNom(c.nombre); return nm.length>4 && cn.length>4 && (cn===nm || (Math.min(cn.length,nm.length)>12 && (cn.includes(nm)||nm.includes(cn)))); })||null;
+}
+function cmpDupOk(nombre, ref, except){
+  const c=cmpDup(nombre, ref, except); if(!c) return true;
+  return confirm(`Ya tienes «${c.nombre}»${c.ref?' ('+c.ref+')':''} en la compra: ${({pendiente:'por comprar', comprado:'comprado, sin montar'})[c.estado]||c.estado}.\n\n¿Añadir otra igualmente?`);
+}
+/* desde la reparación: tocar el nombre de una pieza ya comprada abre su ficha */
+document.addEventListener('click', e=>{ const r=e.target.closest?.('.rpneedc:not(.tap)'); if(!r) return; const ref=r.querySelector('small')?.textContent; if(ref && refIndex().get(refKey(ref))){ uiSfx('tap'); fichaSheet(ref); } });
+
+/* ====================== VCDS: GRÁFICAS DE VALORES MEDIDOS (4.2) ======================
+   VCDS guarda en .csv lo que registras en «Bloques de valores medidos» o «Valores medidos avanzados» (botón
+   Registrar). Aquí se importa ese archivo y cada valor sale en su gráfica, con mínimo, máximo y media, y con el
+   registro anterior del mismo valor superpuesto para comparar. Cada valor puede llevar su rango bueno (lo pones tú,
+   del manual o de ElsaWin); algunos traen uno orientativo que se puede cambiar.
+   El archivo de VCDS trae unas filas de cabecera (fecha, grupos, nombres, unidades) y luego las filas de datos;
+   las columnas «TIME»/«STAMP» son los segundos de cada grupo. Se guardan como máximo 600 puntos por valor.
+   vcdslogs/{id}: {fecha, nombre, km, notas, series:[{n, u, g, t:[s], v:[num]}]}   vcdsrangos/{clave}: {min, max} */
+C2.push('vcdslogs'); S.v2.vcdslogs=S.v2.vcdslogs||[]; COLN.vcdslogs='Registros de VCDS';
+C2.push('vcdsrangos'); S.v2.vcdsrangos=S.v2.vcdsrangos||[]; COLN.vcdsrangos='Rangos de valores VCDS';
+const VG_MAXP=600;
+/* rangos orientativos: solo lo muy conocido y siempre con la fuente dicha; el tuyo manda */
+const VG_REF=[
+  [/deviat|desviaci/i, -2.8, 2.8, 'Orientativo para motores TDI bomba-inyector: desviación de caudal de ±2,8 mg/carrera en ralentí, motor caliente'],
+  [/coolant|refriger/i, 80, 105, 'Orientativo: motor caliente, entre 80 y 105 °C'],
+  [/battery|bater|supply volt|tensi[oó]n/i, 12.5, 14.8, 'Orientativo: con el motor en marcha, entre 12,5 y 14,8 V'],
+];
+const vgKey=n=>norm(n).replace(/[^0-9a-z]+/g,'-').replace(/^-|-$/g,'').slice(0,80)||'v';
+function vgSplit(line){ const out=[]; let cur='', q=false; for(const ch of line){ if(ch==='"'){ q=!q; continue; } if(ch===',' && !q){ out.push(cur.trim()); cur=''; } else cur+=ch; } out.push(cur.trim()); return out; }
+const vgNum=x=>{ const s=String(x??'').trim().replace(/\s/g,''); if(!s || !/^[-+]?\d*[.,]?\d+(e[-+]?\d+)?$/i.test(s)) return null; return Number(s.replace(',','.')); };
+function vgParse(txt){
+  const L=String(txt||'').replace(/\r/g,'').split('\n').filter(l=>l.trim()), R=L.map(vgSplit);
+  /* la primera fila de datos: casi todo números y al menos 2 */
+  let d0=R.findIndex(r=>{ const n=r.filter(c=>vgNum(c)!=null).length, f=r.filter(c=>c!=='').length; return n>=2 && n>=f*.7; });
+  if(d0<1) throw new Error('No encuentro las filas de datos. ¿Es un registro .csv de VCDS (Registrar en valores medidos)?');
+  const H=R.slice(0,d0), W=Math.max(...R.slice(d0,d0+20).map(r=>r.length));
+  const isUnit=c=>/^(\/min|rpm|°c|c|mbar|bar|hpa|kpa|%|v|mv|mg\/?.*|ms|km\/h|g\/s|kg\/h|°|grad|nm|s|a|ma|ohm|l\/h|deg|°kw|°cs)$/i.test(c.trim());
+  const uRow=[...H].reverse().find(r=>r.filter(c=>c&&isUnit(c)).length>=1);
+  const nRow=H.length?[...H].reverse().find(r=>r!==uRow && r.filter(c=>/[a-z]{3}/i.test(c)).length>=2 && !r.some(c=>/vcds version|^(lunes|monday|tuesday|wednesday|thursday|friday|saturday|sunday)/i.test(c))):null;
+  const gRow=H.find(r=>r.some(c=>/group|grupo|^g\d{3}$|ide\d+/i.test(c)));
+  let fecha=null; { const m=L[0].match(/(\d{1,2})[,\s]+([A-Za-z]+)[,\s]+(\d{4})/); const MES={january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,enero:1,febrero:2,marzo:3,abril:4,mayo:5,junio:6,julio:7,agosto:8,septiembre:9,octubre:10,noviembre:11,diciembre:12};
+    if(m && MES[m[2].toLowerCase()]) fecha=`${m[3]}-${String(MES[m[2].toLowerCase()]).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`; }
+  const nameOf=i=>(nRow?.[i]||'').trim(), unitOf=i=>(uRow?.[i]||'').trim();
+  const isTime=i=>/^(time|stamp|tiempo|marca)$/i.test(nameOf(i)) || /^(time|stamp)$/i.test((H.find(r=>/^(time|stamp)$/i.test(r[i]||''))||[])[i]||'');
+  const data=R.slice(d0); let lastT=-1; const cols=[];
+  for(let i=0;i<W;i++){ if(/^marker|^marca/i.test(nameOf(i)) || /marker/i.test((H.find(r=>/marker/i.test(r[i]||''))||[])[i]||'')) continue;
+    if(isTime(i)){ lastT=i; continue; }
+    const vals=data.map(r=>vgNum(r[i])); const ok=vals.filter(v=>v!=null).length; if(ok<Math.max(2, data.length*.3)) continue;
+    let n=nameOf(i)||`Columna ${i+1}`; const g=(gRow?.[i]||'').trim();
+    cols.push({i, t:lastT, n, u:unitOf(i), g}); }
+  if(!cols.length) throw new Error('El archivo no trae valores numéricos que se puedan dibujar.');
+  const series=cols.map(c=>{ let t=[], v=[]; data.forEach((r,k)=>{ const y=vgNum(r[c.i]); if(y==null) return; const x=c.t>=0?vgNum(r[c.t]):k; t.push(x??k); v.push(y); });
+    if(v.length>VG_MAXP){ const st=v.length/VG_MAXP, t2=[], v2=[]; for(let k=0;k<VG_MAXP;k++){ const a=Math.floor(k*st), b=Math.max(a+1,Math.floor((k+1)*st)); let s=0; for(let j=a;j<b;j++) s+=v[j]; t2.push(t[a]); v2.push(+(s/(b-a)).toFixed(3)); } t=t2; v=v2; }
+    return {n:c.n, u:c.u, g:c.g, t:t.map(x=>+(+x).toFixed(2)), v}; });
+  return {fecha, series, filas:data.length};
+}
+const vgStats=v=>{ let mn=Infinity, mx=-Infinity, s=0; for(const x of v){ if(x<mn) mn=x; if(x>mx) mx=x; s+=x; } return {mn, mx, av:v.length?s/v.length:0}; };
+const vgFmt=x=>Math.abs(x)>=100?nf.format(Math.round(x)):(Math.round(x*100)/100).toLocaleString('es-ES');
+function vgRange(n){ const own=(S.v2.vcdsrangos||[]).find(r=>r._id===vgKey(n)); if(own && (own.min!=null || own.max!=null)) return {min:own.min, max:own.max, own:true}; const r=VG_REF.find(([re])=>re.test(n)); return r?{min:r[1], max:r[2], txt:r[3]}:null; }
+/* una gráfica en SVG: la serie, la anterior en discontinua y la franja buena */
+function vgChart(se, prev, rg){
+  const W=340, H=150, P={l:40,r:8,t:10,b:20}, all=[...se.v, ...(prev?.v||[]), ...(rg?[rg.min,rg.max].filter(x=>x!=null):[])];
+  let lo=Math.min(...all), hi=Math.max(...all); if(hi-lo<1e-9){ hi+=1; lo-=1; } const pad=(hi-lo)*.08; lo-=pad; hi+=pad;
+  const xs=a=>{ const t0=a.t[0], t1=a.t[a.t.length-1]; const d=(t1-t0)||1; return k=>P.l+(a.t[k]-t0)/d*(W-P.l-P.r); };
+  const ys=y=>P.t+(1-(y-lo)/(hi-lo))*(H-P.t-P.b);
+  const path=a=>{ const X=xs(a); return a.v.map((y,k)=>`${k?'L':'M'}${X(k).toFixed(1)} ${ys(y).toFixed(1)}`).join(''); };
+  const ticks=[lo+pad, (lo+hi)/2, hi-pad].map(y=>`<line x1="${P.l}" x2="${W-P.r}" y1="${ys(y).toFixed(1)}" y2="${ys(y).toFixed(1)}" class="vggr"/><text x="${P.l-5}" y="${(ys(y)+3.5).toFixed(1)}" class="vgax" text-anchor="end">${vgFmt(y)}</text>`).join('');
+  const band=rg?`<rect x="${P.l}" width="${W-P.l-P.r}" y="${ys(rg.max??hi).toFixed(1)}" height="${Math.max(0, ys(rg.min??lo)-ys(rg.max??hi)).toFixed(1)}" class="vgband"/>`:'';
+  const dur=se.t[se.t.length-1]-se.t[0];
+  return `<svg viewBox="0 0 ${W} ${H}" class="vgsvg" role="img" aria-label="${esc(se.n)}">${band}${ticks}${prev?`<path d="${path(prev)}" class="vgprev"/>`:''}<path d="${path(se)}" class="vgline"/><text x="${W-P.r}" y="${H-5}" class="vgax" text-anchor="end">${dur>0?vgFmt(dur)+' s':pl(se.v.length,'muestra')}</text></svg>`;
+}
+const vgLogs=()=>[...(S.v2.vcdslogs||[])].sort((a,b)=>(b.fecha||b.creado||'').localeCompare(a.fecha||a.creado||''));
+function vgImport(){
+  const body=h2(`<div><p class="muted2" style="margin:0 0 10px">En VCDS: <b>Motor ▸ Bloques de valores medidos</b> (o Valores medidos avanzados), elige los grupos y pulsa <b>Registrar</b> ▸ Iniciar. Al parar se guarda un .csv en la carpeta Logs de VCDS. Elígelo aquí.</p>
+    <input type="file" class="vgf" accept=".csv,text/csv,text/plain"><label class="wzlab">Qué estabas haciendo</label><input class="inp2 vgn" placeholder="p. ej. Ralentí en caliente, aceleración en 3ª…"><label class="wzlab">Km (si lo sabes)</label><input class="inp2 vgk" inputmode="numeric" value="${S.cfg?.kmActual??''}"><div class="vgprev2"></div></div>`);
+  let parsed=null, fname='';
+  body.querySelector('.vgf').onchange=async e=>{ const f=e.target.files[0]; if(!f) return; fname=f.name; const box=body.querySelector('.vgprev2'); try{ parsed=vgParse(await f.text()); box.innerHTML=`<div class="alr ok">${ic('checkc')}<span><b>${pl(parsed.series.length,'valor','valores')}</b> en ${nf.format(parsed.filas)} filas${parsed.fecha?' · '+fmtDate(parsed.fecha):''}: ${parsed.series.slice(0,6).map(s=>esc(s.n)).join(', ')}${parsed.series.length>6?'…':''}</span></div>`; }catch(err){ parsed=null; box.innerHTML=`<div class="alr due">${ic('alert')}<span>${esc(err.message)}</span></div>`; } };
+  detailSheet('Importar un registro de VCDS','', body, [['Guardar','check',async()=>{ if(!parsed) return toast('Elige primero el archivo .csv','err');
+    const km=body.querySelector('.vgk').value.trim(); const d={fecha:parsed.fecha||todayISO(), nombre:body.querySelector('.vgn').value.trim()||fname.replace(/\.csv$/i,''), km:km===''?null:Number(km), archivo:fname, series:parsed.series, creado:new Date().toISOString()};
+    try{ const r=await S.db.collection('vcdslogs').add(d); closeSheet(); toast('Registro guardado'); setTimeout(()=>v3go('vcds_log',{data:{log:r.id}}),250); }catch{ toast('No se pudo guardar (¿archivo muy grande?)','err'); } },'pri']]);
+}
+function vgRangeSheet(n, rg){
+  const body=h2(`<div><p class="muted2" style="margin:0 0 10px">El rango bueno de «${esc(n)}» según el manual o ElsaWin. La franja verde de la gráfica lo marca y se avisa si te sales.${rg?.txt?'<br><small>'+esc(rg.txt)+'</small>':''}</p><div class="row3"><div style="flex:1"><label class="wzlab">Mínimo</label><input class="inp2 vmn" inputmode="decimal" value="${rg?.min??''}"></div><div style="flex:1"><label class="wzlab">Máximo</label><input class="inp2 vmx" inputmode="decimal" value="${rg?.max??''}"></div></div></div>`);
+  detailSheet('Rango bueno', n, body, [['Guardar','check',async()=>{ const g=x=>{ const v=body.querySelector(x).value.trim().replace(',','.'); return v===''?null:Number(v); }; await S.db.collection('vcdsrangos').doc(vgKey(n)).set({nombre:n, min:g('.vmn'), max:g('.vmx')}); closeSheet(); toast('Rango guardado'); },'pri']]);
+}
+/* el apartado en la página de VCDS */
+{ const P=V3.pages.vcds; P.title='VCDS'; const _r=P.render; P.render=function(w, e){ _r.call(this, w, e);
+    const L=vgLogs(); const g=vGroup('Gráficas de valores medidos', [vRow({i:'upload', c:V3C.purple, t:'Importar un registro (.csv)', s:'Lo que grabas con «Registrar» en valores medidos', fn:()=>vgImport(), cls:'vadd'}), ...L.map(x=>vRow({i:'activity', c:V3C.purple, t:x.nombre||'Registro', s:[fmtDate(x.fecha), x.km?nf.format(x.km)+' km':'', pl((x.series||[]).length,'valor','valores')].filter(Boolean).join(' · '), fn:()=>v3go('vcds_log',{data:{log:x._id}})}))]);
+    const ag=[...w.children].find(c=>/Escaneos/.test(c.querySelector?.('.vgh')?.textContent||'')); w.insertBefore(g, ag?ag.nextSibling:null); }; }
+V3.pages.vcds_log={tab:'taller', title:'Registro de VCDS', sub:()=>{ const x=(S.v2.vcdslogs||[]).find(l=>l._id===v3top()?.data?.log); return x?[fmtDate(x.fecha), x.nombre].filter(Boolean).join(' · '):''; }, render(w, e){
+  const all=vgLogs(), x=all.find(l=>l._id===e?.data?.log); if(!x){ w.append(h2('<p class="muted2">No encuentro este registro.</p>')); return; }
+  const older=all.slice(all.indexOf(x)+1);
+  w.append(h2(`<p class="vfoot" style="margin:0 4px 14px">${pl((x.series||[]).length,'valor','valores')}${x.km?' · '+nf.format(x.km)+' km':''}${older.length?' · en discontinua, el mismo valor del registro anterior':''}. Toca «rango» para poner el valor bueno.</p>`));
+  let fuera=0;
+  for(const se of (x.series||[])){ const prevLog=older.find(o=>(o.series||[]).some(s=>vgKey(s.n)===vgKey(se.n))), prev=prevLog?.series.find(s=>vgKey(s.n)===vgKey(se.n)), st=vgStats(se.v), rg=vgRange(se.n);
+    const bad=rg && ((rg.min!=null && st.av<rg.min) || (rg.max!=null && st.av>rg.max)); if(bad) fuera++;
+    const ps=prev?vgStats(prev.v):null, dlt=ps?st.av-ps.av:null;
+    const c=h2(`<section class="vgcard${bad?' bad':''}"><header><b>${esc(se.n)}</b><small>${esc([se.u, se.g].filter(Boolean).join(' · '))}</small><button type="button" class="btn2 sm ghost vgrg">${rg?`${rg.min!=null?vgFmt(rg.min):'…'} – ${rg.max!=null?vgFmt(rg.max):'…'}${rg.own?'':' *'}`:'rango'}</button></header>${vgChart(se, prev, rg)}
+      <div class="vgst"><span>mín <b>${vgFmt(st.mn)}</b></span><span>media <b>${vgFmt(st.av)}</b></span><span>máx <b>${vgFmt(st.mx)}</b></span>${dlt!=null?`<span class="${Math.abs(dlt)>Math.abs(ps.av)*.1?'vgchg':''}">frente al ${fmtDate(prevLog.fecha)}: <b>${dlt>0?'+':''}${vgFmt(dlt)}</b></span>`:''}</div>
+      ${bad?`<p class="vgwarn">${ic('alert')}La media se sale del rango bueno.</p>`:''}${rg?.txt&&!rg.own?`<p class="vgnote">* ${esc(rg.txt)}</p>`:''}</section>`);
+    c.querySelector('.vgrg').onclick=()=>vgRangeSheet(se.n, rg); w.append(c); }
+  if(fuera) w.querySelector('.vfoot')?.after(h2(`<div class="alr due" style="margin-bottom:12px">${ic('alert')}<span>${pl(fuera,'valor se sale','valores se salen')} del rango bueno.</span></div>`));
+  const del=h2(`<button type="button" class="btn2 ghost" style="margin-top:14px;color:var(--due)">${ic('x')}Borrar este registro</button>`); del.onclick=async()=>{ if(!confirm('¿Borrar este registro?')) return; await S.db.collection('vcdslogs').doc(x._id).delete(); v3back?.(); toast('Registro borrado'); }; w.append(del);
+}};
+IC.activity=IC.activity||'<path d="M3 12h4l3-8 4 16 3-8h4"/>';
+
+/* ====================== 4.2: PEDIDO, HERRAMIENTAS, RUIDOS, ATAJOS, ITV, HOY, 3D Y MODO GARAJE ====================== */
+
+/* ---------- PREPARAR EL PEDIDO: un mensaje con referencias y cantidades para la tienda ---------- */
+const PD_COCHE='Volkswagen Touareg 7L 2.5 R5 TDI (motor BAC), año 2004, cambio manual';
+function pedidoTxt(items, saludo){
+  const L=items.map(c=>`• ${c.ref?c.ref+' · ':''}${c.nombre}${(c.cantidad||1)>1?' ×'+c.cantidad:' ×1'}`);
+  return `${saludo?'Hola, ':''}quería pedir estas piezas para un ${PD_COCHE}:\n\n${L.join('\n')}\n\n¿Me podéis decir precio y si las tenéis? Gracias.`;
+}
+function pedidoSheet(items, titulo){
+  if(!items.length) return toast('No hay nada por comprar');
+  const sel=new Set(items.map(c=>c._id));
+  const body=h2(`<div class="pedw"><p class="muted2" style="margin:0 0 10px">Elige qué piezas van en el pedido. El mensaje lleva el coche, las referencias y las cantidades; puedes retocarlo antes de mandarlo.</p><div class="pedl"></div><label class="wzlab">Mensaje</label><textarea class="inp2 pedt" rows="9"></textarea>
+    <div class="pedb"><button type="button" class="btn2 pri" data-a="share">${ic('share')}Enviar…</button><button type="button" class="btn2 ghost" data-a="wa">WhatsApp</button><button type="button" class="btn2 ghost" data-a="mail">${ic('mail')}Correo</button><button type="button" class="btn2 ghost" data-a="copy">${ic('copy')}Copiar</button></div></div>`);
+  const ta=body.querySelector('.pedt'), l=body.querySelector('.pedl');
+  const upd=()=>{ ta.value=pedidoTxt(items.filter(c=>sel.has(c._id)), true); };
+  for(const c of items){ const r=h2(`<label class="chk"><input type="checkbox" checked><span>${esc(c.nombre)}${c.ref?` <small>${esc(c.ref)}</small>`:' <small class="pedsin">sin referencia</small>'}${(c.cantidad||1)>1?' ×'+c.cantidad:''}</span></label>`); r.querySelector('input').onchange=e=>{ e.target.checked?sel.add(c._id):sel.delete(c._id); upd(); }; l.append(r); }
+  upd();
+  body.querySelectorAll('.pedb button').forEach(b=>b.onclick=async()=>{ uiSfx('tap'); const t=ta.value, a=b.dataset.a;
+    if(a==='share'){ if(navigator.share){ try{ await navigator.share({title:'Pedido de piezas', text:t}); }catch{} } else await copyTxt(t, 'Copiado: pégalo donde quieras'); }
+    else if(a==='wa') window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank','noopener');
+    else if(a==='mail') location.href='mailto:?subject='+encodeURIComponent('Pedido de piezas · Touareg 2.5 TDI')+'&body='+encodeURIComponent(t);
+    else await copyTxt(t, 'Mensaje copiado'); });
+  detailSheet(titulo||'Preparar el pedido', pl(items.length,'pieza por comprar','piezas por comprar'), body, []);
+}
+IC.share=IC.share||'<path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/>';
+IC.mail=IC.mail||'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>';
+IC.copy=IC.copy||'<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>';
+/* en la lista «Por comprar» */
+{ const P=V3.pages.compra_pend; if(P){ const _r=P.render; P.render=function(w, e){ _r.call(this, w, e); const pend=(S.compras||[]).filter(c=>c.estado==='pendiente'); if(!pend.length) return;
+    const b=h2(`<button type="button" class="btn2 ghost pedgo">${ic('share')}Preparar el pedido para la tienda</button>`); b.onclick=()=>pedidoSheet([...pend].sort((a,b)=>COLL.compare(a.nombre||'',b.nombre||''))); const q=w.querySelector('.vqadd')?.closest('.vgrp'); q?q.after(b):w.prepend(b); }; } }
+
+/* ---------- MIS HERRAMIENTAS ---------- */
+C2.push('herrs'); S.v2.herrs=S.v2.herrs||[]; COLN.herrs='Mis herramientas';
+const herrN=t=>norm(String(t||'')).replace(/\([^)]*\)/g,'').replace(/[^0-9a-zñ ]/g,' ').replace(/\s+/g,' ').trim();
+const herrCode=t=>{ const m=String(t||'').toUpperCase().match(/\b(T\s?\d{4,5}\s?[A-Z]?|V\.?A\.?G\.?\s?\d{4}[A-Z]?|VAS\s?\d{4,6}[A-Z]?|\d{1,2}-\d{3}[A-Z]?)\b/); return m?m[1].replace(/[\s.]/g,''):''; };
+function herrTengo(t){ const n=herrN(t), c=herrCode(t); return (S.v2.herrs||[]).some(h=>{ const hc=herrCode(h.nombre); if(c && hc) return c===hc; const hn=herrN(h.nombre); return hn.length>3 && n.length>3 && (hn===n || n.includes(hn) || hn.includes(n)); }); }
+/* herramientas especiales de VW que salen en tus guías y con qué se suplen (orientativo) */
+const HERR_ALT=[
+  [/T\s?10225/i,'Sujeta el cigüeñal por la polea. Se suple con un útil de sujeción de poleas universal (de dos o tres brazos) o una llave de cinta, con cuidado de no dañar la polea.'],
+  [/V\.?A\.?G\.?\s?1331/i,'Llave dinamométrica de 5 a 50 Nm.'],
+  [/V\.?A\.?G\.?\s?1332/i,'Llave dinamométrica de 40 a 200 Nm.'],
+  [/VAS\s?5024/i,'Alicates para abrazaderas elásticas; sirven los de cable (de cable flexible) de cualquier marca.'],
+  [/V\.?A\.?G\.?\s?1306/i,'Bandeja de vaciado: cualquier bandeja de al menos 10 litros.'],
+  [/T\s?10007/i,'Refractómetro para anticongelante (también mide el líquido de la batería y el AdBlue); los genéricos son baratos.'],
+  [/10-221/i,'Ganchos para sacar retenes: hay juegos genéricos de ganchos extractores.'],
+  [/T\s?10221|T\s?10222/i,'Extractor específico; a veces se suple con un extractor de dos garras del tamaño adecuado, pero mira la guía: si no cabe, no fuerces.'],
+];
+const herrAlt=t=>HERR_ALT.find(([re])=>re.test(t))?.[1]||'';
+function herrGuias(){ const M=new Map(); for(const pr of (S.procs||[])){ let T=[]; try{ T=repNeeds(pr).herr; }catch{} for(const t of T){ const k=herrCode(t)||herrN(t); if(!k) continue; const x=M.get(k)||{t, guias:new Set()}; x.guias.add(pr.titulo); M.set(k,x); } } return [...M.values()].sort((a,b)=>COLL.compare(a.t,b.t)); }
+V3.pages.herrs={tab:'taller', title:'Mis herramientas', sub:()=>{ const n=(S.v2.herrs||[]).length; return n?pl(n,'herramienta'):'Apunta las que tienes'; }, render(w){
+  const add=h2(`<section class="vgrp"><div class="vcard vqadd"><input class="inp2" placeholder="Añadir: llave dinamométrica 40–200 Nm…" autocomplete="off"><button type="button" class="btn2 pri" aria-label="Añadir">${ic('plus')}</button></div></section>`);
+  const [inp]=add.querySelectorAll('input'), b=add.querySelector('button');
+  const go2=async()=>{ const n=inp.value.trim(); if(!n) return inp.focus(); if(herrTengo(n) && !confirm(`Ya tienes algo parecido a «${n}». ¿Añadir igualmente?`)) return; await S.db.collection('herrs').add({nombre:n, creado:new Date().toISOString()}); inp.value=''; toast('Añadida'); };
+  b.onclick=go2; inp.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); go2(); } }; w.append(add);
+  const G=herrGuias(), falta=G.filter(x=>!herrTengo(x.t));
+  if(G.length){ const g=vGroup(`Las que piden tus guías · te faltan ${falta.length}`, []), L=g.querySelector('.vlist');
+    for(const x of [...falta, ...G.filter(x=>herrTengo(x.t))]){ const ok=herrTengo(x.t), alt=herrAlt(x.t);
+      const r=h2(`<div class="hrow${ok?' on':''}"><button type="button" class="hchk" aria-label="${ok?'La tengo':'Marcar que la tengo'}">${ic(ok?'checkc':'plus')}</button><div><b>${esc(cap1(x.t))}</b><small>${esc([...x.guias].slice(0,2).join(' · '))}${x.guias.size>2?' …':''}</small>${alt&&!ok?`<p>${esc(alt)}</p>`:''}</div></div>`);
+      r.querySelector('.hchk').onclick=async()=>{ uiSfx('tap'); if(ok){ const h=(S.v2.herrs||[]).find(h=>herrTengo(x.t) && (herrCode(h.nombre)===herrCode(x.t) || herrN(x.t).includes(herrN(h.nombre)) || herrN(h.nombre).includes(herrN(x.t)))); if(h) await S.db.collection('herrs').doc(h._id).delete(); } else await S.db.collection('herrs').add({nombre:x.t, creado:new Date().toISOString()}); };
+      L.append(r); } w.append(g); }
+  const mine=[...(S.v2.herrs||[])].sort((a,b)=>COLL.compare(a.nombre,b.nombre));
+  if(mine.length){ const g=vGroup('Las que tienes', []), L=g.querySelector('.vlist');
+    for(const h of mine){ const r=vRow({i:'wrench', c:V3C.orange, t:h.nombre, s:h.notas||'', fn:()=>{ if(confirm(`¿Quitar «${h.nombre}» de tus herramientas?`)) S.db.collection('herrs').doc(h._id).delete(); }}); L.append(r); } w.append(g); }
+  else if(!G.length) w.append(h2(`<div class="vcalm">${ic('wrench')}<div><b>Apunta tus herramientas</b><small>Al empezar una reparación, «¿Lo tienes todo?» marcará solas las que ya tienes.</small></div></div>`));
+}};
+
+/* ---------- RUIDOS: grabar el sonido de una avería (antes y después de arreglarla) ---------- */
+async function ruidoGrabar(a, done){
+  if(!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder==='undefined') return toast('Este navegador no deja grabar sonido','err');
+  let st; try{ st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false, noiseSuppression:false, autoGainControl:false}}); }catch{ return toast('Sin permiso para el micrófono','err'); }
+  const type=['audio/mp4','audio/webm;codecs=opus','audio/webm'].find(t=>MediaRecorder.isTypeSupported?.(t))||'';
+  const rec=new MediaRecorder(st, type?{mimeType:type}:undefined), ch=[]; let t0=Date.now(), tm;
+  const body=h2(`<div class="rdrec"><div class="rdlvl"><i></i></div><b class="rdt">0:00</b><p class="muted2">Acerca el móvil a donde suena. Graba unos segundos en ralentí y, si cambia, acelerando.</p><div class="vseg" style="margin-top:10px"><button type="button" data-k="antes" aria-pressed="true">Antes de arreglar</button><button type="button" data-k="despues" aria-pressed="false">Después</button></div><input class="inp2 rdn" placeholder="Nota: ralentí en frío, al girar…" style="margin-top:10px"></div>`);
+  let cuando='antes'; body.querySelectorAll('.vseg button').forEach(b=>b.onclick=()=>{ cuando=b.dataset.k; body.querySelectorAll('.vseg button').forEach(x=>x.setAttribute('aria-pressed', String(x===b))); });
+  try{ const ac=new (window.AudioContext||window.webkitAudioContext)(), an=ac.createAnalyser(); ac.createMediaStreamSource(st).connect(an); const buf=new Uint8Array(an.fftSize); const lv=body.querySelector('.rdlvl i');
+    const loop=()=>{ if(rec.state!=='recording'){ ac.close(); return; } an.getByteTimeDomainData(buf); let m=0; for(const x of buf) m=Math.max(m, Math.abs(x-128)); lv.style.width=Math.min(100, m/1.28)+'%'; requestAnimationFrame(loop); }; requestAnimationFrame(loop); }catch{}
+  rec.ondataavailable=e=>{ if(e.data.size) ch.push(e.data); };
+  rec.start(); tm=setInterval(()=>{ const s=Math.round((Date.now()-t0)/1000); body.querySelector('.rdt').textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; if(s>=120) stop(); }, 250);
+  const stop=()=>new Promise(res=>{ if(rec.state==='inactive') return res(); rec.onstop=res; rec.stop(); clearInterval(tm); st.getTracks().forEach(t=>t.stop()); });
+  detailSheet('Grabando…', a.sintoma||a.codigo||'Avería', body, [['Parar y guardar','check',async()=>{ await stop(); const dur=Math.round((Date.now()-t0)/1000); const bl=new Blob(ch,{type:rec.mimeType||type||'audio/webm'}); if(!bl.size) return toast('No se ha grabado nada','err');
+      const ext=/mp4/.test(bl.type)?'m4a':'webm'; const up=await uploadFiles([new File([bl], `ruido-${todayISO()}.${ext}`, {type:bl.type})]); if(!up.length) return;
+      const x={id:up[0].id, tipo:up[0].tipo||bl.type, fecha:new Date().toISOString(), dur, cuando, nota:body.querySelector('.rdn').value.trim()};
+      a.audios=[...(a.audios||[]), x]; await v2Upd('averias', a, {audios:a.audios}); closeSheet(); toast('Sonido guardado en la avería'); done?.(); },'pri'],
+    ['Cancelar','x',async()=>{ await stop(); closeSheet(); }]]);
+}
+function ruidosBox(a){
+  const box=h2(`<div class="rdbox"><span class="wzlab">Ruidos grabados</span><div class="rdl"></div><button type="button" class="btn2 ghost rdgo">${ic('mic')}Grabar el ruido</button></div>`);
+  const draw=()=>{ const l=box.querySelector('.rdl'); l.innerHTML=''; const A=[...(a.audios||[])].sort((x,y)=>x.fecha.localeCompare(y.fecha));
+    if(!A.length) l.append(h2('<p class="muted2" style="margin:2px 0 8px">Graba cómo suena ahora; cuando lo arregles, graba otra vez («Después») y compáralos aquí.</p>'));
+    for(const x of A){ const r=h2(`<div class="rdi"><em class="${x.cuando==='despues'?'ok':''}">${x.cuando==='despues'?'Después':'Antes'}</em><div><b>${fmtDate(x.fecha.slice(0,10))} · ${x.dur||'?'} s</b>${x.nota?`<small>${esc(x.nota)}</small>`:''}<audio controls preload="none"></audio></div><button type="button" class="ib" aria-label="Borrar">${ic('x')}</button></div>`);
+      window.FB?.blobURL(x.id).then(u=>{ const au=r.querySelector('audio'); au.src=u; }).catch(()=>{});
+      r.querySelector('.ib').onclick=async()=>{ if(!confirm('¿Borrar esta grabación?')) return; a.audios=(a.audios||[]).filter(y=>y!==x); await v2Upd('averias', a, {audios:a.audios}); draw(); };
+      l.append(r); } };
+  box.querySelector('.rdgo').onclick=()=>{ uiSfx('tap'); ruidoGrabar(a, ()=>setTimeout(()=>aveSheet((S.ave||[]).find(x=>x._id===a._id)||a), 300)); };
+  draw(); return box;
+}
+{ const _as=aveSheet; aveSheet=function(a){ _as(a); if(!a?._id) return; try{ const f=document.querySelector('.vave-f'); if(f) f.append(ruidosBox(a)); }catch(e){ console.warn(e); } }; }
+
+/* ---------- ATAJOS: abrir la app directamente en una acción (?accion=km…) ---------- */
+const ACCIONES={km:['Actualizar km',()=>quickKm()], repostaje:['Repostaje',()=>recForm(MOD.repostajes)], compra:['Añadir a la compra',()=>compraSheet(null)], comprado:['Compra ya hecha',()=>compraSheet(null,'hecha')], averia:['Apuntar una avería',()=>aveOpen(null)], pendiente:['Anotar algo que he visto',()=>pdForm(null)], foto:['Fotos del coche',()=>recForm(MOD.galeria)], vcds:['VCDS',()=>v3go('vcds')]};
+{ const q=new URLSearchParams(location.search).get('accion'); if(q && ACCIONES[q]){ const t0=Date.now(); const run=()=>{ if(S.cfg && S.db && !document.getElementById('splash') && V3.cur){ try{ history.replaceState(null,'',location.pathname+location.hash); }catch{} setTimeout(ACCIONES[q][1], 350); } else if(Date.now()-t0<30000) setTimeout(run, 400); }; setTimeout(run, 800); } }
+V3.pages.atajos={tab:'*', title:'Atajos y Siri', sub:()=>'Abrir la app directamente en una acción', render(w){
+  const base=location.origin+location.pathname.replace(/beta\/?$/,'').replace(/index\.html$/,'');
+  w.append(h2(`<div class="vcard" style="padding:14px 16px;margin-bottom:14px"><p style="margin:0 0 8px"><b>Con la app Atajos del iPhone</b> puedes decirle a Siri «Añadir kilómetros» y que se abra la app justo ahí:</p><ol class="atol"><li>Abre <b>Atajos</b> ▸ <b>+</b> ▸ <b>Añadir acción</b> ▸ busca <b>Abrir URL</b>.</li><li>Pega la dirección de la acción (botón «Copiar» de abajo).</li><li>Ponle de nombre lo que dirás a Siri, por ejemplo «Añadir kilómetros».</li></ol>
+    <p class="muted2" style="margin:8px 0 0">En el iPhone, Atajos abre la dirección en Safari, no en la app de la pantalla de inicio: la primera vez tendrás que entrar con tu cuenta de Google en Safari. En Android y en el ordenador se abre la app instalada.</p></div>`));
+  const g=vGroup('Acciones', []), L=g.querySelector('.vlist');
+  for(const [k,[t]] of Object.entries(ACCIONES)){ const url=base+'?accion='+k; const r=h2(`<div class="atrow"><div><b>${esc(t)}</b><small>${esc(url)}</small></div><button type="button" class="btn2 sm ghost">${ic('copy')}Copiar</button></div>`); r.querySelector('button').onclick=()=>copyTxt(url, 'Dirección copiada'); L.append(r); }
+  w.append(g);
+}};
+{ const P=V3.pages.ajustes; if(P){ const _r=P.render; P.render=function(w, e){ _r.call(this, w, e); try{ const g=vGroup('',[vRow({i:'sparkle', c:V3C.purple, t:'Atajos y Siri', s:'Abrir la app directamente en una acción', fn:()=>v3go('atajos')})]); const last=[...w.querySelectorAll('.vgrp')].pop(); last?last.after(g):w.append(g); }catch{} }; } }
+
+/* ---------- PREPARAR LA ITV ---------- */
+function itvInfo(){ const d=typeof docCur==='function'?docCur('ITV'):null; const s=d?.caduca?docStatus(d):null; return {d, days:s?.days??null}; }
+function itvSub(){ const {days}=itvInfo(); return days==null?'Lo que miran, para llevarlo bien':days<0?`Caducada hace ${-days} días`:days===0?'¡Hoy!':`Dentro de ${days} días`; }
+V3.pages.itv={tab:'taller', title:'Preparar la ITV', sub:()=>itvSub(), render(w){
+  const {d, days}=itvInfo(), D=listasData(), L=D.listas.find(l=>l.id==='itv'), m=D.marcas.itv||{}, n=L?L.items.filter(i=>m[i.id]).length:0, tot=L?L.items.length:0;
+  const col=days==null?V3C.gray:days<0?V3C.red:days<=30?V3C.orange:V3C.green;
+  w.append(h2(`<div class="itvhero" style="--c:${col}"><b>${days==null?'—':days<0?'Caducada':days}</b><span>${days==null?'Pon la fecha de la ITV en Papeles':days<0?`desde el ${fmtDate(d.caduca)}`:`días · ${fmtDate(d.caduca)}`}</span></div>`));
+  const g=vGroup('Para ir preparado', [
+    vRow({i:'checkc', c:V3C.green, t:'Antes de la ITV', s:tot?`${n} de ${tot} revisados`:'La lista de comprobación', r:tot?`${Math.round(n/tot*100)}%`:null, fn:()=>{ UI.lista='itv'; v3go('listas'); }}),
+    vRow({i:'history', c:V3C.indigo, t:'Inspecciones anteriores', s:(S.v2.itv||[]).length?pl(S.v2.itv.length,'inspección','inspecciones')+' con su resultado':'Guarda el resultado y los defectos', fn:()=>{ v3go('p_itv'); }})]); w.append(g);
+  const pend=typeof itvPend==='function'?itvPend():[];
+  if(pend.length){ const pg=vGroup('Defectos de la última sin corregir', []), PL=pg.querySelector('.vlist'); for(const p of pend) PL.append(vRow({i:'alert', c:p.gravedad==='leve'?V3C.orange:V3C.red, t:p.texto||'Defecto', s:(ITV_G?.[p.gravedad]||'')+(p.r?.fecha?' · '+fmtDate(p.r.fecha):'')})); w.append(pg); }
+  const aves=(S.ave||[]).filter(a=>a.estado!=='resuelta');
+  w.append(vGroup('Para tu Touareg (diésel)', [
+    h2(`<div class="itvtip">${ic('gauge')}<div><b>Opacidad de humos</b><small>Llega con el motor bien caliente (mejor tras 20–30 min de carretera) y sin el testigo de precalentamiento ni el de motor encendidos. Un filtro de aire limpio ayuda.</small></div></div>`),
+    h2(`<div class="itvtip">${ic('alert')}<div><b>Testigos del cuadro</b><small>Motor, ABS, ESP y airbag tienen que apagarse al arrancar. ${aves.length?`Tienes ${pl(aves.length,'avería abierta','averías abiertas')} en la app: míralas antes.`:'Haz un Auto-Scan con VCDS unos días antes por si hay algo guardado.'}</small></div></div>`),
+    h2(`<div class="itvtip">${ic('file')}<div><b>Papeles</b><small>Permiso de circulación, ficha técnica (la tarjeta ITV) y el seguro en vigor.</small></div></div>`)]));
+}};
+/* aviso en Hoy: el mes antes */
+{ const _r=V3.hubs.hoy.render; V3.hubs.hoy.render=function(w){ _r.call(this, w); try{ const {days}=itvInfo(); if(days==null || days>30 || days<-60) return; const D=listasData(), L=D.listas.find(l=>l.id==='itv'), m=D.marcas.itv||{}, n=L?L.items.filter(i=>m[i.id]).length:0;
+    const r=vNow('shield', days<=7?V3C.red:V3C.orange, days<0?'ITV caducada':'ITV en '+pl(days,'día'), 'Preparar la ITV', L?`${n} de ${L.items.length} puntos revisados`:'', ()=>v3go('itv'), 'Preparar'); r.classList.add('vitvnow');
+    const c=w.querySelector('.vh-cuadro')||w.querySelector('.vh-hero'); c?c.after(r):w.prepend(r); }catch(e){ console.warn('itv hoy', e); } }; }
+
+/* ---------- HOY MÁS COMPACTO: con el cuadro, la foto se queda en una franja y los km se ven solo en el cuadro ---------- */
+{ const _r=V3.hubs.hoy.render; V3.hubs.hoy.render=function(w){ _r.call(this, w); if(w.querySelector('.vh-cuadro')) w.classList.add('vhoy-cq'); }; }
+
+/* ---------- 3D: en el móvil, la hoja de abajo empieza plegada (solo las pestañas) y se abre al tocar una pieza ---------- */
+{ const mob=()=>matchMedia('(max-width:860px)').matches, app=document.querySelector('.app');
+  const setH=px=>{ app.classList.add('snap'); app.style.setProperty('--sheetH', px+'px'); setTimeout(()=>{ app.classList.remove('snap'); try{ resize(); dirty=true; }catch{} }, 320); };
+  const L=V3.leaves['3d']; if(L && app){ const _o=L.open; L.open=function(){ const r=_o.apply(this, arguments); if(mob() && !UI.sheet3dSet){ UI.sheet3dSet=true; setTimeout(()=>setH(0), 60); } return r; }; }
+  const _s=select; select=function(id){ const r=_s.apply(this, arguments); try{ if(id && mob() && app && (parseFloat(app.style.getPropertyValue('--sheetH'))||0)<20) setH(Math.round(app.getBoundingClientRect().height*.4)); }catch{} return r; }; }
+
+/* ---------- MODO GARAJE: la guía a pantalla completa, un paso por pantalla ---------- */
+function guiaGaraje(pr, at=0){
+  const P=pr.pasos||[]; if(!P.length) return; let i=Math.max(0, Math.min(at, P.length-1));
+  const v=h2(`<div class="gz" role="dialog" aria-label="Modo garaje"><div class="gzbar"><span class="gzn"></span><b class="gzt"></b><button type="button" class="gzx" aria-label="Cerrar">${ic('x')}</button></div><div class="gzbody"><div class="gzimg"></div><div class="gztx"></div></div><div class="gznav"><button type="button" class="gzp">${ic('chevL')}Anterior</button><button type="button" class="gzs">Siguiente${ic('chevR')}</button></div></div>`);
+  const draw=dir=>{ const p=P[i]; v.querySelector('.gzn').textContent=`${i+1} / ${P.length}`; v.querySelector('.gzt').textContent=pr.titulo;
+    const im=v.querySelector('.gzimg'); im.innerHTML=''; im.hidden=!p.img?.id;
+    if(p.img?.id){ const b=h2('<button type="button" aria-label="Ampliar la ilustración"><img alt=""></button>'); window.FB?.blobURL(p.img.id).then(u=>b.querySelector('img').src=u).catch(()=>{}); b.onclick=()=>openViewer({id:p.img.id, tipo:p.img.tipo||'image/png', nombre:p.titulo||pr.titulo}); im.append(b); }
+    const tx=v.querySelector('.gztx'); tx.innerHTML=`${p.titulo?`<h2>${esc(p.titulo)}</h2>`:''}<p>${esc(p.texto||'').replace(/\n/g,'<br>')}</p>${p.par?`<div class="gzchip">${ic('gauge')}${esc(p.par)}</div>`:''}${p.herr?`<div class="gzchip">${ic('wrench')}${esc(p.herr)}</div>`:''}`; tx.scrollTop=0;
+    v.querySelector('.gzp').disabled=i===0; v.querySelector('.gzs').innerHTML=i===P.length-1?`${ic('check')}Terminar`:`Siguiente${ic('chevR')}`;
+    const bd=v.querySelector('.gzbody'); if(dir && !RM){ bd.classList.remove('gzin-l','gzin-r'); void bd.offsetWidth; bd.classList.add(dir>0?'gzin-r':'gzin-l'); } };
+  const go=d=>{ const j=i+d; if(j<0) return; if(j>=P.length){ close(); return; } i=j; uiSfx?.('tap'); draw(d); };
+  const close=()=>{ try{ if(!UI.prefs.modoTaller) wakeOff(); }catch{} removeEventListener('keydown', key, true); v.remove(); };
+  const key=e=>{ if(e.key==='ArrowRight'||e.key===' '){ e.preventDefault(); go(1); } else if(e.key==='ArrowLeft'){ e.preventDefault(); go(-1); } else if(e.key==='Escape'){ e.preventDefault(); e.stopPropagation(); close(); } };
+  v.querySelector('.gzx').onclick=close; v.querySelector('.gzp').onclick=()=>go(-1); v.querySelector('.gzs').onclick=()=>go(1);
+  /* deslizar a los lados para cambiar de paso (y que no llegue a la app de debajo) */
+  let sx=null, sy=0; for(const ev of ['touchstart','touchmove','touchend','pointerdown']) v.addEventListener(ev, e=>e.stopPropagation(), {passive:true});
+  v.addEventListener('touchstart', e=>{ if(e.touches.length!==1 || e.target.closest('.gzimg button')) { sx=null; return; } sx=e.touches[0].clientX; sy=e.touches[0].clientY; }, {passive:true});
+  v.addEventListener('touchend', e=>{ if(sx==null) return; const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy; sx=null; if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.5) go(dx<0?1:-1); }, {passive:true});
+  document.body.append(v); addEventListener('keydown', key, true); try{ wakeOn(); }catch{} draw(0);
+}
+{ const _gr=guiaRead; guiaRead=function(pr, at){ _gr(pr, at); try{ if(!(pr.pasos||[]).length) return; const g=document.querySelector('.gread'); if(!g || g.querySelector('.gzgo')) return;
+    const b=h2(`<button type="button" class="btn2 pri gzgo">${ic('maximize')}Modo garaje: un paso por pantalla, letra grande</button>`); b.onclick=()=>{ uiSfx('tap'); guiaGaraje(pr, typeof at==='number'?at:0); }; g.prepend(b); }catch(e){ console.warn(e); } }; }
+/* en la tarjeta de la avería: botón directo para grabar (y cuántos ruidos lleva) */
+{ const _ac=aveCard; aveCard=function(a){ const c=_ac(a); try{ const r=c.querySelector('.vacts'); if(r && a._id){ const n=(a.audios||[]).length; const b=h2(`<button type="button" class="btn2 ghost">${ic('mic')}${n?pl(n,'ruido'):'Ruido'}</button>`); b.onclick=()=>{ uiSfx('tap'); const cur=(S.ave||[]).find(x=>x._id===a._id)||a; (cur.audios||[]).length?aveSheet(cur):ruidoGrabar(cur, ()=>setTimeout(()=>aveSheet((S.ave||[]).find(x=>x._id===a._id)||cur), 300)); }; r.append(b); } }catch{} return c; }; }
 
 
 connectDb();

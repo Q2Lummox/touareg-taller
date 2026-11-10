@@ -25,6 +25,37 @@ mode = sys.argv[1]
 if mode == 'check':
     checks('beta/index.html'); print('OK comprobaciones'); sys.exit()
 ver, notas = sys.argv[2], sys.argv[3:]
+if mode == 'oficial':
+    # la oficial sale de la beta deshaciendo lo propio de la beta (rutas ../, título β, insignia Beta)
+    b = checks('beta/index.html')
+    SUBS = [('<meta name="apple-mobile-web-app-title" content="Taller 7L β">', '<meta name="apple-mobile-web-app-title" content="Taller 7L">', 1),
+            ('href="../icons/', 'href="icons/', 2), ('src="../icons/', 'src="icons/', 1), ('<title>Taller 7L · Beta</title>', '<title>Taller 7L</title>', 1),
+            ('    <span class="t2beta" title="Versión de prueba del nuevo diseño">Beta</span>\n', '', 1), ("fetch('../seed.json')", "fetch('seed.json')", 1),
+            ("icon:'../icons/icon-192.png', badge:'../icons/icon-192.png'", "icon:'icons/icon-192.png', badge:'icons/icon-192.png'", 1)]
+    o = b
+    for a, c, n in SUBS:
+        assert o.count(a) == n, f'esperaba {n} de {a!r} y hay {o.count(a)}'
+        o = o.replace(a, c)
+    assert '../' not in re.sub(r'<script type="module">.*?</script>', '', o, flags=re.S).replace('</', ''), 'quedan rutas ../ fuera del código'
+    old = re.search(r'<meta name="app-version" content="([^"]+)">', o).group(1)
+    for x, y in [(f'<meta name="app-version" content="{old}">', f'<meta name="app-version" content="{ver}">'), (f'<span class="spver">v{old}</span>', f'<span class="spver">v{ver}</span>'), (f"window.APP_VERSION='{old}';", f"window.APP_VERSION='{ver}';"), (f"const APP_VERSION='{old}';", f"const APP_VERSION='{ver}';")]:
+        o = o.replace(x, y); b = b.replace(x, y)
+    assert o.count(ver) >= 4 and b.count(ver) >= 4
+    open('index.html', 'w', encoding='utf-8').write(o); open('beta/index.html', 'w', encoding='utf-8').write(b)
+    checks('index.html'); checks('beta/index.html')
+    for sw, pre in [('sw.js', 'taller-v-'), ('beta/sw.js', 'taller-beta-')]:
+        t = open(sw, encoding='utf-8').read(); t2 = re.sub(r"const CACHE = '[^']+'", f"const CACHE = '{pre}{ver}'", t); assert t2 != t; open(sw, 'w', encoding='utf-8').write(t2)
+    hoy = datetime.date.today().isoformat(); ent = {'version': ver, 'fecha': hoy, 'notas': notas}
+    for vf in ['version.json', 'beta/version.json']:
+        vj = json.load(open(vf, encoding='utf-8')); vj = {**ent, 'historial': [ent] + [x for x in vj.get('historial', []) if x.get('version') != ver]}
+        json.dump(vj, open(vf, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    ch = open('CHANGELOG.md', encoding='utf-8').read(); ch = ch.replace('# Novedades\n', f'# Novedades\n\n## v{ver} · {hoy}\n' + ''.join(f'- {n}\n' for n in notas), 1); open('CHANGELOG.md', 'w', encoding='utf-8').write(ch)
+    if os.environ.get('NOPUSH'): print('PREPARADO oficial', ver, '(sin subir)'); sys.exit()
+    sh('git', 'add', 'index.html', 'sw.js', 'version.json', 'CHANGELOG.md', 'manifest.webmanifest', 'beta/index.html', 'beta/sw.js', 'beta/version.json', 'beta/manifest.webmanifest')
+    msg = f'oficial {ver}: ' + ' · '.join(notas[:3]) + (' …' if len(notas) > 3 else '') + '\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_01Po5nD6AnAZ3q1zEm4sK2cu'
+    subprocess.run(['git', '-c', 'user.name=Q2Lummox', '-c', 'user.email=q2lummox@users.noreply.github.com', 'commit', '-q', '-m', msg], check=True)
+    subprocess.run(['git', 'push', '-q', 'origin', 'main'], check=True)
+    print('SUBIDA oficial', ver, sh('git', 'rev-parse', '--short', 'HEAD').strip()); sys.exit()
 assert mode == 'beta'
 h = checks('beta/index.html')
 old = re.search(r'<meta name="app-version" content="([^"]+)">', h).group(1)

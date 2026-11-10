@@ -1,5 +1,19 @@
 # Novedades
 
+## v4.2.1 · 2026-11-10
+- Visor de fotos propio: pellizcar para ampliar, deslizar para pasar de foto y abajo para cerrar, sin parpadeos
+- Ficha de cada pieza con compras, guías, reparaciones y búsqueda en tiendas; aviso si ya la tienes en la compra
+- Taller reorganizado: guías, diagnóstico, VCDS, tus herramientas y la ITV juntos
+- Gráficas de los registros de VCDS con el anterior superpuesto y el rango bueno
+- Preparar el pedido para la tienda (WhatsApp, correo o copiar)
+- Mis herramientas: «¿Lo tienes todo?» sabe lo que tienes y propone alternativas
+- Grabar el ruido de una avería, antes y después
+- Atajos para Siri y accesos directos del icono
+- Preparar la ITV con aviso un mes antes
+- Hoy más compacto, 3D con la hoja plegada en el móvil, modo garaje en las guías y compra con «Más detalles»
+- Reparación en curso: fotos de antes y después visibles, con confirmación al quitarlas
+- Revisión de fallos: km hacia atrás, piezas sin comprar al terminar una reparación, Auto-Scan, ITV, copiar, PDF sin conexión y datos incompletos
+
 ## v4.1.0 · 2026-10-28
 - Vídeos de YouTube en cada paso de las guías (y grabar los tuyos)
 - Importar el Auto-Scan de VCDS: códigos explicados y comparados con el anterior
