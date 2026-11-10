@@ -35,7 +35,7 @@ python3 tools/pruebas/deploy2.py check                       # sintaxis, nombres
 python3 tools/pruebas/deploy2.py beta 4.2.2-beta.1 "nota" …   # cambia la versión en beta/, guarda y sube
 ```
 
-Pasar a la oficial: copiar `beta/index.html` a `index.html` deshaciendo lo propio de la beta (rutas `../icons`, `../seed.json`, título «β», insignia Beta), subir `sw.js`, `version.json` y `CHANGELOG.md`. Hay que probarlo antes con el banco de pruebas apuntando a la raíz (`open(..., {beta:false})`).
+Pasar a la oficial: `python3 tools/pruebas/deploy2.py oficial 4.3.0 "nota" …` (con `NOPUSH=1` delante solo lo prepara). Saca `index.html` de la beta deshaciendo lo propio de la beta (rutas `../`, título «β», insignia Beta) y pone la misma versión en las dos. Antes de subir, probar la oficial con `OFICIAL=1 node crawl.mjs …` y `OFICIAL=1 node flows.mjs`.
 
 Firma de los commits: `q2lummox@users.noreply.github.com`, con las líneas `Co-Authored-By` y `Claude-Session` al final.
 
